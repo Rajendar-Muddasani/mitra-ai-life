@@ -33,7 +33,7 @@ Thumbs.db
 *~
 
 # large generated media (store in object storage, not git)
-content/**/*.mp4
+content/assets/
 content/**/*.mov
 content/**/*.webm
 content/**/*.avi

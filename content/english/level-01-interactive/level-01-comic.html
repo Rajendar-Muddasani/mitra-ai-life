@@ -803,12 +803,11 @@
     </div>
 
     <!-- Mitra character -->
-    <div class="mitra-wrap anim-float" style="animation-delay:0.5s">
-      <div class="mitra-body">
-        <div class="mitra-eye-l"></div>
-        <div class="mitra-eye-r"></div>
-        <div class="mitra-smile"></div>
-      </div>
+    <div class="anim-float" style="animation-delay:0.5s; margin-top:1.5rem;">
+      <img src="../../assets/characters/mitra-reference.png"
+           alt="Mitra — your friendly AI learning guide"
+           style="width:120px; height:120px; border-radius:50%; object-fit:cover;
+                  border:4px solid white; box-shadow:0 8px 32px rgba(37,99,235,0.5);" />
     </div>
     <p style="color:rgba(255,255,255,0.6); font-size:0.82rem; margin-top:8px; font-weight:600">
       Hi! I'm Mitra 👋 Your AI learning friend
@@ -837,22 +836,11 @@
   <div class="comic-grid hidden">
 
     <div class="comic-panel anim-slideLeft">
-      <div class="panel-art" style="background:#FFF7ED; flex-direction:column; gap:1rem;">
-        <span class="panel-number">1</span>
-        <!-- Ravi character art -->
-        <div class="ravi-frustrated">
-          <div class="char-head" style="position:relative; width:60px; height:60px; margin:0 auto;">
-            <div class="hair-top"></div>
-            <div class="char-eyes">
-              <div class="char-eye"></div>
-              <div class="char-eye"></div>
-            </div>
-            <div class="char-mouth"></div>
-            <div class="frustration-lines">😤</div>
-          </div>
-          <div class="char-body" style="width:54px; margin:4px auto 0;"></div>
-        </div>
-        <div class="paper-prop"></div>
+      <div class="panel-art" style="background:#FFF7ED; padding:0; overflow:hidden; min-height:180px;">
+        <span class="panel-number" style="position:absolute; top:10px; left:12px; z-index:2;">1</span>
+        <img src="../../assets/scenes/img-s03-frustrated.jpg"
+             alt="Ravi frustrated in front of blank paper"
+             style="width:100%; height:180px; object-fit:cover; display:block;" />
       </div>
       <div class="panel-caption">
         Ravi stares at a blank paper. He needs to write to the principal about his son Arjun missing school due to fever.
@@ -875,12 +863,13 @@
     </div>
 
     <div class="comic-panel anim-slideRight">
-      <div class="panel-art" style="background:#F0FDF4; flex-direction:column; gap:1rem;">
-        <span class="panel-number">3</span>
-        <!-- Priya entering -->
-        <div style="display:flex; gap:1rem; align-items:center;">
-          <span style="font-size:2.8rem;">👩</span>
-          <div class="speech-bubble right" style="border-color:#D946EF;">
+      <div class="panel-art" style="background:#F0FDF4; padding:0; overflow:hidden; min-height:180px; flex-direction:column; gap:0;">
+        <span class="panel-number" style="position:absolute; top:10px; left:12px; z-index:2;">3</span>
+        <img src="../../assets/scenes/img-s04-priya-entering.jpg"
+             alt="Priya walking in and suggesting AI to Ravi"
+             style="width:100%; height:140px; object-fit:cover; display:block;" />
+        <div style="padding:0.75rem 1rem;">
+          <div class="speech-bubble right" style="border-color:#D946EF; font-size:0.85rem; max-width:none;">
             Ravi, why don't you try that AI thing? My friend Sunitha used it to write a birthday message yesterday!
           </div>
         </div>
@@ -981,7 +970,9 @@
 
   <div class="story-card hidden" style="margin-top:2rem; background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.15); color:white; max-width:680px;">
     <div class="story-scene">
-      <span style="font-size:2.5rem;">😮</span>
+      <img src="../../assets/scenes/img-s08-ravi-amazed.jpg"
+           alt="Ravi amazed by AI result"
+           style="width:80px; height:80px; border-radius:12px; object-fit:cover; flex-shrink:0;" />
       <div>
         <div class="char-name" style="color:var(--amber);">Ravi's reaction</div>
         <div class="speech-bubble mitra-bubble" style="border-color:var(--amber); background:rgba(245,158,11,0.1); color:#FDE68A;">
@@ -1020,11 +1011,10 @@
 
     <div class="story-scene flip" style="margin-top:1rem;">
       <div style="display:flex; align-items:center; gap:0.75rem;">
-        <div class="mitra-body" style="width:48px; height:48px; flex-shrink:0;">
-          <div class="mitra-eye-l" style="width:8px; height:10px; top:14px;"></div>
-          <div class="mitra-eye-r" style="width:8px; height:10px; top:14px;"></div>
-          <div class="mitra-smile" style="width:22px; height:10px; bottom:12px;"></div>
-        </div>
+        <img src="../../assets/characters/mitra-reference.png"
+             alt="Mitra AI"
+             style="width:52px; height:52px; border-radius:50%; object-fit:cover;
+                    border:3px solid #2563EB; flex-shrink:0;" />
       </div>
       <div>
         <div class="char-name mitra-color">Mitra AI replies</div>
@@ -1103,6 +1093,13 @@
   <p class="section-sub hidden">
     AI does not actually "know" things like a human. It predicts the most likely answer based on patterns. Sometimes those predictions are wrong. Here is how to stay safe.
   </p>
+
+  <!-- Safety illustration -->
+  <div class="hidden" style="max-width:700px; width:100%; margin-bottom:2rem; border-radius:20px; overflow:hidden; border:2px solid #FCA5A5; box-shadow:0 4px 20px rgba(239,68,68,0.15);">
+    <img src="../../assets/scenes/img-s11-safety-warning.jpg"
+         alt="AI safety rules illustrated"
+         style="width:100%; display:block; max-height:280px; object-fit:cover;" />
+  </div>
 
   <!-- Comic safety example -->
   <div class="safety-banner hidden">
@@ -1228,8 +1225,9 @@
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <!-- SECTION 10 — NEXT LEVEL TEASER                                          -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
-<section class="teaser-section">
-  <div class="teaser-content">
+<section class="teaser-section" style="background-image: url('../../assets/scenes/img-s14-level2-teaser.jpg'); background-size:cover; background-position:center;">
+  <div style="position:absolute; inset:0; background:rgba(28,28,46,0.82);"></div>
+  <div class="teaser-content" style="position:relative; z-index:1;">
     <div class="section-eyebrow hidden" style="color:var(--purple);">Coming Next · Also Free</div>
     <h2 class="hidden" style="font-family:'Baloo 2',cursive; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:800; margin-bottom:1rem;">
       Level 2: Daily Help<br>

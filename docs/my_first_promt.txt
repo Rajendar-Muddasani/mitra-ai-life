@@ -1,0 +1,28 @@
+i have below business idea
+create website for teaching how to use AI in their daily life to a lay man, common man in their own in launguage in india
+- for the i will setup take copilot support in vscode and build the website with content like cartoons, comics, images, stories, videos whatever that can easily explain AI usage in their daily life easily 
+- we can have levels like very easy level, easy level, basic level, standard level, little hard, hard and complex and next level like this different levels of courses 
+- we can give first 2 levels easy access, then each level has its own price , combination price
+standard 100 INR, next 200, next 300, next level 400, next level 500, ..combo 30% discounts, total 1000 INR like this 
+- we will develop the content in english first then we can slowly add launguages 
+- copilot design each level in seprate phase, copilot suggests better naming for levels,copilot arctitects, design and plans the entire system
+- copilot write a full phasewise implementation document first
+- copilot also includes telugu as the first laungauge to convert the content into telugu so that at the end english and telugu launguage peopel can learn AI usage
+- copilot first plans a planning md file with what content each elvel can have 
+- level1 (easy level or whatevet copilot decides) is to finish 15min
+next 30min
+standard 1 hour
+next 2 hours like this approximately . no hard bounds
+-copilot geneerates a nice ppt sytle html page for this business idea as all the things that a startup should coniders, like pros, cons, benefits, risks, legal, ethical matters, payments ,margins, investments, etc etc
+-copilot given full freedom to improve this idea any time to any level with the tecnolgoes trending, can mention this in copilot instrucitons file and all the instrctiosn above which are relavant 
+- copilot creates enough context md files so that it will not forget anything that is ever discussed
+-copilot creates skills, agents, refernces, scripts that all needed for this
+-copilot gives 10 best names for this business idea, github repo names so that i will create a repo and shares the link with copilot , then copilot can save all teh content generated in to the repo
+- copilot plans to scalable upto 1000 users, 100GB content ,so github repo management, website managemnet, video generation, storage by AI agents all planned well and informed to me, i will support copilot by supplying all the APIs keys needed, everyhting tha is needed the engaging content generation by AI/copilot, the cotent is 100% AI generated.
+-copilot designs website so that lay man, common man, primary school, seconday school, junior college, engineering college projects also part of it along with the levels we talked about, this student, college project related content is only in english
+- engineering college stundents projects should be as big as possibel takes ~4 months to compltet involves lot of steps , real world usecase, can be 10k to 2L INR also
+- so like this copilot can think of relavant business cases to include under one umbrella, copilot agents, Rajendar (me ) will work together and enable this asap
+- as we no need to wait until we complete all of this we can already deploy basic, very basic, promary school content with out any payment involved
+- then when we have some users hit? we can register one comany and do it bigger with payemtns 
+- think deeply and suggest best way of doing slowly, correctly truly, 100% ai generated content
+GO AHEAD

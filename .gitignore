@@ -1,0 +1,60 @@
+# secrets and environment
+.env
+.env.*
+*.env
+!.env.example
+
+# python virtual environment
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# large generated media (store in object storage, not git)
+content/**/*.mp4
+content/**/*.mov
+content/**/*.webm
+content/**/*.avi
+content/**/*.mp3
+content/**/*.wav
+content/**/*.ogg
+content/**/*.aac
+content/**/*.zip
+content/**/*.tar.gz
+
+# node (if added later)
+node_modules/
+.pnp/
+.yarn/install-state.gz
+.next/
+.nuxt/
+dist/
+.output/
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

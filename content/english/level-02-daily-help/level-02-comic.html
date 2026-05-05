@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Level 2: Daily Help | Mitra AI Life Education</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── reset & base ──────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #1E3A5F;
+      --blue:   #2563EB;
+      --sky:    #38BDF8;
+      --amber:  #F59E0B;
+      --green:  #10B981;
+      --red:    #EF4444;
+      --purple: #8B5CF6;
+      --teal:   #0D9488;
+      --cream:  #FFFBF0;
+      --white:  #FFFFFF;
+      --text:   #1C1C2E;
+      --muted:  #64748B;
+      --panel:  #F1F5FF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ─── progress bar ──────────────────────────────────────────────────── */
+    #progress-bar {
+      position: fixed; top: 0; left: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--teal), var(--blue), var(--amber));
+      width: 0%; z-index: 999;
+      transition: width 0.3s ease;
+    }
+
+    /* ─── top nav ───────────────────────────────────────────────────────── */
+    .topnav {
+      position: fixed; top: 5px; left: 0; right: 0; height: 52px;
+      background: rgba(255,251,240,0.92);
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.5rem; z-index: 100;
+      border-bottom: 2px solid rgba(37,99,235,0.12);
+    }
+    .topnav .brand { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.1rem; color: var(--navy); }
+    .topnav .level-tag {
+      background: var(--teal); color: white;
+      font-size: 0.75rem; font-weight: 700;
+      padding: 3px 12px; border-radius: 20px;
+    }
+    .topnav .back-link {
+      font-size: 0.82rem; color: var(--muted); font-weight: 700;
+      text-decoration: none;
+    }
+    .topnav .back-link:hover { color: var(--blue); }
+
+    /* ─── animations ────────────────────────────────────────────────────── */
+    @keyframes fadeInUp   { from { opacity:0; transform:translateY(32px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes slideInLeft  { from { opacity:0; transform:translateX(-48px); } to { opacity:1; transform:translateX(0); } }
+    @keyframes slideInRight { from { opacity:0; transform:translateX(48px);  } to { opacity:1; transform:translateX(0); } }
+    @keyframes bounceIn {
+      0%   { opacity:0; transform:scale(0.6); }
+      60%  { opacity:1; transform:scale(1.08); }
+      80%  { transform:scale(0.97); }
+      100% { transform:scale(1); }
+    }
+    @keyframes pulse  { 0%,100% { transform:scale(1); } 50% { transform:scale(1.04); } }
+    @keyframes float  { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-10px); } }
+    @keyframes blink  { 50% { opacity:0; } }
+    @keyframes typeIn { from { width:0; } to { width:100%; } }
+
+    .anim-fadeInUp   { animation: fadeInUp   0.7s ease forwards; }
+    .anim-slideLeft  { animation: slideInLeft  0.7s ease forwards; }
+    .anim-slideRight { animation: slideInRight 0.7s ease forwards; }
+    .anim-bounceIn   { animation: bounceIn    0.75s cubic-bezier(.68,-.55,.27,1.55) forwards; }
+    .anim-float      { animation: float 3s ease-in-out infinite; }
+    .anim-pulse      { animation: pulse 2.5s ease-in-out infinite; }
+    .hidden          { opacity:0; transform:translateY(20px); transition: opacity 0.6s, transform 0.6s; }
+    .visible         { opacity:1 !important; transform:none !important; }
+
+    /* ─── sections ──────────────────────────────────────────────────────── */
+    section {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      padding: 90px 1.5rem 3rem;
+      position: relative;
+    }
+
+    /* ─── hero ──────────────────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(145deg, #0a1628 0%, #0d4f4f 40%, #0e7490 100%);
+      color: white; text-align: center; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(245,158,11,0.18) 0%, transparent 70%);
+      top: -150px; right: -100px; border-radius: 50%;
+    }
+    .hero::after {
+      content: ''; position: absolute;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(13,148,136,0.2) 0%, transparent 70%);
+      bottom: -100px; left: -50px; border-radius: 50%;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 720px; }
+    .hero-badge {
+      display: inline-block;
+      background: var(--teal); color: white;
+      font-weight: 800; font-size: 0.85rem;
+      padding: 6px 18px; border-radius: 20px;
+      margin-bottom: 1.5rem; letter-spacing: 0.5px;
+    }
+    .hero-title {
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(2rem, 6vw, 3.6rem);
+      font-weight: 800; line-height: 1.15;
+      margin-bottom: 1.25rem;
+    }
+    .hero-title .highlight {
+      background: linear-gradient(90deg, var(--amber), #2dd4bf);
+      background-clip: text; -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      font-size: 1.2rem; color: rgba(255,255,255,0.8);
+      margin-bottom: 2rem; line-height: 1.6;
+    }
+    .hero-promise {
+      background: rgba(13,148,136,0.2);
+      border: 2px solid rgba(13,148,136,0.5);
+      border-radius: 16px;
+      padding: 1.25rem 1.5rem;
+      font-size: 1.1rem; font-weight: 700;
+      color: #ccfbf1;
+      margin-bottom: 2rem;
+    }
+    .hero-meta {
+      display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;
+    }
+    .meta-pill {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 12px; padding: 8px 20px;
+      font-size: 0.9rem; font-weight: 600;
+      color: rgba(255,255,255,0.9);
+    }
+    .mitra-img {
+      width: 100px; height: 100px;
+      border-radius: 50%; object-fit: cover;
+      border: 4px solid white;
+      box-shadow: 0 8px 32px rgba(13,148,136,0.5);
+      margin: 0 auto 1rem; display: block;
+    }
+    .scroll-cue {
+      margin-top: 3rem;
+      font-size: 0.85rem; color: rgba(255,255,255,0.5);
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+    }
+    .scroll-cue .arrow { font-size: 1.4rem; animation: blink 1.2s ease-in-out infinite; }
+
+    /* ─── section titles ────────────────────────────────────────────────── */
+    .section-eyebrow {
+      font-size: 0.8rem; font-weight: 800; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--teal);
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 800; line-height: 1.2; color: var(--navy);
+      text-align: center; margin-bottom: 0.75rem; max-width: 680px;
+    }
+    .section-sub {
+      color: var(--muted); font-size: 1rem; text-align: center;
+      max-width: 580px; line-height: 1.6; margin-bottom: 2.5rem;
+    }
+
+    /* ─── recall cards ──────────────────────────────────────────────────── */
+    .recap-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem; max-width: 820px; width: 100%;
+    }
+    .recap-card {
+      background: white; border-radius: 18px;
+      border: 2.5px solid var(--panel);
+      box-shadow: 4px 4px 0 rgba(37,99,235,0.08);
+      padding: 1.5rem; text-align: center;
+    }
+    .recap-card .rc-icon { font-size: 2.2rem; margin-bottom: 0.75rem; display: block; }
+    .recap-card h3 { font-family: 'Baloo 2', cursive; font-size: 1rem; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
+    .recap-card p  { font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+    .recap-tick {
+      display: inline-block; background: var(--green); color: white;
+      font-size: 0.75rem; font-weight: 800;
+      padding: 2px 10px; border-radius: 12px; margin-top: 8px;
+    }
+
+    /* ─── demo section ──────────────────────────────────────────────────── */
+    .demo-section { background: white; }
+    .demo-section.alt { background: var(--panel); }
+
+    .demo-scene-img {
+      width: 100%; max-width: 460px;
+      border-radius: 18px; display: block; margin: 0 auto 1.5rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      border: 3px solid var(--navy);
+    }
+    .demo-scene-img.wide { max-width: 720px; }
+
+    /* ─── story bubble ──────────────────────────────────────────────────── */
+    .story-bubble {
+      background: #f8fafc;
+      border-left: 5px solid var(--teal);
+      border-radius: 0 14px 14px 0;
+      padding: 1.25rem 1.5rem;
+      max-width: 680px; width: 100%;
+      margin-bottom: 1.5rem;
+      font-size: 1rem; line-height: 1.65; color: var(--text);
+    }
+    .story-bubble.ravi   { border-color: var(--blue);   background: #eff6ff; }
+    .story-bubble.priya  { border-color: var(--purple);  background: #f5f3ff; }
+    .story-bubble.rahul  { border-color: var(--amber);   background: #fffbeb; }
+    .story-bubble.mitra  { border-color: var(--teal);    background: #f0fdfa; }
+    .story-bubble strong { color: var(--navy); }
+
+    /* ─── chat boxes ────────────────────────────────────────────────────── */
+    .chat-wrap { max-width: 620px; width: 100%; margin-bottom: 1.5rem; }
+
+    .chat-label {
+      font-size: 0.78rem; font-weight: 800; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .chat-bubble {
+      border-radius: 18px; padding: 1rem 1.25rem;
+      font-size: 0.95rem; line-height: 1.6; position: relative;
+    }
+    .chat-bubble.user {
+      background: var(--blue); color: white;
+      border-bottom-right-radius: 4px;
+      margin-left: 2rem;
+    }
+    .chat-bubble.ai {
+      background: white; color: var(--text);
+      border: 2px solid #e2e8f0;
+      border-bottom-left-radius: 4px;
+      margin-right: 2rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+    .chat-bubble.ai .ai-tag {
+      font-size: 0.72rem; font-weight: 800; color: var(--teal);
+      letter-spacing: 1px; margin-bottom: 6px; display: block;
+    }
+
+    /* ─── prompt box with copy ──────────────────────────────────────────── */
+    .prompt-box {
+      background: #0f172a; color: #e2e8f0;
+      border-radius: 14px; padding: 1.25rem 1.25rem 3.25rem;
+      font-family: 'Baloo 2', cursive;
+      font-size: 0.98rem; line-height: 1.65;
+      max-width: 640px; width: 100%;
+      position: relative; margin-bottom: 0.5rem;
+    }
+    .prompt-box .prompt-label {
+      font-size: 0.7rem; font-weight: 800; letter-spacing: 1.5px;
+      text-transform: uppercase; color: #64748b; margin-bottom: 8px; display: block;
+    }
+    .prompt-box .copy-btn {
+      position: absolute; bottom: 12px; right: 14px;
+      background: var(--teal); color: white;
+      font-size: 0.78rem; font-weight: 800;
+      border: none; border-radius: 8px;
+      padding: 6px 16px; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .prompt-box .copy-btn:hover { background: #0f766e; }
+    .prompt-box .copy-btn.copied { background: var(--green); }
+
+    /* ─── tip chips inside prompt tip section ───────────────────────────── */
+    .prompt-tips-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem; max-width: 860px; width: 100%;
+    }
+    .tip-card {
+      background: white; border-radius: 18px;
+      border: 2px solid rgba(37,99,235,0.15);
+      box-shadow: 4px 4px 0 rgba(37,99,235,0.07);
+      padding: 1.5rem;
+    }
+    .tip-card .tip-num {
+      display: inline-block;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--blue); color: white;
+      font-size: 1.1rem; font-weight: 800;
+      text-align: center; line-height: 36px;
+      margin-bottom: 0.75rem;
+    }
+    .tip-card h3 { font-family: 'Baloo 2', cursive; font-size: 1.05rem; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
+    .tip-card p  { font-size: 0.88rem; color: var(--muted); line-height: 1.55; }
+    .tip-card .bad  { background: #fef2f2; color: #b91c1c; border-radius: 8px; padding: 6px 10px; font-size: 0.82rem; font-weight: 700; margin-top: 10px; display: block; }
+    .tip-card .good { background: #f0fdf4; color: #15803d; border-radius: 8px; padding: 6px 10px; font-size: 0.82rem; font-weight: 700; margin-top: 4px; display: block; }
+
+    /* ─── ai response card ──────────────────────────────────────────────── */
+    .ai-response {
+      background: white; border-radius: 18px;
+      border: 2px solid #e2e8f0;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      padding: 1.5rem; max-width: 640px; width: 100%;
+      margin-bottom: 1.5rem; position: relative;
+    }
+    .ai-response::before {
+      content: '🤖 AI Response';
+      display: block; font-size: 0.75rem; font-weight: 800;
+      color: var(--teal); letter-spacing: 1px; text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .ai-response p, .ai-response li { font-size: 0.95rem; line-height: 1.65; color: var(--text); }
+    .ai-response ul, .ai-response ol { padding-left: 1.25rem; }
+    .ai-response li { margin-bottom: 4px; }
+    .ai-response strong { color: var(--navy); }
+
+    /* ─── result callout ────────────────────────────────────────────────── */
+    .result-callout {
+      background: linear-gradient(135deg, var(--green), var(--teal));
+      color: white; border-radius: 16px;
+      padding: 1.25rem 1.5rem;
+      max-width: 640px; width: 100%;
+      font-size: 1rem; font-weight: 700; line-height: 1.55;
+      margin-bottom: 1rem;
+    }
+
+    /* ─── practice arena ────────────────────────────────────────────────── */
+    .practice-bg {
+      background: linear-gradient(145deg, #0a1628 0%, #1e3a5f 60%, #0f4c75 100%);
+    }
+    .practice-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem; max-width: 860px; width: 100%;
+    }
+    .practice-card {
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: 18px; padding: 1.5rem;
+    }
+    .practice-card .pc-icon { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
+    .practice-card h3 { font-family: 'Baloo 2', cursive; font-size: 1rem; font-weight: 800; color: white; margin-bottom: 6px; }
+    .practice-card p  { font-size: 0.88rem; color: rgba(255,255,255,0.7); line-height: 1.5; margin-bottom: 1rem; }
+    .practice-card .practice-prompt {
+      background: rgba(0,0,0,0.35);
+      border-radius: 10px; padding: 0.75rem 1rem;
+      font-size: 0.85rem; color: #e2e8f0;
+      font-family: 'Baloo 2', cursive;
+      line-height: 1.55; margin-bottom: 10px;
+    }
+    .practice-card .copy-btn {
+      background: var(--amber); color: #1c1c2e;
+      border: none; border-radius: 10px;
+      font-size: 0.82rem; font-weight: 800;
+      padding: 8px 18px; cursor: pointer;
+      transition: transform 0.15s;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .practice-card .copy-btn:hover { transform: scale(1.04); }
+    .practice-card .copy-btn.copied { background: var(--green); color: white; }
+
+    /* ─── mitra speech boxes ────────────────────────────────────────────── */
+    .mitra-says {
+      display: flex; gap: 1rem; align-items: flex-start;
+      background: #f0fdfa;
+      border: 2px solid rgba(13,148,136,0.3);
+      border-radius: 18px; padding: 1.25rem;
+      max-width: 640px; width: 100%;
+      margin-bottom: 1.5rem;
+    }
+    .mitra-says img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+    .mitra-says-text { flex: 1; }
+    .mitra-says-text .speaker { font-size: 0.75rem; font-weight: 800; color: var(--teal); letter-spacing: 1px; margin-bottom: 4px; }
+    .mitra-says-text p { font-size: 0.95rem; line-height: 1.6; color: var(--text); }
+
+    /* ─── whatsapp style preview ─────────────────────────────────────────── */
+    .whatsapp-preview {
+      background: #128C7E;
+      border-radius: 18px; overflow: hidden;
+      max-width: 360px; width: 100%;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+    .wa-header {
+      background: #075E54;
+      padding: 0.75rem 1.25rem;
+      color: white; font-weight: 800; font-size: 0.9rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .wa-header .wa-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--amber); display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.9rem; color: #1c1c2e;
+    }
+    .wa-body { background: #e5ddd5; padding: 1rem; }
+    .wa-msg {
+      background: white; border-radius: 8px 8px 8px 0;
+      padding: 0.75rem 1rem; margin-bottom: 0.5rem;
+      font-size: 0.88rem; line-height: 1.55; color: var(--text);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      max-width: 90%;
+    }
+    .wa-msg .wa-time { font-size: 0.7rem; color: #9ca3af; text-align: right; margin-top: 4px; }
+    .wa-sent {
+      background: #dcf8c6; border-radius: 8px 8px 0 8px;
+      margin-left: auto; margin-bottom: 0.5rem;
+    }
+
+    /* ─── budget table ───────────────────────────────────────────────────── */
+    .budget-table {
+      width: 100%; max-width: 520px;
+      border-collapse: collapse; margin-bottom: 1.5rem;
+      border-radius: 14px; overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    .budget-table th {
+      background: var(--navy); color: white;
+      padding: 10px 14px; text-align: left;
+      font-size: 0.85rem; font-weight: 800;
+    }
+    .budget-table td {
+      background: white; padding: 9px 14px;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.88rem; color: var(--text);
+    }
+    .budget-table tr:last-child td {
+      background: #f0fdf4; font-weight: 800; color: var(--green);
+    }
+    .budget-table td:last-child { text-align: right; font-weight: 700; }
+
+    /* ─── exam qa block ──────────────────────────────────────────────────── */
+    .qa-block { max-width: 640px; width: 100%; margin-bottom: 1.5rem; }
+    .qa-item {
+      background: white; border-radius: 14px;
+      border: 2px solid #e2e8f0;
+      margin-bottom: 0.75rem; overflow: hidden;
+    }
+    .qa-q {
+      padding: 0.875rem 1.25rem;
+      font-weight: 700; font-size: 0.95rem;
+      display: flex; gap: 0.75rem; align-items: flex-start;
+      cursor: pointer; user-select: none;
+    }
+    .qa-q .q-num {
+      background: var(--amber); color: #1c1c2e;
+      font-size: 0.8rem; font-weight: 800;
+      padding: 2px 10px; border-radius: 12px;
+      flex-shrink: 0; margin-top: 2px;
+    }
+    .qa-q .chevron { margin-left: auto; font-size: 1rem; color: var(--muted); transition: transform 0.25s; }
+    .qa-a {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      background: #f8fafc;
+      padding: 0 1.25rem;
+      font-size: 0.9rem; line-height: 1.6; color: var(--muted);
+    }
+    .qa-item.open .qa-a { max-height: 200px; padding: 0.875rem 1.25rem; }
+    .qa-item.open .chevron { transform: rotate(180deg); }
+
+    /* ─── completion badge ───────────────────────────────────────────────── */
+    .completion-section {
+      background: linear-gradient(145deg, #0a1628, #0d4f4f);
+      color: white; text-align: center;
+    }
+    .completion-badge {
+      width: 120px; height: 120px;
+      background: linear-gradient(135deg, var(--amber), var(--green));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem; margin: 0 auto 1.5rem;
+      box-shadow: 0 0 48px rgba(245,158,11,0.4);
+    }
+    .completion-title {
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 800; margin-bottom: 1rem;
+    }
+    .completion-sub {
+      font-size: 1.1rem; color: rgba(255,255,255,0.75);
+      max-width: 520px; margin: 0 auto 2rem; line-height: 1.65;
+    }
+    .skills-learnt {
+      display: flex; flex-wrap: wrap; gap: 0.75rem;
+      justify-content: center; max-width: 600px;
+      margin: 0 auto 2.5rem;
+    }
+    .skill-chip {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 20px; padding: 6px 18px;
+      font-size: 0.88rem; font-weight: 700;
+    }
+
+    /* ─── teaser card ────────────────────────────────────────────────────── */
+    .teaser-card {
+      background: rgba(255,255,255,0.07);
+      border: 2px solid rgba(245,158,11,0.4);
+      border-radius: 20px; padding: 2rem;
+      text-align: center; max-width: 560px;
+    }
+    .teaser-card .teaser-label {
+      font-size: 0.78rem; font-weight: 800; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--amber); margin-bottom: 0.75rem;
+    }
+    .teaser-card h3 { font-family: 'Baloo 2', cursive; font-size: 1.5rem; font-weight: 800; margin-bottom: 0.75rem; }
+    .teaser-card p  { font-size: 0.95rem; color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 1.5rem; }
+    .btn-amber {
+      display: inline-block;
+      background: var(--amber); color: #1c1c2e;
+      font-size: 1rem; font-weight: 800;
+      padding: 13px 32px; border-radius: 14px;
+      text-decoration: none;
+      box-shadow: 0 4px 0 #b45309;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-amber:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #b45309; }
+
+    /* ─── responsive ─────────────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .topnav .back-link { display: none; }
+      .whatsapp-preview { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- ─── NAV ──────────────────────────────────────────────────────────────── -->
+<nav class="topnav">
+  <div class="brand">Mitra AI Life</div>
+  <span class="level-tag">Level 2 · Daily Help</span>
+  <a href="../../../site/index.html" class="back-link">← All Levels</a>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 1 — HERO                                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="hero" id="s1">
+  <div class="hero-content">
+    <span class="hero-badge">Level 2 · Free · 60–90 minutes</span>
+
+    <img src="../../assets/characters/mitra-reference.png"
+         alt="Mitra" class="mitra-img anim-float" />
+
+    <h1 class="hero-title anim-fadeInUp">
+      Use AI <span class="highlight">every day</span>
+    </h1>
+
+    <p class="hero-sub anim-fadeInUp" style="animation-delay:0.15s">
+      You know what AI is. Now let's make it actually useful —
+      for messages, budgets, studying, and everyday problems.
+    </p>
+
+    <div class="hero-promise anim-fadeInUp" style="animation-delay:0.25s">
+      🎯 Today you will write a professional message, plan a budget,
+      prepare for an exam, and draft a complaint letter — all with AI.
+    </div>
+
+    <div class="hero-meta anim-fadeInUp" style="animation-delay:0.35s">
+      <span class="meta-pill">✅ Completed Level 1</span>
+      <span class="meta-pill">🆓 Free lesson</span>
+      <span class="meta-pill">📱 Works on any phone</span>
+      <span class="meta-pill">🗣️ Telugu prompts shown</span>
+    </div>
+
+    <div class="scroll-cue">
+      <span>Scroll to start</span>
+      <span class="arrow">↓</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 2 — RECAP FROM LEVEL 1                                           -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section style="background:#f8fafc" id="s2">
+  <p class="section-eyebrow hidden">Quick check</p>
+  <h2 class="section-title hidden">Remember what you learned?</h2>
+  <p class="section-sub hidden">
+    You already know the three most important things about AI.
+    Let's make sure before we go deeper.
+  </p>
+
+  <div class="recap-grid">
+    <div class="recap-card hidden">
+      <span class="rc-icon">🧠</span>
+      <h3>What AI is</h3>
+      <p>A very powerful pattern-matcher trained on billions of text examples. It predicts the best helpful response for your question.</p>
+      <span class="recap-tick">✓ Level 1 done</span>
+    </div>
+    <div class="recap-card hidden">
+      <span class="rc-icon">💬</span>
+      <h3>How to talk to it</h3>
+      <p>You type a prompt — a clear message explaining what you want. The clearer your prompt, the better the answer you get.</p>
+      <span class="recap-tick">✓ Level 1 done</span>
+    </div>
+    <div class="recap-card hidden">
+      <span class="rc-icon">🛡️</span>
+      <h3>Safety rules</h3>
+      <p>Never share passwords, Aadhaar, or bank details. Always verify important information. AI can be wrong — especially for medical and legal matters.</p>
+      <span class="recap-tick">✓ Level 1 done</span>
+    </div>
+  </div>
+
+  <div class="mitra-says hidden" style="margin-top:2rem">
+    <img src="../../assets/characters/mitra-reference.png" alt="Mitra" />
+    <div class="mitra-says-text">
+      <div class="speaker">MITRA SAYS</div>
+      <p>Good. Now we put those basics to real work.
+      Today's lesson is all about <strong>daily use cases</strong> — the kind of things you need to do every week.
+      By the end, AI will feel like a useful tool you reach for naturally.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 3 — SKILL: BETTER PROMPTS = BETTER ANSWERS                      -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section style="background:var(--panel)" id="s3">
+  <p class="section-eyebrow hidden">Prompt Skill</p>
+  <h2 class="section-title hidden">4 tips for getting much better answers</h2>
+  <p class="section-sub hidden">
+    Before the demos, here is the single most valuable skill in AI use.
+    These four tips will improve every answer you ever get.
+  </p>
+
+  <div class="prompt-tips-grid">
+
+    <div class="tip-card hidden">
+      <span class="tip-num">1</span>
+      <h3>Be specific</h3>
+      <p>Vague prompts get vague answers. Add details about who, what, and why.</p>
+      <span class="bad">❌ "Write a message to my supplier"</span>
+      <span class="good">✅ "Write a WhatsApp to my supplier. He is 2 hours late delivering 20kg tomatoes. Polite but firm. Under 60 words."</span>
+    </div>
+
+    <div class="tip-card hidden">
+      <span class="tip-num">2</span>
+      <h3>Give context</h3>
+      <p>Tell AI who you are and what the situation is. It cannot guess — you must tell it.</p>
+      <span class="bad">❌ "Write a reply"</span>
+      <span class="good">✅ "I am a Class 9 student. My teacher asked me why I missed class. Write a polite reply explaining I had fever."</span>
+    </div>
+
+    <div class="tip-card hidden">
+      <span class="tip-num">3</span>
+      <h3>Ask for format</h3>
+      <p>Tell AI how you want the answer — as a list, bullet points, table, or under a word count.</p>
+      <span class="bad">❌ "Give me a grocery list"</span>
+      <span class="good">✅ "Give me a weekly grocery list for 4 people within ₹800. Format as a table with item, quantity, and approx. price."</span>
+    </div>
+
+    <div class="tip-card hidden">
+      <span class="tip-num">4</span>
+      <h3>Iterate — say what to change</h3>
+      <p>If the answer is not quite right, don't start over. Just say what to change.</p>
+      <span class="bad">❌ Start again with a new prompt</span>
+      <span class="good">✅ "Make it shorter" / "More formal please" / "Add one more vegetable"</span>
+    </div>
+
+  </div>
+
+  <div class="mitra-says hidden" style="margin-top:2rem">
+    <img src="../../assets/characters/mitra-reference.png" alt="Mitra" />
+    <div class="mitra-says-text">
+      <div class="speaker">MITRA SAYS</div>
+      <p>You don't need to be a "prompt engineer". Just be <strong>clear</strong> — like you're explaining the task to a helpful person who knows everything but doesn't know your situation. Now let's practise all four tips together in the demos.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 4 — DEMO 1: RAVI'S WHATSAPP MESSAGE                             -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="demo-section" id="s4">
+  <p class="section-eyebrow hidden">Demo 1 · Ravi's Story</p>
+  <h2 class="section-title hidden">A professional message in 30 seconds</h2>
+  <p class="section-sub hidden">
+    Ravi's vegetable supplier promised 20 kg of tomatoes by 8 AM.
+    It's now 11 AM. Ravi needs to send a WhatsApp — but he doesn't know how to sound firm without being rude.
+  </p>
+
+  <img src="../../assets/scenes/img-l2-s02-ravi-phone.jpg"
+       alt="Ravi typing on his phone at the shop counter"
+       class="demo-scene-img hidden" />
+
+  <div class="story-bubble ravi hidden">
+    <strong>Ravi's problem:</strong> "Every time I write messages to suppliers in formal English, it either sounds too angry or too soft. Last time I was too polite and the supplier didn't take it seriously. This time I need to get it right."
+  </div>
+
+  <p class="section-eyebrow hidden" style="margin-bottom:0.75rem">Ravi's prompt — try copying it</p>
+
+  <div class="prompt-box hidden">
+    <span class="prompt-label">Prompt — paste into ChatGPT, Gemini, or any AI tool</span>
+    Write a WhatsApp message to my vegetable supplier Ramesh. He promised to deliver 20 kg of tomatoes by 8 AM. It is now 11 AM and I still have not received them. My shop is running out of stock and customers are asking. I need delivery by 12 PM or I will have to buy elsewhere. Keep it polite but firm. Under 60 words.
+    <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+  </div>
+
+  <div class="ai-response hidden">
+    <p><strong>Dear Ramesh bhai,</strong> good morning. I'm still waiting for the 20 kg tomatoes promised for 8 AM delivery — it's now 11 AM and my shop is running short. Customers are asking. Please arrange delivery by 12 PM, or let me know so I can source from elsewhere. Thanks — Ravi.</p>
+  </div>
+
+  <div class="whatsapp-preview hidden">
+    <div class="wa-header">
+      <div class="wa-avatar">R</div>
+      <span>Ramesh (Supplier)</span>
+    </div>
+    <div class="wa-body">
+      <div class="wa-msg wa-sent">
+        <div>Dear Ramesh bhai, good morning. I'm still waiting for the 20 kg tomatoes promised for 8 AM delivery — it's now 11 AM and my shop is running short. Customers are asking. Please arrange delivery by 12 PM, or let me know so I can source from elsewhere. Thanks — Ravi.</div>
+        <div class="wa-time">11:06 AM ✓✓</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-callout hidden">
+    ✅ Ravi sent the message in under 2 minutes. Ramesh replied with an apology and delivered by 11:45 AM. The message was firm enough to be taken seriously, and polite enough to keep the relationship good.
+  </div>
+
+  <div class="mitra-says hidden">
+    <img src="../../assets/characters/mitra-reference.png" alt="Mitra" />
+    <div class="mitra-says-text">
+      <div class="speaker">MITRA SAYS</div>
+      <p>Notice how Ravi used <strong>Tip 1 (be specific)</strong> and <strong>Tip 3 (ask for format)</strong>. He mentioned the supplier's name, the exact product, the time, and asked for under 60 words. That's why the answer was ready to send straight away.</p>
+    </div>
+  </div>
+
+  <!-- Telugu variant -->
+  <p class="section-eyebrow hidden" style="margin-top:1.5rem; margin-bottom:0.75rem">🗣️ Same prompt in Telugu</p>
+  <div class="prompt-box hidden">
+    <span class="prompt-label">Telugu prompt — works in ChatGPT and Gemini</span>
+    నా కూరగాయల సప్లయర్ రమేష్‌కు WhatsApp మెసేజ్ రాయి. అతను 20 కిలోల టమాటాలు ఉదయం 8 గంటలకు ఇస్తానని చెప్పాడు. ఇప్పుడు 11 గంటలైంది, ఇంకా రాలేదు. మర్యాదగా కానీ గట్టిగా ఉండాలి. 60 పదాల లోపు.
+    <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 5 — DEMO 2: PRIYA'S WEEKLY GROCERY BUDGET                       -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="demo-section alt" id="s5">
+  <p class="section-eyebrow hidden">Demo 2 · Priya's Story</p>
+  <h2 class="section-title hidden">Plan a week of groceries within ₹800</h2>
+  <p class="section-sub hidden">
+    Priya manages the house budget. Every week she spends 30 minutes planning what to buy.
+    This week she wants to try something new — let AI do the planning.
+  </p>
+
+  <img src="../../assets/scenes/img-l2-s04-priya-grocery.jpg"
+       alt="Priya with grocery list and budget notepad"
+       class="demo-scene-img hidden" />
+
+  <div class="story-bubble priya hidden">
+    <strong>Priya's challenge:</strong> "We are a family of 4. We need dal, rice, vegetables, and some fruit. I don't want to buy the same things every week. My budget is ₹800. I also want to make sure we have enough vegetables for 5 days."
+  </div>
+
+  <div class="prompt-box hidden">
+    <span class="prompt-label">Priya's prompt</span>
+    I am planning weekly groceries for a family of 4 in Hyderabad. My total budget is ₹800. I need: rice, dal, at least 4 different vegetables, one fruit, and basic spices. Give me a shopping list as a table with item name, quantity, and approximate price in rupees. Also show the total at the end.
+    <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+  </div>
+
+  <div class="ai-response hidden">
+    <table class="budget-table">
+      <thead>
+        <tr><th>Item</th><th>Quantity</th><th>Price (₹)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Sona Masoori Rice</td><td>3 kg</td><td>180</td></tr>
+        <tr><td>Toor Dal</td><td>1 kg</td><td>130</td></tr>
+        <tr><td>Tomatoes</td><td>1 kg</td><td>40</td></tr>
+        <tr><td>Onions</td><td>2 kg</td><td>60</td></tr>
+        <tr><td>Spinach (Palak)</td><td>500 g</td><td>30</td></tr>
+        <tr><td>Brinjal (Vankaya)</td><td>500 g</td><td>35</td></tr>
+        <tr><td>Bananas</td><td>1 dozen</td><td>60</td></tr>
+        <tr><td>Mustard seeds, turmeric, chilli powder</td><td>small packs</td><td>80</td></tr>
+        <tr><td>Ginger-garlic paste</td><td>100 g</td><td>30</td></tr>
+        <tr><td>Cooking oil</td><td>500 ml</td><td>80</td></tr>
+        <tr><td>Coriander leaves</td><td>1 bunch</td><td>15</td></tr>
+        <tr><td>Green chillies</td><td>100 g</td><td>20</td></tr>
+        <tr><td><strong>Total</strong></td><td></td><td><strong>760</strong></td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.85rem; color:var(--muted)">💡 ₹40 remaining as buffer for price variations at the market.</p>
+  </div>
+
+  <div class="story-bubble priya hidden">
+    Priya looked at the list and said: <strong>"I want to change bananas to apples, and add 500g of beans."</strong>
+    So she typed the follow-up:
+  </div>
+
+  <div class="prompt-box hidden">
+    <span class="prompt-label">Follow-up (Tip 4 — Iterate)</span>
+    Replace bananas with 500g of apples. Also add 500g of French beans. Show the updated list and new total.
+    <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+  </div>
+
+  <div class="result-callout hidden">
+    ✅ In two messages, Priya had a complete, customised grocery list within her budget — with ₹35 left over. She screenshotted it and went to the market without writing anything herself.
+  </div>
+
+  <div class="mitra-says hidden">
+    <img src="../../assets/characters/mitra-reference.png" alt="Mitra" />
+    <div class="mitra-says-text">
+      <div class="speaker">MITRA SAYS</div>
+      <p>Priya used <strong>Tip 3 (ask for format)</strong> by requesting a table with prices. Then she used <strong>Tip 4 (iterate)</strong> to refine. She didn't need to start over — she just told AI what to change. That is the right workflow.</p>
+    </div>
+  </div>
+
+  <!-- Telugu variant -->
+  <p class="section-eyebrow hidden" style="margin-top:1.5rem; margin-bottom:0.75rem">🗣️ Same prompt in Telugu</p>
+  <div class="prompt-box hidden">
+    <span class="prompt-label">Telugu prompt</span>
+    మా నలుగురు కుటుంబానికి వారపు కూరగాయల లిస్ట్ తయారు చేయి. బడ్జెట్ ₹800. బియ్యం, పప్పు, కూరగాయలు, ఒక పండు కావాలి. Table format లో item, quantity, price చెప్పు. Total కూడా చూపించు.
+    <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 6 — DEMO 3: RAHUL'S EXAM PREP                                   -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="demo-section" id="s6">
+  <p class="section-eyebrow hidden">Demo 3 · Rahul's Story</p>
+  <h2 class="section-title hidden">Exam prep in 10 minutes — with AI-generated practice questions</h2>
+  <p class="section-sub hidden">
+    Rahul has a Science exam in 2 days on Atoms and Molecules (Class 9).
+    He doesn't know which questions to practise. His textbook has 20 pages of theory. AI can help.
+  </p>
+
+  <img src="../../assets/scenes/img-l2-s06-rahul-exam.jpg"
+       alt="Rahul studying with books and practice questions"
+       class="demo-scene-img hidden" />
+
+  <div class="prompt-box hidden">
+    <span class="prompt-label">Rahul's prompt (Tip 2 — Give context)</span>
+    I am a Class 9 student preparing for a Science exam in 2 days. The topic is Chapter 3: Atoms and Molecules. Give me 5 practice questions — 3 easy ones and 2 medium ones — with detailed answers. Use simple language, not textbook language.
+    <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+  </div>
+
+  <div class="qa-block hidden">
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggleQA(this)">
+        <span class="q-num">Q1</span>
+        <span>What is an atom? Give one example.</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="qa-a">
+        An atom is the smallest particle of an element that still has the properties of that element. Think of it like the smallest possible piece of gold — it's still gold. Example: The element Hydrogen is made of Hydrogen atoms. Symbol: H.
+      </div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggleQA(this)">
+        <span class="q-num">Q2</span>
+        <span>What is the difference between an atom and a molecule?</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="qa-a">
+        An atom is a single particle — the building block. A molecule is when two or more atoms join together. Example: A single O is an oxygen atom. Two oxygen atoms join to form O₂ — an oxygen molecule (the air we breathe).
+      </div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggleQA(this)">
+        <span class="q-num">Q3</span>
+        <span>Water is written as H₂O. What does this tell you?</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="qa-a">
+        H₂O means one water molecule has 2 Hydrogen atoms and 1 Oxygen atom. The subscript number (₂) tells you how many atoms of that element are in the molecule. No subscript means 1 atom.
+      </div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggleQA(this)">
+        <span class="q-num">Q4 (Medium)</span>
+        <span>What is the mole concept? Why is it used?</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="qa-a">
+        Atoms are too small to count one by one — like counting grains of rice. Scientists invented the "mole" as a big convenient number: 1 mole = 6.022 × 10²³ particles (Avogadro's number). So instead of saying "we have 12,044,000,000,000,000,000,000,000 atoms", we say "we have 2 moles".
+      </div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggleQA(this)">
+        <span class="q-num">Q5 (Medium)</span>
+        <span>Calculate the molecular mass of CO₂.</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="qa-a">
+        CO₂ has 1 Carbon atom and 2 Oxygen atoms.<br>
+        Atomic mass of C = 12 u<br>
+        Atomic mass of O = 16 u<br>
+        Molecular mass of CO₂ = 12 + (2 × 16) = 12 + 32 = <strong>44 u</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-callout hidden">
+    ✅ Rahul spent 15 minutes going through all 5 questions. Then he asked AI to make 3 more questions specifically on "molecular mass calculations". He went into the exam feeling prepared for the first time.
+  </div>
+
+  <div class="story-bubble rahul hidden">
+    Rahul's follow-up prompt: <strong>"Give me 3 more questions only on calculating molecular mass, with step-by-step solutions."</strong> — Same topic, more practice, in one line.
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 7 — DEMO 4: COMPLAINT LETTER                                     -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="demo-section alt" id="s7">
+  <p class="section-eyebrow hidden">Demo 4 · Real Life</p>
+  <h2 class="section-title hidden">Write a formal complaint letter — in 1 minute</h2>
+  <p class="section-sub hidden">
+    Formal letters to government offices, banks, and electricity boards feel difficult.
+    AI can write them perfectly — you just provide the facts.
+  </p>
+
+  <div class="story-bubble mitra hidden">
+    <strong>Mitra explains:</strong> "This demo teaches you something very practical. Whenever you need to write something formal — a complaint, an application, a request letter — AI can do it for you. You just need to give it the facts."
+  </div>
+
+  <div class="prompt-box hidden">
+    <span class="prompt-label">Complaint letter prompt</span>
+    Write a formal complaint letter to the Electricity Board (TSSPDCL). My area is Dilsukhnagar, Hyderabad. We have been experiencing power cuts every evening from 6 PM to 9 PM for the past 3 weeks. This affects our evening meals, children's studies, and small home businesses. Request immediate investigation and resolution. My name is R. Sharma. Format as a proper letter with subject line and address.
+    <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+  </div>
+
+  <div class="ai-response hidden">
+    <p><strong>To,</strong><br>The Executive Engineer,<br>TSSPDCL, Dilsukhnagar Division,<br>Hyderabad — 500 060.</p>
+    <p style="margin-top:0.5rem"><strong>Date:</strong> 5 May 2026</p>
+    <p style="margin-top:0.5rem"><strong>Subject: Complaint regarding recurring power outages in Dilsukhnagar area</strong></p>
+    <p style="margin-top:0.75rem">Respected Sir/Madam,</p>
+    <p style="margin-top:0.5rem">I am writing to bring to your urgent attention the persistent power supply failures affecting residents of Dilsukhnagar, Hyderabad. For the past three weeks, our area has been experiencing scheduled power cuts every evening between 6:00 PM and 9:00 PM without any prior notice or explanation.</p>
+    <p style="margin-top:0.5rem">This daily 3-hour disruption is severely affecting our daily lives — evening meals cannot be prepared, children are unable to study during peak revision hours, and residents running small home-based businesses are suffering financial losses.</p>
+    <p style="margin-top:0.5rem">I kindly request your office to investigate the root cause of these outages immediately and restore regular power supply to our area at the earliest. Please acknowledge this complaint and provide an expected timeline for resolution.</p>
+    <p style="margin-top:0.75rem">Thanking you,<br><strong>R. Sharma</strong><br>Dilsukhnagar, Hyderabad.</p>
+  </div>
+
+  <div class="result-callout hidden">
+    ✅ This letter is formal, clear, and has everything a government office needs — the area, the problem duration, the impact, and a specific request. It took 90 seconds to generate and is ready to print or email.
+  </div>
+
+  <p class="section-eyebrow hidden" style="margin-top:1.5rem; margin-bottom:0.75rem">More uses for this same approach</p>
+  <div class="recap-grid" style="max-width:820px">
+    <div class="recap-card hidden">
+      <span class="rc-icon">🏦</span>
+      <h3>Bank complaint</h3>
+      <p>Wrong charge on your account, ATM not dispensing cash, passbook not updated — AI can write the complaint.</p>
+    </div>
+    <div class="recap-card hidden">
+      <span class="rc-icon">🏫</span>
+      <h3>School application</h3>
+      <p>Fee concession request, leave application, transfer certificate request — clear and formal in minutes.</p>
+    </div>
+    <div class="recap-card hidden">
+      <span class="rc-icon">🏡</span>
+      <h3>Society / building issues</h3>
+      <p>Water supply problems, lift not working, parking complaints — write to your housing society secretary properly.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 8 — PRACTICE ARENA                                               -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="practice-bg" id="s8">
+  <p class="section-eyebrow hidden" style="color:rgba(255,255,255,0.5)">Your turn</p>
+  <h2 class="section-title hidden" style="color:white">Practice Arena — 5 tasks to try right now</h2>
+  <p class="section-sub hidden" style="color:rgba(255,255,255,0.65)">
+    Copy any of these prompts, open ChatGPT or Gemini on your phone, paste it in, and see what happens.
+    The best way to learn is to try it yourself.
+  </p>
+
+  <div class="practice-grid">
+
+    <div class="practice-card hidden">
+      <span class="pc-icon">📅</span>
+      <h3>Book a doctor appointment</h3>
+      <p>Write a WhatsApp message to book an appointment with your doctor.</p>
+      <div class="practice-prompt">
+        Write a polite WhatsApp message to Dr. Ramaiah's clinic to book an appointment. I have been having back pain for 5 days. I prefer morning slots. My name is Priya.
+      </div>
+      <button class="copy-btn" onclick="copyPrompt(this)">📋 Copy &amp; Try</button>
+    </div>
+
+    <div class="practice-card hidden">
+      <span class="pc-icon">🍱</span>
+      <h3>Plan school lunches</h3>
+      <p>Plan a healthy week of lunch boxes for a 10-year-old child.</p>
+      <div class="practice-prompt">
+        Plan 5 different healthy lunch box ideas for a 10-year-old school child for Monday to Friday. Indian food only. Easy to pack. Include one fruit in each day.
+      </div>
+      <button class="copy-btn" onclick="copyPrompt(this)">📋 Copy &amp; Try</button>
+    </div>
+
+    <div class="practice-card hidden">
+      <span class="pc-icon">📄</span>
+      <h3>Translate a notice to Telugu</h3>
+      <p>Get any official notice translated to simple Telugu.</p>
+      <div class="practice-prompt">
+        Translate this notice to simple Telugu that a non-English speaker can understand: "Your electricity bill for the month of April is ₹1,240. The due date is 15 May 2026. Please pay online or at the nearest TSSPDCL office."
+      </div>
+      <button class="copy-btn" onclick="copyPrompt(this)">📋 Copy &amp; Try</button>
+    </div>
+
+    <div class="practice-card hidden">
+      <span class="pc-icon">💼</span>
+      <h3>Reply to a job ad</h3>
+      <p>Write a professional reply to a job advertisement you saw online.</p>
+      <div class="practice-prompt">
+        Write a short, professional WhatsApp reply to a job advertisement for a data entry operator. I have 2 years of experience in a medical shop. I am available immediately. My name is Suresh.
+      </div>
+      <button class="copy-btn" onclick="copyPrompt(this)">📋 Copy &amp; Try</button>
+    </div>
+
+    <div class="practice-card hidden">
+      <span class="pc-icon">💳</span>
+      <h3>Understand your bank statement</h3>
+      <p>Ask AI to explain confusing bank charges in simple language.</p>
+      <div class="practice-prompt">
+        My bank statement shows a charge of ₹590 labelled "NACH RETURN CHARGES". Explain in simple Telugu what this means and why I might have been charged. What should I do about it?
+      </div>
+      <button class="copy-btn" onclick="copyPrompt(this)">📋 Copy &amp; Try</button>
+    </div>
+
+  </div>
+
+  <div class="mitra-says hidden" style="margin-top:2.5rem; background:rgba(255,255,255,0.07); border-color:rgba(255,255,255,0.2)">
+    <img src="../../assets/characters/mitra-reference.png" alt="Mitra" />
+    <div class="mitra-says-text">
+      <div class="speaker" style="color:#2dd4bf">MITRA SAYS</div>
+      <p style="color:rgba(255,255,255,0.85)">Try at least <strong style="color:white">two of these tasks</strong> before moving on. The difference between people who get good at AI and those who don't is simple — the ones who get good at it actually try it. Start with the task most relevant to your life right now.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 9 — WHAT YOU LEARNED TODAY                                       -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section style="background:#f8fafc" id="s9">
+  <p class="section-eyebrow hidden">Quick recap</p>
+  <h2 class="section-title hidden">Look what you can do now</h2>
+  <p class="section-sub hidden">You just learnt four practical AI skills that most people don't know about.</p>
+
+  <div class="recap-grid" style="max-width:880px">
+    <div class="recap-card hidden">
+      <span class="rc-icon">✉️</span>
+      <h3>Professional messages</h3>
+      <p>WhatsApp, emails, and formal letters to suppliers, doctors, offices — in the right tone, every time.</p>
+      <span class="recap-tick">✓ Mastered</span>
+    </div>
+    <div class="recap-card hidden">
+      <span class="rc-icon">🛒</span>
+      <h3>Budget planning</h3>
+      <p>Give AI a budget and requirements — get a customised, itemised plan in seconds.</p>
+      <span class="recap-tick">✓ Mastered</span>
+    </div>
+    <div class="recap-card hidden">
+      <span class="rc-icon">📚</span>
+      <h3>Exam &amp; learning help</h3>
+      <p>Practice questions with answers, explanations, and as many rounds of follow-up as you need.</p>
+      <span class="recap-tick">✓ Mastered</span>
+    </div>
+    <div class="recap-card hidden">
+      <span class="rc-icon">📝</span>
+      <h3>Formal complaint letters</h3>
+      <p>Electricity board, banks, schools, housing societies — clear and professional in 2 minutes.</p>
+      <span class="recap-tick">✓ Mastered</span>
+    </div>
+  </div>
+
+  <div class="prompt-tips-grid" style="max-width:700px; margin-top:2rem">
+    <div class="tip-card hidden" style="border-color:var(--teal); border-width:2px">
+      <span style="font-size:1.8rem; display:block; margin-bottom:0.75rem">💡</span>
+      <h3>Bonus tip: Bookmark your best prompts</h3>
+      <p>When a prompt gives you a great result, <strong>save it</strong>. Create a note on your phone called "My AI Prompts". Over time you will build a personal collection of prompts that work perfectly for your life.</p>
+    </div>
+    <div class="tip-card hidden">
+      <span style="font-size:1.8rem; display:block; margin-bottom:0.75rem">🔄</span>
+      <h3>AI improves as you improve</h3>
+      <p>The more you use it, the better your prompts become, and the better your results get. Think of it as a skill — just like riding a bike, it gets easier with practice.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 10 — COMPLETION + LEVEL 3 TEASER                                 -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="completion-section" id="s10">
+  <div class="completion-badge anim-bounceIn">🎓</div>
+
+  <h2 class="completion-title anim-fadeInUp">Level 2 Complete!</h2>
+  <p class="completion-sub anim-fadeInUp" style="animation-delay:0.15s">
+    You have finished the free part of your AI education.
+    You now know more about using AI practically than 95% of people around you.
+  </p>
+
+  <div class="skills-learnt">
+    <span class="skill-chip">✅ 4 Prompt Tips</span>
+    <span class="skill-chip">✅ Professional Messages</span>
+    <span class="skill-chip">✅ Budget Planning</span>
+    <span class="skill-chip">✅ Exam Prep</span>
+    <span class="skill-chip">✅ Complaint Letters</span>
+    <span class="skill-chip">✅ Telugu Prompts</span>
+    <span class="skill-chip">✅ Iteration Skill</span>
+  </div>
+
+  <div class="teaser-card anim-fadeInUp" style="animation-delay:0.3s">
+    <div class="teaser-label">Coming next · Level 3 · ₹100</div>
+    <h3>Smart Basics</h3>
+    <p>You know how to use AI. In Level 3, you learn how to get <em>much better</em> answers — advanced prompting techniques, chaining multiple tasks, using AI for longer projects, and avoiding the 5 most common AI mistakes.</p>
+    <a href="../../../site/index.html#levels" class="btn-amber">See all 7 levels →</a>
+  </div>
+
+  <div style="margin-top:2rem; text-align:center">
+    <a href="../../../site/index.html" style="color:rgba(255,255,255,0.4); font-size:0.85rem; text-decoration:none;">
+      ← Back to home
+    </a>
+  </div>
+</section>
+
+
+<script>
+  /* ─── progress bar ──────────────────────────────────────────────────── */
+  function updateProgress() {
+    const scrollTop  = window.scrollY;
+    const docHeight  = document.documentElement.scrollHeight - window.innerHeight;
+    const pct        = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    document.getElementById('progress-bar').style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+
+  /* ─── scroll reveal ─────────────────────────────────────────────────── */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.hidden').forEach(el => observer.observe(el));
+
+  /* ─── copy prompt ───────────────────────────────────────────────────── */
+  function copyPrompt(btn) {
+    const box  = btn.closest('.prompt-box, .practice-card');
+    const text = box.querySelector('.practice-prompt')
+      ? box.querySelector('.practice-prompt').innerText.trim()
+      : btn.parentElement.childNodes[2].textContent.trim(); /* text node after label span */
+
+    if (!text) return;
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+    }).catch(() => {
+      /* fallback for older phones */
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.textContent = '✓ Copied!'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = '📋 Copy &amp; Try'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  /* ─── Q&A accordion ─────────────────────────────────────────────────── */
+  function toggleQA(btn) {
+    const item = btn.closest('.qa-item');
+    item.classList.toggle('open');
+  }
+</script>
+</body>
+</html>

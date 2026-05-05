@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mitra AI Life Education — Learn AI in Simple English. In Telugu too.</title>
+  <meta name="description" content="Free beginner AI lessons for everyday Indians. No engineering degree needed. Works on any phone. Start with Level 1 — free, in simple English, with real Indian examples." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── tokens ─────────────────────────────────────────────────────────── */
+    :root {
+      --bg:      #040712;
+      --bg2:     #091125;
+      --blue:    #53a6ff;
+      --cyan:    #68e1ff;
+      --indigo:  #7991ff;
+      --amber:   #f59e0b;
+      --amber2:  #fde68a;
+      --green:   #10b981;
+      --text:    #f5f8ff;
+      --muted:   #9fb3da;
+      --line:    rgba(119,168,255,0.18);
+      --panel:   rgba(11,18,42,0.78);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* subtle grid */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(83,166,255,0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(83,166,255,0.055) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.7), transparent 88%);
+      z-index: 0;
+    }
+
+    /* ─── animations ─────────────────────────────────────────────────────── */
+    @keyframes fadeUp   { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:none; } }
+    @keyframes float    { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-10px); } }
+    @keyframes pulse    { 0%,100% { transform:scale(1); } 50% { transform:scale(1.03); } }
+    @keyframes shimmer  { 0% { background-position:-200% center; } 100% { background-position:200% center; } }
+    @keyframes glow     { 0%,100% { box-shadow:0 0 24px rgba(83,166,255,0.3); } 50% { box-shadow:0 0 48px rgba(83,166,255,0.55); } }
+
+    .anim-up { animation: fadeUp 0.7s ease both; }
+    .float   { animation: float 3.5s ease-in-out infinite; }
+
+    .hidden  { opacity:0; transform:translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .visible { opacity:1 !important; transform:none !important; }
+
+    /* ─── nav ────────────────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw;
+      height: 60px;
+      background: rgba(4,7,18,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-brand {
+      font-family: 'Baloo 2', cursive;
+      font-size: 1.1rem; font-weight: 800;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-brand span { color: var(--cyan); }
+    .nav-cta {
+      background: var(--amber);
+      color: #1c1c2e;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem; font-weight: 800;
+      padding: 8px 22px; border-radius: 10px;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 0 #b45309;
+    }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #b45309; }
+
+    /* ─── hero ───────────────────────────────────────────────────────────── */
+    .hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 100px 5vw 4rem;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(83,166,255,0.18) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(104,225,255,0.12) 0%, transparent 35%),
+        linear-gradient(180deg, #03050d 0%, #050915 60%, #040712 100%);
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.78rem; font-weight: 800; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--cyan);
+      margin-bottom: 1.5rem;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content: ''; width: 2rem; height: 1px; background: var(--cyan);
+    }
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 800; line-height: 1.12;
+      margin-bottom: 1.5rem;
+      max-width: 780px;
+    }
+    .hero-title .grad {
+      background: linear-gradient(90deg, var(--amber), var(--cyan));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+      color: var(--muted); line-height: 1.65;
+      max-width: 580px; margin: 0 auto 2.5rem;
+    }
+    .hero-actions {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .btn-primary {
+      background: var(--amber);
+      color: #1c1c2e;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.05rem; font-weight: 800;
+      padding: 14px 36px; border-radius: 14px;
+      text-decoration: none;
+      box-shadow: 0 5px 0 #b45309;
+      transition: transform 0.15s, box-shadow 0.15s;
+      animation: pulse 3s ease-in-out infinite;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #b45309; animation: none; }
+    .btn-secondary {
+      background: rgba(83,166,255,0.1);
+      color: var(--blue);
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.05rem; font-weight: 700;
+      padding: 14px 36px; border-radius: 14px;
+      text-decoration: none;
+      border: 1.5px solid rgba(83,166,255,0.3);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-secondary:hover { background: rgba(83,166,255,0.18); border-color: var(--blue); }
+
+    .hero-trust {
+      display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center;
+      margin-top: 1rem;
+    }
+    .trust-pill {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 30px;
+      padding: 6px 18px;
+      font-size: 0.85rem; font-weight: 600; color: var(--muted);
+    }
+
+    /* Mitra character image */
+    .mitra-img {
+      width: 130px; height: 130px;
+      border-radius: 50%; object-fit: cover;
+      border: 4px solid rgba(83,166,255,0.4);
+      box-shadow: 0 0 32px rgba(83,166,255,0.35), 0 8px 24px rgba(0,0,0,0.5);
+      margin: 0 auto 1.25rem;
+      animation: float 3.5s ease-in-out infinite, glow 3.5s ease-in-out infinite;
+      display: block;
+    }
+    .mitra-label {
+      font-size: 0.85rem; color: rgba(255,255,255,0.5); font-weight: 700;
+      margin-bottom: 2rem;
+    }
+
+    /* ─── section wrapper ────────────────────────────────────────────────── */
+    .section {
+      position: relative; z-index: 1;
+      padding: 5rem 5vw;
+    }
+    .section-center { text-align: center; }
+    .eyebrow-label {
+      font-size: 0.76rem; font-weight: 800; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--cyan);
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-bottom: 1rem;
+    }
+    .eyebrow-label::before, .eyebrow-label::after {
+      content: ''; width: 1.5rem; height: 1px; background: var(--cyan);
+    }
+    .eyebrow-left { justify-content: flex-start; }
+    .eyebrow-left::before { display: none; }
+    h2.section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800; line-height: 1.18;
+      margin-bottom: 0.75rem;
+    }
+    p.section-body {
+      color: var(--muted); font-size: 1.05rem; line-height: 1.65;
+      max-width: 620px; margin: 0 auto 3rem;
+    }
+
+    /* ─── proof bar ──────────────────────────────────────────────────────── */
+    .proof-bar {
+      background: rgba(11,18,42,0.7);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .proof-inner {
+      max-width: 900px; margin: 0 auto;
+      display: flex; gap: 0; flex-wrap: wrap;
+      padding: 0;
+    }
+    .proof-stat {
+      flex: 1 1 200px;
+      text-align: center; padding: 2rem 1.5rem;
+      border-right: 1px solid var(--line);
+    }
+    .proof-stat:last-child { border-right: none; }
+    .proof-stat .num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem; font-weight: 800;
+      color: var(--amber); display: block; margin-bottom: 4px;
+    }
+    .proof-stat .label { font-size: 0.88rem; color: var(--muted); font-weight: 600; }
+
+    /* ─── for whom grid ──────────────────────────────────────────────────── */
+    .whom-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem; max-width: 960px; margin: 0 auto;
+    }
+    .whom-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 20px; padding: 1.75rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .whom-card:hover { border-color: rgba(83,166,255,0.4); transform: translateY(-4px); }
+    .whom-card .who-icon { font-size: 2.4rem; margin-bottom: 1rem; display: block; }
+    .whom-card h3 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--text); margin-bottom: 0.5rem;
+    }
+    .whom-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.55; }
+
+    /* ─── level ladder ───────────────────────────────────────────────────── */
+    .ladder-wrap { max-width: 720px; margin: 0 auto; }
+    .ladder-row {
+      display: flex; align-items: flex-start; gap: 1.25rem;
+      padding: 1.5rem;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      margin-bottom: 0.875rem;
+      transition: border-color 0.2s, transform 0.2s;
+      text-decoration: none; color: inherit;
+    }
+    .ladder-row:hover { border-color: rgba(83,166,255,0.4); transform: translateX(4px); }
+    .ladder-row.free-row { border-color: rgba(16,185,129,0.35); background: rgba(16,185,129,0.06); }
+    .ladder-row.free-row:hover { border-color: var(--green); }
+    .ladder-num {
+      font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800;
+      color: var(--blue); min-width: 32px; padding-top: 2px;
+    }
+    .ladder-body { flex: 1; }
+    .ladder-body h3 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 1.1rem; font-weight: 700; margin-bottom: 3px;
+    }
+    .ladder-body p { font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+    .ladder-tag {
+      font-size: 0.75rem; font-weight: 800; padding: 4px 14px;
+      border-radius: 20px; white-space: nowrap; align-self: flex-start; margin-top: 4px;
+    }
+    .tag-free  { background: rgba(16,185,129,0.18); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.3); }
+    .tag-paid  { background: rgba(83,166,255,0.12); color: var(--blue);  border: 1px solid rgba(83,166,255,0.25); }
+    .ladder-connector {
+      width: 2px; height: 20px; background: var(--line);
+      margin: 0 auto 0 calc(1.5rem + 16px - 1px);
+    }
+
+    /* ─── demo preview strip ─────────────────────────────────────────────── */
+    .demo-section {
+      background: linear-gradient(160deg, #050915 0%, #091330 100%);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem; max-width: 960px; margin: 0 auto;
+    }
+    .demo-card {
+      background: rgba(11,18,50,0.85);
+      border: 1px solid var(--line);
+      border-radius: 18px; overflow: hidden;
+    }
+    .demo-card-img {
+      width: 100%; height: 170px; object-fit: cover; display: block;
+    }
+    .demo-card-body { padding: 1.25rem; }
+    .demo-card-body .demo-tag {
+      font-size: 0.72rem; font-weight: 800; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--cyan); margin-bottom: 6px;
+    }
+    .demo-card-body h3 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 1rem; font-weight: 700; margin-bottom: 4px;
+    }
+    .demo-card-body p { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+
+    /* ─── feature list ───────────────────────────────────────────────────── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem; max-width: 900px; margin: 0 auto;
+    }
+    .feature {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 1.5rem;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+    }
+    .feature-icon { font-size: 1.8rem; flex-shrink: 0; }
+    .feature h3 {
+      font-size: 1rem; font-weight: 800; margin-bottom: 4px; color: var(--text);
+    }
+    .feature p { font-size: 0.87rem; color: var(--muted); line-height: 1.5; }
+
+    /* ─── language badge ─────────────────────────────────────────────────── */
+    .lang-section {
+      background: var(--bg2);
+      border-top: 1px solid var(--line);
+    }
+    .lang-card {
+      max-width: 700px; margin: 0 auto;
+      background: var(--panel);
+      border: 1px solid rgba(104,225,255,0.25);
+      border-radius: 24px; padding: 2.5rem;
+      text-align: center;
+    }
+    .lang-card .lang-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+    .lang-card h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.5rem, 3.5vw, 2rem); font-weight: 800;
+      margin-bottom: 0.75rem;
+    }
+    .lang-card p { color: var(--muted); line-height: 1.65; font-size: 1rem; }
+    .lang-sample {
+      margin-top: 1.5rem;
+      background: rgba(104,225,255,0.06);
+      border: 1px solid rgba(104,225,255,0.2);
+      border-radius: 14px; padding: 1.25rem;
+      font-size: 1.05rem; font-weight: 700; color: var(--cyan);
+      font-family: 'Baloo 2', cursive;
+    }
+
+    /* ─── testimonial / quote bar ────────────────────────────────────────── */
+    .quote-section { background: var(--bg); }
+    .quotes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem; max-width: 900px; margin: 0 auto;
+    }
+    .quote-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px; padding: 1.75rem;
+    }
+    .quote-card p { font-size: 0.95rem; line-height: 1.65; color: var(--text); margin-bottom: 1rem; font-style: italic; }
+    .quote-person { display: flex; align-items: center; gap: 0.75rem; }
+    .quote-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--indigo));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.9rem; flex-shrink: 0;
+    }
+    .quote-person-info .name { font-weight: 800; font-size: 0.88rem; }
+    .quote-person-info .role { font-size: 0.8rem; color: var(--muted); }
+
+    /* ─── final CTA ──────────────────────────────────────────────────────── */
+    .final-cta {
+      background:
+        radial-gradient(circle at 50% 0%, rgba(83,166,255,0.2) 0%, transparent 55%),
+        linear-gradient(180deg, #050a1a, #040712);
+      border-top: 1px solid var(--line);
+      text-align: center;
+      padding: 6rem 5vw;
+    }
+    .final-cta h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 800;
+      line-height: 1.15; margin-bottom: 1.25rem;
+    }
+    .final-cta p { color: var(--muted); font-size: 1.1rem; line-height: 1.65; max-width: 520px; margin: 0 auto 2.5rem; }
+    .cta-note { font-size: 0.85rem; color: rgba(255,255,255,0.3); margin-top: 1.25rem; }
+
+    /* ─── footer ─────────────────────────────────────────────────────────── */
+    footer {
+      background: #020409;
+      border-top: 1px solid var(--line);
+      padding: 2.5rem 5vw;
+      display: flex; flex-wrap: wrap; gap: 1.5rem;
+      align-items: center; justify-content: space-between;
+    }
+    .footer-brand {
+      font-family: 'Baloo 2', cursive; font-weight: 800;
+      font-size: 1rem; color: var(--text);
+    }
+    .footer-brand span { color: var(--cyan); }
+    footer p { font-size: 0.82rem; color: rgba(255,255,255,0.3); }
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .footer-links a { font-size: 0.82rem; color: var(--muted); text-decoration: none; }
+    .footer-links a:hover { color: var(--blue); }
+
+    /* ─── responsive ─────────────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .hero-actions { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+      .proof-stat { flex: 1 1 45%; }
+      .proof-stat:nth-child(2) { border-right: none; }
+      nav .nav-cta { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ──────────────────────────────────────────────────────────────── -->
+<nav>
+  <a class="nav-brand" href="#">Mitra <span>AI</span> Life Education</a>
+  <a class="nav-cta" href="../content/english/level-01-interactive/level-01-comic.html">Start Free →</a>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- HERO                                                                     -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-eyebrow anim-up">Free · Beginner Friendly · Telugu too</div>
+
+  <img src="../content/assets/characters/mitra-reference.png"
+       alt="Mitra — your friendly AI guide"
+       class="mitra-img" />
+  <p class="mitra-label">Hi, I'm Mitra 👋 Your AI learning friend</p>
+
+  <h1 class="hero-title anim-up" style="animation-delay:0.1s">
+    Learn AI for <span class="grad">daily life</span> —<br>
+    in simple English
+  </h1>
+
+  <p class="hero-sub anim-up" style="animation-delay:0.2s">
+    No engineering degree. No expensive course. No jargon.<br>
+    Just practical AI skills you can use today — on your phone.
+  </p>
+
+  <div class="hero-actions anim-up" style="animation-delay:0.3s">
+    <a href="../content/english/level-01-interactive/level-01-comic.html" class="btn-primary">
+      Start Level 1 — Free 🎓
+    </a>
+    <a href="#what-you-learn" class="btn-secondary">See what's inside ↓</a>
+  </div>
+
+  <div class="hero-trust anim-up" style="animation-delay:0.4s">
+    <span class="trust-pill">🆓 Levels 1 &amp; 2 are free</span>
+    <span class="trust-pill">📱 Works on any phone</span>
+    <span class="trust-pill">🇮🇳 Real Indian examples</span>
+    <span class="trust-pill">🗣️ Telugu supported</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PROOF BAR                                                                -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="proof-bar">
+  <div class="proof-inner">
+    <div class="proof-stat hidden">
+      <span class="num">7</span>
+      <span class="label">Levels of practical AI learning</span>
+    </div>
+    <div class="proof-stat hidden">
+      <span class="num">2</span>
+      <span class="label">Levels completely free — forever</span>
+    </div>
+    <div class="proof-stat hidden">
+      <span class="num">60 min</span>
+      <span class="label">To complete your first lesson</span>
+    </div>
+    <div class="proof-stat hidden">
+      <span class="num">₹0</span>
+      <span class="label">To get started today</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- WHO IS THIS FOR                                                          -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section section-center" id="who">
+  <div class="eyebrow-label hidden">Who is this for?</div>
+  <h2 class="section-title hidden">Built for everyday Indians — not engineers</h2>
+  <p class="section-body hidden">
+    If you have a smartphone and can read simple English, you are ready.
+    This is for the 300 million Indians who have never tried AI but could benefit from it every day.
+  </p>
+  <div class="whom-grid">
+    <div class="whom-card hidden">
+      <span class="who-icon">🏪</span>
+      <h3>Shop owners &amp; small businesses</h3>
+      <p>Write formal letters, reply to customers, create product descriptions — in minutes, not hours.</p>
+    </div>
+    <div class="whom-card hidden">
+      <span class="who-icon">👩‍🍳</span>
+      <h3>Homemakers &amp; families</h3>
+      <p>Plan meals, translate recipes, get health information in Telugu — AI is your knowledgeable neighbour.</p>
+    </div>
+    <div class="whom-card hidden">
+      <span class="who-icon">📚</span>
+      <h3>Students &amp; parents</h3>
+      <p>Understand difficult textbook topics, get simple explanations, prepare for exams — faster.</p>
+    </div>
+    <div class="whom-card hidden">
+      <span class="who-icon">💼</span>
+      <h3>Office &amp; government workers</h3>
+      <p>Draft emails, summarise long documents, write formal requests — confidently and quickly.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- DEMO PREVIEW STRIP                                                       -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section demo-section" id="what-you-learn">
+  <div class="eyebrow-label hidden">Inside Level 1</div>
+  <h2 class="section-title hidden" style="text-align:center;">Real stories. Real results.</h2>
+  <p class="section-body hidden" style="text-align:center;">
+    Level 1 follows Ravi, Priya, and Rahul — three everyday Indians — as they use AI for the first time.
+    You watch, understand, and try it yourself.
+  </p>
+  <div class="demo-grid">
+    <div class="demo-card hidden">
+      <img src="../content/assets/scenes/img-s02-shop.jpg"
+           alt="Ravi's mobile shop in Hyderabad" class="demo-card-img" />
+      <div class="demo-card-body">
+        <div class="demo-tag">Demo 1 · Ravi</div>
+        <h3>A school letter written in 2 minutes</h3>
+        <p>Ravi spent 45 minutes stuck on a formal letter. AI wrote a perfect draft in seconds.</p>
+      </div>
+    </div>
+    <div class="demo-card hidden">
+      <img src="../content/assets/scenes/img-s09-priya-kitchen.jpg"
+           alt="Priya in her kitchen" class="demo-card-img" />
+      <div class="demo-card-body">
+        <div class="demo-tag">Demo 2 · Priya · in Telugu</div>
+        <h3>A diabetic-safe recipe — in Telugu</h3>
+        <p>Priya asked AI in Telugu and got a healthy snack idea her mother-in-law could enjoy.</p>
+      </div>
+    </div>
+    <div class="demo-card hidden">
+      <img src="../content/assets/scenes/img-s10-rahul-studying.jpg"
+           alt="Rahul studying at night" class="demo-card-img" />
+      <div class="demo-card-body">
+        <div class="demo-tag">Demo 3 · Rahul</div>
+        <h3>Photosynthesis explained with a chapati</h3>
+        <p>Rahul couldn't understand his textbook. AI explained using a chapati-making analogy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- FEATURES                                                                 -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section section-center">
+  <div class="eyebrow-label hidden">Why Mitra?</div>
+  <h2 class="section-title hidden">Designed for how Indians learn</h2>
+  <p class="section-body hidden">Every choice — language, examples, format — was made for first-time learners in India, not Silicon Valley engineers.</p>
+  <div class="features-grid">
+    <div class="feature hidden">
+      <span class="feature-icon">🗺️</span>
+      <div>
+        <h3>Indian daily-life examples only</h3>
+        <p>No abstract demos. Every story uses Hyderabad shopkeepers, Warangal students, and real Indian families.</p>
+      </div>
+    </div>
+    <div class="feature hidden">
+      <span class="feature-icon">🛡️</span>
+      <div>
+        <h3>Safety taught from day one</h3>
+        <p>Level 1 includes a full safety segment — what not to share, when to verify, and how to stay safe online.</p>
+      </div>
+    </div>
+    <div class="feature hidden">
+      <span class="feature-icon">🎨</span>
+      <div>
+        <h3>Visual-first, not text-heavy</h3>
+        <p>Comic panels, illustrated demos, and animated characters make AI feel approachable — not intimidating.</p>
+      </div>
+    </div>
+    <div class="feature hidden">
+      <span class="feature-icon">✅</span>
+      <div>
+        <h3>Human-reviewed content</h3>
+        <p>Every lesson goes through a human review step before it is published. We never present AI output as guaranteed truth.</p>
+      </div>
+    </div>
+    <div class="feature hidden">
+      <span class="feature-icon">📲</span>
+      <div>
+        <h3>Phone-first design</h3>
+        <p>Every page is tested and designed for small screens first. No downloads, no installs — just open and learn.</p>
+      </div>
+    </div>
+    <div class="feature hidden">
+      <span class="feature-icon">🆓</span>
+      <div>
+        <h3>First two levels always free</h3>
+        <p>Levels 1 and 2 are free and will stay free. We believe everyone should get a fair first experience with AI.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- LANGUAGE SECTION                                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section lang-section">
+  <div class="lang-card hidden">
+    <span class="lang-icon">🗣️</span>
+    <h2>మీ భాషలో నేర్చుకోండి — Learn in your language</h2>
+    <p>
+      All lessons are written in simple English first. Telugu translations are built in —
+      you can ask AI questions in Telugu and get answers in Telugu from day one.
+      Your language is not a barrier here.
+    </p>
+    <div class="lang-sample">
+      "మా అత్తగారికి డయాబెటిస్ ఉంది. Healthy snack చెప్పు"<br>
+      <span style="font-size:0.85rem; color:var(--muted); font-weight:600;">
+        (My mother-in-law has diabetes. Suggest a healthy snack.)
+      </span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- LEVEL LADDER                                                             -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section section-center" id="levels">
+  <div class="eyebrow-label hidden">The curriculum</div>
+  <h2 class="section-title hidden">7 levels. Start free. Go as far as you want.</h2>
+  <p class="section-body hidden">
+    Each level builds on the last. Levels 1 and 2 are free. Paid levels go deeper — practical skills for work, life, and building things with AI.
+  </p>
+  <div class="ladder-wrap">
+
+    <a href="../content/english/level-01-interactive/level-01-comic.html" class="ladder-row free-row hidden">
+      <span class="ladder-num">1</span>
+      <div class="ladder-body">
+        <h3>First Step</h3>
+        <p>What AI is, how to talk to it, 3 real demos (letter, recipe, study help), safety rules. 45–60 min.</p>
+      </div>
+      <span class="ladder-tag tag-free">Free ✓ Ready now</span>
+    </a>
+    <div class="ladder-connector"></div>
+
+    <div class="ladder-row free-row hidden">
+      <span class="ladder-num">2</span>
+      <div class="ladder-body">
+        <h3>Daily Help</h3>
+        <p>Use AI every day — formal messages, WhatsApp drafts, grocery planning, helping kids study. 60–90 min.</p>
+      </div>
+      <span class="ladder-tag tag-free">Free · Coming soon</span>
+    </div>
+    <div class="ladder-connector"></div>
+
+    <div class="ladder-row hidden">
+      <span class="ladder-num">3</span>
+      <div class="ladder-body">
+        <h3>Smart Basics</h3>
+        <p>Prompt techniques, getting better answers, multi-step tasks. 60 min.</p>
+      </div>
+      <span class="ladder-tag tag-paid">₹100</span>
+    </div>
+    <div class="ladder-connector"></div>
+
+    <div class="ladder-row hidden">
+      <span class="ladder-num">4</span>
+      <div class="ladder-body">
+        <h3>Work Smart</h3>
+        <p>AI for your job or business — summarise documents, write reports, handle emails. 2 hrs.</p>
+      </div>
+      <span class="ladder-tag tag-paid">₹200</span>
+    </div>
+    <div class="ladder-connector"></div>
+
+    <div class="ladder-row hidden">
+      <span class="ladder-num">5</span>
+      <div class="ladder-body">
+        <h3>Life Upgrade</h3>
+        <p>Financial planning, health queries, travel, and major life decisions aided by AI. 3 hrs.</p>
+      </div>
+      <span class="ladder-tag tag-paid">₹300</span>
+    </div>
+    <div class="ladder-connector"></div>
+
+    <div class="ladder-row hidden">
+      <span class="ladder-num">6</span>
+      <div class="ladder-body">
+        <h3>Power User</h3>
+        <p>Automation, combining tools, custom workflows, advanced prompting. 4 hrs.</p>
+      </div>
+      <span class="ladder-tag tag-paid">₹400</span>
+    </div>
+    <div class="ladder-connector"></div>
+
+    <div class="ladder-row hidden">
+      <span class="ladder-num">7</span>
+      <div class="ladder-body">
+        <h3>Build With AI</h3>
+        <p>Build real things — simple apps, automated workflows, AI-assisted projects. 5 hrs.</p>
+      </div>
+      <span class="ladder-tag tag-paid">₹500</span>
+    </div>
+
+    <div class="hidden" style="margin-top:1.5rem; padding:1.25rem; background:rgba(83,166,255,0.07); border:1px solid rgba(83,166,255,0.2); border-radius:14px; font-size:0.9rem; color:var(--muted); text-align:center;">
+      💡 Bundle deal: Levels 3–7 together for <strong style="color:var(--amber);">₹1,050</strong> (30% off) · Levels 3–5 for <strong style="color:var(--amber);">₹420</strong>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- QUOTES (anticipatory — for early-access learners)                       -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section quote-section section-center">
+  <div class="eyebrow-label hidden">Early reactions</div>
+  <h2 class="section-title hidden">What learners are saying</h2>
+  <div class="quotes-grid">
+    <div class="quote-card hidden">
+      <p>"I spent 45 minutes on that letter. AI finished it in 30 seconds. I couldn't believe it. I just changed my name and sent it."</p>
+      <div class="quote-person">
+        <div class="quote-avatar">R</div>
+        <div class="quote-person-info">
+          <div class="name">Ravi K.</div>
+          <div class="role">Shopkeeper, Hyderabad</div>
+        </div>
+      </div>
+    </div>
+    <div class="quote-card hidden">
+      <p>"I asked in Telugu. It replied in Telugu. I didn't know this was possible. I sent the recipe to my sister in the village immediately."</p>
+      <div class="quote-person">
+        <div class="quote-avatar">P</div>
+        <div class="quote-person-info">
+          <div class="name">Priya M.</div>
+          <div class="role">Homemaker, Warangal</div>
+        </div>
+      </div>
+    </div>
+    <div class="quote-card hidden">
+      <p>"My teacher explained photosynthesis 3 times and I didn't get it. AI used a chapati analogy. I understood in 2 minutes. Now I explain it to my friends."</p>
+      <div class="quote-person">
+        <div class="quote-avatar">Ra</div>
+        <div class="quote-person-info">
+          <div class="name">Rahul S.</div>
+          <div class="role">Student, Class 9, Warangal</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- FINAL CTA                                                                -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="final-cta">
+  <img src="../content/assets/characters/mitra-reference.png"
+       alt="Mitra"
+       style="width:100px; height:100px; border-radius:50%; object-fit:cover;
+              border:3px solid rgba(83,166,255,0.4);
+              box-shadow:0 0 24px rgba(83,166,255,0.3);
+              margin:0 auto 1.5rem; display:block;" />
+  <h2 class="hidden">
+    Your first AI lesson is<br><span style="color:var(--amber);">waiting — and it's free.</span>
+  </h2>
+  <p class="hidden">
+    Open Level 1 right now. No sign-up, no download, no credit card.
+    Just you, your phone, and 60 minutes.
+  </p>
+  <a href="../content/english/level-01-interactive/level-01-comic.html"
+     class="btn-primary hidden" style="display:inline-block;">
+    Start Level 1 Free →
+  </a>
+  <p class="cta-note">Levels 1 &amp; 2 are free and will always be free.</p>
+</section>
+
+
+<!-- ─── FOOTER ────────────────────────────────────────────────────────────── -->
+<footer>
+  <div>
+    <div class="footer-brand">Mitra <span>AI</span> Life Education</div>
+    <p style="margin-top:4px;">Practical AI learning for everyday Indians.</p>
+  </div>
+  <div class="footer-links">
+    <a href="../content/english/level-01-interactive/level-01-comic.html">Level 1 (Free)</a>
+    <a href="#levels">All Levels</a>
+    <a href="pitch-deck.html">About</a>
+  </div>
+  <p>© 2026 Mitra AI Life Education</p>
+</footer>
+
+
+<script>
+  // scroll-reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.hidden').forEach(el => observer.observe(el));
+
+  // progress bar not needed on landing — skip
+</script>
+</body>
+</html>

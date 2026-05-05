@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>లెవెల్ 2: రోజువారీ సహాయం | మిత్ర AI లైఫ్ ఎడ్యుకేషన్</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #040712;
+      color: #f5f8ff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    nav {
+      display: flex; align-items: center; gap: 16px;
+      padding: 14px 32px;
+      background: rgba(4,7,18,0.95);
+      border-bottom: 1px solid rgba(13,148,136,0.25);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .brand { font-weight: 800; font-size: 1rem; }
+    .level-tag {
+      font-size: 0.8rem; padding: 4px 12px; border-radius: 20px;
+      background: rgba(13,148,136,0.15); border: 1px solid rgba(13,148,136,0.4); color: #2dd4bf;
+    }
+    .back-link { margin-left: auto; font-size: 0.85rem; color: #9fb3da; text-decoration: none; }
+    .back-link:hover { color: #f5f8ff; }
+    .lang-btn {
+      font-size: 0.8rem; padding: 5px 12px;
+      border: 1px solid rgba(255,255,255,0.25); border-radius: 20px;
+      color: #fff; text-decoration: none; opacity: 0.85;
+    }
+
+    .coming-soon {
+      flex: 1;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 60px 24px;
+      gap: 24px;
+    }
+    .mitra-img {
+      width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
+      animation: float 3.5s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+    .badge {
+      font-size: 0.82rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: #2dd4bf; background: rgba(13,148,136,0.1); padding: 6px 18px; border-radius: 20px;
+      border: 1px solid rgba(13,148,136,0.35);
+    }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; line-height: 1.2; max-width: 640px; }
+    h1 span { color: #2dd4bf; }
+    .sub { font-size: 1.05rem; color: #9fb3da; max-width: 520px; line-height: 1.7; }
+
+    .progress-bar {
+      width: 100%; max-width: 440px;
+      background: rgba(255,255,255,0.08); border-radius: 8px; height: 10px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; width: 20%;
+      background: linear-gradient(90deg, #0d9488, #2dd4bf);
+      border-radius: 8px;
+      animation: progress 2s ease-in-out infinite alternate;
+    }
+    @keyframes progress { from{width:15%} to{width:30%} }
+    .progress-label { font-size: 0.82rem; color: #9fb3da; }
+
+    .notify-form {
+      display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; max-width: 440px; width: 100%;
+    }
+    .notify-form input {
+      flex: 1; min-width: 200px; padding: 12px 18px; border-radius: 24px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(13,148,136,0.3);
+      color: #f5f8ff; font-size: 0.95rem; font-family: inherit; outline: none;
+    }
+    .notify-form input::placeholder { color: #6b7fa3; }
+    .notify-form button {
+      padding: 12px 24px; border-radius: 24px; border: none; cursor: pointer;
+      background: linear-gradient(135deg, #0d9488, #0891b2);
+      color: #fff; font-weight: 700; font-size: 0.95rem; font-family: inherit;
+    }
+    .or-read-english { font-size: 0.9rem; color: #9fb3da; }
+    .or-read-english a { color: #2dd4bf; text-decoration: none; font-weight: 700; }
+
+    footer { text-align: center; padding: 28px; font-size: 0.8rem; color: #6b7fa3; border-top: 1px solid rgba(13,148,136,0.15); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="brand">మిత్ర AI లైఫ్</span>
+  <span class="level-tag">లెవెల్ 2 · రోజువారీ సహాయం</span>
+  <a href="../../../site/index-te.html" class="back-link">← అన్ని లెవెల్స్</a>
+  <a href="level-02-comic.html" class="lang-btn">🇬🇧 English</a>
+</nav>
+
+<div class="coming-soon">
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/characters/mitra-reference.png"
+       alt="మిత్ర" class="mitra-img" />
+
+  <div class="badge">త్వరలో వస్తుంది</div>
+
+  <h1>లెవెల్ 2 తెలుగు పాఠం<br><span>తయారవుతోంది!</span></h1>
+
+  <p class="sub">
+    రవి సప్లయర్‌కి మెసేజ్ రాయడం, ప్రియ గ్రాసరీ బడ్జెట్, రాహుల్ పరీక్ష ప్రిపరేషన్ —<br>
+    ఇవన్నీ తెలుగులో త్వరలో వస్తాయి.
+  </p>
+
+  <div class="progress-bar"><div class="progress-fill"></div></div>
+  <p class="progress-label">లెవెల్ 1 తెలుగు తర్వాత వస్తుంది…</p>
+
+  <form class="notify-form" onsubmit="handleNotify(event)">
+    <input type="email" id="email" placeholder="మీ ఇమెయిల్ చిరునామా" required />
+    <button type="submit">నాకు తెలియజేయండి 🔔</button>
+  </form>
+  <p id="notify-msg" style="color:#2dd4bf;font-size:0.9rem;display:none;">✅ సేవ్ చేయబడింది! పాఠం రెడీ అయినప్పుడు తెలియజేస్తాం.</p>
+
+  <p class="or-read-english">
+    లేదా ఇప్పుడే ఇంగ్లీషులో చదవండి →
+    <a href="level-02-comic.html">Level 2 in English</a>
+  </p>
+</div>
+
+<footer>© 2026 మిత్ర AI లైఫ్ ఎడ్యుకేషన్</footer>
+
+<script>
+  function handleNotify(e) {
+    e.preventDefault();
+    document.getElementById('notify-msg').style.display = 'block';
+    document.getElementById('email').value = '';
+  }
+</script>
+</body>
+</html>

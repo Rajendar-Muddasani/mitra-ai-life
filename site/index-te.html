@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>మిత్ర AI లైఫ్ ఎడ్యుకేషన్ — సరళమైన తెలుగులో AI నేర్చుకోండి</title>
+  <meta name="description" content="రోజువారీ జీవితంలో AI వాడటం నేర్చుకోండి — సులభమైన తెలుగులో. ఇంజినీరింగ్ అవసరం లేదు. ఏ ఫోన్‌లోనైనా పనిచేస్తుంది." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <style>
+    :root {
+      --bg:      #040712;
+      --bg2:     #091125;
+      --blue:    #53a6ff;
+      --cyan:    #68e1ff;
+      --indigo:  #7991ff;
+      --amber:   #f59e0b;
+      --amber2:  #fde68a;
+      --green:   #10b981;
+      --text:    #f5f8ff;
+      --muted:   #9fb3da;
+      --line:    rgba(119,168,255,0.18);
+      --panel:   rgba(11,18,42,0.78);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(83,166,255,0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(83,166,255,0.055) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.7), transparent 88%);
+      z-index: 0;
+    }
+
+    @keyframes fadeUp   { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:none; } }
+    @keyframes float    { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-10px); } }
+    @keyframes shimmer  { 0% { background-position:-200% center; } 100% { background-position:200% center; } }
+
+    .anim-up { animation: fadeUp 0.7s ease both; }
+    .float   { animation: float 3.5s ease-in-out infinite; }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 32px;
+      background: rgba(4,7,18,0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-brand { font-family:'Syne',sans-serif; font-weight:800; font-size:1.1rem; color:var(--text); text-decoration:none; }
+    .nav-brand span { color:var(--blue); }
+    .nav-cta {
+      font-size:0.9rem; padding:9px 20px;
+      background:linear-gradient(135deg,#3a7bd5,#1a3a6b);
+      border:1px solid rgba(83,166,255,0.4);
+      border-radius:24px; color:#fff; text-decoration:none; font-weight:700;
+    }
+    .nav-lang {
+      font-size:0.85rem; padding:6px 14px;
+      border:1px solid rgba(83,166,255,0.4);
+      border-radius:20px; color:var(--blue); text-decoration:none; white-space:nowrap;
+    }
+
+    /* HERO */
+    .hero {
+      position: relative; z-index:1;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center;
+      padding: 72px 24px 56px;
+      gap: 20px;
+    }
+    .hero-eyebrow {
+      font-size:0.82rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase;
+      color:var(--cyan); background:rgba(104,225,255,0.1); padding:6px 18px; border-radius:20px;
+    }
+    .mitra-img { width:130px; height:130px; border-radius:50%; object-fit:cover; }
+    .mitra-label { font-size:0.9rem; color:var(--muted); }
+    .hero-title {
+      font-family:'Syne',sans-serif; font-size:clamp(2rem,5vw,3.4rem);
+      font-weight:800; line-height:1.15; max-width:720px;
+    }
+    .grad {
+      background: linear-gradient(90deg, var(--blue), var(--cyan), var(--indigo));
+      background-size:200%;
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      animation: shimmer 3s linear infinite;
+    }
+    .hero-sub { font-size:1.12rem; color:var(--muted); max-width:600px; line-height:1.7; }
+    .hero-actions { display:flex; gap:14px; flex-wrap:wrap; justify-content:center; }
+    .btn-primary {
+      padding:14px 32px; border-radius:32px; font-size:1rem; font-weight:800;
+      background:linear-gradient(135deg,#2563eb,#7c3aed);
+      color:#fff; text-decoration:none;
+      box-shadow:0 4px 24px rgba(37,99,235,0.4);
+    }
+    .btn-secondary {
+      padding:14px 28px; border-radius:32px; font-size:1rem; font-weight:700;
+      border:1px solid var(--line); color:var(--text); text-decoration:none;
+    }
+    .hero-trust { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+    .trust-pill {
+      font-size:0.82rem; padding:6px 14px; border-radius:20px;
+      background:rgba(83,166,255,0.1); border:1px solid rgba(83,166,255,0.2); color:var(--text);
+    }
+
+    /* LEVELS LADDER */
+    .section-wrap { max-width:900px; margin:0 auto; padding:64px 24px; }
+    .section-label {
+      font-size:0.78rem; letter-spacing:0.14em; text-transform:uppercase;
+      color:var(--blue); font-weight:700; margin-bottom:12px;
+    }
+    .section-title { font-family:'Syne',sans-serif; font-size:clamp(1.6rem,3.5vw,2.4rem); font-weight:800; margin-bottom:36px; }
+    .section-title em { font-style:normal; color:var(--cyan); }
+
+    .ladder { display:flex; flex-direction:column; gap:16px; }
+    .ladder-row {
+      display:flex; align-items:center; gap:20px;
+      padding:20px 24px; border-radius:16px;
+      background:var(--panel); border:1px solid var(--line);
+      text-decoration:none; color:var(--text);
+      transition:transform 0.2s, border-color 0.2s;
+    }
+    .ladder-row:hover { transform:translateX(6px); border-color:rgba(83,166,255,0.4); }
+    .ladder-row.free-row { border-color:rgba(16,185,129,0.35); }
+    .level-num {
+      min-width:52px; height:52px; border-radius:14px;
+      display:flex; align-items:center; justify-content:center;
+      font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:800;
+      background:linear-gradient(135deg,rgba(83,166,255,0.2),rgba(121,145,255,0.15));
+      border:1px solid rgba(83,166,255,0.3);
+    }
+    .level-info { flex:1; }
+    .level-title { font-weight:800; font-size:1rem; margin-bottom:4px; }
+    .level-desc  { font-size:0.85rem; color:var(--muted); }
+    .level-badge {
+      font-size:0.75rem; font-weight:700; padding:4px 12px;
+      border-radius:20px; white-space:nowrap;
+    }
+    .badge-free { background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.4); color:#34d399; }
+    .badge-paid { background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.3); color:var(--amber2); }
+    .badge-soon { background:rgba(119,168,255,0.1); border:1px solid rgba(119,168,255,0.2); color:var(--muted); }
+
+    /* WHY */
+    .why-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; }
+    .why-card {
+      padding:24px; border-radius:16px;
+      background:var(--panel); border:1px solid var(--line);
+    }
+    .why-icon { font-size:2rem; margin-bottom:12px; }
+    .why-title { font-weight:800; font-size:1rem; margin-bottom:8px; }
+    .why-desc  { font-size:0.88rem; color:var(--muted); line-height:1.6; }
+
+    /* FOOTER */
+    footer { text-align:center; padding:40px 24px; font-size:0.82rem; color:var(--muted); border-top:1px solid var(--line); }
+    footer a { color:var(--blue); text-decoration:none; }
+
+    /* transitions */
+    .hidden { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease, transform 0.6s ease; }
+    .visible { opacity:1; transform:none; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#">మిత్ర <span>AI</span> లైఫ్ ఎడ్యుకేషన్</a>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <a class="nav-cta" href="../content/english/level-01-interactive/level-01-comic-te.html">లెవెల్ 1 మొదలు పెట్టండి →</a>
+    <a href="index.html" class="nav-lang" title="Switch to English">🇬🇧 English</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow anim-up">ఉచితం · మొదటివారికి అనువైనది · తెలుగులో</div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/characters/mitra-reference.png"
+       alt="మిత్ర — మీ స్నేహపూర్వక AI మార్గదర్శకుడు"
+       class="mitra-img float" />
+  <p class="mitra-label">హాయ్, నేను మిత్ర 👋 మీ AI నేర్చుకునే స్నేహితుడు</p>
+
+  <h1 class="hero-title anim-up" style="animation-delay:0.1s">
+    <span class="grad">రోజువారీ జీవితానికి</span> AI నేర్చుకోండి —<br>
+    సరళమైన తెలుగులో
+  </h1>
+
+  <p class="hero-sub anim-up" style="animation-delay:0.2s">
+    ఇంజినీరింగ్ డిగ్రీ అక్కర్లేదు. ఖరీదైన కోర్సు అక్కర్లేదు. జర్గాన్ అక్కర్లేదు.<br>
+    ఈరోజే మీ ఫోన్‌లో వాడగలిగే AI నైపుణ్యాలు నేర్చుకోండి.
+  </p>
+
+  <div class="hero-actions anim-up" style="animation-delay:0.3s">
+    <a href="../content/english/level-01-interactive/level-01-comic-te.html" class="btn-primary">
+      లెవెల్ 1 మొదలు పెట్టండి — ఉచితం 🎓
+    </a>
+    <a href="#levels" class="btn-secondary">లోపల ఏముందో చూడండి ↓</a>
+  </div>
+
+  <div class="hero-trust anim-up" style="animation-delay:0.4s">
+    <span class="trust-pill">🆓 లెవెల్స్ 1 &amp; 2 ఉచితం</span>
+    <span class="trust-pill">📱 ఏ ఫోన్‌లోనైనా పనిచేస్తుంది</span>
+    <span class="trust-pill">🇮🇳 నిజమైన భారతీయ ఉదాహరణలు</span>
+    <span class="trust-pill">🗣️ తెలుగులో అందుబాటులో ఉంది</span>
+  </div>
+</section>
+
+<!-- LEVELS -->
+<div class="section-wrap" id="levels">
+  <p class="section-label hidden">మీరు ఏమి నేర్చుకుంటారు</p>
+  <h2 class="section-title hidden">లెవెల్ <em>నిచ్చెన</em></h2>
+
+  <div class="ladder">
+    <a href="../content/english/level-01-interactive/level-01-comic-te.html" class="ladder-row free-row hidden">
+      <div class="level-num">01</div>
+      <div class="level-info">
+        <div class="level-title">మొదటి అడుగు</div>
+        <div class="level-desc">AI అంటే ఏమిటి, ఎలా మాట్లాడాలి, సురక్షితంగా ఎలా వాడాలి</div>
+      </div>
+      <span class="level-badge badge-free">ఉచితం ✓ సిద్ధంగా ఉంది</span>
+    </a>
+
+    <a href="../content/english/level-02-daily-help/level-02-comic-te.html" class="ladder-row free-row hidden">
+      <div class="level-num">02</div>
+      <div class="level-info">
+        <div class="level-title">రోజువారీ సహాయం</div>
+        <div class="level-desc">మెసేజ్‌లు రాయడం, బడ్జెట్ వేయడం, పరీక్షకు చదువుకోవడం, ఫిర్యాదు లెటర్లు</div>
+      </div>
+      <span class="level-badge badge-free">ఉచితం ✓ సిద్ధంగా ఉంది</span>
+    </a>
+
+    <div class="ladder-row hidden">
+      <div class="level-num">03</div>
+      <div class="level-info">
+        <div class="level-title">పని కోసం AI</div>
+        <div class="level-desc">ఇమెయిల్‌లు, రిపోర్టులు, ప్రెజెంటేషన్లు, ఆఫీసు పనులు</div>
+      </div>
+      <span class="level-badge badge-paid">చెల్లించండి · త్వరలో వస్తుంది</span>
+    </div>
+
+    <div class="ladder-row hidden">
+      <div class="level-num">04</div>
+      <div class="level-info">
+        <div class="level-title">చిన్న వ్యాపారం కోసం AI</div>
+        <div class="level-desc">మార్కెటింగ్, కస్టమర్ రిప్లైలు, ఇన్వాయిసులు, సోషల్ మీడియా</div>
+      </div>
+      <span class="level-badge badge-paid">చెల్లించండి · త్వరలో వస్తుంది</span>
+    </div>
+
+    <div class="ladder-row hidden">
+      <div class="level-num">05</div>
+      <div class="level-info">
+        <div class="level-title">సృజనాత్మక పని</div>
+        <div class="level-desc">చిత్రాలు, కంటెంట్, వీడియో స్క్రిప్టులు, కథలు</div>
+      </div>
+      <span class="level-badge badge-paid">చెల్లించండి · త్వరలో వస్తుంది</span>
+    </div>
+
+    <div class="ladder-row hidden">
+      <div class="level-num">06</div>
+      <div class="level-info">
+        <div class="level-title">రిసెర్చ్ &amp; నిర్ణయాలు</div>
+        <div class="level-desc">పెద్ద నిర్ణయాలకు AI ని వాడటం, వాస్తవాలు తనిఖీ చేయడం</div>
+      </div>
+      <span class="level-badge badge-paid">చెల్లించండి · త్వరలో వస్తుంది</span>
+    </div>
+
+    <div class="ladder-row hidden">
+      <div class="level-num">07</div>
+      <div class="level-info">
+        <div class="level-title">AI తో అటోమేషన్</div>
+        <div class="level-desc">రిపీట్ పనులు ఆటోమేట్ చేయడం, వర్క్‌ఫ్లోలు, టూల్స్ కనెక్ట్ చేయడం</div>
+      </div>
+      <span class="level-badge badge-paid">చెల్లించండి · త్వరలో వస్తుంది</span>
+    </div>
+  </div>
+</div>
+
+<!-- WHY -->
+<div class="section-wrap" style="padding-top:0;">
+  <p class="section-label hidden">ఎందుకు మిత్ర AI లైఫ్?</p>
+  <h2 class="section-title hidden">మీకు <em>నచ్చే</em> కారణాలు</h2>
+  <div class="why-grid">
+    <div class="why-card hidden">
+      <div class="why-icon">📱</div>
+      <div class="why-title">ఫోన్ మాత్రమే సరిపోతుంది</div>
+      <div class="why-desc">ల్యాప్‌టాప్ అవసరం లేదు. Wi-Fi కనెక్షన్ ఉన్న ఏ ఫోన్‌లోనైనా పనిచేస్తుంది.</div>
+    </div>
+    <div class="why-card hidden">
+      <div class="why-icon">🏘️</div>
+      <div class="why-title">మీ జీవితానికి సంబంధించిన ఉదాహరణలు</div>
+      <div class="why-desc">కిరాణా దుకాణం, పిల్లల చదువు, ఆఫీసు పని — అమెరికన్ ఉదాహరణలు కావు.</div>
+    </div>
+    <div class="why-card hidden">
+      <div class="why-icon">🔒</div>
+      <div class="why-title">సురక్షితంగా నేర్చుకోండి</div>
+      <div class="why-desc">ప్రతి పాఠంలో AI ని సురక్షితంగా వాడటం, తప్పుడు సమాచారాన్ని గుర్తించడం నేర్పిస్తాం.</div>
+    </div>
+    <div class="why-card hidden">
+      <div class="why-icon">🎓</div>
+      <div class="why-title">చేస్తూ నేర్చుకోండి</div>
+      <div class="why-desc">కేవలం చదవడం కాదు — ప్రతి పాఠంలో వాస్తవంగా AI తో ప్రాక్టీస్ చేస్తారు.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 మిత్ర AI లైఫ్ ఎడ్యుకేషన్ &nbsp;·&nbsp;
+    <a href="index.html">English</a> &nbsp;·&nbsp;
+    <a href="mailto:hello@mitraailife.com">hello@mitraailife.com</a>
+  </p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.hidden').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

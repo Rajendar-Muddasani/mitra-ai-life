@@ -8,6 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
   <style>
     /* ─── tokens ─────────────────────────────────────────────────────────── */
     :root {
@@ -444,7 +452,10 @@
 <!-- ─── NAV ──────────────────────────────────────────────────────────────── -->
 <nav>
   <a class="nav-brand" href="#">Mitra <span>AI</span> Life Education</a>
-  <a class="nav-cta" href="../content/english/level-01-interactive/level-01-comic.html">Start Free →</a>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <a class="nav-cta" href="../content/english/level-01-interactive/level-01-comic.html">Start Free →</a>
+    <a href="index-te.html" style="font-size:0.85rem;padding:6px 14px;border:1px solid rgba(83,166,255,0.4);border-radius:20px;color:#53a6ff;text-decoration:none;white-space:nowrap;" title="తెలుగులో చదవండి">🇮🇳 తెలుగు</a>
+  </div>
 </nav>
 
 

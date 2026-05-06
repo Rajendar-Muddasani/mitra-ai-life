@@ -170,6 +170,7 @@
       font-weight: 800;
       line-height: 1.15;
       margin-bottom: 1.25rem;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.4);
     }
     .hero-title .highlight {
       background: linear-gradient(90deg, var(--amber), var(--sky));
@@ -265,13 +266,13 @@
     }
     .section-title {
       font-family: 'Baloo 2', cursive;
-      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-size: clamp(1.85rem, 4.5vw, 2.75rem);
       font-weight: 800;
-      line-height: 1.2;
+      line-height: 1.18;
       color: var(--navy);
       text-align: center;
       margin-bottom: 0.75rem;
-      max-width: 680px;
+      max-width: 720px;
     }
     .section-sub {
       color: var(--muted);
@@ -776,10 +777,17 @@
 
 <!-- top nav -->
 <nav class="topnav">
+  <a href="../../../site/index.html" style="font-size:0.82rem;padding:5px 12px;border:1px solid rgba(255,255,255,0.2);border-radius:20px;color:rgba(255,255,255,0.8);text-decoration:none;white-space:nowrap;" title="Back to home">← Home</a>
   <span class="brand">Mitra AI Life Education</span>
   <span class="level-tag">Level 1 · Free</span>
   <span class="time-tag">⏱ 45–60 min</span>
-  <a href="level-01-comic-te.html" style="font-size:0.8rem;padding:5px 12px;border:1px solid rgba(255,255,255,0.25);border-radius:20px;color:#fff;text-decoration:none;white-space:nowrap;opacity:0.85;" title="తెలుగులో చదవండి">🇮🇳 తెలుగు</a>
+  <div style="position:relative;display:inline-block;">
+    <button id="langBtn" onclick="this.parentElement.querySelector('.l1-lang-menu').style.display = this.parentElement.querySelector('.l1-lang-menu').style.display === 'block' ? 'none' : 'block'" style="font-size:0.8rem;padding:5px 12px;border:1px solid rgba(255,255,255,0.25);border-radius:20px;color:#fff;background:transparent;cursor:pointer;white-space:nowrap;opacity:0.85;">🌐 Language ▾</button>
+    <div class="l1-lang-menu" style="display:none;position:absolute;top:calc(100% + 6px);right:0;background:rgba(9,17,48,0.97);border:1px solid rgba(119,168,255,0.18);border-radius:12px;overflow:hidden;min-width:180px;box-shadow:0 8px 24px rgba(0,0,0,0.5);z-index:200;">
+      <a href="level-01-comic.html" style="display:block;padding:9px 14px;font-size:0.85rem;font-weight:700;color:#68e1ff;text-decoration:none;">🇬🇧 English <small style="font-weight:400;font-size:0.7rem;color:rgba(159,179,218,0.5);"> Current</small></a>
+      <a href="level-01-comic-te.html" style="display:block;padding:9px 14px;font-size:0.85rem;font-weight:700;color:rgba(245,248,255,0.7);text-decoration:none;">🇮🇳 తెలుగు</a>
+    </div>
+  </div>
 </nav>
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
@@ -807,7 +815,6 @@
     <div class="hero-meta anim-fadeInUp" style="animation-delay:0.4s">
       <span class="meta-pill">👨‍👩‍👧 For everyone</span>
       <span class="meta-pill">🇮🇳 Real Indian examples</span>
-      <span class="meta-pill">🆓 100% free</span>
       <span class="meta-pill">📱 Works on any phone</span>
     </div>
 
@@ -920,8 +927,8 @@
     </div>
     <div class="explainer-card card-purple">
       <span class="icon">🌏</span>
-      <h3>It works in Telugu too</h3>
-      <p>You can talk to AI in Telugu. You can ask it to write in Telugu. It is not just for English-speaking people in big cities.</p>
+      <h3>It works in your language</h3>
+      <p>You can talk to AI in Telugu, Hindi, Tamil, and many other Indian languages. It is not just for English-speaking people in big cities.</p>
     </div>
   </div>
 
@@ -939,10 +946,10 @@
 
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 4 — LIVE STORY DEMO 1: RAVI'S LETTER                           -->
+<!-- SECTION 4 — REAL-LIFE SITUATION 1: RAVI'S LETTER                         -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <section class="demo-section">
-  <div class="section-eyebrow hidden" style="color:var(--sky);">Demo 1 · Ravi's Story</div>
+  <div class="section-eyebrow hidden" style="color:var(--sky);">Real-Life Situation 1 · Ravi's Story</div>
   <h2 class="section-title hidden" style="color:white;">Watch Ravi write his letter — in under 2 minutes.</h2>
   <p class="section-sub hidden" style="color:rgba(255,255,255,0.65);">
     Ravi opens ChatGPT on his phone for the first time. Here is exactly what happens.
@@ -997,10 +1004,10 @@
 
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 5 — DEMO 2: PRIYA'S RECIPE IN TELUGU                           -->
+<!-- SECTION 5 — REAL-LIFE SITUATION 2: PRIYA'S RECIPE                      -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <section style="background: white;">
-  <div class="section-eyebrow hidden">Demo 2 · Priya's Story</div>
+  <div class="section-eyebrow hidden">Real-Life Situation 2 · Priya</div>
   <h2 class="section-title hidden">Priya asks AI in Telugu — and gets a recipe her mother-in-law can eat.</h2>
   <p class="section-sub hidden">
     Priya's mother-in-law has diabetes. She wants to make something healthy and tasty for her. She asks AI — in Telugu.
@@ -1037,7 +1044,7 @@
 
     <div style="background:#F5F3FF; border-radius:14px; padding:1rem 1.25rem; margin-top:1rem; border-left:4px solid var(--purple);">
       <p style="font-size:0.92rem; color:#4C1D95; font-weight:700;">
-        🌟 AI works in Telugu! You can type your question in Telugu and get answers in Telugu. Your language is not a barrier.
+        🌟 AI works in your language! You can type your question in Telugu, Hindi, Tamil, or any language you are comfortable with. Language is not a barrier.
       </p>
     </div>
   </div>
@@ -1045,10 +1052,10 @@
 
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 6 — DEMO 3: STUDENT USE CASE                                   -->
+<!-- SECTION 6 — REAL-LIFE SITUATION 3: STUDENT USE CASE                    -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <section style="background: #F0FDF4;">
-  <div class="section-eyebrow hidden">Demo 3 · Student Story</div>
+  <div class="section-eyebrow hidden">Real-Life Situation 3 · Rahul</div>
   <h2 class="section-title hidden">Rahul uses AI to understand photosynthesis in 5 minutes.</h2>
   <p class="section-sub hidden">
     Rahul is in Class 9 in Warangal. His textbook explanation is confusing. He tries AI.
@@ -1285,7 +1292,7 @@
     <strong style="color:rgba(255,255,255,0.7);">Mitra AI Life Education</strong>
     &nbsp;·&nbsp; Level 1: First Step &nbsp;·&nbsp; Free &nbsp;·&nbsp; English + Telugu
   </p>
-  <p>AI outputs shown are examples only. Always verify important information. © 2025 Mitra AI Life Education.</p>
+  <p>AI outputs shown are examples only. Always verify important information. © 2026 Mitra AI Life Education.</p>
 </footer>
 
 

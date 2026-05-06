@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mitra AI Life Education — Learn AI in Simple English. In Telugu too.</title>
+  <title>Mitra AI Life Education — Learn AI in Simple English. Free to start.</title>
   <meta name="description" content="Free beginner AI lessons for everyday Indians. No engineering degree needed. Works on any phone. Start with Level 1 — free, in simple English, with real Indian examples." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -98,6 +98,41 @@
       box-shadow: 0 4px 0 #b45309;
     }
     .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #b45309; }
+
+    /* ─── language switcher dropdown ────────────────────────────────────── */
+    .lang-switcher { position: relative; display: inline-block; }
+    .lang-switcher-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--text);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.82rem; font-weight: 700;
+      padding: 6px 14px; border-radius: 20px;
+      cursor: pointer; white-space: nowrap;
+      transition: background 0.2s; line-height: 1;
+    }
+    .lang-switcher-btn:hover { background: rgba(255,255,255,0.12); }
+    .lang-switcher-menu {
+      display: none;
+      position: absolute; top: calc(100% + 8px); right: 0;
+      background: rgba(9,17,48,0.97);
+      border: 1px solid var(--line);
+      border-radius: 14px; overflow: hidden;
+      min-width: 200px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      z-index: 200;
+    }
+    .lang-switcher:hover .lang-switcher-menu,
+    .lang-switcher:focus-within .lang-switcher-menu { display: block; }
+    .lang-option {
+      display: block; padding: 10px 16px;
+      font-size: 0.88rem; font-weight: 600;
+      color: var(--muted); text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+    }
+    .lang-option:hover { background: rgba(83,166,255,0.12); color: var(--text); }
+    .lang-option.active { color: var(--cyan); font-weight: 800; }
+    .lang-option small { display: block; font-size: 0.72rem; color: rgba(159,179,218,0.4); font-weight: 400; margin-top: 1px; }
 
     /* ─── hero ───────────────────────────────────────────────────────────── */
     .hero {
@@ -310,18 +345,24 @@
     }
     .demo-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.25rem; max-width: 960px; margin: 0 auto;
+      grid-template-columns: 1fr;
+      gap: 1rem; max-width: 860px; margin: 0 auto;
     }
     .demo-card {
+      display: flex; flex-direction: row;
       background: rgba(11,18,50,0.85);
       border: 1px solid var(--line);
       border-radius: 18px; overflow: hidden;
     }
     .demo-card-img {
-      width: 100%; height: 170px; object-fit: cover; display: block;
+      width: 180px; min-height: 140px; object-fit: cover; display: block;
+      flex-shrink: 0;
     }
-    .demo-card-body { padding: 1.25rem; }
+    @media (max-width: 560px) {
+      .demo-card { flex-direction: column; }
+      .demo-card-img { width: 100%; height: 150px; min-height: unset; }
+    }
+    .demo-card-body { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; justify-content: center; }
     .demo-card-body .demo-tag {
       font-size: 0.72rem; font-weight: 800; letter-spacing: 0.15em;
       text-transform: uppercase; color: var(--cyan); margin-bottom: 6px;
@@ -453,8 +494,16 @@
 <nav>
   <a class="nav-brand" href="#">Mitra <span>AI</span> Life Education</a>
   <div style="display:flex;gap:10px;align-items:center;">
-    <a class="nav-cta" href="../content/english/level-01-interactive/level-01-comic.html">Start Free →</a>
-    <a href="index-te.html" style="font-size:0.85rem;padding:6px 14px;border:1px solid rgba(83,166,255,0.4);border-radius:20px;color:#53a6ff;text-decoration:none;white-space:nowrap;" title="తెలుగులో చదవండి">🇮🇳 తెలుగు</a>
+    <a class="nav-cta" href="../content/english/level-01-interactive/level-01-comic.html">Start Level 1 →</a>
+    <div class="lang-switcher">
+      <button class="lang-switcher-btn">🌐 Language ▾</button>
+      <div class="lang-switcher-menu">
+        <a href="index.html" class="lang-option active">🇬🇧 English <small>Current</small></a>
+        <a href="index-te.html" class="lang-option">🇮🇳 తెలుగు <small>Telugu</small></a>
+        <span class="lang-option" style="opacity:0.45;cursor:default;">🇮🇩 Indonesian <small>Coming soon</small></span>
+        <span class="lang-option" style="opacity:0.45;cursor:default;">🇹🇭 Thai <small>Coming soon</small></span>
+      </div>
+    </div>
   </div>
 </nav>
 
@@ -463,7 +512,7 @@
 <!-- HERO                                                                     -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <section class="hero">
-  <div class="hero-eyebrow anim-up">Free · Beginner Friendly · Telugu too</div>
+  <div class="hero-eyebrow anim-up">Free · Beginner Friendly · Any Language</div>
 
   <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/characters/mitra-reference.png"
        alt="Mitra — your friendly AI guide"
@@ -488,10 +537,10 @@
   </div>
 
   <div class="hero-trust anim-up" style="animation-delay:0.4s">
-    <span class="trust-pill">🆓 Levels 1 &amp; 2 are free</span>
     <span class="trust-pill">📱 Works on any phone</span>
     <span class="trust-pill">🇮🇳 Real Indian examples</span>
-    <span class="trust-pill">🗣️ Telugu supported</span>
+    <span class="trust-pill">🌐 Multiple languages</span>
+    <span class="trust-pill">✅ No degree needed</span>
   </div>
 </section>
 
@@ -506,16 +555,16 @@
       <span class="label">Levels of practical AI learning</span>
     </div>
     <div class="proof-stat hidden">
-      <span class="num">2</span>
-      <span class="label">Levels completely free — forever</span>
+      <span class="num">6+</span>
+      <span class="label">Real-life situations you can relate to</span>
     </div>
     <div class="proof-stat hidden">
       <span class="num">60 min</span>
       <span class="label">To complete your first lesson</span>
     </div>
     <div class="proof-stat hidden">
-      <span class="num">₹0</span>
-      <span class="label">To get started today</span>
+      <span class="num">3+</span>
+      <span class="label">Languages supported and growing</span>
     </div>
   </div>
 </div>
@@ -540,7 +589,7 @@
     <div class="whom-card hidden">
       <span class="who-icon">👩‍🍳</span>
       <h3>Homemakers &amp; families</h3>
-      <p>Plan meals, translate recipes, get health information in Telugu — AI is your knowledgeable neighbour.</p>
+      <p>Plan meals, translate recipes, get health information in your language — AI is your knowledgeable neighbour.</p>
     </div>
     <div class="whom-card hidden">
       <span class="who-icon">📚</span>
@@ -560,10 +609,10 @@
 <!-- DEMO PREVIEW STRIP                                                       -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <section class="section demo-section" id="what-you-learn">
-  <div class="eyebrow-label hidden">Inside Level 1</div>
-  <h2 class="section-title hidden" style="text-align:center;">Real stories. Real results.</h2>
+  <div class="eyebrow-label hidden">Real-Life Situations inside Level 1</div>
+  <h2 class="section-title hidden" style="text-align:center;">Real situations. Real results.</h2>
   <p class="section-body hidden" style="text-align:center;">
-    Level 1 follows Ravi, Priya, and Rahul — three everyday Indians — as they use AI for the first time.
+    Everyday Indians using AI for the first time — at home, in school, at work, on the farm.
     You watch, understand, and try it yourself.
   </p>
   <div class="demo-grid">
@@ -571,7 +620,7 @@
       <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-s02-shop.jpg"
            alt="Ravi's mobile shop in Hyderabad" class="demo-card-img" />
       <div class="demo-card-body">
-        <div class="demo-tag">Demo 1 · Ravi</div>
+        <div class="demo-tag">Real Situation · Ravi · Shop owner</div>
         <h3>A school letter written in 2 minutes</h3>
         <p>Ravi spent 45 minutes stuck on a formal letter. AI wrote a perfect draft in seconds.</p>
       </div>
@@ -580,18 +629,45 @@
       <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-s09-priya-kitchen.jpg"
            alt="Priya in her kitchen" class="demo-card-img" />
       <div class="demo-card-body">
-        <div class="demo-tag">Demo 2 · Priya · in Telugu</div>
-        <h3>A diabetic-safe recipe — in Telugu</h3>
-        <p>Priya asked AI in Telugu and got a healthy snack idea her mother-in-law could enjoy.</p>
+        <div class="demo-tag">Real Situation · Priya · Homemaker</div>
+        <h3>A healthy recipe for a diabetic family member</h3>
+        <p>Priya asked AI for a snack and got a healthy, tasty option her mother-in-law could enjoy.</p>
       </div>
     </div>
     <div class="demo-card hidden">
       <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-s10-rahul-studying.jpg"
            alt="Rahul studying at night" class="demo-card-img" />
       <div class="demo-card-body">
-        <div class="demo-tag">Demo 3 · Rahul</div>
+        <div class="demo-tag">Real Situation · Rahul · Student</div>
         <h3>Photosynthesis explained with a chapati</h3>
         <p>Rahul couldn't understand his textbook. AI explained using a chapati-making analogy.</p>
+      </div>
+    </div>
+    <div class="demo-card hidden">
+      <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l2-s03-bill-payment.jpg"
+           alt="Suresh paying electricity bill" class="demo-card-img" />
+      <div class="demo-card-body">
+        <div class="demo-tag">Real Situation · Suresh · Government worker</div>
+        <h3>Filling an online government form — without confusion</h3>
+        <p>Suresh had to fill an application form but didn't understand the fields. AI walked him through it step by step.</p>
+      </div>
+    </div>
+    <div class="demo-card hidden">
+      <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l2-s06-farm.jpg"
+           alt="Lakshmi on her farm" class="demo-card-img" />
+      <div class="demo-card-body">
+        <div class="demo-tag">Real Situation · Lakshmi · Farmer</div>
+        <h3>Identifying a crop disease in minutes</h3>
+        <p>Lakshmi described spots on her tomato plants. AI identified the likely disease and gave treatment steps.</p>
+      </div>
+    </div>
+    <div class="demo-card hidden">
+      <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l2-s09-medical.jpg"
+           alt="Venkat reading a medical report" class="demo-card-img" />
+      <div class="demo-card-body">
+        <div class="demo-tag">Real Situation · Venkat · Senior citizen</div>
+        <h3>Understanding a medical report — in plain Telugu</h3>
+        <p>Venkat's blood report had confusing medical terms. AI explained what each value meant in simple words.</p>
       </div>
     </div>
   </div>
@@ -621,13 +697,6 @@
       </div>
     </div>
     <div class="feature hidden">
-      <span class="feature-icon">🎨</span>
-      <div>
-        <h3>Visual-first, not text-heavy</h3>
-        <p>Comic panels, illustrated demos, and animated characters make AI feel approachable — not intimidating.</p>
-      </div>
-    </div>
-    <div class="feature hidden">
       <span class="feature-icon">✅</span>
       <div>
         <h3>Human-reviewed content</h3>
@@ -635,17 +704,17 @@
       </div>
     </div>
     <div class="feature hidden">
-      <span class="feature-icon">📲</span>
+      <span class="feature-icon">🌐</span>
       <div>
-        <h3>Phone-first design</h3>
-        <p>Every page is tested and designed for small screens first. No downloads, no installs — just open and learn.</p>
+        <h3>Your language is not a barrier</h3>
+        <p>Lessons are in simple English. AI itself works in Telugu, Hindi, and many other Indian languages from day one.</p>
       </div>
     </div>
     <div class="feature hidden">
-      <span class="feature-icon">🆓</span>
+      <span class="feature-icon">🎯</span>
       <div>
-        <h3>First two levels always free</h3>
-        <p>Levels 1 and 2 are free and will stay free. We believe everyone should get a fair first experience with AI.</p>
+        <h3>Practical from lesson one</h3>
+        <p>No theory first. In 60 minutes you will complete a real task — write a letter, get a recipe, explain a concept — using AI.</p>
       </div>
     </div>
   </div>
@@ -657,18 +726,18 @@
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <section class="section lang-section">
   <div class="lang-card hidden">
-    <span class="lang-icon">🗣️</span>
-    <h2>మీ భాషలో నేర్చుకోండి — Learn in your language</h2>
+    <span class="lang-icon">🌐</span>
+    <h2>Learn in the language that feels right to you</h2>
     <p>
-      All lessons are written in simple English first. Telugu translations are built in —
-      you can ask AI questions in Telugu and get answers in Telugu from day one.
-      Your language is not a barrier here.
+      Our courses are written in simple English. But AI itself works in Telugu, Hindi, Tamil, Kannada,
+      and dozens of other languages. You can ask your questions in whichever language feels natural.
+      Use the language selector in the top-right corner to switch.
     </p>
-    <div class="lang-sample">
-      "మా అత్తగారికి డయాబెటిస్ ఉంది. Healthy snack చెప్పు"<br>
-      <span style="font-size:0.85rem; color:var(--muted); font-weight:600;">
-        (My mother-in-law has diabetes. Suggest a healthy snack.)
-      </span>
+    <div class="lang-sample" style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;">
+      <span style="background:rgba(83,166,255,0.12);padding:7px 16px;border-radius:20px;font-size:0.9rem;font-weight:700;">🇬🇧 English</span>
+      <span style="background:rgba(83,166,255,0.12);padding:7px 16px;border-radius:20px;font-size:0.9rem;font-weight:700;">🇮🇳 తెలుగు</span>
+      <span style="background:rgba(83,166,255,0.08);padding:7px 16px;border-radius:20px;font-size:0.9rem;font-weight:700;opacity:0.6;">🇮🇩 Indonesian <small style="font-weight:400;">(soon)</small></span>
+      <span style="background:rgba(83,166,255,0.08);padding:7px 16px;border-radius:20px;font-size:0.9rem;font-weight:700;opacity:0.6;">🇹🇭 Thai <small style="font-weight:400;">(soon)</small></span>
     </div>
   </div>
 </section>
@@ -681,7 +750,7 @@
   <div class="eyebrow-label hidden">The curriculum</div>
   <h2 class="section-title hidden">7 levels. Start free. Go as far as you want.</h2>
   <p class="section-body hidden">
-    Each level builds on the last. Levels 1 and 2 are free. Paid levels go deeper — practical skills for work, life, and building things with AI.
+    Each level builds on the last. Start free. Go as deep as you want — practical skills for work, life, and building things with AI.
   </p>
   <div class="ladder-wrap">
 

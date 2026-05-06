@@ -345,8 +345,11 @@
     }
     .demo-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem; max-width: 860px; margin: 0 auto;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem; max-width: 960px; margin: 0 auto;
+    }
+    @media (max-width: 640px) {
+      .demo-grid { grid-template-columns: 1fr; }
     }
     .demo-card {
       display: flex; flex-direction: row;
@@ -580,26 +583,86 @@
     If you have a smartphone and can read simple English, you are ready.
     This is for the 300 million Indians who have never tried AI but could benefit from it every day.
   </p>
-  <div class="whom-grid">
+  <div class="whom-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); max-width:1100px;">
     <div class="whom-card hidden">
       <span class="who-icon">🏪</span>
-      <h3>Shop owners &amp; small businesses</h3>
-      <p>Write formal letters, reply to customers, create product descriptions — in minutes, not hours.</p>
+      <h3>Shop owners &amp; traders</h3>
+      <p>Write supplier messages, draft customer replies, create product listings — in minutes.</p>
     </div>
     <div class="whom-card hidden">
       <span class="who-icon">👩‍🍳</span>
       <h3>Homemakers &amp; families</h3>
-      <p>Plan meals, translate recipes, get health information in your language — AI is your knowledgeable neighbour.</p>
+      <p>Plan meals, translate recipes, get health guidance in your own language.</p>
     </div>
     <div class="whom-card hidden">
-      <span class="who-icon">📚</span>
-      <h3>Students &amp; parents</h3>
-      <p>Understand difficult textbook topics, get simple explanations, prepare for exams — faster.</p>
+      <span class="who-icon">📖</span>
+      <h3>School students</h3>
+      <p>Understand textbook topics with simple analogies. Prepare for board exams faster.</p>
+    </div>
+    <div class="whom-card hidden">
+      <span class="who-icon">🎓</span>
+      <h3>College students</h3>
+      <p>Research topics, write reports, plan presentations, debug code — all with AI assistance.</p>
     </div>
     <div class="whom-card hidden">
       <span class="who-icon">💼</span>
       <h3>Office &amp; government workers</h3>
-      <p>Draft emails, summarise long documents, write formal requests — confidently and quickly.</p>
+      <p>Draft emails, summarise documents, write formal applications — confidently and quickly.</p>
+    </div>
+    <div class="whom-card hidden">
+      <span class="who-icon">🌾</span>
+      <h3>Farmers &amp; agriculture workers</h3>
+      <p>Identify crop diseases, find market prices, understand weather reports — in Telugu or Hindi.</p>
+    </div>
+    <div class="whom-card hidden">
+      <span class="who-icon">👨‍🏫</span>
+      <h3>Teachers &amp; educators</h3>
+      <p>Create lesson plans, write exam questions, prepare teaching materials — in half the time.</p>
+    </div>
+    <div class="whom-card hidden">
+      <span class="who-icon">🏥</span>
+      <h3>Healthcare workers &amp; nurses</h3>
+      <p>Explain medical terms in simple language, draft patient instructions, summarise reports.</p>
+    </div>
+    <div class="whom-card hidden">
+      <span class="who-icon">🔧</span>
+      <h3>Skilled tradespeople</h3>
+      <p>Mechanics, electricians, plumbers — write service quotes, customer messages, and job estimates.</p>
+    </div>
+    <div class="whom-card hidden">
+      <span class="who-icon">👴</span>
+      <h3>Senior citizens</h3>
+      <p>Get simple explanations of bank statements, medical reports, and government notices.</p>
+    </div>
+    <div class="whom-card hidden">
+      <span class="who-icon">🚗</span>
+      <h3>Delivery &amp; logistics workers</h3>
+      <p>Write complaint letters, understand app messages, communicate with customers professionally.</p>
+    </div>
+    <div class="whom-card hidden">
+      <span class="who-icon">💇</span>
+      <h3>Salon &amp; beauty professionals</h3>
+      <p>Create Instagram captions, write WhatsApp offers, grow your client base with AI help.</p>
+    </div>
+    <div class="whom-card hidden">
+      <span class="who-icon">📱</span>
+      <h3>Freelancers &amp; gig workers</h3>
+      <p>Write proposals, create portfolios, communicate with international clients — confidently.</p>
+    </div>
+    <div class="whom-card hidden">
+      <span class="who-icon">🏦</span>
+      <h3>Bank &amp; finance staff</h3>
+      <p>Explain financial products simply, draft customer correspondence, summarise lengthy circulars.</p>
+    </div>
+    <div class="whom-card hidden">
+      <span class="who-icon">⚖️</span>
+      <h3>Legal assistants &amp; paralegals</h3>
+      <p>Summarise case notes, draft simple letters, translate legal text into plain language.</p>
+    </div>
+    <div class="whom-card hidden">
+      <span class="who-icon">🏗️</span>
+      <h3>Real estate &amp; construction</h3>
+      <p>Write property listings, draft site reports, prepare quotations for clients — quickly.</p>
     </div>
   </div>
 </section>
@@ -609,7 +672,7 @@
 <!-- DEMO PREVIEW STRIP                                                       -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <section class="section demo-section" id="what-you-learn">
-  <div class="eyebrow-label hidden">Real-Life Situations inside Level 1</div>
+  <div class="eyebrow-label hidden">Real-Life Situations from Levels 1 &amp; 2</div>
   <h2 class="section-title hidden" style="text-align:center;">Real situations. Real results.</h2>
   <p class="section-body hidden" style="text-align:center;">
     Everyday Indians using AI for the first time — at home, in school, at work, on the farm.
@@ -644,30 +707,30 @@
       </div>
     </div>
     <div class="demo-card hidden">
-      <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l2-s03-bill-payment.jpg"
-           alt="Suresh paying electricity bill" class="demo-card-img" />
+      <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l2-s03-supplier-reply.jpg"
+           alt="Ravi writing a supplier reply" class="demo-card-img" />
       <div class="demo-card-body">
-        <div class="demo-tag">Real Situation · Suresh · Government worker</div>
-        <h3>Filling an online government form — without confusion</h3>
-        <p>Suresh had to fill an application form but didn't understand the fields. AI walked him through it step by step.</p>
+        <div class="demo-tag">Real Situation · Ravi · Shop owner · Level 2</div>
+        <h3>A professional supplier reply — written in 60 seconds</h3>
+        <p>Ravi needed to push back on a delivery delay. AI drafted a polite but firm reply that he sent immediately.</p>
       </div>
     </div>
     <div class="demo-card hidden">
-      <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l2-s06-farm.jpg"
-           alt="Lakshmi on her farm" class="demo-card-img" />
+      <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l2-s04-priya-grocery.jpg"
+           alt="Priya planning her grocery list" class="demo-card-img" />
       <div class="demo-card-body">
-        <div class="demo-tag">Real Situation · Lakshmi · Farmer</div>
-        <h3>Identifying a crop disease in minutes</h3>
-        <p>Lakshmi described spots on her tomato plants. AI identified the likely disease and gave treatment steps.</p>
+        <div class="demo-tag">Real Situation · Priya · Homemaker · Level 2</div>
+        <h3>A weekly grocery plan for a family of four</h3>
+        <p>Priya told AI her budget and family preferences. It gave her a full week's meal plan and shopping list in seconds.</p>
       </div>
     </div>
     <div class="demo-card hidden">
-      <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l2-s09-medical.jpg"
-           alt="Venkat reading a medical report" class="demo-card-img" />
+      <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l2-s06-rahul-exam.jpg"
+           alt="Rahul preparing for his exam" class="demo-card-img" />
       <div class="demo-card-body">
-        <div class="demo-tag">Real Situation · Venkat · Senior citizen</div>
-        <h3>Understanding a medical report — in plain Telugu</h3>
-        <p>Venkat's blood report had confusing medical terms. AI explained what each value meant in simple words.</p>
+        <div class="demo-tag">Real Situation · Rahul · Student · Level 2</div>
+        <h3>Exam revision done smarter — not harder</h3>
+        <p>Rahul used AI to create a revision checklist and practice questions for his upcoming board exam.</p>
       </div>
     </div>
   </div>

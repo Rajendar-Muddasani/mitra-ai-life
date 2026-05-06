@@ -154,7 +154,13 @@
       bottom: -100px; left: -50px;
       border-radius: 50%;
     }
-    .hero-content { position: relative; z-index: 2; max-width: 720px; }
+    .hero-content {
+      position: relative; z-index: 2; max-width: 720px;
+      background: rgba(5, 15, 35, 0.45);
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      backdrop-filter: blur(4px);
+    }
     .hero-badge {
       display: inline-block;
       background: var(--amber);
@@ -488,10 +494,13 @@
     /* ─── explainer cards ───────────────────────────────────────────────── */
     .explainer-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 1.25rem;
       max-width: 880px;
       width: 100%;
+    }
+    @media (max-width: 560px) {
+      .explainer-grid { grid-template-columns: 1fr; }
     }
     .explainer-card {
       background: white;
@@ -1280,6 +1289,43 @@
     <p class="hidden" style="color:rgba(255,255,255,0.35); font-size:0.82rem; margin-top:1.5rem;">
       Level 2 coming soon · Mitra AI Life Education
     </p>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- COMMENTS — DISQUS                                                        -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section style="background:#f8faff; padding:3rem 5vw;">
+  <div style="max-width:720px; margin:0 auto;">
+    <div style="font-size:0.76rem;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;color:#2563EB;margin-bottom:0.75rem;text-align:center;">
+      Your thoughts
+    </div>
+    <h2 style="font-family:'Baloo 2',cursive;font-size:clamp(1.4rem,3.5vw,2rem);font-weight:800;color:#1e293b;text-align:center;margin-bottom:0.5rem;">
+      What was your reaction to this lesson?
+    </h2>
+    <p style="color:#6b7280;text-align:center;margin-bottom:2rem;font-size:0.95rem;">
+      First-time learners: your feedback helps us improve. Ask questions, share your experience, or tell us what confused you.
+    </p>
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://mitraailife.com/content/english/level-01-interactive/level-01-comic.html';
+        this.page.identifier = 'level-01-comic-en';
+        this.page.title = 'Level 1: Your First Step into AI';
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        // ⚠️ Replace YOUR_DISQUS_SHORTNAME below with your actual Disqus shortname
+        // Register free at: https://disqus.com/profile/signup/ → "I want to install Disqus on my site"
+        s.src = 'https://YOUR_DISQUS_SHORTNAME.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>
+      Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
   </div>
 </section>
 

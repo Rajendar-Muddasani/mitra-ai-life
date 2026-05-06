@@ -160,6 +160,21 @@ strong { color:var(--text); font-weight:700; }
 .contact-item { font-size:0.88rem; color:var(--muted); }
 .contact-item strong { color:var(--cyan); font-weight:600; }
 
+/* ── before/after slide ─────────────────────────────────────────────────── */
+.slide-transform { background: radial-gradient(ellipse at 50% 85%, rgba(248,113,113,0.08) 0%, transparent 50%), radial-gradient(ellipse at 50% 15%, rgba(16,185,129,0.08) 0%, transparent 50%), var(--bg2); }
+.ba-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; width:100%; max-width:1000px; margin-top:0.25rem; }
+.ba-col { border-radius:16px; padding:1.2rem 1.4rem; }
+.ba-before { border:1px solid rgba(248,113,113,0.25); background:rgba(248,113,113,0.04); }
+.ba-after  { border:1px solid rgba(16,185,129,0.25);  background:rgba(16,185,129,0.04); }
+.ba-header { display:flex; align-items:center; gap:8px; font-size:0.7rem; font-weight:700; letter-spacing:0.13em; text-transform:uppercase; color:var(--muted); margin-bottom:0.85rem; padding-bottom:0.75rem; border-bottom:1px solid rgba(255,255,255,0.07); }
+.ba-dot { display:inline-block; width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.ba-item { padding:0.6rem 0; border-bottom:1px solid rgba(255,255,255,0.05); }
+.ba-item:last-child { border-bottom:none; padding-bottom:0; }
+.ba-who { font-size:0.8rem; font-weight:700; color:var(--text); display:block; margin-bottom:3px; }
+.ba-item p { font-size:0.8rem; color:var(--muted); line-height:1.55; margin:0; }
+/* ── market size full forms ──────────────────────────────────────────────── */
+.mc-fullform { font-size:0.67rem; color:var(--muted); opacity:0.65; margin-top:3px; font-style:italic; text-align:center; line-height:1.4; }
+
 /* ── nav ────────────────────────────────────────────────────────────────── */
 #nav-bar { position:fixed; bottom:0; left:0; right:0; height:56px; background:rgba(7,9,15,0.92); backdrop-filter:blur(16px); border-top:1px solid var(--line); display:flex; align-items:center; justify-content:center; gap:1.5rem; z-index:999; }
 .nav-btn { background:none; border:1px solid var(--line); border-radius:10px; color:var(--muted); cursor:pointer; padding:7px 18px; font-size:0.82rem; font-weight:600; font-family:'Inter',sans-serif; transition:all 0.15s; display:flex; align-items:center; gap:6px; }
@@ -233,28 +248,95 @@ strong { color:var(--text); font-weight:700; }
     </div>
   </div>
 
-  <div class="grid-3">
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:0.85rem;width:100%;max-width:1060px">
     <div class="card">
-      <span class="card-icon">😕</span>
-      <h3>It feels too technical</h3>
-      <p>Every AI tutorial assumes programming knowledge or English fluency. Most Indians have neither.</p>
+      <span class="card-icon">🔍</span>
+      <h3>Awareness ≠ Ability</h3>
+      <p>India ranks #2 globally for AI searches. Yet the same person cannot write one useful prompt the next day.</p>
     </div>
     <div class="card">
       <span class="card-icon">🌐</span>
-      <h3>No local language content</h3>
-      <p>Telugu-speaking India (90M+ people) has almost no structured AI learning in their own language.</p>
+      <h3>The Language Wall</h3>
+      <p>Every AI course assumes fluent English. 600M+ Indians speak regional languages at home. Their AI journey ends at "Hello."</p>
     </div>
     <div class="card">
-      <span class="card-icon">🎯</span>
-      <h3>No daily-life framing</h3>
-      <p>Existing courses teach AI theory or coding. Nobody teaches "how to write a supplier message using AI" for a vegetable shop owner.</p>
+      <span class="card-icon">💻</span>
+      <h3>Coding-First Courses</h3>
+      <p>Tutorials teach Python and APIs. A shop owner just needs to write a WhatsApp message — not write code.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">😨</span>
+      <h3>Fear &amp; Distrust</h3>
+      <p>People fear AI will give wrong answers or embarrass them. They need a safe, guided space — not a cold chatbot.</p>
+    </div>
+    <div class="card" style="border-color:rgba(245,158,11,0.3);background:rgba(245,158,11,0.04)">
+      <span class="card-icon">⚡</span>
+      <h3>The Leapfrog Window</h3>
+      <p>India leapfrogged credit cards with UPI. AI literacy is the next leapfrog — but only if built in local languages <em>now</em>.</p>
     </div>
   </div>
 </section>
 
 
 <!-- ═════════════════════════════════════════════════════════════════════ -->
-<!-- SLIDE 3 — SOLUTION                                                     -->
+<!-- SLIDE 3 — BEFORE / AFTER TRANSFORMATION                                 -->
+<!-- ═════════════════════════════════════════════════════════════════════ -->
+<section class="slide slide-transform" id="s3b">
+  <span class="tag tag-red">The Real Human Cost</span>
+  <h2 class="slide-title">Real people. Real daily losses.<br>All <span class="hi">fixable with one lesson.</span></h2>
+  <p class="slide-sub" style="margin-bottom:0.5rem">This is what happens every day when AI education doesn't exist in someone's language.</p>
+
+  <div class="ba-grid">
+    <div class="ba-col ba-before">
+      <div class="ba-header">
+        <span class="ba-dot" style="background:var(--red)"></span>
+        WITHOUT AI SKILLS — TODAY
+      </div>
+      <div class="ba-item">
+        <span class="ba-who">🏪 Ravi · Shopkeeper, Vijayawada</span>
+        <p>Spends 45 min writing a complaint letter that sounds wrong. Gives up. Accepts the loss silently.</p>
+      </div>
+      <div class="ba-item">
+        <span class="ba-who">🏠 Priya · Homemaker, Hyderabad</span>
+        <p>Wants help planning a family budget. Googles for hours. Finds nothing in Telugu. Uses gut feeling.</p>
+      </div>
+      <div class="ba-item">
+        <span class="ba-who">🎓 Rahul · Student, Guntur</span>
+        <p>Tries ChatGPT for exam prep. Gets a confusing English answer. Closes the tab. Sticks to textbooks.</p>
+      </div>
+      <div class="ba-item">
+        <span class="ba-who">💼 Lakshmi · Job Seeker, Vizag</span>
+        <p>Knows AI can help her resume but fears using it wrong. Never tries. Loses the interview edge.</p>
+      </div>
+    </div>
+    <div class="ba-col ba-after">
+      <div class="ba-header">
+        <span class="ba-dot" style="background:var(--green)"></span>
+        WITH MITRA — AFTER LEVEL 2
+      </div>
+      <div class="ba-item">
+        <span class="ba-who">🏪 Ravi</span>
+        <p>Types a prompt in Telugu. Gets a professional letter in 30 seconds. Sends it. Gets a full refund.</p>
+      </div>
+      <div class="ba-item">
+        <span class="ba-who">🏠 Priya</span>
+        <p>Asks AI to build a monthly budget table in Telugu. Gets it in 10 seconds. Saves ₹2,000 the first month.</p>
+      </div>
+      <div class="ba-item">
+        <span class="ba-who">🎓 Rahul</span>
+        <p>Asks AI to explain a concept in simple Telugu. Studies smarter. Scores 12 marks higher next term.</p>
+      </div>
+      <div class="ba-item">
+        <span class="ba-who">💼 Lakshmi</span>
+        <p>Uses AI to polish her resume. Understands every change and why. Confident. Gets the interview call.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═════════════════════════════════════════════════════════════════════ -->
+<!-- SLIDE 4 — SOLUTION                                                     -->
 <!-- ═════════════════════════════════════════════════════════════════════ -->
 <section class="slide slide-solution" id="s3">
   <span class="tag tag-cyan">Our Solution</span>
@@ -459,6 +541,7 @@ strong { color:var(--text); font-weight:700; }
         </div>
         <div class="mc-label" style="font-weight:700">Total India EdTech</div>
         <div class="mc-note">by 2030</div>
+        <div class="mc-fullform" style="color:var(--blue)"><strong style="color:var(--blue);font-style:normal">TAM</strong> = Total Addressable Market<br>everyone who could ever buy</div>
       </div>
       <div class="market-circle">
         <div class="circle" style="width:130px;height:130px;background:rgba(34,211,238,0.08);border:2px solid rgba(34,211,238,0.3)">
@@ -467,6 +550,7 @@ strong { color:var(--text); font-weight:700; }
         </div>
         <div class="mc-label" style="font-weight:700">AI + Digital Literacy</div>
         <div class="mc-note">India addressable</div>
+        <div class="mc-fullform" style="color:var(--cyan)"><strong style="color:var(--cyan);font-style:normal">SAM</strong> = Serviceable Addressable Market<br>realistic segment we can reach</div>
       </div>
       <div class="market-circle">
         <div class="circle" style="width:90px;height:90px;background:rgba(16,185,129,0.1);border:2px solid rgba(16,185,129,0.4)">
@@ -475,6 +559,7 @@ strong { color:var(--text); font-weight:700; }
         </div>
         <div class="mc-label" style="font-weight:700">3-year target</div>
         <div class="mc-note">Telugu + Hindi first</div>
+        <div class="mc-fullform" style="color:var(--green)"><strong style="color:var(--green);font-style:normal">SOM</strong> = Serviceable Obtainable Market<br>our realistic 3-year win</div>
       </div>
     </div>
 
@@ -662,7 +747,7 @@ strong { color:var(--text); font-weight:700; }
 
 
 <script>
-  const total   = 11;
+  const total   = 12;
   let   current = 1;
 
   const slides    = Array.from(document.querySelectorAll('.slide'));

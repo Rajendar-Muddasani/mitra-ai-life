@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Level 4: Work Smart | Mitra AI Life Education</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QGY0LH6W93');
+  </script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:    #1E3A5F;
+      --violet:  #7C3AED;
+      --vl-light:#ede9fe;
+      --vl-mid:  #a78bfa;
+      --sky:     #38BDF8;
+      --amber:   #F59E0B;
+      --green:   #10B981;
+      --red:     #EF4444;
+      --teal:    #0D9488;
+      --cream:   #f5f3ff;
+      --white:   #FFFFFF;
+      --text:    #1C1C2E;
+      --muted:   #64748B;
+      --panel:   #ede9fe;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+    /* progress bar */
+    #progress-bar { position:fixed; top:0; left:0; height:5px;
+      background: linear-gradient(90deg, var(--violet), var(--vl-mid), var(--amber));
+      width:0%; z-index:999; transition:width 0.3s ease; }
+
+    /* nav */
+    .topnav {
+      position:fixed; top:5px; left:0; right:0; height:52px;
+      background:rgba(245,243,255,0.93); backdrop-filter:blur(8px);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 1.5rem; z-index:100;
+      border-bottom:2px solid rgba(124,58,237,0.15);
+    }
+    .topnav .brand { font-family:'Baloo 2',cursive; font-weight:800; font-size:1.1rem; color:var(--navy); text-decoration:none; }
+    .topnav .level-tag { background:var(--violet); color:white; font-size:0.75rem; font-weight:700; padding:3px 12px; border-radius:20px; }
+    .topnav .back-link { font-size:0.82rem; color:var(--muted); font-weight:700; text-decoration:none; }
+    .topnav .back-link:hover { color:var(--violet); }
+    .topnav .lang-btn { font-size:0.82rem; color:var(--violet); font-weight:700; background:var(--vl-light); border:1px solid var(--vl-mid); border-radius:8px; padding:4px 10px; cursor:pointer; text-decoration:none; }
+
+    /* animations */
+    @keyframes fadeInUp   { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideInLeft  { from{opacity:0;transform:translateX(-48px)} to{opacity:1;transform:translateX(0)} }
+    @keyframes slideInRight { from{opacity:0;transform:translateX(48px)}  to{opacity:1;transform:translateX(0)} }
+    @keyframes bounceIn { 0%{opacity:0;transform:scale(0.6)} 60%{opacity:1;transform:scale(1.08)} 80%{transform:scale(0.97)} 100%{transform:scale(1)} }
+    @keyframes float  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    @keyframes pulse  { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+    .anim-fadeInUp   { animation:fadeInUp   0.7s ease forwards; }
+    .anim-slideLeft  { animation:slideInLeft  0.7s ease forwards; }
+    .anim-slideRight { animation:slideInRight 0.7s ease forwards; }
+    .anim-bounceIn   { animation:bounceIn    0.75s cubic-bezier(.68,-.55,.27,1.55) forwards; }
+    .anim-float      { animation:float 3s ease-in-out infinite; }
+    .anim-pulse      { animation:pulse 2.5s ease-in-out infinite; }
+
+    /* sections */
+    section { padding: 4rem 1.5rem; max-width: 900px; margin: 0 auto; }
+    section:first-of-type { padding-top: 6rem; }
+
+    /* hero */
+    .hero {
+      min-height: 88vh; display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; padding-top:5rem;
+      background: linear-gradient(160deg, #1e1b4b 0%, #312e81 40%, #4c1d95 75%, #1e3a5f 100%);
+      border-radius: 0 0 48px 48px; position:relative; overflow:hidden;
+    }
+    .hero::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 30% 40%, rgba(167,139,250,0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 75% 65%, rgba(245,158,11,0.1) 0%, transparent 50%);
+    }
+    .hero-eyebrow { font-size:0.78rem; font-weight:800; letter-spacing:0.15em; color:var(--vl-mid); text-transform:uppercase; margin-bottom:.5rem; position:relative; }
+    .hero-title { font-family:'Baloo 2',cursive; font-size:clamp(2.4rem,6vw,4rem); font-weight:800; color:white; line-height:1.1; position:relative; }
+    .hero-sub { font-size:1.15rem; color:rgba(255,255,255,0.75); margin-top:.75rem; max-width:560px; position:relative; }
+    .hero-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin-top:1.5rem; position:relative; }
+    .badge { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; font-size:0.78rem; font-weight:700; padding:5px 14px; border-radius:20px; }
+    .badge.accent { background:var(--amber); color:#1c1c2e; border-color:var(--amber); }
+    .hero-img { width:100%; max-width:760px; border-radius:20px; margin-top:2rem; box-shadow:0 20px 60px rgba(0,0,0,0.5); position:relative; }
+    .hero-offer { background:linear-gradient(90deg,#f59e0b,#fbbf24); color:#1c1c2e; font-size:0.9rem; font-weight:800; padding:8px 24px; border-radius:24px; margin-top:1.5rem; display:inline-block; position:relative; }
+    .hero-offer s { font-weight:400; opacity:0.55; }
+    .scroll-hint { margin-top:2.5rem; font-size:0.8rem; color:rgba(255,255,255,0.4); letter-spacing:.08em; position:relative; }
+
+    /* skill banner */
+    .skill-banner { background:var(--violet); color:white; border-radius:16px; padding:1rem 1.5rem; margin-bottom:2rem; font-size:0.95rem; font-weight:700; display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; }
+    .skill-banner .sk-num { background:rgba(255,255,255,0.2); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+
+    /* section titles */
+    .sec-label { font-size:0.72rem; font-weight:800; letter-spacing:.14em; color:var(--violet); text-transform:uppercase; margin-bottom:.4rem; }
+    .sec-title { font-family:'Baloo 2',cursive; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:800; color:var(--navy); line-height:1.2; margin-bottom:.75rem; }
+    .sec-intro { font-size:1.05rem; color:var(--muted); line-height:1.7; margin-bottom:2rem; }
+
+    /* story panels */
+    .story-grid { display:grid; gap:1.5rem; }
+    .story-card {
+      background:white; border-radius:20px; padding:1.5rem 1.75rem;
+      box-shadow:0 4px 20px rgba(0,0,0,0.07);
+      border-left:5px solid var(--violet);
+      display:flex; flex-direction:column; gap:.75rem;
+    }
+    .story-card.amber { border-left-color: var(--amber); }
+    .story-card.teal  { border-left-color: var(--teal);  }
+    .story-card.sky   { border-left-color: var(--sky);   }
+    .story-card.green { border-left-color: var(--green); }
+    .char-tag { display:inline-flex; align-items:center; gap:.5rem; font-size:0.8rem; font-weight:800; color:var(--violet); background:var(--vl-light); padding:3px 10px; border-radius:20px; }
+    .char-tag.amber { color:#92400e; background:#fef3c7; }
+    .char-tag.teal  { color:#134e4a; background:#ccfbf1; }
+    .char-tag.sky   { color:#0c4a6e; background:#e0f2fe; }
+    .char-tag.green { color:#14532d; background:#dcfce7; }
+    .story-text { font-size:1rem; line-height:1.75; color:var(--text); }
+    .speech-bubble { background:var(--vl-light); border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; font-style:italic; color:var(--navy); position:relative; margin-top:.5rem; }
+    .speech-bubble::before { content:'💬'; margin-right:.5rem; }
+    .ai-bubble { background:#ecfdf5; border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; color:#065f46; position:relative; margin-top:.5rem; border:1px solid #a7f3d0; }
+    .ai-bubble::before { content:'🤖 Mitra says: '; font-weight:800; }
+
+    /* skill steps */
+    .steps-list { list-style:none; display:flex; flex-direction:column; gap:1rem; margin-top:1rem; }
+    .steps-list li { display:flex; gap:1rem; align-items:flex-start; }
+    .step-num { background:var(--violet); color:white; border-radius:50%; min-width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; flex-shrink:0; margin-top:2px; }
+    .step-text { font-size:1rem; line-height:1.7; color:var(--text); }
+
+    /* tip card */
+    .tip-card { background:var(--vl-light); border-radius:16px; padding:1.25rem 1.5rem; border:1px solid var(--vl-mid); margin-top:1.5rem; }
+    .tip-card .tip-head { font-weight:800; color:var(--violet); font-size:1rem; margin-bottom:.5rem; }
+    .tip-card p { font-size:0.95rem; line-height:1.7; color:var(--navy); }
+
+    /* prompt box */
+    .prompt-box { background:#1e1b4b; border-radius:14px; padding:1.25rem 1.5rem; margin-top:1rem; }
+    .prompt-box .pb-label { font-size:0.72rem; font-weight:800; letter-spacing:.1em; color:var(--vl-mid); text-transform:uppercase; margin-bottom:.5rem; }
+    .prompt-box .pb-text { font-family:monospace; font-size:0.92rem; color:#e9d5ff; line-height:1.65; }
+
+    /* before-after */
+    .ba-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem; }
+    @media(max-width:600px){ .ba-grid { grid-template-columns:1fr; } }
+    .ba-col { border-radius:14px; padding:1rem 1.25rem; }
+    .ba-col.before { background:#fef2f2; border:1px solid #fecaca; }
+    .ba-col.after  { background:#ecfdf5; border:1px solid #a7f3d0; }
+    .ba-col .ba-head { font-size:0.75rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin-bottom:.5rem; }
+    .ba-col.before .ba-head { color:#b91c1c; }
+    .ba-col.after  .ba-head { color:#065f46; }
+    .ba-col p { font-size:0.9rem; line-height:1.7; }
+
+    /* cheat sheet */
+    .cheat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.25rem; }
+    .cheat-card { background:white; border-radius:16px; padding:1.25rem; box-shadow:0 2px 12px rgba(0,0,0,0.07); border-top:4px solid var(--violet); }
+    .cheat-card.amber { border-top-color:var(--amber); }
+    .cheat-card.teal  { border-top-color:var(--teal);  }
+    .cheat-card.green { border-top-color:var(--green);  }
+    .cheat-card.sky   { border-top-color:var(--sky);    }
+    .cheat-card h3 { font-size:0.95rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .cheat-card p  { font-size:0.88rem; color:var(--muted); line-height:1.6; }
+    .prompt-chip { background:var(--vl-light); border-radius:8px; padding:4px 10px; font-size:0.82rem; font-family:monospace; color:var(--violet); display:inline-block; margin-top:.4rem; }
+
+    /* practice arena */
+    .arena-grid { display:grid; gap:1.25rem; }
+    .arena-card { background:white; border-radius:16px; padding:1.5rem; box-shadow:0 3px 14px rgba(0,0,0,0.08); border:2px solid transparent; transition:border-color .2s; }
+    .arena-card:hover { border-color:var(--vl-mid); }
+    .arena-card .ac-num { font-size:0.8rem; font-weight:800; color:var(--vl-mid); margin-bottom:.4rem; text-transform:uppercase; letter-spacing:.1em; }
+    .arena-card h3 { font-size:1rem; font-weight:800; color:var(--navy); margin-bottom:.4rem; }
+    .arena-card p { font-size:0.93rem; color:var(--muted); line-height:1.6; }
+
+    /* quiz */
+    .quiz-wrap { background:white; border-radius:24px; padding:2rem; box-shadow:0 8px 32px rgba(124,58,237,0.12); }
+    .quiz-q { margin-bottom:1.5rem; }
+    .quiz-q .q-text { font-weight:800; font-size:1.05rem; color:var(--navy); margin-bottom:.75rem; }
+    .quiz-options { display:flex; flex-direction:column; gap:.5rem; }
+    .quiz-options label { display:flex; align-items:center; gap:.75rem; background:var(--vl-light); border-radius:10px; padding:.7rem 1rem; cursor:pointer; font-size:0.95rem; transition:background .15s; }
+    .quiz-options label:hover { background:var(--vl-mid); color:white; }
+    .quiz-options input[type=radio] { accent-color:var(--violet); width:16px; height:16px; }
+    .quiz-submit { background:var(--violet); color:white; font-family:'Nunito',sans-serif; font-weight:800; font-size:1rem; border:none; border-radius:14px; padding:.9rem 2.5rem; cursor:pointer; margin-top:1rem; transition:background .2s; }
+    .quiz-submit:hover { background:#6d28d9; }
+    #quiz-result { margin-top:1.25rem; font-weight:800; font-size:1.05rem; display:none; }
+    #quiz-result.pass { color:#059669; }
+    #quiz-result.fail { color:#dc2626; }
+
+    /* certificate */
+    #cert-section { display:none; }
+    .cert-box {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
+      border-radius:24px; padding:2.5rem 2rem; text-align:center; color:white;
+      box-shadow:0 12px 48px rgba(124,58,237,0.4);
+    }
+    .cert-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; margin-bottom:.25rem; }
+    .cert-box .cert-name { font-size:1.5rem; font-weight:700; color:var(--vl-mid); margin:.5rem 0; }
+    .cert-box p { font-size:0.95rem; color:rgba(255,255,255,0.75); margin-bottom:1.25rem; }
+    .skill-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin:1.25rem 0; }
+    .skill-badge { background:rgba(255,255,255,0.1); border:1px solid rgba(167,139,250,0.4); border-radius:12px; padding:.5rem .9rem; font-size:0.8rem; font-weight:700; color:var(--vl-mid); }
+    .cert-btn { background:var(--amber); color:#1c1c2e; font-weight:800; font-size:0.95rem; border:none; border-radius:14px; padding:.8rem 2rem; cursor:pointer; margin-top:.75rem; }
+
+    /* completion */
+    .completion-box { text-align:center; padding:3rem 2rem; }
+    .completion-box .big-emoji { font-size:4rem; margin-bottom:1rem; }
+    .completion-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .completion-box p { font-size:1.05rem; color:var(--muted); max-width:520px; margin:0 auto 1.5rem; }
+    .next-btn { display:inline-block; background:var(--violet); color:white; font-weight:800; font-size:1rem; padding:.85rem 2.5rem; border-radius:14px; text-decoration:none; }
+    .next-btn:hover { background:#6d28d9; }
+
+    /* auth nav area */
+    #auth-nav-area { display:flex; align-items:center; gap:.5rem; }
+
+    /* disqus */
+    .disqus-wrap { margin-top:2rem; }
+
+    /* recap banner */
+    .recap-banner { background:linear-gradient(135deg,#312e81,#4c1d95); border-radius:20px; padding:1.5rem 2rem; color:white; margin-bottom:2rem; }
+    .recap-banner h3 { font-family:'Baloo 2',cursive; font-size:1.3rem; font-weight:800; margin-bottom:.75rem; }
+    .recap-list { list-style:none; display:flex; flex-direction:column; gap:.4rem; }
+    .recap-list li { font-size:0.92rem; display:flex; gap:.5rem; }
+    .recap-list li::before { content:'✓'; color:var(--vl-mid); font-weight:800; }
+
+    img { max-width:100%; }
+    @media(max-width:600px){
+      .story-grid { grid-template-columns:1fr; }
+      .cheat-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">🌟 Mitra AI Life</a>
+  <span class="level-tag">Level 4 · ₹200</span>
+  <div style="display:flex;align-items:center;gap:.75rem;">
+    <div id="auth-nav-area"></div>
+    <a href="level-04-comic-te.html" class="lang-btn">తెలుగు</a>
+    <a href="../../../site/index.html" class="back-link">← Home</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 1 · HERO                                       -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="hero">
+  <p class="hero-eyebrow anim-fadeInUp" style="animation-delay:.1s">Level 4 · Work Smart</p>
+  <h1 class="hero-title anim-fadeInUp" style="animation-delay:.2s">Save Time.<br>Look Professional.<br>Work Smarter.</h1>
+  <p class="hero-sub anim-fadeInUp" style="animation-delay:.3s">Learn how to use AI for emails, reports, resumes, interviews, and study plans — real skills for real work.</p>
+  <div class="hero-badges anim-fadeInUp" style="animation-delay:.4s">
+    <span class="badge">⏱ 2 Hours</span>
+    <span class="badge">💼 5 Work Skills</span>
+    <span class="badge">📋 Real Templates</span>
+    <span class="badge accent">₹200</span>
+  </div>
+  <div class="hero-offer anim-bounceIn" style="animation-delay:.55s">
+    🎉 Early Access — <s>₹200</s> <strong>FREE for first 100 learners</strong>
+  </div>
+  <img class="hero-img anim-fadeInUp" style="animation-delay:.5s"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l4-s01-hero.jpg"
+       alt="Level 4 Work Smart hero — professionals using AI in workplace and study settings"
+       loading="lazy" />
+  <p class="scroll-hint anim-fadeInUp" style="animation-delay:.8s">▾ Scroll to begin</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 2 · RECAP                                      -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="recap-banner anim-fadeInUp">
+    <h3>✅ Quick Recap from Level 3</h3>
+    <ul class="recap-list">
+      <li>You learned to check AI answers before trusting them</li>
+      <li>You asked AI for step-by-step help</li>
+      <li>You rewrote messages for better tone</li>
+      <li>You compared two AI answers to pick the better one</li>
+      <li>You started saving your best prompts</li>
+    </ul>
+  </div>
+  <p class="sec-label">Level 4</p>
+  <h2 class="sec-title">Now let's use AI for real work</h2>
+  <p class="sec-intro">
+    Deepa is an office executive in Hyderabad. Vikram is an engineering student in Tirupati.
+    Sunitha is an HR manager in Guntur. Ravi is a small business owner in Vijayawada.
+    Anand is a fresh graduate preparing for interviews in Nellore.<br><br>
+    In this level, you will follow their stories — and learn five powerful work skills using AI.
+    No tech jargon. Just real tasks you can try today.
+  </p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 3 · SKILL 1 · EMAIL DRAFTING                   -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">1</span>
+    <span>Skill 1 — Write professional emails in 60 seconds</span>
+  </div>
+
+  <p class="sec-label">Deepa's story</p>
+  <h2 class="sec-title">The email that took 40 minutes</h2>
+  <p class="sec-intro">Deepa is an executive at a logistics company in Hyderabad. Every morning she writes 5 to 8 emails — to suppliers, clients, and her manager. It takes her almost an hour. Her manager noticed she was slow. Deepa was embarrassed.</p>
+
+  <div class="story-grid">
+    <div class="story-card amber anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag amber">👩‍💼 Deepa · Hyderabad</span>
+      <p class="story-text">Deepa spends 40 minutes writing one email to a supplier asking about a delayed shipment. She rewrites it three times. It still sounds too harsh. She sends it and worries about the reply.</p>
+      <div class="speech-bubble">"I just need to ask where my order is. Why is this so hard to phrase politely?"</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 The AI approach</span>
+      <p class="story-text">A friend shows Deepa how to use AI for email drafting. She types a simple instruction and gets a polished, professional email in under 10 seconds.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Deepa's prompt</p>
+        <p class="pb-text">Write a polite professional email to a supplier.
+Our shipment order #4521 was due on 1 May 2026.
+It has not arrived yet.
+Ask them for an update, mention the delay is affecting our customers,
+and request a confirmed delivery date.
+Keep the tone firm but respectful.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ The result</span>
+      <p class="story-text">AI gives Deepa a full professional email in 8 seconds. She reads it, changes one small detail, and sends it. Her manager notices the improvement and asks what changed.</p>
+      <div class="ai-bubble">
+        Subject: Follow-Up on Delayed Shipment — Order #4521<br><br>
+        Dear [Supplier Name], I hope this message finds you well. I am writing to follow up on order #4521, which was expected by 1 May 2026 but has not yet been received. The delay is beginning to affect our customer commitments, and we would appreciate your urgent attention. Could you please confirm the current status and provide a revised delivery date? Thank you for your prompt response...
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card" style="margin-top:1.75rem;">
+    <p class="tip-head">💡 The email prompt formula</p>
+    <p><strong>Who</strong> you are writing to + <strong>What</strong> the issue is + <strong>What</strong> you want them to do + <strong>Tone</strong> (polite / firm / friendly)</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">Tell AI who you are writing to</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Describe the situation in 2 or 3 bullet points</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Say what you want the reader to do</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Mention the tone — polite, urgent, friendly, firm</span></li>
+    <li><span class="step-num">5</span><span class="step-text">Read the output, edit names and details, then send</span></li>
+  </ul>
+
+  <div class="ba-grid" style="margin-top:1.5rem;">
+    <div class="ba-col before">
+      <p class="ba-head">❌ Without AI</p>
+      <p>Deepa writes one email in 40 minutes. It sounds too harsh. She rewrites it 3 times and still feels unsure. Her inbox has 7 more emails to go.</p>
+    </div>
+    <div class="ba-col after">
+      <p class="ba-head">✅ With AI</p>
+      <p>Deepa writes a polished email in 60 seconds. She handles all 8 emails in under 15 minutes. She feels confident and professional all morning.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l4-s02-deepa-email.jpg"
+       alt="Deepa using AI to draft a professional email quickly" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 4 · SKILL 2 · MEETING SUMMARY / REPORT        -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">2</span>
+    <span>Skill 2 — Summarise meetings and write reports instantly</span>
+  </div>
+
+  <p class="sec-label">Sunitha's story</p>
+  <h2 class="sec-title">The meeting no one remembered</h2>
+  <p class="sec-intro">Sunitha is an HR manager in Guntur. After every team meeting she has to write a summary and send it to her director. It takes her 45 minutes per meeting. Some days she has three meetings. She often forgets small details and her director asks questions she cannot answer.</p>
+
+  <div class="story-grid">
+    <div class="story-card teal anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag teal">👩‍💼 Sunitha · Guntur</span>
+      <p class="story-text">After a 1-hour team meeting about leave policy changes, Sunitha opens her notebook and tries to reconstruct everything that was discussed. Her notes are scattered. She misses two important decisions.</p>
+      <div class="speech-bubble">"I was talking so much in the meeting I forgot to write things down properly."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 The AI approach</span>
+      <p class="story-text">Sunitha learns to jot down quick bullet points during the meeting — not full sentences. Then she pastes them into AI and asks for a formatted summary. The whole thing takes 3 minutes.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Sunitha's prompt</p>
+        <p class="pb-text">Here are my rough notes from today's HR team meeting.
+Please write a clear meeting summary with:
+1. Date and attendees section
+2. Key points discussed
+3. Decisions made
+4. Action items with owner names
+5. Next meeting date if mentioned
+
+My notes:
+- leave policy update discussed, 12 days CL confirmed
+- Raju asked about carry forward — decided max 5 days
+- new joining process to be updated in handbook by May 15
+- next meeting June 3
+- attended by Sunitha, Raju, Kavitha, Prasad</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ The result</span>
+      <p class="story-text">AI formats Sunitha's rough notes into a clean professional meeting summary. Her director is impressed. Sunitha now shares summaries within 5 minutes of every meeting ending.</p>
+      <div class="ai-bubble">
+        Meeting Summary — HR Team | Date: 6 May 2026<br>
+        Attendees: Sunitha, Raju, Kavitha, Prasad<br><br>
+        Key Points: Leave policy review completed. Casual Leave confirmed at 12 days per year. Carry-forward capped at 5 days maximum.<br><br>
+        Decisions Made: Joining process documentation to be updated in employee handbook by 15 May 2026.<br><br>
+        Action Items: Kavitha — update handbook. Raju — circulate revised policy email.<br><br>
+        Next Meeting: 3 June 2026.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">📋 Meeting summary prompt formula</p>
+    <p>Give AI your <strong>rough notes</strong> (even messy ones) + ask for sections: Discussion Points, Decisions, Action Items, Next Steps. AI will do the formatting.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">During the meeting, jot short bullet points — no full sentences needed</span></li>
+    <li><span class="step-num">2</span><span class="step-text">After the meeting, paste your notes into AI</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Ask AI to format it into a professional summary with sections</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Read once, add any names or dates that were missed</span></li>
+    <li><span class="step-num">5</span><span class="step-text">Send within 5 minutes of the meeting ending — impress everyone</span></li>
+  </ul>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l4-s03-sunitha-report.jpg"
+       alt="Sunitha turning rough meeting notes into a professional summary using AI" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 5 · SKILL 3 · RESUME IMPROVEMENT              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">3</span>
+    <span>Skill 3 — Improve your resume in 10 minutes</span>
+  </div>
+
+  <p class="sec-label">Anand's story</p>
+  <h2 class="sec-title">The resume that never got replies</h2>
+  <p class="sec-intro">Anand is a fresh B.Tech graduate from Nellore. He has been applying for software testing jobs for two months. He has sent his resume to 30 companies. Only one replied. His college placement officer told him his resume was weak but didn't explain how to fix it.</p>
+
+  <div class="story-grid">
+    <div class="story-card sky anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag sky">👨‍💻 Anand · Nellore</span>
+      <p class="story-text">Anand's resume has "Responsible for testing" and "Good communication skills" written multiple times. It looks like every other resume. HR managers skip it in under 10 seconds.</p>
+      <div class="speech-bubble">"I have real skills but I don't know how to write them down properly. My resume looks boring."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 The AI approach</span>
+      <p class="story-text">Anand pastes one section of his resume into AI and asks for specific improvements. AI rewrites his bullet points to sound stronger and more specific, using action verbs and numbers.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Anand's prompt</p>
+        <p class="pb-text">I am a fresh B.Tech graduate applying for software testing roles.
+Here is my current experience section from my resume:
+
+"Responsible for testing web applications. Worked in a team. 
+Good communication with developers. Found bugs and reported them."
+
+Please rewrite these bullet points to sound stronger.
+Use action verbs, be specific, and add numbers where possible.
+Keep it to 4 bullet points, each under 20 words.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ The result</span>
+      <p class="story-text">AI rewrites Anand's weak bullet points into strong, specific, ATS-friendly lines. After updating his resume, he gets 4 interview calls in the next 2 weeks.</p>
+      <div class="ai-bubble">
+        • Executed 200+ manual test cases across 3 web application modules, reducing defect leakage by 30%<br>
+        • Collaborated with 5-member development team to resolve 45 critical bugs within sprint deadlines<br>
+        • Documented detailed bug reports in JIRA, improving developer fix-time by 2 days per sprint<br>
+        • Performed regression testing across Chrome, Firefox, and Edge ensuring cross-browser compatibility
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">📝 Resume improvement tip</p>
+    <p>Always give AI <strong>your current bullet points</strong> and ask it to improve them — do not ask AI to write a resume from scratch. AI-only resumes sound generic. Your real experience + AI polish = strong resume.</p>
+  </div>
+
+  <div class="ba-grid" style="margin-top:1.5rem;">
+    <div class="ba-col before">
+      <p class="ba-head">❌ Weak resume bullet</p>
+      <p>"Responsible for testing web applications. Good communication skills."</p>
+    </div>
+    <div class="ba-col after">
+      <p class="ba-head">✅ Strong resume bullet</p>
+      <p>"Executed 200+ manual test cases across 3 web modules, reducing defect leakage by 30%"</p>
+    </div>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">Paste ONE section of your resume into AI (experience, skills, or summary)</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Tell AI your target job title and experience level</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Ask for action verbs, specific numbers, and concise format</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Review carefully — add real numbers only you know</span></li>
+    <li><span class="step-num">5</span><span class="step-text">Repeat for each section of the resume</span></li>
+  </ul>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l4-s04-anand-resume.jpg"
+       alt="Anand improving his resume bullet points using AI" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 6 · SKILL 4 · INTERVIEW PRACTICE              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">4</span>
+    <span>Skill 4 — Practise interviews with AI as your mock interviewer</span>
+  </div>
+
+  <p class="sec-label">Anand's next step</p>
+  <h2 class="sec-title">Preparing for the interview — alone</h2>
+  <p class="sec-intro">Anand gets an interview call. Now he needs to prepare. He has no one to practise with at home. His coaching centre is too expensive. His friend group has no one who works in tech yet. AI becomes his mock interviewer — available any time, patient, and specific to his role.</p>
+
+  <div class="story-grid">
+    <div class="story-card sky anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag sky">👨‍💻 Anand · Nellore</span>
+      <p class="story-text">Anand has never had a real interview before. He does not know what questions to expect or how to answer the "tell me about yourself" question without rambling for 5 minutes.</p>
+      <div class="speech-bubble">"I know my subject but I freeze when someone asks me to explain myself. I need to practise."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 The AI approach</span>
+      <p class="story-text">Anand asks AI to act as a hiring manager for a software testing role. He practises answering 10 common questions. AI gives him feedback after each answer — what was good, what to improve, what to add.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Anand's prompt</p>
+        <p class="pb-text">Act as a hiring manager for a software testing role at a mid-sized tech company.
+Interview me for this role.
+I am a fresh B.Tech graduate with 6 months of internship experience in manual testing.
+Ask me one question at a time. After I answer, give me brief feedback.
+Start with: "Tell me about yourself."</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ The result</span>
+      <p class="story-text">After 3 practice sessions with AI, Anand's answers become focused and confident. He knows exactly how to open with his intro, how to answer behavioural questions, and how to end with a strong close.</p>
+      <div class="ai-bubble">
+        AI Feedback: "Good opening. Your intro covered your degree and internship clearly. 
+        For improvement: mention one specific project by name — interviewers remember stories 
+        more than general statements. Try: 'During my internship at [company], I tested 
+        a payment module that had 200+ test cases...' This is much stronger."
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">🎯 Interview practice tips</p>
+    <p>After each answer, ask AI: <strong>"What was weak in my answer and how should I improve it?"</strong> — this is more valuable than asking AI to just list questions.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">Tell AI your target role, company type, and your experience level</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Ask AI to act as the hiring manager and interview you</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Answer each question in full — type it as you would say it</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Ask AI for feedback on your answer before moving to the next question</span></li>
+    <li><span class="step-num">5</span><span class="step-text">Do this 3 times — your answers will get significantly stronger</span></li>
+  </ul>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l4-s05-anand-interview.jpg"
+       alt="Anand practising job interview answers with AI mock interviewer" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 7 · SKILL 5 · STUDY PLAN + PRESENTATION       -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">5</span>
+    <span>Skill 5 — Build a study plan and create presentation outlines</span>
+  </div>
+
+  <p class="sec-label">Vikram's story</p>
+  <h2 class="sec-title">The exam that was 3 weeks away</h2>
+  <p class="sec-intro">Vikram is a third-year engineering student in Tirupati. He has 6 subjects to study, university exams in 3 weeks, and a project presentation due next Friday. He does not know where to start. He spends 2 hours every evening deciding what to study instead of actually studying.</p>
+
+  <div class="story-grid">
+    <div class="story-card amber anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag amber">👨‍🎓 Vikram · Tirupati</span>
+      <p class="story-text">Vikram has 6 subjects and no idea how to divide his time. He opens his computer to study and ends up on YouTube. He feels guilty but does not know how to organise himself.</p>
+      <div class="speech-bubble">"I have so much to study but I don't know how to split my time. I just feel stuck."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 The AI approach — Study Plan</span>
+      <p class="story-text">Vikram tells AI his subjects, exam date, and how many hours per day he can study. AI gives him a complete week-by-week study plan with daily targets. It even tells him which subjects need more time based on their typical difficulty.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Vikram's prompt</p>
+        <p class="pb-text">I am a 3rd year electronics engineering student.
+I have 6 subjects: Digital Signal Processing, VLSI Design, Embedded Systems,
+Microprocessors, Control Systems, and Communication Theory.
+My exams start on 28 May 2026. Today is 6 May 2026.
+I can study 4 hours per day on weekdays, 6 hours on weekends.
+Create a week-by-week study plan with daily targets.
+Prioritise harder subjects and include one day of revision per week.</p>
+      </div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.2s">
+      <span class="char-tag">💡 AI approach — Presentation Outline</span>
+      <p class="story-text">For his project presentation, Vikram tells AI his project topic and asks for a 10-slide outline. AI gives him a clear structure with slide titles and what to include in each slide. Vikram builds his presentation in 90 minutes instead of an entire weekend.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Vikram's prompt</p>
+        <p class="pb-text">Create a 10-slide presentation outline for my final year project:
+"Smart Irrigation System using IoT Sensors and Arduino"
+Include: Problem statement, existing solutions, our solution, components used,
+circuit diagram slide, working explanation, test results, cost, conclusion, references.
+Each slide: title + 3 to 4 bullet points of what to include.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.25s">
+      <span class="char-tag green">✅ The result</span>
+      <p class="story-text">Vikram follows his AI-generated study plan. He covers all subjects systematically and completes his presentation with 3 days to spare. He scores better than in any previous semester.</p>
+      <div class="ai-bubble">
+        Week 1 (May 6–12): Focus on DSP and Control Systems — 4 hrs/day. Day 7: Full revision of Week 1 material.<br>
+        Week 2 (May 13–19): VLSI Design and Communication Theory — 4 hrs/day. Day 14: Full revision.<br>
+        Week 3 (May 20–27): Embedded Systems + Microprocessors — 4 hrs/day. Days 26–27: Full mock tests all subjects.<br>
+        Tip: Start with DSP — it has the highest overlap with VLSI and earns you double benefit early.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">📚 Study plan tip</p>
+    <p>Always tell AI your <strong>actual available hours</strong>, not ideal hours. A realistic plan you follow beats a perfect plan you abandon in 3 days.</p>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l4-s06-vikram-study.jpg"
+       alt="Vikram using AI to create a study plan and presentation outline" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 8 · PRACTICE ARENA                            -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">Your turn</p>
+  <h2 class="sec-title">Practice Arena — Try all 5 skills</h2>
+  <p class="sec-intro">Choose any task below. Open ChatGPT, Gemini, or any AI app. Copy the prompt, fill in your own details, and run it. Each task should take 5 to 10 minutes.</p>
+
+  <div class="arena-grid">
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.1s">
+      <p class="ac-num">Task 1 · Email</p>
+      <h3>Write a work email today</h3>
+      <p>Think of one email you need to send — to a colleague, vendor, or professor. Use the formula: who + issue + what you want + tone. Draft it in under 2 minutes.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.15s">
+      <p class="ac-num">Task 2 · Summary</p>
+      <h3>Summarise your last meeting or class</h3>
+      <p>Find your notes from any recent meeting or lecture. Paste them into AI and ask for a structured summary with key points and action items. Takes 3 minutes.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.2s">
+      <p class="ac-num">Task 3 · Resume</p>
+      <h3>Improve one section of your resume</h3>
+      <p>Paste your current work experience or skills section into AI. Ask it to rewrite with action verbs and specific numbers. Then compare the before and after.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.25s">
+      <p class="ac-num">Task 4 · Interview</p>
+      <h3>Do a 5-question mock interview</h3>
+      <p>Tell AI your target job role and ask it to interview you. Answer 5 questions and ask for feedback after each one. Do this once a week before any interview.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.3s">
+      <p class="ac-num">Task 5 · Plan</p>
+      <h3>Create a study or work plan for this week</h3>
+      <p>Tell AI your deadlines, subjects or work tasks, and how many hours per day you have. Ask for a realistic daily plan. Follow it for 3 days and notice the difference.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l4-s07-practice.jpg"
+       alt="Learner practising all 5 work skills using AI on their laptop" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:2rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 9 · CHEAT SHEET                               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">Quick reference</p>
+  <h2 class="sec-title">Level 4 Cheat Sheet</h2>
+  <p class="sec-intro">Save these 5 prompt formulas. Each one solves a real work problem in under 2 minutes.</p>
+
+  <div class="cheat-grid">
+    <div class="cheat-card amber">
+      <h3>📧 Email</h3>
+      <p>Who + Issue + What you want + Tone (polite/firm)</p>
+      <code class="prompt-chip">"Write a professional email to [who]..."</code>
+    </div>
+    <div class="cheat-card teal">
+      <h3>📋 Meeting Summary</h3>
+      <p>Rough notes → structured summary with sections</p>
+      <code class="prompt-chip">"Format my notes into a meeting summary..."</code>
+    </div>
+    <div class="cheat-card sky">
+      <h3>📄 Resume</h3>
+      <p>Paste weak bullet → action verbs + numbers</p>
+      <code class="prompt-chip">"Rewrite these resume bullets with action verbs..."</code>
+    </div>
+    <div class="cheat-card">
+      <h3>🎤 Interview</h3>
+      <p>Role + experience → mock Q&amp;A with feedback</p>
+      <code class="prompt-chip">"Act as hiring manager for [role], interview me..."</code>
+    </div>
+    <div class="cheat-card green">
+      <h3>📅 Study / Work Plan</h3>
+      <p>Subjects/tasks + available hours + deadline → daily plan</p>
+      <code class="prompt-chip">"Create a week-by-week study plan for..."</code>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 10 · QUIZ                                      -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">Test your learning</p>
+  <h2 class="sec-title">Quick Quiz — 5 questions</h2>
+  <p class="sec-intro">Score 4 or more to earn your Level 4 certificate. You can retake as many times as you like.</p>
+
+  <div class="quiz-wrap">
+    <form id="quiz-form">
+
+      <div class="quiz-q">
+        <p class="q-text">1. Deepa wants AI to write a professional email. Which detail is MOST important to include in her prompt?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Her full name and email address</label>
+          <label><input type="radio" name="q1" value="b"> Who she is writing to, the issue, what she wants, and the tone</label>
+          <label><input type="radio" name="q1" value="c"> The length of the email she wants</label>
+          <label><input type="radio" name="q1" value="d"> The font size and formatting style</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">2. Sunitha is preparing a meeting summary using AI. What should she give AI to get the best result?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> The names of all people who attended</label>
+          <label><input type="radio" name="q2" value="b"> Her rough bullet-point notes from the meeting plus a request for structured sections</label>
+          <label><input type="radio" name="q2" value="c"> A formal written summary she has already drafted</label>
+          <label><input type="radio" name="q2" value="d"> The agenda that was sent before the meeting</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">3. Anand wants to improve his resume using AI. What is the best approach?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> Ask AI to write a completely new resume from scratch</label>
+          <label><input type="radio" name="q3" value="b"> Tell AI his target role and ask for bullet points that sound good</label>
+          <label><input type="radio" name="q3" value="c"> Paste his current bullet points and ask AI to rewrite them with action verbs and numbers</label>
+          <label><input type="radio" name="q3" value="d"> Copy resume templates from the internet</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">4. When practising interviews with AI, what should Anand do AFTER answering each question?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q4" value="a"> Ask AI to give the next question immediately</label>
+          <label><input type="radio" name="q4" value="b"> Stop the session and start again</label>
+          <label><input type="radio" name="q4" value="c"> Ask AI for a score out of 10</label>
+          <label><input type="radio" name="q4" value="d"> Ask AI what was weak in his answer and how to improve it</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">5. Vikram wants AI to create the most useful study plan. What is the most important thing to tell AI?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q5" value="a"> His college name and faculty names</label>
+          <label><input type="radio" name="q5" value="b"> His actual available hours per day and his exam date</label>
+          <label><input type="radio" name="q5" value="c"> How many marks he got in the last exam</label>
+          <label><input type="radio" name="q5" value="d"> The names of his textbooks</label>
+        </div>
+      </div>
+
+      <button type="button" class="quiz-submit" onclick="checkQuiz()">Submit Answers</button>
+    </form>
+
+    <div id="quiz-result"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 11 · CERTIFICATE                              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section id="cert-section">
+  <div class="cert-box">
+    <p style="font-size:2.5rem;margin-bottom:.5rem;">🏆</p>
+    <h2>Certificate of Completion</h2>
+    <p class="cert-name">Work Smart — Level 4</p>
+    <p>You have mastered 5 AI productivity skills for work and study</p>
+    <div class="skill-badges">
+      <span class="skill-badge">📧 Email Drafting</span>
+      <span class="skill-badge">📋 Meeting Summaries</span>
+      <span class="skill-badge">📄 Resume Polish</span>
+      <span class="skill-badge">🎤 Interview Practice</span>
+      <span class="skill-badge">📅 Study & Work Plans</span>
+    </div>
+    <p style="font-size:0.85rem;opacity:0.6;margin-top:.5rem;">Mitra AI Life Education · mitraailife.com</p>
+    <button class="cert-btn" onclick="window.print()">🖨 Print / Save Certificate</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 12 · COMPLETION + NEXT LEVEL TEASER           -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="completion-box">
+    <div class="big-emoji">🎉</div>
+    <h2>You completed Level 4!</h2>
+    <p>You now save time at work, write better emails, look professional, prepare for interviews, and plan your study with confidence. These are skills that give you a real edge.</p>
+    <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l4-s08-celebration.jpg"
+         alt="All Level 4 characters celebrating completion" loading="lazy"
+         style="width:100%;max-width:700px;border-radius:16px;margin:1.5rem 0;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+    <p><strong>What's next in Level 5 — Life Upgrade:</strong><br>
+    Use AI for family budgets, travel planning, health questions, insurance comparisons, and big life decisions. AI as your personal life advisor.</p>
+    <a href="../../../site/index.html" class="next-btn" style="margin-top:1rem;">→ Go to Level 5 (Coming Soon)</a>
+  </div>
+
+  <!-- Disqus -->
+  <div class="disqus-wrap">
+    <h3 style="font-family:'Baloo 2',cursive;color:var(--navy);margin-bottom:1rem;">Questions or comments?</h3>
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = window.location.href;
+        this.page.identifier = 'level-04-comic';
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://mitra-ai-life.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SCRIPTS                                               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<script src="../../../site/auth.js"></script>
+<script>
+  /* progress bar */
+  window.addEventListener('scroll', () => {
+    const el = document.getElementById('progress-bar');
+    const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    el.style.width = Math.min(pct, 100) + '%';
+  });
+
+  /* scroll animations */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.anim-fadeInUp,.anim-slideLeft,.anim-slideRight,.anim-bounceIn')
+    .forEach(el => { el.style.opacity = '0'; observer.observe(el); });
+
+  /* quiz */
+  function checkQuiz() {
+    const answers = { q1:'b', q2:'b', q3:'c', q4:'d', q5:'b' };
+    let score = 0;
+    for (const [q, correct] of Object.entries(answers)) {
+      const sel = document.querySelector(`input[name="${q}"]:checked`);
+      if (sel && sel.value === correct) score++;
+    }
+    const result = document.getElementById('quiz-result');
+    result.style.display = 'block';
+    if (score >= 4) {
+      result.className = 'pass';
+      result.textContent = '🎉 ' + score + '/5 correct — Excellent! Your certificate is below.';
+      document.getElementById('cert-section').style.display = 'block';
+      document.getElementById('cert-section').scrollIntoView({ behavior:'smooth', block:'center' });
+      if (typeof saveProgress === 'function') saveProgress('level-04', score);
+    } else {
+      result.className = 'fail';
+      result.textContent = score + '/5 correct — Review the skills above and try again. You need 4 or more to pass.';
+    }
+  }
+</script>
+</body>
+</html>

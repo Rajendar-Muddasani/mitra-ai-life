@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Level 3: Smart Basics | Mitra AI Life Education</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QGY0LH6W93');
+  </script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:    #1E3A5F;
+      --emerald: #059669;
+      --em-light:#d1fae5;
+      --em-mid:  #34d399;
+      --sky:     #38BDF8;
+      --amber:   #F59E0B;
+      --green:   #10B981;
+      --red:     #EF4444;
+      --purple:  #8B5CF6;
+      --teal:    #0D9488;
+      --cream:   #f0fdf8;
+      --white:   #FFFFFF;
+      --text:    #1C1C2E;
+      --muted:   #64748B;
+      --panel:   #ecfdf5;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+    /* progress bar */
+    #progress-bar { position:fixed; top:0; left:0; height:5px;
+      background: linear-gradient(90deg, var(--emerald), var(--em-mid), var(--amber));
+      width:0%; z-index:999; transition:width 0.3s ease; }
+
+    /* nav */
+    .topnav {
+      position:fixed; top:5px; left:0; right:0; height:52px;
+      background:rgba(240,253,248,0.93); backdrop-filter:blur(8px);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 1.5rem; z-index:100;
+      border-bottom:2px solid rgba(5,150,105,0.15);
+    }
+    .topnav .brand { font-family:'Baloo 2',cursive; font-weight:800; font-size:1.1rem; color:var(--navy); text-decoration:none; }
+    .topnav .level-tag { background:var(--emerald); color:white; font-size:0.75rem; font-weight:700; padding:3px 12px; border-radius:20px; }
+    .topnav .back-link { font-size:0.82rem; color:var(--muted); font-weight:700; text-decoration:none; }
+    .topnav .back-link:hover { color:var(--emerald); }
+
+    /* lang menu */
+    .l3-lang-menu { display:none; position:absolute; top:calc(100% + 6px); right:0;
+      background:rgba(3,20,20,0.97); border:1px solid rgba(52,211,153,0.2);
+      border-radius:12px; overflow:hidden; min-width:180px;
+      box-shadow:0 8px 24px rgba(0,0,0,0.5); z-index:200; }
+    .l3-lang-menu a { display:block; padding:9px 14px; font-size:0.85rem; font-weight:700; text-decoration:none; }
+    .l3-lang-menu a:hover { background:rgba(52,211,153,0.1); }
+
+    /* animations */
+    @keyframes fadeInUp   { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideInLeft  { from{opacity:0;transform:translateX(-48px)} to{opacity:1;transform:translateX(0)} }
+    @keyframes slideInRight { from{opacity:0;transform:translateX(48px)}  to{opacity:1;transform:translateX(0)} }
+    @keyframes bounceIn { 0%{opacity:0;transform:scale(0.6)} 60%{opacity:1;transform:scale(1.08)} 80%{transform:scale(0.97)} 100%{transform:scale(1)} }
+    @keyframes float  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    @keyframes pulse  { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+    .anim-fadeInUp   { animation:fadeInUp   0.7s ease forwards; }
+    .anim-slideLeft  { animation:slideInLeft  0.7s ease forwards; }
+    .anim-slideRight { animation:slideInRight 0.7s ease forwards; }
+    .anim-bounceIn   { animation:bounceIn    0.75s cubic-bezier(.68,-.55,.27,1.55) forwards; }
+    .anim-float      { animation:float 3s ease-in-out infinite; }
+    .anim-pulse      { animation:pulse 2.5s ease-in-out infinite; }
+    .hidden  { opacity:0; transform:translateY(20px); transition:opacity 0.6s,transform 0.6s; }
+    .visible { opacity:1 !important; transform:none !important; }
+
+    /* sections */
+    section { min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:90px 1.5rem 3rem; position:relative; }
+
+    /* hero */
+    .hero {
+      background:
+        linear-gradient(160deg, rgba(2,18,10,0.90) 0%, rgba(4,30,18,0.83) 55%, rgba(5,50,30,0.76) 100%),
+        url('https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l2-s01-hero.jpg') center/cover no-repeat;
+      color:white; text-align:center; overflow:hidden;
+    }
+    .hero::before { content:''; position:absolute; width:600px; height:600px;
+      background:radial-gradient(circle, rgba(5,150,105,0.22) 0%, transparent 70%);
+      top:-100px; right:-150px; border-radius:50%; pointer-events:none; }
+    .hero-content { max-width:720px; margin:0 auto; position:relative; z-index:1; }
+    .hero-badge { display:inline-flex; align-items:center; gap:8px; font-size:0.8rem; font-weight:800;
+      background:rgba(5,150,105,0.2); border:1.5px solid rgba(52,211,153,0.4);
+      color:var(--em-mid); padding:6px 18px; border-radius:30px; margin-bottom:1.5rem; letter-spacing:0.04em; }
+    .free-offer { display:inline-block; background:rgba(245,158,11,0.15); border:1.5px solid rgba(245,158,11,0.5);
+      color:var(--amber); font-size:0.82rem; font-weight:800; padding:5px 16px; border-radius:20px; margin-bottom:1rem; }
+    .free-offer s { color:rgba(245,158,11,0.45); font-weight:600; }
+    .mitra-img { width:130px; height:130px; border-radius:50%; object-fit:cover; border:3px solid rgba(52,211,153,0.4); margin-bottom:1.5rem; }
+    .hero-title { font-family:'Baloo 2',cursive; font-size:clamp(2.2rem,5vw,3.4rem); font-weight:800; line-height:1.12; margin-bottom:1rem; }
+    .hero-title .highlight { color:var(--em-mid); }
+    .hero-sub { font-size:1.05rem; color:rgba(255,255,255,0.78); max-width:560px; margin:0 auto 1.5rem; line-height:1.7; }
+    .hero-promise { background:rgba(5,150,105,0.18); border:1px solid rgba(52,211,153,0.3); border-radius:14px; padding:1rem 1.4rem; font-size:0.93rem; color:rgba(255,255,255,0.85); margin-bottom:1.5rem; max-width:560px; }
+    .hero-meta { display:flex; flex-wrap:wrap; gap:0.6rem; justify-content:center; margin-bottom:2rem; }
+    .meta-pill { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:20px; padding:5px 14px; font-size:0.8rem; color:rgba(255,255,255,0.75); font-weight:700; }
+    .scroll-cue { display:flex; flex-direction:column; align-items:center; gap:4px; color:rgba(255,255,255,0.4); font-size:0.82rem; }
+    .scroll-cue .arrow { font-size:1.2rem; animation:float 2s infinite; }
+
+    /* content sections */
+    .content-section { background:var(--white); }
+    .content-section:nth-child(even) { background:var(--panel); }
+    .content-inner { max-width:820px; width:100%; }
+    .section-badge { display:inline-block; font-size:0.72rem; font-weight:800; letter-spacing:0.15em; text-transform:uppercase;
+      padding:4px 14px; border-radius:20px; margin-bottom:0.9rem; }
+    .badge-em { background:var(--em-light); color:var(--emerald); }
+    .badge-amber { background:#fef3c7; color:#92400e; }
+    .badge-red { background:#fee2e2; color:#991b1b; }
+    .badge-purple { background:#ede9fe; color:#5b21b6; }
+    .badge-sky { background:#e0f2fe; color:#0369a1; }
+    .section-title { font-family:'Baloo 2',cursive; font-size:clamp(1.7rem,3.5vw,2.4rem); font-weight:800; color:var(--navy); line-height:1.2; margin-bottom:0.75rem; }
+    .section-title .em { color:var(--emerald); }
+    .section-sub { font-size:0.97rem; color:var(--muted); line-height:1.7; margin-bottom:1.8rem; max-width:680px; }
+
+    /* character speech bubble */
+    .char-scene { display:flex; gap:1.5rem; align-items:flex-start; background:var(--panel); border-radius:18px; padding:1.4rem 1.5rem; margin-bottom:1.5rem; border-left:4px solid var(--emerald); }
+    .char-avatar { font-size:3rem; flex-shrink:0; }
+    .char-body {}
+    .char-name { font-weight:800; font-size:0.82rem; color:var(--emerald); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.3rem; }
+    .char-says { font-size:0.95rem; color:var(--text); line-height:1.65; }
+    .char-says strong { color:var(--emerald); }
+
+    /* ai chat bubble */
+    .ai-exchange { background:var(--white); border:1.5px solid rgba(5,150,105,0.2); border-radius:16px; padding:1.2rem 1.4rem; margin-bottom:1rem; }
+    .ai-label { font-size:0.72rem; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:0.5rem; }
+    .ai-label.prompt { color:var(--navy); }
+    .ai-label.response { color:var(--emerald); }
+    .ai-box { background:var(--panel); border-radius:10px; padding:0.85rem 1rem; font-size:0.9rem; line-height:1.65; color:var(--text); font-style:italic; }
+    .ai-box.prompt-box { background:#f0f9ff; border-left:3px solid var(--sky); font-style:normal; font-weight:700; color:var(--navy); }
+    .ai-box.warn-box { background:#fef9c3; border-left:3px solid var(--amber); font-style:normal; }
+
+    /* tip cards */
+    .tip-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:1rem; margin-bottom:1.5rem; }
+    .tip-card { background:var(--white); border:1.5px solid rgba(5,150,105,0.18); border-radius:16px; padding:1.3rem; }
+    .tip-card .tip-icon { font-size:2rem; margin-bottom:0.6rem; }
+    .tip-card h3 { font-size:0.93rem; font-weight:800; color:var(--navy); margin-bottom:0.4rem; }
+    .tip-card p { font-size:0.83rem; color:var(--muted); line-height:1.6; }
+
+    /* compare table */
+    .compare-table { width:100%; border-collapse:collapse; margin-bottom:1.5rem; }
+    .compare-table th { background:var(--emerald); color:white; padding:0.75rem 1rem; text-align:left; font-size:0.85rem; }
+    .compare-table th:first-child { border-radius:12px 0 0 0; }
+    .compare-table th:last-child  { border-radius:0 12px 0 0; }
+    .compare-table td { padding:0.75rem 1rem; font-size:0.88rem; border-bottom:1px solid rgba(5,150,105,0.1); vertical-align:top; line-height:1.6; }
+    .compare-table tr:last-child td { border-bottom:none; }
+    .compare-table td:first-child { font-weight:700; color:var(--navy); width:30%; }
+
+    /* checklist */
+    .check-list { list-style:none; margin-bottom:1.5rem; }
+    .check-list li { display:flex; gap:0.8rem; padding:0.65rem 0; border-bottom:1px solid rgba(5,150,105,0.1); font-size:0.92rem; line-height:1.55; color:var(--text); }
+    .check-list li:last-child { border-bottom:none; }
+    .check-list .ck { color:var(--emerald); font-size:1.1rem; flex-shrink:0; margin-top:1px; }
+
+    /* prompt template card */
+    .prompt-template { background:#f0fdf4; border:2px dashed rgba(5,150,105,0.35); border-radius:16px; padding:1.3rem 1.5rem; margin-bottom:1rem; }
+    .prompt-template .pt-label { font-size:0.72rem; font-weight:800; color:var(--emerald); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:0.5rem; }
+    .prompt-template .pt-body { font-size:0.93rem; line-height:1.7; color:var(--navy); font-weight:700; }
+    .prompt-template .pt-body span { background:#bbf7d0; border-radius:4px; padding:1px 5px; font-style:italic; font-weight:600; color:#065f46; }
+    .prompt-template .pt-note { font-size:0.8rem; color:var(--muted); margin-top:0.5rem; }
+
+    /* practice cards */
+    .practice-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:1.1rem; width:100%; max-width:820px; }
+    .practice-card { background:var(--white); border:1.5px solid rgba(5,150,105,0.18); border-radius:18px; padding:1.4rem 1.5rem; }
+    .practice-card .pc-num { font-size:0.72rem; font-weight:800; color:var(--emerald); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:0.5rem; }
+    .practice-card h3 { font-size:1rem; font-weight:800; color:var(--navy); margin-bottom:0.5rem; }
+    .practice-card p { font-size:0.85rem; color:var(--muted); line-height:1.6; }
+    .practice-card .try-btn { margin-top:0.9rem; display:inline-block; background:var(--emerald); color:white; font-size:0.82rem; font-weight:800; padding:6px 16px; border-radius:20px; cursor:pointer; border:none; font-family:'Nunito',sans-serif; }
+
+    /* recap cheat sheet */
+    .cheat-sheet { background:linear-gradient(135deg,#022c22 0%,#064e3b 60%,#059669 100%); border-radius:20px; padding:2rem; color:white; max-width:760px; width:100%; }
+    .cheat-sheet h3 { font-family:'Baloo 2',cursive; font-size:1.5rem; font-weight:800; margin-bottom:1.25rem; text-align:center; }
+    .cheat-row { display:flex; gap:1rem; align-items:flex-start; margin-bottom:0.85rem; }
+    .cheat-icon { font-size:1.3rem; flex-shrink:0; }
+    .cheat-text strong { display:block; font-size:0.9rem; margin-bottom:2px; }
+    .cheat-text span { font-size:0.82rem; color:rgba(255,255,255,0.72); line-height:1.5; }
+
+    /* quiz */
+    .quiz-section { background:var(--panel); }
+    .quiz-wrap { max-width:680px; width:100%; }
+    .quiz-q { background:var(--white); border:1.5px solid rgba(5,150,105,0.2); border-radius:16px; padding:1.2rem 1.4rem; margin-bottom:1rem; }
+    .quiz-q p { font-size:0.95rem; font-weight:700; color:var(--navy); margin-bottom:0.8rem; line-height:1.5; }
+    .quiz-opt { display:flex; align-items:center; gap:0.6rem; padding:0.55rem 0.9rem; border-radius:10px; border:1.5px solid rgba(5,150,105,0.15); cursor:pointer; margin-bottom:0.4rem; transition:background 0.15s; }
+    .quiz-opt:hover { background:var(--panel); }
+    .quiz-opt input { accent-color:var(--emerald); }
+    .quiz-opt span { font-size:0.88rem; color:var(--text); }
+    .quiz-opt.correct { background:#f0fdf4; border-color:#86efac; }
+    .quiz-opt.wrong   { background:#fef2f2; border-color:#fca5a5; }
+    .quiz-submit { width:100%; padding:0.9rem; background:var(--emerald); color:white; border:none; border-radius:14px; font-size:1rem; font-weight:800; font-family:'Baloo 2',cursive; cursor:pointer; margin-top:0.5rem; }
+    .quiz-submit:hover { background:#047857; }
+
+    /* certificate */
+    .certificate { display:none; max-width:680px; width:100%; margin-top:1.5rem; border-radius:20px; overflow:hidden;
+      background:linear-gradient(135deg,#022c22 0%,#065f46 55%,#059669 100%);
+      padding:2.5rem 2rem; color:white; text-align:center;
+      box-shadow:0 8px 40px rgba(5,150,105,0.35); }
+    .cert-seal { font-size:3.5rem; margin-bottom:0.5rem; }
+    .cert-brand { font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.55); margin-bottom:1.5rem; }
+    .cert-title { font-family:'Baloo 2',cursive; font-size:1.6rem; font-weight:800; margin-bottom:0.4rem; }
+    .cert-sub { font-size:0.9rem; color:rgba(255,255,255,0.72); margin-bottom:1.5rem; }
+    .cert-name-box { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; color:#6ee7b7; margin-bottom:0.5rem; }
+    .cert-level { font-size:0.85rem; color:rgba(255,255,255,0.65); margin-bottom:1.5rem; letter-spacing:0.05em; }
+    .cert-date { font-size:0.8rem; color:rgba(255,255,255,0.5); margin-bottom:1.5rem; }
+    .cert-skills { display:flex; flex-wrap:wrap; justify-content:center; gap:0.5rem; margin-bottom:1.5rem; }
+    .cert-skill-badge { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:20px; font-size:0.78rem; padding:5px 14px; color:rgba(255,255,255,0.85); font-weight:700; }
+    .cert-save { background:rgba(255,255,255,0.15); border:1.5px solid rgba(255,255,255,0.3); color:white; padding:0.65rem 1.6rem; border-radius:30px; font-size:0.88rem; font-weight:800; cursor:pointer; font-family:'Nunito',sans-serif; margin-right:0.5rem; }
+    .cert-next { background:var(--amber); border:none; color:white; padding:0.65rem 1.6rem; border-radius:30px; font-size:0.88rem; font-weight:800; cursor:pointer; font-family:'Nunito',sans-serif; text-decoration:none; display:inline-block; margin-top:0.25rem; }
+
+    /* completion */
+    .completion-section { background:linear-gradient(160deg, #022c22 0%, #064e3b 60%, #1a3a2a 100%); color:white; text-align:center; }
+
+    /* Disqus */
+    .disqus-section { background:var(--white); padding-top:80px; }
+
+    /* print certificate */
+    @media print { body > *:not(.certificate) { display:none !important; } .certificate { display:block !important; box-shadow:none; } }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav class="topnav">
+  <a href="../../../site/index.html" style="font-size:0.82rem;padding:5px 12px;border:1px solid rgba(5,150,105,0.25);border-radius:20px;color:var(--emerald);text-decoration:none;white-space:nowrap;font-weight:700;" title="Back to home">← Home</a>
+  <a href="../../../site/index.html" class="brand">Mitra AI Life Education</a>
+  <span class="level-tag">Level 3 · Free</span>
+  <span style="font-size:0.8rem;color:var(--muted);font-weight:600;">⏱ 60 min</span>
+  <div style="position:relative;display:inline-block;">
+    <button onclick="this.parentElement.querySelector('.l3-lang-menu').style.display = this.parentElement.querySelector('.l3-lang-menu').style.display === 'block' ? 'none' : 'block'" style="font-size:0.8rem;padding:5px 12px;border:1px solid rgba(5,150,105,0.3);border-radius:20px;color:var(--emerald);background:transparent;cursor:pointer;white-space:nowrap;font-weight:700;">🌐 Language ▾</button>
+    <div class="l3-lang-menu">
+      <a href="level-03-comic.html" style="color:#34d399;">🇬🇧 English <small style="color:rgba(255,255,255,0.35)">Current</small></a>
+      <a href="level-03-comic-te.html" style="color:rgba(245,248,255,0.7);">🇮🇳 తెలుగు</a>
+    </div>
+  </div>
+  <div id="auth-nav-area" style="display:flex;align-items:center;"></div>
+</nav>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 1 — HERO                                                   -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<section class="hero" id="s1">
+  <div class="hero-content">
+    <div class="free-offer">🎉 Early Access — <s>₹100</s> <strong>FREE</strong> for first 100 learners</div>
+    <span class="hero-badge">Level 3 · Smart Basics · 60 minutes</span>
+
+    <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/characters/mitra-reference.png"
+         alt="Mitra" class="mitra-img anim-float" />
+
+    <h1 class="hero-title anim-fadeInUp">
+      Use AI <span class="highlight">smarter,</span><br>not just more.
+    </h1>
+
+    <p class="hero-sub anim-fadeInUp" style="animation-delay:0.15s">
+      Getting an AI answer is easy. Knowing whether to trust it — that's a skill.
+      This level teaches you to think clearly about what AI gives you.
+    </p>
+
+    <div class="hero-promise anim-fadeInUp" style="animation-delay:0.25s">
+      🎯 By the end you will: verify AI answers, get step-by-step help, rewrite for tone,
+      compare two answers, and save your best prompt patterns for life.
+    </div>
+
+    <div class="hero-meta anim-fadeInUp" style="animation-delay:0.35s">
+      <span class="meta-pill">✅ Completed Level 2</span>
+      <span class="meta-pill">🆓 Free — early access</span>
+      <span class="meta-pill">📱 Any phone</span>
+      <span class="meta-pill">🧠 5 real skills</span>
+    </div>
+
+    <div class="scroll-cue"><span>Scroll to start</span><span class="arrow">↓</span></div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 2 — RECAP + WHAT'S NEW                                    -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<section class="content-section" id="s2">
+  <div class="content-inner hidden">
+    <span class="section-badge badge-em">Quick Recap</span>
+    <h2 class="section-title">You already know how to <span class="em">use</span> AI.<br>Now learn how to use it <span class="em">well.</span></h2>
+    <p class="section-sub">In Levels 1 and 2 you learned what AI is, how to write a prompt, and how to get useful answers for daily tasks. That's a great foundation. Level 3 builds the judgment layer on top.</p>
+
+    <div class="tip-grid">
+      <div class="tip-card">
+        <div class="tip-icon">✅</div>
+        <h3>Level 1 — You know this</h3>
+        <p>What AI is, what it can do, how to write a basic prompt, and why it sometimes gets things wrong.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">✅</div>
+        <h3>Level 2 — You can do this</h3>
+        <p>Write WhatsApp messages, plan budgets, get exam help, and draft complaint letters using AI.</p>
+      </div>
+      <div class="tip-card" style="border-color:var(--emerald);background:var(--em-light);">
+        <div class="tip-icon">🧠</div>
+        <h3>Level 3 — You will learn this</h3>
+        <p>Verify answers before trusting them. Get step-by-step breakdowns. Rewrite for tone. Compare two answers. Build your personal prompt library.</p>
+      </div>
+    </div>
+
+    <div class="char-scene">
+      <div class="char-avatar">🧑‍💻</div>
+      <div class="char-body">
+        <div class="char-name">Arjun · Student, Hyderabad</div>
+        <div class="char-says">"I asked AI about a medicine my grandmother takes. It gave me a confident-sounding answer. I shared it with her. Later the doctor said the information was <strong>partially wrong</strong>. I felt terrible."</div>
+      </div>
+    </div>
+
+    <p style="font-size:0.92rem;color:var(--muted);line-height:1.7;background:var(--panel);padding:1rem 1.3rem;border-radius:12px;">
+      Arjun's mistake wasn't using AI. It was <strong>trusting AI without checking.</strong> This level teaches you exactly what Arjun needed to know.
+    </p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 3 — SKILL 1: CHECK BEFORE YOU TRUST                       -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<section class="content-section" style="background:var(--panel);" id="s3">
+  <div class="content-inner hidden">
+    <span class="section-badge badge-red">Skill 1 of 5</span>
+    <h2 class="section-title">Check before <span class="em">you trust.</span></h2>
+    <p class="section-sub">AI can sound very confident even when it's wrong. It does not know what it doesn't know. Your job is to be the fact-checker.</p>
+
+    <div class="char-scene">
+      <div class="char-avatar">👩</div>
+      <div class="char-body">
+        <div class="char-name">Meena · Teacher, Vizag</div>
+        <div class="char-says">She asked AI: <strong>"What is the exam fee for AP Board Class 10?"</strong><br>AI replied: <strong>"The fee is ₹450."</strong><br>She told 30 students this. The actual fee had changed to ₹600. Parents were upset.</div>
+      </div>
+    </div>
+
+    <h3 style="font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:1rem;">The 3-Check Rule — always do this for important facts</h3>
+    <ul class="check-list">
+      <li><span class="ck">🔍</span><div><strong>Check 1 — Ask AI when it last knew this.</strong> Add to your prompt: "Is this information likely to be current?" AI will often warn you if the data could be outdated.</div></li>
+      <li><span class="ck">🔗</span><div><strong>Check 2 — Ask AI where to verify.</strong> Prompt: "What official website should I check to confirm this?" Then actually go there.</div></li>
+      <li><span class="ck">🧑‍⚕️</span><div><strong>Check 3 — For health, legal, money matters — always consult a human expert.</strong> AI is a starting point, never the final word on these topics.</div></li>
+    </ul>
+
+    <div class="ai-exchange">
+      <div class="ai-label prompt">BETTER PROMPT — Meena should have written:</div>
+      <div class="ai-box prompt-box">"What is the exam fee for AP Board Class 10? Note: I need current information. Is this likely to be accurate today? Where can I verify this on an official website?"</div>
+    </div>
+    <div class="ai-exchange">
+      <div class="ai-label response">AI RESPONSE (safer version):</div>
+      <div class="ai-box">"Based on my training data the fee was approximately ₹450, but exam fees are updated regularly. I strongly recommend verifying the current fee on the official BSEAP website at bse.ap.gov.in before sharing this information."</div>
+    </div>
+
+    <div class="ai-exchange">
+      <div class="ai-label" style="color:var(--amber)">⚠️ NEVER BLINDLY TRUST AI FOR:</div>
+      <div class="ai-box warn-box">Medicine dosages · Legal deadlines · Government fees or dates · Financial figures · Medical diagnoses · Court judgments</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 4 — SKILL 2: STEP-BY-STEP MODE                            -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<section class="content-section" id="s4">
+  <div class="content-inner hidden">
+    <span class="section-badge badge-sky">Skill 2 of 5</span>
+    <h2 class="section-title">Ask AI to <span class="em">walk you through it,</span><br>one step at a time.</h2>
+    <p class="section-sub">When you get a long AI answer all at once, it can feel overwhelming. Step-by-step mode turns a wall of text into a clear guide you can actually follow.</p>
+
+    <div class="char-scene">
+      <div class="char-avatar">🎓</div>
+      <div class="char-body">
+        <div class="char-name">Rahul · Engineering Student, Guntur</div>
+        <div class="char-says">Rahul asked AI to explain how to apply for a college scholarship. AI gave him a 400-word answer. He read it, felt confused, and gave up.<br><br>His friend said: <strong>"Try asking it to break it into numbered steps."</strong></div>
+      </div>
+    </div>
+
+    <div class="tip-grid">
+      <div class="tip-card">
+        <div class="tip-icon">❌</div>
+        <h3>Without step-by-step</h3>
+        <p>AI dumps everything at once. Hard to follow. You miss steps. You feel overwhelmed and stop.</p>
+      </div>
+      <div class="tip-card" style="border-color:var(--emerald);background:var(--em-light);">
+        <div class="tip-icon">✅</div>
+        <h3>With step-by-step</h3>
+        <p>AI gives you numbered steps, one at a time. You complete each step. You feel confident. You finish.</p>
+      </div>
+    </div>
+
+    <h3 style="font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:1rem;">Step-by-step magic phrases — add these to any prompt</h3>
+    <div class="prompt-template">
+      <div class="pt-label">Magic Phrase 1</div>
+      <div class="pt-body">"Please explain this as <span>numbered steps</span>. Keep each step short."</div>
+    </div>
+    <div class="prompt-template">
+      <div class="pt-label">Magic Phrase 2</div>
+      <div class="pt-body">"Break this into steps. After each step, <span>pause and ask me if I am ready</span> for the next one."</div>
+    </div>
+    <div class="prompt-template">
+      <div class="pt-label">Magic Phrase 3 — for learning something new</div>
+      <div class="pt-body">"Explain this to me like I am a <span>complete beginner</span>. Use <span>simple numbered steps</span> and a real-life example from India."</div>
+    </div>
+
+    <div class="ai-exchange">
+      <div class="ai-label prompt">RAHUL'S NEW PROMPT:</div>
+      <div class="ai-box prompt-box">"How do I apply for a scholarship at NIT Warangal? Give me the steps as a numbered list. Keep each step under 2 sentences. I am a first-year student."</div>
+    </div>
+    <div class="ai-exchange">
+      <div class="ai-label response">AI RESPONSE:</div>
+      <div class="ai-box">
+        1. Visit the official NIT Warangal website and navigate to Student → Scholarships.<br>
+        2. Check the eligibility criteria — most scholarships require you to maintain a CGPA of 7.0 or above.<br>
+        3. Download and fill the scholarship application form from the portal.<br>
+        4. Attach required documents: admission letter, income certificate, bank passbook copy.<br>
+        5. Submit the form at the Student Affairs Office before the deadline shown on the portal.<br>
+        <em style="color:var(--muted);font-size:0.82rem;">⚠️ Verify exact dates and documents on the official website — they change each year.</em>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 5 — SKILL 3: REWRITE FOR TONE                             -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<section class="content-section" style="background:var(--panel);" id="s5">
+  <div class="content-inner hidden">
+    <span class="section-badge badge-purple">Skill 3 of 5</span>
+    <h2 class="section-title">Same message.<br><span class="em">Different tone.</span></h2>
+    <p class="section-sub">A good AI answer in the wrong tone can still cause problems. A complaint letter that sounds too aggressive. A professional email that sounds too casual. AI can rewrite anything in any tone you need — you just have to ask.</p>
+
+    <div class="char-scene">
+      <div class="char-avatar">👩‍💼</div>
+      <div class="char-body">
+        <div class="char-name">Priya · HR Executive, Hyderabad</div>
+        <div class="char-says">Priya needed to tell a job applicant they were not selected. She asked AI to write it. The first response sounded cold and dismissive. She used one prompt to fix it.<br><strong>"Rewrite this to sound warm, respectful, and encouraging."</strong></div>
+      </div>
+    </div>
+
+    <h3 style="font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:1rem;">The Tone Toolkit — common tone requests that work</h3>
+    <table class="compare-table">
+      <thead><tr><th>Situation</th><th>Add this to your prompt</th></tr></thead>
+      <tbody>
+        <tr><td>Complaint letter</td><td>"Rewrite this to sound firm but respectful, not angry."</td></tr>
+        <tr><td>Professional email</td><td>"Rewrite this to sound formal and courteous for a manager."</td></tr>
+        <tr><td>Message to a friend</td><td>"Rewrite this to sound warm, casual, and friendly."</td></tr>
+        <tr><td>Request to a stranger</td><td>"Rewrite this to sound polite and humble."</td></tr>
+        <tr><td>Motivating a student</td><td>"Rewrite this to sound encouraging and positive."</td></tr>
+        <tr><td>WhatsApp to vendor</td><td>"Rewrite this to sound direct but not rude."</td></tr>
+      </tbody>
+    </table>
+
+    <div class="ai-exchange">
+      <div class="ai-label prompt">PRIYA'S ORIGINAL AI DRAFT (too cold):</div>
+      <div class="ai-box warn-box">"We regret to inform you that your application has been rejected. We received many applications and yours did not meet our requirements."</div>
+    </div>
+    <div class="ai-exchange">
+      <div class="ai-label prompt">PRIYA'S FIX PROMPT:</div>
+      <div class="ai-box prompt-box">"Rewrite this rejection message to sound warm, respectful, and encouraging. Keep it short. The candidate should feel valued even though they are not selected."</div>
+    </div>
+    <div class="ai-exchange">
+      <div class="ai-label response">REWRITTEN VERSION:</div>
+      <div class="ai-box">"Thank you so much for taking the time to apply and interview with us. After careful consideration, we have moved forward with another candidate whose profile closely matched our current needs. This does not reflect on your potential — we encourage you to keep applying and wish you the very best in your career."</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 6 — SKILL 4: COMPARE TWO ANSWERS                          -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<section class="content-section" id="s6">
+  <div class="content-inner hidden">
+    <span class="section-badge badge-amber">Skill 4 of 5</span>
+    <h2 class="section-title">Ask twice.<br><span class="em">Compare, then decide.</span></h2>
+    <p class="section-sub">The first answer AI gives is not always its best. Asking two different ways — or asking for a second version — often reveals a much better answer. Smart AI users do this automatically.</p>
+
+    <div class="char-scene">
+      <div class="char-avatar">🏪</div>
+      <div class="char-body">
+        <div class="char-name">Kiran · Shop Owner, Vijayawada</div>
+        <div class="char-says">Kiran needed to choose between two mobile phones for his shop's payment system. He asked AI once and got a recommendation. Then he asked a second time with different framing — and got completely different reasoning. By comparing both, he made a smarter purchase decision.</div>
+      </div>
+    </div>
+
+    <div class="tip-grid">
+      <div class="tip-card">
+        <div class="tip-icon">1️⃣</div>
+        <h3>Ask once — normal way</h3>
+        <p>Get your first answer. Read it. Don't accept it immediately.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">2️⃣</div>
+        <h3>Ask again — different angle</h3>
+        <p>Reframe the question from another angle, or explicitly ask: "Give me a second opinion on this."</p>
+      </div>
+      <div class="tip-card" style="border-color:var(--emerald);background:var(--em-light);">
+        <div class="tip-icon">⚖️</div>
+        <h3>Compare and decide</h3>
+        <p>Look at both answers. Where do they agree? Where do they differ? That difference is where your judgment matters most.</p>
+      </div>
+    </div>
+
+    <div class="ai-exchange">
+      <div class="ai-label prompt">KIRAN'S FIRST PROMPT:</div>
+      <div class="ai-box prompt-box">"Which Android phone is best for a small shop owner in India who needs to run PhonePe, WhatsApp Business, and a simple billing app? Budget ₹12,000."</div>
+    </div>
+    <div class="ai-exchange">
+      <div class="ai-label prompt">KIRAN'S SECOND PROMPT (different angle):</div>
+      <div class="ai-box prompt-box">"I want to buy a phone under ₹12,000 for my shop. My priority is battery life and reliability, not camera. Suggest options and tell me what to avoid."</div>
+    </div>
+    <div class="ai-exchange">
+      <div class="ai-label response">WHAT KIRAN LEARNED BY COMPARING:</div>
+      <div class="ai-box">The first answer focused on features. The second highlighted battery and reliability — which was actually his real priority. He picked a phone mentioned in both answers. Best decision he made all month.</div>
+    </div>
+
+    <div class="prompt-template">
+      <div class="pt-label">Power Phrase — ask for a second opinion</div>
+      <div class="pt-body">"Give me a <span>second opinion</span> on this. What might someone argue <span>against</span> your first answer?"</div>
+      <div class="pt-note">This forces AI to give you the other side — often more valuable than the first answer.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 7 — SKILL 5: SAVE YOUR BEST PROMPTS                       -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<section class="content-section" style="background:var(--panel);" id="s7">
+  <div class="content-inner hidden">
+    <span class="section-badge badge-em">Skill 5 of 5</span>
+    <h2 class="section-title">Build your personal<br><span class="em">prompt library.</span></h2>
+    <p class="section-sub">Every time you write a prompt that works really well, save it. Treat it like a recipe. Next time you need something similar, you just swap the details. This turns AI from a one-time helper into a permanent life tool.</p>
+
+    <div class="char-scene">
+      <div class="char-avatar">📋</div>
+      <div class="char-body">
+        <div class="char-name">Smart habit — what advanced AI users do</div>
+        <div class="char-says">They keep a simple Notes app (or WhatsApp Saved Messages) with their favourite prompts. They label each one. When they need it, they copy-paste and change the specifics. Takes 10 seconds. Saves 20 minutes.</div>
+      </div>
+    </div>
+
+    <h3 style="font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:1rem;">5 prompt templates to save right now</h3>
+
+    <div class="prompt-template">
+      <div class="pt-label">Template 1 — Verify any fact</div>
+      <div class="pt-body">"Is the following information accurate? <span>[paste the fact]</span>. If you are not sure, say so and tell me where to verify it officially."</div>
+    </div>
+    <div class="prompt-template">
+      <div class="pt-label">Template 2 — Step-by-step guide</div>
+      <div class="pt-body">"Explain how to <span>[task]</span> in clear numbered steps. I am a beginner. Use a simple Indian example."</div>
+    </div>
+    <div class="prompt-template">
+      <div class="pt-label">Template 3 — Tone rewrite</div>
+      <div class="pt-body">"Rewrite this message to sound <span>[tone: formal / friendly / firm / encouraging]</span>: <span>[paste your message]</span>"</div>
+    </div>
+    <div class="prompt-template">
+      <div class="pt-label">Template 4 — Second opinion</div>
+      <div class="pt-body">"You just told me <span>[paste the answer]</span>. Now give me a second opinion. What are the risks or downsides I should know?"</div>
+    </div>
+    <div class="prompt-template">
+      <div class="pt-label">Template 5 — Daily decision helper</div>
+      <div class="pt-body">"Help me decide between <span>[option A]</span> and <span>[option B]</span> for <span>[my situation]</span>. Give me pros and cons as a simple table."</div>
+    </div>
+
+    <p style="font-size:0.88rem;color:var(--muted);line-height:1.65;background:var(--panel);padding:1rem 1.3rem;border-radius:12px;margin-top:0.5rem;">
+      💡 <strong>How to save:</strong> Copy any template above → paste into WhatsApp Saved Messages, iPhone Notes, or Google Keep → label it with a short name. That's your prompt library started.
+    </p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 8 — PRACTICE ARENA                                         -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<section class="content-section" id="s8">
+  <span class="section-badge badge-em" style="margin-bottom:0.9rem;">Practice Time</span>
+  <h2 class="section-title hidden" style="text-align:center;margin-bottom:0.5rem;">Try these <span class="em">yourself today.</span></h2>
+  <p class="section-sub hidden" style="text-align:center;">Open ChatGPT or Gemini and do each one. You will be surprised how much better your results get.</p>
+
+  <div class="practice-grid">
+    <div class="practice-card hidden">
+      <div class="pc-num">Practice 1</div>
+      <h3>Fact-check something</h3>
+      <p>Ask AI about any government fee, exam date, or scheme. Then add "Is this current? Where can I verify this officially?" Compare what it says before and after.</p>
+      <button class="try-btn" onclick="alert('Open ChatGPT or Gemini and try:\n\n\"What is the current fee for getting a birth certificate in India? Is this current? Where can I verify this on an official website?\"')">Try It</button>
+    </div>
+    <div class="practice-card hidden">
+      <div class="pc-num">Practice 2</div>
+      <h3>Get step-by-step help</h3>
+      <p>Pick any task you want to learn — cooking, applying for a scheme, setting up a mobile feature. Ask AI to explain it in numbered steps for a beginner.</p>
+      <button class="try-btn" onclick="alert('Open ChatGPT or Gemini and try:\n\n\"Explain how to apply for an Aadhaar update in numbered steps. I am doing this for the first time. Keep each step short.\"')">Try It</button>
+    </div>
+    <div class="practice-card hidden">
+      <div class="pc-num">Practice 3</div>
+      <h3>Change the tone</h3>
+      <p>Write a message to someone — a complaint, an apology, a request. Ask AI to rewrite it in two different tones. See which one fits better.</p>
+      <button class="try-btn" onclick="alert('Open ChatGPT or Gemini and try:\n\n\"Rewrite this message in a formal polite tone, then rewrite it again in a warm friendly tone:\n[My phone has been faulty for 2 weeks and I want a replacement]\"')">Try It</button>
+    </div>
+    <div class="practice-card hidden">
+      <div class="pc-num">Practice 4</div>
+      <h3>Ask for a second opinion</h3>
+      <p>Next time AI recommends something — a product, a plan, a route — ask it: "Now give me the reasons why this might NOT be the best choice." Notice what it says.</p>
+      <button class="try-btn" onclick="alert('Open ChatGPT or Gemini and try:\n\n\"You recommended [any product]. Now give me 3 reasons why someone might argue against this choice. What are the downsides?\"')">Try It</button>
+    </div>
+    <div class="practice-card hidden">
+      <div class="pc-num">Practice 5</div>
+      <h3>Start your prompt library</h3>
+      <p>Copy the 5 templates from Section 7 into your Notes app or WhatsApp Saved Messages right now. Give each one a short label. Your library is started.</p>
+      <button class="try-btn" onclick="alert('Go to Section 7 above, copy each template, and save it in your Notes app. Label them:\n1. Verify Fact\n2. Step by Step\n3. Tone Rewrite\n4. Second Opinion\n5. Decision Helper')">Start Now</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 9 — RECAP CHEAT SHEET                                      -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<section class="content-section" style="background:var(--panel);" id="s9">
+  <div class="content-inner hidden">
+    <span class="section-badge badge-em">Level 3 Recap</span>
+    <h2 class="section-title">Your <span class="em">Smart Basics</span> cheat sheet.</h2>
+    <p class="section-sub">5 skills you now have that most AI users don't.</p>
+
+    <div class="cheat-sheet">
+      <h3>🧠 Smart Basics — Level 3</h3>
+      <div class="cheat-row">
+        <span class="cheat-icon">🔍</span>
+        <div class="cheat-text">
+          <strong>Skill 1 — Check before you trust</strong>
+          <span>Ask AI if information is current. Ask where to verify it. Never trust medical, legal, or financial facts without a second check.</span>
+        </div>
+      </div>
+      <div class="cheat-row">
+        <span class="cheat-icon">🪜</span>
+        <div class="cheat-text">
+          <strong>Skill 2 — Step-by-step mode</strong>
+          <span>Add "in numbered steps" to any complex question. Break big walls of text into a clear guide you can follow one step at a time.</span>
+        </div>
+      </div>
+      <div class="cheat-row">
+        <span class="cheat-icon">🎨</span>
+        <div class="cheat-text">
+          <strong>Skill 3 — Rewrite for tone</strong>
+          <span>The same message in the wrong tone causes problems. Tell AI the exact tone you need: formal, warm, firm, encouraging, direct.</span>
+        </div>
+      </div>
+      <div class="cheat-row">
+        <span class="cheat-icon">⚖️</span>
+        <div class="cheat-text">
+          <strong>Skill 4 — Ask twice, compare</strong>
+          <span>The first answer isn't always the best. Rephrase or ask for a "second opinion." Where answers differ, your judgment fills the gap.</span>
+        </div>
+      </div>
+      <div class="cheat-row">
+        <span class="cheat-icon">📚</span>
+        <div class="cheat-text">
+          <strong>Skill 5 — Build your prompt library</strong>
+          <span>Save prompts that work well. Label them. Reuse them with small changes. This is the habit that separates casual users from smart users.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 10 — QUIZ                                                  -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<section class="quiz-section" id="s10">
+  <div class="quiz-wrap hidden">
+    <span class="section-badge badge-em" style="margin-bottom:0.9rem;">Level 3 Quiz</span>
+    <h2 class="section-title" style="margin-bottom:0.4rem;">Test your <span class="em">Smart Basics.</span></h2>
+    <p style="font-size:0.88rem;color:var(--muted);margin-bottom:1.5rem;">Answer all 5 questions. Score 4 or more to earn your certificate.</p>
+
+    <form id="l3-quiz-qs">
+
+      <div class="quiz-q">
+        <p>1. Meena asked AI about an exam fee and got an answer that was out of date. What should she have added to her prompt?</p>
+        <label class="quiz-opt"><input type="radio" name="q1" value="a"><span>A. "Answer in Telugu please"</span></label>
+        <label class="quiz-opt"><input type="radio" name="q1" value="b"><span>B. "Is this information likely to be current? Where can I verify this officially?"</span></label>
+        <label class="quiz-opt"><input type="radio" name="q1" value="c"><span>C. "Write a longer answer"</span></label>
+        <label class="quiz-opt"><input type="radio" name="q1" value="d"><span>D. "Answer in bullet points"</span></label>
+      </div>
+
+      <div class="quiz-q">
+        <p>2. Rahul was confused by a long AI answer. Which phrase would have helped him most?</p>
+        <label class="quiz-opt"><input type="radio" name="q2" value="a"><span>A. "Give me a shorter answer"</span></label>
+        <label class="quiz-opt"><input type="radio" name="q2" value="b"><span>B. "Explain this in numbered steps, one step at a time"</span></label>
+        <label class="quiz-opt"><input type="radio" name="q2" value="c"><span>C. "Answer in English only"</span></label>
+        <label class="quiz-opt"><input type="radio" name="q2" value="d"><span>D. "Use bold text only"</span></label>
+      </div>
+
+      <div class="quiz-q">
+        <p>3. Priya's AI-written rejection letter sounded cold. What prompt fixed it?</p>
+        <label class="quiz-opt"><input type="radio" name="q3" value="a"><span>A. "Make it longer and more detailed"</span></label>
+        <label class="quiz-opt"><input type="radio" name="q3" value="b"><span>B. "Add more formal words"</span></label>
+        <label class="quiz-opt"><input type="radio" name="q3" value="c"><span>C. "Rewrite this to sound warm, respectful, and encouraging"</span></label>
+        <label class="quiz-opt"><input type="radio" name="q3" value="d"><span>D. "Translate this into Hindi"</span></label>
+      </div>
+
+      <div class="quiz-q">
+        <p>4. Kiran compared two AI answers about phones and made a better decision. What technique did he use?</p>
+        <label class="quiz-opt"><input type="radio" name="q4" value="a"><span>A. He asked the same question to two different people</span></label>
+        <label class="quiz-opt"><input type="radio" name="q4" value="b"><span>B. He asked twice with different angles and compared both answers</span></label>
+        <label class="quiz-opt"><input type="radio" name="q4" value="c"><span>C. He used the most expensive phone in both lists</span></label>
+        <label class="quiz-opt"><input type="radio" name="q4" value="d"><span>D. He ignored the AI answer and searched Google</span></label>
+      </div>
+
+      <div class="quiz-q">
+        <p>5. What is a "prompt library" and why is it useful?</p>
+        <label class="quiz-opt"><input type="radio" name="q5" value="a"><span>A. A list of AI tools you have used</span></label>
+        <label class="quiz-opt"><input type="radio" name="q5" value="b"><span>B. A collection of saved prompts that worked well, reused with small changes for similar tasks</span></label>
+        <label class="quiz-opt"><input type="radio" name="q5" value="c"><span>C. A website where you download free AI prompts</span></label>
+        <label class="quiz-opt"><input type="radio" name="q5" value="d"><span>D. A feature inside ChatGPT that saves your chats automatically</span></label>
+      </div>
+
+    </form>
+
+    <div style="margin-top:0.5rem;">
+      <label style="display:flex;align-items:center;gap:0.7rem;font-size:0.9rem;color:var(--muted);margin-bottom:0.75rem;">
+        Your name (for certificate):
+        <input id="l3-cert-name-input" type="text" placeholder="Enter your name" style="padding:6px 12px;border:1.5px solid rgba(5,150,105,0.3);border-radius:10px;font-family:'Nunito',sans-serif;font-size:0.9rem;flex:1;max-width:260px;outline:none;" />
+      </label>
+    </div>
+
+    <button class="quiz-submit" id="l3-quiz-btn" onclick="submitQuiz('l3')">Submit Answers</button>
+    <div id="l3-quiz-result" style="display:none;margin-top:1rem;"></div>
+
+    <!-- CERTIFICATE -->
+    <div class="certificate" id="l3-certificate">
+      <div class="cert-seal">🌿</div>
+      <div class="cert-brand">Mitra AI Life Education</div>
+      <div class="cert-title">Certificate of Completion</div>
+      <div class="cert-sub">This certifies that</div>
+      <div class="cert-name-box" id="l3-cert-name">Your Name</div>
+      <div class="cert-level">has successfully completed</div>
+      <div class="cert-title" style="font-size:1.2rem;margin-bottom:0.25rem;">Level 3: Smart Basics</div>
+      <div class="cert-sub">AI for Daily Life · Mitra AI Life Education</div>
+      <div class="cert-skills">
+        <span class="cert-skill-badge">✓ Verify AI Answers</span>
+        <span class="cert-skill-badge">✓ Step-by-Step Mode</span>
+        <span class="cert-skill-badge">✓ Tone Rewriting</span>
+        <span class="cert-skill-badge">✓ Compare &amp; Decide</span>
+        <span class="cert-skill-badge">✓ Prompt Library</span>
+      </div>
+      <div class="cert-date" id="l3-cert-date"></div>
+      <div style="margin-top:1rem;display:flex;justify-content:center;gap:0.5rem;flex-wrap:wrap;">
+        <button class="cert-save" onclick="saveCert()">💾 Save Certificate</button>
+        <a href="../../../site/index.html" class="cert-next">🏠 Back to Home</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 11 — COMPLETION                                            -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<section class="completion-section" id="s11">
+  <div style="max-width:680px;text-align:center;">
+    <div style="font-size:4rem;margin-bottom:1rem;" class="anim-bounceIn">🎉</div>
+    <h2 style="font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;margin-bottom:0.75rem;" class="anim-fadeInUp">
+      You just levelled up.
+    </h2>
+    <p style="font-size:1rem;color:rgba(255,255,255,0.72);line-height:1.7;margin-bottom:2rem;" class="anim-fadeInUp">
+      Most people who use AI every day don't know these 5 skills. You do now. Share this level with someone who needs it.
+    </p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <a href="../../../site/index.html" style="background:var(--emerald);color:white;padding:0.8rem 2rem;border-radius:30px;font-weight:800;text-decoration:none;font-size:0.95rem;">← Back to Home</a>
+      <button onclick="navigator.share ? navigator.share({title:'Mitra AI Level 3',url:window.location.href}) : alert('Copy this link: ' + window.location.href)" style="background:rgba(255,255,255,0.12);color:white;border:1.5px solid rgba(255,255,255,0.25);padding:0.8rem 2rem;border-radius:30px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;font-size:0.95rem;">📤 Share This Level</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- DISQUS COMMENTS                                                    -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<section class="disqus-section" id="disqus">
+  <div style="max-width:760px;width:100%;padding:0 1rem 3rem;">
+    <h3 style="font-family:'Baloo 2',cursive;font-weight:800;color:var(--navy);margin-bottom:1rem;">💬 Questions &amp; Comments</h3>
+    <div id="disqus_thread"></div>
+  </div>
+</section>
+
+
+<script>
+  /* ─── scroll-reveal ─────────────────────────────────────────── */
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if(e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.hidden').forEach(function(el) { io.observe(el); });
+
+  /* ─── progress bar ──────────────────────────────────────────── */
+  window.addEventListener('scroll', function() {
+    var s = document.documentElement, b = document.body;
+    var t = s.scrollTop  || b.scrollTop;
+    var h = (s.scrollHeight || b.scrollHeight) - s.clientHeight;
+    document.getElementById('progress-bar').style.width = (t/h*100) + '%';
+  });
+
+  /* ─── quiz ──────────────────────────────────────────────────── */
+  var ANSWERS = { q1:'b', q2:'b', q3:'c', q4:'b', q5:'b' };
+
+  function submitQuiz(pfx) {
+    var name = document.getElementById('l3-cert-name-input').value.trim() || 'Learner';
+    var score = 0;
+    var allDone = true;
+    ['q1','q2','q3','q4','q5'].forEach(function(q) {
+      var sel = document.querySelector('#l3-quiz-qs input[name="' + q + '"]:checked');
+      if (!sel) { allDone = false; return; }
+      var opts = document.querySelectorAll('#l3-quiz-qs input[name="' + q + '"]');
+      opts.forEach(function(o) {
+        var lbl = o.parentElement;
+        lbl.classList.remove('correct','wrong');
+        if (o.value === ANSWERS[q]) lbl.classList.add('correct');
+        else if (o.checked)         lbl.classList.add('wrong');
+        o.disabled = true;
+      });
+      if (sel.value === ANSWERS[q]) score++;
+    });
+    if (!allDone) { alert('Please answer all 5 questions.'); return; }
+    document.getElementById('l3-quiz-btn').style.display = 'none';
+    var resDiv = document.getElementById('l3-quiz-result');
+    resDiv.style.display = 'block';
+    if (score >= 4) {
+      resDiv.innerHTML = '<div style="background:#f0fdf4;border:2px solid #86efac;border-radius:14px;padding:1.1rem 1.4rem;text-align:center;">'
+        + '<p style="font-size:1.6rem;margin-bottom:0.4rem;">🎉</p>'
+        + '<p style="font-weight:800;color:#065f46;font-size:1.05rem;">You scored ' + score + '/5 — Certificate earned!</p>'
+        + '<p style="color:#4b5563;font-size:0.88rem;margin-top:0.4rem;">You are now a Smart Basics graduate. Scroll down for your certificate.</p></div>';
+      var cert = document.getElementById('l3-certificate');
+      cert.style.display = 'block';
+      document.getElementById('l3-cert-name').textContent = name;
+      document.getElementById('l3-cert-date').textContent =
+        new Date().toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
+      cert.scrollIntoView({ behavior:'smooth', block:'start' });
+      saveProgress('level-03', score);
+    } else {
+      resDiv.innerHTML = '<div style="background:#fef9c3;border:2px solid #fde047;border-radius:14px;padding:1.1rem 1.4rem;text-align:center;">'
+        + '<p style="font-size:1.6rem;margin-bottom:0.4rem;">💪</p>'
+        + '<p style="font-weight:800;color:#92400e;font-size:1.05rem;">You scored ' + score + '/5 — need 4 to pass.</p>'
+        + '<p style="color:#4b5563;font-size:0.88rem;margin-top:0.4rem;">Scroll up, review the skills, and try again.</p>'
+        + '<button onclick="resetQuiz()" style="margin-top:0.9rem;padding:0.65rem 1.4rem;background:var(--emerald);color:white;border:none;border-radius:10px;font-family:\'Baloo 2\',cursive;font-weight:800;cursor:pointer;font-size:0.9rem;">Try Again</button>'
+        + '</div>';
+    }
+  }
+
+  function resetQuiz() {
+    document.querySelectorAll('#l3-quiz-qs input').forEach(function(i) { i.disabled=false; i.checked=false; });
+    document.querySelectorAll('#l3-quiz-qs .quiz-opt').forEach(function(o) { o.classList.remove('correct','wrong'); });
+    document.getElementById('l3-quiz-result').style.display  = 'none';
+    document.getElementById('l3-certificate').style.display  = 'none';
+    document.getElementById('l3-quiz-btn').style.display     = 'block';
+  }
+
+  function saveCert() {
+    document.body.classList.add('printing-cert');
+    window.print();
+    setTimeout(function() { document.body.classList.remove('printing-cert'); }, 1500);
+  }
+
+  /* ─── Disqus ────────────────────────────────────────────────── */
+  var disqus_config = function() {
+    this.page.url      = 'https://mitraailife.com/content/english/level-03-smart-basics/level-03-comic.html';
+    this.page.identifier = 'level-03-comic';
+  };
+  (function() {
+    var d=document, s=d.createElement('script');
+    s.src='https://mitra-ai-life.disqus.com/embed.js';
+    s.setAttribute('data-timestamp',+new Date());
+    (d.head||d.body).appendChild(s);
+  })();
+</script>
+
+<!-- Auth -->
+<script src="../../../site/auth.js"></script>
+</body>
+</html>

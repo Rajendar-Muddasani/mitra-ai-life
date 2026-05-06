@@ -17,138 +17,872 @@
   </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Nunito', sans-serif;
-      background: #040712;
-      color: #f5f8ff;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    nav {
-      display: flex; align-items: center; gap: 16px;
-      padding: 14px 32px;
-      background: rgba(4,7,18,0.95);
-      border-bottom: 1px solid rgba(119,168,255,0.18);
-      position: sticky; top: 0; z-index: 100;
-    }
-    .brand { font-weight: 800; font-size: 1rem; }
-    .level-tag {
-      font-size: 0.8rem; padding: 4px 12px; border-radius: 20px;
-      background: rgba(83,166,255,0.1); border: 1px solid rgba(83,166,255,0.3); color: #53a6ff;
-    }
-    .back-link { margin-left: auto; font-size: 0.85rem; color: #9fb3da; text-decoration: none; }
-    .back-link:hover { color: #f5f8ff; }
-    .lang-btn {
-      font-size: 0.8rem; padding: 5px 12px;
-      border: 1px solid rgba(255,255,255,0.25); border-radius: 20px;
-      color: #fff; text-decoration: none; opacity: 0.85;
+
+    :root {
+      --navy:   #1E3A5F;
+      --blue:   #2563EB;
+      --sky:    #38BDF8;
+      --amber:  #F59E0B;
+      --green:  #10B981;
+      --red:    #EF4444;
+      --purple: #8B5CF6;
+      --cream:  #FFFBF0;
+      --white:  #FFFFFF;
+      --text:   #1C1C2E;
+      --muted:  #64748B;
+      --panel:  #F1F5FF;
     }
 
-    .coming-soon {
-      flex: 1;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center;
-      padding: 60px 24px;
-      gap: 24px;
-    }
-    .mitra-img {
-      width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
-      animation: float 3.5s ease-in-out infinite;
-    }
-    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
 
-    .badge {
-      font-size: 0.82rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-      color: #34d399; background: rgba(16,185,129,0.1); padding: 6px 18px; border-radius: 20px;
-      border: 1px solid rgba(16,185,129,0.3);
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 5px;
+      background: linear-gradient(90deg, var(--amber), var(--blue), var(--green));
+      width: 0%; z-index: 999; transition: width 0.3s ease;
     }
-    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; line-height: 1.2; max-width: 640px; }
-    h1 span { color: #53a6ff; }
-    .sub { font-size: 1.05rem; color: #9fb3da; max-width: 520px; line-height: 1.7; }
 
-    .progress-bar {
-      width: 100%; max-width: 440px;
-      background: rgba(255,255,255,0.08); border-radius: 8px; height: 10px;
-      overflow: hidden;
+    .topnav {
+      position: fixed; top: 5px; left: 0; right: 0; height: 52px;
+      background: rgba(255,251,240,0.92); backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.5rem; z-index: 100;
+      border-bottom: 2px solid rgba(37,99,235,0.12);
     }
-    .progress-fill {
-      height: 100%; width: 40%;
-      background: linear-gradient(90deg, #2563eb, #7c3aed);
-      border-radius: 8px;
-      animation: progress 2s ease-in-out infinite alternate;
-    }
-    @keyframes progress { from{width:35%} to{width:55%} }
-    .progress-label { font-size: 0.82rem; color: #9fb3da; }
+    .topnav .brand { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.1rem; color: var(--navy); }
+    .topnav .level-tag { background: var(--blue); color: white; font-size: 0.75rem; font-weight: 700; padding: 3px 12px; border-radius: 20px; }
+    .topnav .time-tag { font-size: 0.8rem; color: var(--muted); font-weight: 600; }
 
-    .notify-form {
-      display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; max-width: 440px; width: 100%;
-    }
-    .notify-form input {
-      flex: 1; min-width: 200px; padding: 12px 18px; border-radius: 24px;
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(119,168,255,0.3);
-      color: #f5f8ff; font-size: 0.95rem; font-family: inherit; outline: none;
-    }
-    .notify-form input::placeholder { color: #6b7fa3; }
-    .notify-form button {
-      padding: 12px 24px; border-radius: 24px; border: none; cursor: pointer;
-      background: linear-gradient(135deg, #2563eb, #7c3aed);
-      color: #fff; font-weight: 700; font-size: 0.95rem; font-family: inherit;
-    }
-    .or-read-english {
-      font-size: 0.9rem; color: #9fb3da;
-    }
-    .or-read-english a { color: #53a6ff; text-decoration: none; font-weight: 700; }
-    .or-read-english a:hover { text-decoration: underline; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-48px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes slideInRight { from { opacity: 0; transform: translateX(48px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.6); } 60% { opacity: 1; transform: scale(1.08); } 80% { transform: scale(0.97); } 100% { transform: scale(1); } }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes blink { 50% { opacity: 0; } }
 
-    footer { text-align: center; padding: 28px; font-size: 0.8rem; color: #6b7fa3; border-top: 1px solid rgba(119,168,255,0.12); }
+    .anim-fadeInUp   { animation: fadeInUp 0.7s ease forwards; }
+    .anim-slideLeft  { animation: slideInLeft 0.7s ease forwards; }
+    .anim-slideRight { animation: slideInRight 0.7s ease forwards; }
+    .anim-bounceIn   { animation: bounceIn 0.75s cubic-bezier(.68,-.55,.27,1.55) forwards; }
+    .anim-float      { animation: float 3s ease-in-out infinite; }
+    .anim-pulse      { animation: pulse 2.5s ease-in-out infinite; }
+    .hidden  { opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s; }
+    .visible { opacity: 1 !important; transform: none !important; }
+
+    section {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      padding: 90px 1.5rem 3rem; position: relative;
+    }
+
+    .hero {
+      background:
+        linear-gradient(160deg, rgba(4,8,24,0.92) 0%, rgba(8,16,52,0.82) 55%, rgba(14,26,80,0.76) 100%),
+        url('https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-s01-hero.jpg') center/cover no-repeat;
+      color: white; text-align: center; overflow: hidden;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 720px; }
+    .hero-badge { display: inline-block; background: var(--amber); color: #1C1C2E; font-weight: 800; font-size: 0.85rem; padding: 6px 18px; border-radius: 20px; margin-bottom: 1.5rem; letter-spacing: 0.5px; }
+    .hero-title { font-family: 'Baloo 2', cursive; font-size: clamp(2rem,6vw,3.6rem); font-weight: 800; line-height: 1.15; margin-bottom: 1.25rem; text-shadow: 0 2px 12px rgba(0,0,0,0.5); }
+    .hero-title .highlight { background: linear-gradient(90deg, var(--amber), var(--sky)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-sub { font-size: 1.2rem; color: rgba(255,255,255,0.8); margin-bottom: 2rem; line-height: 1.6; }
+    .hero-promise { background: rgba(245,158,11,0.15); border: 2px solid rgba(245,158,11,0.4); border-radius: 16px; padding: 1.25rem 1.5rem; font-size: 1.05rem; font-weight: 700; color: #FFF3CD; margin-bottom: 2rem; }
+    .hero-meta { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
+    .meta-pill { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; padding: 8px 20px; font-size: 0.9rem; font-weight: 600; color: rgba(255,255,255,0.9); }
+    .scroll-cue { margin-top: 3rem; font-size: 0.85rem; color: rgba(255,255,255,0.5); display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .scroll-cue .arrow { font-size: 1.4rem; animation: blink 1.2s ease-in-out infinite; }
+
+    .section-eyebrow { font-size: 0.8rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--blue); margin-bottom: 0.5rem; }
+    .section-title { font-family: 'Baloo 2', cursive; font-size: clamp(1.85rem,4.5vw,2.75rem); font-weight: 800; line-height: 1.18; color: var(--navy); text-align: center; margin-bottom: 0.75rem; max-width: 720px; }
+    .section-sub { color: var(--muted); font-size: 1rem; text-align: center; max-width: 580px; line-height: 1.6; margin-bottom: 2.5rem; }
+
+    .comic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 1.5rem; max-width: 960px; width: 100%; }
+    .comic-panel { background: white; border-radius: 18px; border: 3px solid var(--navy); box-shadow: 6px 6px 0 var(--navy); overflow: hidden; position: relative; }
+    .comic-panel .panel-art { min-height: 140px; display: flex; align-items: center; justify-content: center; padding: 1.5rem; position: relative; }
+    .comic-panel .panel-caption { background: var(--navy); color: white; padding: 0.75rem 1rem; font-size: 0.95rem; font-weight: 700; line-height: 1.45; }
+    .comic-panel .panel-number { position: absolute; top: 10px; left: 12px; background: var(--amber); color: #1C1C2E; font-weight: 900; font-size: 0.85rem; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+    .speech-bubble { background: white; border: 2.5px solid var(--navy); border-radius: 18px; padding: 0.75rem 1.1rem; font-size: 0.95rem; font-weight: 700; line-height: 1.45; position: relative; max-width: 260px; }
+    .speech-bubble::after { content: ''; position: absolute; bottom: -14px; left: 24px; width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 14px solid var(--navy); }
+    .speech-bubble.right::after { left: auto; right: 24px; }
+    .speech-bubble.mitra-bubble { border-color: var(--blue); background: #EFF6FF; }
+    .speech-bubble.mitra-bubble::after { border-top-color: var(--blue); }
+    .thought-bubble { background: white; border: 2.5px dashed var(--muted); border-radius: 18px; padding: 0.75rem 1.1rem; font-size: 0.9rem; font-weight: 600; color: var(--muted); position: relative; }
+
+    .story-card { background: white; border-radius: 24px; padding: 2rem; max-width: 680px; width: 100%; box-shadow: 0 4px 24px rgba(37,99,235,0.08); border: 2px solid rgba(37,99,235,0.1); }
+    .story-scene { display: flex; gap: 1.5rem; align-items: flex-start; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .story-scene.flip { flex-direction: row-reverse; }
+    .char-name { font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    .ravi-color  { color: #2563EB; }
+    .priya-color { color: #D946EF; }
+    .mitra-color { color: #10B981; }
+
+    .explainer-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.25rem; max-width: 880px; width: 100%; }
+    @media (max-width: 560px) { .explainer-grid { grid-template-columns: 1fr; } }
+    .explainer-card { background: white; border-radius: 20px; padding: 1.5rem; border: 2px solid transparent; box-shadow: 0 2px 16px rgba(0,0,0,0.06); text-align: center; }
+    .explainer-card .icon { font-size: 2.8rem; margin-bottom: 1rem; display: block; }
+    .explainer-card h3 { font-family: 'Baloo 2', cursive; font-size: 1.15rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
+    .explainer-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.55; }
+    .card-blue   { border-color: var(--blue);   background: #EFF6FF; }
+    .card-green  { border-color: var(--green);  background: #ECFDF5; }
+    .card-amber  { border-color: var(--amber);  background: #FFFBEB; }
+    .card-purple { border-color: var(--purple); background: #F5F3FF; }
+
+    .demo-section { background: linear-gradient(160deg, #0f172a, #1e3a5f); color: white; }
+    .demo-window { background: #0D1117; border: 2px solid #30363D; border-radius: 16px; max-width: 680px; width: 100%; overflow: hidden; box-shadow: 0 16px 48px rgba(0,0,0,0.5); }
+    .demo-titlebar { background: #161B22; padding: 0.75rem 1.25rem; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #30363D; }
+    .demo-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-red { background: #FF5F57; } .dot-yel { background: #FFBD2E; } .dot-grn { background: #28C840; }
+    .demo-label { font-size: 0.8rem; color: #8B949E; margin-left: 8px; font-weight: 600; }
+    .demo-body { padding: 1.5rem; }
+    .chat-msg { display: flex; gap: 0.75rem; margin-bottom: 1.25rem; align-items: flex-start; }
+    .chat-msg.user { flex-direction: row-reverse; }
+    .chat-avatar { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 700; }
+    .avatar-user { background: var(--amber); color: #1C1C2E; }
+    .avatar-mitra { background: var(--blue); color: white; }
+    .chat-bubble { background: #1C2128; border-radius: 14px; padding: 0.75rem 1rem; font-size: 0.9rem; color: #E6EDF3; line-height: 1.55; max-width: 480px; }
+    .chat-msg.user .chat-bubble { background: #1F3251; color: #CAE0FF; }
+
+    .safety-section { background: #FFF5F5; }
+    .safety-banner { background: linear-gradient(135deg, #FEF2F2, #FFFBEB); border: 2px solid #FCA5A5; border-radius: 20px; padding: 1.5rem 2rem; max-width: 700px; width: 100%; text-align: center; margin-bottom: 2rem; }
+    .safety-banner .icon { font-size: 3rem; margin-bottom: 0.75rem; display: block; }
+    .safety-banner h3 { font-family: 'Baloo 2', cursive; font-size: 1.4rem; font-weight: 800; color: #991B1B; margin-bottom: 0.5rem; }
+    .safety-banner p { color: #7F1D1D; font-size: 0.95rem; line-height: 1.55; }
+    .safety-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1rem; max-width: 880px; width: 100%; }
+    .safety-rule { background: white; border-radius: 16px; padding: 1.25rem; border-left: 5px solid; box-shadow: 0 2px 12px rgba(0,0,0,0.05); display: flex; gap: 1rem; align-items: flex-start; }
+    .safety-rule .rule-icon { font-size: 1.8rem; flex-shrink: 0; }
+    .safety-rule h4 { font-size: 0.95rem; font-weight: 800; margin-bottom: 4px; }
+    .safety-rule p  { font-size: 0.85rem; color: var(--muted); line-height: 1.45; }
+    .rule-red { border-color: #EF4444; } .rule-amber { border-color: #F59E0B; } .rule-blue { border-color: #2563EB; } .rule-green { border-color: #10B981; }
+
+    .try-section { background: linear-gradient(160deg, #1e3a5f, #1d4ed8); color: white; }
+    .try-card { background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.15); border-radius: 24px; padding: 2.5rem; max-width: 640px; width: 100%; }
+    .try-card h2 { font-family: 'Baloo 2', cursive; font-size: 1.8rem; font-weight: 800; margin-bottom: 0.75rem; }
+    .try-card p { color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 1.5rem; }
+    .prompt-box { background: rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.2); border-radius: 12px; padding: 1rem 1.25rem; font-family: 'Nunito', sans-serif; font-size: 1rem; color: white; width: 100%; resize: vertical; min-height: 100px; outline: none; }
+    .prompt-box::placeholder { color: rgba(255,255,255,0.4); }
+    .prompt-hints { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1rem 0; }
+    .hint-chip { background: rgba(245,158,11,0.15); border: 1.5px solid rgba(245,158,11,0.4); color: #FDE68A; font-size: 0.82rem; font-weight: 700; padding: 5px 14px; border-radius: 20px; cursor: pointer; }
+    .hint-chip:hover { background: rgba(245,158,11,0.3); }
+    .try-btn { display: inline-block; background: var(--amber); color: #1C1C2E; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; padding: 12px 32px; border-radius: 14px; border: none; cursor: pointer; margin-top: 1rem; box-shadow: 0 4px 0 #D97706; }
+    .try-result { margin-top: 1.5rem; background: rgba(16,185,129,0.12); border: 2px solid rgba(16,185,129,0.4); border-radius: 14px; padding: 1.25rem; display: none; }
+    .try-result.show { display: block; animation: bounceIn 0.5s ease forwards; }
+    .try-result p { color: #6EE7B7; font-weight: 700; font-size: 1rem; }
+
+    .teaser-section { background: linear-gradient(150deg, #1C1C2E, #2D1B69); color: white; text-align: center; }
+    .teaser-content { max-width: 640px; }
+    .teaser-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .teaser-item { background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 1.25rem; }
+    .teaser-item .t-icon { font-size: 2rem; margin-bottom: 0.6rem; display: block; }
+    .teaser-item p { font-size: 0.9rem; color: rgba(255,255,255,0.75); margin-bottom: 0; }
+    .teaser-cta { display: inline-block; background: linear-gradient(90deg, var(--purple), var(--blue)); color: white; font-family: 'Nunito', sans-serif; font-size: 1.05rem; font-weight: 800; padding: 14px 36px; border-radius: 14px; text-decoration: none; box-shadow: 0 4px 24px rgba(139,92,246,0.4); }
+    .teaser-cta:hover { transform: translateY(-3px); }
+
+    footer { text-align: center; padding: 2rem 1.5rem; background: #0f172a; color: rgba(255,255,255,0.4); font-size: 0.85rem; }
+
+    @media (max-width: 640px) {
+      .hero-meta { flex-direction: column; align-items: center; }
+      .story-scene, .story-scene.flip { flex-direction: column; }
+      .topnav .time-tag { display: none; }
+    }
+
+    @media print {
+      body.printing-cert * { visibility: hidden !important; }
+      body.printing-cert .cert-card, body.printing-cert .cert-card * { visibility: visible !important; }
+      body.printing-cert .cert-card { position: fixed !important; top: 50% !important; left: 50% !important; transform: translate(-50%,-50%) !important; width: 88% !important; max-width: 520px !important; }
+    }
+    .quiz-opt { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.65rem 0.75rem; border-radius: 10px; cursor: pointer; border: 1.5px solid #e5e7eb; margin-bottom: 0.5rem; font-size: 0.93rem; line-height: 1.45; }
+    .quiz-opt:hover { border-color: #a5b4fc; background: #f5f3ff; }
+    .quiz-opt input { margin-top: 3px; flex-shrink: 0; accent-color: #7c3aed; }
+    .quiz-opt.correct { border-color: #86efac !important; background: #f0fdf4 !important; color: #16a34a; font-weight: 700; }
+    .quiz-opt.wrong   { border-color: #fca5a5 !important; background: #fef2f2 !important; color: #dc2626; text-decoration: line-through; }
   </style>
 </head>
 <body>
 
-<nav>
-  <span class="brand">మిత్ర AI లైఫ్</span>
-  <span class="level-tag">లెవెల్ 1 · మొదటి అడుగు</span>
-  <a href="../../../site/index-te.html" class="back-link">← అన్ని లెవెల్స్</a>
-  <a href="level-01-comic.html" class="lang-btn">🇬🇧 English</a>
+<div id="progress-bar"></div>
+
+<nav class="topnav">
+  <a href="../../../site/index.html" style="font-size:0.82rem;padding:5px 12px;border:1px solid rgba(37,99,235,0.25);border-radius:20px;color:var(--navy);text-decoration:none;white-space:nowrap;" title="హోమ్ పేజ్">← హోమ్</a>
+  <a href="../../../site/index.html" class="brand" style="text-decoration:none;color:var(--navy);">మిత్ర AI లైఫ్ ఎడ్యుకేషన్</a>
+  <span class="level-tag">లెవెల్ 1 · ఉచితం</span>
+  <span class="time-tag">⏱ 45–60 నిమిషాలు</span>
+  <div style="position:relative;display:inline-block;">
+    <button id="langBtn" onclick="this.parentElement.querySelector('.l1-lang-menu').style.display = this.parentElement.querySelector('.l1-lang-menu').style.display === 'block' ? 'none' : 'block'" style="font-size:0.8rem;padding:5px 12px;border:1px solid rgba(37,99,235,0.25);border-radius:20px;color:var(--navy);background:transparent;cursor:pointer;white-space:nowrap;">🌐 భాష ▾</button>
+    <div class="l1-lang-menu" style="display:none;position:absolute;top:calc(100% + 6px);right:0;background:rgba(9,17,48,0.97);border:1px solid rgba(119,168,255,0.18);border-radius:12px;overflow:hidden;min-width:180px;box-shadow:0 8px 24px rgba(0,0,0,0.5);z-index:200;">
+      <a href="level-01-comic.html" style="display:block;padding:9px 14px;font-size:0.85rem;font-weight:700;color:rgba(245,248,255,0.7);text-decoration:none;">🇬🇧 English</a>
+      <a href="level-01-comic-te.html" style="display:block;padding:9px 14px;font-size:0.85rem;font-weight:700;color:#68e1ff;text-decoration:none;">🇮🇳 తెలుగు <small style="font-weight:400;font-size:0.7rem;color:rgba(159,179,218,0.5);"> ప్రస్తుతం</small></a>
+    </div>
+  </div>
 </nav>
 
-<div class="coming-soon">
-  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/characters/mitra-reference.png"
-       alt="మిత్ర" class="mitra-img" />
 
-  <div class="badge">త్వరలో వస్తుంది</div>
+<!-- SECTION 1 — HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge anim-fadeInUp">🎓 లెవెల్ 1 · మొదటి అడుగు · ఉచితం</div>
 
-  <h1>లెవెల్ 1 తెలుగు పాఠం<br><span>తయారవుతోంది!</span></h1>
+    <h1 class="hero-title anim-fadeInUp" style="animation-delay:0.1s">
+      AI లోకి మీ <span class="highlight">మొదటి అడుగు</span><br>— ఈ రోజే
+    </h1>
 
-  <p class="sub">
-    రవి, ప్రియ, రాహుల్ తో కలిసి AI నేర్చుకునే పూర్తి తెలుగు పాఠం రెడీ అవుతోంది.<br>
-    వచ్చినప్పుడు తెలుసుకోవాలంటే మీ ఇమెయిల్ ఇవ్వండి.
+    <p class="hero-sub anim-fadeInUp" style="animation-delay:0.2s">
+      ఇంజినీరింగ్ డిగ్రీ అవసరం లేదు.<br>
+      ప్రత్యేక కంప్యూటర్ అవసరం లేదు.<br>
+      మీ ఫోన్ మరియు కుతూహలం చాలు.
+    </p>
+
+    <div class="hero-promise anim-fadeInUp" style="animation-delay:0.3s">
+      💡 ఈ పాఠం చివరకు, మీరు AI ని ఉపయోగించి 30 సెకన్లలో ఒక మెసేజ్ రాయగలరు —<br>
+      సాధారణంగా 10 నిమిషాలు పట్టే పని.
+    </div>
+
+    <div class="hero-meta anim-fadeInUp" style="animation-delay:0.4s">
+      <span class="meta-pill">👨‍👩‍👧 అందరికీ</span>
+      <span class="meta-pill">🇮🇳 నిజమైన భారతీయ ఉదాహరణలు</span>
+      <span class="meta-pill">📱 ఏ ఫోన్ లోనైనా పని చేస్తుంది</span>
+    </div>
+
+    <div class="anim-float" style="animation-delay:0.5s; margin-top:1.5rem;">
+      <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/characters/mitra-reference.png"
+           alt="మిత్ర — మీ AI నేర్చుకునే స్నేహితుడు"
+           style="width:120px; height:120px; border-radius:50%; object-fit:cover;
+                  border:4px solid white; box-shadow:0 8px 32px rgba(37,99,235,0.5);" />
+    </div>
+    <p style="color:rgba(255,255,255,0.6); font-size:0.82rem; margin-top:8px; font-weight:600">
+      నమస్కారం! నేను మిత్ర 👋 మీ AI నేర్చుకునే స్నేహితుడు
+    </p>
+  </div>
+
+  <div class="scroll-cue">
+    <span>స్క్రోల్ చేయండి</span>
+    <span class="arrow">⬇</span>
+  </div>
+</section>
+
+
+<!-- SECTION 2 — MEET RAVI -->
+<section style="background: white; padding-top: 5rem; padding-bottom: 4rem;">
+  <div class="section-eyebrow hidden visible">అంకం 1 · సమస్య</div>
+  <h2 class="section-title hidden">రవి ని కలవండి — మరియు అతను పూర్తి చేయలేని ఉత్తరాన్ని.</h2>
+  <p class="section-sub hidden">
+    రవి హైదరాబాద్ లో ఒక చిన్న కిరాణా దుకాణదారు. అతను తన కొడుకు స్కూల్ కి ఒక ఫార్మల్ లెటర్ రాయాలి.
+    45 నిమిషాలుగా ప్రయత్నిస్తున్నాడు. మీకు ఇలాంటి అనుభవం వచ్చిందా?
   </p>
 
-  <div class="progress-bar"><div class="progress-fill"></div></div>
-  <p class="progress-label">అనువాదం పురోగమిస్తోంది…</p>
+  <div class="comic-grid hidden">
 
-  <form class="notify-form" onsubmit="handleNotify(event)">
-    <input type="email" id="email" placeholder="మీ ఇమెయిల్ చిరునామా" required />
-    <button type="submit">నాకు తెలియజేయండి 🔔</button>
-  </form>
-  <p id="notify-msg" style="color:#34d399;font-size:0.9rem;display:none;">✅ సేవ్ చేయబడింది! పాఠం రెడీ అయినప్పుడు తెలియజేస్తాం.</p>
+    <div class="comic-panel anim-slideLeft">
+      <div class="panel-art" style="background:#FFF7ED; padding:0; overflow:hidden; min-height:180px;">
+        <span class="panel-number" style="position:absolute; top:10px; left:12px; z-index:2;">1</span>
+        <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-s03-frustrated.jpg"
+             alt="రవి ఖాళీ కాగితం ముందు నిరాశగా కూర్చున్నాడు"
+             style="width:100%; height:180px; object-fit:cover; display:block;" />
+      </div>
+      <div class="panel-caption">
+        రవి ఖాళీ కాగితం వైపు చూస్తున్నాడు. జ్వరంతో స్కూల్ మిస్ అయిన కొడుకు అర్జున్ గురించి ప్రిన్సిపాల్ కి రాయాలి.
+      </div>
+    </div>
 
-  <p class="or-read-english">
-    లేదా ఇప్పుడే ఇంగ్లీషులో చదవండి →
-    <a href="level-01-comic.html">Level 1 in English</a>
+    <div class="comic-panel">
+      <div class="panel-art" style="background:#FFFBEB; flex-direction:column; align-items:flex-start; gap:0.75rem;">
+        <span class="panel-number">2</span>
+        <div class="thought-bubble">
+          "గౌరవనీయ సర్... కాదు మేడం... ప్రియమైన ప్రిన్సిపాల్ గారు... ఎలా మొదలుపెట్టాలి? ఏ భాషలో? ఇంగ్లీషులోనా తెలుగులోనా?"
+        </div>
+        <div class="thought-bubble" style="margin-left:1.5rem;">
+          "చదువు రాని వాళ్ళలా కనిపించకూడదు. ఫార్మల్ గా ఉండాలి..."
+        </div>
+      </div>
+      <div class="panel-caption">
+        రవి మనసు గిరగిర తిరుగుతోంది. గూగుల్ తెరిచాడు, టైప్ చేశాడు, మూసేశాడు. 45 నిమిషాలు వృథా.
+      </div>
+    </div>
+
+    <div class="comic-panel anim-slideRight">
+      <div class="panel-art" style="background:#F0FDF4; padding:0; overflow:hidden; min-height:180px; flex-direction:column; gap:0;">
+        <span class="panel-number" style="position:absolute; top:10px; left:12px; z-index:2;">3</span>
+        <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-s04-priya-entering.jpg"
+             alt="ప్రియ వస్తోంది మరియు రవి కి AI గురించి చెప్తోంది"
+             style="width:100%; height:140px; object-fit:cover; display:block;" />
+        <div style="padding:0.75rem 1rem;">
+          <div class="speech-bubble right" style="border-color:#D946EF; font-size:0.85rem; max-width:none;">
+            రవీ, ఆ AI అని ఉంటుందే, దాన్ని try చేయండి! మా స్నేహితురాలు సునీత నిన్న దాన్ని వాడి పుట్టినరోజు మెసేజ్ రాసింది!
+          </div>
+        </div>
+      </div>
+      <div class="panel-caption">
+        ప్రియ వస్తుంది. WhatsApp గ్రూప్ లో AI గురించి విన్నది. రవి సందేహంగా ఉన్నాడు కానీ మరో దారి లేదు.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- SECTION 3 — WHAT IS AI -->
+<section style="background: var(--panel);">
+  <div class="section-eyebrow hidden">AI అంటే ఏమిటి?</div>
+  <h2 class="section-title hidden">AI మాయ కాదు. రోబో కాదు. ఇది చాలా తెలివైన టైపింగ్ సహాయకుడు.</h2>
+  <p class="section-sub hidden">
+    సరళంగా చెప్పాలంటే: AI అనేది ఒక కంప్యూటర్ ప్రోగ్రామ్ — అది కోట్లాది వాక్యాలు చదివి ప్రశ్నలకు జవాబు ఇవ్వడం నేర్చుకుంది. అంతే.
   </p>
-</div>
+
+  <div class="explainer-grid hidden">
+    <div class="explainer-card card-blue">
+      <span class="icon">📚</span>
+      <h3>చాలా చదివింది</h3>
+      <p>AI కోట్లాది పుస్తకాలు, వ్యాసాలు, సంభాషణలు "చదివింది". ఫార్మల్ లెటర్ ఎలా రాయాలి, సైన్స్ విషయం ఎలా వివరించాలి అనే patterns నేర్చుకుంది.</p>
+    </div>
+    <div class="explainer-card card-green">
+      <span class="icon">💬</span>
+      <h3>మామూలు భాషలో మాట్లాడవచ్చు</h3>
+      <p>మీరు స్నేహితుడికి మెసేజ్ పంపినట్టే అడగవచ్చు. AI తెలివైన జవాబు ఇస్తుంది. కమాండ్లు వద్దు. కోడింగ్ వద్దు. సాదా వాక్యాలు చాలు.</p>
+    </div>
+    <div class="explainer-card card-amber">
+      <span class="icon">🔧</span>
+      <h3>ఇది సాధనం, బాస్ కాదు</h3>
+      <p>AI మీకు బదులు నిర్ణయాలు తీసుకోదు. మీరు నిర్ణయిస్తారు. AI రాయడం, వివరించడం, అనువదించడం, ఆలోచనలు సూచించడంలో సహాయం చేస్తుంది.</p>
+    </div>
+    <div class="explainer-card card-purple">
+      <span class="icon">🌏</span>
+      <h3>మీ భాషలో పని చేస్తుంది</h3>
+      <p>మీరు తెలుగు, హిందీ, తమిళం మరియు చాలా భారతీయ భాషలలో AI తో మాట్లాడవచ్చు. ఇది పెద్ద నగరాల్లో ఇంగ్లీష్ మాట్లాడే వారికి మాత్రమే కాదు.</p>
+    </div>
+  </div>
+
+  <div class="story-card hidden" style="margin-top:2rem; border-color:var(--amber); background:#FFFBEB;">
+    <p style="font-size:1.05rem; line-height:1.7; font-weight:600; color:var(--navy);">
+      🪄 <strong>ఇలా ఆలోచించండి:</strong><br><br>
+      మీకు ఒక చాలా చదువుకున్న స్నేహితుడు ఉన్నాడు — అతను లైబ్రరీ లో ప్రతి పుస్తకం చదివాడు.
+      మీరు అడగవచ్చు: <em>"నా కొడుకు స్కూల్ కి ఒక మర్యాదగా ఉండే లెటర్ రాయడంలో సహాయం చేయి."</em>
+      అతను సెకన్లలో మంచి draft ఇస్తాడు.<br><br>
+      ఆ స్నేహితుడే AI. కానీ ఈ స్నేహితుడు మీ ఫోన్ లో ఉంటాడు, 24 గంటలు, ఉచితంగా.
+    </p>
+  </div>
+</section>
+
+
+<!-- SECTION 4 — RAVI'S LETTER -->
+<section class="demo-section">
+  <div class="section-eyebrow hidden" style="color:var(--sky);">నిజ జీవిత పరిస్థితి 1 · రవి కథ</div>
+  <h2 class="section-title hidden" style="color:white;">రవి 2 నిమిషాల్లో లెటర్ రాయడాన్ని చూడండి.</h2>
+  <p class="section-sub hidden" style="color:rgba(255,255,255,0.65);">
+    రవి మొదటిసారి తన ఫోన్ లో ChatGPT తెరుస్తున్నాడు. ఇక్కడ సరిగ్గా ఏం జరిగిందో చూడండి.
+  </p>
+
+  <div class="demo-window hidden">
+    <div class="demo-titlebar">
+      <span class="demo-dot dot-red"></span>
+      <span class="demo-dot dot-yel"></span>
+      <span class="demo-dot dot-grn"></span>
+      <span class="demo-label">ChatGPT — రవి ఫోన్</span>
+    </div>
+    <div class="demo-body">
+      <div class="chat-msg user">
+        <div class="chat-avatar avatar-user">ర</div>
+        <div class="chat-bubble">
+          Write a formal letter to my son's school principal. My son Arjun, Class 5B, missed 3 days of school because of fever. I want to apologise and request that he be allowed to write the missed tests.
+        </div>
+      </div>
+      <div class="chat-msg">
+        <div class="chat-avatar avatar-mitra">🤖</div>
+        <div class="chat-bubble">
+          <strong>Subject: Absence and Request for Missed Test Opportunity</strong><br><br>
+          Respected Principal,<br><br>
+          I am writing to inform you that my son, Arjun, a student of Class 5B, was unable to attend school from [date] to [date] due to a severe fever. I sincerely apologise for his absence.<br><br>
+          I humbly request you to kindly allow Arjun to appear for any tests or assignments missed during this period. He is eager to make up for lost time and I assure you that this will not be repeated.<br><br>
+          Thanking you,<br>
+          [Your Name]<br>
+          Parent of Arjun, Class 5B
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="story-card hidden" style="margin-top:2rem; background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.15); color:white; max-width:680px;">
+    <div class="story-scene">
+      <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-s08-ravi-amazed.jpg"
+           alt="రవి AI ఫలితం చూసి ఆశ్చర్యపోయాడు"
+           style="width:80px; height:80px; border-radius:12px; object-fit:cover; flex-shrink:0;" />
+      <div>
+        <div class="char-name" style="color:var(--amber);">రవి స్పందన</div>
+        <div class="speech-bubble mitra-bubble" style="border-color:var(--amber); background:rgba(245,158,11,0.1); color:#FDE68A;">
+          "ఇది సరిగ్గా నాకు కావలసింది! తేదీలు మరియు పేరు మార్చాను. 2 నిమిషాల్లో అయిపోయింది. ఇదేం మాయ ఇది?!"
+        </div>
+      </div>
+    </div>
+    <p style="color:rgba(255,255,255,0.55); font-size:0.9rem; margin-top:1rem; font-style:italic;">
+      👆 ముఖ్యం: రవి పంపే ముందు లెటర్ జాగ్రత్తగా చదివాడు. [Your Name] కి బదులు తన పేరు, సరైన తేదీలు వేశాడు. AI output ని ఉపయోగించే ముందు ఎప్పుడూ చెక్ చేయండి!
+    </p>
+  </div>
+</section>
+
+
+<!-- SECTION 5 — PRIYA'S RECIPE -->
+<section style="background: white;">
+  <div class="section-eyebrow hidden">నిజ జీవిత పరిస్థితి 2 · ప్రియ</div>
+  <h2 class="section-title hidden">ప్రియ తెలుగులో AI ని అడిగింది — అత్తగారికి తినడానికి పనికొచ్చే recipe వచ్చింది.</h2>
+  <p class="section-sub hidden">
+    ప్రియ అత్తగారికి డయాబెటిస్ ఉంది. ఆవిడకు ఆరోగ్యకరంగా, రుచిగా ఉండేది తయారు చేయాలని ప్రియ AI ని అడిగింది — తెలుగులో.
+  </p>
+
+  <div class="story-card hidden" style="border-color:var(--purple);">
+    <div class="story-scene">
+      <span style="font-size:2.5rem;">👩‍🍳</span>
+      <div>
+        <div class="char-name priya-color">ప్రియ టైప్ చేసింది (తెలుగులో)</div>
+        <div class="speech-bubble" style="border-color:#D946EF;">
+          "మా అత్తగారికి డయాబెటిస్ ఉంది. ఆవిడకు తినడానికి healthy గా, tasty గా ఉండే snack రెసిపీ చెప్పు"
+        </div>
+      </div>
+    </div>
+
+    <div class="story-scene flip" style="margin-top:1rem;">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/characters/mitra-reference.png"
+             alt="మిత్ర AI"
+             style="width:52px; height:52px; border-radius:50%; object-fit:cover; border:3px solid #2563EB; flex-shrink:0;" />
+      </div>
+      <div>
+        <div class="char-name mitra-color">మిత్ర AI జవాబిచ్చింది</div>
+        <div class="speech-bubble mitra-bubble">
+          <strong>Roasted Chana (Healthy Diabetic Snack)</strong><br><br>
+          మీకు సులభంగా చేయగలిగే recipe: నీళ్ళలో నానబెట్టిన chana ని dry roast చేయండి. Salt, jeera, lemon juice వేయండి. Fiber ఎక్కువగా ఉంటుంది, sugar level control అవుతుంది. చాలా tasty కూడా!
+        </div>
+      </div>
+    </div>
+
+    <div style="background:#F5F3FF; border-radius:14px; padding:1rem 1.25rem; margin-top:1rem; border-left:4px solid var(--purple);">
+      <p style="font-size:0.92rem; color:#4C1D95; font-weight:700;">
+        🌟 AI మీ భాషలో పని చేస్తుంది! తెలుగు, హిందీ, తమిళం — మీకు comfortable గా అనిపించే ఏ భాషలోనైనా అడగవచ్చు. భాష అడ్డంకి కాదు.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- SECTION 6 — RAHUL'S STUDY -->
+<section style="background: #F0FDF4;">
+  <div class="section-eyebrow hidden">నిజ జీవిత పరిస్థితి 3 · రాహుల్</div>
+  <h2 class="section-title hidden">రాహుల్ 5 నిమిషాల్లో photosynthesis అర్థం చేసుకున్నాడు.</h2>
+  <p class="section-sub hidden">
+    రాహుల్ వరంగల్ లో 9వ తరగతి చదువుతున్నాడు. textbook explanation అర్థం కాలేదు. AI తో try చేశాడు.
+  </p>
+
+  <div class="demo-window hidden" style="max-width:680px;">
+    <div class="demo-titlebar">
+      <span class="demo-dot dot-red"></span>
+      <span class="demo-dot dot-yel"></span>
+      <span class="demo-dot dot-grn"></span>
+      <span class="demo-label">ChatGPT — రాహుల్ ఫోన్</span>
+    </div>
+    <div class="demo-body">
+      <div class="chat-msg user">
+        <div class="chat-avatar avatar-user">రా</div>
+        <div class="chat-bubble">
+          Explain photosynthesis to me like I am a 10 year old. Use a simple Indian example.
+        </div>
+      </div>
+      <div class="chat-msg">
+        <div class="chat-avatar avatar-mitra">🤖</div>
+        <div class="chat-bubble">
+          ఒక chapati machine గురించి ఆలోచించండి 🫓<br><br>
+          ఒక మొక్క ఆకు అనేది ఒక చిన్న chapati machine లాంటిది. అది 3 "పదార్థాలు" తీసుకుంటుంది:<br>
+          ☀️ సూర్యప్రకాశం (machine నడపడానికి శక్తి)<br>
+          💧 నీరు (నేల నుండి, కాండం ద్వారా పైకి వస్తుంది)<br>
+          🌬️ కార్బన్ డయాక్సైడ్ (గాలి నుండి, ఆకులోని చిన్న రంధ్రాల ద్వారా లోపలికి వస్తుంది)<br><br>
+          Machine పని చేసి తయారు చేస్తుంది:<br>
+          🍬 Glucose (మొక్కకు ఆహారం — chapati లాంటిది)<br>
+          🌿 Oxygen (అదనపు గాలి వదులుతుంది — మనం పీల్చుకుంటాం!)<br><br>
+          అందుకే మొక్కలు చాలా ముఖ్యమైనవి — అవి తమ ఆహారం తాముగా తయారు చేసుకుంటాయి మరియు మనకు శ్వాస తీసుకోవడానికి oxygen ఇస్తాయి.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="explainer-card card-green hidden" style="max-width:480px; margin-top:2rem; text-align:left;">
+    <p style="font-size:1rem; color:var(--navy); font-weight:700; line-height:1.6;">
+      🎯 <strong>రాహుల్ అనుభవం:</strong> "textbook 3 సార్లు చదివాను, అర్థం కాలేదు. AI కి ఒక్క సాదా ప్రశ్న అడిగాను, నాకు అర్థమయ్యే విధంగా వివరించింది. 2 నిమిషాల్లో."
+    </p>
+  </div>
+</section>
+
+
+<!-- SECTION 7 — SAFETY -->
+<section class="safety-section">
+  <div class="section-eyebrow hidden" style="color:#DC2626;">⚠️ చాలా ముఖ్యం</div>
+  <h2 class="section-title hidden" style="color:#991B1B;">AI సహాయకరంగా ఉంది — కానీ తప్పు చెప్పవచ్చు. ఎప్పుడూ check చేయండి.</h2>
+  <p class="section-sub hidden">
+    AI మనుషుల లాగా "తెలుసు" అనుకోదు. ఇది patterns ఆధారంగా అత్యంత సంభావ్యమైన జవాబు చెప్తుంది. కొన్నిసార్లు అవి తప్పు. సురక్షితంగా ఉండటానికి ఇక్కడ చూడండి.
+  </p>
+
+  <div class="hidden" style="max-width:700px; width:100%; margin-bottom:2rem; border-radius:20px; overflow:hidden; border:2px solid #FCA5A5; box-shadow:0 4px 20px rgba(239,68,68,0.15);">
+    <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-s11-safety-warning.jpg"
+         alt="AI safety rules చిత్రీకరించబడినవి"
+         style="width:100%; display:block; max-height:280px; object-fit:cover;" />
+  </div>
+
+  <div class="safety-banner hidden">
+    <span class="icon">😂</span>
+    <h3>ఒక నవ్వించే (కానీ నిజమైన) హెచ్చరిక</h3>
+    <p>
+      రవి ఒకసారి AI ని అడిగాడు: "తెలంగాణ రాజధాని ఏమిటి?"<br>
+      AI జవాబు: "తెలంగాణ రాజధాని హైదరాబాద్." ✅ సరైన జవాబు!<br><br>
+      తర్వాత అడిగాడు: "ప్రస్తుత ముఖ్యమంత్రి ఎవరు?"<br>
+      AI ఒక పేరు చెప్పింది — అది <strong>2 సంవత్సరాలు పాతది</strong>. ❌ తప్పు!<br><br>
+      AI కి knowledge cut-off date ఉంటుంది. తాజా వార్తలకు ఎప్పుడూ news site check చేయండి.
+    </p>
+  </div>
+
+  <div class="safety-grid hidden">
+    <div class="safety-rule rule-red">
+      <span class="rule-icon">🚫</span>
+      <div>
+        <h4>Private విషయాలు share చేయవద్దు</h4>
+        <p>మీ Aadhaar నంబర్, bank account, passwords, లేదా personal medical details AI కి చెప్పవద్దు. దీన్ని public place లా treat చేయండి.</p>
+      </div>
+    </div>
+    <div class="safety-rule rule-amber">
+      <span class="rule-icon">🩺</span>
+      <div>
+        <h4>వైద్య విషయాలు: డాక్టర్ తో verify చేయండి</h4>
+        <p>AI డయాబెటిస్ కి recipes సూచించవచ్చు. కానీ డాక్టర్ స్థానం తీసుకోలేదు. ఆరోగ్య నిర్ణయాలు తప్పకుండా వైద్య నిపుణుడితో verify చేయండి.</p>
+      </div>
+    </div>
+    <div class="safety-rule rule-blue">
+      <span class="rule-icon">📰</span>
+      <div>
+        <h4>వార్తలు మరియు facts వేరే చెక్ చేయండి</h4>
+        <p>AI కి పాత సమాచారం ఉండవచ్చు. current events, cricket results, లేదా తాజా వార్తలకు — news website లో verify చేయండి.</p>
+      </div>
+    </div>
+    <div class="safety-rule rule-green">
+      <span class="rule-icon">✅</span>
+      <div>
+        <h4>పంపే లేదా వాడే ముందు చదవండి</h4>
+        <p>AI output ఒక మొదటి draft మాత్రమే, final జవాబు కాదు. చదవండి, edit చేయండి, check చేయండి — తర్వాత వాడండి. నిర్ణయం మీది. AI మీ సహాయకుడు.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SECTION 8 — YOUR FIRST TRY -->
+<section class="try-section">
+  <div class="section-eyebrow hidden" style="color:var(--amber);">🎯 మీ వంతు</div>
+  <h2 class="section-title hidden" style="color:white;">మీ మొదటి AI prompt ఇప్పుడే రాయండి.</h2>
+  <p class="section-sub hidden" style="color:rgba(255,255,255,0.65);">
+    మీ ఫోన్ లో లేదా కంప్యూటర్ లో <strong style="color:white;">ChatGPT</strong> లేదా <strong style="color:white;">Claude.ai</strong> తెరవండి.
+    ఈ prompts లో ఒకటి try చేయండి — లేదా మీ స్వంత ప్రశ్న రాయండి. తర్వాత తిరిగొచ్చి మాకు చెప్పండి!
+  </p>
+
+  <div class="try-card hidden">
+    <h2>ఇప్పుడే ఒక prompt try చేయండి 👇</h2>
+    <p>కింద ఉన్న suggestion ఒకటి select చేయండి, లేదా మీ స్వంత ప్రశ్న రాయండి. ChatGPT లేదా Claude.ai లో copy paste చేయండి.</p>
+
+    <div class="prompt-hints">
+      <span class="hint-chip" onclick="fillPrompt(this)">Write a polite message to my neighbour about loud music at night</span>
+      <span class="hint-chip" onclick="fillPrompt(this)">Explain what the Aadhar card is in simple words for my elderly mother</span>
+      <span class="hint-chip" onclick="fillPrompt(this)">Give me 3 healthy breakfast ideas for someone with diabetes</span>
+      <span class="hint-chip" onclick="fillPrompt(this)">Translate "Please take your medicines on time" to Telugu</span>
+      <span class="hint-chip" onclick="fillPrompt(this)">Write a short birthday message in Telugu for my friend</span>
+    </div>
+
+    <textarea class="prompt-box" id="my-prompt" placeholder="మీ prompt ఇక్కడ రాయండి లేదా paste చేయండి..."></textarea>
+
+    <br>
+    <button class="try-btn" onclick="showResult()">నేను try చేశాను! ✅</button>
+
+    <div class="try-result" id="try-result">
+      <p>🎉 అద్భుతం! మీరు మొదటిసారి (లేదా మరొకసారి) AI వాడారు!</p>
+      <p style="color:rgba(255,255,255,0.7); margin-top:0.5rem; font-weight:600; font-size:0.9rem;">
+        గుర్తుంచుకోండి: AI ఇచ్చిన దాన్ని చదవండి. అవసరమైతే edit చేయండి. తర్వాత వాడండి.
+        <br>నిర్ణయం మీది. AI మీ సహాయకుడు.
+      </p>
+    </div>
+
+    <p style="color:rgba(255,255,255,0.4); font-size:0.8rem; margin-top:1.5rem;">
+      ChatGPT లేదు? <strong style="color:rgba(255,255,255,0.6);">chat.openai.com</strong> లేదా <strong style="color:rgba(255,255,255,0.6);">claude.ai</strong> visit చేయండి — రెండూ free గా మొదలుపెట్టవచ్చు.
+    </p>
+  </div>
+</section>
+
+
+<!-- SECTION 9 — RECAP -->
+<section style="background: white;">
+  <div class="section-eyebrow hidden">క్లుప్త సమీక్ష</div>
+  <h2 class="section-title hidden">మీరు ఇప్పుడు 4 ముఖ్యమైన విషయాలు నేర్చుకున్నారు. 🎊</h2>
+
+  <div class="explainer-grid hidden" style="max-width:720px;">
+    <div class="explainer-card card-blue">
+      <span class="icon">1️⃣</span>
+      <h3>AI ఒక టైపింగ్ సహాయకుడు</h3>
+      <p>అది మీ ప్రశ్న చదివి తెలివైన text జవాబు ఇస్తుంది. మాయ కాదు. రోబో కాదు. ఒక trained కంప్యూటర్ ప్రోగ్రామ్.</p>
+    </div>
+    <div class="explainer-card card-green">
+      <span class="icon">2️⃣</span>
+      <h3>మామూలు భాషలో మాట్లాడవచ్చు</h3>
+      <p>సాదా తెలుగులో లేదా ఇంగ్లీష్ లో అడగవచ్చు. స్నేహితుడికి అడిగినట్టే అడగండి. కమాండ్లు, కోడింగ్ అవసరం లేదు.</p>
+    </div>
+    <div class="explainer-card card-amber">
+      <span class="icon">3️⃣</span>
+      <h3>నిజమైన సమయం ఆదా చేస్తుంది</h3>
+      <p>లెటర్లు, మెసేజ్ లు, అనువాదాలు, వివరణలు — 45 నిమిషాలు పట్టే పనిని AI తో 2 నిమిషాల్లో చేయవచ్చు.</p>
+    </div>
+    <div class="explainer-card card-purple">
+      <span class="icon">4️⃣</span>
+      <h3>Output ఎప్పుడూ check చేయండి</h3>
+      <p>AI తప్పు చెప్పవచ్చు. మీరు check చేస్తారు, edit చేస్తారు, నిర్ణయిస్తారు. మీరు boss. AI మీ assistant.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- SECTION 10 — NEXT LEVEL TEASER -->
+<section class="teaser-section" style="background-image: url('https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-s14-level2-teaser.jpg'); background-size:cover; background-position:center;">
+  <div style="position:absolute; inset:0; background:rgba(28,28,46,0.82);"></div>
+  <div class="teaser-content" style="position:relative; z-index:1;">
+    <div class="section-eyebrow hidden" style="color:var(--purple);">తదుపరి · కూడా ఉచితం</div>
+    <h2 class="hidden" style="font-family:'Baloo 2',cursive; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:800; margin-bottom:1rem;">
+      లెవెల్ 2: రోజువారీ సహాయం<br>
+      <span style="color:var(--purple);">AI ని ప్రతి రోజూ వాడండి</span>
+    </h2>
+    <p class="hidden" style="color:rgba(255,255,255,0.7); font-size:1.05rem; line-height:1.65; margin-bottom:2rem;">
+      లెవెల్ 2 లో మీరు నిజమైన రోజువారీ జీవితానికి సంబంధించిన మెసేజ్ లు రాస్తారు —
+      లెటర్లు, requests, WhatsApp మెసేజ్ లు, recipe translations, study notes మరియు మరిన్ని.
+      నిజమైన outcomes తో 60–90 నిమిషాల practice.
+    </p>
+
+    <div class="teaser-grid hidden">
+      <div class="teaser-item">
+        <span class="t-icon">📩</span>
+        <p>బ్యాంక్లు, స్కూళ్ళు, ఆఫీసులకు formal మెసేజ్ లు రాయండి</p>
+      </div>
+      <div class="teaser-item">
+        <span class="t-icon">🗣️</span>
+        <p>తెలుగు మరియు ఇంగ్లీష్ రెండింటిలో prompts practice చేయండి</p>
+      </div>
+      <div class="teaser-item">
+        <span class="t-icon">🛒</span>
+        <p>AI సహాయంతో groceries, budget, trips plan చేయండి</p>
+      </div>
+      <div class="teaser-item">
+        <span class="t-icon">📚</span>
+        <p>AI వివరణలతో పిల్లల చదువులో సహాయం చేయండి</p>
+      </div>
+    </div>
+
+    <a href="../level-02-daily-help/level-02-comic.html" class="teaser-cta hidden anim-pulse">
+      లెవెల్ 2 కి వెళ్ళండి — ఉచితం →
+    </a>
+
+    <p class="hidden" style="color:rgba(255,255,255,0.35); font-size:0.82rem; margin-top:1.5rem;">
+      లెవెల్ 2: రోజువారీ సహాయం · ఉచితం · 60–90 నిమిషాలు
+    </p>
+  </div>
+</section>
+
+
+<!-- QUIZ — LEVEL 1 TELUGU -->
+<section id="level-quiz" style="background:#faf5ff; padding:3.5rem 5vw;">
+  <div style="max-width:680px; margin:0 auto;">
+
+    <p style="font-size:0.76rem;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;color:#7c3aed;text-align:center;margin-bottom:0.75rem;">క్విజ్</p>
+    <h2 style="font-family:'Baloo 2',cursive;font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;color:var(--navy);text-align:center;margin-bottom:0.5rem;">మీరు నేర్చుకున్నది test చేయండి</h2>
+    <p style="color:var(--muted);text-align:center;margin-bottom:2rem;font-size:0.95rem;">5 ప్రశ్నలు &nbsp;·&nbsp; సర్టిఫికెట్ కోసం 4 సరైన జవాబులు కావాలి</p>
+
+    <div style="background:white;border:2px solid #e9d5ff;border-radius:14px;padding:1.1rem 1.4rem;margin-bottom:2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+      <label style="font-weight:700;color:var(--navy);white-space:nowrap;font-size:0.93rem;">✏️ మీ పేరు:</label>
+      <input type="text" id="l1-learner-name" placeholder="సర్టిఫికెట్ కోసం మీ పేరు enter చేయండి" maxlength="60"
+             style="flex:1;min-width:200px;border:1.5px solid #d1d5db;border-radius:10px;padding:9px 14px;font-size:0.93rem;font-family:inherit;outline:none;" />
+    </div>
+
+    <div id="l1-quiz-qs">
+
+      <div class="l1-qb" data-correct="b" style="background:white;border-radius:14px;padding:1.4rem 1.5rem;margin-bottom:1.1rem;box-shadow:0 1px 6px rgba(0,0,0,0.06);">
+        <p style="font-weight:800;color:var(--navy);margin-bottom:0.9rem;font-size:1rem;">1. "AI" అంటే ఏమిటి?</p>
+        <label class="quiz-opt"><input type="radio" name="l1q1" value="a"> Automated Internet</label>
+        <label class="quiz-opt"><input type="radio" name="l1q1" value="b"> Artificial Intelligence</label>
+        <label class="quiz-opt"><input type="radio" name="l1q1" value="c"> Advanced Information</label>
+        <label class="quiz-opt"><input type="radio" name="l1q1" value="d"> Automatic Input</label>
+      </div>
+
+      <div class="l1-qb" data-correct="b" style="background:white;border-radius:14px;padding:1.4rem 1.5rem;margin-bottom:1.1rem;box-shadow:0 1px 6px rgba(0,0,0,0.06);">
+        <p style="font-weight:800;color:var(--navy);margin-bottom:0.9rem;font-size:1rem;">2. "Prompt" అంటే ఏమిటి?</p>
+        <label class="quiz-opt"><input type="radio" name="l1q2" value="a"> ఒక రకమైన AI కంప్యూటర్</label>
+        <label class="quiz-opt"><input type="radio" name="l1q2" value="b"> మీరు AI కి ఏమి కావాలో చెప్పడానికి టైప్ చేసే మెసేజ్</label>
+        <label class="quiz-opt"><input type="radio" name="l1q2" value="c"> AI ఇచ్చే జవాబు</label>
+        <label class="quiz-opt"><input type="radio" name="l1q2" value="d"> ఒక programming language</label>
+      </div>
+
+      <div class="l1-qb" data-correct="c" style="background:white;border-radius:14px;padding:1.4rem 1.5rem;margin-bottom:1.1rem;box-shadow:0 1px 6px rgba(0,0,0,0.06);">
+        <p style="font-weight:800;color:var(--navy);margin-bottom:0.9rem;font-size:1rem;">3. AI తో ఏది share చేయకూడదు?</p>
+        <label class="quiz-opt"><input type="radio" name="l1q3" value="a"> మీ grocery list</label>
+        <label class="quiz-opt"><input type="radio" name="l1q3" value="b"> AI రాయాలని మీరు కోరుకునే మెసేజ్</label>
+        <label class="quiz-opt"><input type="radio" name="l1q3" value="c"> మీ Aadhaar నంబర్ లేదా bank password</label>
+        <label class="quiz-opt"><input type="radio" name="l1q3" value="d"> మీరు try చేయాలనుకుంటున్న recipe</label>
+      </div>
+
+      <div class="l1-qb" data-correct="b" style="background:white;border-radius:14px;padding:1.4rem 1.5rem;margin-bottom:1.1rem;box-shadow:0 1px 6px rgba(0,0,0,0.06);">
+        <p style="font-weight:800;color:var(--navy);margin-bottom:0.9rem;font-size:1rem;">4. రవి కథలో అతను AI కి ఏమి రాయమని అడిగాడు?</p>
+        <label class="quiz-opt"><input type="radio" name="l1q4" value="a"> supplier కి WhatsApp మెసేజ్</label>
+        <label class="quiz-opt"><input type="radio" name="l1q4" value="b"> తన పిల్లవాడి school permission letter</label>
+        <label class="quiz-opt"><input type="radio" name="l1q4" value="c"> electricity board కి complaint</label>
+        <label class="quiz-opt"><input type="radio" name="l1q4" value="d"> customers కోసం recipe</label>
+      </div>
+
+      <div class="l1-qb" data-correct="b" style="background:white;border-radius:14px;padding:1.4rem 1.5rem;margin-bottom:1.1rem;box-shadow:0 1px 6px rgba(0,0,0,0.06);">
+        <p style="font-weight:800;color:var(--navy);margin-bottom:0.9rem;font-size:1rem;">5. నిజమా తప్పా: AI ఎప్పుడూ 100% సరైన సమాధానం ఇస్తుంది, పూర్తిగా నమ్మవచ్చు.</p>
+        <label class="quiz-opt"><input type="radio" name="l1q5" value="a"> నిజం — AI ఎప్పుడూ తప్పు చేయదు</label>
+        <label class="quiz-opt"><input type="radio" name="l1q5" value="b"> తప్పు — AI తప్పు చెప్పవచ్చు; ముఖ్యమైన సమాచారం ఎప్పుడూ verify చేయండి</label>
+      </div>
+
+    </div>
+
+    <button id="l1-quiz-btn" onclick="checkQuiz('l1')"
+            style="display:block;width:100%;margin-top:1.5rem;padding:1rem 2rem;background:#7c3aed;color:white;border:none;border-radius:14px;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;cursor:pointer;">
+      నా జవాబులు check చేయండి →
+    </button>
+
+    <div id="l1-quiz-result" style="display:none; margin-top:1.5rem;"></div>
+
+    <div id="l1-certificate" style="display:none; margin-top:2rem;">
+      <div class="cert-card" id="l1-cert-card"
+           style="background:linear-gradient(135deg,#1e1b4b 0%,#312e81 55%,#4f46e5 100%);border-radius:20px;padding:2.5rem 2rem;text-align:center;color:white;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.05);pointer-events:none;"></div>
+        <div style="position:absolute;bottom:-30px;left:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.04);pointer-events:none;"></div>
+        <div style="font-size:3rem;margin-bottom:0.75rem;">🎓</div>
+        <p style="font-size:0.72rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(196,181,253,0.8);margin-bottom:0.4rem;">పూర్తి చేసిన సర్టిఫికెట్</p>
+        <h3 id="l1-cert-name" style="font-family:'Baloo 2',cursive;font-size:clamp(1.3rem,4vw,1.8rem);font-weight:800;margin-bottom:0.4rem;color:white;"></h3>
+        <p style="color:rgba(255,255,255,0.65);font-size:0.88rem;margin-bottom:1.1rem;">విజయవంతంగా పూర్తి చేసారు</p>
+        <div style="background:rgba(255,255,255,0.12);border-radius:12px;padding:0.65rem 1.4rem;display:inline-block;margin-bottom:1.1rem;">
+          <p style="font-family:'Baloo 2',cursive;font-size:1.15rem;font-weight:800;color:#c4b5fd;margin:0;">లెవెల్ 1: మొదటి అడుగు</p>
+          <p style="font-size:0.78rem;color:rgba(255,255,255,0.55);margin:0.2rem 0 0;">మిత్ర AI లైఫ్ ఎడ్యుకేషన్</p>
+        </div>
+        <p id="l1-cert-date" style="font-size:0.76rem;color:rgba(255,255,255,0.38);display:block;"></p>
+        <p style="font-size:0.7rem;color:rgba(255,255,255,0.25);margin-top:0.4rem;">mitraailife.com</p>
+      </div>
+      <button onclick="saveCert()"
+              style="display:block;width:100%;margin-top:0.9rem;padding:0.9rem;background:#f59e0b;color:white;border:none;border-radius:12px;font-family:'Baloo 2',cursive;font-size:1rem;font-weight:800;cursor:pointer;">
+        📥 సర్టిఫికెట్ Save / Print చేయండి
+      </button>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- COMMENTS — DISQUS -->
+<section style="background:#f8faff; padding:3rem 5vw;">
+  <div style="max-width:720px; margin:0 auto;">
+    <div style="font-size:0.76rem;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;color:#2563EB;margin-bottom:0.75rem;text-align:center;">
+      మీ అభిప్రాయం
+    </div>
+    <h2 style="font-family:'Baloo 2',cursive;font-size:clamp(1.4rem,3.5vw,2rem);font-weight:800;color:#1e293b;text-align:center;margin-bottom:0.5rem;">
+      ఈ పాఠం చూసి మీకు ఎలా అనిపించింది?
+    </h2>
+    <p style="color:#6b7280;text-align:center;margin-bottom:2rem;font-size:0.95rem;">
+      మీ అనుభవం, ప్రశ్నలు, లేదా feedback కింద share చేయండి.
+    </p>
+    <div id="disqus_thread"></div>
+  </div>
+</section>
 
 <footer>© 2026 మిత్ర AI లైఫ్ ఎడ్యుకేషన్</footer>
 
+
 <script>
-  function handleNotify(e) {
-    e.preventDefault();
-    document.getElementById('notify-msg').style.display = 'block';
-    document.getElementById('email').value = '';
+  // ─── reading-progress bar ───────────────────────────────────────────────
+  window.addEventListener('scroll', () => {
+    const s = document.documentElement;
+    const pct = (s.scrollTop / (s.scrollHeight - s.clientHeight)) * 100;
+    document.getElementById('progress-bar').style.width = pct + '%';
+  });
+
+  // ─── intersection-observer (reveal on scroll) ──────────────────────────
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.hidden').forEach(el => observer.observe(el));
+
+  // ─── language menu close on outside click ──────────────────────────────
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#langBtn') && !e.target.closest('.l1-lang-menu')) {
+      const m = document.querySelector('.l1-lang-menu');
+      if (m) m.style.display = 'none';
+    }
+  });
+
+  // ─── try-it section ─────────────────────────────────────────────────────
+  function fillPrompt(el) { document.getElementById('my-prompt').value = el.textContent; }
+  function showResult() {
+    const r = document.getElementById('try-result');
+    r.classList.add('show');
+    r.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
+
+  // ─── quiz ────────────────────────────────────────────────────────────────
+  function checkQuiz(level) {
+    const blocks = document.querySelectorAll('.' + level + '-qb');
+    let score = 0;
+    blocks.forEach(block => {
+      const correct = block.dataset.correct;
+      const selected = block.querySelector('input[type=radio]:checked');
+      block.querySelectorAll('.quiz-opt').forEach(opt => {
+        opt.classList.remove('correct', 'wrong');
+        const inp = opt.querySelector('input');
+        if (inp.value === correct) opt.classList.add('correct');
+        else if (selected && inp.value === selected.value) opt.classList.add('wrong');
+      });
+      if (selected && selected.value === correct) score++;
+    });
+    const name = document.getElementById(level + '-learner-name').value.trim() || 'విద్యార్థి';
+    const resultEl = document.getElementById(level + '-quiz-result');
+    const pass = score >= 4;
+    resultEl.style.display = 'block';
+    resultEl.innerHTML = pass
+      ? '<div style="background:#f0fdf4;border:2px solid #86efac;border-radius:14px;padding:1.2rem 1.4rem;color:#166534;font-weight:700;font-size:1rem;">🎉 అభినందనలు! మీరు ' + score + '/5 సాధించారు. మీరు పాసయ్యారు!</div>'
+      : '<div style="background:#fef2f2;border:2px solid #fca5a5;border-radius:14px;padding:1.2rem 1.4rem;color:#991b1b;font-weight:700;font-size:1rem;">మీరు ' + score + '/5 సాధించారు. 4 సరైన జవాబులు కావాలి. మళ్ళీ try చేయండి! <button onclick="resetQuiz(\'' + level + '\')" style="margin-left:1rem;padding:6px 16px;background:#dc2626;color:white;border:none;border-radius:8px;cursor:pointer;font-weight:700;">మళ్ళీ ప్రయత్నించండి</button></div>';
+    if (pass) {
+      const cert = document.getElementById(level + '-certificate');
+      cert.style.display = 'block';
+      document.getElementById(level + '-cert-name').textContent = name;
+      document.getElementById(level + '-cert-date').textContent = new Date().toLocaleDateString('te-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+      cert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    document.getElementById(level + '-quiz-btn').style.display = 'none';
+  }
+
+  function resetQuiz(level) {
+    document.querySelectorAll('.' + level + '-qb input[type=radio]').forEach(i => i.checked = false);
+    document.querySelectorAll('.' + level + '-qb .quiz-opt').forEach(o => o.classList.remove('correct', 'wrong'));
+    document.getElementById(level + '-quiz-result').style.display = 'none';
+    document.getElementById(level + '-certificate').style.display = 'none';
+    document.getElementById(level + '-quiz-btn').style.display = 'block';
+  }
+
+  function saveCert() {
+    document.body.classList.add('printing-cert');
+    window.print();
+    setTimeout(() => document.body.classList.remove('printing-cert'), 1000);
+  }
+
+  // ─── Disqus ──────────────────────────────────────────────────────────────
+  var disqus_config = function () {
+    this.page.url = 'https://mitraailife.com/content/english/level-01-interactive/level-01-comic-te.html';
+    this.page.identifier = 'level-01-comic-te';
+    this.page.title = 'లెవెల్ 1: మొదటి అడుగు | మిత్ర AI లైఫ్';
+  };
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://mitra-ai-life.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
 </script>
 </body>
 </html>

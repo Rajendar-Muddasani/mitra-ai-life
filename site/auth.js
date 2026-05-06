@@ -11,9 +11,13 @@ const _sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 // ─── Auth helpers ──────────────────────────────────────────────────────────
 
 async function signInWithGoogle() {
+  // Strip trailing slash so https://mitraailife.com/ → https://mitraailife.com
+  // which matches the Supabase Site URL exactly. Deep paths (/content/...) are kept as-is.
+  const path = window.location.pathname.replace(/\/$/, '');
+  const redirectTo = window.location.origin + (path || '');
   const { error } = await _sb.auth.signInWithOAuth({
     provider: 'google',
-    options: { redirectTo: window.location.href }
+    options: { redirectTo }
   });
   if (error) console.error('Sign-in error:', error.message);
 }

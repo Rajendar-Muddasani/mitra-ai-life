@@ -109,7 +109,9 @@
 
     /* ─── hero ──────────────────────────────────────────────────────────── */
     .hero {
-      background: linear-gradient(145deg, #0a1628 0%, #0d4f4f 40%, #0e7490 100%);
+      background:
+        linear-gradient(160deg, rgba(4,8,24,0.90) 0%, rgba(5,30,40,0.82) 55%, rgba(8,40,55,0.76) 100%),
+        url('https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l2-s01-hero.jpg') center/cover no-repeat;
       color: white; text-align: center; overflow: hidden;
     }
     .hero::before {
@@ -188,9 +190,9 @@
     }
     .section-title {
       font-family: 'Baloo 2', cursive;
-      font-size: clamp(1.6rem, 4vw, 2.4rem);
-      font-weight: 800; line-height: 1.2; color: var(--navy);
-      text-align: center; margin-bottom: 0.75rem; max-width: 680px;
+      font-size: clamp(1.85rem, 4.5vw, 2.75rem);
+      font-weight: 800; line-height: 1.18; color: var(--navy);
+      text-align: center; margin-bottom: 0.75rem; max-width: 720px;
     }
     .section-sub {
       color: var(--muted); font-size: 1rem; text-align: center;
@@ -555,10 +557,17 @@
 
 <!-- ─── NAV ──────────────────────────────────────────────────────────────── -->
 <nav class="topnav">
-  <div class="brand">Mitra AI Life</div>
-  <span class="level-tag">Level 2 · Daily Help</span>
-  <a href="../../../site/index.html" class="back-link">← All Levels</a>
-  <a href="level-02-comic-te.html" style="font-size:0.8rem;padding:5px 12px;border:1px solid rgba(255,255,255,0.25);border-radius:20px;color:#fff;text-decoration:none;white-space:nowrap;opacity:0.85;" title="తెలుగులో చదవండి">🇮🇳 తెలుగు</a>
+  <a href="../../../site/index.html" style="font-size:0.82rem;padding:5px 12px;border:1px solid rgba(255,255,255,0.2);border-radius:20px;color:rgba(255,255,255,0.8);text-decoration:none;white-space:nowrap;" title="Back to home">← Home</a>
+  <a href="../../../site/index.html" class="brand" style="text-decoration:none;color:var(--navy);">Mitra AI Life Education</a>
+  <span class="level-tag">Level 2 · Free</span>
+  <span class="time-tag" style="font-size:0.8rem;color:var(--muted);font-weight:600;">⏱ 60–90 min</span>
+  <div style="position:relative;display:inline-block;">
+    <button id="langBtn" onclick="this.parentElement.querySelector('.l2-lang-menu').style.display = this.parentElement.querySelector('.l2-lang-menu').style.display === 'block' ? 'none' : 'block'" style="font-size:0.8rem;padding:5px 12px;border:1px solid rgba(255,255,255,0.25);border-radius:20px;color:#fff;background:transparent;cursor:pointer;white-space:nowrap;opacity:0.85;">🌐 Language ▾</button>
+    <div class="l2-lang-menu" style="display:none;position:absolute;top:calc(100% + 6px);right:0;background:rgba(9,17,48,0.97);border:1px solid rgba(119,168,255,0.18);border-radius:12px;overflow:hidden;min-width:180px;box-shadow:0 8px 24px rgba(0,0,0,0.5);z-index:200;">
+      <a href="level-02-comic.html" style="display:block;padding:9px 14px;font-size:0.85rem;font-weight:700;color:#68e1ff;text-decoration:none;">🇬🇧 English <small style="font-weight:400;font-size:0.7rem;color:rgba(159,179,218,0.5);"> Current</small></a>
+      <a href="level-02-comic-te.html" style="display:block;padding:9px 14px;font-size:0.85rem;font-weight:700;color:rgba(245,248,255,0.7);text-decoration:none;">🇮🇳 తెలుగు</a>
+    </div>
+  </div>
 </nav>
 
 
@@ -703,10 +712,10 @@
 
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 4 — DEMO 1: RAVI'S WHATSAPP MESSAGE                             -->
+<!-- SECTION 4 — REAL-LIFE SITUATION 1: RAVI'S WHATSAPP MESSAGE                             -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <section class="demo-section" id="s4">
-  <p class="section-eyebrow hidden">Demo 1 · Ravi's Story</p>
+  <p class="section-eyebrow hidden">Real-Life Situation 1 · Ravi</p>
   <h2 class="section-title hidden">A professional message in 30 seconds</h2>
   <p class="section-sub hidden">
     Ravi's vegetable supplier promised 20 kg of tomatoes by 8 AM.
@@ -769,10 +778,10 @@
 
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 5 — DEMO 2: PRIYA'S WEEKLY GROCERY BUDGET                       -->
+<!-- SECTION 5 — REAL-LIFE SITUATION 2: PRIYA'S WEEKLY GROCERY BUDGET                       -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <section class="demo-section alt" id="s5">
-  <p class="section-eyebrow hidden">Demo 2 · Priya's Story</p>
+  <p class="section-eyebrow hidden">Real-Life Situation 2 · Priya</p>
   <h2 class="section-title hidden">Plan a week of groceries within ₹800</h2>
   <p class="section-sub hidden">
     Priya manages the house budget. Every week she spends 30 minutes planning what to buy.
@@ -851,10 +860,10 @@
 
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 6 — DEMO 3: RAHUL'S EXAM PREP                                   -->
+<!-- SECTION 6 — REAL-LIFE SITUATION 3: RAHUL'S EXAM PREP                                   -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <section class="demo-section" id="s6">
-  <p class="section-eyebrow hidden">Demo 3 · Rahul's Story</p>
+  <p class="section-eyebrow hidden">Real-Life Situation 3 · Rahul</p>
   <h2 class="section-title hidden">Exam prep in 10 minutes — with AI-generated practice questions</h2>
   <p class="section-sub hidden">
     Rahul has a Science exam in 2 days on Atoms and Molecules (Class 9).
@@ -938,10 +947,10 @@
 
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 7 — DEMO 4: COMPLAINT LETTER                                     -->
+<!-- SECTION 7 — REAL-LIFE SITUATION 4: COMPLAINT LETTER                                     -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <section class="demo-section alt" id="s7">
-  <p class="section-eyebrow hidden">Demo 4 · Real Life</p>
+  <p class="section-eyebrow hidden">Real-Life Situation 4 · Complaint Letter</p>
   <h2 class="section-title hidden">Write a formal complaint letter — in 1 minute</h2>
   <p class="section-sub hidden">
     Formal letters to government offices, banks, and electricity boards feel difficult.
@@ -1152,6 +1161,42 @@
     <a href="../../../site/index.html" style="color:rgba(255,255,255,0.4); font-size:0.85rem; text-decoration:none;">
       ← Back to home
     </a>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- COMMENTS — DISQUS                                                        -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section style="background:#f8faff; padding:3rem 5vw; min-height:unset;">
+  <div style="max-width:720px; margin:0 auto;">
+    <div style="font-size:0.76rem;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;color:#0D9488;margin-bottom:0.75rem;text-align:center;">
+      Your thoughts
+    </div>
+    <h2 style="font-family:'Baloo 2',cursive;font-size:clamp(1.4rem,3.5vw,2rem);font-weight:800;color:#1e293b;text-align:center;margin-bottom:0.5rem;">
+      What was your reaction to this lesson?
+    </h2>
+    <p style="color:#6b7280;text-align:center;margin-bottom:2rem;font-size:0.95rem;">
+      Ask questions, share what clicked, or tell us which situation was most useful for you.
+    </p>
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://mitraailife.com/content/english/level-02-daily-help/level-02-comic.html';
+        this.page.identifier = 'level-02-comic-en';
+        this.page.title = 'Level 2: Daily Help with AI';
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        // ⚠️ Replace YOUR_DISQUS_SHORTNAME with your actual shortname from disqus.com
+        s.src = 'https://YOUR_DISQUS_SHORTNAME.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>
+      Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
   </div>
 </section>
 

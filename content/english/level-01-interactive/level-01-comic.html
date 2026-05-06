@@ -133,7 +133,9 @@
 
     /* ─── hero ──────────────────────────────────────────────────────────── */
     .hero {
-      background: linear-gradient(145deg, #0f172a 0%, #1e3a5f 40%, #1e40af 100%);
+      background:
+        linear-gradient(160deg, rgba(4,8,24,0.92) 0%, rgba(8,16,52,0.82) 55%, rgba(14,26,80,0.76) 100%),
+        url('https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-s01-hero.jpg') center/cover no-repeat;
       color: white;
       text-align: center;
       overflow: hidden;
@@ -142,7 +144,7 @@
       content: '';
       position: absolute;
       width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(245,158,11,0.2) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(245,158,11,0.14) 0%, transparent 70%);
       top: -150px; right: -100px;
       border-radius: 50%;
     }
@@ -150,16 +152,12 @@
       content: '';
       position: absolute;
       width: 400px; height: 400px;
-      background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(16,185,129,0.10) 0%, transparent 70%);
       bottom: -100px; left: -50px;
       border-radius: 50%;
     }
     .hero-content {
       position: relative; z-index: 2; max-width: 720px;
-      background: rgba(5, 15, 35, 0.45);
-      border-radius: 24px;
-      padding: 2.5rem 2rem;
-      backdrop-filter: blur(4px);
     }
     .hero-badge {
       display: inline-block;
@@ -787,7 +785,7 @@
 <!-- top nav -->
 <nav class="topnav">
   <a href="../../../site/index.html" style="font-size:0.82rem;padding:5px 12px;border:1px solid rgba(255,255,255,0.2);border-radius:20px;color:rgba(255,255,255,0.8);text-decoration:none;white-space:nowrap;" title="Back to home">← Home</a>
-  <span class="brand">Mitra AI Life Education</span>
+  <a href="../../../site/index.html" class="brand" style="text-decoration:none;color:var(--navy);">Mitra AI Life Education</a>
   <span class="level-tag">Level 1 · Free</span>
   <span class="time-tag">⏱ 45–60 min</span>
   <div style="position:relative;display:inline-block;">

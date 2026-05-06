@@ -181,6 +181,9 @@
     .hidden { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease, transform 0.6s ease; }
     .visible { opacity:1; transform:none; }
   </style>
+  <!-- Supabase auth -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./auth.js"></script>
 </head>
 <body>
 
@@ -188,9 +191,10 @@
 <nav>
   <a class="nav-brand" href="#">మిత్ర <span>AI</span> లైఫ్ ఎడ్యుకేషన్</a>
   <div style="display:flex;gap:10px;align-items:center;">
-    <a class="nav-cta" href="../content/english/level-01-interactive/level-01-comic-te.html">లెవెల్ 1 మొదలు పెట్టండి →</a>
+    <a class="nav-cta" href="../content/english/level-01-interactive/level-01-comic-te.html" data-level-id="level-01">లెవెల్ 1 మొదలు పెట్టండి →</a>
     <a href="index.html" class="nav-lang" title="Switch to English">🇬🇧 English</a>
   </div>
+  <div id="auth-nav-area" style="display:flex;align-items:center;"></div>
 </nav>
 
 <!-- HERO -->
@@ -213,7 +217,7 @@
   </p>
 
   <div class="hero-actions anim-up" style="animation-delay:0.3s">
-    <a href="../content/english/level-01-interactive/level-01-comic-te.html" class="btn-primary">
+    <a href="../content/english/level-01-interactive/level-01-comic-te.html" class="btn-primary" data-level-id="level-01">
       లెవెల్ 1 మొదలు పెట్టండి — ఉచితం 🎓
     </a>
     <a href="#levels" class="btn-secondary">లోపల ఏముందో చూడండి ↓</a>
@@ -233,7 +237,7 @@
   <h2 class="section-title hidden">లెవెల్ <em>నిచ్చెన</em></h2>
 
   <div class="ladder">
-    <a href="../content/english/level-01-interactive/level-01-comic-te.html" class="ladder-row free-row hidden">
+    <a href="../content/english/level-01-interactive/level-01-comic-te.html" class="ladder-row free-row hidden" data-level-id="level-01">
       <div class="level-num">01</div>
       <div class="level-info">
         <div class="level-title">మొదటి అడుగు</div>
@@ -242,7 +246,7 @@
       <span class="level-badge badge-free">ఉచితం ✓ సిద్ధంగా ఉంది</span>
     </a>
 
-    <a href="../content/english/level-02-daily-help/level-02-comic-te.html" class="ladder-row free-row hidden">
+    <a href="../content/english/level-02-daily-help/level-02-comic-te.html" class="ladder-row free-row hidden" data-level-id="level-02">
       <div class="level-num">02</div>
       <div class="level-info">
         <div class="level-title">రోజువారీ సహాయం</div>

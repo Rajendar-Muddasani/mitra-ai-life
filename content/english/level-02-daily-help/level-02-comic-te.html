@@ -193,6 +193,9 @@
     .quiz-opt.correct { border-color:#86efac !important; background:#f0fdf4 !important; color:#16a34a; font-weight:700; }
     .quiz-opt.wrong   { border-color:#fca5a5 !important; background:#fef2f2 !important; color:#dc2626; text-decoration:line-through; }
   </style>
+  <!-- Supabase auth -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../../../site/auth.js"></script>
 </head>
 <body>
 
@@ -210,6 +213,7 @@
       <a href="level-02-comic-te.html" style="display:block;padding:9px 14px;font-size:0.85rem;font-weight:700;color:#68e1ff;text-decoration:none;">🇮🇳 తెలుగు <small style="font-weight:400;font-size:0.7rem;color:rgba(159,179,218,0.5);"> ప్రస్తుతం</small></a>
     </div>
   </div>
+  <div id="auth-nav-area" style="display:flex;align-items:center;"></div>
 </nav>
 
 
@@ -1034,6 +1038,7 @@
       document.getElementById(pfx + '-cert-date').textContent =
         new Date().toLocaleDateString('te-IN', { day: 'numeric', month: 'long', year: 'numeric' });
       cert.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      saveProgress('level-02', score);  // save to Supabase if logged in
 
     } else {
       resDiv.innerHTML = '<div style="background:#fef9c3;border:2px solid #fde047;border-radius:14px;padding:1.1rem 1.4rem;text-align:center;">'

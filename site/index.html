@@ -490,6 +490,9 @@
       nav .nav-cta { display: none; }
     }
   </style>
+  <!-- Supabase auth -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./auth.js"></script>
 </head>
 <body>
 
@@ -497,7 +500,7 @@
 <nav>
   <a class="nav-brand" href="#">Mitra <span>AI</span> Life Education</a>
   <div style="display:flex;gap:10px;align-items:center;">
-    <a class="nav-cta" href="../content/english/level-01-interactive/level-01-comic.html">Start Level 1 →</a>
+    <a class="nav-cta" href="../content/english/level-01-interactive/level-01-comic.html" data-level-id="level-01">Start Level 1 →</a>
     <div class="lang-switcher">
       <button class="lang-switcher-btn">🌐 Language ▾</button>
       <div class="lang-switcher-menu">
@@ -508,6 +511,7 @@
       </div>
     </div>
   </div>
+  <div id="auth-nav-area" style="display:flex;align-items:center;"></div>
 </nav>
 
 
@@ -533,7 +537,7 @@
   </p>
 
   <div class="hero-actions anim-up" style="animation-delay:0.3s">
-    <a href="../content/english/level-01-interactive/level-01-comic.html" class="btn-primary">
+    <a href="../content/english/level-01-interactive/level-01-comic.html" class="btn-primary" data-level-id="level-01">
       Start Level 1 — Free 🎓
     </a>
     <a href="#what-you-learn" class="btn-secondary">See what's inside ↓</a>
@@ -678,7 +682,7 @@
     Everyday Indians using AI for the first time — at home, in school, at work, on the farm.
     You watch, understand, and try it yourself.
   </p>
-  <div class="demo-grid">
+  <div id="levels-grid" class="demo-grid">
     <div class="demo-card hidden">
       <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-s02-shop.jpg"
            alt="Ravi's mobile shop in Hyderabad" class="demo-card-img" />
@@ -817,7 +821,7 @@
   </p>
   <div class="ladder-wrap">
 
-    <a href="../content/english/level-01-interactive/level-01-comic.html" class="ladder-row free-row hidden">
+    <a href="../content/english/level-01-interactive/level-01-comic.html" class="ladder-row free-row hidden" data-level-id="level-01">
       <span class="ladder-num">1</span>
       <div class="ladder-body">
         <h3>First Step</h3>
@@ -827,7 +831,7 @@
     </a>
     <div class="ladder-connector"></div>
 
-    <a href="../content/english/level-02-daily-help/level-02-comic.html" class="ladder-row free-row hidden">
+    <a href="../content/english/level-02-daily-help/level-02-comic.html" class="ladder-row free-row hidden" data-level-id="level-02">
       <span class="ladder-num">2</span>
       <div class="ladder-body">
         <h3>Daily Help</h3>
@@ -952,7 +956,7 @@
     Just you, your phone, and 60 minutes.
   </p>
   <a href="../content/english/level-01-interactive/level-01-comic.html"
-     class="btn-primary hidden" style="display:inline-block;">
+     class="btn-primary hidden" style="display:inline-block;" data-level-id="level-01">
     Start Level 1 Free →
   </a>
   <p class="cta-note">Levels 1 &amp; 2 are free and will always be free.</p>
@@ -966,7 +970,7 @@
     <p style="margin-top:4px;">Practical AI learning for everyday Indians.</p>
   </div>
   <div class="footer-links">
-    <a href="../content/english/level-01-interactive/level-01-comic.html">Level 1 (Free)</a>
+    <a href="../content/english/level-01-interactive/level-01-comic.html" data-level-id="level-01">Level 1 (Free)</a>
     <a href="#levels">All Levels</a>
     <a href="pitch-deck.html">About</a>
   </div>

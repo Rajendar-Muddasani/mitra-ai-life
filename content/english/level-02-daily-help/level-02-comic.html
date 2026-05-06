@@ -549,6 +549,29 @@
       .topnav .back-link { display: none; }
       .whatsapp-preview { max-width: 100%; }
     }
+
+    /* ─── certificate print ─────────────────────────────────────────────── */
+    @media print {
+      body.printing-cert * { visibility: hidden !important; }
+      body.printing-cert .cert-card,
+      body.printing-cert .cert-card * { visibility: visible !important; }
+      body.printing-cert .cert-card {
+        position: fixed !important; top: 50% !important; left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 88% !important; max-width: 520px !important;
+      }
+    }
+    .quiz-opt {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      padding: 0.65rem 0.75rem; border-radius: 10px; cursor: pointer;
+      border: 1.5px solid #e5e7eb; margin-bottom: 0.5rem;
+      font-size: 0.93rem; line-height: 1.45; transition: border-color .15s, background .15s;
+    }
+    .quiz-opt:hover { border-color: #a5b4fc; background: #f5f3ff; }
+    .quiz-opt input { margin-top: 3px; flex-shrink: 0; accent-color: #7c3aed; }
+    .quiz-opt.correct { border-color: #86efac !important; background: #f0fdf4 !important; color: #16a34a; font-weight: 700; }
+    .quiz-opt.wrong   { border-color: #fca5a5 !important; background: #fef2f2 !important; color: #dc2626; text-decoration: line-through; }
+
   </style>
 </head>
 <body>
@@ -1214,6 +1237,103 @@
 
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- QUIZ — LEVEL 2                                                           -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="level-quiz" style="background:#faf5ff; padding:3.5rem 5vw;">
+  <div style="max-width:680px; margin:0 auto;">
+
+    <p style="font-size:0.76rem;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;color:#0d9488;text-align:center;margin-bottom:0.75rem;">Quick Quiz</p>
+    <h2 style="font-family:'Baloo 2',cursive;font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;color:var(--navy);text-align:center;margin-bottom:0.5rem;">Test what you learned</h2>
+    <p style="color:var(--muted);text-align:center;margin-bottom:2rem;font-size:0.95rem;">5 questions &nbsp;·&nbsp; Need 4 correct to earn your certificate</p>
+
+    <!-- Name input -->
+    <div style="background:white;border:2px solid #99f6e4;border-radius:14px;padding:1.1rem 1.4rem;margin-bottom:2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+      <label style="font-weight:700;color:var(--navy);white-space:nowrap;font-size:0.93rem;">✏️ Your name:</label>
+      <input type="text" id="l2-learner-name" placeholder="Enter your name for the certificate" maxlength="60"
+             style="flex:1;min-width:200px;border:1.5px solid #d1d5db;border-radius:10px;padding:9px 14px;font-size:0.93rem;font-family:inherit;outline:none;" />
+    </div>
+
+    <!-- Questions -->
+    <div id="l2-quiz-qs">
+
+      <div class="l2-qb" data-correct="c" style="background:white;border-radius:14px;padding:1.4rem 1.5rem;margin-bottom:1.1rem;box-shadow:0 1px 6px rgba(0,0,0,0.06);">
+        <p style="font-weight:800;color:var(--navy);margin-bottom:0.9rem;font-size:1rem;">1. Which of these is NOT one of the 4 prompt tips from Level 2?</p>
+        <label class="quiz-opt"><input type="radio" name="l2q1" value="a"> Be specific</label>
+        <label class="quiz-opt"><input type="radio" name="l2q1" value="b"> Give context</label>
+        <label class="quiz-opt"><input type="radio" name="l2q1" value="c"> Use AI every hour of the day</label>
+        <label class="quiz-opt"><input type="radio" name="l2q1" value="d"> Ask for format</label>
+      </div>
+
+      <div class="l2-qb" data-correct="c" style="background:white;border-radius:14px;padding:1.4rem 1.5rem;margin-bottom:1.1rem;box-shadow:0 1px 6px rgba(0,0,0,0.06);">
+        <p style="font-weight:800;color:var(--navy);margin-bottom:0.9rem;font-size:1rem;">2. Complete the Universal Prompt Formula: Role + Task + Details + ___</p>
+        <label class="quiz-opt"><input type="radio" name="l2q2" value="a"> Language</label>
+        <label class="quiz-opt"><input type="radio" name="l2q2" value="b"> Speed</label>
+        <label class="quiz-opt"><input type="radio" name="l2q2" value="c"> Style</label>
+        <label class="quiz-opt"><input type="radio" name="l2q2" value="d"> Length</label>
+      </div>
+
+      <div class="l2-qb" data-correct="b" style="background:white;border-radius:14px;padding:1.4rem 1.5rem;margin-bottom:1.1rem;box-shadow:0 1px 6px rgba(0,0,0,0.06);">
+        <p style="font-weight:800;color:var(--navy);margin-bottom:0.9rem;font-size:1rem;">3. Priya planned weekly groceries for a family of 4. What was her budget?</p>
+        <label class="quiz-opt"><input type="radio" name="l2q3" value="a"> ₹500</label>
+        <label class="quiz-opt"><input type="radio" name="l2q3" value="b"> ₹800</label>
+        <label class="quiz-opt"><input type="radio" name="l2q3" value="c"> ₹1,200</label>
+        <label class="quiz-opt"><input type="radio" name="l2q3" value="d"> ₹600</label>
+      </div>
+
+      <div class="l2-qb" data-correct="b" style="background:white;border-radius:14px;padding:1.4rem 1.5rem;margin-bottom:1.1rem;box-shadow:0 1px 6px rgba(0,0,0,0.06);">
+        <p style="font-weight:800;color:var(--navy);margin-bottom:0.9rem;font-size:1rem;">4. AI's first answer is almost right but needs one small change. What is the best action?</p>
+        <label class="quiz-opt"><input type="radio" name="l2q4" value="a"> Start over with a completely new prompt</label>
+        <label class="quiz-opt"><input type="radio" name="l2q4" value="b"> Type exactly what to change (iterate)</label>
+        <label class="quiz-opt"><input type="radio" name="l2q4" value="c"> Accept it even if something is wrong</label>
+        <label class="quiz-opt"><input type="radio" name="l2q4" value="d"> Give up and do it yourself</label>
+      </div>
+
+      <div class="l2-qb" data-correct="c" style="background:white;border-radius:14px;padding:1.4rem 1.5rem;margin-bottom:1.1rem;box-shadow:0 1px 6px rgba(0,0,0,0.06);">
+        <p style="font-weight:800;color:var(--navy);margin-bottom:0.9rem;font-size:1rem;">5. Which task is AI well-suited for?</p>
+        <label class="quiz-opt"><input type="radio" name="l2q5" value="a"> Making important medical decisions for you</label>
+        <label class="quiz-opt"><input type="radio" name="l2q5" value="b"> Sharing your bank account details safely</label>
+        <label class="quiz-opt"><input type="radio" name="l2q5" value="c"> Drafting a formal complaint letter</label>
+        <label class="quiz-opt"><input type="radio" name="l2q5" value="d"> Replacing a doctor's diagnosis completely</label>
+      </div>
+
+    </div><!-- end l2-quiz-qs -->
+
+    <button id="l2-quiz-btn" onclick="checkQuiz('l2')"
+            style="display:block;width:100%;margin-top:1.5rem;padding:1rem 2rem;background:#0d9488;color:white;border:none;border-radius:14px;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;cursor:pointer;transition:opacity .2s;">
+      Check my answers →
+    </button>
+
+    <div id="l2-quiz-result" style="display:none; margin-top:1.5rem;"></div>
+
+    <!-- Certificate -->
+    <div id="l2-certificate" style="display:none; margin-top:2rem;">
+      <div class="cert-card" id="l2-cert-card"
+           style="background:linear-gradient(135deg,#042f2e 0%,#0d4f4f 55%,#0d9488 100%);border-radius:20px;padding:2.5rem 2rem;text-align:center;color:white;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.05);pointer-events:none;"></div>
+        <div style="position:absolute;bottom:-30px;left:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.04);pointer-events:none;"></div>
+        <div style="font-size:3rem;margin-bottom:0.75rem;">🎓</div>
+        <p style="font-size:0.72rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(153,246,228,0.8);margin-bottom:0.4rem;">Certificate of Completion</p>
+        <h3 id="l2-cert-name" style="font-family:'Baloo 2',cursive;font-size:clamp(1.3rem,4vw,1.8rem);font-weight:800;margin-bottom:0.4rem;color:white;"></h3>
+        <p style="color:rgba(255,255,255,0.65);font-size:0.88rem;margin-bottom:1.1rem;">has successfully completed</p>
+        <div style="background:rgba(255,255,255,0.12);border-radius:12px;padding:0.65rem 1.4rem;display:inline-block;margin-bottom:1.1rem;">
+          <p style="font-family:'Baloo 2',cursive;font-size:1.15rem;font-weight:800;color:#5eead4;margin:0;">Level 2: Daily Help</p>
+          <p style="font-size:0.78rem;color:rgba(255,255,255,0.55);margin:0.2rem 0 0;">Mitra AI Life Education</p>
+        </div>
+        <p id="l2-cert-date" style="font-size:0.76rem;color:rgba(255,255,255,0.38);display:block;"></p>
+        <p style="font-size:0.7rem;color:rgba(255,255,255,0.25);margin-top:0.4rem;">mitraailife.com</p>
+      </div>
+      <button onclick="saveCert()"
+              style="display:block;width:100%;margin-top:0.9rem;padding:0.9rem;background:#f59e0b;color:white;border:none;border-radius:12px;font-family:'Baloo 2',cursive;font-size:1rem;font-weight:800;cursor:pointer;">
+        📥 Save / Print Certificate
+      </button>
+    </div>
+
+  </div>
+</section>
+
+
 <!-- COMMENTS — DISQUS                                                        -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <section style="background:#f8faff; padding:3rem 5vw; min-height:unset;">
@@ -1297,6 +1417,78 @@
     const item = btn.closest('.qa-item');
     item.classList.toggle('open');
   }
+
+  /* ─── Quiz + Certificate ───────────────────────────────────────────────── */
+  function checkQuiz(level) {
+    var pfx    = level;                           // 'l1' or 'l2'
+    var nameEl = document.getElementById(pfx + '-learner-name');
+    var name   = nameEl ? nameEl.value.trim() : '';
+    if (!name) { alert('Please enter your name first.'); nameEl && nameEl.focus(); return; }
+
+    var qblocks   = document.querySelectorAll('#' + pfx + '-quiz-qs .' + pfx + '-qb');
+    var score     = 0;
+    var allDone   = true;
+
+    qblocks.forEach(function(qb) {
+      var correct  = qb.dataset.correct;
+      var checked  = qb.querySelector('input[type=radio]:checked');
+      if (!checked) { allDone = false; return; }
+
+      qb.querySelectorAll('.quiz-opt').forEach(function(opt) {
+        var val = opt.querySelector('input').value;
+        if (val === correct)                                      opt.classList.add('correct');
+        if (checked.value !== correct && val === checked.value)  opt.classList.add('wrong');
+        opt.querySelector('input').disabled = true;
+      });
+      if (checked.value === correct) score++;
+    });
+
+    if (!allDone) { alert('Please answer all 5 questions.'); return; }
+    document.getElementById(pfx + '-quiz-btn').style.display = 'none';
+
+    var resDiv = document.getElementById(pfx + '-quiz-result');
+    resDiv.style.display = 'block';
+
+    if (score >= 4) {
+      resDiv.innerHTML = '<div style="background:#f0fdf4;border:2px solid #86efac;border-radius:14px;padding:1.1rem 1.4rem;text-align:center;">'
+        + '<p style="font-size:1.6rem;margin-bottom:0.4rem;">🎉</p>'
+        + '<p style="font-weight:800;color:#16a34a;font-size:1.05rem;">You scored ' + score + '/5 — Certificate earned!</p>'
+        + '<p style="color:#4b5563;font-size:0.88rem;margin-top:0.4rem;">'
+        + (level === 'l1' ? 'Excellent! Scroll down for your certificate, then continue to Level 2.' : 'Outstanding! You have completed both free levels.')
+        + '</p></div>';
+
+      var cert = document.getElementById(pfx + '-certificate');
+      cert.style.display = 'block';
+      document.getElementById(pfx + '-cert-name').textContent = name;
+      document.getElementById(pfx + '-cert-date').textContent =
+        new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+      cert.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    } else {
+      resDiv.innerHTML = '<div style="background:#fef9c3;border:2px solid #fde047;border-radius:14px;padding:1.1rem 1.4rem;text-align:center;">'
+        + '<p style="font-size:1.6rem;margin-bottom:0.4rem;">💪</p>'
+        + '<p style="font-weight:800;color:#92400e;font-size:1.05rem;">You scored ' + score + '/5 — need 4 to pass.</p>'
+        + '<p style="color:#4b5563;font-size:0.88rem;margin-top:0.4rem;">Scroll up, review the lesson, and try again.</p>'
+        + '<button onclick="resetQuiz(\'' + level + '\')" style="margin-top:0.9rem;padding:0.65rem 1.4rem;background:#f59e0b;color:white;border:none;border-radius:10px;font-family:\'Baloo 2\',cursive;font-weight:800;cursor:pointer;font-size:0.9rem;">Try Again</button>'
+        + '</div>';
+    }
+  }
+
+  function resetQuiz(level) {
+    var pfx = level;
+    document.querySelectorAll('#' + pfx + '-quiz-qs input').forEach(function(i) { i.disabled = false; i.checked = false; });
+    document.querySelectorAll('#' + pfx + '-quiz-qs .quiz-opt').forEach(function(o) { o.classList.remove('correct','wrong'); });
+    document.getElementById(pfx + '-quiz-result').style.display   = 'none';
+    document.getElementById(pfx + '-certificate').style.display   = 'none';
+    document.getElementById(pfx + '-quiz-btn').style.display      = 'block';
+  }
+
+  function saveCert() {
+    document.body.classList.add('printing-cert');
+    window.print();
+    setTimeout(function() { document.body.classList.remove('printing-cert'); }, 1500);
+  }
+
 </script>
 </body>
 </html>

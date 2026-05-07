@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Level 6: Power User | Mitra AI Life Education</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QGY0LH6W93');
+  </script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:      #1E3A5F;
+      --rose:      #E11D48;
+      --rose-light:#fff1f2;
+      --rose-mid:  #fb7185;
+      --sky:       #38BDF8;
+      --amber:     #F59E0B;
+      --green:     #10B981;
+      --red:       #EF4444;
+      --teal:      #0D9488;
+      --cream:     #fff1f2;
+      --white:     #FFFFFF;
+      --text:      #1C1C2E;
+      --muted:     #64748B;
+      --panel:     #ffe4e6;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+    /* progress bar */
+    #progress-bar { position:fixed; top:0; left:0; height:5px;
+      background: linear-gradient(90deg, var(--rose), var(--rose-mid), var(--amber));
+      width:0%; z-index:999; transition:width 0.3s ease; }
+
+    /* nav */
+    .topnav {
+      position:fixed; top:5px; left:0; right:0; height:52px;
+      background:rgba(255,241,242,0.93); backdrop-filter:blur(8px);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 1.5rem; z-index:100;
+      border-bottom:2px solid rgba(225,29,72,0.15);
+    }
+    .topnav .brand { font-family:'Baloo 2',cursive; font-weight:800; font-size:1.1rem; color:var(--navy); text-decoration:none; }
+    .topnav .level-tag { background:var(--rose); color:white; font-size:0.75rem; font-weight:700; padding:3px 12px; border-radius:20px; }
+    .topnav .back-link { font-size:0.82rem; color:var(--muted); font-weight:700; text-decoration:none; }
+    .topnav .back-link:hover { color:var(--rose); }
+    .topnav .lang-btn { font-size:0.82rem; color:var(--rose); font-weight:700; background:var(--rose-light); border:1px solid var(--rose-mid); border-radius:8px; padding:4px 10px; cursor:pointer; text-decoration:none; }
+
+    /* animations */
+    @keyframes fadeInUp   { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideInLeft  { from{opacity:0;transform:translateX(-48px)} to{opacity:1;transform:translateX(0)} }
+    @keyframes slideInRight { from{opacity:0;transform:translateX(48px)}  to{opacity:1;transform:translateX(0)} }
+    @keyframes bounceIn { 0%{opacity:0;transform:scale(0.6)} 60%{opacity:1;transform:scale(1.08)} 80%{transform:scale(0.97)} 100%{transform:scale(1)} }
+    @keyframes float  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    @keyframes pulse  { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+    .anim-fadeInUp   { animation:fadeInUp   0.7s ease forwards; }
+    .anim-slideLeft  { animation:slideInLeft  0.7s ease forwards; }
+    .anim-slideRight { animation:slideInRight 0.7s ease forwards; }
+    .anim-bounceIn   { animation:bounceIn    0.75s cubic-bezier(.68,-.55,.27,1.55) forwards; }
+    .anim-float      { animation:float 3s ease-in-out infinite; }
+    .anim-pulse      { animation:pulse 2.5s ease-in-out infinite; }
+
+    /* sections */
+    section { padding: 4rem 1.5rem; max-width: 900px; margin: 0 auto; }
+    section:first-of-type { padding-top: 6rem; }
+
+    /* hero */
+    .hero {
+      min-height: 88vh; display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; padding-top:5rem;
+      background: linear-gradient(160deg, #4c0519 0%, #881337 40%, #9f1239 75%, #1e3a5f 100%);
+      border-radius: 0 0 48px 48px; position:relative; overflow:hidden;
+    }
+    .hero::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 30% 40%, rgba(251,113,133,0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 75% 65%, rgba(245,158,11,0.1) 0%, transparent 50%);
+    }
+    .hero-eyebrow { font-size:0.78rem; font-weight:800; letter-spacing:0.15em; color:var(--rose-mid); text-transform:uppercase; margin-bottom:.5rem; position:relative; }
+    .hero-title { font-family:'Baloo 2',cursive; font-size:clamp(2.4rem,6vw,4rem); font-weight:800; color:white; line-height:1.1; position:relative; }
+    .hero-sub { font-size:1.15rem; color:rgba(255,255,255,0.75); margin-top:.75rem; max-width:560px; position:relative; }
+    .hero-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin-top:1.5rem; position:relative; }
+    .badge { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; font-size:0.78rem; font-weight:700; padding:5px 14px; border-radius:20px; }
+    .badge.accent { background:var(--amber); color:#1c1c2e; border-color:var(--amber); }
+    .hero-img { width:100%; max-width:760px; border-radius:20px; margin-top:2rem; box-shadow:0 20px 60px rgba(0,0,0,0.5); position:relative; }
+    .hero-offer { background:linear-gradient(90deg,#f59e0b,#fbbf24); color:#1c1c2e; font-size:0.9rem; font-weight:800; padding:8px 24px; border-radius:24px; margin-top:1.5rem; display:inline-block; position:relative; }
+    .hero-offer s { font-weight:400; opacity:0.55; }
+    .scroll-hint { margin-top:2.5rem; font-size:0.8rem; color:rgba(255,255,255,0.4); letter-spacing:.08em; position:relative; }
+
+    /* skill banner */
+    .skill-banner { background:var(--rose); color:white; border-radius:16px; padding:1rem 1.5rem; margin-bottom:2rem; font-size:0.95rem; font-weight:700; display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; }
+    .skill-banner .sk-num { background:rgba(255,255,255,0.2); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+
+    /* section titles */
+    .sec-label { font-size:0.72rem; font-weight:800; letter-spacing:.14em; color:var(--rose); text-transform:uppercase; margin-bottom:.4rem; }
+    .sec-title { font-family:'Baloo 2',cursive; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:800; color:var(--navy); line-height:1.2; margin-bottom:.75rem; }
+    .sec-intro { font-size:1.05rem; color:var(--muted); line-height:1.7; margin-bottom:2rem; }
+
+    /* story panels */
+    .story-grid { display:grid; gap:1.5rem; }
+    .story-card {
+      background:white; border-radius:20px; padding:1.5rem 1.75rem;
+      box-shadow:0 4px 20px rgba(0,0,0,0.07);
+      border-left:5px solid var(--rose);
+      display:flex; flex-direction:column; gap:.75rem;
+    }
+    .story-card.amber { border-left-color: var(--amber); }
+    .story-card.teal  { border-left-color: var(--teal);  }
+    .story-card.sky   { border-left-color: var(--sky);   }
+    .story-card.green { border-left-color: var(--green); }
+    .char-tag { display:inline-flex; align-items:center; gap:.5rem; font-size:0.8rem; font-weight:800; color:var(--rose); background:var(--rose-light); padding:3px 10px; border-radius:20px; }
+    .char-tag.amber { color:#92400e; background:#fef3c7; }
+    .char-tag.teal  { color:#134e4a; background:#ccfbf1; }
+    .char-tag.sky   { color:#0c4a6e; background:#e0f2fe; }
+    .char-tag.green { color:#14532d; background:#dcfce7; }
+    .story-text { font-size:1rem; line-height:1.75; color:var(--text); }
+    .speech-bubble { background:var(--rose-light); border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; font-style:italic; color:var(--navy); position:relative; margin-top:.5rem; }
+    .speech-bubble::before { content:'💬'; margin-right:.5rem; }
+    .ai-bubble { background:#ecfdf5; border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; color:#065f46; position:relative; margin-top:.5rem; border:1px solid #a7f3d0; }
+    .ai-bubble::before { content:'🤖 Mitra says: '; font-weight:800; }
+
+    /* skill steps */
+    .steps-list { list-style:none; display:flex; flex-direction:column; gap:1rem; margin-top:1rem; }
+    .steps-list li { display:flex; gap:1rem; align-items:flex-start; }
+    .step-num { background:var(--rose); color:white; border-radius:50%; min-width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; flex-shrink:0; margin-top:2px; }
+    .step-text { font-size:1rem; line-height:1.7; color:var(--text); }
+
+    /* tip card */
+    .tip-card { background:var(--rose-light); border-radius:16px; padding:1.25rem 1.5rem; border:1px solid var(--rose-mid); margin-top:1.5rem; }
+    .tip-card .tip-head { font-weight:800; color:var(--rose); font-size:1rem; margin-bottom:.5rem; }
+    .tip-card p { font-size:0.95rem; line-height:1.7; color:var(--navy); }
+
+    /* prompt box */
+    .prompt-box { background:#4c0519; border-radius:14px; padding:1.25rem 1.5rem; margin-top:1rem; }
+    .prompt-box .pb-label { font-size:0.72rem; font-weight:800; letter-spacing:.1em; color:var(--rose-mid); text-transform:uppercase; margin-bottom:.5rem; }
+    .prompt-box .pb-text { font-family:monospace; font-size:0.92rem; color:#fecdd3; line-height:1.65; }
+
+    /* before-after */
+    .ba-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem; }
+    @media(max-width:600px){ .ba-grid { grid-template-columns:1fr; } }
+    .ba-col { border-radius:14px; padding:1rem 1.25rem; }
+    .ba-col.before { background:#fef2f2; border:1px solid #fecaca; }
+    .ba-col.after  { background:#ecfdf5; border:1px solid #a7f3d0; }
+    .ba-col .ba-head { font-size:0.75rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin-bottom:.5rem; }
+    .ba-col.before .ba-head { color:#b91c1c; }
+    .ba-col.after  .ba-head { color:#065f46; }
+    .ba-col p { font-size:0.9rem; line-height:1.7; }
+
+    /* cheat sheet */
+    .cheat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.25rem; }
+    .cheat-card { background:white; border-radius:16px; padding:1.25rem; box-shadow:0 2px 12px rgba(0,0,0,0.07); border-top:4px solid var(--rose); }
+    .cheat-card.amber { border-top-color:var(--amber); }
+    .cheat-card.teal  { border-top-color:var(--teal);  }
+    .cheat-card.green { border-top-color:var(--green);  }
+    .cheat-card.sky   { border-top-color:var(--sky);    }
+    .cheat-card h3 { font-size:0.95rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .cheat-card p  { font-size:0.88rem; color:var(--muted); line-height:1.6; }
+    .prompt-chip { background:var(--rose-light); border-radius:8px; padding:4px 10px; font-size:0.82rem; font-family:monospace; color:var(--rose); display:inline-block; margin-top:.4rem; }
+
+    /* practice arena */
+    .arena-grid { display:grid; gap:1.25rem; }
+    .arena-card { background:white; border-radius:16px; padding:1.5rem; box-shadow:0 3px 14px rgba(0,0,0,0.08); border:2px solid transparent; transition:border-color .2s; }
+    .arena-card:hover { border-color:var(--rose-mid); }
+    .arena-card .ac-num { font-size:0.8rem; font-weight:800; color:var(--rose-mid); margin-bottom:.4rem; text-transform:uppercase; letter-spacing:.1em; }
+    .arena-card h3 { font-size:1rem; font-weight:800; color:var(--navy); margin-bottom:.4rem; }
+    .arena-card p { font-size:0.93rem; color:var(--muted); line-height:1.6; }
+
+    /* quiz */
+    .quiz-wrap { background:white; border-radius:24px; padding:2rem; box-shadow:0 8px 32px rgba(225,29,72,0.12); }
+    .quiz-q { margin-bottom:1.5rem; }
+    .quiz-q .q-text { font-weight:800; font-size:1.05rem; color:var(--navy); margin-bottom:.75rem; }
+    .quiz-options { display:flex; flex-direction:column; gap:.5rem; }
+    .quiz-options label { display:flex; align-items:center; gap:.75rem; background:var(--rose-light); border-radius:10px; padding:.7rem 1rem; cursor:pointer; font-size:0.95rem; transition:background .15s; }
+    .quiz-options label:hover { background:var(--rose-mid); color:white; }
+    .quiz-options input[type=radio] { accent-color:var(--rose); width:16px; height:16px; }
+    .quiz-submit { background:var(--rose); color:white; font-family:'Nunito',sans-serif; font-weight:800; font-size:1rem; border:none; border-radius:14px; padding:.9rem 2.5rem; cursor:pointer; margin-top:1rem; transition:background .2s; }
+    .quiz-submit:hover { background:#9f1239; }
+    #quiz-result { margin-top:1.25rem; font-weight:800; font-size:1.05rem; display:none; }
+    #quiz-result.pass { color:#059669; }
+    #quiz-result.fail { color:#dc2626; }
+
+    /* certificate */
+    #cert-section { display:none; }
+    .cert-box {
+      background: linear-gradient(135deg, #4c0519 0%, #881337 50%, #9f1239 100%);
+      border-radius:24px; padding:2.5rem 2rem; text-align:center; color:white;
+      box-shadow:0 12px 48px rgba(225,29,72,0.4);
+    }
+    .cert-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; margin-bottom:.25rem; }
+    .cert-box .cert-name { font-size:1.5rem; font-weight:700; color:var(--rose-mid); margin:.5rem 0; }
+    .cert-box p { font-size:0.95rem; color:rgba(255,255,255,0.75); margin-bottom:1.25rem; }
+    .skill-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin:1.25rem 0; }
+    .skill-badge { background:rgba(255,255,255,0.1); border:1px solid rgba(251,113,133,0.4); border-radius:12px; padding:.5rem .9rem; font-size:0.8rem; font-weight:700; color:var(--rose-mid); }
+    .cert-btn { background:var(--amber); color:#1c1c2e; font-weight:800; font-size:0.95rem; border:none; border-radius:14px; padding:.8rem 2rem; cursor:pointer; margin-top:.75rem; }
+
+    /* completion */
+    .completion-box { text-align:center; padding:3rem 2rem; }
+    .completion-box .big-emoji { font-size:4rem; margin-bottom:1rem; }
+    .completion-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .completion-box p { font-size:1.05rem; color:var(--muted); max-width:520px; margin:0 auto 1.5rem; }
+    .next-btn { display:inline-block; background:var(--rose); color:white; font-weight:800; font-size:1rem; padding:.85rem 2.5rem; border-radius:14px; text-decoration:none; }
+    .next-btn:hover { background:#9f1239; }
+
+    /* auth nav area */
+    #auth-nav-area { display:flex; align-items:center; gap:.5rem; }
+
+    /* disqus */
+    .disqus-wrap { margin-top:2rem; }
+
+    /* recap banner */
+    .recap-banner { background:linear-gradient(135deg,#881337,#9f1239); border-radius:20px; padding:1.5rem 2rem; color:white; margin-bottom:2rem; }
+    .recap-banner h3 { font-family:'Baloo 2',cursive; font-size:1.3rem; font-weight:800; margin-bottom:.75rem; }
+    .recap-list { list-style:none; display:flex; flex-direction:column; gap:.4rem; }
+    .recap-list li { font-size:0.92rem; display:flex; gap:.5rem; }
+    .recap-list li::before { content:'✓'; color:var(--rose-mid); font-weight:800; }
+
+    img { max-width:100%; }
+    @media(max-width:600px){
+      .story-grid { grid-template-columns:1fr; }
+      .cheat-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">🌟 Mitra AI Life</a>
+  <span class="level-tag">Level 6 · ₹400</span>
+  <div style="display:flex;align-items:center;gap:.75rem;">
+    <div id="auth-nav-area"></div>
+    <a href="level-06-comic-te.html" class="lang-btn">తెలుగు</a>
+    <a href="../../../site/index.html" class="back-link">← Home</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 1 · HERO                                       -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="hero">
+  <p class="hero-eyebrow anim-fadeInUp" style="animation-delay:.1s">Level 6 · Power User</p>
+  <h1 class="hero-title anim-fadeInUp" style="animation-delay:.2s">Same AI.<br>10× the Results.<br>Half the Time.</h1>
+  <p class="hero-sub anim-fadeInUp" style="animation-delay:.3s">Master routines, structured outputs, spreadsheet integration, reusable templates, and knowing exactly when not to trust AI — the five habits that separate power users from everyone else.</p>
+  <div class="hero-badges anim-fadeInUp" style="animation-delay:.4s">
+    <span class="badge">⏱ 4 Hours</span>
+    <span class="badge">⚡ 5 Power Skills</span>
+    <span class="badge">🔁 Reusable Systems</span>
+    <span class="badge accent">₹400</span>
+  </div>
+  <div class="hero-offer anim-bounceIn" style="animation-delay:.55s">
+    🎉 Early Access — <s>₹400</s> <strong>FREE for first 100 learners</strong>
+  </div>
+  <img class="hero-img anim-fadeInUp" style="animation-delay:.5s"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l6-s01-hero.jpg"
+       alt="Level 6 Power User hero — five Indian professionals using AI with mastery"
+       loading="lazy" />
+  <p class="scroll-hint anim-fadeInUp" style="animation-delay:.8s">▾ Scroll to begin</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 2 · RECAP                                      -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="recap-banner anim-fadeInUp">
+    <h3>✅ Quick Recap from Level 5</h3>
+    <ul class="recap-list">
+      <li>You planned a household budget with a clear savings target</li>
+      <li>You helped your child understand any school topic in minutes</li>
+      <li>You built a complete family trip plan within your budget</li>
+      <li>You compared mobile plans and financial products with actual numbers</li>
+      <li>You created a realistic habit and health plan based on your real schedule</li>
+    </ul>
+  </div>
+  <p class="sec-label">Level 6</p>
+  <h2 class="sec-title">Now let's build systems, not just results</h2>
+  <p class="sec-intro">
+    Pradeep is an HR manager in Hyderabad who repeats the same AI task every single morning — from scratch.
+    Ananya is a project coordinator in Vijayawada who gets 15-page reports but needs structured summaries fast.
+    Venkat is a shop owner in Tirupati who has sales data in Excel but cannot get useful insights from it.
+    Divya is a freelance writer in Guntur who rewrites the same proposal format every week.
+    Rajan is a civil engineer in Vizag who knows exactly which decisions he will never hand over to AI.<br><br>
+    In this level, you will see how each of them moves from occasional AI user to true power user — and learn five skills that multiply everything you already know.
+  </p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 3 · SKILL 1 · DAILY AI ROUTINE                -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">1</span>
+    <span>Skill 1 — Turn one task into a daily AI routine</span>
+  </div>
+
+  <p class="sec-label">Pradeep's story</p>
+  <h2 class="sec-title">The HR manager who started from zero every morning</h2>
+  <p class="sec-intro">Pradeep is an HR manager at a manufacturing company in Hyderabad. Every morning he opens ChatGPT and types a new prompt from scratch — summarise this week's attendance report, write a notice about tomorrow's training, draft an email to a late-joining employee. He gets decent results but wastes 30 minutes each time because he explains the same context again and again.</p>
+
+  <div class="story-grid">
+    <div class="story-card amber anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag amber">👨 Pradeep · Hyderabad</span>
+      <p class="story-text">Pradeep uses AI every day but treats it like a fresh conversation every time. He types his company name, his role, and the background again every morning. Monday's prompt and Friday's prompt are almost identical — but he rebuilds them from nothing each day.</p>
+      <div class="speech-bubble">"I use AI daily but I'm spending more time typing context than actually getting work done. There has to be a better way."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 The AI approach</span>
+      <p class="story-text">Pradeep builds a saved context block — a short paragraph that sets his role, company type, tone, and recurring tasks. He pastes this at the start of each session and immediately jumps to the specific task. He also creates 3 trigger prompts for his most common tasks so they take 30 seconds instead of 10 minutes.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Pradeep's saved context block</p>
+        <p class="pb-text">Context: I am Pradeep, HR Manager at a 200-person manufacturing company
+in Hyderabad. Our communication style is professional but friendly.
+Employees are from diverse backgrounds — many prefer simple English.
+My most common tasks: attendance notices, training announcements,
+policy reminders, and joining/exit email templates.
+
+Today's task: [INSERT SPECIFIC TASK HERE]
+
+Format preference: Short paragraphs. Use bullet points for lists.
+Keep emails under 150 words unless I ask for longer.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ The result</span>
+      <p class="story-text">Pradeep now pastes his context block and adds one line for the day's task. His 30-minute morning AI session drops to 7 minutes. He creates three saved trigger prompts for his most repeated tasks and shares the technique with two colleagues. His team now has a shared AI starter pack.</p>
+      <div class="ai-bubble">
+        Monday morning (7 minutes total):<br><br>
+        Paste context block → Add "Today's task: Write a reminder notice about the new attendance policy effective June 1st. Friendly tone. Under 100 words."<br><br>
+        Result: Professional notice ready in 20 seconds. Review, minor edit, send — done.<br><br>
+        Time saved vs. starting from scratch: 23 minutes per day × 22 working days = <strong>8+ hours per month</strong>.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">🔁 Routine-building tip</p>
+    <p>Create a <strong>saved context block</strong> for every recurring AI task — your role, tone, output format, and typical audience. Store it in your phone's notes or a text file. Paste it at the start of each session. Never re-explain context you have already explained before.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">List your 3 most common AI tasks (the ones you repeat every week)</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Write a context block: your role, organisation type, tone, and output preferences</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Create a trigger prompt for each task — short, specific, with [FILL-IN] placeholders</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Save all of these in your phone notes or a Google Doc labelled "My AI Starter Kit"</span></li>
+    <li><span class="step-num">5</span><span class="step-text">Every morning: paste context block + trigger prompt → fill in today's variable → run</span></li>
+  </ul>
+
+  <div class="ba-grid" style="margin-top:1.5rem;">
+    <div class="ba-col before">
+      <p class="ba-head">❌ Without routine</p>
+      <p>Pradeep spends 30 minutes per session re-explaining context and building prompts from scratch. 5 sessions per week × 30 min = 2.5 hours lost weekly.</p>
+    </div>
+    <div class="ba-col after">
+      <p class="ba-head">✅ With routine</p>
+      <p>Context block + trigger prompt = 7 minutes per session. Pradeep reclaims 1.5 hours per week — that is 6 hours per month — without losing quality.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l6-s02-pradeep-routine.jpg"
+       alt="Pradeep building his daily AI workflow routine at his HR desk" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 4 · SKILL 2 · STRUCTURED OUTPUTS              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">2</span>
+    <span>Skill 2 — Ask AI for tables, checklists, and summaries together</span>
+  </div>
+
+  <p class="sec-label">Ananya's story</p>
+  <h2 class="sec-title">The report nobody had time to read</h2>
+  <p class="sec-intro">Ananya is a project coordinator at a construction company in Vijayawada. Every Monday she receives a 15-page weekly status report from 4 site teams. Her manager wants a 1-page summary, an action list, and a risk table — all by 10 AM. Reading and restructuring the report alone takes 2 hours. She is always late.</p>
+
+  <div class="story-grid">
+    <div class="story-card teal anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag teal">👩 Ananya · Vijayawada</span>
+      <p class="story-text">Ananya reads each page, highlights key points with a pen, types a summary manually, then builds the action table in Excel. She misses the 10 AM deadline every week. Her manager is frustrated. Ananya feels the job is too much for one person — but the real problem is the process, not the workload.</p>
+      <div class="speech-bubble">"I spend two hours turning a 15-page report into a 1-page summary. There must be a smarter way to do this every Monday."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 The AI approach</span>
+      <p class="story-text">Ananya pastes the report text into AI with a single structured prompt that asks for all three outputs at once — a summary paragraph, a priority action checklist, and a risk table. She gets all three in under 2 minutes. She reviews and submits before 9:30 AM.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Ananya's structured output prompt</p>
+        <p class="pb-text">I am going to paste a 15-page weekly project status report below.
+Please give me three things in this exact format:
+
+1. EXECUTIVE SUMMARY (max 150 words)
+   One paragraph covering overall progress, key achievements this week,
+   and one main concern.
+
+2. ACTION CHECKLIST (table format)
+   Columns: Action Item | Owner | Due Date | Priority (High/Medium/Low)
+   List all items that need follow-up this week.
+
+3. RISK TABLE (table format)
+   Columns: Risk | Site/Team | Likelihood (H/M/L) | Impact (H/M/L) | Suggested Response
+
+Here is the report:
+[PASTE REPORT TEXT]</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ The result</span>
+      <p class="story-text">AI returns a clean 150-word summary, a 7-item action table with owner names and due dates pulled from the report, and a risk table with 4 flagged items. Ananya reviews in 10 minutes, adds one missed item, and sends before 9:30 AM. Her manager calls it "the clearest Monday report in months".</p>
+      <div class="ai-bubble">
+        EXECUTIVE SUMMARY: Week 18 shows 73% overall progress across 4 sites. Kondapalli site completed concrete pour ahead of schedule. Main concern: Electrical contractor for Benz Circle site has not confirmed material delivery for next week — risk of 3-day delay.<br><br>
+        ACTION CHECKLIST:<br>
+        → Confirm electrical material delivery · Ravi Kumar · 9 May · HIGH<br>
+        → Submit revised drawing to PMC · Ananya · 10 May · HIGH<br>
+        → Process 3 pending invoices · Accounts · 11 May · MEDIUM<br><br>
+        RISK TABLE: 4 items flagged — electrical delay (H/H), rain forecast week 19 (M/M), one subcontractor payment dispute (L/H), drawing revision cycle (M/L).
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">📋 Structured output tip</p>
+    <p>Never ask AI "summarise this" and accept whatever format it chooses. <strong>Specify exactly what you want</strong> — number of words, table columns, section headers, and order. When you define the format in the prompt, the output is ready to use without reformatting.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">Decide what output formats you need before writing your prompt (summary, table, checklist, etc.)</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Number each output type in your prompt — "1. Summary 2. Action table 3. Risks"</span></li>
+    <li><span class="step-num">3</span><span class="step-text">For tables, specify column names in the prompt itself</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Set word/length limits for summaries — "max 150 words" — or AI will run long</span></li>
+    <li><span class="step-num">5</span><span class="step-text">Save this structured prompt template — it works for any long document, meeting notes, or email thread</span></li>
+  </ul>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l6-s03-ananya-structure.jpg"
+       alt="Ananya reviewing AI-generated structured summary with tables and checklists" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 5 · SKILL 3 · AI WITH SPREADSHEETS            -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">3</span>
+    <span>Skill 3 — Use AI to analyse your spreadsheet data</span>
+  </div>
+
+  <p class="sec-label">Venkat's story</p>
+  <h2 class="sec-title">The shop owner who had all the data but no answers</h2>
+  <p class="sec-intro">Venkat runs a stationery and gift shop in Tirupati. He has been maintaining a daily sales Excel sheet for 2 years — date, product, quantity, price, customer type. He knows the data is useful but he cannot figure out which products are his best sellers, which months are slowest, or where he should invest in stock. His Excel skills stop at totals and filters.</p>
+
+  <div class="story-grid">
+    <div class="story-card sky anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag sky">👨 Venkat · Tirupati</span>
+      <p class="story-text">Venkat opens his sales sheet every Friday but does not know what to do with it beyond seeing the total. He has tried YouTube tutorials on Excel charts but gives up after 20 minutes. He makes stock decisions based on gut feel — and ends up overstocking some items and running out of others every month.</p>
+      <div class="speech-bubble">"I have 2 years of sales data but I feel like I'm flying blind. The data is sitting there and I don't know how to read it."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 The AI approach</span>
+      <p class="story-text">Venkat copies a week of his sales data and pastes it into AI. He asks specific business questions about his data — best sellers, slow months, which product categories drive most revenue. AI analyses the pasted data and gives him clear answers with recommendations.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Venkat's spreadsheet analysis prompt</p>
+        <p class="pb-text">I run a stationery and gift shop in Tirupati. Below is my weekly sales data
+copied from my Excel sheet. Each row is one transaction.
+Columns: Date | Product | Category | Qty Sold | Unit Price | Customer Type
+
+[PASTE DATA — example:]
+01-Apr-2026 | Notebook A4 | Stationery | 15 | 45 | Walk-in
+01-Apr-2026 | Gift Wrap Set | Gifts | 8 | 120 | Repeat
+02-Apr-2026 | Pens Box | Stationery | 22 | 35 | Walk-in
+...
+
+Please answer:
+1. Which 5 products sold the most units this week?
+2. Which category generated the most revenue?
+3. Which products sold zero or only 1 unit? (potential overstock)
+4. What is the average transaction value for walk-in vs repeat customers?
+5. What should I focus on stocking more of next week based on this data?</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ The result</span>
+      <p class="story-text">AI tells Venkat his top 5 products, shows that Gifts category generates 45% of revenue despite only 20% of transactions, flags 6 products with zero sales this week as overstock risk, and recommends he double his greeting card stock before the upcoming festival week. Venkat makes his first data-driven stock order.</p>
+      <div class="ai-bubble">
+        Top 5 by units: Notebook A4 (82) · Pens Box (71) · Greeting Cards (54) · Sketch Pens (48) · Gift Wrap Set (44)<br><br>
+        Revenue breakdown: Gifts (45%) beats Stationery (41%) despite fewer transactions — higher unit prices.<br><br>
+        Overstock risk: 6 products sold 0–1 units this week (3 craft kits, 2 specialty notebooks, 1 desk organiser).<br><br>
+        Recommendation: Increase Greeting Card stock by 40% before 10 May — festival demand pattern visible in last 3 weeks of data.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">📊 Spreadsheet analysis tip</p>
+    <p>You do not need to be an Excel expert. <strong>Copy and paste your data into AI</strong> and ask specific business questions. AI can calculate, compare, and spot patterns that would take you hours to find manually. Ask one question at a time if the data is complex.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">Identify a question you want answered from your data (sales, attendance, expenses, etc.)</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Copy the relevant columns and rows from your spreadsheet (keep it under 50–100 rows)</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Paste the data and ask 3 to 5 specific questions about it</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Ask AI to explain its reasoning — this helps you spot if it missed anything</span></li>
+    <li><span class="step-num">5</span><span class="step-text">Use this weekly — recurring analysis on the same data type is one of the highest-value AI habits</span></li>
+  </ul>
+
+  <div class="ba-grid" style="margin-top:1.5rem;">
+    <div class="ba-col before">
+      <p class="ba-head">❌ Without AI</p>
+      <p>Venkat looks at totals, makes stock decisions from gut feel. Overstocks craft kits, runs out of greeting cards before festivals every year. Revenue growth flat for 18 months.</p>
+    </div>
+    <div class="ba-col after">
+      <p class="ba-head">✅ With AI</p>
+      <p>Venkat gets weekly data insights in 5 minutes. First data-driven stock order increases festival week revenue by 28%. He now analyses his data every Friday as a non-negotiable routine.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l6-s04-venkat-sheets.jpg"
+       alt="Venkat analysing his shop sales spreadsheet with AI insights on screen" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 6 · SKILL 4 · REUSABLE TEMPLATES              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">4</span>
+    <span>Skill 4 — Build reusable AI prompt templates</span>
+  </div>
+
+  <p class="sec-label">Divya's story</p>
+  <h2 class="sec-title">The writer who rewrote the same proposal every week</h2>
+  <p class="sec-intro">Divya is a freelance content writer in Guntur. She writes blog posts, social media captions, and project proposals for small businesses. Every new client means a new proposal — same sections, same structure, but she rewrites from scratch every time. She charges ₹2,500 per project but spends 90 minutes writing each proposal. That is nearly half her project earnings in time cost.</p>
+
+  <div class="story-grid">
+    <div class="story-card amber anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag amber">👩 Divya · Guntur</span>
+      <p class="story-text">Divya writes 4 to 6 proposals per month. Each one covers the same areas — about her, services offered, timeline, pricing, and testimonial. She adapts the wording for each client but the bones are always the same. She feels like she is wasting time on admin instead of actual writing work.</p>
+      <div class="speech-bubble">"I am a writer but I spend more time on proposals than on the actual writing I'm paid for. I need a system, not just AI."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 The AI approach</span>
+      <p class="story-text">Divya creates a master proposal template with [PLACEHOLDERS] for the variable parts. She saves it once. Every new client, she fills in 5 specific details and pastes the template into AI. AI adapts the proposal for that client's industry, tone, and project type in under 2 minutes.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Divya's reusable proposal template</p>
+        <p class="pb-text">Write a professional freelance content writing proposal using these details:
+
+CLIENT NAME: [e.g. Sai Traders Pvt Ltd]
+CLIENT INDUSTRY: [e.g. hardware and building materials]
+PROJECT TYPE: [e.g. 8 product description pages + 2 blog posts/month]
+TIMELINE: [e.g. 3 weeks for first batch, then monthly retainer]
+MY RATE: [e.g. ₹2,500 per project / ₹8,000/month retainer]
+
+FIXED DETAILS (always include):
+- My name is Divya, 4 years experience in B2B content writing
+- Clients include businesses in retail, education, and healthcare
+- I deliver on time, include 1 revision per deliverable, and write in clear English
+- I use AI tools to assist research — all content is human-reviewed and original
+
+Format: 4 sections — Introduction, Scope of Work, Timeline, Investment.
+Keep it under 350 words. Professional but warm tone.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ The result</span>
+      <p class="story-text">Divya's proposal time drops from 90 minutes to 12 minutes per client. She creates three template variations — one for product writing, one for social media, one for blog retainers. In her first month using templates, she takes on 2 additional clients because she has the bandwidth. Monthly income increases by ₹5,000 with no extra working hours.</p>
+      <div class="ai-bubble">
+        Template run for Sai Traders (12 min total):<br><br>
+        Fill 5 fields → Paste template into AI → Review 350-word proposal → Minor tone adjustment → Send.<br><br>
+        Previous process: 90 min of writing, editing, formatting.<br>
+        New process: 12 min total including review.<br><br>
+        Time saved: 78 min per proposal × 5 proposals/month = <strong>6.5 hours freed per month</strong> — enough for 2 full extra projects.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">📝 Template-building tip</p>
+    <p>A good template has two parts: <strong>fixed context</strong> (who you are, your style, your constraints — things that never change) and <strong>[PLACEHOLDERS]</strong> (things you fill in for each use). Build your template once. Test it 3 times. Save it. Never rebuild from scratch again.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">Identify a task you do repeatedly — proposals, reports, emails, posts, meeting agendas</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Write the prompt once with your fixed context and [PLACEHOLDERS] for the variable parts</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Test the template 3 times with real use cases — adjust until the output is consistently good</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Save all templates in one document: "My AI Template Library"</span></li>
+    <li><span class="step-num">5</span><span class="step-text">Review your template library monthly — update or retire templates that no longer work well</span></li>
+  </ul>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l6-s05-divya-templates.jpg"
+       alt="Divya building her reusable AI prompt template library for writing proposals" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 7 · SKILL 5 · WHAT NOT TO OUTSOURCE           -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">5</span>
+    <span>Skill 5 — Know exactly what you should never outsource to AI</span>
+  </div>
+
+  <p class="sec-label">Rajan's story</p>
+  <h2 class="sec-title">The engineer who trusted AI once too many</h2>
+  <p class="sec-intro">Rajan is a senior civil engineer at a construction firm in Vizag. He uses AI daily for reports, calculations, and specifications. Three months ago, he asked AI to help draft material specifications for a structural beam. The output looked perfect. He submitted it without checking one line. The specification had a grade error — M20 concrete where M30 was required. It was caught during a site inspection. The project was delayed by 2 weeks.</p>
+
+  <div class="story-grid">
+    <div class="story-card teal anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag teal">👨 Rajan · Vizag</span>
+      <p class="story-text">Rajan trusted AI output the same way he trusted a junior colleague's work — he reviewed the formatting and logic but not the specific technical figures. The AI produced plausible-sounding content with one critical error. Rajan now has a rule he teaches every engineer in his team: AI is a powerful drafter, never a final authority on safety-critical specifications.</p>
+      <div class="speech-bubble">"AI saved me 40 hours last month and cost me 2 weeks in one day. Now I know exactly where to trust it and where to never skip my review."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 The AI approach</span>
+      <p class="story-text">Rajan now uses AI freely for drafting, summarising, and explaining — but applies a strict personal rule: any output that involves safety, law, medicine, finance, or official compliance gets his full verification before it leaves his desk. He has built a simple checklist that takes 3 minutes.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Rajan's AI output verification rule</p>
+        <p class="pb-text">Before I submit any AI-generated content, I check:
+
+HIGH RISK — ALWAYS VERIFY IN FULL (never submit without checking):
+□ Structural calculations, load values, material grades
+□ Legal clauses, contract terms, regulatory compliance requirements
+□ Medical dosages, drug interactions, clinical protocols
+□ Financial figures used in official documents (tax, audit, loan)
+□ Any output that will be signed, stamped, or submitted to authorities
+
+MEDIUM RISK — SPOT CHECK (verify key facts and figures):
+□ Technical specifications that reference standards (IS, BIS, etc.)
+□ Reports that will go to clients or senior management
+□ Data summaries used for decisions with financial consequences
+
+LOW RISK — USE AS-IS WITH LIGHT REVIEW:
+□ Drafts, templates, and emails for internal use
+□ Summaries for personal planning
+□ Creative or explanatory content I am confident to review</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ The result</span>
+      <p class="story-text">Rajan uses AI for 80% of his documentation — faster than before. His 3-minute pre-submission checklist has caught 4 AI errors in the past 3 months, all of them in high-risk categories. He now trains every new hire with his rule: "Let AI draft everything. You verify everything that matters."</p>
+      <div class="ai-bubble">
+        Rajan's 3-month track record with the verification rule:<br><br>
+        AI-generated documents submitted: 47<br>
+        Verified fully (high-risk): 12 → caught 4 errors before submission<br>
+        Spot-checked (medium-risk): 21 → caught 2 minor inaccuracies<br>
+        Used as-is (low-risk): 14 → no issues reported<br><br>
+        Key insight: All 4 significant errors were in structural specifications and compliance documents — exactly the high-risk category. The rule works.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">⚠️ The power user's non-negotiable rule</p>
+    <p>AI is your fastest drafter — but it is not your final authority. <strong>The smarter you get at using AI, the more important your verification habit becomes.</strong> High-risk output (safety, law, medical, financial compliance) must always be checked by you — no exceptions. This is what separates a power user from a reckless one.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">Categorise every AI task: High risk / Medium risk / Low risk based on what happens if it is wrong</span></li>
+    <li><span class="step-num">2</span><span class="step-text">High risk (legal, medical, safety, financial documents): verify every fact and figure before submitting</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Medium risk (client reports, management summaries): spot-check key claims and numbers</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Low risk (internal drafts, personal planning): light review is enough</span></li>
+    <li><span class="step-num">5</span><span class="step-text">If you cannot tell which category something belongs to — treat it as high risk</span></li>
+  </ul>
+
+  <div class="ba-grid" style="margin-top:1.5rem;">
+    <div class="ba-col before">
+      <p class="ba-head">❌ Without a verification rule</p>
+      <p>Rajan trusts AI output that looks correct. One grade error in a structural spec causes a 2-week project delay and damages client trust. One unverified document costs more than months of productivity gains.</p>
+    </div>
+    <div class="ba-col after">
+      <p class="ba-head">✅ With a verification rule</p>
+      <p>Rajan uses AI for 80% of documentation while catching all critical errors in 3 minutes per document. He has submitted 47 AI-assisted documents without a single error reaching the client since implementing the rule.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l6-s06-rajan-limits.jpg"
+       alt="Rajan critically reviewing AI-generated structural specification with a verification checklist" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 8 · PRACTICE ARENA                            -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">Your turn</p>
+  <h2 class="sec-title">Practice Arena — Build your power user system</h2>
+  <p class="sec-intro">Pick one task below. Open ChatGPT, Gemini, or any AI app. Build something you will use again — not just a one-time answer. Each task takes 10 to 15 minutes and creates a reusable system.</p>
+
+  <div class="arena-grid">
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.1s">
+      <p class="ac-num">Task 1 · Routine</p>
+      <h3>Build your personal AI starter kit</h3>
+      <p>Write a context block for your job or daily life. Add 3 trigger prompts for your most repeated tasks. Save them in your phone notes. Try one trigger prompt today and measure the time it takes vs. your old method.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.15s">
+      <p class="ac-num">Task 2 · Structure</p>
+      <h3>Turn a long document into 3 structured outputs</h3>
+      <p>Find any long email thread, meeting notes, or report you received this week. Ask AI for a summary, an action checklist with owners, and a table of open questions. Define the format in the prompt.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.2s">
+      <p class="ac-num">Task 3 · Spreadsheet</p>
+      <h3>Analyse a week of your own data</h3>
+      <p>Copy any data you track — expenses, sales, attendance, marks — and paste it into AI. Ask 3 specific business or personal questions. See what patterns AI spots that you missed.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.25s">
+      <p class="ac-num">Task 4 · Templates</p>
+      <h3>Create your first reusable AI template</h3>
+      <p>Think of one task you repeat every week — an email, a post, a report section, a proposal. Build a template with [PLACEHOLDERS]. Test it twice with real examples. Save it. You will use it for months.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.3s">
+      <p class="ac-num">Task 5 · Verification</p>
+      <h3>Build your personal AI risk checklist</h3>
+      <p>List 5 tasks where you use AI. Categorise each as High, Medium, or Low risk. Write your personal rule for what you always verify before submitting. Save it where you will see it every day.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l6-s07-practice.jpg"
+       alt="Learner practising all 5 power user skills building reusable AI systems" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:2rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 9 · CHEAT SHEET                               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">Quick reference</p>
+  <h2 class="sec-title">Level 6 Cheat Sheet</h2>
+  <p class="sec-intro">Save these 5 power user principles. Each one compounds over time — the longer you use them, the more valuable they become.</p>
+
+  <div class="cheat-grid">
+    <div class="cheat-card amber">
+      <h3>🔁 Daily Routine</h3>
+      <p>Context block + trigger prompt → paste, fill one variable, run. Never re-explain context you have explained before.</p>
+      <code class="prompt-chip">"Context: [role + org + tone]. Task: [specific action today]..."</code>
+    </div>
+    <div class="cheat-card teal">
+      <h3>📋 Structured Output</h3>
+      <p>Define format in the prompt — numbered sections, table columns, word limits. AI follows your structure exactly.</p>
+      <code class="prompt-chip">"Give me: 1. Summary (150 words) 2. Action table 3. Risk table..."</code>
+    </div>
+    <div class="cheat-card sky">
+      <h3>📊 Spreadsheet Analysis</h3>
+      <p>Paste data + ask 3–5 specific questions. AI finds patterns in minutes that take hours manually.</p>
+      <code class="prompt-chip">"Here is my sales data. Answer: 1. Top 5 products 2. Slow movers..."</code>
+    </div>
+    <div class="cheat-card">
+      <h3>📝 Reusable Templates</h3>
+      <p>Fixed context + [PLACEHOLDERS] = a template you use forever. Build once, save, reuse for every similar task.</p>
+      <code class="prompt-chip">"Use this template: [CLIENT NAME] [PROJECT TYPE] [RATE]..."</code>
+    </div>
+    <div class="cheat-card green">
+      <h3>⚠️ Verification Rule</h3>
+      <p>High risk (safety/law/finance): verify everything. Medium: spot-check. Low: light review. When in doubt, treat as high risk.</p>
+      <code class="prompt-chip">"Before submitting: is this high / medium / low risk?"</code>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 10 · QUIZ                                      -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">Test your learning</p>
+  <h2 class="sec-title">Quick Quiz — 5 questions</h2>
+  <p class="sec-intro">Score 4 or more to earn your Level 6 certificate. You can retake as many times as you like.</p>
+
+  <div class="quiz-wrap">
+    <form id="quiz-form">
+
+      <div class="quiz-q">
+        <p class="q-text">1. Pradeep wants to stop rebuilding the same AI prompt context every morning. What is the most effective solution?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Use a different AI tool each day to avoid repetition</label>
+          <label><input type="radio" name="q1" value="b"> Create a saved context block with his role, organisation, tone, and task types — and paste it at the start of each session</label>
+          <label><input type="radio" name="q1" value="c"> Ask a colleague to build his prompts for him</label>
+          <label><input type="radio" name="q1" value="d"> Memorise the prompt and type it from memory each morning</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">2. Ananya wants a 15-page report turned into a summary, an action table, and a risk table. What makes her prompt most effective?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> Asking AI to "summarise this report as best you can"</label>
+          <label><input type="radio" name="q2" value="b"> Sending the report in 3 separate messages, one output at a time</label>
+          <label><input type="radio" name="q2" value="c"> Numbering each output type with exact format specifications — section names, table columns, and a word limit for the summary</label>
+          <label><input type="radio" name="q2" value="d"> Highlighting the key paragraphs in the report first and sending only those</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">3. Venkat wants AI to help him understand his Excel sales data. What is the most effective approach?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> Paste the actual data into AI and ask 3 to 5 specific business questions about it</label>
+          <label><input type="radio" name="q3" value="b"> Describe the data in words and ask AI to guess the patterns</label>
+          <label><input type="radio" name="q3" value="c"> Ask AI which Excel charts to make, then build the charts himself</label>
+          <label><input type="radio" name="q3" value="d"> Hire a data analyst instead — AI cannot handle sales data</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">4. Divya wants to stop rewriting her proposal from scratch every week. What is the best way to build a reusable solution?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q4" value="a"> Copy her best previous proposal and send the same one to each new client</label>
+          <label><input type="radio" name="q4" value="b"> Ask AI to write a new proposal every time and hope it gets faster</label>
+          <label><input type="radio" name="q4" value="c"> Build a prompt template with fixed context about herself and [PLACEHOLDERS] for client-specific details — then fill in only the variables each time</label>
+          <label><input type="radio" name="q4" value="d"> Write a general proposal and remove client-specific details entirely</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">5. Rajan learned a hard lesson about AI and structural specifications. Which tasks should always be fully verified before submitting?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q5" value="a"> Internal team emails and personal planning documents</label>
+          <label><input type="radio" name="q5" value="b"> Meeting summaries for your own reference</label>
+          <label><input type="radio" name="q5" value="c"> Any output involving safety, legal compliance, medical information, or financial documents that will be officially submitted or acted upon</label>
+          <label><input type="radio" name="q5" value="d"> Only documents that go to government offices</label>
+        </div>
+      </div>
+
+      <button type="button" class="quiz-submit" onclick="checkQuiz()">Submit Answers</button>
+    </form>
+
+    <div id="quiz-result"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 11 · CERTIFICATE                              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section id="cert-section">
+  <div class="cert-box">
+    <p style="font-size:2.5rem;margin-bottom:.5rem;">🏆</p>
+    <h2>Certificate of Completion</h2>
+    <p class="cert-name">Power User — Level 6</p>
+    <p>You have mastered 5 power user skills for systematic, efficient AI use</p>
+    <div class="skill-badges">
+      <span class="skill-badge">🔁 Daily AI Routine</span>
+      <span class="skill-badge">📋 Structured Outputs</span>
+      <span class="skill-badge">📊 Spreadsheet Analysis</span>
+      <span class="skill-badge">📝 Reusable Templates</span>
+      <span class="skill-badge">⚠️ Verification Rule</span>
+    </div>
+    <p style="font-size:0.85rem;opacity:0.6;margin-top:.5rem;">Mitra AI Life Education · mitraailife.com</p>
+    <button class="cert-btn" onclick="window.print()">🖨 Print / Save Certificate</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 12 · COMPLETION + NEXT LEVEL TEASER           -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="completion-box">
+    <div class="big-emoji">🎉</div>
+    <h2>You completed Level 6!</h2>
+    <p>You now have routines that save hours every week, structured outputs that are ready to use, data insights from your own spreadsheets, reusable templates that never expire, and a verification rule that protects you from AI errors that matter.</p>
+    <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l6-s08-celebration.jpg"
+         alt="All Level 6 characters celebrating becoming AI power users together" loading="lazy"
+         style="width:100%;max-width:700px;border-radius:16px;margin:1.5rem 0;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+    <p><strong>What's next in Level 7 — Build With AI:</strong><br>
+    Create a small website, build a mini chatbot, design a business plan or poster, and complete a real portfolio project — all with AI as your co-builder.</p>
+    <a href="../../../site/index.html" class="next-btn" style="margin-top:1rem;">→ Go to Level 7 (Coming Soon)</a>
+  </div>
+
+  <!-- Disqus -->
+  <div class="disqus-wrap">
+    <h3 style="font-family:'Baloo 2',cursive;color:var(--navy);margin-bottom:1rem;">Questions or comments?</h3>
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = window.location.href;
+        this.page.identifier = 'level-06-comic';
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://mitra-ai-life.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SCRIPTS                                               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<script src="../../../site/auth.js"></script>
+<script>
+  /* progress bar */
+  window.addEventListener('scroll', () => {
+    const el = document.getElementById('progress-bar');
+    const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    el.style.width = Math.min(pct, 100) + '%';
+  });
+
+  /* scroll animations */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.anim-fadeInUp,.anim-slideLeft,.anim-slideRight,.anim-bounceIn')
+    .forEach(el => { el.style.opacity = '0'; observer.observe(el); });
+
+  /* quiz */
+  function checkQuiz() {
+    const answers = { q1:'b', q2:'c', q3:'a', q4:'c', q5:'c' };
+    let score = 0;
+    for (const [q, correct] of Object.entries(answers)) {
+      const sel = document.querySelector(`input[name="${q}"]:checked`);
+      if (sel && sel.value === correct) score++;
+    }
+    const result = document.getElementById('quiz-result');
+    result.style.display = 'block';
+    if (score >= 4) {
+      result.className = 'pass';
+      result.textContent = '🎉 ' + score + '/5 correct — Excellent! Your certificate is below.';
+      document.getElementById('cert-section').style.display = 'block';
+      document.getElementById('cert-section').scrollIntoView({ behavior:'smooth', block:'center' });
+      if (typeof saveProgress === 'function') saveProgress('level-06', score);
+    } else {
+      result.className = 'fail';
+      result.textContent = score + '/5 correct — Review the skills above and try again. You need 4 or more to pass.';
+    }
+  }
+</script>
+</body>
+</html>

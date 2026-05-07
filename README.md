@@ -11,13 +11,16 @@ Main domain: `mitraailife.com`
 The repository now contains both planning documents and a working static website.
 
 Completed site structure:
-- unified Home page at `site/index.html`
+- unified Home page at `site/index.html` with `Organization` and `WebSite` JSON-LD
 - shared top-banner navigation across the new track pages
 - AI for Daily Life page at `site/daily-life.html`
-- placeholder pages for Students, AI Tuition, Spoken English, Project Kits, Small Business, Teachers, and Contact
+- track pages for Students, AI Tuition, Spoken English, Project Kits, Small Business, Teachers, and Contact, each with an FAQ section and `FAQPage` JSON-LD
+- per-track "Contact about this track" buttons that open pre-tagged emails
+- public legal pages: `site/privacy.html` and `site/payment-policy.html`, linked from every footer
 - branded `404.html`
-- `robots.txt` and `sitemap.xml`
+- `robots.txt` and `sitemap.xml` (privacy and payment policy pages included)
 - mobile layout fixes for Home and track pages
+- reusable site QA script at `scripts/site_qa.js` (links + SEO basics + sitemap coverage)
 
 Completed content status:
 - AI for Daily Life English Levels 1-10 are live in `content/english/`
@@ -55,6 +58,9 @@ Keep each track separate in audience, tone, and content path. Do not merge every
 - `site/index.html` — unified Home page
 - `site/track-page.css` — shared styling for track pages
 - `site/sitemap.xml` — public sitemap
+- `site/privacy.html` — public privacy policy
+- `site/payment-policy.html` — payment and refund policy
+- `scripts/site_qa.js` — Node validator for local links, SEO basics, and sitemap coverage (`node scripts/site_qa.js`)
 - `content/english/` — AI for Daily Life English lesson pages
 - `content/telugu/` — Telugu lesson pages
 - `docs/mitraailife-unified-platform-plan.md` — one-site platform strategy

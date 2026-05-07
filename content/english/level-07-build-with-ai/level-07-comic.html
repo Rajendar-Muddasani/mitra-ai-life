@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Level 7: Build With AI | Mitra AI Life Education</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QGY0LH6W93');
+  </script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:       #1E3A5F;
+      --indigo:     #4F46E5;
+      --indigo-mid: #818cf8;
+      --indigo-light:#eef2ff;
+      --sky:        #38BDF8;
+      --amber:      #F59E0B;
+      --green:      #10B981;
+      --rose:       #E11D48;
+      --teal:       #0D9488;
+      --cream:      #eef2ff;
+      --white:      #FFFFFF;
+      --text:       #1C1C2E;
+      --muted:      #64748B;
+      --panel:      #e0e7ff;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+    #progress-bar { position:fixed; top:0; left:0; height:5px;
+      background: linear-gradient(90deg, var(--indigo), var(--indigo-mid), var(--amber));
+      width:0%; z-index:999; transition:width 0.3s ease; }
+
+    .topnav {
+      position:fixed; top:5px; left:0; right:0; height:52px;
+      background:rgba(238,242,255,0.93); backdrop-filter:blur(8px);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 1.5rem; z-index:100;
+      border-bottom:2px solid rgba(79,70,229,0.15);
+    }
+    .topnav .brand { font-family:'Baloo 2',cursive; font-weight:800; font-size:1.1rem; color:var(--navy); text-decoration:none; }
+    .topnav .level-tag { background:var(--indigo); color:white; font-size:0.75rem; font-weight:700; padding:3px 12px; border-radius:20px; }
+    .topnav .back-link { font-size:0.82rem; color:var(--muted); font-weight:700; text-decoration:none; }
+    .topnav .back-link:hover { color:var(--indigo); }
+    .topnav .lang-btn { font-size:0.82rem; color:var(--indigo); font-weight:700; background:var(--indigo-light); border:1px solid var(--indigo-mid); border-radius:8px; padding:4px 10px; cursor:pointer; text-decoration:none; }
+
+    @keyframes fadeInUp   { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideInLeft  { from{opacity:0;transform:translateX(-48px)} to{opacity:1;transform:translateX(0)} }
+    @keyframes slideInRight { from{opacity:0;transform:translateX(48px)}  to{opacity:1;transform:translateX(0)} }
+    @keyframes bounceIn { 0%{opacity:0;transform:scale(0.6)} 60%{opacity:1;transform:scale(1.08)} 80%{transform:scale(0.97)} 100%{transform:scale(1)} }
+    @keyframes float  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    @keyframes pulse  { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+    .anim-fadeInUp   { animation:fadeInUp   0.7s ease forwards; }
+    .anim-slideLeft  { animation:slideInLeft  0.7s ease forwards; }
+    .anim-slideRight { animation:slideInRight 0.7s ease forwards; }
+    .anim-bounceIn   { animation:bounceIn    0.75s cubic-bezier(.68,-.55,.27,1.55) forwards; }
+    .anim-float      { animation:float 3s ease-in-out infinite; }
+    .anim-pulse      { animation:pulse 2.5s ease-in-out infinite; }
+
+    section { padding: 4rem 1.5rem; max-width: 900px; margin: 0 auto; }
+    section:first-of-type { padding-top: 6rem; }
+
+    .hero {
+      min-height: 88vh; display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; padding-top:5rem;
+      background: linear-gradient(160deg, #1e1b4b 0%, #312e81 40%, #3730a3 75%, #1e3a5f 100%);
+      border-radius: 0 0 48px 48px; position:relative; overflow:hidden;
+    }
+    .hero::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 30% 40%, rgba(129,140,248,0.2) 0%, transparent 60%),
+                  radial-gradient(ellipse at 75% 65%, rgba(245,158,11,0.12) 0%, transparent 50%);
+    }
+    .hero-eyebrow { font-size:0.78rem; font-weight:800; letter-spacing:0.15em; color:var(--indigo-mid); text-transform:uppercase; margin-bottom:.5rem; position:relative; }
+    .hero-title { font-family:'Baloo 2',cursive; font-size:clamp(2.4rem,6vw,4rem); font-weight:800; color:white; line-height:1.1; position:relative; }
+    .hero-sub { font-size:1.15rem; color:rgba(255,255,255,0.75); margin-top:.75rem; max-width:560px; position:relative; }
+    .hero-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin-top:1.5rem; position:relative; }
+    .badge { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; font-size:0.78rem; font-weight:700; padding:5px 14px; border-radius:20px; }
+    .badge.accent { background:var(--amber); color:#1c1c2e; border-color:var(--amber); }
+    .hero-img { width:100%; max-width:760px; border-radius:20px; margin-top:2rem; box-shadow:0 20px 60px rgba(0,0,0,0.5); position:relative; }
+    .hero-offer { background:linear-gradient(90deg,#f59e0b,#fbbf24); color:#1c1c2e; font-size:0.9rem; font-weight:800; padding:8px 24px; border-radius:24px; margin-top:1.5rem; display:inline-block; position:relative; }
+    .hero-offer s { font-weight:400; opacity:0.55; }
+    .scroll-hint { margin-top:2.5rem; font-size:0.8rem; color:rgba(255,255,255,0.4); letter-spacing:.08em; position:relative; }
+
+    .skill-banner { background:var(--indigo); color:white; border-radius:16px; padding:1rem 1.5rem; margin-bottom:2rem; font-size:0.95rem; font-weight:700; display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; }
+    .skill-banner .sk-num { background:rgba(255,255,255,0.2); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+
+    .sec-label { font-size:0.72rem; font-weight:800; letter-spacing:.14em; color:var(--indigo); text-transform:uppercase; margin-bottom:.4rem; }
+    .sec-title { font-family:'Baloo 2',cursive; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:800; color:var(--navy); line-height:1.2; margin-bottom:.75rem; }
+    .sec-intro { font-size:1.05rem; color:var(--muted); line-height:1.7; margin-bottom:2rem; }
+
+    .story-grid { display:grid; gap:1.5rem; }
+    .story-card {
+      background:white; border-radius:20px; padding:1.5rem 1.75rem;
+      box-shadow:0 4px 20px rgba(0,0,0,0.07);
+      border-left:5px solid var(--indigo);
+      display:flex; flex-direction:column; gap:.75rem;
+    }
+    .story-card.amber { border-left-color: var(--amber); }
+    .story-card.teal  { border-left-color: var(--teal);  }
+    .story-card.sky   { border-left-color: var(--sky);   }
+    .story-card.green { border-left-color: var(--green); }
+    .story-card.rose  { border-left-color: var(--rose);  }
+    .char-tag { display:inline-flex; align-items:center; gap:.5rem; font-size:0.8rem; font-weight:800; color:var(--indigo); background:var(--indigo-light); padding:3px 10px; border-radius:20px; }
+    .char-tag.amber { color:#92400e; background:#fef3c7; }
+    .char-tag.teal  { color:#134e4a; background:#ccfbf1; }
+    .char-tag.sky   { color:#0c4a6e; background:#e0f2fe; }
+    .char-tag.green { color:#14532d; background:#dcfce7; }
+    .char-tag.rose  { color:#9f1239; background:#fff1f2; }
+    .story-text { font-size:1rem; line-height:1.8; color:var(--text); }
+    .speech-bubble { background:var(--indigo-light); border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; font-style:italic; color:var(--navy); position:relative; margin-top:.5rem; }
+    .speech-bubble::before { content:'💬'; margin-right:.5rem; }
+    .ai-bubble { background:#ecfdf5; border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; color:#065f46; position:relative; margin-top:.5rem; border:1px solid #a7f3d0; }
+    .ai-bubble::before { content:'🤖 Mitra says: '; font-weight:800; }
+
+    .steps-list { list-style:none; display:flex; flex-direction:column; gap:1rem; margin-top:1rem; }
+    .steps-list li { display:flex; gap:1rem; align-items:flex-start; }
+    .step-num { background:var(--indigo); color:white; border-radius:50%; min-width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; flex-shrink:0; margin-top:2px; }
+    .step-text { font-size:1rem; line-height:1.7; color:var(--text); }
+
+    .tip-card { background:var(--indigo-light); border-radius:16px; padding:1.25rem 1.5rem; border:1px solid var(--indigo-mid); margin-top:1.5rem; }
+    .tip-card .tip-head { font-weight:800; color:var(--indigo); font-size:1rem; margin-bottom:.5rem; }
+    .tip-card p { font-size:0.95rem; line-height:1.7; color:var(--navy); }
+
+    .prompt-box { background:#1e1b4b; border-radius:14px; padding:1.25rem 1.5rem; margin-top:1rem; }
+    .prompt-box .pb-label { font-size:0.72rem; font-weight:800; letter-spacing:.1em; color:var(--indigo-mid); text-transform:uppercase; margin-bottom:.5rem; }
+    .prompt-box .pb-text { font-family:monospace; font-size:0.9rem; color:#c7d2fe; line-height:1.65; }
+
+    .build-output { background:#f0fdf4; border:1px solid #a7f3d0; border-radius:14px; padding:1.25rem 1.5rem; margin-top:1rem; }
+    .build-output .bo-label { font-size:0.75rem; font-weight:800; letter-spacing:.1em; color:#065f46; text-transform:uppercase; margin-bottom:.5rem; }
+    .build-output pre { font-family:monospace; font-size:0.88rem; color:#1a2e1e; line-height:1.7; white-space:pre-wrap; }
+
+    .ba-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem; }
+    @media(max-width:600px){ .ba-grid { grid-template-columns:1fr; } }
+    .ba-col { border-radius:14px; padding:1rem 1.25rem; }
+    .ba-col.before { background:#fef2f2; border:1px solid #fecaca; }
+    .ba-col.after  { background:#ecfdf5; border:1px solid #a7f3d0; }
+    .ba-col .ba-head { font-size:0.75rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin-bottom:.5rem; }
+    .ba-col.before .ba-head { color:#b91c1c; }
+    .ba-col.after  .ba-head { color:#065f46; }
+    .ba-col p { font-size:0.9rem; line-height:1.7; }
+
+    .cheat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.25rem; }
+    .cheat-card { background:white; border-radius:16px; padding:1.25rem; box-shadow:0 2px 12px rgba(0,0,0,0.07); border-top:4px solid var(--indigo); }
+    .cheat-card.amber { border-top-color:var(--amber); }
+    .cheat-card.teal  { border-top-color:var(--teal);  }
+    .cheat-card.green { border-top-color:var(--green); }
+    .cheat-card.sky   { border-top-color:var(--sky);   }
+    .cheat-card h3 { font-size:0.95rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .cheat-card p  { font-size:0.88rem; color:var(--muted); line-height:1.6; }
+    .prompt-chip { background:var(--indigo-light); border-radius:8px; padding:4px 10px; font-size:0.82rem; font-family:monospace; color:var(--indigo); display:inline-block; margin-top:.4rem; }
+
+    .arena-grid { display:grid; gap:1.25rem; }
+    .arena-card { background:white; border-radius:16px; padding:1.5rem; box-shadow:0 3px 14px rgba(0,0,0,0.08); border:2px solid transparent; transition:border-color .2s; }
+    .arena-card:hover { border-color:var(--indigo-mid); }
+    .arena-card .ac-num { font-size:0.8rem; font-weight:800; color:var(--indigo-mid); margin-bottom:.4rem; text-transform:uppercase; letter-spacing:.1em; }
+    .arena-card h3 { font-size:1rem; font-weight:800; color:var(--navy); margin-bottom:.4rem; }
+    .arena-card p { font-size:0.93rem; color:var(--muted); line-height:1.6; }
+
+    .quiz-wrap { background:white; border-radius:24px; padding:2rem; box-shadow:0 8px 32px rgba(79,70,229,0.12); }
+    .quiz-q { margin-bottom:1.5rem; }
+    .quiz-q .q-text { font-weight:800; font-size:1.05rem; color:var(--navy); margin-bottom:.75rem; }
+    .quiz-options { display:flex; flex-direction:column; gap:.5rem; }
+    .quiz-options label { display:flex; align-items:center; gap:.75rem; background:var(--indigo-light); border-radius:10px; padding:.7rem 1rem; cursor:pointer; font-size:0.95rem; transition:background .15s; }
+    .quiz-options label:hover { background:var(--indigo-mid); color:white; }
+    .quiz-options input[type=radio] { accent-color:var(--indigo); width:16px; height:16px; }
+    .quiz-submit { background:var(--indigo); color:white; font-family:'Nunito',sans-serif; font-weight:800; font-size:1rem; border:none; border-radius:14px; padding:.9rem 2.5rem; cursor:pointer; margin-top:1rem; transition:background .2s; }
+    .quiz-submit:hover { background:#3730a3; }
+    #quiz-result { margin-top:1.25rem; font-weight:800; font-size:1.05rem; display:none; }
+    #quiz-result.pass { color:#059669; }
+    #quiz-result.fail { color:#dc2626; }
+
+    #cert-section { display:none; }
+    .cert-box {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #3730a3 100%);
+      border-radius:24px; padding:2.5rem 2rem; text-align:center; color:white;
+      box-shadow:0 12px 48px rgba(79,70,229,0.4);
+    }
+    .cert-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; margin-bottom:.25rem; }
+    .cert-box .cert-name { font-size:1.5rem; font-weight:700; color:var(--indigo-mid); margin:.5rem 0; }
+    .cert-box p { font-size:0.95rem; color:rgba(255,255,255,0.75); margin-bottom:1.25rem; }
+    .skill-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin:1.25rem 0; }
+    .skill-badge { background:rgba(255,255,255,0.1); border:1px solid rgba(129,140,248,0.4); border-radius:12px; padding:.5rem .9rem; font-size:0.8rem; font-weight:700; color:var(--indigo-mid); }
+    .cert-btn { background:var(--amber); color:#1c1c2e; font-weight:800; font-size:0.95rem; border:none; border-radius:14px; padding:.8rem 2rem; cursor:pointer; margin-top:.75rem; }
+
+    .completion-box { text-align:center; padding:3rem 2rem; }
+    .completion-box .big-emoji { font-size:4rem; margin-bottom:1rem; }
+    .completion-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .completion-box p { font-size:1.05rem; color:var(--muted); max-width:520px; margin:0 auto 1.5rem; }
+    .next-btn { display:inline-block; background:var(--indigo); color:white; font-weight:800; font-size:1rem; padding:.85rem 2.5rem; border-radius:14px; text-decoration:none; }
+    .next-btn:hover { background:#3730a3; }
+
+    #auth-nav-area { display:flex; align-items:center; gap:.5rem; }
+    .disqus-wrap { margin-top:2rem; }
+
+    .recap-banner { background:linear-gradient(135deg,#312e81,#3730a3); border-radius:20px; padding:1.5rem 2rem; color:white; margin-bottom:2rem; }
+    .recap-banner h3 { font-family:'Baloo 2',cursive; font-size:1.3rem; font-weight:800; margin-bottom:.75rem; }
+    .recap-list { list-style:none; display:flex; flex-direction:column; gap:.4rem; }
+    .recap-list li { font-size:0.92rem; display:flex; gap:.5rem; }
+    .recap-list li::before { content:'✓'; color:var(--indigo-mid); font-weight:800; }
+
+    img { max-width:100%; }
+    @media(max-width:600px){
+      .story-grid { grid-template-columns:1fr; }
+      .cheat-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">🌟 Mitra AI Life</a>
+  <span class="level-tag">Level 7 · ₹500</span>
+  <div style="display:flex;align-items:center;gap:.75rem;">
+    <div id="auth-nav-area"></div>
+    <a href="level-07-comic-te.html" class="lang-btn">తెలుగు</a>
+    <a href="../../../site/index.html" class="back-link">← Home</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 1 · HERO                                       -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="hero">
+  <p class="hero-eyebrow anim-fadeInUp" style="animation-delay:.1s">Level 7 · Build With AI</p>
+  <h1 class="hero-title anim-fadeInUp" style="animation-delay:.2s">Stop Using AI.<br>Start Building With It.</h1>
+  <p class="hero-sub anim-fadeInUp" style="animation-delay:.3s">A website, a chatbot, a business poster, and a real portfolio project — AI is your co-builder. You bring the idea. AI helps you ship it.</p>
+  <div class="hero-badges anim-fadeInUp" style="animation-delay:.4s">
+    <span class="badge">⏱ 5 hours</span>
+    <span class="badge">🛠 4 Build Projects</span>
+    <span class="badge">🎯 Real Portfolio Pieces</span>
+    <span class="badge accent">₹500</span>
+  </div>
+  <div class="hero-offer anim-bounceIn" style="animation-delay:.55s">
+    🎉 Early Access — <s>₹500</s> <strong>Free for first 100 learners</strong>
+  </div>
+  <img class="hero-img anim-fadeInUp" style="animation-delay:.5s"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l7-s01-hero.jpg"
+       alt="Level 7 Build With AI hero — four Indian professionals creating real projects with AI as co-builder"
+       loading="lazy" />
+  <p class="scroll-hint anim-fadeInUp" style="animation-delay:.8s">▾ scroll to start building</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 2 · RECAP                                      -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="recap-banner anim-fadeInUp">
+    <h3>✅ Level 6 Recap</h3>
+    <ul class="recap-list">
+      <li>Built a saved context block + trigger prompts to cut daily AI setup time</li>
+      <li>Got structured outputs — summaries, action tables, and risk grids in one prompt</li>
+      <li>Analysed real spreadsheet data by pasting it into AI and asking specific business questions</li>
+      <li>Built reusable prompt templates with [PLACEHOLDERS] for repeating tasks</li>
+      <li>Created a personal verification rule so high-risk AI outputs never slip through unchecked</li>
+    </ul>
+  </div>
+  <p class="sec-label">Level 7</p>
+  <h2 class="sec-title">Now you go from user to creator</h2>
+  <p class="sec-intro">
+    Nandini is a school teacher in Nellore — she wants a simple website to share her tuition details but has no coding knowledge.
+    Suresh is a medical shop owner in Karimnagar — customers keep calling to ask the same questions about timings and stock.
+    Pooja is a graphic design freelancer in Hyderabad — she needs a business poster and service brochure fast.
+    Kiran is a final-year engineering student in Guntur — he needs a portfolio project that shows real AI skill to potential employers.<br><br>
+    In this level, each of them builds something real using AI as their co-builder. No coding course. No design degree required. Just clear instructions, the right prompts, and a willingness to ship something imperfect on day one and improve it after.
+  </p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 3 · SKILL 1 · WEBSITE WITH AI                 -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">1</span>
+    <span>Skill 1 — Build a simple website with AI (no coding knowledge needed)</span>
+  </div>
+
+  <p class="sec-label">Nandini's story</p>
+  <h2 class="sec-title">A teacher who needed a website but thought it was only for "tech people"</h2>
+  <p class="sec-intro">Nandini teaches maths and science to Class 6–10 students in Nellore. She runs her own tuition centre out of her home. Parents find her through word of mouth — but she keeps missing enquiries because she has no simple page to share. She assumed building a website needed months of learning and a lot of money.</p>
+
+  <div class="story-grid">
+    <div class="story-card amber anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag amber">👩 Nandini · Nellore</span>
+      <p class="story-text">Nandini tried Wix once and gave up after 30 minutes. The templates felt wrong for her, she didn't understand the settings, and she wasn't sure what to write. She told herself she would deal with it "someday." That was eight months ago.</p>
+      <div class="speech-bubble">"I just want one page that says who I am, what I teach, my timings, and how to contact me. That should not require a computer science degree."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 The AI approach</span>
+      <p class="story-text">Nandini uses AI to first draft all her content — bio, class descriptions, timings, fee structure, FAQ — in plain text. Then she asks AI to turn that content into a clean single-page HTML file she can open in a browser and share via a link. She uses a free hosting service to put it online without any technical setup.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Nandini's website generation prompt</p>
+        <p class="pb-text">Create a simple single-page website for my home tuition centre.
+
+MY DETAILS:
+Name: Nandini Reddy
+Location: Nellore, Andhra Pradesh
+Classes: Maths and Science for Class 6 to Class 10
+Timings: Monday to Saturday, 4 PM to 7 PM
+Fees: ₹800/month per subject, ₹1,400/month for both
+Contact: WhatsApp 98765-XXXXX
+
+ABOUT ME (use this text):
+I have 12 years of teaching experience. My students
+consistently score above 85% in board exams. I teach
+in simple Telugu and English and give personal attention
+to every student.
+
+FAQ:
+Q: Do you take students mid-year? A: Yes, any time.
+Q: Is there a trial class? A: Yes, first class is free.
+
+OUTPUT FORMAT:
+One complete HTML file. Clean, mobile-friendly.
+Use a warm, trustworthy colour scheme (blues and greens).
+No JavaScript needed. Large readable font.
+Add a WhatsApp button at the top and bottom.
+Do not use any external CSS frameworks.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ What happened</span>
+      <p class="story-text">AI generated a complete, clean HTML file in under 30 seconds. Nandini opened it in her browser, made two small edits (changed a colour, updated the phone number), and uploaded it to Tiiny.host — a free drag-and-drop hosting service that takes under 2 minutes. She had a live link to share within the same morning. Three new enquiries came in that week.</p>
+      <div class="ai-bubble">
+        AI generates: one complete index.html file with sections for About, Classes, Timings, Fees, FAQ, and a WhatsApp CTA button — responsive, clean, no frameworks.<br><br>
+        Nandini's edit time: 8 minutes (change accent colour, fix phone number, add one more FAQ).<br><br>
+        Upload to Tiiny.host: drag HTML file → get link → share on WhatsApp. Under 2 minutes.<br><br>
+        Total time from zero to live website: <strong>under 45 minutes.</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">🌐 Website building tip</p>
+    <p>You do not need to understand HTML to build a working website this way. <strong>Your only job is to give AI accurate content and a clear format instruction.</strong> The better your content details (name, services, timings, prices, contact), the better the output. If you don't like the design — paste the HTML back into AI and say exactly what to change. Treat it like giving feedback to a designer.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">Write down all the content you want on the page — name, services, prices, timings, contact, a short bio</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Give AI this content with a clear output instruction: "create a single-page HTML file, mobile-friendly, no frameworks"</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Copy the HTML output, save it as <code>index.html</code>, open in browser to preview</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Ask AI to fix anything you don't like — paste the full HTML back and say "change X to Y"</span></li>
+    <li><span class="step-num">5</span><span class="step-text">Upload to Tiiny.host (free) or Netlify Drop (free) — drag the file, get a shareable link, done</span></li>
+  </ul>
+
+  <div class="ba-grid" style="margin-top:1.5rem;">
+    <div class="ba-col before">
+      <p class="ba-head">❌ Old assumption</p>
+      <p>Building a website requires months of learning HTML, CSS, JavaScript. It costs money. It needs a developer. Average person cannot do this without formal training.</p>
+    </div>
+    <div class="ba-col after">
+      <p class="ba-head">✅ AI reality</p>
+      <p>Give AI your content and format requirements. Get a working HTML file in under a minute. Edit with natural language. Go live with free hosting in under 2 minutes. Total time: under 1 hour for a beginner.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l7-s02-nandini-website.jpg"
+       alt="Nandini reviewing her AI-generated tuition centre website on her laptop in Nellore" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 4 · SKILL 2 · MINI CHATBOT                    -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">2</span>
+    <span>Skill 2 — Build a mini chatbot for a local need</span>
+  </div>
+
+  <p class="sec-label">Suresh's story</p>
+  <h2 class="sec-title">The medical shop owner who answered the same questions 40 times a day</h2>
+  <p class="sec-intro">Suresh runs a medical shop in Karimnagar. Every day he gets 30–40 calls asking: "Are you open on Sunday?" "Do you have [medicine name]?" "Can you deliver?" "What time do you close?" He and his one assistant spend almost 2 hours a day on calls that carry no purchase — just information that could be on a simple page or a chat widget.</p>
+
+  <div class="story-grid">
+    <div class="story-card teal anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag teal">👨 Suresh · Karimnagar</span>
+      <p class="story-text">Suresh's shop has a WhatsApp number but no automated replies. Every message is answered manually when he or his assistant has time. Sometimes replies come after 3 hours. Customers go to the competitor who answers faster. He knows the problem but doesn't know how to fix it without hiring someone.</p>
+      <div class="speech-bubble">"Same questions every single day. I want something that answers automatically when I am busy at the counter. I don't have money for a big software system."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 The AI approach</span>
+      <p class="story-text">Suresh uses AI to build a small FAQ chatbot as a standalone HTML page — no server, no backend, no monthly fees. A visitor types a question, and the embedded AI logic (using a simple keyword-matching script that AI writes) returns the right pre-written answer. He also sets up a WhatsApp Business auto-reply with AI-drafted templates for the top 10 questions.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Suresh's chatbot page prompt</p>
+        <p class="pb-text">Build a simple FAQ chatbot as a single HTML page for my medical shop.
+
+SHOP DETAILS:
+Name: Suresh Medical Store, Karimnagar
+Open: Mon–Sat 8 AM–10 PM, Sunday 9 AM–6 PM
+Services: medicine dispensing, home delivery (₹30 fee, 3 km radius), BP/sugar check (free)
+Common medicines: most generics in stock; branded medicines ordered same day
+
+FAQ LIST (match these questions to these answers):
+Q: timings / open / hours → [show timings]
+Q: sunday / holiday → [show sunday timings]
+Q: delivery / deliver → [show delivery policy]
+Q: BP / sugar / test → [show free test info]
+Q: medicine not available / order → [explain same-day order]
+Q: price / generic / substitute → [explain generic availability]
+Q: contact / phone / call → [show phone number]
+
+OUTPUT:
+- Single HTML file with a simple chat UI (white bubbles, green for shop, grey for user)
+- JavaScript keyword matching (no API key needed, works offline)
+- Mobile-friendly
+- Show "Type your question below" as placeholder</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ What happened</span>
+      <p class="story-text">AI generated a complete working chatbot HTML file with JavaScript keyword logic for all 7 question categories. Suresh tested it on his phone, added two more FAQs, and shared the Tiiny.host link on his WhatsApp status. He also asked AI to draft 10 WhatsApp Business auto-reply templates for the most common queries. Phone enquiry calls dropped by 60% in the first two weeks.</p>
+      <div class="ai-bubble">
+        Chatbot file: 1 HTML page, ~120 lines of clean JavaScript, 7 FAQ categories, mobile-friendly chat UI.<br><br>
+        Suresh's test time: 15 minutes — typed real customer questions to verify all responses were correct.<br><br>
+        WhatsApp auto-reply templates: AI drafted all 10 in under 2 minutes from Suresh's FAQ list.<br><br>
+        Result after 2 weeks: 60% fewer information-only calls. Assistant now free to help at counter full-time.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">🤖 Chatbot building tip</p>
+    <p>A useful chatbot does not need to understand natural language perfectly. <strong>A keyword-matching FAQ bot answers 80% of real customer questions at zero ongoing cost.</strong> The key is making a good FAQ list before you ask AI to build the bot. Spend 10 minutes listing the 10 questions your customers ask most. Give AI that list. The chatbot writes itself.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">List the 10 most common questions people ask you (calls, messages, in-person)</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Write a clear answer for each — short, specific, useful</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Give AI your Q&A list and ask for a keyword-matching HTML chatbot page</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Test by typing real variations of each question — ask AI to fix any gaps you find</span></li>
+    <li><span class="step-num">5</span><span class="step-text">Host on Tiiny.host and share the link wherever customers normally reach you</span></li>
+  </ul>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l7-s03-suresh-chatbot.jpg"
+       alt="Suresh at his medical shop counter showing the AI-built FAQ chatbot page on his phone" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 5 · SKILL 3 · POSTER & BUSINESS PLAN          -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">3</span>
+    <span>Skill 3 — Design a business poster and a one-page business plan with AI</span>
+  </div>
+
+  <p class="sec-label">Pooja's story</p>
+  <h2 class="sec-title">The freelancer who spent a full day on a poster that should take an hour</h2>
+  <p class="sec-intro">Pooja is a freelance graphic designer in Hyderabad. She is expanding her services and needs two things fast: a promotional poster for social media announcing her freelance packages, and a one-page business plan she can share with a potential business partner. She knows design but spends too long on copywriting — what to say, how to position herself, what structure to use.</p>
+
+  <div class="story-grid">
+    <div class="story-card rose anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag rose">👩 Pooja · Hyderabad</span>
+      <p class="story-text">Pooja opens a blank Canva template and stares at it. She is not sure how to write the headline, what the offer should say, how to frame her pricing. She is a great visual designer but copy is her weak spot. What should take 1 hour takes all day because the content decisions keep her stuck.</p>
+      <div class="speech-bubble">"I can design anything you give me. The problem is nobody gives me the words. I end up redesigning three times because I never liked my own copy."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 The AI approach</span>
+      <p class="story-text">Pooja uses AI first to generate all the copy — headline, tagline, package descriptions, CTA. She then pastes this into Canva. For the business plan she gives AI her goals, current clients, and 3-month targets, and asks for a clean one-page business plan with sections she can share directly. Copy and structure done in 20 minutes — she spends the rest of the time on design, which she loves.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Pooja's poster copy prompt</p>
+        <p class="pb-text">Write all the copy for a social media promotional poster
+for my freelance graphic design services.
+
+ABOUT ME:
+Name: Pooja Sharma, Hyderabad
+Speciality: Brand identity, social media graphics, print materials
+Experience: 5 years, 40+ clients across retail and education sectors
+Unique value: Fast turnaround (48 hours), unlimited revisions, bilingual (English + Telugu)
+
+PACKAGES:
+Starter: ₹3,500 — logo + 3 social media templates
+Growth: ₹7,500 — full brand kit (logo, colours, fonts, 10 templates)
+Custom: ₹15,000+ — complete brand identity with print and digital
+
+OUTPUT NEEDED:
+1. One strong headline (max 8 words, punchy, benefit-focused)
+2. One supporting tagline (max 15 words)
+3. Three package names with one-line descriptions each
+4. One call-to-action line with WhatsApp CTA
+5. A short "Why choose me" block (3 bullet points)
+
+Keep tone: professional, warm, confident. Target: small business owners.</p>
+      </div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.2s">
+      <span class="char-tag">📋 Pooja's one-page business plan prompt</span>
+      <p class="story-text">Separately, Pooja gave AI her goals and current situation and asked for a business plan she could share with a potential studio partner.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Pooja's business plan prompt</p>
+        <p class="pb-text">Write a one-page business plan for my freelance graphic design practice.
+
+CURRENT STATE:
+Monthly revenue: ₹45,000 average
+Active clients: 6–8 retainer clients, 3–5 one-time project clients
+Team: solo, occasionally outsource print work
+Tools: Canva Pro, Adobe Illustrator, Figma
+
+3-MONTH GOALS:
+- Reach ₹70,000/month revenue
+- Add 3 new retainer clients in education sector
+- Launch one product (social media template pack, ₹999)
+
+POTENTIAL PARTNER CONTEXT:
+A small digital marketing studio wants to white-label my design services
+
+FORMAT:
+One page. Sections: Business Summary, Current Traction, 90-Day Goals,
+Revenue Plan, Partnership Opportunity.
+Professional but not overly corporate. Include one table for revenue projection.
+Max 400 words total.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.25s">
+      <span class="char-tag green">✅ What happened</span>
+      <p class="story-text">AI delivered all poster copy in under 1 minute. Pooja had a headline she liked on the first try and minor-edited two bullet points. The business plan came out clean with a simple revenue projection table. She forwarded it to the studio partner that afternoon. The poster was live on Instagram by 11 AM — the same day she started.</p>
+      <div class="ai-bubble">
+        Poster copy: headline "Your Brand, Built in 48 Hours." + tagline + 3 packages + CTA — ready in 45 seconds.<br><br>
+        Pooja's copy edit time: 8 minutes (adjusted one package name and one bullet point).<br><br>
+        Business plan: 390 words, 5 sections, one revenue projection table — shared same day.<br><br>
+        Old process: 6+ hours. New process: 20 minutes of AI work → rest of the day on design.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">🎨 Poster + plan building tip</p>
+    <p>AI is a faster first drafter than you are — even if you are a good writer. <strong>The trick is giving AI your real numbers and your specific situation</strong>, not vague descriptions. "5 years, 40+ clients, 48-hour turnaround" is far better input than "experienced designer." The more specific your input, the less editing you need on the output.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">Write down your real specifics — experience, numbers, prices, what makes you different</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Ask AI for copy in a numbered list format — headline, tagline, descriptions, CTA separately</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Paste copy into Canva, Google Slides, or any visual tool you already know</span></li>
+    <li><span class="step-num">4</span><span class="step-text">For the business plan: give AI your current revenue, 3 goals, and audience — ask for a one-page version with a table</span></li>
+    <li><span class="step-num">5</span><span class="step-text">Ask AI to rewrite in a different tone if the first version feels too formal or too casual</span></li>
+  </ul>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l7-s04-pooja-poster.jpg"
+       alt="Pooja in Hyderabad using AI-generated copy to build her business poster in Canva" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 6 · SKILL 4 · PORTFOLIO PROJECT               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">4</span>
+    <span>Skill 4 — Build a portfolio project that proves real AI skill</span>
+  </div>
+
+  <p class="sec-label">Kiran's story</p>
+  <h2 class="sec-title">The engineering student who needed proof, not just a certificate</h2>
+  <p class="sec-intro">Kiran is a final-year Computer Science student in Guntur. He has done well in his exams but his resume looks like every other student's — a list of college projects and grades. He is applying for product and data analyst roles and the interviewers keep asking "show me something you built." He wants a portfolio project that shows he can actually work with AI tools — not just talk about them.</p>
+
+  <div class="story-grid">
+    <div class="story-card sky anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag sky">👨 Kiran · Guntur</span>
+      <p class="story-text">Kiran has tried to think of a project idea for months. He wants something relevant, achievable in a few weeks without a full team, and impressive enough to talk about in an interview. He ends up paralysed by choice and never starts. His batchmates are in the same situation.</p>
+      <div class="speech-bubble">"I know how to use AI tools but I have nothing to show for it. Everyone says build a project but nobody tells you which one is actually worth building."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 The AI approach</span>
+      <p class="story-text">Kiran uses a 3-step AI workflow: first he asks AI to help him pick the right project idea based on his skills and target role. Then he uses AI to generate a project plan, a README, and even the first working code structure. Finally he uses AI to help him articulate what the project demonstrates — so he can explain it confidently in interviews.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Step 1 — Project selection prompt</p>
+        <p class="pb-text">I am a final-year CS student in India targeting product analyst
+and data analyst roles at mid-size tech companies.
+
+My skills: Python (intermediate), SQL (good), Excel, basic Pandas.
+Time available: 3 weeks, working 1–2 hours/day.
+I want something I can build, deploy publicly, and explain in an interview.
+
+Suggest 5 portfolio project ideas that:
+- Are achievable solo in 3 weeks with my skill level
+- Solve a real Indian or local problem (not a generic tutorial project)
+- Demonstrate analytical thinking and some AI or data work
+- Can be deployed free (GitHub Pages, Streamlit Cloud, etc.)
+- Have a clear 2-sentence "why this matters" explanation
+
+For each: give the project name, 2-sentence description, tech stack, and difficulty (1–5).</p>
+      </div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.2s">
+      <span class="char-tag">🛠 Step 2 — Build with AI as co-coder</span>
+      <p class="story-text">Kiran chose "College Canteen Menu Optimiser" — a Python + Streamlit app that lets a canteen manager input daily sales data and get AI-driven menu suggestions to reduce waste and improve popular items. He then used AI to generate the project plan, code structure, and README.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Step 2 — Project plan + starter code prompt</p>
+        <p class="pb-text">I am building "College Canteen Menu Optimiser" — a Streamlit web app
+where a canteen manager inputs daily sales data (items sold, leftovers, revenue)
+and gets AI-driven menu suggestions to reduce food waste.
+
+Tech stack: Python, Streamlit, Pandas, OpenAI API (GPT-4o-mini for suggestions)
+
+Please generate:
+1. A 3-week project plan with daily tasks (1–2 hrs/day)
+2. File structure for the project (folder and file names)
+3. Starter code for app.py — Streamlit UI with:
+   - A data upload section (CSV input)
+   - A display table of the uploaded sales data
+   - A button "Get AI Menu Suggestions"
+   - A placeholder function for the OpenAI call
+4. A README.md with: project description, features, how to run, screenshots placeholder</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.25s">
+      <span class="char-tag green">✅ What happened</span>
+      <p class="story-text">AI generated a 3-week plan, full file structure, 80 lines of working starter Streamlit code, and a complete README in one response. Kiran had a running app in his browser within 2 hours of starting — before he wrote a single line himself. He spent the next 3 weeks refining the AI suggestions logic and improving the UI. By week 3 he had a deployed app, a GitHub repo with 12 commits, and a 2-minute demo video.</p>
+      <div class="ai-bubble">
+        AI delivered: 3-week plan (21 daily tasks) + file structure + 80 lines of working Streamlit starter code + README — in one response, under 60 seconds.<br><br>
+        Kiran's first session: app running in browser in under 2 hours.<br><br>
+        Week 3 result: live Streamlit app + GitHub repo + demo video + interview answer: "I built a tool that solves a real problem I saw at my own college canteen. Here's the data flow, here's the AI integration, here's what I would do differently next time."<br><br>
+        Interview result: shortlisted at 3 of 4 companies where he showed the project.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">🎓 Portfolio project tip</p>
+    <p>The best portfolio project is not the most technically complex one. <strong>It is the one you can explain clearly, that solves a real problem someone recognises, and that shows you can take something from idea to deployed output.</strong> AI helps you start faster and get unstuck. But the decisions — what problem to solve, what data to use, what to improve next — those are yours. That is what interviewers are looking for.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">Tell AI your skill level, time available, and target role — ask for 5 project ideas with difficulty ratings</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Pick the one you can explain best — not the most impressive-sounding one</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Ask AI for: project plan, file structure, starter code, and README — all in one prompt</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Get a working version running locally first — do not worry about polish on day 1</span></li>
+    <li><span class="step-num">5</span><span class="step-text">Deploy publicly (GitHub Pages, Streamlit Cloud, or Tiiny.host) — a live link is 10× more convincing than a local screenshot</span></li>
+  </ul>
+
+  <div class="ba-grid" style="margin-top:1.5rem;">
+    <div class="ba-col before">
+      <p class="ba-head">❌ Without AI</p>
+      <p>Kiran spends months thinking about what to build and never starts. When he does start, the blank project folder stops him. He submits resumes with no portfolio link. Most applications go unanswered.</p>
+    </div>
+    <div class="ba-col after">
+      <p class="ba-head">✅ With AI as co-builder</p>
+      <p>Kiran has a running app in 2 hours, a deployed project in 3 weeks, and a confident 2-minute demo answer. He is shortlisted at 3 of 4 companies. The project became his best interview asset.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l7-s05-kiran-portfolio.jpg"
+       alt="Kiran in Guntur reviewing his AI-assisted portfolio project on his laptop, GitHub page visible" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 7 · PRACTICE ARENA                            -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">Your turn</p>
+  <h2 class="sec-title">Practice Arena — Build one thing today</h2>
+  <p class="sec-intro">Pick the task closest to something you actually need. Open any AI tool. Do not aim for perfect — aim for a working first version you can improve tomorrow. Every task below is achievable in under 2 hours.</p>
+
+  <div class="arena-grid">
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.1s">
+      <p class="ac-num">Task 1 · Website</p>
+      <h3>Build your own one-page site</h3>
+      <p>Write down your name, what you do or sell, your timings, your prices, and a contact method. Give AI this content and ask for a single-page HTML file, mobile-friendly, no frameworks. Open it in your browser, make one edit, upload to Tiiny.host. You have a live website today.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.15s">
+      <p class="ac-num">Task 2 · Chatbot</p>
+      <h3>Build a FAQ bot for your most common questions</h3>
+      <p>List the 8–10 questions people ask you most. Write a short answer for each. Ask AI to turn this into a keyword-matching HTML chatbot page. Test it with 10 real question variations. Host and share the link. Estimate how many calls or messages this would save you per week.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.2s">
+      <p class="ac-num">Task 3 · Poster</p>
+      <h3>Generate copy for a promotional poster</h3>
+      <p>Think of one thing you want to promote — a service, a product, an event, yourself. Give AI your real specifics (experience, price, what makes you different). Ask for: 1 headline, 1 tagline, 3 benefit points, 1 CTA. Paste into Canva or any tool. Post it somewhere public today.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.25s">
+      <p class="ac-num">Task 4 · Business Plan</p>
+      <h3>Write your one-page business plan</h3>
+      <p>Give AI your current situation (what you do, current income or traction), your 3-month goal, and who you are writing this for. Ask for a one-page business plan with sections and one table. Review it. Update the numbers that are wrong. You now have a document you can share with a bank, investor, or partner.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.3s">
+      <p class="ac-num">Task 5 · Portfolio Project</p>
+      <h3>Pick your portfolio project idea</h3>
+      <p>Tell AI your skills, time available (be realistic), and the type of role or outcome you want. Ask for 5 project ideas with a difficulty rating. Pick one. Ask AI for the project plan, file structure, starter code, and README. Get something running locally before the end of your next free afternoon.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l7-s06-practice.jpg"
+       alt="learner building a real project with AI as co-builder — website, chatbot, poster, portfolio visible" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:2rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 8 · CHEAT SHEET                               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">Quick reference</p>
+  <h2 class="sec-title">Level 7 Cheat Sheet</h2>
+  <p class="sec-intro">Save these 4 build patterns. Each one works for a different creation goal and can be reused every time you need to build something new.</p>
+
+  <div class="cheat-grid">
+    <div class="cheat-card amber">
+      <h3>🌐 Website</h3>
+      <p>Give AI: content + format requirement ("single HTML file, mobile-friendly, no frameworks"). Edit with natural language. Host free on Tiiny.host or Netlify Drop.</p>
+      <code class="prompt-chip">"Create a single-page HTML file for my [business]. Content: [paste details]..."</code>
+    </div>
+    <div class="cheat-card teal">
+      <h3>🤖 FAQ Chatbot</h3>
+      <p>Give AI: your top 10 Q&A pairs. Ask for keyword-matching HTML chat page. Test with real question variations. No server, no cost, works offline.</p>
+      <code class="prompt-chip">"Build a keyword-matching FAQ chatbot page. Q&A list: [paste list]..."</code>
+    </div>
+    <div class="cheat-card sky">
+      <h3>🎨 Poster Copy</h3>
+      <p>Give AI: real specifics (numbers, prices, differentiators). Ask for numbered list: headline + tagline + bullets + CTA. Paste into Canva. Done.</p>
+      <code class="prompt-chip">"Write poster copy: 1. headline 2. tagline 3. 3 bullets 4. CTA. My details: [specifics]"</code>
+    </div>
+    <div class="cheat-card green">
+      <h3>🎓 Portfolio Project</h3>
+      <p>Give AI: skills + time + target role → get 5 ideas. Pick one. Ask for plan + file structure + starter code + README in one prompt. Run locally, then deploy.</p>
+      <code class="prompt-chip">"Suggest 5 portfolio projects for [role]. Skills: [list]. Time: [X weeks]."</code>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 9 · QUIZ                                       -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">Test what you've learnt</p>
+  <h2 class="sec-title">Quick Quiz — 5 questions</h2>
+  <p class="sec-intro">Score 4 or more out of 5 to earn your Level 7 certificate. You can retry as many times as you like.</p>
+
+  <div class="quiz-wrap">
+    <form id="quiz-form">
+
+      <div class="quiz-q">
+        <p class="q-text">1. Nandini wants to build a one-page website for her tuition centre but knows no HTML. What is the most effective way to use AI for this?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Ask AI to teach her HTML step by step before she builds anything</label>
+          <label><input type="radio" name="q1" value="b"> Give AI her full content (bio, services, timings, fees, contact) and ask for a single-page HTML file — then edit with natural language and host for free</label>
+          <label><input type="radio" name="q1" value="c"> Use AI to pick the best WordPress theme for her</label>
+          <label><input type="radio" name="q1" value="d"> Ask AI to describe what a good tuition website looks like, then hire a developer</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">2. Suresh wants a chatbot that answers his most common customer questions without any ongoing cost. What is the best approach?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> Sign up for an enterprise chatbot SaaS platform</label>
+          <label><input type="radio" name="q2" value="b"> Ask AI to build a live AI chatbot that understands any question using natural language processing</label>
+          <label><input type="radio" name="q2" value="c"> Build a keyword-matching HTML chatbot using his top 10 Q&A pairs — no server, no API key, works for free</label>
+          <label><input type="radio" name="q2" value="d"> Post his FAQ on a WhatsApp status update once a month</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">3. Pooja is stuck writing copy for her promotional poster. What is the fastest way to unblock herself using AI?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> Give AI her real specifics (experience, prices, differentiators) and ask for a numbered list: headline, tagline, benefit bullets, and CTA</label>
+          <label><input type="radio" name="q3" value="b"> Ask AI to design the full poster for her</label>
+          <label><input type="radio" name="q3" value="c"> Ask AI to find other designers' posters she can copy the style from</label>
+          <label><input type="radio" name="q3" value="d"> Ask AI for general copywriting tips and then write the copy herself from scratch</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">4. Kiran is choosing a portfolio project. Which project is most likely to impress interviewers at a data analyst role?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q4" value="a"> A project with the most complex algorithm, even if he cannot explain how it works</label>
+          <label><input type="radio" name="q4" value="b"> A deployed project that solves a real recognisable problem, that he can clearly explain from idea to output</label>
+          <label><input type="radio" name="q4" value="c"> A project that mimics a famous research paper, regardless of whether he can build it in time</label>
+          <label><input type="radio" name="q4" value="d"> A project done entirely by AI with no personal contribution</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">5. What is the single most important thing to include when asking AI to generate a portfolio project plan?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q5" value="a"> A list of all the programming languages you want to learn</label>
+          <label><input type="radio" name="q5" value="b"> The name of your college and exam scores</label>
+          <label><input type="radio" name="q5" value="c"> Your real current skill level, realistic time available per day, and target role or outcome — so AI scopes the project correctly</label>
+          <label><input type="radio" name="q5" value="d"> A detailed description of what AI tools exist and how they work</label>
+        </div>
+      </div>
+
+      <button type="button" class="quiz-submit" onclick="checkQuiz()">Submit Answers</button>
+    </form>
+
+    <div id="quiz-result"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 10 · CERTIFICATE                              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section id="cert-section">
+  <div class="cert-box">
+    <p style="font-size:2.5rem;margin-bottom:.5rem;">🏆</p>
+    <h2>Certificate of Completion</h2>
+    <p class="cert-name">Build With AI — Level 7</p>
+    <p>You have completed 4 creator skills and built real portfolio-ready projects using AI as your co-builder</p>
+    <div class="skill-badges">
+      <span class="skill-badge">🌐 Website Builder</span>
+      <span class="skill-badge">🤖 Chatbot Builder</span>
+      <span class="skill-badge">🎨 Poster + Business Plan</span>
+      <span class="skill-badge">🎓 Portfolio Project</span>
+    </div>
+    <p style="font-size:0.85rem;opacity:0.6;margin-top:.5rem;">Mitra AI Life Education · mitraailife.com</p>
+    <button class="cert-btn" onclick="window.print()">🖨 Print / Save</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 11 · COMPLETION                               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="completion-box">
+    <div class="big-emoji">🎉</div>
+    <h2>You have completed the full Mitra AI Life ladder!</h2>
+    <p>From your very first AI conversation in Level 1 to building a real website, chatbot, business poster, and portfolio project here in Level 7 — you have come a long way. You are not just an AI user. You are an AI builder.</p>
+    <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l7-s07-celebration.jpg"
+         alt="All Level 7 characters celebrating completing the full Mitra AI Life ladder" loading="lazy"
+         style="width:100%;max-width:700px;border-radius:16px;margin:1.5rem 0;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+    <p><strong>What's next:</strong> Explore the <a href="../../../site/index.html" style="color:var(--indigo);font-weight:700;">Mitra AI Life home page</a> for advanced engineering project tracks, school and student programmes, and upcoming workshops. The builder path continues.</p>
+    <a href="../../../site/index.html" class="next-btn" style="margin-top:1rem;">→ Back to Home</a>
+  </div>
+
+  <!-- Disqus -->
+  <div class="disqus-wrap">
+    <h3 style="font-family:'Baloo 2',cursive;color:var(--navy);margin-bottom:1rem;">Questions or comments?</h3>
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = window.location.href;
+        this.page.identifier = 'level-07-comic';
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://mitra-ai-life.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SCRIPTS                                               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<script src="../../../site/auth.js"></script>
+<script>
+  /* progress bar */
+  window.addEventListener('scroll', () => {
+    const el = document.getElementById('progress-bar');
+    const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    el.style.width = Math.min(pct, 100) + '%';
+  });
+
+  /* scroll animations */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.anim-fadeInUp,.anim-slideLeft,.anim-slideRight,.anim-bounceIn')
+    .forEach(el => { el.style.opacity = '0'; observer.observe(el); });
+
+  /* quiz */
+  function checkQuiz() {
+    const answers = { q1:'b', q2:'c', q3:'a', q4:'b', q5:'c' };
+    let score = 0;
+    for (const [q, correct] of Object.entries(answers)) {
+      const sel = document.querySelector(`input[name="${q}"]:checked`);
+      if (sel && sel.value === correct) score++;
+    }
+    const result = document.getElementById('quiz-result');
+    result.style.display = 'block';
+    if (score >= 4) {
+      result.className = 'pass';
+      result.textContent = '🎉 ' + score + '/5 correct — excellent! Your certificate is below.';
+      document.getElementById('cert-section').style.display = 'block';
+      document.getElementById('cert-section').scrollIntoView({ behavior:'smooth', block:'center' });
+      if (typeof saveProgress === 'function') saveProgress('level-07', score);
+    } else {
+      result.className = 'fail';
+      result.textContent = score + '/5 correct — review the skills above and try again. You need 4 or more to pass.';
+    }
+  }
+</script>
+</body>
+</html>

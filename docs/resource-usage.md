@@ -87,7 +87,7 @@ Last manual update: 2026-05-07
 | Domain / Service | Provider | Cost | Notes |
 |---|---|---|---|
 | mitraailife.com | GitHub Pages | Free | Live |
-| mitraaistudy.com | Planned | ~40–50 SGD/yr (GoDaddy) | School student platform — not purchased yet |
+| mitraaistudent.com | Planned | ~40–50 SGD/yr (GoDaddy) | School student platform — not purchased yet |
 | mitraaiprojects.com | Planned | ~40–50 SGD/yr (GoDaddy) | Engineering project track — not purchased yet |
 
 ---
@@ -124,7 +124,7 @@ Last manual update: 2026-05-07
 | Website | Status | Purpose |
 |---|---|---|
 | mitraailife.com | ✅ Live | Adults, daily life, L1–L7 ladder |
-| mitraaistudy.com | ❌ Not yet | School students Gr 6–12, AI awareness |
+| mitraaistudent.com | ❌ Not yet | Make students AI-ready (Gr 6–12) |
 | mitraaiprojects.com | ❌ Not yet | Engineering students, portfolio project track |
 
 ---

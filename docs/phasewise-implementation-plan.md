@@ -219,7 +219,7 @@ All decisions below are recorded from founder planning sessions. See `docs/resou
 - Admin dashboard to view user completions
 - Videos for any level
 - Jupyter notebooks for engineering track
-- mitraaistudy.com and mitraaiprojects.com sites
+- mitraaistudent.com and mitraaiprojects.com sites
 - Languages beyond English and Telugu
 - Payment activation (deliberately deferred — see pricing note below)
 
@@ -267,8 +267,16 @@ and allows each site to feel purpose-built for its audience.
 | Domain | Target Audience | Content Focus | Status |
 |---|---|---|---|
 | mitraailife.com | Working adults, homemakers, general public | Daily life AI, L1–L7 ladder | ✅ Live |
-| mitraaistudy.com | School students Gr 6–12, parents, teachers | Age-appropriate AI awareness and study skills | ❌ Planned |
+| mitraaistudent.com | School students Gr 6–12, parents, teachers | Make students AI-ready — not just AI study, but students who think and work with AI | ❌ Planned |
 | mitraaiprojects.com | Engineering/CS/IT students, final year | Portfolio project track, guided builds, notebooks | ❌ Planned |
+
+> **Why mitraaistudent and not mitraaistudy?**
+> mitraaistudy sounds like a subject — studying AI.
+> mitraaistudent positions the outcome — the student becomes AI-enabled, AI-ready, AI-confident.
+> The goal is not to teach AI as a topic. The goal is to transform the student into someone who
+> naturally uses AI as a tool in everything they do.
+> Parents and students reading "mitraaistudent" will think: my child will become an AI-capable student.
+> That is exactly the right perception.
 
 ### Hosting and domain cost
 - All three sites on GitHub Pages — hosting is free
@@ -277,7 +285,7 @@ and allows each site to feel purpose-built for its audience.
 - All three sites cross-link each other in headers and footers
 
 ### When to create each new site
-- mitraaistudy.com: when at least 5 school-specific lessons are ready
+- mitraaistudent.com: when at least 5 school-specific lessons are ready
 - mitraaiprojects.com: when at least 3 guided engineering project briefs + notebooks are ready
 
 ---
@@ -345,10 +353,10 @@ Translation order is based on speaker population and platform relevance.
 | Priority | Language | Status | Notes |
 |---|---|---|---|
 | 1 | Telugu | ✅ Complete L1–L7 | First language — Andhra Pradesh and Telangana |
-| 2 | Kannada | ❌ Planned | Karnataka — strong tech community |
-| 3 | Tamil | ❌ Planned | Tamil Nadu + Sri Lanka + Singapore diaspora |
-| 4 | Malayalam | ❌ Planned | Kerala — high literacy, high mobile usage |
-| 5 | Hindi | ❌ Planned | Largest reach — 500M+ potential users |
+| 2 | Hindi | ❌ Planned | Largest reach — 500M+ potential users — second priority after Telugu |
+| 3 | Kannada | ❌ Planned | Karnataka — strong tech community |
+| 4 | Tamil | ❌ Planned | Tamil Nadu + Sri Lanka + Singapore diaspora |
+| 5 | Malayalam | ❌ Planned | Kerala — high literacy, high mobile usage |
 
 Each new language adds: a translated set of all level pages + a translated home page
 (e.g. index-kn.html, index-ta.html) + lang switcher links on all existing pages.
@@ -401,7 +409,7 @@ Junior developers looking to add an AI-powered project to their resume.
 
 ---
 
-## School Student Track Plan (mitraaistudy.com — future)
+## School Student Track Plan (mitraaistudent.com — future)
 
 ### Target audience
 Students in Grades 6–12, parents, school teachers.

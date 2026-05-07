@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>లెవెల్ 4: వర్క్ స్మార్ట్ | మిత్ర AI లైఫ్ ఎడ్యుకేషన్</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QGY0LH6W93');
+  </script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:    #1E3A5F;
+      --violet:  #7C3AED;
+      --vl-light:#ede9fe;
+      --vl-mid:  #a78bfa;
+      --sky:     #38BDF8;
+      --amber:   #F59E0B;
+      --green:   #10B981;
+      --red:     #EF4444;
+      --teal:    #0D9488;
+      --cream:   #f5f3ff;
+      --white:   #FFFFFF;
+      --text:    #1C1C2E;
+      --muted:   #64748B;
+      --panel:   #ede9fe;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+    #progress-bar { position:fixed; top:0; left:0; height:5px;
+      background: linear-gradient(90deg, var(--violet), var(--vl-mid), var(--amber));
+      width:0%; z-index:999; transition:width 0.3s ease; }
+
+    .topnav {
+      position:fixed; top:5px; left:0; right:0; height:52px;
+      background:rgba(245,243,255,0.93); backdrop-filter:blur(8px);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 1.5rem; z-index:100;
+      border-bottom:2px solid rgba(124,58,237,0.15);
+    }
+    .topnav .brand { font-family:'Baloo 2',cursive; font-weight:800; font-size:1.1rem; color:var(--navy); text-decoration:none; }
+    .topnav .level-tag { background:var(--violet); color:white; font-size:0.75rem; font-weight:700; padding:3px 12px; border-radius:20px; }
+    .topnav .back-link { font-size:0.82rem; color:var(--muted); font-weight:700; text-decoration:none; }
+    .topnav .back-link:hover { color:var(--violet); }
+    .topnav .lang-btn { font-size:0.82rem; color:var(--violet); font-weight:700; background:var(--vl-light); border:1px solid var(--vl-mid); border-radius:8px; padding:4px 10px; cursor:pointer; text-decoration:none; }
+
+    @keyframes fadeInUp   { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideInLeft  { from{opacity:0;transform:translateX(-48px)} to{opacity:1;transform:translateX(0)} }
+    @keyframes slideInRight { from{opacity:0;transform:translateX(48px)}  to{opacity:1;transform:translateX(0)} }
+    @keyframes bounceIn { 0%{opacity:0;transform:scale(0.6)} 60%{opacity:1;transform:scale(1.08)} 80%{transform:scale(0.97)} 100%{transform:scale(1)} }
+    @keyframes float  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    @keyframes pulse  { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+    .anim-fadeInUp   { animation:fadeInUp   0.7s ease forwards; }
+    .anim-slideLeft  { animation:slideInLeft  0.7s ease forwards; }
+    .anim-slideRight { animation:slideInRight 0.7s ease forwards; }
+    .anim-bounceIn   { animation:bounceIn    0.75s cubic-bezier(.68,-.55,.27,1.55) forwards; }
+    .anim-float      { animation:float 3s ease-in-out infinite; }
+    .anim-pulse      { animation:pulse 2.5s ease-in-out infinite; }
+
+    section { padding: 4rem 1.5rem; max-width: 900px; margin: 0 auto; }
+    section:first-of-type { padding-top: 6rem; }
+
+    .hero {
+      min-height: 88vh; display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; padding-top:5rem;
+      background: linear-gradient(160deg, #1e1b4b 0%, #312e81 40%, #4c1d95 75%, #1e3a5f 100%);
+      border-radius: 0 0 48px 48px; position:relative; overflow:hidden;
+    }
+    .hero::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 30% 40%, rgba(167,139,250,0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 75% 65%, rgba(245,158,11,0.1) 0%, transparent 50%);
+    }
+    .hero-eyebrow { font-size:0.78rem; font-weight:800; letter-spacing:0.15em; color:var(--vl-mid); text-transform:uppercase; margin-bottom:.5rem; position:relative; }
+    .hero-title { font-family:'Baloo 2',cursive; font-size:clamp(2.4rem,6vw,4rem); font-weight:800; color:white; line-height:1.1; position:relative; }
+    .hero-sub { font-size:1.15rem; color:rgba(255,255,255,0.75); margin-top:.75rem; max-width:560px; position:relative; }
+    .hero-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin-top:1.5rem; position:relative; }
+    .badge { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; font-size:0.78rem; font-weight:700; padding:5px 14px; border-radius:20px; }
+    .badge.accent { background:var(--amber); color:#1c1c2e; border-color:var(--amber); }
+    .hero-img { width:100%; max-width:760px; border-radius:20px; margin-top:2rem; box-shadow:0 20px 60px rgba(0,0,0,0.5); position:relative; }
+    .hero-offer { background:linear-gradient(90deg,#f59e0b,#fbbf24); color:#1c1c2e; font-size:0.9rem; font-weight:800; padding:8px 24px; border-radius:24px; margin-top:1.5rem; display:inline-block; position:relative; }
+    .hero-offer s { font-weight:400; opacity:0.55; }
+    .scroll-hint { margin-top:2.5rem; font-size:0.8rem; color:rgba(255,255,255,0.4); letter-spacing:.08em; position:relative; }
+
+    .skill-banner { background:var(--violet); color:white; border-radius:16px; padding:1rem 1.5rem; margin-bottom:2rem; font-size:0.95rem; font-weight:700; display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; }
+    .skill-banner .sk-num { background:rgba(255,255,255,0.2); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+
+    .sec-label { font-size:0.72rem; font-weight:800; letter-spacing:.14em; color:var(--violet); text-transform:uppercase; margin-bottom:.4rem; }
+    .sec-title { font-family:'Baloo 2',cursive; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:800; color:var(--navy); line-height:1.2; margin-bottom:.75rem; }
+    .sec-intro { font-size:1.05rem; color:var(--muted); line-height:1.7; margin-bottom:2rem; }
+
+    .story-grid { display:grid; gap:1.5rem; }
+    .story-card {
+      background:white; border-radius:20px; padding:1.5rem 1.75rem;
+      box-shadow:0 4px 20px rgba(0,0,0,0.07);
+      border-left:5px solid var(--violet);
+      display:flex; flex-direction:column; gap:.75rem;
+    }
+    .story-card.amber { border-left-color: var(--amber); }
+    .story-card.teal  { border-left-color: var(--teal);  }
+    .story-card.sky   { border-left-color: var(--sky);   }
+    .story-card.green { border-left-color: var(--green); }
+    .char-tag { display:inline-flex; align-items:center; gap:.5rem; font-size:0.8rem; font-weight:800; color:var(--violet); background:var(--vl-light); padding:3px 10px; border-radius:20px; }
+    .char-tag.amber { color:#92400e; background:#fef3c7; }
+    .char-tag.teal  { color:#134e4a; background:#ccfbf1; }
+    .char-tag.sky   { color:#0c4a6e; background:#e0f2fe; }
+    .char-tag.green { color:#14532d; background:#dcfce7; }
+    .story-text { font-size:1rem; line-height:1.75; color:var(--text); }
+    .speech-bubble { background:var(--vl-light); border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; font-style:italic; color:var(--navy); position:relative; margin-top:.5rem; }
+    .speech-bubble::before { content:'💬'; margin-right:.5rem; }
+    .ai-bubble { background:#ecfdf5; border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; color:#065f46; position:relative; margin-top:.5rem; border:1px solid #a7f3d0; }
+    .ai-bubble::before { content:'🤖 మిత్ర చెప్పింది: '; font-weight:800; }
+
+    .steps-list { list-style:none; display:flex; flex-direction:column; gap:1rem; margin-top:1rem; }
+    .steps-list li { display:flex; gap:1rem; align-items:flex-start; }
+    .step-num { background:var(--violet); color:white; border-radius:50%; min-width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; flex-shrink:0; margin-top:2px; }
+    .step-text { font-size:1rem; line-height:1.7; color:var(--text); }
+
+    .tip-card { background:var(--vl-light); border-radius:16px; padding:1.25rem 1.5rem; border:1px solid var(--vl-mid); margin-top:1.5rem; }
+    .tip-card .tip-head { font-weight:800; color:var(--violet); font-size:1rem; margin-bottom:.5rem; }
+    .tip-card p { font-size:0.95rem; line-height:1.7; color:var(--navy); }
+
+    .prompt-box { background:#1e1b4b; border-radius:14px; padding:1.25rem 1.5rem; margin-top:1rem; }
+    .prompt-box .pb-label { font-size:0.72rem; font-weight:800; letter-spacing:.1em; color:var(--vl-mid); text-transform:uppercase; margin-bottom:.5rem; }
+    .prompt-box .pb-text { font-family:monospace; font-size:0.92rem; color:#e9d5ff; line-height:1.65; }
+
+    .ba-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem; }
+    @media(max-width:600px){ .ba-grid { grid-template-columns:1fr; } }
+    .ba-col { border-radius:14px; padding:1rem 1.25rem; }
+    .ba-col.before { background:#fef2f2; border:1px solid #fecaca; }
+    .ba-col.after  { background:#ecfdf5; border:1px solid #a7f3d0; }
+    .ba-col .ba-head { font-size:0.75rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin-bottom:.5rem; }
+    .ba-col.before .ba-head { color:#b91c1c; }
+    .ba-col.after  .ba-head { color:#065f46; }
+    .ba-col p { font-size:0.9rem; line-height:1.7; }
+
+    .cheat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.25rem; }
+    .cheat-card { background:white; border-radius:16px; padding:1.25rem; box-shadow:0 2px 12px rgba(0,0,0,0.07); border-top:4px solid var(--violet); }
+    .cheat-card.amber { border-top-color:var(--amber); }
+    .cheat-card.teal  { border-top-color:var(--teal);  }
+    .cheat-card.green { border-top-color:var(--green);  }
+    .cheat-card.sky   { border-top-color:var(--sky);    }
+    .cheat-card h3 { font-size:0.95rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .cheat-card p  { font-size:0.88rem; color:var(--muted); line-height:1.6; }
+    .prompt-chip { background:var(--vl-light); border-radius:8px; padding:4px 10px; font-size:0.82rem; font-family:monospace; color:var(--violet); display:inline-block; margin-top:.4rem; }
+
+    .arena-grid { display:grid; gap:1.25rem; }
+    .arena-card { background:white; border-radius:16px; padding:1.5rem; box-shadow:0 3px 14px rgba(0,0,0,0.08); border:2px solid transparent; transition:border-color .2s; }
+    .arena-card:hover { border-color:var(--vl-mid); }
+    .arena-card .ac-num { font-size:0.8rem; font-weight:800; color:var(--vl-mid); margin-bottom:.4rem; text-transform:uppercase; letter-spacing:.1em; }
+    .arena-card h3 { font-size:1rem; font-weight:800; color:var(--navy); margin-bottom:.4rem; }
+    .arena-card p { font-size:0.93rem; color:var(--muted); line-height:1.6; }
+
+    .quiz-wrap { background:white; border-radius:24px; padding:2rem; box-shadow:0 8px 32px rgba(124,58,237,0.12); }
+    .quiz-q { margin-bottom:1.5rem; }
+    .quiz-q .q-text { font-weight:800; font-size:1.05rem; color:var(--navy); margin-bottom:.75rem; }
+    .quiz-options { display:flex; flex-direction:column; gap:.5rem; }
+    .quiz-options label { display:flex; align-items:center; gap:.75rem; background:var(--vl-light); border-radius:10px; padding:.7rem 1rem; cursor:pointer; font-size:0.95rem; transition:background .15s; }
+    .quiz-options label:hover { background:var(--vl-mid); color:white; }
+    .quiz-options input[type=radio] { accent-color:var(--violet); width:16px; height:16px; }
+    .quiz-submit { background:var(--violet); color:white; font-family:'Nunito',sans-serif; font-weight:800; font-size:1rem; border:none; border-radius:14px; padding:.9rem 2.5rem; cursor:pointer; margin-top:1rem; transition:background .2s; }
+    .quiz-submit:hover { background:#6d28d9; }
+    #quiz-result { margin-top:1.25rem; font-weight:800; font-size:1.05rem; display:none; }
+    #quiz-result.pass { color:#059669; }
+    #quiz-result.fail { color:#dc2626; }
+
+    #cert-section { display:none; }
+    .cert-box {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
+      border-radius:24px; padding:2.5rem 2rem; text-align:center; color:white;
+      box-shadow:0 12px 48px rgba(124,58,237,0.4);
+    }
+    .cert-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; margin-bottom:.25rem; }
+    .cert-box .cert-name { font-size:1.5rem; font-weight:700; color:var(--vl-mid); margin:.5rem 0; }
+    .cert-box p { font-size:0.95rem; color:rgba(255,255,255,0.75); margin-bottom:1.25rem; }
+    .skill-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin:1.25rem 0; }
+    .skill-badge { background:rgba(255,255,255,0.1); border:1px solid rgba(167,139,250,0.4); border-radius:12px; padding:.5rem .9rem; font-size:0.8rem; font-weight:700; color:var(--vl-mid); }
+    .cert-btn { background:var(--amber); color:#1c1c2e; font-weight:800; font-size:0.95rem; border:none; border-radius:14px; padding:.8rem 2rem; cursor:pointer; margin-top:.75rem; }
+
+    .completion-box { text-align:center; padding:3rem 2rem; }
+    .completion-box .big-emoji { font-size:4rem; margin-bottom:1rem; }
+    .completion-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .completion-box p { font-size:1.05rem; color:var(--muted); max-width:520px; margin:0 auto 1.5rem; }
+    .next-btn { display:inline-block; background:var(--violet); color:white; font-weight:800; font-size:1rem; padding:.85rem 2.5rem; border-radius:14px; text-decoration:none; }
+    .next-btn:hover { background:#6d28d9; }
+
+    #auth-nav-area { display:flex; align-items:center; gap:.5rem; }
+    .disqus-wrap { margin-top:2rem; }
+
+    .recap-banner { background:linear-gradient(135deg,#312e81,#4c1d95); border-radius:20px; padding:1.5rem 2rem; color:white; margin-bottom:2rem; }
+    .recap-banner h3 { font-family:'Baloo 2',cursive; font-size:1.3rem; font-weight:800; margin-bottom:.75rem; }
+    .recap-list { list-style:none; display:flex; flex-direction:column; gap:.4rem; }
+    .recap-list li { font-size:0.92rem; display:flex; gap:.5rem; }
+    .recap-list li::before { content:'✓'; color:var(--vl-mid); font-weight:800; }
+
+    img { max-width:100%; }
+    @media(max-width:600px){
+      .story-grid { grid-template-columns:1fr; }
+      .cheat-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav class="topnav">
+  <a href="../../../site/index-te.html" class="brand">🌟 మిత్ర AI లైఫ్</a>
+  <span class="level-tag">లెవెల్ 4 · ₹200</span>
+  <div style="display:flex;align-items:center;gap:.75rem;">
+    <div id="auth-nav-area"></div>
+    <a href="level-04-comic.html" class="lang-btn">English</a>
+    <a href="../../../site/index-te.html" class="back-link">← హోమ్</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- విభాగం 1 · హీరో                                        -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="hero">
+  <p class="hero-eyebrow anim-fadeInUp" style="animation-delay:.1s">లెవెల్ 4 · వర్క్ స్మార్ట్</p>
+  <h1 class="hero-title anim-fadeInUp" style="animation-delay:.2s">సమయం ఆదా చేయండి.<br>ప్రొఫెషనల్‌గా కనిపించండి.<br>తెలివిగా పని చేయండి.</h1>
+  <p class="hero-sub anim-fadeInUp" style="animation-delay:.3s">ఈమెయిల్‌లు, రిపోర్టులు, రెజ్యూమే, ఇంటర్వ్యూలు, స్టడీ ప్లాన్‌లకు AI వాడండి — నిజమైన పనికి వచ్చే నైపుణ్యాలు.</p>
+  <div class="hero-badges anim-fadeInUp" style="animation-delay:.4s">
+    <span class="badge">⏱ 2 గంటలు</span>
+    <span class="badge">💼 5 వర్క్ స్కిల్లులు</span>
+    <span class="badge">📋 రియల్ టెంప్లేట్‌లు</span>
+    <span class="badge accent">₹200</span>
+  </div>
+  <div class="hero-offer anim-bounceIn" style="animation-delay:.55s">
+    🎉 ఎర్లీ యాక్సెస్ — <s>₹200</s> <strong>మొదటి 100 మందికి ఉచితం</strong>
+  </div>
+  <img class="hero-img anim-fadeInUp" style="animation-delay:.5s"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l4-s01-hero.jpg"
+       alt="లెవెల్ 4 వర్క్ స్మార్ట్ హీరో" loading="lazy" />
+  <p class="scroll-hint anim-fadeInUp" style="animation-delay:.8s">▾ క్రిందికి స్క్రోల్ చేయండి</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- విభాగం 2 · రీక్యాప్                                    -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="recap-banner anim-fadeInUp">
+    <h3>✅ లెవెల్ 3 లో మీరు నేర్చుకున్నది</h3>
+    <ul class="recap-list">
+      <li>AI జవాబులు నమ్మే ముందు తనిఖీ చేయడం నేర్చుకున్నారు</li>
+      <li>దశల వారీగా సహాయం అడగడం నేర్చుకున్నారు</li>
+      <li>మెరుగైన టోన్ కోసం మెసేజ్‌లు తిరిగి రాయడం నేర్చుకున్నారు</li>
+      <li>రెండు AI జవాబులను పోల్చి మెరుగైనదాన్ని ఎంచుకున్నారు</li>
+      <li>మీ ఉత్తమ ప్రాంప్ట్‌లు సేవ్ చేయడం ప్రారంభించారు</li>
+    </ul>
+  </div>
+  <p class="sec-label">లెవెల్ 4</p>
+  <h2 class="sec-title">ఇప్పుడు నిజమైన పని కోసం AI వాడుదాం</h2>
+  <p class="sec-intro">
+    దీప హైదరాబాద్‌లో ఆఫీస్ ఎగ్జిక్యూటివ్. విక్రమ్ తిరుపతిలో ఇంజినీరింగ్ స్టూడెంట్.
+    సునీత గుంటూరులో HR మేనేజర్. ఆనంద్ నెల్లూరులో ఫ్రెష్ గ్రాడ్యుయేట్.<br><br>
+    ఈ లెవెల్‌లో వారి కథలు చదువుతూ — పని మరియు చదువుకు సంబంధించిన ఐదు శక్తివంతమైన
+    నైపుణ్యాలు నేర్చుకుంటారు. టెక్ జార్గన్ లేదు. ఈరోజే వాడగలిగే నిజమైన నైపుణ్యాలు.
+  </p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- విభాగం 3 · స్కిల్ 1 · ఈమెయిల్ రాయడం                    -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">1</span>
+    <span>స్కిల్ 1 — 60 సెకన్లలో ప్రొఫెషనల్ ఈమెయిల్ రాయండి</span>
+  </div>
+
+  <p class="sec-label">దీప కథ</p>
+  <h2 class="sec-title">40 నిమిషాలు తీసుకున్న ఈమెయిల్</h2>
+  <p class="sec-intro">దీప హైదరాబాద్‌లో లాజిస్టిక్స్ కంపెనీలో ఎగ్జిక్యూటివ్. ప్రతి ఉదయం 5 నుండి 8 ఈమెయిల్‌లు రాయాలి — సప్లయర్లకు, క్లయంట్లకు, మేనేజర్‌కు. దీనికి దాదాపు గంట పడుతుంది. ఆమె మేనేజర్ మందగమనం గమనించారు. దీపకు ఇబ్బందిగా అనిపించింది.</p>
+
+  <div class="story-grid">
+    <div class="story-card amber anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag amber">👩‍💼 దీప · హైదరాబాద్</span>
+      <p class="story-text">జాప్యమైన షిప్‌మెంట్ గురించి సప్లయర్‌కు ఒక ఈమెయిల్ రాయడానికి దీపకు 40 నిమిషాలు పట్టింది. మూడుసార్లు తిరిగి రాసింది. అయినా చాలా కఠినంగా వినిపిస్తోంది అని పంపింది.</p>
+      <div class="speech-bubble">"నా ఆర్డర్ ఎక్కడుందో అడగాలి. ఇది మర్యాదగా ఎలా చెప్పాలో అర్థం కావడం లేదు!"</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 AI మార్గం</span>
+      <p class="story-text">ఒక స్నేహితుడు దీపకు ఈమెయిల్ రాయడానికి AI ఎలా వాడాలో చూపించాడు. ఆమె ఒక సాధారణ సూచన టైప్ చేసింది — 10 సెకన్లలో పరిపూర్ణమైన ప్రొఫెషనల్ ఈమెయిల్ వచ్చింది.</p>
+      <div class="prompt-box">
+        <p class="pb-label">దీప యొక్క ప్రాంప్ట్</p>
+        <p class="pb-text">సప్లయర్‌కు మర్యాదగా ప్రొఫెషనల్ ఈమెయిల్ రాయండి.
+మా షిప్‌మెంట్ ఆర్డర్ #4521 మే 1, 2026 కల్లా రావాల్సింది.
+ఇంకా రాలేదు.
+అప్‌డేట్ అడగండి, జాప్యం మా కస్టమర్లను ప్రభావితం చేస్తోందని చెప్పండి,
+నిర్ధారించిన డెలివరీ తేదీ అడగండి.
+టోన్ దృఢంగా కానీ మర్యాదగా ఉండాలి.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ ఫలితం</span>
+      <p class="story-text">AI 8 సెకన్లలో పూర్తి ప్రొఫెషనల్ ఈమెయిల్ ఇచ్చింది. దీప చదివి ఒక చిన్న వివరం మార్చి పంపింది. ఆమె మేనేజర్ మెరుగుదల గమనించి ఏమి మారిందని అడిగారు.</p>
+      <div class="ai-bubble">
+        సబ్జెక్ట్: జాప్యమైన షిప్‌మెంట్ ఫాలో-అప్ — ఆర్డర్ #4521<br><br>
+        ప్రియమైన [సప్లయర్ పేరు], మీరు బాగా ఉన్నారని ఆశిస్తున్నాను. మే 1, 2026 కల్లా రావాల్సిన ఆర్డర్ #4521 ఇంకా అందలేదు. ఈ జాప్యం మా కస్టమర్ కమిట్‌మెంట్లను ప్రభావితం చేస్తోంది. దయచేసి ప్రస్తుత స్థితి మరియు సవరించిన డెలివరీ తేదీ నిర్ధారించగలరా?...
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card" style="margin-top:1.75rem;">
+    <p class="tip-head">💡 ఈమెయిల్ ప్రాంప్ట్ ఫార్ములా</p>
+    <p><strong>ఎవరికి</strong> రాస్తున్నారు + <strong>ఏమి</strong> జరిగింది + <strong>ఏమి</strong> చేయమని కోరుతున్నారు + <strong>టోన్</strong> (మర్యాదగా / దృఢంగా / స్నేహంగా)</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">ఎవరికి రాస్తున్నారో AI కి చెప్పండి</span></li>
+    <li><span class="step-num">2</span><span class="step-text">పరిస్థితిని 2-3 పాయింట్లలో వివరించండి</span></li>
+    <li><span class="step-num">3</span><span class="step-text">రీడర్ ఏం చేయాలో చెప్పండి</span></li>
+    <li><span class="step-num">4</span><span class="step-text">టోన్ పేర్కొనండి — మర్యాదగా, అర్జెంట్, స్నేహంగా</span></li>
+    <li><span class="step-num">5</span><span class="step-text">అవుట్‌పుట్ చదివి పేర్లు, వివరాలు మార్చి పంపండి</span></li>
+  </ul>
+
+  <div class="ba-grid" style="margin-top:1.5rem;">
+    <div class="ba-col before">
+      <p class="ba-head">❌ AI లేకుండా</p>
+      <p>దీప ఒక ఈమెయిల్ రాయడానికి 40 నిమిషాలు వెచ్చించింది. మూడుసార్లు తిరిగి రాసింది. ఇంకా 7 ఈమెయిల్‌లు మిగిలి ఉన్నాయి.</p>
+    </div>
+    <div class="ba-col after">
+      <p class="ba-head">✅ AI తో</p>
+      <p>దీప 60 సెకన్లలో మెరుగైన ఈమెయిల్ రాసింది. 8 ఈమెయిల్‌లు 15 నిమిషాల్లో పూర్తి చేసింది. రోజంతా కాన్ఫిడెంట్‌గా ఉంది.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l4-s02-deepa-email.jpg"
+       alt="దీప AI సహాయంతో ప్రొఫెషనల్ ఈమెయిల్ రాస్తోంది" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- విభాగం 4 · స్కిల్ 2 · మీటింగ్ సమ్మరీ                   -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">2</span>
+    <span>స్కిల్ 2 — మీటింగ్ సమ్మరీలు మరియు రిపోర్టులు వెంటనే రాయండి</span>
+  </div>
+
+  <p class="sec-label">సునీత కథ</p>
+  <h2 class="sec-title">ఎవరూ గుర్తించుకోని మీటింగ్</h2>
+  <p class="sec-intro">సునీత గుంటూరులో HR మేనేజర్. ప్రతి టీమ్ మీటింగ్ తర్వాత సమ్మరీ రాసి డైరెక్టర్‌కు పంపాలి. మీటింగ్ కి 45 నిమిషాలు పడుతుంది. రోజులో మూడు మీటింగ్‌లు ఉంటాయి. చిన్న వివరాలు మర్చిపోయి డైరెక్టర్ అడిగిన ప్రశ్నలకు జవాబు చెప్పలేకపోయేది.</p>
+
+  <div class="story-grid">
+    <div class="story-card teal anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag teal">👩‍💼 సునీత · గుంటూరు</span>
+      <p class="story-text">సెలవు పాలసీ మార్పులపై 1 గంట మీటింగ్ తర్వాత సునీత నోట్‌బుక్ తెరిచింది. నోట్సు చెల్లాచెదురుగా ఉన్నాయి. రెండు ముఖ్యమైన నిర్ణయాలు మిస్ అయాయి.</p>
+      <div class="speech-bubble">"మీటింగ్‌లో చాలా మాట్లాడాను — సరిగ్గా రాసుకోలేదు!"</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 AI మార్గం</span>
+      <p class="story-text">సునీత మీటింగ్‌లో పూర్తి వాక్యాలు కాదు — చిన్న బులెట్ పాయింట్లు మాత్రమే రాస్తోంది. తర్వాత AI కి అందిస్తోంది. ఫార్మాట్ చేసిన సమ్మరీ 3 నిమిషాల్లో వస్తుంది.</p>
+      <div class="prompt-box">
+        <p class="pb-label">సునీత యొక్క ప్రాంప్ట్</p>
+        <p class="pb-text">ఇవి నా HR టీమ్ మీటింగ్ నోట్సు.
+దీన్ని స్పష్టమైన మీటింగ్ సమ్మరీగా రాయండి:
+1. తేదీ మరియు హాజరైన వారు
+2. చర్చించిన అంశాలు
+3. తీసుకున్న నిర్ణయాలు
+4. యాక్షన్ ఐటమ్‌లు (ఎవరు చేయాలో తో)
+5. తదుపరి మీటింగ్ తేదీ
+
+నా నోట్సు:
+- లీవ్ పాలసీ అప్‌డేట్ చర్చించారు, 12 రోజులు CL నిర్ధారించారు
+- రాజు క్యారీ ఫార్వర్డ్ అడిగాడు — గరిష్టం 5 రోజులు నిర్ణయించారు
+- న్యూ జాయినింగ్ ప్రాసెస్ హ్యాండ్‌బుక్‌లో మే 15 కల్లా అప్‌డేట్ చేయాలి
+- తదుపరి మీటింగ్ జూన్ 3
+- హాజరైన వారు: సునీత, రాజు, కావిత, ప్రసాద్</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ ఫలితం</span>
+      <p class="story-text">AI సునీత యొక్క రఫ్ నోట్సులను క్లీన్ ప్రొఫెషనల్ సమ్మరీగా మార్చింది. డైరెక్టర్ ఆశ్చర్యపోయారు. సునీత ఇప్పుడు ప్రతి మీటింగ్ ముగిసిన 5 నిమిషాల్లో సమ్మరీ పంపుతోంది.</p>
+      <div class="ai-bubble">
+        మీటింగ్ సమ్మరీ — HR టీమ్ | తేదీ: మే 6, 2026<br>
+        హాజరైన వారు: సునీత, రాజు, కావిత, ప్రసాద్<br><br>
+        చర్చించిన అంశాలు: లీవ్ పాలసీ రివ్యూ. కాజువల్ లీవ్ సంవత్సరానికి 12 రోజులు నిర్ధారించారు. క్యారీ-ఫార్వర్డ్ గరిష్టం 5 రోజులు.<br><br>
+        నిర్ణయాలు: జాయినింగ్ ప్రాసెస్ మే 15 కల్లా హ్యాండ్‌బుక్‌లో అప్‌డేట్ చేయాలి.<br><br>
+        తదుపరి మీటింగ్: జూన్ 3, 2026.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">📋 మీటింగ్ సమ్మరీ ప్రాంప్ట్ ఫార్ములా</p>
+    <p>AI కి మీ <strong>రఫ్ నోట్సు</strong> ఇవ్వండి (గందరగోళంగా ఉన్నా పర్వాలేదు) + విభాగాలు అడగండి: చర్చించిన అంశాలు, నిర్ణయాలు, యాక్షన్ ఐటమ్‌లు, తదుపరి అడుగులు.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">మీటింగ్‌లో చిన్న బులెట్ పాయింట్లు రాసుకోండి — పూర్తి వాక్యాలు అవసరం లేదు</span></li>
+    <li><span class="step-num">2</span><span class="step-text">మీటింగ్ తర్వాత AI కి మీ నోట్సు పేస్ట్ చేయండి</span></li>
+    <li><span class="step-num">3</span><span class="step-text">విభాగాలతో ప్రొఫెషనల్ సమ్మరీ రాయమని అడగండి</span></li>
+    <li><span class="step-num">4</span><span class="step-text">ఒకసారి చదివి మిస్ అయిన పేర్లు, తేదీలు జోడించండి</span></li>
+    <li><span class="step-num">5</span><span class="step-text">మీటింగ్ ముగిసిన 5 నిమిషాల్లో పంపండి — అందరినీ ఆశ్చర్యపరచండి</span></li>
+  </ul>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l4-s03-sunitha-report.jpg"
+       alt="సునీత AI తో మీటింగ్ నోట్సులను ప్రొఫెషనల్ సమ్మరీగా మారుస్తోంది" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- విభాగం 5 · స్కిల్ 3 · రెజ్యూమే మెరుగుపరచడం             -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">3</span>
+    <span>స్కిల్ 3 — 10 నిమిషాల్లో మీ రెజ్యూమే మెరుగుపరచుకోండి</span>
+  </div>
+
+  <p class="sec-label">ఆనంద్ కథ</p>
+  <h2 class="sec-title">రిప్లై రాని రెజ్యూమే</h2>
+  <p class="sec-intro">ఆనంద్ నెల్లూరుకు చెందిన ఫ్రెష్ B.Tech గ్రాడ్యుయేట్. రెండు నెలల నుండి సాఫ్ట్‌వేర్ టెస్టింగ్ జాబ్‌లకు అప్లై చేస్తున్నాడు. 30 కంపెనీలకు రెజ్యూమే పంపాడు. ఒక్కటే రిప్లై వచ్చింది. ప్లేస్‌మెంట్ ఆఫీసర్ రెజ్యూమే బలహీనంగా ఉందని చెప్పారు కానీ ఎలా సరిదిద్దాలో వివరించలేదు.</p>
+
+  <div class="story-grid">
+    <div class="story-card sky anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag sky">👨‍💻 ఆనంద్ · నెల్లూరు</span>
+      <p class="story-text">ఆనంద్ రెజ్యూమేలో "టెస్టింగ్ బాధ్యత వహించాను" మరియు "మంచి కమ్యూనికేషన్ స్కిల్స్" అని పదే పదే రాయబడింది. HR మేనేజర్లు 10 సెకన్లలో స్కిప్ చేసేవారు.</p>
+      <div class="speech-bubble">"నాకు నిజమైన నైపుణ్యాలున్నాయి కానీ వాటిని సరిగ్గా ఎలా రాయాలో తెలియడం లేదు."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 AI మార్గం</span>
+      <p class="story-text">ఆనంద్ తన రెజ్యూమేలో ఒక విభాగం AI కి పేస్ట్ చేసి మెరుగుపరచమని అడిగాడు. AI యాక్షన్ వర్బులతో, నంబర్లతో బలమైన బులెట్ పాయింట్లు రాసింది.</p>
+      <div class="prompt-box">
+        <p class="pb-label">ఆనంద్ యొక్క ప్రాంప్ట్</p>
+        <p class="pb-text">నేను సాఫ్ట్‌వేర్ టెస్టింగ్ రోల్ కోసం అప్లై చేస్తున్న ఫ్రెష్ B.Tech గ్రాడ్యుయేట్ ని.
+నా రెజ్యూమే నుండి ప్రస్తుత ఎక్స్‌పీరియెన్స్ విభాగం:
+
+"వెబ్ అప్లికేషన్లు టెస్ట్ చేశాను. టీమ్‌లో పని చేశాను.
+డెవలపర్లతో మంచి కమ్యూనికేషన్. బగ్‌లు కనుగొని రిపోర్ట్ చేశాను."
+
+ఈ బులెట్ పాయింట్లు బలంగా సౌండ్ అయ్యేలా రాయండి.
+యాక్షన్ వర్బులు వాడండి, నంబర్లు జోడించండి.
+ప్రతి బులెట్ 20 పదాల లోపు ఉండాలి, 4 బులెట్లు.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ ఫలితం</span>
+      <p class="story-text">AI ఆనంద్ యొక్క బలహీనమైన బులెట్ పాయింట్లను ATS-ఫ్రెండ్లీ లైన్లుగా మార్చింది. రెజ్యూమే అప్‌డేట్ చేసిన తర్వాత 2 వారాల్లో 4 ఇంటర్వ్యూ కాల్స్ వచ్చాయి.</p>
+      <div class="ai-bubble">
+        • 3 వెబ్ అప్లికేషన్ మాడ్యూళ్లలో 200+ మాన్యువల్ టెస్ట్ కేసులు అమలు చేసి, డిఫెక్ట్ లీకేజీని 30% తగ్గించాను<br>
+        • 5 మంది డెవలపర్ టీమ్‌తో కలిసి స్ప్రింట్ డెడ్‌లైన్ లోపు 45 క్రిటికల్ బగ్‌లు పరిష్కరించాను<br>
+        • JIRA లో డిటెయిల్డ్ బగ్ రిపోర్టులు రాసి, స్ప్రింట్ కి 2 రోజుల ఫిక్స్-టైమ్ తగ్గించాను<br>
+        • Chrome, Firefox, Edge లో రిగ్రెషన్ టెస్టింగ్ చేసి క్రాస్-బ్రౌజర్ కంపాటిబిలిటీ నిర్ధారించాను
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">📝 రెజ్యూమే టిప్</p>
+    <p>AI కి మీ <strong>ప్రస్తుత బులెట్ పాయింట్లు</strong> ఇచ్చి మెరుగుపరచమని అడగండి — స్క్రాచ్ నుండి రెజ్యూమే రాయమని అడగకండి. మీ నిజమైన అనుభవం + AI పాలిష్ = బలమైన రెజ్యూమే.</p>
+  </div>
+
+  <div class="ba-grid" style="margin-top:1.5rem;">
+    <div class="ba-col before">
+      <p class="ba-head">❌ బలహీనమైన బులెట్</p>
+      <p>"వెబ్ అప్లికేషన్లు టెస్ట్ చేశాను. మంచి కమ్యూనికేషన్ స్కిల్స్."</p>
+    </div>
+    <div class="ba-col after">
+      <p class="ba-head">✅ బలమైన బులెట్</p>
+      <p>"200+ మాన్యువల్ టెస్ట్ కేసులు అమలు చేసి, డిఫెక్ట్ లీకేజీని 30% తగ్గించాను"</p>
+    </div>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">రెజ్యూమే నుండి ఒక విభాగం మాత్రమే AI కి పేస్ట్ చేయండి</span></li>
+    <li><span class="step-num">2</span><span class="step-text">టార్గెట్ జాబ్ టైటిల్ మరియు అనుభవ స్థాయి చెప్పండి</span></li>
+    <li><span class="step-num">3</span><span class="step-text">యాక్షన్ వర్బులు, నంబర్లు మరియు సంక్షిప్తంగా అడగండి</span></li>
+    <li><span class="step-num">4</span><span class="step-text">జాగ్రత్తగా రివ్యూ చేయండి — మీకు మాత్రమే తెలిసిన నంబర్లు జోడించండి</span></li>
+    <li><span class="step-num">5</span><span class="step-text">రెజ్యూమే ప్రతి విభాగానికి ఇది రిపీట్ చేయండి</span></li>
+  </ul>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l4-s04-anand-resume.jpg"
+       alt="ఆనంద్ AI సహాయంతో రెజ్యూమే బులెట్ పాయింట్లు మెరుగుపరచుకుంటున్నాడు" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- విభాగం 6 · స్కిల్ 4 · ఇంటర్వ్యూ ప్రాక్టీస్              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">4</span>
+    <span>స్కిల్ 4 — AI ని మాక్ ఇంటర్వ్యూయర్‌గా వాడి ఇంటర్వ్యూ ప్రాక్టీస్ చేయండి</span>
+  </div>
+
+  <p class="sec-label">ఆనంద్ తదుపరి అడుగు</p>
+  <h2 class="sec-title">ఒంటరిగా ఇంటర్వ్యూ ప్రిపరేషన్</h2>
+  <p class="sec-intro">ఆనంద్‌కు ఇంటర్వ్యూ కాల్ వచ్చింది. ఇప్పుడు ప్రిపేర్ అవ్వాలి. ఇంట్లో ప్రాక్టీస్ చేయడానికి ఎవరూ లేరు. కోచింగ్ సెంటర్ చాలా ఖర్చు. స్నేహితుల గ్రూప్‌లో టెక్ ఉద్యోగాల్లో ఉన్న వారు లేరు. AI ఎప్పుడైనా అందుబాటులో ఉండే మాక్ ఇంటర్వ్యూయర్ అయింది.</p>
+
+  <div class="story-grid">
+    <div class="story-card sky anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag sky">👨‍💻 ఆనంద్ · నెల్లూరు</span>
+      <p class="story-text">ఆనంద్‌కు ఎప్పుడూ నిజమైన ఇంటర్వ్యూ జరగలేదు. ఏ ప్రశ్నలు వస్తాయో తెలియదు. "మీ గురించి చెప్పండి" అని అడిగితే 5 నిమిషాలు మాట్లాడి ఆగిపోతాడు.</p>
+      <div class="speech-bubble">"నా సబ్జెక్ట్ తెలుసు కానీ ఎవరైనా అడిగినప్పుడు నచ్చినట్లు చెప్పలేను. ప్రాక్టీస్ కావాలి."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 AI మార్గం</span>
+      <p class="story-text">ఆనంద్ AI ని హైరింగ్ మేనేజర్‌గా వ్యవహరించమని అడిగాడు. 10 కామన్ ప్రశ్నలకు జవాబు ప్రాక్టీస్ చేశాడు. ప్రతి జవాబు తర్వాత AI ఫీడ్‌బ్యాక్ ఇచ్చింది.</p>
+      <div class="prompt-box">
+        <p class="pb-label">ఆనంద్ యొక్క ప్రాంప్ట్</p>
+        <p class="pb-text">సాఫ్ట్‌వేర్ టెస్టింగ్ రోల్ కోసం హైరింగ్ మేనేజర్‌గా వ్యవహరించండి.
+నన్ను ఇంటర్వ్యూ చేయండి.
+నేను 6 నెలల ఇంటర్న్‌షిప్ అనుభవం ఉన్న ఫ్రెష్ B.Tech గ్రాడ్యుయేట్.
+ఒక్కొక్క ప్రశ్న అడగండి. నా జవాబు తర్వాత సంక్షిప్తంగా ఫీడ్‌బ్యాక్ ఇవ్వండి.
+మొదలుపెట్టండి: "మీ గురించి చెప్పండి."</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ ఫలితం</span>
+      <p class="story-text">3 ప్రాక్టీస్ సెషన్ల తర్వాత ఆనంద్ జవాబులు స్పష్టంగా, కాన్ఫిడెంట్‌గా మారాయి. ఇంట్రో చెప్పడం, బిహేవియరల్ ప్రశ్నలకు జవాబు ఇవ్వడం మరియు బలంగా క్లోజ్ చేయడం తెలిసింది.</p>
+      <div class="ai-bubble">
+        AI ఫీడ్‌బ్యాక్: "మంచి మొదలు. మీరు డిగ్రీ మరియు ఇంటర్న్‌షిప్ గురించి స్పష్టంగా చెప్పారు.
+        మెరుగుపరచడానికి: ఒక నిర్దిష్ట ప్రాజెక్ట్ పేరు చెప్పండి — ఇంటర్వ్యూయర్లు కథలు గుర్తు పెట్టుకుంటారు.
+        ఉదాహరణ: '[కంపెనీ] లో నా ఇంటర్న్‌షిప్‌లో పేమెంట్ మాడ్యూల్ టెస్ట్ చేశాను, 200+ టెస్ట్ కేసులు...' — ఇది చాలా బలంగా ఉంటుంది."
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">🎯 ఇంటర్వ్యూ ప్రాక్టీస్ టిప్</p>
+    <p>ప్రతి జవాబు తర్వాత AI ని అడగండి: <strong>"నా జవాబులో బలహీనంగా ఉన్నది ఏమిటి మరియు ఎలా మెరుగుపరచాలి?"</strong> — ఇది ప్రశ్నల జాబితా అడగడం కంటే చాలా విలువైనది.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">మీ టార్గెట్ రోల్, కంపెనీ రకం మరియు అనుభవ స్థాయి చెప్పండి</span></li>
+    <li><span class="step-num">2</span><span class="step-text">AI ని హైరింగ్ మేనేజర్‌గా ఇంటర్వ్యూ చేయమని అడగండి</span></li>
+    <li><span class="step-num">3</span><span class="step-text">ప్రతి ప్రశ్నకు పూర్తి జవాబు టైప్ చేయండి — మీరు చెప్పినట్లు</span></li>
+    <li><span class="step-num">4</span><span class="step-text">తదుపరి ప్రశ్నకు ముందు AI ఫీడ్‌బ్యాక్ అడగండి</span></li>
+    <li><span class="step-num">5</span><span class="step-text">3 సెషన్‌లు చేయండి — మీ జవాబులు గణనీయంగా మెరుగవుతాయి</span></li>
+  </ul>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l4-s05-anand-interview.jpg"
+       alt="ఆనంద్ AI మాక్ ఇంటర్వ్యూయర్‌తో ఇంటర్వ్యూ ప్రాక్టీస్ చేస్తున్నాడు" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- విభాగం 7 · స్కిల్ 5 · స్టడీ ప్లాన్ + ప్రెజెంటేషన్         -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">5</span>
+    <span>స్కిల్ 5 — స్టడీ ప్లాన్ మరియు ప్రెజెంటేషన్ అవుట్‌లైన్ తయారుచేయండి</span>
+  </div>
+
+  <p class="sec-label">విక్రమ్ కథ</p>
+  <h2 class="sec-title">3 వారాల్లో ఎగ్జామ్‌లు</h2>
+  <p class="sec-intro">విక్రమ్ తిరుపతిలో మూడో సంవత్సరం ఇంజినీరింగ్ స్టూడెంట్. 6 సబ్జెక్టులు చదవాలి, 3 వారాల్లో యూనివర్సిటీ ఎగ్జామ్‌లు, వచ్చే శుక్రవారం ప్రాజెక్ట్ ప్రెజెంటేషన్. ఏ విషయంతో మొదలుపెట్టాలో అర్థం కావడం లేదు. ప్రతి సాయంత్రం 2 గంటలు ఏం చదవాలో నిర్ణయించడంలోనే గడిపేవాడు.</p>
+
+  <div class="story-grid">
+    <div class="story-card amber anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag amber">👨‍🎓 విక్రమ్ · తిరుపతి</span>
+      <p class="story-text">విక్రమ్‌కు 6 సబ్జెక్టులు ఉన్నాయి కానీ సమయం ఎలా పంచుకోవాలో తెలియడం లేదు. చదువుదామని కంప్యూటర్ తెరిస్తే YouTube లో ముగిసేది. తప్పు అనిపించేది కానీ ఆర్గనైజ్ అవ్వడం తెలియడం లేదు.</p>
+      <div class="speech-bubble">"చాలా చదవాల్సింది ఉంది కానీ ఎలా వేరు చేయాలో తెలియడం లేదు. స్టక్ అయ్యాను."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 AI మార్గం — స్టడీ ప్లాన్</span>
+      <p class="story-text">విక్రమ్ తన సబ్జెక్టులు, ఎగ్జామ్ తేదీ, రోజుకు ఎన్ని గంటలు చదవగలడు అని AI కి చెప్పాడు. AI వారం వారం స్టడీ ప్లాన్ రోజువారీ టార్గెట్లతో ఇచ్చింది.</p>
+      <div class="prompt-box">
+        <p class="pb-label">విక్రమ్ యొక్క ప్రాంప్ట్</p>
+        <p class="pb-text">నేను 3వ సంవత్సరం ఎలక్ట్రానిక్స్ ఇంజినీరింగ్ స్టూడెంట్.
+6 సబ్జెక్టులు: డిజిటల్ సిగ్నల్ ప్రాసెసింగ్, VLSI డిజైన్, ఎంబెడెడ్ సిస్టమ్స్,
+మైక్రోప్రాసెసర్లు, కంట్రోల్ సిస్టమ్స్, కమ్యూనికేషన్ థియరీ.
+ఎగ్జామ్‌లు మే 28, 2026 న మొదలవుతాయి. ఈరోజు మే 6, 2026.
+వారంలో రోజుకు 4 గంటలు, వారాంతంలో 6 గంటలు చదవగలను.
+వారం వారం స్టడీ ప్లాన్ రోజువారీ టార్గెట్లతో రాయండి.
+కష్టమైన సబ్జెక్టులకు ప్రాధాన్యం ఇవ్వండి, వారానికి ఒక రివిజన్ డే ఉండాలి.</p>
+      </div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.2s">
+      <span class="char-tag">💡 AI మార్గం — ప్రెజెంటేషన్ అవుట్‌లైన్</span>
+      <p class="story-text">ప్రాజెక్ట్ ప్రెజెంటేషన్ కోసం విక్రమ్ తన ప్రాజెక్ట్ టాపిక్ చెప్పి 10-స్లైడ్ అవుట్‌లైన్ అడిగాడు. AI ప్రతి స్లైడ్ కి టైటిల్ మరియు ఏమి చేర్చాలో ఇచ్చింది. విక్రమ్ వీకెండ్ అంతా కాదు — 90 నిమిషాల్లో ప్రెజెంటేషన్ తయారు చేశాడు.</p>
+      <div class="prompt-box">
+        <p class="pb-label">విక్రమ్ యొక్క ప్రాంప్ట్</p>
+        <p class="pb-text">నా ఫైనల్ ఇయర్ ప్రాజెక్ట్ కోసం 10-స్లైడ్ ప్రెజెంటేషన్ అవుట్‌లైన్ రాయండి:
+"IoT సెన్సర్లు మరియు Arduino వాడి స్మార్ట్ ఇరిగేషన్ సిస్టమ్"
+ఇవి చేర్చండి: ప్రాబ్లమ్ స్టేట్‌మెంట్, ఉన్న సొల్యూషన్లు, మా సొల్యూషన్,
+వాడిన కాంపోనెంట్లు, సర్క్యూట్ డయాగ్రమ్, వర్కింగ్ ఎక్స్‌ప్లెనేషన్,
+టెస్ట్ రిజల్ట్స్, ఖర్చు, నిర్ణయం, రిఫరెన్సులు.
+ప్రతి స్లైడ్: టైటిల్ + 3-4 పాయింట్లు.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.25s">
+      <span class="char-tag green">✅ ఫలితం</span>
+      <p class="story-text">విక్రమ్ AI ఇచ్చిన స్టడీ ప్లాన్ ఫాలో చేశాడు. అన్ని సబ్జెక్టులు సిస్టమాటిక్‌గా కవర్ చేశాడు. 3 రోజుల ముందే ప్రెజెంటేషన్ పూర్తి చేశాడు. గత సెమెస్టర్ కంటే మెరుగైన స్కోర్ సాధించాడు.</p>
+      <div class="ai-bubble">
+        వారం 1 (మే 6-12): DSP మరియు కంట్రోల్ సిస్టమ్స్ — రోజుకు 4 గంటలు. రోజు 7: వారం 1 పూర్తి రివిజన్.<br>
+        వారం 2 (మే 13-19): VLSI డిజైన్ మరియు కమ్యూనికేషన్ థియరీ — రోజుకు 4 గంటలు.<br>
+        వారం 3 (మే 20-27): ఎంబెడెడ్ సిస్టమ్స్ + మైక్రోప్రాసెసర్లు. రోజులు 26-27: అన్ని సబ్జెక్టులకు మాక్ టెస్ట్.<br>
+        సూచన: DSP తో మొదలుపెట్టండి — VLSI తో ఓవర్‌లాప్ ఉంది, రెండు బెనిఫిట్ పొందుతాయి.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">📚 స్టడీ ప్లాన్ టిప్</p>
+    <p>AI కి <strong>నిజంగా అందుబాటులో ఉన్న గంటలు</strong> చెప్పండి — ఆదర్శ గంటలు కాదు. 3 రోజుల్లో వదిలేసే పర్ఫెక్ట్ ప్లాన్ కంటే ఫాలో చేయగలిగే రియలిస్టిక్ ప్లాన్ మేలు.</p>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l4-s06-vikram-study.jpg"
+       alt="విక్రమ్ AI సహాయంతో స్టడీ ప్లాన్ మరియు ప్రెజెంటేషన్ అవుట్‌లైన్ తయారుచేస్తున్నాడు" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- విభాగం 8 · ప్రాక్టీస్ అరీనా                             -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">మీ వంతు</p>
+  <h2 class="sec-title">ప్రాక్టీస్ అరీనా — 5 స్కిల్లులు ప్రయత్నించండి</h2>
+  <p class="sec-intro">క్రింది ఏదైనా టాస్క్ ఎంచుకోండి. ChatGPT, Gemini లేదా ఏదైనా AI యాప్ తెరవండి. ప్రాంప్ట్ కాపీ చేసి మీ వివరాలు పూరించి రన్ చేయండి. ప్రతి టాస్క్ 5 నుండి 10 నిమిషాలు పడుతుంది.</p>
+
+  <div class="arena-grid">
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.1s">
+      <p class="ac-num">టాస్క్ 1 · ఈమెయిల్</p>
+      <h3>ఈరోజు ఒక వర్క్ ఈమెయిల్ రాయండి</h3>
+      <p>మీరు పంపాల్సిన ఒక ఈమెయిల్ గురించి ఆలోచించండి — సహోద్యోగికి, వెండర్‌కు లేదా ప్రొఫెసర్‌కు. ఫార్ములా వాడి 2 నిమిషాల్లో రాయండి.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.15s">
+      <p class="ac-num">టాస్క్ 2 · సమ్మరీ</p>
+      <h3>మీ చివరి మీటింగ్ లేదా క్లాస్ సమ్మరైజ్ చేయండి</h3>
+      <p>ఇటీవలి మీటింగ్ లేదా లెక్చర్ నోట్సు కనుగొనండి. AI కి పేస్ట్ చేసి కీ పాయింట్లు మరియు యాక్షన్ ఐటమ్‌లతో స్ట్రక్చర్డ్ సమ్మరీ అడగండి. 3 నిమిషాలు పడుతుంది.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.2s">
+      <p class="ac-num">టాస్క్ 3 · రెజ్యూమే</p>
+      <h3>మీ రెజ్యూమేలో ఒక విభాగం మెరుగుపరచుకోండి</h3>
+      <p>మీ ప్రస్తుత వర్క్ ఎక్స్‌పీరియెన్స్ లేదా స్కిల్స్ విభాగం AI కి పేస్ట్ చేయండి. యాక్షన్ వర్బులు మరియు నంబర్లతో రాయమని అడగండి. ముందు తర్వాత పోల్చండి.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.25s">
+      <p class="ac-num">టాస్క్ 4 · ఇంటర్వ్యూ</p>
+      <h3>5 ప్రశ్నల మాక్ ఇంటర్వ్యూ చేయండి</h3>
+      <p>AI కి మీ టార్గెట్ జాబ్ రోల్ చెప్పి ఇంటర్వ్యూ చేయమని అడగండి. 5 ప్రశ్నలకు జవాబు ఇచ్చి ప్రతి జవాబు తర్వాత ఫీడ్‌బ్యాక్ అడగండి. ఏ ఇంటర్వ్యూ కి ముందు వారానికి ఒకసారి చేయండి.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.3s">
+      <p class="ac-num">టాస్క్ 5 · ప్లాన్</p>
+      <h3>ఈ వారానికి స్టడీ లేదా వర్క్ ప్లాన్ తయారుచేయండి</h3>
+      <p>AI కి మీ డెడ్‌లైన్లు, సబ్జెక్టులు లేదా పని మరియు రోజువారీ అందుబాటు గంటలు చెప్పండి. రియలిస్టిక్ డైలీ ప్లాన్ అడగండి. 3 రోజులు ఫాలో చేసి తేడా గమనించండి.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l4-s07-practice.jpg"
+       alt="లర్నర్ ల్యాప్‌టాప్‌లో AI తో 5 వర్క్ స్కిల్లులు ప్రాక్టీస్ చేస్తున్నాడు" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:2rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- విభాగం 9 · చీట్ షీట్                                   -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">క్విక్ రిఫరెన్స్</p>
+  <h2 class="sec-title">లెవెల్ 4 చీట్ షీట్</h2>
+  <p class="sec-intro">ఈ 5 ప్రాంప్ట్ ఫార్ములాలు సేవ్ చేసుకోండి. ప్రతి ఒక్కటి 2 నిమిషాల్లో ఒక నిజమైన సమస్య పరిష్కరిస్తుంది.</p>
+
+  <div class="cheat-grid">
+    <div class="cheat-card amber">
+      <h3>📧 ఈమెయిల్</h3>
+      <p>ఎవరికి + సమస్య + మీరు కోరేది + టోన్</p>
+      <code class="prompt-chip">"[ఎవరికి]కి ప్రొఫెషనల్ ఈమెయిల్ రాయండి..."</code>
+    </div>
+    <div class="cheat-card teal">
+      <h3>📋 మీటింగ్ సమ్మరీ</h3>
+      <p>రఫ్ నోట్సు → విభాగాలతో స్ట్రక్చర్డ్ సమ్మరీ</p>
+      <code class="prompt-chip">"నా నోట్సుని మీటింగ్ సమ్మరీగా ఫార్మాట్ చేయండి..."</code>
+    </div>
+    <div class="cheat-card sky">
+      <h3>📄 రెజ్యూమే</h3>
+      <p>బలహీన బులెట్ → యాక్షన్ వర్బులు + నంబర్లు</p>
+      <code class="prompt-chip">"ఈ రెజ్యూమే బులెట్లు యాక్షన్ వర్బులతో రాయండి..."</code>
+    </div>
+    <div class="cheat-card">
+      <h3>🎤 ఇంటర్వ్యూ</h3>
+      <p>రోల్ + అనుభవం → మాక్ Q&amp;A + ఫీడ్‌బ్యాక్</p>
+      <code class="prompt-chip">"[రోల్] కోసం హైరింగ్ మేనేజర్‌గా నన్ను ఇంటర్వ్యూ చేయండి..."</code>
+    </div>
+    <div class="cheat-card green">
+      <h3>📅 స్టడీ / వర్క్ ప్లాన్</h3>
+      <p>సబ్జెక్టులు + అందుబాటు గంటలు + డెడ్‌లైన్ → డైలీ ప్లాన్</p>
+      <code class="prompt-chip">"వారం వారం స్టడీ ప్లాన్ తయారుచేయండి..."</code>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- విభాగం 10 · క్విజ్                                      -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">మీ నేర్చుకోవడం పరీక్షించండి</p>
+  <h2 class="sec-title">క్విక్ క్విజ్ — 5 ప్రశ్నలు</h2>
+  <p class="sec-intro">లెవెల్ 4 సర్టిఫికెట్ పొందడానికి 5 లో 4 స్కోర్ చేయాలి. ఎన్నిసార్లైనా ప్రయత్నించవచ్చు.</p>
+
+  <div class="quiz-wrap">
+    <form id="quiz-form">
+
+      <div class="quiz-q">
+        <p class="q-text">1. దీప ప్రొఫెషనల్ ఈమెయిల్ రాయడానికి AI కి ఏ వివరాలు ఇవ్వడం అత్యంత ముఖ్యమైనది?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> ఆమె పూర్తి పేరు మరియు ఈమెయిల్ అడ్రస్</label>
+          <label><input type="radio" name="q1" value="b"> ఎవరికి రాస్తోంది, సమస్య ఏమిటి, ఏమి కోరుతోంది, టోన్ ఏమిటి</label>
+          <label><input type="radio" name="q1" value="c"> ఈమెయిల్ ఎంత పొడవు ఉండాలి</label>
+          <label><input type="radio" name="q1" value="d"> ఫాంట్ సైజు మరియు ఫార్మాటింగ్ స్టైల్</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">2. సునీత AI తో మెరుగైన మీటింగ్ సమ్మరీ పొందడానికి ఏమి ఇవ్వాలి?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> హాజరైన వారి పేర్లు మాత్రమే</label>
+          <label><input type="radio" name="q2" value="b"> ఆమె రఫ్ బులెట్-పాయింట్ నోట్సు మరియు స్ట్రక్చర్డ్ విభాగాల అభ్యర్థన</label>
+          <label><input type="radio" name="q2" value="c"> ఆమె ఇప్పటికే రాసిన ఫార్మల్ సమ్మరీ</label>
+          <label><input type="radio" name="q2" value="d"> మీటింగ్ కి ముందు పంపిన అజెండా</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">3. ఆనంద్ రెజ్యూమే మెరుగుపరచడానికి ఉత్తమ మార్గం ఏమిటి?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> AI తో స్క్రాచ్ నుండి కొత్త రెజ్యూమే రాయించుకోవడం</label>
+          <label><input type="radio" name="q3" value="b"> AI కి టార్గెట్ రోల్ చెప్పి మంచి బులెట్లు అడగడం</label>
+          <label><input type="radio" name="q3" value="c"> ప్రస్తుత బులెట్ పాయింట్లు పేస్ట్ చేసి యాక్షన్ వర్బులు మరియు నంబర్లతో రాయమని అడగడం</label>
+          <label><input type="radio" name="q3" value="d"> ఇంటర్నెట్ నుండి రెజ్యూమే టెంప్లేట్లు కాపీ చేయడం</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">4. AI తో ఇంటర్వ్యూ ప్రాక్టీస్ చేసేటప్పుడు ప్రతి జవాబు తర్వాత ఆనంద్ ఏమి చేయాలి?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q4" value="a"> వెంటనే తదుపరి ప్రశ్న అడగమని చెప్పడం</label>
+          <label><input type="radio" name="q4" value="b"> సెషన్ ఆపి మళ్లీ మొదలుపెట్టడం</label>
+          <label><input type="radio" name="q4" value="c"> 10 లో స్కోర్ అడగడం</label>
+          <label><input type="radio" name="q4" value="d"> తన జవాబులో బలహీనంగా ఉన్నది ఏమిటి, ఎలా మెరుగుపరచాలి అని అడగడం</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">5. AI నుండి అత్యంత ఉపయోగకరమైన స్టడీ ప్లాన్ పొందడానికి విక్రమ్ ఏమి చెప్పడం అత్యంత ముఖ్యం?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q5" value="a"> అతని కాలేజీ పేరు మరియు ఫ్యాకల్టీ పేర్లు</label>
+          <label><input type="radio" name="q5" value="b"> నిజంగా అందుబాటులో ఉన్న రోజువారీ గంటలు మరియు ఎగ్జామ్ తేదీ</label>
+          <label><input type="radio" name="q5" value="c"> గత ఎగ్జామ్‌లో ఎంత స్కోర్ వచ్చిందో</label>
+          <label><input type="radio" name="q5" value="d"> అతని టెక్స్ట్‌బుక్ పేర్లు</label>
+        </div>
+      </div>
+
+      <button type="button" class="quiz-submit" onclick="checkQuiz()">జవాబులు సబ్మిట్ చేయండి</button>
+    </form>
+
+    <div id="quiz-result"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- విభాగం 11 · సర్టిఫికెట్                                 -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section id="cert-section">
+  <div class="cert-box">
+    <p style="font-size:2.5rem;margin-bottom:.5rem;">🏆</p>
+    <h2>పూర్తి చేసిన సర్టిఫికెట్</h2>
+    <p class="cert-name">వర్క్ స్మార్ట్ — లెవెల్ 4</p>
+    <p>పని మరియు చదువుకు సంబంధించిన 5 AI నైపుణ్యాలు నేర్చుకున్నారు</p>
+    <div class="skill-badges">
+      <span class="skill-badge">📧 ఈమెయిల్ రాయడం</span>
+      <span class="skill-badge">📋 మీటింగ్ సమ్మరీలు</span>
+      <span class="skill-badge">📄 రెజ్యూమే పాలిష్</span>
+      <span class="skill-badge">🎤 ఇంటర్వ్యూ ప్రాక్టీస్</span>
+      <span class="skill-badge">📅 స్టడీ &amp; వర్క్ ప్లాన్‌లు</span>
+    </div>
+    <p style="font-size:0.85rem;opacity:0.6;margin-top:.5rem;">మిత్ర AI లైఫ్ ఎడ్యుకేషన్ · mitraailife.com</p>
+    <button class="cert-btn" onclick="window.print()">🖨 ప్రింట్ / సేవ్ సర్టిఫికెట్</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- విభాగం 12 · పూర్తయింది + తదుపరి లెవెల్               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="completion-box">
+    <div class="big-emoji">🎉</div>
+    <h2>లెవెల్ 4 పూర్తి చేశారు!</h2>
+    <p>మీరు ఇప్పుడు పని సమయం ఆదా చేయగలరు, మెరుగైన ఈమెయిల్‌లు రాయగలరు, ప్రొఫెషనల్‌గా కనిపించగలరు, ఇంటర్వ్యూలకు ప్రిపేర్ అవ్వగలరు, మరియు చదువును కాన్ఫిడెంట్‌గా ప్లాన్ చేయగలరు.</p>
+    <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l4-s08-celebration.jpg"
+         alt="లెవెల్ 4 పాత్రలందరూ పూర్తి చేసినందుకు సంతోషిస్తున్నారు" loading="lazy"
+         style="width:100%;max-width:700px;border-radius:16px;margin:1.5rem 0;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+    <p><strong>లెవెల్ 5 — లైఫ్ అప్‌గ్రేడ్ లో ఏముంది:</strong><br>
+    కుటుంబ బడ్జెట్, ట్రావెల్ ప్లానింగ్, హెల్త్ ప్రశ్నలు, ఇన్సూరెన్స్ పోల్చడం, మరియు జీవిత నిర్ణయాలకు AI వాడండి.</p>
+    <a href="../../../site/index-te.html" class="next-btn" style="margin-top:1rem;">→ లెవెల్ 5 కి వెళ్లండి (త్వరలో వస్తుంది)</a>
+  </div>
+
+  <!-- Disqus -->
+  <div class="disqus-wrap">
+    <h3 style="font-family:'Baloo 2',cursive;color:var(--navy);margin-bottom:1rem;">ప్రశ్నలు లేదా వ్యాఖ్యలు?</h3>
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = window.location.href;
+        this.page.identifier = 'level-04-comic-te';
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://mitra-ai-life.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- స్క్రిప్ట్స్                                           -->
+<!-- ══════════════════════════════════════════════════════ -->
+<script src="../../../site/auth.js"></script>
+<script>
+  /* progress bar */
+  window.addEventListener('scroll', () => {
+    const el = document.getElementById('progress-bar');
+    const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    el.style.width = Math.min(pct, 100) + '%';
+  });
+
+  /* scroll animations */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.anim-fadeInUp,.anim-slideLeft,.anim-slideRight,.anim-bounceIn')
+    .forEach(el => { el.style.opacity = '0'; observer.observe(el); });
+
+  /* quiz */
+  function checkQuiz() {
+    const answers = { q1:'b', q2:'b', q3:'c', q4:'d', q5:'b' };
+    let score = 0;
+    for (const [q, correct] of Object.entries(answers)) {
+      const sel = document.querySelector(`input[name="${q}"]:checked`);
+      if (sel && sel.value === correct) score++;
+    }
+    const result = document.getElementById('quiz-result');
+    result.style.display = 'block';
+    if (score >= 4) {
+      result.className = 'pass';
+      result.textContent = '🎉 ' + score + '/5 సరైనవి — అద్భుతం! మీ సర్టిఫికెట్ క్రింద ఉంది.';
+      document.getElementById('cert-section').style.display = 'block';
+      document.getElementById('cert-section').scrollIntoView({ behavior:'smooth', block:'center' });
+      if (typeof saveProgress === 'function') saveProgress('level-04', score);
+    } else {
+      result.className = 'fail';
+      result.textContent = score + '/5 సరైనవి — పైన స్కిల్లులు మళ్లీ చదివి ప్రయత్నించండి. పాస్ కావడానికి 4 లేదా అంతకంటే ఎక్కువ కావాలి.';
+    }
+  }
+</script>
+</body>
+</html>

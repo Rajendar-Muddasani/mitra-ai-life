@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>లెవెల్ 5: లైఫ్ అప్‌గ్రేడ్ | మిత్ర AI లైఫ్ ఎడ్యుకేషన్</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QGY0LH6W93');
+  </script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:    #1E3A5F;
+      --orange:  #EA580C;
+      --or-light:#fff7ed;
+      --or-mid:  #fb923c;
+      --sky:     #38BDF8;
+      --amber:   #F59E0B;
+      --green:   #10B981;
+      --red:     #EF4444;
+      --teal:    #0D9488;
+      --cream:   #fff7ed;
+      --white:   #FFFFFF;
+      --text:    #1C1C2E;
+      --muted:   #64748B;
+      --panel:   #ffedd5;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+    #progress-bar { position:fixed; top:0; left:0; height:5px;
+      background: linear-gradient(90deg, var(--orange), var(--or-mid), var(--amber));
+      width:0%; z-index:999; transition:width 0.3s ease; }
+
+    .topnav {
+      position:fixed; top:5px; left:0; right:0; height:52px;
+      background:rgba(255,247,237,0.93); backdrop-filter:blur(8px);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 1.5rem; z-index:100;
+      border-bottom:2px solid rgba(234,88,12,0.15);
+    }
+    .topnav .brand { font-family:'Baloo 2',cursive; font-weight:800; font-size:1.1rem; color:var(--navy); text-decoration:none; }
+    .topnav .level-tag { background:var(--orange); color:white; font-size:0.75rem; font-weight:700; padding:3px 12px; border-radius:20px; }
+    .topnav .back-link { font-size:0.82rem; color:var(--muted); font-weight:700; text-decoration:none; }
+    .topnav .back-link:hover { color:var(--orange); }
+    .topnav .lang-btn { font-size:0.82rem; color:var(--orange); font-weight:700; background:var(--or-light); border:1px solid var(--or-mid); border-radius:8px; padding:4px 10px; cursor:pointer; text-decoration:none; }
+
+    @keyframes fadeInUp   { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideInLeft  { from{opacity:0;transform:translateX(-48px)} to{opacity:1;transform:translateX(0)} }
+    @keyframes slideInRight { from{opacity:0;transform:translateX(48px)}  to{opacity:1;transform:translateX(0)} }
+    @keyframes bounceIn { 0%{opacity:0;transform:scale(0.6)} 60%{opacity:1;transform:scale(1.08)} 80%{transform:scale(0.97)} 100%{transform:scale(1)} }
+    @keyframes float  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    @keyframes pulse  { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+    .anim-fadeInUp   { animation:fadeInUp   0.7s ease forwards; }
+    .anim-slideLeft  { animation:slideInLeft  0.7s ease forwards; }
+    .anim-slideRight { animation:slideInRight 0.7s ease forwards; }
+    .anim-bounceIn   { animation:bounceIn    0.75s cubic-bezier(.68,-.55,.27,1.55) forwards; }
+    .anim-float      { animation:float 3s ease-in-out infinite; }
+    .anim-pulse      { animation:pulse 2.5s ease-in-out infinite; }
+
+    section { padding: 4rem 1.5rem; max-width: 900px; margin: 0 auto; }
+    section:first-of-type { padding-top: 6rem; }
+
+    .hero {
+      min-height: 88vh; display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; padding-top:5rem;
+      background: linear-gradient(160deg, #431407 0%, #7c2d12 40%, #9a3412 75%, #1e3a5f 100%);
+      border-radius: 0 0 48px 48px; position:relative; overflow:hidden;
+    }
+    .hero::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 30% 40%, rgba(251,146,60,0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 75% 65%, rgba(245,158,11,0.1) 0%, transparent 50%);
+    }
+    .hero-eyebrow { font-size:0.78rem; font-weight:800; letter-spacing:0.15em; color:var(--or-mid); text-transform:uppercase; margin-bottom:.5rem; position:relative; }
+    .hero-title { font-family:'Baloo 2',cursive; font-size:clamp(2.4rem,6vw,4rem); font-weight:800; color:white; line-height:1.1; position:relative; }
+    .hero-sub { font-size:1.15rem; color:rgba(255,255,255,0.75); margin-top:.75rem; max-width:560px; position:relative; }
+    .hero-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin-top:1.5rem; position:relative; }
+    .badge { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; font-size:0.78rem; font-weight:700; padding:5px 14px; border-radius:20px; }
+    .badge.accent { background:var(--amber); color:#1c1c2e; border-color:var(--amber); }
+    .hero-img { width:100%; max-width:760px; border-radius:20px; margin-top:2rem; box-shadow:0 20px 60px rgba(0,0,0,0.5); position:relative; }
+    .hero-offer { background:linear-gradient(90deg,#f59e0b,#fbbf24); color:#1c1c2e; font-size:0.9rem; font-weight:800; padding:8px 24px; border-radius:24px; margin-top:1.5rem; display:inline-block; position:relative; }
+    .hero-offer s { font-weight:400; opacity:0.55; }
+    .scroll-hint { margin-top:2.5rem; font-size:0.8rem; color:rgba(255,255,255,0.4); letter-spacing:.08em; position:relative; }
+
+    .skill-banner { background:var(--orange); color:white; border-radius:16px; padding:1rem 1.5rem; margin-bottom:2rem; font-size:0.95rem; font-weight:700; display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; }
+    .skill-banner .sk-num { background:rgba(255,255,255,0.2); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+
+    .sec-label { font-size:0.72rem; font-weight:800; letter-spacing:.14em; color:var(--orange); text-transform:uppercase; margin-bottom:.4rem; }
+    .sec-title { font-family:'Baloo 2',cursive; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:800; color:var(--navy); line-height:1.2; margin-bottom:.75rem; }
+    .sec-intro { font-size:1.05rem; color:var(--muted); line-height:1.7; margin-bottom:2rem; }
+
+    .story-grid { display:grid; gap:1.5rem; }
+    .story-card {
+      background:white; border-radius:20px; padding:1.5rem 1.75rem;
+      box-shadow:0 4px 20px rgba(0,0,0,0.07);
+      border-left:5px solid var(--orange);
+      display:flex; flex-direction:column; gap:.75rem;
+    }
+    .story-card.amber { border-left-color: var(--amber); }
+    .story-card.teal  { border-left-color: var(--teal);  }
+    .story-card.sky   { border-left-color: var(--sky);   }
+    .story-card.green { border-left-color: var(--green); }
+    .char-tag { display:inline-flex; align-items:center; gap:.5rem; font-size:0.8rem; font-weight:800; color:var(--orange); background:var(--or-light); padding:3px 10px; border-radius:20px; }
+    .char-tag.amber { color:#92400e; background:#fef3c7; }
+    .char-tag.teal  { color:#134e4a; background:#ccfbf1; }
+    .char-tag.sky   { color:#0c4a6e; background:#e0f2fe; }
+    .char-tag.green { color:#14532d; background:#dcfce7; }
+    .story-text { font-size:1rem; line-height:1.75; color:var(--text); }
+    .speech-bubble { background:var(--or-light); border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; font-style:italic; color:var(--navy); position:relative; margin-top:.5rem; }
+    .speech-bubble::before { content:'💬'; margin-right:.5rem; }
+    .ai-bubble { background:#ecfdf5; border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; color:#065f46; position:relative; margin-top:.5rem; border:1px solid #a7f3d0; }
+    .ai-bubble::before { content:'🤖 మిత్ర చెప్పింది: '; font-weight:800; }
+
+    .steps-list { list-style:none; display:flex; flex-direction:column; gap:1rem; margin-top:1rem; }
+    .steps-list li { display:flex; gap:1rem; align-items:flex-start; }
+    .step-num { background:var(--orange); color:white; border-radius:50%; min-width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; flex-shrink:0; margin-top:2px; }
+    .step-text { font-size:1rem; line-height:1.7; color:var(--text); }
+
+    .tip-card { background:var(--or-light); border-radius:16px; padding:1.25rem 1.5rem; border:1px solid var(--or-mid); margin-top:1.5rem; }
+    .tip-card .tip-head { font-weight:800; color:var(--orange); font-size:1rem; margin-bottom:.5rem; }
+    .tip-card p { font-size:0.95rem; line-height:1.7; color:var(--navy); }
+
+    .prompt-box { background:#431407; border-radius:14px; padding:1.25rem 1.5rem; margin-top:1rem; }
+    .prompt-box .pb-label { font-size:0.72rem; font-weight:800; letter-spacing:.1em; color:var(--or-mid); text-transform:uppercase; margin-bottom:.5rem; }
+    .prompt-box .pb-text { font-family:monospace; font-size:0.92rem; color:#fed7aa; line-height:1.65; }
+
+    .ba-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem; }
+    @media(max-width:600px){ .ba-grid { grid-template-columns:1fr; } }
+    .ba-col { border-radius:14px; padding:1rem 1.25rem; }
+    .ba-col.before { background:#fef2f2; border:1px solid #fecaca; }
+    .ba-col.after  { background:#ecfdf5; border:1px solid #a7f3d0; }
+    .ba-col .ba-head { font-size:0.75rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin-bottom:.5rem; }
+    .ba-col.before .ba-head { color:#b91c1c; }
+    .ba-col.after  .ba-head { color:#065f46; }
+    .ba-col p { font-size:0.9rem; line-height:1.7; }
+
+    .cheat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.25rem; }
+    .cheat-card { background:white; border-radius:16px; padding:1.25rem; box-shadow:0 2px 12px rgba(0,0,0,0.07); border-top:4px solid var(--orange); }
+    .cheat-card.amber { border-top-color:var(--amber); }
+    .cheat-card.teal  { border-top-color:var(--teal);  }
+    .cheat-card.green { border-top-color:var(--green);  }
+    .cheat-card.sky   { border-top-color:var(--sky);    }
+    .cheat-card h3 { font-size:0.95rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .cheat-card p  { font-size:0.88rem; color:var(--muted); line-height:1.6; }
+    .prompt-chip { background:var(--or-light); border-radius:8px; padding:4px 10px; font-size:0.82rem; font-family:monospace; color:var(--orange); display:inline-block; margin-top:.4rem; }
+
+    .arena-grid { display:grid; gap:1.25rem; }
+    .arena-card { background:white; border-radius:16px; padding:1.5rem; box-shadow:0 3px 14px rgba(0,0,0,0.08); border:2px solid transparent; transition:border-color .2s; }
+    .arena-card:hover { border-color:var(--or-mid); }
+    .arena-card .ac-num { font-size:0.8rem; font-weight:800; color:var(--or-mid); margin-bottom:.4rem; text-transform:uppercase; letter-spacing:.1em; }
+    .arena-card h3 { font-size:1rem; font-weight:800; color:var(--navy); margin-bottom:.4rem; }
+    .arena-card p { font-size:0.93rem; color:var(--muted); line-height:1.6; }
+
+    .quiz-wrap { background:white; border-radius:24px; padding:2rem; box-shadow:0 8px 32px rgba(234,88,12,0.12); }
+    .quiz-q { margin-bottom:1.5rem; }
+    .quiz-q .q-text { font-weight:800; font-size:1.05rem; color:var(--navy); margin-bottom:.75rem; }
+    .quiz-options { display:flex; flex-direction:column; gap:.5rem; }
+    .quiz-options label { display:flex; align-items:center; gap:.75rem; background:var(--or-light); border-radius:10px; padding:.7rem 1rem; cursor:pointer; font-size:0.95rem; transition:background .15s; }
+    .quiz-options label:hover { background:var(--or-mid); color:white; }
+    .quiz-options input[type=radio] { accent-color:var(--orange); width:16px; height:16px; }
+    .quiz-submit { background:var(--orange); color:white; font-family:'Nunito',sans-serif; font-weight:800; font-size:1rem; border:none; border-radius:14px; padding:.9rem 2.5rem; cursor:pointer; margin-top:1rem; transition:background .2s; }
+    .quiz-submit:hover { background:#c2410c; }
+    #quiz-result { margin-top:1.25rem; font-weight:800; font-size:1.05rem; display:none; }
+    #quiz-result.pass { color:#059669; }
+    #quiz-result.fail { color:#dc2626; }
+
+    #cert-section { display:none; }
+    .cert-box {
+      background: linear-gradient(135deg, #431407 0%, #7c2d12 50%, #9a3412 100%);
+      border-radius:24px; padding:2.5rem 2rem; text-align:center; color:white;
+      box-shadow:0 12px 48px rgba(234,88,12,0.4);
+    }
+    .cert-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; margin-bottom:.25rem; }
+    .cert-box .cert-name { font-size:1.5rem; font-weight:700; color:var(--or-mid); margin:.5rem 0; }
+    .cert-box p { font-size:0.95rem; color:rgba(255,255,255,0.75); margin-bottom:1.25rem; }
+    .skill-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin:1.25rem 0; }
+    .skill-badge { background:rgba(255,255,255,0.1); border:1px solid rgba(251,146,60,0.4); border-radius:12px; padding:.5rem .9rem; font-size:0.8rem; font-weight:700; color:var(--or-mid); }
+    .cert-btn { background:var(--amber); color:#1c1c2e; font-weight:800; font-size:0.95rem; border:none; border-radius:14px; padding:.8rem 2rem; cursor:pointer; margin-top:.75rem; }
+
+    .completion-box { text-align:center; padding:3rem 2rem; }
+    .completion-box .big-emoji { font-size:4rem; margin-bottom:1rem; }
+    .completion-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .completion-box p { font-size:1.05rem; color:var(--muted); max-width:520px; margin:0 auto 1.5rem; }
+    .next-btn { display:inline-block; background:var(--orange); color:white; font-weight:800; font-size:1rem; padding:.85rem 2.5rem; border-radius:14px; text-decoration:none; }
+    .next-btn:hover { background:#c2410c; }
+
+    #auth-nav-area { display:flex; align-items:center; gap:.5rem; }
+    .disqus-wrap { margin-top:2rem; }
+
+    .recap-banner { background:linear-gradient(135deg,#7c2d12,#9a3412); border-radius:20px; padding:1.5rem 2rem; color:white; margin-bottom:2rem; }
+    .recap-banner h3 { font-family:'Baloo 2',cursive; font-size:1.3rem; font-weight:800; margin-bottom:.75rem; }
+    .recap-list { list-style:none; display:flex; flex-direction:column; gap:.4rem; }
+    .recap-list li { font-size:0.92rem; display:flex; gap:.5rem; }
+    .recap-list li::before { content:'✓'; color:var(--or-mid); font-weight:800; }
+
+    img { max-width:100%; }
+    @media(max-width:600px){
+      .story-grid { grid-template-columns:1fr; }
+      .cheat-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav class="topnav">
+  <a href="../../../site/index-te.html" class="brand">🌟 మిత్ర AI లైఫ్</a>
+  <span class="level-tag">లెవెల్ 5 · ₹300</span>
+  <div style="display:flex;align-items:center;gap:.75rem;">
+    <div id="auth-nav-area"></div>
+    <a href="level-05-comic.html" class="lang-btn">English</a>
+    <a href="../../../site/index-te.html" class="back-link">← హోమ్</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- సెక్షన్ 1 · హీరో                                      -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="hero">
+  <p class="hero-eyebrow anim-fadeInUp" style="animation-delay:.1s">లెవెల్ 5 · లైఫ్ అప్‌గ్రేడ్</p>
+  <h1 class="hero-title anim-fadeInUp" style="animation-delay:.2s">తెలివైన బడ్జెట్.<br>మంచి నిర్ణయాలు.<br>సంతోషమైన కుటుంబం.</h1>
+  <p class="hero-sub anim-fadeInUp" style="animation-delay:.3s">ఇంటి బడ్జెట్, పిల్లల చదువు, ప్రయాణ ప్లాన్, ప్రొడక్టుల పోలిక, మంచి అలవాట్లు — AI సహాయంతో నేటి నుండే మెరుగు పరచుకోండి.</p>
+  <div class="hero-badges anim-fadeInUp" style="animation-delay:.4s">
+    <span class="badge">⏱ 3 గంటలు</span>
+    <span class="badge">🏡 5 లైఫ్ స్కిల్స్</span>
+    <span class="badge">📊 నిజమైన నిర్ణయాలు</span>
+    <span class="badge accent">₹300</span>
+  </div>
+  <div class="hero-offer anim-bounceIn" style="animation-delay:.55s">
+    🎉 ఎర్లీ యాక్సెస్ — <s>₹300</s> <strong>మొదటి 100 మందికి ఉచితం</strong>
+  </div>
+  <img class="hero-img anim-fadeInUp" style="animation-delay:.5s"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l5-s01-hero.jpg"
+       alt="లెవెల్ 5 హీరో — భారతీయ కుటుంబం AI తో రోజువారీ నిర్ణయాలు తీసుకుంటున్నారు"
+       loading="lazy" />
+  <p class="scroll-hint anim-fadeInUp" style="animation-delay:.8s">▾ కిందకి స్క్రోల్ చేయండి</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- సెక్షన్ 2 · రీక్యాప్                                  -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="recap-banner anim-fadeInUp">
+    <h3>✅ లెవెల్ 4 లో నేర్చుకున్నది — గుర్తు చేసుకోండి</h3>
+    <ul class="recap-list">
+      <li>60 సెకన్లలో ప్రొఫెషనల్ ఈమెయిల్‌లు రాయడం నేర్చుకున్నారు</li>
+      <li>రఫ్ నోట్‌లను క్లీన్ మీటింగ్ సారాంశాలుగా మార్చారు</li>
+      <li>యాక్షన్ వర్బ్‌లు, నంబర్లతో రెజ్యూమే మెరుగు పరిచారు</li>
+      <li>AI మాక్ ఇంటర్వ్యూయర్‌తో ఇంటర్వ్యూ ప్రాక్టీస్ చేశారు</li>
+      <li>మీ అందుబాటు సమయం ఆధారంగా స్టడీ ప్లాన్ తయారు చేశారు</li>
+    </ul>
+  </div>
+  <p class="sec-label">లెవెల్ 5</p>
+  <h2 class="sec-title">ఇప్పుడు రోజువారీ జీవితంలో AI వాడదాం</h2>
+  <p class="sec-intro">
+    విశాఖపట్నంలో లక్ష్మి — ఒక గృహిణి, నెలసరి ఖర్చులు అదుపులో ఉంచుకోవాలని ఉంది.
+    వరంగల్‌లో రమయ్య — ఒక గవర్నమెంట్ క్లర్కు, అతని కొడుకు అర్జున్ సైన్స్‌లో వెనుకబడ్డాడు.
+    కడప నుండి కావిత — ఒక టీచర్, పరిమిత బడ్జెట్‌లో కుటుంబ ట్రిప్ ప్లాన్ చేయాలని ఉంది.
+    రాజమహేంద్రవరంలో శ్రీనివాస్ — ఒక యువ బ్యాంకు ఆఫీసర్, రెండు మొబైల్ ప్లాన్‌లు పోల్చాలని ఉంది.
+    విజయవాడలో మీర — ఒక అకౌంటెంట్, మంచి రోజువారీ అలవాట్లు పెంచుకోవాలని ఉంది.<br><br>
+    ఈ లెవెల్‌లో వారు ఎలా AI వాడారో చూద్దాం — మీరూ నేడే ఐదు లైఫ్ స్కిల్స్ నేర్చుకుంటారు.
+  </p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- సెక్షన్ 3 · స్కిల్ 1 · ఇంటి బడ్జెట్                  -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">1</span>
+    <span>స్కిల్ 1 — AI తో ఇంటి బడ్జెట్ ప్లాన్ చేయడం</span>
+  </div>
+
+  <p class="sec-label">లక్ష్మి కథ</p>
+  <h2 class="sec-title">22వ తేదీకే పైసలు అయిపోయే నెల</h2>
+  <p class="sec-intro">విశాఖపట్నంలో లక్ష్మి తన కుటుంబ ఫైనాన్సులు చూసుకుంటుంది. ప్రతి నెలా 25వ తేదీ రాకముందే డబ్బు అయిపోతుంది. ఎక్కడ పోతుందో అర్థం కాదు. భర్తకు నెలకు ₹45,000 జీతం వస్తుంది. అద్దె, స్కూల్ ఫీజులు, కిరాణా, చిన్న చిన్న ఖర్చులు అన్నీ కలిసి పోతాయి. బిల్లు వస్తే లక్ష్మికి టెన్షన్ అవుతుంది.</p>
+
+  <div class="story-grid">
+    <div class="story-card amber anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag amber">👩 లక్ష్మి · విశాఖపట్నం</span>
+      <p class="story-text">లక్ష్మి నోట్‌బుక్‌లో ఖర్చులు రాస్తుంది కానీ మొత్తం వేసుకోదు. ఏ కేటగిరీలో అధికంగా ఖర్చవుతుందో తెలియదు. చిన్న కొనుగోళ్లకు మనసులో అపరాధభావం కలుగుతుంది.</p>
+      <div class="speech-bubble">"సంపాదన బాగుందే, అయినా నెల అయ్యేలా చాలడం లేదు. డబ్బు ఎక్కడ పోతుందో అర్థం కావాలి."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 AI పద్ధతి</span>
+      <p class="story-text">లక్ష్మి తన నెల ఆదాయం, ఫిక్స్‌డ్ ఖర్చులు, ఖర్చు కేటగిరీలు AI కి చెబుతుంది. AI పూర్తి బడ్జెట్ టేబుల్ తయారుచేసి ఎక్కడ అధికంగా ఖర్చవుతుందో చూపిస్తుంది — మరియు సాధ్యమయ్యే సేవింగ్స్ టార్గెట్ ఇస్తుంది.</p>
+      <div class="prompt-box">
+        <p class="pb-label">లక్ష్మి ప్రాంప్ట్ (ఆంగ్లంలో టైప్ చేయవచ్చు)</p>
+        <p class="pb-text">నెలసరి ఇంటి బడ్జెట్ ప్లాన్ చేయడంలో సహాయం చేయండి.
+నెల ఆదాయం: ₹45,000
+ప్రతి నెలా స్థిర ఖర్చులు:
+- అద్దె: ₹10,000
+- స్కూల్ ఫీజులు (2 పిల్లలు): ₹4,500
+- లోన్ EMI: ₹6,000
+- కరెంటు, నీరు, గ్యాస్: ₹2,500
+
+వేరియబుల్ కేటగిరీలు: కిరాణా, కూరగాయలు, పాలు, హోటల్ తినడం,
+బట్టలు, మందులు, ట్రాన్స్‌పోర్ట్, మొబైల్ రీచార్జ్, సేవింగ్స్.
+
+ప్రతి కేటగిరీకి సూచించిన మొత్తంతో బడ్జెట్ టేబుల్ తయారు చేయండి.
+మొత్తం, మిగిలే బ్యాలెన్స్ చూపించండి.
+నెలకు ఎంత సేవ్ చేయగలనో చెప్పండి.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ ఫలితం</span>
+      <p class="story-text">AI లక్ష్మికి చూపించింది — స్థిర ఖర్చులు ₹23,000, మిగిలింది ₹22,000. హోటల్ తినడం నెలకు ₹4,000 వరకు పోతుందని తెలిసింది. ఆమె నెలకు ₹3,000 సేవ్ చేసే లక్ష్యం పెట్టుకుంది.</p>
+      <div class="ai-bubble">
+        నెల బడ్జెట్ ప్లాన్ — ₹45,000 ఆదాయం<br><br>
+        స్థిర ఖర్చులు: అద్దె ₹10,000 + స్కూల్ ₹4,500 + EMI ₹6,000 + యుటిలిటీస్ ₹2,500 = ₹23,000<br><br>
+        వేరియబుల్ బడ్జెట్ (₹22,000): కిరాణా ₹6,000 · కూరగాయలు/పాలు ₹2,500 · ట్రాన్స్‌పోర్ట్ ₹2,000 · మందులు ₹1,000 · మొబైల్ ₹800 · బట్టలు ₹1,500 · హోటల్ ₹2,200 · మిస్‌లేనియస్ ₹1,000 · <strong>సేవింగ్స్ ₹3,000</strong><br><br>
+        సూచన: హోటల్ ₹4,000 నుండి ₹2,200 కి తగ్గిస్తే నెలకు ₹1,800 ఆదా — అంటే సంవత్సరానికి ₹21,600 అదనంగా సేవ్ అవుతుంది.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">💰 బడ్జెట్ ప్రాంప్ట్ ఫార్ములా</p>
+    <p>AI కి ముందుగా <strong>ఆదాయం + స్థిర ఖర్చులు</strong> చెప్పాలి, తర్వాత ఖర్చు కేటగిరీలు లిస్ట్ చేయాలి. టేబుల్ మరియు సేవింగ్స్ టార్గెట్ అడగాలి. నెలనెలా అప్‌డేట్ చేస్తే ఫైనాన్స్ పూర్తి అదుపులో ఉంటుంది.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">మొత్తం నెల ఆదాయం (అన్ని వనరులతో) నమోదు చేయండి</span></li>
+    <li><span class="step-num">2</span><span class="step-text">అన్ని స్థిర ఖర్చులు — అద్దె, EMI, ఫీజులు, యుటిలిటీస్ లిస్ట్ చేయండి</span></li>
+    <li><span class="step-num">3</span><span class="step-text">మీ ఖర్చు కేటగిరీలు చెప్పండి (కిరాణా, ట్రాన్స్‌పోర్ట్, తినడం వగైరా)</span></li>
+    <li><span class="step-num">4</span><span class="step-text">AI దగ్గర మొత్తంతో కూడిన బడ్జెట్ టేబుల్ మరియు సేవింగ్స్ టార్గెట్ అడగండి</span></li>
+    <li><span class="step-num">5</span><span class="step-text">మొదటి నెల తర్వాత అసలు ఖర్చులు చెప్పి AI ని అడగండి ఏమి మార్చాలో</span></li>
+  </ul>
+
+  <div class="ba-grid" style="margin-top:1.5rem;">
+    <div class="ba-col before">
+      <p class="ba-head">❌ AI లేకుండా</p>
+      <p>లక్ష్మి నోట్‌బుక్‌లో రాస్తుంది. 22వ తేదీకే డబ్బు అయిపోతుంది. ఏ కేటగిరీ వల్లో తెలియదు. అదే సైకిల్ ప్రతి నెలా పునరావృతమవుతుంది.</p>
+    </div>
+    <div class="ba-col after">
+      <p class="ba-head">✅ AI తో</p>
+      <p>లక్ష్మికి స్పష్టమైన బడ్జెట్ టేబుల్ ఉంది. డబ్బు ఎక్కడ పోతుందో తెలుసు. హోటల్ ఖర్చు తగ్గించి నెలకు ₹3,000 సేవ్ చేయడం మొదలుపెట్టింది.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l5-s02-lakshmi-budget.jpg"
+       alt="లక్ష్మి AI సహాయంతో ఇంటి బడ్జెట్ ప్లాన్ చేస్తోంది" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- సెక్షన్ 4 · స్కిల్ 2 · పిల్లల చదువు                   -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">2</span>
+    <span>స్కిల్ 2 — AI వివరణలతో పిల్లల చదువు సహాయం</span>
+  </div>
+
+  <p class="sec-label">రమయ్య కథ</p>
+  <h2 class="sec-title">ఏ పేరెంట్ కూడా జవాబివ్వలేని హోమ్‌వర్క్ ప్రశ్న</h2>
+  <p class="sec-intro">రమయ్య వరంగల్‌లో గవర్నమెంట్ క్లర్కుగా పనిచేస్తున్నారు. అతని 8వ తరగతి కొడుకు అర్జున్ సైన్స్‌లో — ముఖ్యంగా ఎలక్ట్రిసిటీ అధ్యాయంలో — కష్టపడుతున్నాడు. రమయ్య కామర్స్ చదివారు, ఫిజిక్స్ గుర్తుండదు. ట్యూషన్ నెలకు ₹2,500. రమయ్య మెరుగైన మార్గం వెతుకుతున్నారు.</p>
+
+  <div class="story-grid">
+    <div class="story-card teal anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag teal">👨 రమయ్య · వరంగల్</span>
+      <p class="story-text">అర్జున్ పాఠ్యపుస్తకం తీసుకొచ్చి ఓమ్ చట్టం పేజీ చూపిస్తాడు. రమయ్య ఫార్ములాలు చూసి తికమక పడ్డారు. "రేపు టీచర్ని అడుగు" అన్నారు. అర్జున్ కి రెండు రోజుల్లో పరీక్ష.</p>
+      <div class="speech-bubble">"కొడుకుకు సహాయం చేయాలని ఉంది కానీ పాఠ్యపుస్తకం అర్థమవదు. చాలా నిరాశగా ఉంది."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 AI పద్ధతి</span>
+      <p class="story-text">రమయ్య AI లో సబ్జెక్ట్ టైప్ చేసి సరళమైన తెలుగు-ఫ్రెండ్లీ ఆంగ్లంలో వివరించమని అడిగారు, భారతీయ నిజజీవిత ఉదాహరణతో. ముందు తానే చదివి అర్జున్ కి కలిసి చదివారు. అర్జున్ 10 నిమిషాల్లో అర్థం చేసుకున్నాడు.</p>
+      <div class="prompt-box">
+        <p class="pb-label">రమయ్య ప్రాంప్ట్</p>
+        <p class="pb-text">నా కొడుకు 8వ తరగతిలో ఉన్నాడు, ఓమ్ చట్టం అర్థం కావడం లేదు.
+చాలా సరళమైన ఆంగ్లంలో వివరించండి — 13 ఏళ్ల పిల్లాడికి చెప్పినట్లు.
+ల్యాబ్ ఉదాహరణ కాకుండా భారత్‌లో పరిచయమైన నిజజీవిత ఉదాహరణ వాడండి
+— నీటి పైపు లేదా రోడ్డు లాంటిది.
+చివరలో 3 ప్రాక్టీస్ ప్రశ్నలు సమాధానాలతో ఇవ్వండి.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ ఫలితం</span>
+      <p class="story-text">AI నీటి పైపు ఉపమానంతో వివరించింది — వోల్టేజ్ = నీటి ఒత్తిడి, రెసిస్టెన్స్ = సన్నని పైపు, కరెంట్ = ప్రవాహం. అర్జున్ "అర్థమైంది నాన్నా!" అన్నాడు. మూడు ప్రశ్నలూ సరిగ్గా సమాధానం ఇచ్చాడు. రమయ్య ప్రతి సాయంత్రం కొడుకుకు సహాయం చేయగలిగారు.</p>
+      <div class="ai-bubble">
+        ఎలక్ట్రిసిటీని నీటి పైపు లా ఊహించుకోండి.<br><br>
+        వోల్టేజ్ = నీటిని తోసే ఒత్తిడి.<br>
+        కరెంట్ = సెకనుకు ఎంత నీరు ప్రవహిస్తుందో.<br>
+        రెసిస్టెన్స్ = పైపు ఎంత సన్నగా ఉందో — సన్నపైపు నీటిని తక్కువగా పంపుతుంది.<br><br>
+        ఓమ్ చట్టం: కరెంట్ = వోల్టేజ్ ÷ రెసిస్టెన్స్ (I = V/R)<br><br>
+        ఉదాహరణ: టార్చ్ బ్యాటరీ 3 వోల్ట్‌లు, బల్బ్ రెసిస్టెన్స్ 6 ఓమ్స్ అయితే కరెంట్ = 3÷6 = 0.5 యాంపియర్లు. రెసిస్టెన్స్ అధికమైతే వెలుతురు తక్కువగా వస్తుంది!
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">📚 పేరెంట్ ట్యుటోరింగ్ చిట్కా</p>
+    <p>AI కి పిల్లల <strong>తరగతి స్థాయి</strong> చెప్పాలి, <strong>నిజజీవిత భారతీయ ఉదాహరణ</strong> అడగాలి. జనరిక్ వివరణ గుర్తుండదు. నీరు, రోడ్లు, లేదా స్థానిక వాతావరణ ఉదాహరణ కాన్సెప్ట్‌ని మనసులో ముద్రిస్తుంది.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">ఖచ్చితమైన సబ్జెక్ట్ మరియు తరగతి పేర్కొనండి (ఉదా: "8వ తరగతి, ఓమ్ చట్టం")</span></li>
+    <li><span class="step-num">2</span><span class="step-text">సరళమైన ఆంగ్లంలో నిజజీవిత భారతీయ ఉదాహరణతో వివరించమని అడగండి</span></li>
+    <li><span class="step-num">3</span><span class="step-text">3 నుండి 5 ప్రాక్టీస్ ప్రశ్నలు సమాధానాలతో అడగండి</span></li>
+    <li><span class="step-num">4</span><span class="step-text">ముందు మీరే చదివి అర్థం చేసుకోండి, తర్వాత పిల్లలతో కలిసి చదవండి</span></li>
+    <li><span class="step-num">5</span><span class="step-text">పిల్లలు తిరిగి మీకు వివరించమని చెప్పండి — అది నిజమైన అర్థం చేసుకున్న నిదర్శనం</span></li>
+  </ul>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l5-s03-ramaiah-homework.jpg"
+       alt="రమయ్య AI వివరణలతో కొడుకుకు హోమ్‌వర్క్ చేయడంలో సహాయం చేస్తున్నారు" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- సెక్షన్ 5 · స్కిల్ 3 · ప్రయాణ ప్లానింగ్               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">3</span>
+    <span>స్కిల్ 3 — AI తో పూర్తి కుటుంబ ట్రిప్ ప్లాన్ చేయడం</span>
+  </div>
+
+  <p class="sec-label">కావిత కథ</p>
+  <h2 class="sec-title">ఎప్పటికీ ప్లాన్ కాని ట్రిప్</h2>
+  <p class="sec-intro">కావిత కడపలో టీచర్. ప్రతి సంవత్సరం కుటుంబంతో — భర్త మరియు ఇద్దరు పిల్లలతో — ఒక చిన్న ట్రిప్ వెళ్ళాలని ఉంది. కానీ ప్లానింగ్ భారంగా అనిపిస్తుంది. ఏ రైలు, సేఫ్ హోటళ్లు ఎక్కడ, 3 రోజుల్లో ఏమేం చూడాలి? YouTube వీడియోలు చూసి అలసిపోతుంది, బుకింగ్ అవదు.</p>
+
+  <div class="story-grid">
+    <div class="story-card amber anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag amber">👩‍🏫 కావిత · కడప</span>
+      <p class="story-text">కావిత తిరుపతి లేదా విజయవాడ వెళ్ళాలని అనుకుంటోంది — 3 రోజులు, మొత్తం బడ్జెట్ ₹8,000. రిసెర్చ్ మొదలుపెడ్తుంది కానీ ఓవర్‌వెల్మ్ అయి ఆపేస్తుంది. రెండు వారాల్లో ట్రిప్ ఉంది, ఇంకా బుకింగ్ కాలేదు.</p>
+      <div class="speech-bubble">"మంచి ట్రిప్ ప్లాన్ చేయాలని ఉంది కానీ ఏం చేయాలో ఎక్కడ మొదలుపెట్టాలో అర్థం కావడం లేదు."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 AI పద్ధతి</span>
+      <p class="story-text">కావిత AI కి తన ప్రయాణ ఊరు, డెస్టినేషన్, తేదీలు, బడ్జెట్, కుటుంబ వివరాలు చెబుతుంది. AI ఒక్కో రోజుకు ఖచ్చితమైన ఇటినిరరీ, అంచనా ఖర్చులు, పిల్లలకు ఆసక్తికరమైన యాక్టివిటీలు, ఫుడ్ సూచనలు, ట్రావెల్ టిప్స్ ఇస్తుంది.</p>
+      <div class="prompt-box">
+        <p class="pb-label">కావిత ప్రాంప్ట్</p>
+        <p class="pb-text">4 మందికి (2 పెద్దలు, 8 మరియు 11 సంవత్సరాల 2 పిల్లలు) 3 రోజుల
+కుటుంబ ట్రిప్ ప్లాన్ చేయండి.
+కడప నుండి తిరుపతికి ప్రయాణం.
+తేదీలు: 20–22 మే 2026.
+మొత్తం బడ్జెట్: ₹8,000 (రైలు టికెట్లు మినహాయించి).
+గుడి, ఒక నేచర్ స్పాట్, పిల్లలకు ఒక ఫన్ యాక్టివిటీ వెళ్ళాలని ఉంది.
+మేము శాకాహారులం.
+చేర్చండి: రోజు-వారీ ఇటినిరరీ, ప్రతి యాక్టివిటీ అంచనా ఖర్చు,
+  బడ్జెట్ హోటల్ సూచన, కుటుంబాలకు 3 ట్రావెల్ టిప్స్.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ ఫలితం</span>
+      <p class="story-text">AI కావితకు స్పష్టమైన 3-రోజుల ప్లాన్ ఇచ్చింది: 1వ రోజు దర్శనం, 2వ రోజు చంద్రగిరి కోట మరియు పార్కు, 3వ రోజు షాపింగ్ మరియు తిరుగు ప్రయాణం — ₹8,000 బడ్జెట్‌లో సరిపోయే ఖర్చు అంచనాలతో. ఆ రాత్రే హోటల్ బుక్ చేసింది.</p>
+      <div class="ai-bubble">
+        రోజు 1 (20 మే): తిరుపతి 8 AM కి చేరుకోండి. శ్రీ వేంకటేశ్వర స్వామి ఆలయం — ముందుగా ఆన్‌లైన్ దర్శన టికెట్ బుక్ చేయండి (₹300/పెద్ద, పిల్లలకు ఉచితం). విందు: అర్చన భవన్ (బడ్జెట్-ఫ్రెండ్లీ శాకాహారం). హోటల్: భీమాస్ రెసిడెన్సీ (~₹1,800/రాత్రి ఫ్యామిలీ రూమ్).<br><br>
+        రోజు 2 (21 మే): చంద్రగిరి కోట (ఎంట్రీ ₹25/పెద్ద) + తలకోన జలపాతాలు — 30 కి.మీ, ఆటో రిటర్న్ ~₹600. హోటల్ నుండి లంచ్ పార్సెల్ తీసుకెళ్ళి ₹400 ఆదా చేయండి.<br><br>
+        రోజు 3 (22 మే): లడ్డు ప్రసాదం షాపింగ్, మధ్యాహ్నం 2 PM రైలు. మిగిలే బడ్జెట్: ₹1,200 స్నాక్స్ మరియు ఆటో ఛార్జ్‌లకు.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">✈️ ట్రావెల్ ప్లానింగ్ చిట్కా</p>
+    <p><strong>ఖచ్చితమైన బడ్జెట్</strong> మరియు <strong>గ్రూప్ వివరాలు</strong> ఇవ్వాలి. "తిరుపతి ట్రిప్ ప్లాన్ చేయండి" అంటే జనరిక్ జవాబు వస్తుంది. పిల్లల వయసులు, శాకాహారం, రోజుల సంఖ్య, బడ్జెట్ చెబితే పర్సనలైజ్డ్, వాడుకయ్యే ప్లాన్ వస్తుంది.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">ప్రయాణ తేదీలు, మనుషుల సంఖ్య, వయసులు చెప్పండి</span></li>
+    <li><span class="step-num">2</span><span class="step-text">మొత్తం బడ్జెట్ మరియు ప్రెఫరెన్సులు (శాకాహారం, రాత్రి ప్రయాణం వద్దు వగైరా) చెప్పండి</span></li>
+    <li><span class="step-num">3</span><span class="step-text">అంచనా ఖర్చులతో రోజు-వారీ ఇటినిరరీ అడగండి</span></li>
+    <li><span class="step-num">4</span><span class="step-text">హోటల్ సూచనలు మరియు బడ్జెట్‌లో ఫుడ్ ఆప్షన్లు వేరుగా అడగండి</span></li>
+    <li><span class="step-num">5</span><span class="step-text">బుకింగ్ ముందు MakeMyTrip లేదా Google లో ధరలు నిర్ధారించుకోండి</span></li>
+  </ul>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l5-s04-kavitha-travel.jpg"
+       alt="కావిత AI సహాయంతో కుటుంబ ట్రిప్ 3-రోజుల ఇటినిరరీ ప్లాన్ చేస్తోంది" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- సెక్షన్ 6 · స్కిల్ 4 · పోలిక షాపింగ్                 -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">4</span>
+    <span>స్కిల్ 4 — AI తో ప్లాన్‌లు మరియు ప్రొడక్టులు పోల్చడం</span>
+  </div>
+
+  <p class="sec-label">శ్రీనివాస్ కథ</p>
+  <h2 class="sec-title">నెలనెలా ₹600 వృథా అయిన మొబైల్ ప్లాన్</h2>
+  <p class="sec-intro">రాజమహేంద్రవరంలో శ్రీనివాస్ 26 ఏళ్ల బ్యాంకు ఆఫీసర్. అతను ₹999 Jio ప్లాన్‌లో ఉన్నాడు కానీ రోజుకు 1.5 GB లో 30 GB మాత్రమే వాడుతున్నాడు. కొలీగ్ ₹479 Airtel ప్లాన్ వేగంగా ఉంటుందని చెప్పాడు. సరిగ్గా పోల్చలేక ఏమీ చేయలేదు.</p>
+
+  <div class="story-grid">
+    <div class="story-card sky anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag sky">👨 శ్రీనివాస్ · రాజమహేంద్రవరం</span>
+      <p class="story-text">శ్రీనివాస్ 20 నిమిషాలు రెండు వెబ్‌సైట్‌లు చూసాడు. కంపారిజన్ అర్థం కాలేదు — ఒక్కోటి రోజువారీ డేటా, ఒక్కోటి మొత్తం డేటా చూపిస్తున్నాయి. ఏది నిజంగా బెటర్ వేల్యూ అనే నిర్ణయానికి రాలేకపోయాడు.</p>
+      <div class="speech-bubble">"₹999 పెట్టాను కానీ డేటా వాడటం లేదు. మారాలా వద్దా? ఎవరైనా స్పష్టంగా చెప్తే బావుండు."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 AI పద్ధతి</span>
+      <p class="story-text">శ్రీనివాస్ రెండు ప్లాన్‌ల వివరాలు మరియు తన వాడకం సమాచారం AI కి ఇస్తాడు. AI ఏ ప్లాన్ అతనికి సరిపోతుందో విశ్లేషించి, వార్షిక ఖర్చు లెక్కించి, దాచిన తేడాలు చూపిస్తుంది.</p>
+      <div class="prompt-box">
+        <p class="pb-label">శ్రీనివాస్ ప్రాంప్ట్</p>
+        <p class="pb-text">రెండు మొబైల్ ప్లాన్‌లు పోల్చడంలో సహాయం చేయండి.
+
+ప్లాన్ A — Jio ₹999/84 రోజులు:
+- రోజుకు 1.5 GB డేటా (మొత్తం 126 GB), అన్‌లిమిటెడ్ కాల్స్, రోజుకు 100 SMS
+
+ప్లాన్ B — Airtel ₹479/28 రోజులు:
+- రోజుకు 2 GB డేటా (28 రోజులకు మొత్తం 56 GB), అన్‌లిమిటెడ్ 5G కాల్స్, రోజుకు 100 SMS
+
+నా వాడకం: రోజుకు ~1 GB డేటా, అన్‌లిమిటెడ్ కాలింగ్, నార్మల్ SMS.
+నేను రాజమహేంద్రవరంలో ఉంటాను — రెండు నెట్‌వర్కులు బాగా పని చేస్తాయి.
+
+రెండు ప్లాన్‌లు పోల్చండి. నా వాడకానికి ఏది బెటర్ వేల్యూ,
+ప్రతిదాని వార్షిక ఖర్చు లెక్కించండి, నేను మిస్ అయ్యే దాచిన తేడాలు చెప్పండి.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ ఫలితం</span>
+      <p class="story-text">AI చూపించింది: ప్లాన్ A సంవత్సరానికి ₹4,282, ప్లాన్ B ₹6,243. అతని 1 GB/రోజు వాడకానికి ప్లాన్ A బెటర్ — సంవత్సరానికి ₹1,961 ఆదా. శ్రీనివాస్ నంబర్‌లతో నిర్ధారించి ప్లాన్ A కొనసాగించాడు.</p>
+      <div class="ai-bubble">
+        వార్షిక ఖర్చు పోలిక:<br>
+        ప్లాన్ A (Jio ₹999/84 రోజులు) = సంవత్సరానికి ~4.3 సైకిళ్లు = <strong>₹4,282/సంవత్సరం</strong><br>
+        ప్లాన్ B (Airtel ₹479/28 రోజులు) = సంవత్సరానికి ~13 సైకిళ్లు = <strong>₹6,243/సంవత్సరం</strong><br><br>
+        మీ వాడకానికి (రోజుకు 1 GB): రెండు ప్లాన్‌లు మీకు చాలా ఎక్కువ డేటా ఇస్తున్నాయి. కానీ ప్లాన్ A సంవత్సరానికి ₹1,961 ఆదా చేస్తుంది.<br><br>
+        సూచన: ప్లాన్ A కొనసాగించండి. 5G స్పీడ్ అవసరమైతే లేదా Airtel కవరేజ్ మీ ఏరియాలో స్పష్టంగా మెరుగ్గా ఉంటే మాత్రమే మారండి.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">🔍 పోలిక షాపింగ్ చిట్కా</p>
+    <p>AI కి ప్లాన్ వివరాలతో పాటు <strong>మీ నిజమైన వాడకం</strong> తప్పకుండా చెప్పాలి. "ఏ ప్లాన్ బెటర్?" అంటే జనరిక్ జవాబు. "రోజుకు 1 GB వాడతా — ఈ రెండింటిలో ఏది?" అంటే నిర్ణయించగల జవాబు వస్తుంది.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">ప్రతి ఆప్షన్ పూర్తి వివరాలు, ధరతో లిస్ట్ చేయండి</span></li>
+    <li><span class="step-num">2</span><span class="step-text">మీ నిజమైన వాడకం నిజాయితీగా చెప్పండి (ఎంత డేటా, కాల్స్ వగైరా)</span></li>
+    <li><span class="step-num">3</span><span class="step-text">ప్రతి ఆప్షన్ వార్షిక ఖర్చు లెక్కించమని AI ని అడగండి</span></li>
+    <li><span class="step-num">4</span><span class="step-text">మీరు మిస్ అవ్వగల దాచిన కండిషన్‌లు లేదా తేడాలు చెప్పమని అడగండి</span></li>
+    <li><span class="step-num">5</span><span class="step-text">ఇన్సూరెన్స్, అప్లయెన్సులు, లోన్ ఆఫర్లకు కూడా ఇదే పద్ధతి పని చేస్తుంది</span></li>
+  </ul>
+
+  <div class="ba-grid" style="margin-top:1.5rem;">
+    <div class="ba-col before">
+      <p class="ba-head">❌ AI లేకుండా</p>
+      <p>శ్రీనివాస్ 20 నిమిషాలు వేర్వేరు వెబ్‌సైట్‌లు చూసి కన్‌ఫ్యూజ్ అయ్యాడు. సరిగ్గా పోల్చలేక ఏమీ చేయలేదు. సంవత్సరానికి ₹1,961 అదనంగా చెల్లించాడు.</p>
+    </div>
+    <div class="ba-col after">
+      <p class="ba-head">✅ AI తో</p>
+      <p>శ్రీనివాస్ కి 2 నిమిషాల్లో స్పష్టమైన వార్షిక ఖర్చు పోలిక వచ్చింది. నమ్మకంగా నిర్ణయం తీసుకుని సంవత్సరానికి దాదాపు ₹2,000 ఆదా చేశాడు.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l5-s05-srinivas-compare.jpg"
+       alt="శ్రీనివాస్ AI విశ్లేషణ వాడి మొబైల్ ప్లాన్‌లు పోల్చుతున్నాడు" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- సెక్షన్ 7 · స్కిల్ 5 · అలవాట్లు & ఆరోగ్యం            -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">5</span>
+    <span>స్కిల్ 5 — AI తో వ్యక్తిగత అలవాటు మరియు ఆరోగ్య ప్లాన్</span>
+  </div>
+
+  <p class="sec-label">మీర కథ</p>
+  <h2 class="sec-title">మూడు రోజులే కొనసాగిన నూతన సంకల్పం</h2>
+  <p class="sec-intro">మీర విజయవాడలో 32 ఏళ్ల అకౌంటెంట్. రెండు సంవత్సరాలుగా వ్యాయామం చేసి బాగా తినాలని అనుకుంటోంది. జనవరి 1న మొదలుపెడుతుంది, 4వ తేదీకే ఆపేస్తుంది. డాక్టర్ ప్రీ-డయాబెటిక్ అని చెప్పారు. జీవనశైలి మార్చుకోవాలి కానీ బిజీ షెడ్యూల్‌లో ఎక్కడ మొదలుపెట్టాలో తెలియదు.</p>
+
+  <div class="story-grid">
+    <div class="story-card teal anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag teal">👩 మీర · విజయవాడ</span>
+      <p class="story-text">మీర ఉదయం 7 కి లేస్తుంది, 9 కి ఆఫీసు, 7 వరకు పని, రాత్రి వంట చేసి 11 కి పడుకుంటుంది. ఉదయం 30 నిమిషాలు, భోజనం తర్వాత 45 నిమిషాలు ఖాళీ ఉంటుంది. ఆన్‌లైన్‌లో చూసిన ప్రతి ప్లాన్ రోజుకు 3 గంటలు ఖాళీ ఉన్నవాళ్ళకు అనిపిస్తుంది.</p>
+      <div class="speech-bubble">"మారాలని తెలుసు కానీ ప్రతి యాప్ మరియు వీడియో చాలా కష్టంగా ఉంటుంది. నేను నిజంగా చేయగలిగేది కావాలి."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 AI పద్ధతి</span>
+      <p class="story-text">మీర తన నిజమైన షెడ్యూల్, ఆరోగ్య పరిస్థితి, లక్ష్యం AI కి చెబుతుంది. AI ఆమె అందుబాటులో ఉన్న 30 నిమిషాల ఉదయపు వ్యవధిని వాడుకుని వాస్తవిక వారం ప్లాన్ తయారు చేస్తుంది — సాధారణ ఫుడ్ స్వాప్స్, 4 వారాల ప్రొగ్రెషన్ ఇస్తుంది.</p>
+      <div class="prompt-box">
+        <p class="pb-label">మీర ప్రాంప్ట్</p>
+        <p class="pb-text">నాకు 32 ఏళ్లు, నేను జాబ్ చేసే మహిళను. డాక్టర్ ప్రీ-డయాబెటిక్ అని చెప్పారు.
+నా లక్ష్యం: బ్లడ్ షుగర్ తగ్గించడం, 3 నెలల్లో 5 kg తగ్గడం, వ్యాయామ అలవాటు.
+
+నా షెడ్యూల్: ఉదయం 8 AM కి ముందు 30 నిమిషాలు ఖాళీ.
+              రాత్రి భోజనం తర్వాత అప్పుడప్పుడు 30 నిమిషాలు.
+నాకు జిమ్ కెళ్ళడం కుదరదు. పరికరాలు లేవు — ఫ్లాట్ ఫ్లోర్ మరియు మెట్లు మాత్రమే.
+నేను సౌత్ ఇండియన్ ఫుడ్ తింటాను (అన్నం, ఇడ్లీ, దాల్, కూరలు).
+
+తయారు చేయండి:
+1. 30 నిమిషాల్లో ఇంట్లో చేయగలిగే 4 వారాల వ్యాయామ ప్లాన్
+2. నా వంట స్టైల్ మారకుండా చేయగలిగే 5 సాధారణ ఫుడ్ స్వాప్స్
+3. ఫాలో చేయడానికి వారానికొక హాబిట్ ట్రాకర్ టేబుల్
+బిజీ వర్కింగ్ మహిళకు వాస్తవంగా ఉండేలా ఉంచండి.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ ఫలితం</span>
+      <p class="story-text">AI మీరకు నిర్దిష్టమైన 30 నిమిషాల ఉదయపు ప్లాన్ ఇచ్చింది (10 నిమిషాలు నడక + 15 నిమిషాలు వ్యాయామాలు + 5 నిమిషాలు స్ట్రెచింగ్), సౌత్ ఇండియన్ వంట సరిపోయే 5 ఫుడ్ స్వాప్స్, సింపుల్ వీక్లీ ట్రాకర్. 3 వారాల తర్వాత 1.2 kg తగ్గింది, ఉదయం ఎనర్జీ పెరిగింది.</p>
+      <div class="ai-bubble">
+        వారం 1–2 (బేస్ బిల్డింగ్): 10 నిమిషాలు నడక + 5 స్క్వాట్స్, 5 లంజ్‌లు, 10 వాల్ పుష్-అప్స్ + 5 నిమిషాలు స్ట్రెచింగ్. జిమ్ అవసరం లేదు.<br><br>
+        ఫుడ్ స్వాప్స్: తెల్ల అన్నం → చిన్న పోషన్ + ఎక్కువ దాల్/కూరలు · పండ్ల రసం → పండు మొత్తం · సాయంత్రం బిస్కెట్లు → గుప్పెడు వేరుశెనగలు · పెరుగన్నం → సాదా పెరుగు · చక్కెర టీ → తక్కువ చక్కెర టీ + ఒక నానబెట్టిన బాదం.<br><br>
+        హాబిట్ ట్రాకర్: ఉదయపు రొటీన్ పూర్తయిన ప్రతి రోజు చెక్ చేయండి. వారం 1 లో 7 రోజుల్లో 5 రోజులు లక్ష్యం. 2 రోజులు మిస్సయినా పర్వాలేదు — నిరంతరత ముఖ్యం.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">🏃 అలవాటు పెంపు చిట్కా</p>
+    <p>AI కి మీకు <strong>నిజంగా ఉన్న ఖాళీ సమయం</strong> చెప్పాలి — మీరు కోరుకున్న సమయం కాదు. 30 నిమిషాల ప్లాన్ పాటిస్తే 2 గంటల ప్లాన్ ఆపేయడం కంటే చాలా మెరుగు. 4 వారాల ప్రొగ్రెషన్ అడగాలి, ఒకే రోజు ప్లాన్ కాదు.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">మీ ఖచ్చితమైన లక్ష్యం చెప్పండి (బరువు తగ్గడం, నిద్ర మెరుగు, వ్యాయామ అలవాటు వగైరా)</span></li>
+    <li><span class="step-num">2</span><span class="step-text">మీ నిజమైన ఖాళీ సమయం చెప్పండి — నిజాయితీగా, ఆశావాదంగా కాదు</span></li>
+    <li><span class="step-num">3</span><span class="step-text">మీకు అందుబాటులో ఉన్న స్థలం, పరికరాలు పేర్కొనండి</span></li>
+    <li><span class="step-num">4</span><span class="step-text">4 వారాల ప్రొగ్రెషన్ అడగండి — తేలికగా మొదలై పెరిగేది</span></li>
+    <li><span class="step-num">5</span><span class="step-text">చిన్న ఫుడ్ లేదా లైఫ్‌స్టైల్ స్వాప్స్ అడగండి — పెద్ద మార్పులు సాధారణంగా నిలవడం కష్టం</span></li>
+  </ul>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l5-s06-meera-habits.jpg"
+       alt="మీర ఉదయం AI జనరేట్ చేసిన ఆరోగ్య మరియు అలవాటు ప్లాన్ ఫాలో చేస్తోంది" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- సెక్షన్ 8 · ప్రాక్టీస్ అరీనా                          -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">మీ వంతు</p>
+  <h2 class="sec-title">ప్రాక్టీస్ అరీనా — 5 స్కిల్స్ ట్రై చేయండి</h2>
+  <p class="sec-intro">కింది పనుల్లో ఒకటి ఎంచుకోండి. ChatGPT, Gemini లేదా మీకు నచ్చిన AI యాప్ తెరవండి. ప్రాంప్ట్ స్టైల్ కాపీ చేసి మీ సొంత వివరాలు నింపి రన్ చేయండి. ప్రతి పని 5 నుండి 10 నిమిషాలు తీసుకుంటుంది — నేడే నిజమైన, వాడుకయ్యే ఫలితం వస్తుంది.</p>
+
+  <div class="arena-grid">
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.1s">
+      <p class="ac-num">పని 1 · బడ్జెట్</p>
+      <h3>ఈరోజే మీ నెల బడ్జెట్ తయారు చేయండి</h3>
+      <p>AI కి మీ ఆదాయం, స్థిర ఖర్చులు, ఖర్చు కేటగిరీలు చెప్పండి. మొత్తంతో కూడిన బడ్జెట్ టేబుల్ మరియు సేవింగ్స్ టార్గెట్ అడగండి. 5 నిమిషాల్లో — మొట్టమొదటిసారి మీ ఫైనాన్సులు స్పష్టంగా కనిపిస్తాయి.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.15s">
+      <p class="ac-num">పని 2 · చదువు</p>
+      <h3>పిల్లలు చదువుతున్న సబ్జెక్ట్ వివరించండి</h3>
+      <p>ఈ వారం పిల్లలు చదువుతున్న ఏదైనా టాపిక్ పిక్ చేయండి. AI ని సరళమైన ఆంగ్లంలో భారతీయ నిజజీవిత ఉదాహరణతో వివరించమని అడగండి. కలిసి చదవండి. పిల్లలు మీకు తిరిగి వివరించమని చెప్పండి.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.2s">
+      <p class="ac-num">పని 3 · ట్రావెల్</p>
+      <h3>వాయిదా వేసిన ట్రిప్ ప్లాన్ చేయండి</h3>
+      <p>మీరు వెళ్ళాలని అనుకున్న ట్రిప్ ఆలోచించండి. AI కి తేదీలు, బడ్జెట్, మనుషుల సంఖ్య, ఏమి ఇష్టమో చెప్పండి. అంచనా ఖర్చులతో రోజు-వారీ ప్లాన్ అడగండి. ఈరోజే బుక్ చేయవచ్చు.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.25s">
+      <p class="ac-num">పని 4 · పోలిక</p>
+      <h3>మీ ఫోన్ ప్లాన్ లేదా ఇన్సూరెన్స్ పోల్చండి</h3>
+      <p>మీరు రెగ్యులర్‌గా పే చేస్తున్న ఒక ఫైనాన్షియల్ ప్రొడక్ట్ పట్టుకోండి — ఫోన్ ప్లాన్, ఇన్సూరెన్స్, లేదా బ్రాడ్‌బ్యాండ్. వివరాలు మరియు మీరు విన్న ఒక ప్రత్యామ్నాయం లిస్ట్ చేసి AI ని మీ వాడకానికి ఏది బెటర్ అని అడగండి.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.3s">
+      <p class="ac-num">పని 5 · అలవాట్లు</p>
+      <h3>ఈ నెల కోసం హాబిట్ ప్లాన్ తయారు చేయండి</h3>
+      <p>మీరు పెంచుకోవాలనే ఒక అలవాటు ఎంచుకోండి: వ్యాయామం, చదవడం, నీళ్ళు తాగడం, లేదా నిద్ర మెరుగు. AI కి మీ నిజమైన ఖాళీ సమయం, ప్రస్తుత దినచర్య, లక్ష్యం చెప్పండి. వాస్తవికమైన 4 వారాల ప్లాన్ అడగండి.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l5-s07-practice.jpg"
+       alt="నేర్చుకున్న వ్యక్తి AI వాడి 5 లైఫ్ అప్‌గ్రేడ్ స్కిల్స్ ప్రాక్టీస్ చేస్తున్నారు" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:2rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- సెక్షన్ 9 · చీట్ షీట్                                -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">త్వరిత రిఫరెన్స్</p>
+  <h2 class="sec-title">లెవెల్ 5 చీట్ షీట్</h2>
+  <p class="sec-intro">ఈ 5 ప్రాంప్ట్ ఫార్ములాలు సేవ్ చేసుకోండి. ప్రతిది మీ జీవితంలో నిజమైన మెరుగుదల తెస్తుంది — 10 నిమిషాల్లోపు.</p>
+
+  <div class="cheat-grid">
+    <div class="cheat-card amber">
+      <h3>💰 బడ్జెట్</h3>
+      <p>ఆదాయం + స్థిర ఖర్చులు + కేటగిరీలు → బడ్జెట్ టేబుల్ + సేవింగ్స్ టార్గెట్</p>
+      <code class="prompt-chip">"₹[X] ఆదాయానికి నెల బడ్జెట్ తయారు చేయండి..."</code>
+    </div>
+    <div class="cheat-card teal">
+      <h3>📚 పిల్లల చదువు</h3>
+      <p>టాపిక్ + తరగతి స్థాయి → సరళ వివరణ + భారతీయ ఉదాహరణ + ప్రాక్టీస్ ప్రశ్నలు</p>
+      <code class="prompt-chip">"[టాపిక్] ను [తరగతి] విద్యార్థికి భారతీయ ఉదాహరణతో వివరించండి..."</code>
+    </div>
+    <div class="cheat-card sky">
+      <h3>✈️ ట్రావెల్ ప్లాన్</h3>
+      <p>తేదీలు + బడ్జెట్ + గ్రూప్ వివరాలు + ప్రెఫరెన్సులు → అంచనా ఖర్చులతో రోజు-వారీ ఇటినిరరీ</p>
+      <code class="prompt-chip">"[N] రోజులు [X] మంది కి ₹[Y] బడ్జెట్‌లో ట్రిప్ ప్లాన్..."</code>
+    </div>
+    <div class="cheat-card">
+      <h3>🔍 పోలిక</h3>
+      <p>రెండు ఆప్షన్‌ల పూర్తి వివరాలు + మీ వాడకం → సూచన + వార్షిక ఖర్చు</p>
+      <code class="prompt-chip">"[X] వాడకానికి ఈ రెండు ప్లాన్‌లు పోల్చండి..."</code>
+    </div>
+    <div class="cheat-card green">
+      <h3>🏃 హాబిట్ ప్లాన్</h3>
+      <p>లక్ష్యం + నిజమైన ఖాళీ సమయం + ప్రస్తుత దినచర్య → 4 వారాల ప్రొగ్రెషన్ + చిన్న స్వాప్స్</p>
+      <code class="prompt-chip">"[లక్ష్యం] కోసం రోజుకు [X] నిమిషాలతో 4 వారాల ప్లాన్..."</code>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- సెక్షన్ 10 · క్విజ్                                    -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">మీ అభ్యాసాన్ని పరీక్షించుకోండి</p>
+  <h2 class="sec-title">త్వరిత క్విజ్ — 5 ప్రశ్నలు</h2>
+  <p class="sec-intro">లెవెల్ 5 సర్టిఫికెట్ పొందాలంటే 5 లో 4 లేదా అంతకంటే ఎక్కువ సరిగ్గా జవాబు ఇవ్వాలి. ఎన్నిసార్లయినా మళ్ళీ ప్రయత్నించవచ్చు.</p>
+
+  <div class="quiz-wrap">
+    <form id="quiz-form">
+
+      <div class="quiz-q">
+        <p class="q-text">1. లక్ష్మి AI తో ఇంటి బడ్జెట్ ప్లాన్ చేయాలని ఉంది. ఏ సమాచారం AI కి అత్యంత ఉపయోగకరమైన ఫలితం ఇస్తుంది?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> AI ని బడ్జెట్ తయారు చేయమని మాత్రమే అడగడం</label>
+          <label><input type="radio" name="q1" value="b"> కుటుంబ సభ్యుల సంఖ్య మరియు నగరం చెప్పడం</label>
+          <label><input type="radio" name="q1" value="c"> నెల ఆదాయం, అద్దె మరియు EMI లాంటి స్థిర ఖర్చులు, మరియు ఖర్చు కేటగిరీలు చెప్పడం</label>
+          <label><input type="radio" name="q1" value="d"> బ్యాంకు పాస్‌బుక్ ఫోటో చూపించడం</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">2. రమయ్య 8వ తరగతి కొడుకుకు స్కూల్ టాపిక్ వివరించాలని AI సహాయం తీసుకోవాలనుకుంటున్నారు. ఏ వివరం అతిముఖ్యం?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> పాఠ్యపుస్తకం పబ్లిషర్ పేరు</label>
+          <label><input type="radio" name="q2" value="b"> కొడుకు తరగతి స్థాయి మరియు సరళమైన నిజజీవిత భారతీయ ఉదాహరణ కోసం అభ్యర్థన</label>
+          <label><input type="radio" name="q2" value="c"> ఆ టాపిక్‌కు ఎన్ని మార్కులు వస్తాయో</label>
+          <label><input type="radio" name="q2" value="d"> కొడుకు స్కూలు మరియు టీచర్ పేరు</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">3. కావిత కుటుంబ ట్రిప్ ప్లాన్ చేయాలని ఉంది. AI నుండి అత్యంత ఉపయోగకరమైన ట్రావెల్ ప్లాన్ పొందాలంటే ఏ సమాచారం ఇవ్వాలి?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> ప్రయాణ తేదీలు, ఖచ్చితమైన బడ్జెట్, ప్రయాణికుల సంఖ్య మరియు వయసులు, కుటుంబ ప్రెఫరెన్సులు</label>
+          <label><input type="radio" name="q3" value="b"> డెస్టినేషన్ నగరం మరియు రోజుల సంఖ్య మాత్రమే</label>
+          <label><input type="radio" name="q3" value="c"> ఆమె విన్న హోటళ్ళ పేర్లు</label>
+          <label><input type="radio" name="q3" value="d"> కుటుంబం ఇష్టపడే ఆహారాల జాబితా మాత్రమే</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">4. శ్రీనివాస్ AI వాడి రెండు మొబైల్ ప్లాన్‌లు పోల్చాలని ఉంది. అత్యుత్తమ పద్ధతి ఏది?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q4" value="a"> భారతదేశంలో అత్యుత్తమ మొబైల్ నెట్‌వర్క్ ఏదని AI ని అడగడం</label>
+          <label><input type="radio" name="q4" value="b"> ప్రతి ప్లాన్ నెల ఖర్చు మాత్రమే AI కి చెప్పడం</label>
+          <label><input type="radio" name="q4" value="c"> ఆంధ్రప్రదేశ్‌లో అత్యంత జనప్రియ ప్లాన్ సూచించమని AI ని అడగడం</label>
+          <label><input type="radio" name="q4" value="d"> రెండు ప్లాన్‌ల పూర్తి వివరాలు, అతని నిజమైన వాడకం ఇచ్చి పోల్చి వార్షిక ఖర్చు లెక్కించమని అడగడం</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">5. మీర రోజువారీ వ్యాయామ అలవాటు పెంచుకోవాలని AI సహాయం తీసుకోవాలనుకుంటోంది. ఏ విషయం ప్లాన్‌ని అత్యంత వాస్తవికంగా, విజయవంతంగా చేస్తుంది?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q5" value="a"> రోజుకు 2 గంటలు వ్యాయామం చేస్తానని AI కి చెప్పడం</label>
+          <label><input type="radio" name="q5" value="b"> తన నిజమైన ఖాళీ సమయం, ప్రస్తుత షెడ్యూల్, అందుబాటులో ఉన్న స్థలం, మరియు నిర్దిష్ట ఆరోగ్య లక్ష్యం చెప్పడం</label>
+          <label><input type="radio" name="q5" value="c"> వర్కింగ్ ప్రొఫెషనల్స్ కోసం జిమ్ రొటీన్ డిజైన్ చేయమని AI ని అడగడం</label>
+          <label><input type="radio" name="q5" value="d"> ఒక నెలలో 15 కిలోలు తగ్గాలని AI కి చెప్పడం</label>
+        </div>
+      </div>
+
+      <button type="button" class="quiz-submit" onclick="checkQuiz()">సమాధానాలు సమర్పించండి</button>
+    </form>
+
+    <div id="quiz-result"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- సెక్షన్ 11 · సర్టిఫికెట్                              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section id="cert-section">
+  <div class="cert-box">
+    <p style="font-size:2.5rem;margin-bottom:.5rem;">🏆</p>
+    <h2>పూర్తి సర్టిఫికెట్</h2>
+    <p class="cert-name">లైఫ్ అప్‌గ్రేడ్ — లెవెల్ 5</p>
+    <p>మీరు తెలివైన రోజువారీ నిర్ణయాలకు 5 AI స్కిల్స్ నేర్చుకున్నారు</p>
+    <div class="skill-badges">
+      <span class="skill-badge">💰 ఇంటి బడ్జెట్</span>
+      <span class="skill-badge">📚 పిల్లల చదువు</span>
+      <span class="skill-badge">✈️ ట్రావెల్ ప్లానింగ్</span>
+      <span class="skill-badge">🔍 స్మార్ట్ పోలిక</span>
+      <span class="skill-badge">🏃 అలవాటు &amp; ఆరోగ్యం</span>
+    </div>
+    <p style="font-size:0.85rem;opacity:0.6;margin-top:.5rem;">మిత్ర AI లైఫ్ ఎడ్యుకేషన్ · mitraailife.com</p>
+    <button class="cert-btn" onclick="window.print()">🖨 ప్రింట్ / సేవ్ చేయండి</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- సెక్షన్ 12 · పూర్తి + తదుపరి లెవెల్ టీజర్             -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="completion-box">
+    <div class="big-emoji">🎉</div>
+    <h2>లెవెల్ 5 పూర్తైంది!</h2>
+    <p>ఇప్పుడు మీకు స్పష్టమైన బడ్జెట్ ఉంది, పిల్లల చదువులో సహాయం చేయగలరు, నమ్మకంగా ట్రిప్‌లు ప్లాన్ చేయగలరు, తెలివిగా ప్రొడక్టులు పోల్చగలరు, మరియు నిజంగా పాటించగలిగే అలవాట్లు పెంచుకోగలరు. AI ఇప్పుడు మీ రోజువారీ జీవిత సలహాదారు.</p>
+    <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l5-s08-celebration.jpg"
+         alt="లెవెల్ 5 పాత్రలు అందరూ కలిసి జీవిత మెరుగుదలలు సంబరం చేసుకుంటున్నారు" loading="lazy"
+         style="width:100%;max-width:700px;border-radius:16px;margin:1.5rem 0;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+    <p><strong>లెవెల్ 6 — పవర్ యూజర్ లో ఏముందంటే:</strong><br>
+    స్ట్రక్చర్డ్ ప్రాంప్టింగ్ మాస్టర్ చేయడం, బహుళ AI స్టెప్‌లు చెయిన్ చేయడం, రీయూజబుల్ టెంప్లేట్‌లు నిర్మించడం, స్ప్రెడ్‌షీట్‌లతో AI వాడటం — స్మార్ట్ యూజర్ నుండి పవర్ యూజర్ కి వెళ్ళండి.</p>
+    <a href="../../../site/index-te.html" class="next-btn" style="margin-top:1rem;">→ లెవెల్ 6 కి వెళ్ళండి (త్వరలో వస్తుంది)</a>
+  </div>
+
+  <!-- Disqus -->
+  <div class="disqus-wrap">
+    <h3 style="font-family:'Baloo 2',cursive;color:var(--navy);margin-bottom:1rem;">ప్రశ్నలు లేదా వ్యాఖ్యలు?</h3>
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = window.location.href;
+        this.page.identifier = 'level-05-comic-te';
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://mitra-ai-life.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- స్క్రిప్ట్‌లు                                         -->
+<!-- ══════════════════════════════════════════════════════ -->
+<script src="../../../site/auth.js"></script>
+<script>
+  /* progress bar */
+  window.addEventListener('scroll', () => {
+    const el = document.getElementById('progress-bar');
+    const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    el.style.width = Math.min(pct, 100) + '%';
+  });
+
+  /* scroll animations */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.anim-fadeInUp,.anim-slideLeft,.anim-slideRight,.anim-bounceIn')
+    .forEach(el => { el.style.opacity = '0'; observer.observe(el); });
+
+  /* quiz */
+  function checkQuiz() {
+    const answers = { q1:'c', q2:'b', q3:'a', q4:'d', q5:'b' };
+    let score = 0;
+    for (const [q, correct] of Object.entries(answers)) {
+      const sel = document.querySelector(`input[name="${q}"]:checked`);
+      if (sel && sel.value === correct) score++;
+    }
+    const result = document.getElementById('quiz-result');
+    result.style.display = 'block';
+    if (score >= 4) {
+      result.className = 'pass';
+      result.textContent = '🎉 ' + score + '/5 సరైనవి — అద్భుతం! మీ సర్టిఫికెట్ కింద ఉంది.';
+      document.getElementById('cert-section').style.display = 'block';
+      document.getElementById('cert-section').scrollIntoView({ behavior:'smooth', block:'center' });
+      if (typeof saveProgress === 'function') saveProgress('level-05', score);
+    } else {
+      result.className = 'fail';
+      result.textContent = score + '/5 సరైనవి — పైన స్కిల్స్ మళ్ళీ చదవండి, తర్వాత ప్రయత్నించండి. పాస్ కావాలంటే 4 లేదా అంతకంటే ఎక్కువ కావాలి.';
+    }
+  }
+</script>
+</body>
+</html>

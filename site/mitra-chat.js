@@ -10,7 +10,7 @@
   "use strict";
 
   // ── Config ─────────────────────────────────────────────────────────────────
-  const WORKER_URL = "https://chat.mitraailife.com"; // update after CF Worker deploy
+  const WORKER_URL = "https://mitra-chat-worker.rajendar-mi46.workers.dev";
   const MITRA_ICON_URL =
     "https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/characters/mitra-icon.png";
   // Fallback emoji if icon not loaded yet

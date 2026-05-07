@@ -4,15 +4,20 @@
 
 The names should feel simple, non-technical, and motivating.
 
-| Level | Recommended name | Approx duration | Access | Price |
-|---|---|---:|---|---:|
-| 1 | First Step | 45 to 60 min | Free | 0 INR |
-| 2 | Daily Help | 60 to 90 min | Free | 0 INR |
-| 3 | Smart Basics | 60 min | Paid | 100 INR |
-| 4 | Work Smart | 2 hours | Paid | 200 INR |
-| 5 | Life Upgrade | 3 hours | Paid | 300 INR |
-| 6 | Power User | 4 hours | Paid | 400 INR |
-| 7 | Build With AI | 5 hours | Paid | 500 INR |
+> **EARLY OFFER ACTIVE — All levels are currently 0 INR.**
+> Original listed prices are kept for future reference only.
+> Payments will be activated only when the founder explicitly decides the platform is ready to charge.
+> Until then treat every level as free.
+
+| Level | Recommended name | Approx duration | Access | Original price | Early offer |
+|---|---|---:|---|---:|---:|
+| 1 | First Step | 45 to 60 min | Free | 0 INR | 0 INR |
+| 2 | Daily Help | 60 to 90 min | Free | 0 INR | 0 INR |
+| 3 | Smart Basics | 60 min | Paid | ~~100 INR~~ | **0 INR** |
+| 4 | Work Smart | 2 hours | Paid | ~~200 INR~~ | **0 INR** |
+| 5 | Life Upgrade | 3 hours | Paid | ~~300 INR~~ | **0 INR** |
+| 6 | Power User | 4 hours | Paid | ~~400 INR~~ | **0 INR** |
+| 7 | Build With AI | 5 hours | Paid | ~~500 INR~~ | **0 INR** |
 
 ## Ladder strategy update
 
@@ -20,13 +25,17 @@ Level 1 should not feel like a rushed tutorial. It should feel like a guided fir
 
 - Level 1 is the trust-building level
 - Level 2 is the first confidence-building level
-- Level 3 is the first paid depth level
+- Level 3 is the first depth level (currently free under early offer)
 
 This means the learner journey should be:
 
 1. feel wonder and safety in Level 1
 2. try a few real tasks in Level 2
-3. pay for stronger everyday capability in Level 3
+3. go deeper with everyday capability in Level 3 (and beyond)
+
+Note: All levels are offered free during the early access phase.
+When the founder decides to activate payments, Level 1 and Level 2 remain permanently free.
+Levels 3 and above will revert to their original listed prices at that time.
 
 ## Why these names work
 
@@ -37,21 +46,24 @@ This means the learner journey should be:
 
 ## Bundle pricing
 
+> All bundles are currently 0 INR under the early access offer.
+> Original bundle prices below are for future reference only.
+
 ### Free starter bundle
-- Level 1 + Level 2 = 0 INR
+- Level 1 + Level 2 = 0 INR (permanently free)
 
-### Core combo
-- Level 3 + Level 4 + Level 5 = 600 INR individually
-- combo price with 30 percent discount = 420 INR
+### Core combo (future reference)
+- Level 3 + Level 4 + Level 5 = ~~600 INR~~ individually → **0 INR (early offer)**
+- combo price with 30 percent discount = ~~420 INR~~ → **0 INR (early offer)**
 
-### Advanced combo
-- Level 6 + Level 7 = 900 INR individually
-- combo price with 30 percent discount = 630 INR
+### Advanced combo (future reference)
+- Level 6 + Level 7 = ~~900 INR~~ individually → **0 INR (early offer)**
+- combo price with 30 percent discount = ~~630 INR~~ → **0 INR (early offer)**
 
-### Full paid ladder
-- Level 3 to Level 7 = 1500 INR individually
-- combo price with 30 percent discount = 1050 INR
-- launch promotion can be tested at 999 INR if conversion needs a stronger anchor
+### Full paid ladder (future reference)
+- Level 3 to Level 7 = ~~1500 INR~~ individually → **0 INR (early offer)**
+- combo price with 30 percent discount = ~~1050 INR~~ → **0 INR (early offer)**
+- launch promotion anchor: ~~999 INR~~ (to be revisited when payments activate)
 
 ## What each level should teach
 

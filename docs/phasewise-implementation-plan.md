@@ -198,6 +198,264 @@ Turn the business into a repeatable AI-assisted studio.
 - mark AI-generated examples clearly when needed
 - never publish unsafe health, legal, or financial guidance without strong disclaimers
 - be careful with children-focused content, consent, and privacy
+
+---
+
+## Current Build Status (as of May 2026)
+
+All decisions below are recorded from founder planning sessions. See `docs/resource-usage.md` for live numbers.
+
+### What is live
+- L1–L7 English comic pages — all live on mitraailife.com
+- L1–L7 Telugu comic pages — all live
+- Home page EN + TE, pitch deck — live
+- Google OAuth + Supabase user_progress tracking (auth.js)
+- DALL-E 3 images for all 7 levels — generated and deployed to S3
+- GA4 + Disqus on all 14 content pages
+
+### What is not yet built
+- Mitra chatbot widget (bottom-right floating bot)
+- Supabase progress restore on home page
+- Admin dashboard to view user completions
+- Videos for any level
+- Jupyter notebooks for engineering track
+- mitraaistudy.com and mitraaiprojects.com sites
+- Languages beyond English and Telugu
+- Payment activation (deliberately deferred — see pricing note below)
+
+---
+
+## Pricing Policy (IMPORTANT)
+
+**All prices are currently 0 INR as an early access offer.**
+
+The original listed prices exist as a reference for when payments are eventually activated.
+Payments will NOT be activated until the founder explicitly decides the platform is ready to charge.
+Until that decision is made, treat every level as free regardless of what the original price was.
+
+Engineering project tracks and school content tracks are also priced at 0 INR under the same early offer.
+Their indicative pricing is listed below purely for future reference.
+
+| Level | Name | Original listed price | Early offer price |
+|---|---|---:|---:|
+| 1 | First Step | 0 INR | 0 INR |
+| 2 | Daily Help | 0 INR | 0 INR |
+| 3 | Smart Basics | 100 INR | **0 INR (early offer)** |
+| 4 | Work Smart | 200 INR | **0 INR (early offer)** |
+| 5 | Life Upgrade | 300 INR | **0 INR (early offer)** |
+| 6 | Power User | 400 INR | **0 INR (early offer)** |
+| 7 | Build With AI | 500 INR | **0 INR (early offer)** |
+
+Engineering project track indicative prices (future reference only, currently 0 INR):
+- mini guided project packs: 10,000–25,000 INR
+- guided real-world builds: 25,000–75,000 INR
+- advanced institutional or sponsored builds: 75,000–200,000 INR
+
+School student track indicative prices (future reference only, currently 0 INR):
+- AI awareness module for Gr 6–8: 99–199 INR
+- AI study skills for Gr 9–12: 199–399 INR
+- School or institution bulk licence: custom pricing
+
+---
+
+## Three-Website Strategy
+
+Rather than putting all audiences into one website, the platform will eventually operate
+across three separate, cross-linked websites. This reduces information overload per visitor
+and allows each site to feel purpose-built for its audience.
+
+| Domain | Target Audience | Content Focus | Status |
+|---|---|---|---|
+| mitraailife.com | Working adults, homemakers, general public | Daily life AI, L1–L7 ladder | ✅ Live |
+| mitraaistudy.com | School students Gr 6–12, parents, teachers | Age-appropriate AI awareness and study skills | ❌ Planned |
+| mitraaiprojects.com | Engineering/CS/IT students, final year | Portfolio project track, guided builds, notebooks | ❌ Planned |
+
+### Hosting and domain cost
+- All three sites on GitHub Pages — hosting is free
+- Domain registration: ~40–50 SGD/year per domain on GoDaddy
+- Each site gets its own GitHub repo (or separate deploy path in monorepo)
+- All three sites cross-link each other in headers and footers
+
+### When to create each new site
+- mitraaistudy.com: when at least 5 school-specific lessons are ready
+- mitraaiprojects.com: when at least 3 guided engineering project briefs + notebooks are ready
+
+---
+
+## Mitra Chatbot Plan (custom branded widget)
+
+### Goal
+Make Mitra feel like a real AI-powered product, not a static website about AI.
+A floating chatbot bottom-right on every page demonstrates exactly what the platform teaches.
+
+### What the bot does
+- Answers "where should I start?", "what does Level 3 teach?", "is this free?"
+- Guides visitors toward the right level based on their background
+- Responds in English or Telugu based on which page the user is on
+- Does NOT impersonate a doctor, lawyer, or financial advisor
+- Includes a clear disclaimer: "I am an AI assistant. Always verify important information."
+
+### Does the bot read the website pages automatically?
+No. The bot does not crawl or scrape pages in real time.
+It is powered by a carefully written system prompt that describes all 7 levels,
+what each teaches, current pricing (0 INR offer), FAQs, and the three-website plan.
+At this scale, a well-crafted system prompt is the knowledge base — no RAG pipeline,
+no fine-tuned model, no training needed. When new levels are added, the system prompt is updated.
+
+### API key security — Cloudflare Worker proxy
+
+Calling OpenAI directly from the browser would expose the API key in client-side code.
+The solution is a Cloudflare Worker that acts as a thin proxy:
+
+```
+Browser → POST {message, history} → Cloudflare Worker (chat.mitraailife.com)
+                                          ↓
+                                  Worker adds OPENAI_API_KEY from env
+                                          ↓
+                                  POST to OpenAI API
+                                          ↓
+                                  Streams response back to browser
+```
+
+Cloudflare Worker free tier: 100,000 requests/day — far more than needed.
+API key lives only in Cloudflare environment variables — never reaches the browser.
+Setup cost: ~20 lines of JavaScript worker code + add subdomain to Cloudflare.
+
+### Bot presence across pages
+- Widget is present on every page (index.html, index-te.html, all level pages)
+- Widget is subtle: a small icon bottom-right that expands on click
+- Does not auto-open on every page — user must click to start
+- Does not animate or bounce to avoid distraction during reading
+
+### Build order for chatbot
+1. Cloudflare Worker proxy script
+2. Chatbot widget JS + CSS (inline in a shared `site/mitra-chat.js`)
+3. System prompt (all level knowledge, FAQs, tone guide)
+4. Inject widget into all HTML pages
+5. Test EN page and TE page responses
+6. Commit and deploy
+
+---
+
+## Language Expansion Roadmap
+
+All translations follow the same pattern: English source page first, then translation.
+Translation order is based on speaker population and platform relevance.
+
+| Priority | Language | Status | Notes |
+|---|---|---|---|
+| 1 | Telugu | ✅ Complete L1–L7 | First language — Andhra Pradesh and Telangana |
+| 2 | Kannada | ❌ Planned | Karnataka — strong tech community |
+| 3 | Tamil | ❌ Planned | Tamil Nadu + Sri Lanka + Singapore diaspora |
+| 4 | Malayalam | ❌ Planned | Kerala — high literacy, high mobile usage |
+| 5 | Hindi | ❌ Planned | Largest reach — 500M+ potential users |
+
+Each new language adds: a translated set of all level pages + a translated home page
+(e.g. index-kn.html, index-ta.html) + lang switcher links on all existing pages.
+
+---
+
+## Video Production Roadmap
+
+Videos are the biggest missing piece for beginner learners.
+A 90-second to 3-minute narrated walkthrough per level will increase engagement significantly.
+
+### Planned workflow
+1. Write a simple English voiceover script from the level markdown
+2. Generate voice using ElevenLabs or similar TTS
+3. Combine with comic panel images in a simple video editor or Runway
+4. Add Telugu subtitles as a second pass
+5. Upload to S3 (or Mux/Bunny for adaptive streaming later)
+6. Embed in level page above the comic strip
+
+### Priority
+- L1 video first (biggest drop-off point, most important for trust-building)
+- L2 video second
+- Then L3–L7 in order
+
+---
+
+## Engineering Project Track Plan (mitraaiprojects.com — future)
+
+### Target audience
+Final-year CS/IT students who need a real portfolio project.
+Junior developers looking to add an AI-powered project to their resume.
+
+### What the track offers
+- Guided project briefs with clear problem statements
+- Starter Jupyter notebooks with scaffolded code
+- File structure recommendations
+- README templates
+- Deployment walkthroughs (Streamlit Cloud, Hugging Face Spaces, Vercel)
+- Peer review or mentor review as an optional add-on
+
+### First project planned
+- Canteen Menu Optimiser (Streamlit + Pandas + OpenAI) — inspired by Kiran's story in L7
+- Starter notebook: data loading, OpenAI call, Streamlit UI scaffold
+
+### Tech format
+- Project brief as markdown
+- Starter code as Jupyter notebook (.ipynb)
+- README as markdown
+- All hosted on mitraaiprojects.com once site is created
+
+---
+
+## School Student Track Plan (mitraaistudy.com — future)
+
+### Target audience
+Students in Grades 6–12, parents, school teachers.
+
+### What the track offers
+- Age-appropriate AI awareness lessons (no jargon, lots of visuals)
+- "AI for homework help — how to do it right" module
+- "What AI cannot do" safety module
+- Study skill boosters: summarising, explaining, practicing
+- Teacher resource pack (slides, discussion prompts)
+
+### Important rule
+School content must be reviewed for age-appropriateness before publishing.
+No personally identifiable information from students should ever be collected.
+Parental consent guidance must be included where relevant.
+
+---
+
+## Supabase — Planned Additions
+
+### Progress restore on home page (Priority 1 after chatbot)
+Currently saveProgress() writes to Supabase on quiz completion.
+The home page does not yet read this back.
+Plan: on login, query user_progress and mark completed levels visually on the ladder.
+
+### Future tables (when needed)
+| Table | Purpose | When |
+|---|---|---|
+| user_progress | Quiz scores, completions | ✅ Exists |
+| purchases | Payment records | When payments activate |
+| project_submissions | Engineering project uploads | When project track launches |
+| newsletter | Email capture | Before any paid launch |
+
+---
+
+## Admin Dashboard Plan
+
+A simple read-only view (protected by Google login, founder only) showing:
+- total registered users
+- level completion counts
+- quiz score distributions
+- most and least completed levels
+
+Build as a lightweight HTML page querying Supabase directly with service key stored securely.
+
+---
+
+## Resource Usage Automation (Future CI/CD)
+
+Plan to automate `docs/resource-usage.md` via a daily GitHub Actions workflow that:
+- queries GitHub API for repo stats
+- queries AWS S3 for object count and storage used
+- queries Supabase for user count and row count
+- commits the updated file with a `chore: daily resource snapshot` message
 - do not use copyrighted cartoon characters or licensed content without permission
 - create an editorial rulebook for bias, misinformation, and translation quality
 

@@ -18,6 +18,9 @@ The names should feel simple, non-technical, and motivating.
 | 5 | Life Upgrade | 3 hours | Paid | ~~300 INR~~ | **0 INR** |
 | 6 | Power User | 4 hours | Paid | ~~400 INR~~ | **0 INR** |
 | 7 | Build With AI | 5 hours | Paid | ~~500 INR~~ | **0 INR** |
+| 8 | AI for Small Business | 3–4 hours | Paid | ~~600 INR~~ | **0 INR** |
+| 9 | AI for Income | 3–4 hours | Paid | ~~700 INR~~ | *Coming soon* |
+| 10 | AI Safety & Society | 2–3 hours | Paid | ~~500 INR~~ | *Coming soon* |
 
 ## Ladder strategy update
 

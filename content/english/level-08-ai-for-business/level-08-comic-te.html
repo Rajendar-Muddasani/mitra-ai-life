@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>స్థాయి 8: చిన్న వ్యాపారానికి AI | Mitra AI Life</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QGY0LH6W93');
+  </script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:        #1C2B0A;
+      --amber:       #f59e0b;
+      --orange:      #ea580c;
+      --amber-light: #fef3c7;
+      --amber-mid:   #fbbf24;
+      --green:       #16a34a;
+      --sky:         #0ea5e9;
+      --rose:        #e11d48;
+      --cream:       #fffbeb;
+      --white:       #FFFFFF;
+      --text:        #1C1C2E;
+      --muted:       #64748B;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+    #progress-bar { position:fixed; top:0; left:0; height:5px;
+      background: linear-gradient(90deg, var(--amber), var(--orange), var(--amber-mid));
+      width:0%; z-index:999; transition:width 0.3s ease; }
+
+    .topnav {
+      position:fixed; top:5px; left:0; right:0; height:52px;
+      background:rgba(255,251,235,0.95); backdrop-filter:blur(8px);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 1.5rem; z-index:100;
+      border-bottom:2px solid rgba(245,158,11,0.2);
+    }
+    .topnav .brand { font-family:'Baloo 2',cursive; font-weight:800; font-size:1.1rem; color:var(--navy); text-decoration:none; }
+    .topnav .level-tag { background:var(--orange); color:white; font-size:0.75rem; font-weight:700; padding:3px 12px; border-radius:20px; }
+    .topnav .back-link { font-size:0.82rem; color:var(--muted); font-weight:700; text-decoration:none; }
+    .topnav .back-link:hover { color:var(--orange); }
+    .topnav .lang-btn { font-size:0.82rem; color:var(--orange); font-weight:700; background:var(--amber-light); border:1px solid var(--amber-mid); border-radius:8px; padding:4px 10px; cursor:pointer; text-decoration:none; }
+
+    @keyframes fadeInUp   { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes bounceIn { 0%{opacity:0;transform:scale(0.6)} 60%{opacity:1;transform:scale(1.08)} 80%{transform:scale(0.97)} 100%{transform:scale(1)} }
+    @keyframes float  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .anim-fadeInUp { animation:fadeInUp 0.7s ease forwards; }
+    .anim-bounceIn { animation:bounceIn 0.75s cubic-bezier(.68,-.55,.27,1.55) forwards; }
+    .anim-float    { animation:float 3s ease-in-out infinite; }
+
+    section { padding: 4rem 1.5rem; max-width: 900px; margin: 0 auto; }
+    section:first-of-type { padding-top: 6rem; }
+
+    .hero {
+      min-height:88vh; display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; padding-top:5rem;
+      background: linear-gradient(160deg, #7c2d12 0%, #9a3412 40%, #c2410c 75%, #92400e 100%);
+      border-radius: 0 0 48px 48px; position:relative; overflow:hidden;
+    }
+    .hero::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 30% 40%, rgba(251,191,36,0.2) 0%, transparent 60%),
+                  radial-gradient(ellipse at 75% 65%, rgba(234,88,12,0.15) 0%, transparent 50%);
+    }
+    .hero-eyebrow { font-size:0.78rem; font-weight:800; letter-spacing:0.15em; color:var(--amber-mid); text-transform:uppercase; margin-bottom:.5rem; position:relative; }
+    .hero-title { font-family:'Baloo 2',cursive; font-size:clamp(2rem,5.5vw,3.5rem); font-weight:800; color:white; line-height:1.2; position:relative; }
+    .hero-sub { font-size:1.05rem; color:rgba(255,255,255,0.78); margin-top:.75rem; max-width:560px; position:relative; }
+    .hero-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin-top:1.5rem; position:relative; }
+    .badge { background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); color:white; font-size:0.78rem; font-weight:700; padding:5px 14px; border-radius:20px; }
+    .badge.accent { background:var(--amber); color:#1c1c2e; border-color:var(--amber); }
+    .hero-img { width:100%; max-width:760px; border-radius:20px; margin-top:2rem; box-shadow:0 20px 60px rgba(0,0,0,0.5); position:relative; }
+    .hero-offer { background:linear-gradient(90deg,#f59e0b,#fbbf24); color:#1c1c2e; font-size:0.9rem; font-weight:800; padding:8px 24px; border-radius:24px; margin-top:1.5rem; display:inline-block; position:relative; }
+    .hero-offer s { font-weight:400; opacity:0.55; }
+    .scroll-hint { margin-top:2.5rem; font-size:0.8rem; color:rgba(255,255,255,0.4); letter-spacing:.08em; position:relative; }
+
+    .sec-label { font-size:0.72rem; font-weight:800; letter-spacing:.14em; color:var(--orange); text-transform:uppercase; margin-bottom:.4rem; }
+    .sec-title { font-family:'Baloo 2',cursive; font-size:clamp(1.7rem,4vw,2.5rem); font-weight:800; color:var(--navy); line-height:1.25; margin-bottom:.75rem; }
+    .sec-intro { font-size:1.05rem; color:var(--muted); line-height:1.75; margin-bottom:2rem; }
+
+    .story-grid { display:grid; gap:1.5rem; }
+    .story-card { background:white; border-radius:20px; padding:1.5rem 1.75rem; box-shadow:0 4px 20px rgba(0,0,0,0.07); border-left:5px solid var(--amber); display:flex; flex-direction:column; gap:.75rem; }
+    .story-card.orange { border-left-color: var(--orange); }
+    .story-card.green  { border-left-color: var(--green);  }
+    .story-card.sky    { border-left-color: var(--sky);    }
+
+    .char-tag { display:inline-flex; align-items:center; gap:.5rem; font-size:0.8rem; font-weight:800; padding:3px 10px; border-radius:20px; }
+    .char-tag.amber  { color:#92400e; background:#fef3c7; }
+    .char-tag.orange { color:#9a3412; background:#ffedd5; }
+    .char-tag.green  { color:#14532d; background:#dcfce7; }
+    .char-tag.sky    { color:#0c4a6e; background:#e0f2fe; }
+
+    .story-text { font-size:1rem; line-height:1.85; color:var(--text); }
+    .speech-bubble { background:var(--amber-light); border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; font-style:italic; color:#92400e; margin-top:.5rem; }
+    .speech-bubble::before { content:'💬 '; }
+    .ai-bubble { background:#ecfdf5; border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; color:#065f46; margin-top:.5rem; border:1px solid #a7f3d0; }
+    .ai-bubble::before { content:'🤖 AI సమాధానం: '; font-weight:800; }
+
+    .prompt-box { background:#1c1407; border-radius:14px; padding:1.25rem 1.5rem; margin-top:1rem; }
+    .prompt-box .pb-label { font-size:0.72rem; font-weight:800; letter-spacing:.1em; color:var(--amber-mid); text-transform:uppercase; margin-bottom:.5rem; }
+    .prompt-box .pb-text { font-family:monospace; font-size:0.88rem; color:#fde68a; line-height:1.65; }
+
+    .tip-card { background:var(--amber-light); border-radius:16px; padding:1.25rem 1.5rem; border:1px solid var(--amber-mid); margin-top:1.5rem; }
+    .tip-card .tip-head { font-weight:800; color:#92400e; font-size:1rem; margin-bottom:.5rem; }
+    .tip-card p { font-size:0.95rem; line-height:1.75; color:#7c2d12; }
+
+    .cheat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.25rem; }
+    .cheat-card { background:white; border-radius:16px; padding:1.25rem; box-shadow:0 2px 12px rgba(0,0,0,0.07); border-top:4px solid var(--amber); }
+    .cheat-card.orange { border-top-color:var(--orange); }
+    .cheat-card.green  { border-top-color:var(--green);  }
+    .cheat-card.sky    { border-top-color:var(--sky);    }
+    .cheat-card h3 { font-size:0.95rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .cheat-card p  { font-size:0.88rem; color:var(--muted); line-height:1.65; }
+    .prompt-chip { background:var(--amber-light); border-radius:8px; padding:4px 10px; font-size:0.82rem; font-family:monospace; color:#92400e; display:inline-block; margin-top:.4rem; }
+
+    .scene-img { width:100%; border-radius:16px; margin:1rem 0; box-shadow:0 6px 24px rgba(0,0,0,0.15); }
+
+    .ba-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem; }
+    @media(max-width:600px){ .ba-grid { grid-template-columns:1fr; } }
+    .ba-col { border-radius:14px; padding:1rem 1.25rem; }
+    .ba-col.before { background:#fef2f2; border:1px solid #fecaca; }
+    .ba-col.after  { background:#ecfdf5; border:1px solid #a7f3d0; }
+    .ba-col .ba-head { font-size:0.75rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin-bottom:.5rem; }
+    .ba-col.before .ba-head { color:#b91c1c; }
+    .ba-col.after  .ba-head { color:#065f46; }
+    .ba-col p { font-size:0.9rem; line-height:1.7; }
+
+    .quiz-wrap { background:white; border-radius:24px; padding:2rem; box-shadow:0 8px 32px rgba(245,158,11,0.15); }
+    .quiz-q { margin-bottom:1.5rem; }
+    .quiz-q .q-text { font-weight:800; font-size:1.05rem; color:var(--navy); margin-bottom:.75rem; }
+    .quiz-options { display:flex; flex-direction:column; gap:.5rem; }
+    .quiz-options label { display:flex; align-items:center; gap:.75rem; background:var(--amber-light); border-radius:10px; padding:.7rem 1rem; cursor:pointer; font-size:0.95rem; transition:background .15s; }
+    .quiz-options label:hover { background:var(--amber-mid); color:white; }
+    .quiz-options input[type=radio] { accent-color:var(--orange); width:16px; height:16px; }
+    .quiz-submit { background:var(--orange); color:white; font-family:'Nunito',sans-serif; font-weight:800; font-size:1rem; border:none; border-radius:14px; padding:.9rem 2.5rem; cursor:pointer; margin-top:1rem; transition:background .2s; }
+    .quiz-submit:hover { background:#c2410c; }
+    #quiz-result { margin-top:1.25rem; font-weight:800; font-size:1.05rem; display:none; }
+    #quiz-result.pass { color:#059669; }
+    #quiz-result.fail { color:#dc2626; }
+
+    #cert-section { display:none; }
+    .cert-box {
+      background: linear-gradient(135deg, #7c2d12 0%, #9a3412 50%, #c2410c 100%);
+      border-radius:24px; padding:2.5rem 2rem; text-align:center; color:white;
+      box-shadow:0 12px 48px rgba(234,88,12,0.4);
+    }
+    .cert-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; margin-bottom:.25rem; }
+    .cert-box .cert-name { font-size:1.5rem; font-weight:700; color:var(--amber-mid); margin:.5rem 0; }
+    .cert-box p { font-size:0.95rem; color:rgba(255,255,255,0.75); margin-bottom:1.25rem; }
+    .skill-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin:1.25rem 0; }
+    .skill-badge { background:rgba(255,255,255,0.1); border:1px solid rgba(251,191,36,0.4); border-radius:12px; padding:.5rem .9rem; font-size:0.8rem; font-weight:700; color:var(--amber-mid); }
+    .cert-btn { background:var(--amber); color:#1c1c2e; font-weight:800; font-size:0.95rem; border:none; border-radius:14px; padding:.8rem 2rem; cursor:pointer; margin-top:.75rem; }
+
+    .completion-box { text-align:center; padding:3rem 2rem; }
+    .completion-box .big-emoji { font-size:4rem; margin-bottom:1rem; }
+    .completion-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .completion-box p { font-size:1.05rem; color:var(--muted); max-width:520px; margin:0 auto 1.5rem; }
+    .next-btn { display:inline-block; background:var(--orange); color:white; font-weight:800; font-size:1rem; padding:.85rem 2.5rem; border-radius:14px; text-decoration:none; }
+    .next-btn:hover { background:#c2410c; }
+
+    #auth-nav-area { display:flex; align-items:center; gap:.5rem; }
+    img { max-width:100%; }
+    @media(max-width:600px){ .cheat-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav class="topnav">
+  <a href="../../../site/index-te.html" class="brand">🌟 Mitra AI Life</a>
+  <span class="level-tag">స్థాయి 8 · ₹600</span>
+  <div style="display:flex;align-items:center;gap:.75rem;">
+    <div id="auth-nav-area"></div>
+    <a href="level-08-comic.html" class="lang-btn">English</a>
+    <a href="../../../site/index-te.html" class="back-link">← హోమ్</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 1 · HERO                                                       -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="hero">
+  <p class="hero-eyebrow anim-fadeInUp" style="animation-delay:.1s">స్థాయి 8 · చిన్న వ్యాపారానికి AI</p>
+  <h1 class="hero-title anim-fadeInUp" style="animation-delay:.2s">AI తో మీ వ్యాపారాన్ని<br>ముందుకు నడపండి</h1>
+  <p class="hero-sub anim-fadeInUp" style="animation-delay:.3s">మంచి ప్రమోషన్లు రాయండి. కస్టమర్లకు ధైర్యంగా సమాధానం చెప్పండి. స్మార్ట్‌గా మార్కెటింగ్ చేయండి. టెక్ నాలెడ్జ్ అవసరం లేదు — మీ ఫోన్ చాలు.</p>
+  <div class="hero-badges anim-fadeInUp" style="animation-delay:.4s">
+    <span class="badge">⏱ 3–4 గంటలు</span>
+    <span class="badge">🏪 4 వ్యాపార కథలు</span>
+    <span class="badge">📲 WhatsApp + Instagram రెడీ</span>
+    <span class="badge accent">₹600</span>
+  </div>
+  <div class="hero-offer anim-bounceIn" style="animation-delay:.55s">
+    🎉 ముందస్తు యాక్సెస్ — <s>₹600</s> <strong>మొదటి నేర్చుకునేవారికి ఉచితం</strong>
+  </div>
+  <img class="hero-img anim-fadeInUp" style="animation-delay:.5s"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l8-s01-hero.jpg"
+       alt="హైదరాబాద్‌లో రవి మొబైల్ షాప్" />
+  <p class="scroll-hint anim-fadeInUp" style="animation-delay:.7s">క్రింద స్క్రోల్ చేయండి ↓</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 2 · CHARACTERS                                                 -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="sec-label">పాత్రలు</div>
+  <h2 class="sec-title">నలుగురు చిన్న వ్యాపారదారులు. ఒక AI. నిజమైన ఫలితాలు.</h2>
+  <p class="sec-intro">ఈ స్థాయిలో ప్రతి కథ తెలంగాణలో చిన్న వ్యాపారదారులు రోజూ ఎదుర్కొనే నిజమైన పరిస్థితుల ఆధారంగా ఉంది.</p>
+
+  <div class="cheat-grid">
+    <div class="cheat-card amber">
+      <h3>🏪 రవి — మొబైల్ షాప్ · హైదరాబాద్</h3>
+      <p>స్థాయి 1లో మీరు అతన్ని చూశారు. ఇప్పుడు అతను తన షాప్‌ను పెంచుకోవాలనుకుంటున్నాడు — ఆఫర్లు రాయాలి, కస్టమర్లను ఆకర్షించాలి, మార్కెటింగ్ ప్లాన్ తయారు చేయాలి.</p>
+    </div>
+    <div class="cheat-card orange">
+      <h3>🍱 మీన — హోమ్ టిఫిన్స్ · నల్గొండ</h3>
+      <p>రోజూ 30 ఆర్డర్లు, జీరో మార్కెటింగ్. అన్నీ నోటా నోటా. ఆమె ఎక్కువ కస్టమర్లు కావాలి కానీ సరైన ప్రకటన ఎలా రాయాలో తెలియదు.</p>
+    </div>
+    <div class="cheat-card green">
+      <h3>✂️ సురేష్ — టైలర్ · కరీంనగర్</h3>
+      <p>బట్టలతో మంచి పని చేస్తాడు. కానీ WhatsApp కోపంతో వచ్చిన మెసేజ్‌లకు సమాధానం చెప్పడం కష్టంగా ఉంటుంది. మర్యాద తగ్గకుండా, బలహీనంగా కనిపించకుండా ఎలా రాయాలో తెలియదు.</p>
+    </div>
+    <div class="cheat-card sky">
+      <h3>🧣 దివ్య — చీరల రీసెల్లర్ · వరంగల్</h3>
+      <p>ఇన్‌స్టాగ్రామ్‌లో పోచంపల్లి పట్టు చీరలు అమ్ముతుంది. ప్రొడక్ట్ డెస్క్రిప్షన్లు, క్యాప్షన్లు, కస్టమర్ DM రిప్లైలు — త్వరగా, పెద్ద మొత్తంలో కావాలి.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 3 · ACT 1                                                      -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section style="background:white; border-radius:24px; box-shadow:0 4px 24px rgba(0,0,0,0.06); padding:3rem 2rem;">
+  <div class="sec-label">మొదటి చట్రం</div>
+  <h2 class="sec-title">రవి పోటీని చూసి అర్థం చేసుకుంటాడు</h2>
+
+  <img class="scene-img"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l8-s02-ravi-whatsapp.jpg"
+       alt="రవి తన షాప్‌లో WhatsApp ప్రమోషనల్ మెసేజ్ రాస్తున్నాడు" />
+
+  <div class="story-grid">
+    <div class="story-card">
+      <span class="char-tag amber">🏪 రవి · హైదరాబాద్</span>
+      <p class="story-text">రవి షాప్ బానే నడుస్తుంది. కానీ రెండు వీధుల దూరంలో ఉన్న పెద్ద మొబైల్ స్టోర్ అందమైన దీపావళి ఆఫర్ బ్యానర్ పెట్టింది. WhatsApp గ్రూప్‌లో వారి డిస్కౌంట్ గురించి అందరూ మాట్లాడుతున్నారు. రవి దగ్గర ధర తక్కువ — కానీ ఎవరికీ తెలియదు.</p>
+      <div class="speech-bubble">"నా ధరలు తక్కువ కానీ వాళ్ళకి ఒక చక్కటి పోస్టర్ ఉంది, సరైన మెసేజ్ ఉంది. నేను అలాంటిది ఎలా మొదలు పెట్టాలో తెలియదు."</div>
+    </div>
+    <div class="story-card amber">
+      <span class="char-tag amber">🏪 రవి తన మొదటి ప్రమో రాస్తాడు</span>
+      <p class="story-text">రవి ఫోన్ తెరుస్తాడు. AI లో ఒక సాధారణ ఆదేశం టైప్ చేస్తాడు. 60 సెకన్లలో WhatsApp లో పేస్ట్ చేయడానికి సిద్ధంగా ఉన్న ప్రొఫెషనల్ దీపావళి ఆఫర్ మెసేజ్ వస్తుంది.</p>
+      <div class="prompt-box">
+        <div class="pb-label">రవి రాసిన ప్రాంప్ట్ (ఇంగ్లీష్‌లో)</div>
+        <div class="pb-text">Write a short WhatsApp message for my mobile accessories shop in Hyderabad. We have 25% off on all phone cases and earphones this Diwali weekend. Keep it friendly and under 60 words.</div>
+      </div>
+      <div class="ai-bubble">🪔 దీపావళి ఆఫర్ — రవి మొబైల్ యాక్సెసరీస్! 🪔<br><br>ఈ దీపావళి వీకెండ్‌లో అన్ని ఫోన్ కేసులు మరియు ఇయర్‌ఫోన్లపై 25% తగ్గింపు! 📱✨<br>శనివారం &amp; ఆదివారం మాత్రమే. మిస్ చేయకండి!<br><br>📍 [మీ షాప్ చిరునామా] | 📞 [మీ నంబర్]<br><br>కుటుంబంతో షేర్ చేయండి! 🙏</div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-head">💡 నైపుణ్యం 1: ప్రమోషనల్ మెసేజ్‌లు రాయడం</div>
+    <p>AI కి చెప్పండి: మీ వ్యాపార పేరు, ఆఫర్ ఏమిటో, తేదీలు, మరియు టోన్ (స్నేహపూర్వక / ప్రొఫెషనల్ / అర్జెంట్). AI మెసేజ్ రాస్తుంది. మీరు పేస్ట్ చేయండి. పని అయిపోయింది.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 4 · ACT 2                                                      -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="sec-label">రెండవ చట్రం</div>
+  <h2 class="sec-title">మీన తన టిఫిన్ సర్వీస్‌ను నిజమైన వ్యాపారంగా మారుస్తుంది</h2>
+
+  <img class="scene-img"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l8-s03-meena-tiffin.jpg"
+       alt="మీన టిఫిన్ బాక్సులు ప్యాక్ చేస్తూ AI మెను చూస్తుంది" />
+
+  <div class="story-grid">
+    <div class="story-card orange">
+      <span class="char-tag orange">🍱 మీన · నల్గొండ</span>
+      <p class="story-text">మీన కాలనీలో అత్యుత్తమ టిఫిన్ చేస్తుంది. ఇడ్లీ, సాంబార్, ఉప్మా, పెసరట్టు — అన్నీ తాజాగా, ఇంట్లో తయారు చేసినవి. 30 రెగ్యులర్ కస్టమర్లు. కానీ ఒక హౌసింగ్ సొసైటీ ధరలతో మెను అడిగినప్పుడు ఆమె ఆగిపోయింది. ఒక్కసారి కూడా మెను రాయలేదు.</p>
+      <div class="speech-bubble">"మెను ఎలా రాయాలి? నేను వంట చేస్తాను. దాన్ని అందంగా ఎలా చెప్పాలో తెలియదు."</div>
+    </div>
+    <div class="story-card">
+      <span class="char-tag orange">🍱 మీన AI తో మెను తయారు చేస్తుంది</span>
+      <p class="story-text">తాను చేసేవి, ధరలు, తాను సర్వ్ చేసే వాళ్ళు — ఇవి AI కి చెప్తుంది. రెండు నిమిషాల్లో ట్యాగ్‌లైన్, ఐటెమ్ వివరాలు, కాంటాక్ట్ సెక్షన్ తో పూర్తి మెను వస్తుంది.</p>
+      <div class="prompt-box">
+        <div class="pb-label">మీన రాసిన ప్రాంప్ట్</div>
+        <div class="pb-text">I run a home tiffin service in Nalgonda. I make idli (₹40), upma (₹35), pesarattu (₹45), and full meals on request (₹80). I deliver by 8am. Write a simple WhatsApp menu with a catchy tagline. Keep it warm and homely.</div>
+      </div>
+      <div class="ai-bubble">🍽️ మీన హోమ్ టిఫిన్స్ — "వంట ఘుమఘుమలు మీ ఇంటికి" 🍽️<br><br>• ఇడ్లీ + సాంబార్ + చట్నీ — ₹40<br>• ఉప్మా + చట్నీ — ₹35<br>• పెసరట్టు + అల్లం చట్నీ — ₹45<br>• పూర్తి భోజనం (అభ్యర్థన మేరకు) — ₹80<br><br>📦 ఉదయం 8కి ఇంటికి డెలివరీ | రోజూ తాజాగా | పరిశుభ్రమైన వంటగది<br>📞 [మీన నంబర్]</div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-head">💡 నైపుణ్యం 2: ప్రొడక్ట్ &amp; సర్వీస్ వివరణలు రాయడం</div>
+    <p>మీ ఐటెమ్‌లు, ధరలు, మీ ప్రత్యేకత AI కి చెప్పండి. AI దాన్ని ప్రొఫెషనల్ టెక్స్ట్‌గా మారుస్తుంది — WhatsApp గ్రూప్‌లు, నోటీస్ బోర్డులు, కాలనీ అనౌన్స్‌మెంట్లు ఎక్కడైనా పంచుకోవచ్చు.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 5 · ACT 3                                                      -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section style="background:white; border-radius:24px; box-shadow:0 4px 24px rgba(0,0,0,0.06); padding:3rem 2rem;">
+  <div class="sec-label">మూడవ చట్రం</div>
+  <h2 class="sec-title">సురేష్ కస్టమర్ ఫిర్యాదులకు భయపడడం ఆపుతాడు</h2>
+
+  <img class="scene-img"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l8-s04-suresh-complaint.jpg"
+       alt="సురేష్ ఒక కోపంతో వచ్చిన WhatsApp మెసేజ్ చదువుతూ AI సమాధానం చూస్తున్నాడు" />
+
+  <div class="story-grid">
+    <div class="story-card green">
+      <span class="char-tag green">✂️ సురేష్ · కరీంనగర్</span>
+      <p class="story-text">సురేష్ మంచి టైలర్. కానీ గత వారం ఒక కస్టమర్ WhatsApp లో చాలా కోపంగా మెసేజ్ పంపాడు — చొక్కా 5 రోజులు ఆలస్యమైంది. సురేష్ కోపంగా జవాబు రాశాడు, తర్వాత తుడిచేశాడు. 20 నిమిషాలు స్క్రీన్ చూస్తూ కూర్చున్నాడు.</p>
+      <div class="speech-bubble">"ఆలస్యమైందని తెలుసు కానీ రూడ్‌గా చెప్పలేను. బలహీనంగా కనిపించాలని లేదు. ఎలా జవాబు చెప్పాలి?"</div>
+    </div>
+    <div class="story-card">
+      <span class="char-tag green">✂️ సురేష్ ఫిర్యాదు AI కి పంపుతాడు</span>
+      <p class="story-text">కస్టమర్ కోపంతో పంపిన మెసేజ్ కాపీ చేసి AI లో పేస్ట్ చేస్తాడు. మర్యాదగా, ప్రొఫెషనల్‌గా, క్షమాపణ కోరే సమాధానం అడుగుతాడు. 30 సెకన్లలో శాంతంగా, గౌరవంగా ఉన్న జవాబు వస్తుంది.</p>
+      <div class="prompt-box">
+        <div class="pb-label">సురేష్ రాసిన ప్రాంప్ట్</div>
+        <div class="pb-text">My customer sent this message: "My shirt is still not ready! You said 3 days, it's been 5! This is very unprofessional!" Write a polite, apologetic, professional WhatsApp reply. I want to keep the customer. Do not sound rude or weak.</div>
+      </div>
+      <div class="ai-bubble">[కస్టమర్ పేరు] గారూ,<br><br>మీరు చెప్పింది పూర్తిగా సరైనదే — ఈ ఆలస్యానికి నేను హృదయపూర్వకంగా క్షమాపణ కోరుతున్నాను. ఇది నా స్టాండర్డ్ కాదు.<br><br>మీ చొక్కా రేపు సాయంత్రం వరకు సిద్ధమవుతుంది. అయ్యాక నేను ఫోన్ చేస్తాను. క్షమాపణగా అదనపు చార్జ్ ఉండదు.<br><br>మీ నమ్మకానికి ధన్యవాదాలు. 🙏</div>
+    </div>
+  </div>
+
+  <div class="ba-grid">
+    <div class="ba-col before">
+      <div class="ba-head">❌ AI లేకుండా</div>
+      <p>సురేష్ కోపంతో జవాబిచ్చి కస్టమర్‌ను పోగొట్టుకుంటాడు లేదా మౌనంగా ఉండి అప్రొఫెషనల్‌గా కనిపిస్తాడు.</p>
+    </div>
+    <div class="ba-col after">
+      <div class="ba-head">✅ AI తో</div>
+      <p>30 సెకన్లలో శాంత, క్షమాపణ, ప్రొఫెషనల్ జవాబు. కస్టమర్ నిలబడతాడు. పేరు కాపాడబడుతుంది.</p>
+    </div>
+  </div>
+
+  <div class="tip-card" style="margin-top:1.5rem;">
+    <div class="tip-head">💡 నైపుణ్యం 3: కస్టమర్ ఫిర్యాదులకు సమాధానం</div>
+    <p>ఫిర్యాదు పేస్ట్ చేయండి. AI కి చెప్పండి: "మర్యాదగా, ప్రొఫెషనల్‌గా జవాబు రాయి. నేను కస్టమర్‌ను ఉంచుకోవాలి." AI టోన్ చూసుకుంటుంది. మీరు చదివి పంపండి.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 6 · ACT 4                                                      -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="sec-label">నాలుగవ చట్రం</div>
+  <h2 class="sec-title">దివ్య 3 నిమిషాల్లో 5 చీరలకు క్యాప్షన్లు రాస్తుంది</h2>
+
+  <img class="scene-img"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l8-s05-divya-instagram.jpg"
+       alt="దివ్య పోచంపల్లి చీరలకు Instagram క్యాప్షన్లు AI తో రాస్తుంది" />
+
+  <div class="story-grid">
+    <div class="story-card sky">
+      <span class="char-tag sky">🧣 దివ్య · వరంగల్</span>
+      <p class="story-text">దివ్య Instagram లో పోచంపల్లి హ్యాండ్లూమ్ చీరలు అమ్ముతుంది. ప్రతి పోస్ట్ కి 2 గంటలు పడుతుంది — ఫోటో, క్యాప్షన్, హ్యాష్‌ట్యాగ్లు, DM రిప్లైలు. ఈ వారం 20 చీరలు పోస్ట్ చేయాలి. ఒంటరిగా సాధ్యం కాదు.</p>
+      <div class="speech-bubble">"ఫోటో 2 నిమిషాల్లో తీస్తాను. తర్వాత క్యాప్షన్ కోసం 1 గంట ఆలోచిస్తాను. ఇది పిచ్చి."</div>
+    </div>
+    <div class="story-card amber">
+      <span class="char-tag sky">🧣 దివ్య ప్రతి చీరను AI కి వివరిస్తుంది</span>
+      <p class="story-text">చీర రంగు, వస్త్రం, సందర్భం వివరిస్తుంది — AI నుండి పోస్ట్ రెడీ క్యాప్షన్ హ్యాష్‌ట్యాగ్‌లతో వస్తుంది. అయిదు చీరలు, అయిదు క్యాప్షన్లు — 3 నిమిషాలు.</p>
+      <div class="prompt-box">
+        <div class="pb-label">దివ్య రాసిన ప్రాంప్ట్</div>
+        <div class="pb-text">Write an Instagram caption for a Pochampally ikat silk saree. It's orange and gold with traditional geometric patterns. Perfect for Navratri and wedding functions. Price ₹3,200. Add 8 relevant hashtags. Keep it elegant and aspirational. Under 60 words.</div>
+      </div>
+      <div class="ai-bubble">వారసత్వంలో చుట్టుకొని, బంగారంలో నేయబడింది ✨<br><br>ఈ పోచంపల్లి ఇకత్ పట్టు చీర నవరాత్రి మరియు పెళ్ళిళ్ళకు మీ అద్భుతమైన వేషం 🧡<br><br>ధర: ₹3,200 | ఆర్డర్ కు DM చేయండి<br><br>#పోచంపల్లిచీర #ఇకత్‌సిల్క్ #హ్యాండ్లూమ్ #నవరాత్రి #పెళ్ళిఫ్యాషన్ #తెలంగాణచేనేత #SareeLove #IndianWear</div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-head">💡 నైపుణ్యం 4: సోషల్ మీడియా క్యాప్షన్లు పెద్ద మొత్తంలో రాయడం</div>
+    <p>ప్రొడక్ట్ + సందర్భం + ధర + టోన్ వివరించండి. AI హ్యాష్‌ట్యాగ్‌లతో క్యాప్షన్ రాస్తుంది. కాపీ. పేస్ట్. పోస్ట్. గంటలు కాదు — నిమిషాల్లో.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 7 · ACT 5                                                      -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section style="background:white; border-radius:24px; box-shadow:0 4px 24px rgba(0,0,0,0.06); padding:3rem 2rem;">
+  <div class="sec-label">అయిదవ చట్రం</div>
+  <h2 class="sec-title">రవికి పాకెట్‌లో ఉచిత వ్యాపార సలహాదారు వస్తాడు</h2>
+
+  <img class="scene-img"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l8-s06-ravi-calendar.jpg"
+       alt="రవి AI తయారు చేసిన WhatsApp మార్కెటింగ్ క్యాలెండర్ చదువుతున్నాడు" />
+
+  <div class="story-grid">
+    <div class="story-card">
+      <span class="char-tag amber">🏪 రవి · తదుపరి స్థాయి</span>
+      <p class="story-text">రవి దీపావళి మెసేజ్ పని చేసింది. రెండు రోజుల్లో 12 కొత్త కస్టమర్లు. ఇప్పుడు అతనికి ఒక నెల పాటు పూర్తి మార్కెటింగ్ ప్లాన్ కావాలి. AI ని అడుగుతాడు.</p>
+      <div class="prompt-box">
+        <div class="pb-label">రవి రాసిన ప్రాంప్ట్</div>
+        <div class="pb-text">I run a mobile accessories shop in Hyderabad. I want a 4-week WhatsApp marketing plan for November. Include weekly themes, message ideas, timing suggestions, and 2 festival offers (Diwali week 1, Children's Day week 2). Keep it practical for a small shop owner.</div>
+      </div>
+      <div class="ai-bubble">
+        📅 నవంబర్ మార్కెటింగ్ ప్లాన్ — రవి మొబైల్ యాక్సెసరీస్<br><br>
+        వారం 1 (దీపావళి): "ఈ దీపావళి ఫోన్ కేస్ గిఫ్ట్ చేయండి!" — 25% ఆఫ్. మంగళవారం + శనివారం సాయంత్రం 6కి మెసేజ్ పంపండి.<br>
+        వారం 2 (బాలల దినోత్సవం): "పిల్లలకు బెస్ట్ గిఫ్ట్ — ఇయర్‌ఫోన్లు &amp; కేసులు" — కిడ్స్ బండిల్స్. గురువారం 5కి మెసేజ్.<br>
+        వారం 3: కొత్త స్టాక్ వచ్చింది — "ఫ్రెష్ యాక్సెసరీస్ జస్ట్ ఇన్!" — 5 కొత్త ప్రొడక్ట్‌లు ఫోటోలతో చూపించండి.<br>
+        వారం 4: నెల చివర — "నవంబర్ లాస్ట్ చాన్స్ డీల్స్" — పాత స్టాక్ క్లియరెన్స్ ఆఫర్.
+      </div>
+    </div>
+    <div class="story-card orange">
+      <span class="char-tag amber">🏪 రవి ముఖ్యమైన విషయం గుర్తు చేసుకుంటాడు</span>
+      <p class="story-text">రవి ప్లాన్ జాగ్రత్తగా చదువుతాడు. అతని షాప్ కి సరిపోని వాటిని మారుస్తాడు — నిజమైన ఫోన్ నంబర్ చేర్చాడు, ధరలు తన అసలు ధరలకు మారుస్తాడు. AI ని శురువాటపు ముసాయిదాగా వాడుతాడు, తుది జవాబుగా కాదు.</p>
+      <div class="speech-bubble">"AI 1 నిమిషంలో ప్లాన్ ఇచ్చింది. కన్సల్టెంట్ అయితే ₹5,000 తీసుకుంటాడు. కానీ నేను ప్రతి వాక్యం చదివి నా షాప్ కి సరిపోయేలా మార్చాను."</div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-head">💡 నైపుణ్యం 5: వ్యాపార మార్కెటింగ్ ప్లాన్ చేయడం</div>
+    <p>AI ని మార్కెటింగ్ క్యాలెండర్, పండుగ ఆఫర్ ప్లాన్, లేదా WhatsApp మెసేజ్ షెడ్యూల్ కోసం అడగండి. దాన్ని డ్రాఫ్ట్‌గా వాడండి. మీ అసలు పరిస్థితికి తగ్గట్టు మారుస్తూ ముందుకు వెళ్ళండి. AI ఒక ఉచిత సలహాదారు — గ్యారెంటీ ఇచ్చే ఒరాకిల్ కాదు.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 8 · CHEAT SHEET                                                -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="sec-label">మీ టూల్‌కిట్</div>
+  <h2 class="sec-title">ప్రతి చిన్న వ్యాపారదారుకు కావాల్సిన 5 AI నైపుణ్యాలు</h2>
+  <p class="sec-intro">ఇది సేవ్ చేయండి. రోజూ వాడండి.</p>
+
+  <div class="cheat-grid">
+    <div class="cheat-card amber">
+      <h3>📣 ప్రమోషనల్ మెసేజ్‌లు</h3>
+      <p>మీ వ్యాపారం, ఆఫర్, తేదీలు, టోన్ చెప్పండి.</p>
+      <span class="prompt-chip">"[వ్యాపారం]లో [ఆఫర్] కి WhatsApp మెసేజ్ రాయి"</span>
+    </div>
+    <div class="cheat-card orange">
+      <h3>📋 మెను / ప్రొడక్ట్ వివరణలు</h3>
+      <p>మీ ఐటెమ్‌లు + ధరలు ఇచ్చి AI తో అందంగా తయారు చేయించండి.</p>
+      <span class="prompt-chip">"[ఐటెమ్‌లు + ధరలు] కి మెను / క్యాటలాగ్ రాయి"</span>
+    </div>
+    <div class="cheat-card green">
+      <h3>🙏 ఫిర్యాదు సమాధానాలు</h3>
+      <p>ఫిర్యాదు పేస్ట్ చేసి మర్యాదగా, ప్రొఫెషనల్‌గా జవాబు అడగండి.</p>
+      <span class="prompt-chip">"ఈ ఫిర్యాదుకు మర్యాదగా జవాబు రాయి: [పేస్ట్]"</span>
+    </div>
+    <div class="cheat-card sky">
+      <h3>📸 సోషల్ మీడియా క్యాప్షన్లు</h3>
+      <p>ప్రొడక్ట్, సందర్భం, ధర, టోన్ వివరించండి.</p>
+      <span class="prompt-chip">"[ప్రొడక్ట్ వివరాలు] కి Instagram క్యాప్షన్ రాయి"</span>
+    </div>
+    <div class="cheat-card" style="border-top-color:#a21caf;">
+      <h3>📅 మార్కెటింగ్ క్యాలెండర్</h3>
+      <p>వ్యాపారం, నెల, పండుగలు చెప్పండి. ప్లాన్ వస్తుంది.</p>
+      <span class="prompt-chip">"[వ్యాపారం + నెల] కి 4 వారాల WhatsApp ప్లాన్ రాయి"</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 9 · PRACTICE                                                   -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section style="background:white; border-radius:24px; box-shadow:0 4px 24px rgba(0,0,0,0.06); padding:3rem 2rem;">
+  <div class="sec-label">ప్రాక్టీస్ అరీనా</div>
+  <h2 class="sec-title">క్విజ్ కు ముందు మీరే ప్రయత్నించండి</h2>
+  <p class="sec-intro">ఏదైనా AI యాప్ తెరవండి. ఈ నిజమైన సవాళ్ళను ప్రయత్నించండి.</p>
+
+  <img class="scene-img"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l8-s07-practice.jpg"
+       alt="చిన్న వ్యాపారదారులు కలిసి AI ప్రాంప్ట్లు ప్రాక్టీస్ చేస్తున్నారు" />
+
+  <div style="display:flex; flex-direction:column; gap:1.25rem; margin-top:1.5rem;">
+    <div class="tip-card">
+      <div class="tip-head">సవాలు 1 — ప్రమో రాయండి</div>
+      <p>మీరు విజయవాడలో పువ్వుల షాప్ నడుపుతున్నారు. వాలెంటైన్స్ డే కి 20% ఆఫ్ ఆఫర్ — 2 రోజులు మాత్రమే. AI తో 60 మాటల్లో WhatsApp మెసేజ్ రాయండి.</p>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">సవాలు 2 — ఫిర్యాదుకు జవాబు</div>
+      <p>కస్టమర్ అంటున్నారు: "నా కొడుకు పుట్టినరోజుకు కేక్ ఆర్డర్ చేశాను. 2 గంటలు ఆలస్యంగా వచ్చింది. సర్‌ప్రైజ్ పాడైపోయింది!" AI తో మర్యాదగా, క్షమాపణతో, పరిష్కారంతో జవాబు రాయండి.</p>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">సవాలు 3 — ప్రొడక్ట్ వివరణ</div>
+      <p>మీరు ఇంట్లో కొబ్బరి నూనె తయారు చేస్తున్నారు. 500ml కి ₹150. కోల్డ్ ప్రెస్‌డ్, రసాయనాలు లేవు. ట్యాగ్‌లైన్ తో WhatsApp క్యాటలాగ్ వివరణ రాయండి — 2–3 వాక్యాలు.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 10 · QUIZ                                                      -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="sec-label">జ్ఞాన పరీక్ష</div>
+  <h2 class="sec-title">5 ప్రశ్నలు · స్థాయి 8 పూర్తి చేయడానికి 4 పాస్ అవ్వాలి</h2>
+
+  <div class="quiz-wrap">
+    <form id="quiz-form">
+
+      <div class="quiz-q">
+        <div class="q-text">1. రవి ఆదివారం మాత్రమే ఫోన్ కేసులపై 20% డిస్కౌంట్ ప్రకటించాలనుకుంటున్నాడు. ఏ ప్రాంప్ట్ అత్యుత్తమ ఫలితం ఇస్తుంది?</div>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> a) "నా షాప్ గురించి WhatsApp మెసేజ్ రాయి"</label>
+          <label><input type="radio" name="q1" value="b"> b) "హైదరాబాద్‌లో నా మొబైల్ యాక్సెసరీస్ షాప్ కోసం ఈ ఆదివారం మాత్రమే అన్ని ఫోన్ కేసులపై 20% ఆఫ్ ప్రకటించే WhatsApp మెసేజ్ రాయి. సంక్షిప్తంగా, స్నేహంగా ఉండాలి."</label>
+          <label><input type="radio" name="q1" value="c"> c) "డిస్కౌంట్ల గురించి చెప్పు"</label>
+          <label><input type="radio" name="q1" value="d"> d) "నా షాప్ కి పోస్టర్ చేయి"</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <div class="q-text">2. సురేష్ కి వచ్చిన మెసేజ్: "నా చొక్కా ఇంకా రెడీ కాలేదు! 3 రోజులు అన్నావు, 5 అయ్యింది!" ఇక్కడ AI ని ఎలా ఉపయోగించాలి?</div>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> a) మెసేజ్ ignore చేయడం</label>
+          <label><input type="radio" name="q2" value="b"> b) కోపంగా జవాబు రాయడం</label>
+          <label><input type="radio" name="q2" value="c"> c) ఫిర్యాదు AI లో పేస్ట్ చేసి మర్యాదగా, క్షమాపణతో, ప్రొఫెషనల్ జవాబు అడగడం</label>
+          <label><input type="radio" name="q2" value="d"> d) WhatsApp మూసివేసి వాళ్ళు మర్చిపోతారని ఆశించడం</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <div class="q-text">3. దివ్య పోచంపల్లి పట్టు చీరకి క్యాప్షన్ కావాలి. ఏ ప్రాంప్ట్ అత్యుత్తమ క్యాప్షన్ ఇస్తుంది?</div>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> a) "క్యాప్షన్ రాయి"</label>
+          <label><input type="radio" name="q3" value="b"> b) "చీరకి క్యాప్షన్"</label>
+          <label><input type="radio" name="q3" value="c"> c) "పండుగ వేషానికి పనికొచ్చే నారింజ, బంగారు రంగు పోచంపల్లి పట్టు చీరకు Instagram క్యాప్షన్ రాయి. 5 హ్యాష్‌ట్యాగ్‌లు చేర్చు."</label>
+          <label><input type="radio" name="q3" value="d"> d) "వైరల్ చేయి"</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <div class="q-text">4. మీన తన టిఫిన్ వ్యాపారాన్ని పెంచాలనుకుంటుంది. ఏ AI పని నేరుగా ఉపయోగపడుతుంది?</div>
+        <div class="quiz-options">
+          <label><input type="radio" name="q4" value="a"> a) AI తో వంట రెసిపీలు అడగడం</label>
+          <label><input type="radio" name="q4" value="b"> b) స్థానిక హౌసింగ్ సొసైటీ గ్రూప్ కి పంపడానికి WhatsApp మెసేజ్ రాయించుకోవడం</label>
+          <label><input type="radio" name="q4" value="c"> c) నల్గొండలో బెస్ట్ టిఫిన్ ప్రొవైడర్లు ఎవరో అడగడం</label>
+          <label><input type="radio" name="q4" value="d"> d) AI తో వెబ్‌సైట్ తయారు చేయించడం</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <div class="q-text">5. AI రవికి పూర్తి 4 వారాల మార్కెటింగ్ ప్లాన్ ఇచ్చింది. అతను ఇప్పుడు ఏమి చేయాలి?</div>
+        <div class="quiz-options">
+          <label><input type="radio" name="q5" value="a"> a) ఆలోచించకుండా అన్నీ ఫాలో అవ్వడం</label>
+          <label><input type="radio" name="q5" value="b"> b) విజయం గ్యారెంటీ అని అందరికీ చెప్పడం</label>
+          <label><input type="radio" name="q5" value="c"> c) జాగ్రత్తగా చదివి, తన షాప్ పరిస్థితికి సరిపోయేలా మార్చి, అడుగడుగున ప్రయత్నించడం</label>
+          <label><input type="radio" name="q5" value="d"> d) తీసివేయడం — AI నిజమైన వ్యాపారానికి సహాయపడదు</label>
+        </div>
+      </div>
+
+      <button type="button" class="quiz-submit" onclick="submitQuiz()">సమాధానాలు సమర్పించండి</button>
+    </form>
+    <div id="quiz-result"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 11 · CERTIFICATE                                               -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section id="cert-section">
+  <div class="cert-box">
+    <div style="font-size:3rem; margin-bottom:.5rem;">🏆</div>
+    <h2>స్థాయి 8 పూర్తయింది!</h2>
+    <div class="cert-name" id="cert-name">బిజినెస్ బిల్డర్</div>
+    <p>మీరు AI తో చిన్న వ్యాపారం పెంచడం నేర్చుకున్నారు — ప్రమోషన్లు రాయడం, కస్టమర్లను నిర్వహించడం, కంటెంట్ సృష్టించడం, మార్కెటింగ్ ప్లాన్ చేయడం. మీరు ఇప్పుడు AI-శక్తి గల వ్యాపారవేత్త.</p>
+    <div class="skill-badges">
+      <span class="skill-badge">📣 ప్రమోషనల్ రైటింగ్</span>
+      <span class="skill-badge">📋 ప్రొడక్ట్ వివరణలు</span>
+      <span class="skill-badge">🙏 కస్టమర్ రిప్లైలు</span>
+      <span class="skill-badge">📸 సోషల్ క్యాప్షన్లు</span>
+      <span class="skill-badge">📅 మార్కెటింగ్ ప్లానింగ్</span>
+    </div>
+    <button class="cert-btn" onclick="window.print()">🖨️ సర్టిఫికేట్ ప్రింట్ చేయండి</button>
+  </div>
+
+  <div class="completion-box">
+    <div class="big-emoji">🚀</div>
+    <h2>తర్వాత ఏమిటి?</h2>
+    <p>స్థాయి 9 — AI తో ఆదాయం. మీ AI నైపుణ్యాలను ఫ్రీలాన్సింగ్, కంటెంట్ క్రియేషన్, ఆన్‌లైన్ సర్వీసుల ద్వారా నిజమైన ఆదాయంగా మార్చుకోవడం ఎలా — త్వరలో వస్తుంది.</p>
+    <a href="../../../site/index-te.html" class="next-btn">← అన్ని స్థాయిలకు తిరిగి వెళ్ళు</a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 12 · CELEBRATION + DISQUS                                      -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section style="text-align:center; padding-bottom:5rem;">
+  <img class="scene-img" style="max-width:680px; margin:0 auto 2rem;"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l8-s08-celebration.jpg"
+       alt="నలుగురు చిన్న వ్యాపారదారులు AI తో వారి వ్యాపారం పెరగడాన్ని సంబరపడుతున్నారు" />
+
+  <div style="text-align:left;">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://mitraailife.com/content/english/level-08-ai-for-business/level-08-comic-te.html';
+        this.page.identifier = 'level-08-ai-for-business-te';
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://mitra-ai-life.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+  </div>
+</section>
+
+<!-- SCRIPTS -->
+<script src="../../../site/auth.js"></script>
+
+<script>
+window.addEventListener('scroll', () => {
+  const scrollTop = document.documentElement.scrollTop;
+  const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  document.getElementById('progress-bar').style.width = (scrollTop / docHeight * 100) + '%';
+});
+
+const ANSWERS = { q1:'b', q2:'c', q3:'c', q4:'b', q5:'c' };
+
+function submitQuiz() {
+  const form = document.getElementById('quiz-form');
+  let score = 0;
+  const total = Object.keys(ANSWERS).length;
+
+  for (const [q, correct] of Object.entries(ANSWERS)) {
+    const sel = form.querySelector(`input[name="${q}"]:checked`);
+    if (sel && sel.value === correct) score++;
+  }
+
+  const resultEl = document.getElementById('quiz-result');
+  resultEl.style.display = 'block';
+
+  if (score >= 4) {
+    resultEl.className = 'pass';
+    resultEl.textContent = `🎉 మీరు ${score}/${total} సాధించారు! అద్భుతం — మీరు చిన్న వ్యాపారానికి AI నేర్చుకున్నారు!`;
+    document.getElementById('cert-section').style.display = 'block';
+    saveProgress('level-08', score);
+    setTimeout(() => document.getElementById('cert-section').scrollIntoView({ behavior:'smooth' }), 500);
+  } else {
+    resultEl.className = 'fail';
+    resultEl.textContent = `మీరు ${score}/${total} సాధించారు. పాస్ కావడానికి 4 కావాలి. పైన ఉన్న కథలు మళ్ళీ చదివి ప్రయత్నించండి!`;
+  }
+}
+</script>
+
+  <!-- Mitra chatbot widget -->
+  <script src="../../../site/mitra-chat.js"></script>
+</body>
+</html>

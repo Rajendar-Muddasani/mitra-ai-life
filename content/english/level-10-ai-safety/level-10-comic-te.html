@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>స్థాయి 10: AI భద్రత &amp; సమాజం | Mitra AI Life Education</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&family=Noto+Sans+Telugu:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QGY0LH6W93');
+  </script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:         #1e1b4b;
+      --purple:       #6d28d9;
+      --indigo:       #7c3aed;
+      --violet:       #8b5cf6;
+      --purple-light: #ede9fe;
+      --purple-mid:   #a78bfa;
+      --gold:         #d97706;
+      --rose:         #e11d48;
+      --cream:        #f5f3ff;
+      --white:        #FFFFFF;
+      --text:         #1C1C2E;
+      --muted:        #64748B;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Noto Sans Telugu', 'Nunito', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+    #progress-bar { position:fixed; top:0; left:0; height:5px;
+      background: linear-gradient(90deg, var(--purple), var(--violet), var(--purple-mid));
+      width:0%; z-index:999; transition:width 0.3s ease; }
+
+    .topnav {
+      position:fixed; top:5px; left:0; right:0; height:52px;
+      background:rgba(245,243,255,0.95); backdrop-filter:blur(8px);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 1.5rem; z-index:100;
+      border-bottom:2px solid rgba(109,40,217,0.2);
+    }
+    .topnav .brand { font-family:'Baloo 2',cursive; font-weight:800; font-size:1.1rem; color:var(--navy); text-decoration:none; }
+    .topnav .level-tag { background:var(--purple); color:white; font-size:0.75rem; font-weight:700; padding:3px 12px; border-radius:20px; }
+    .topnav .back-link { font-size:0.82rem; color:var(--muted); font-weight:700; text-decoration:none; }
+    .topnav .back-link:hover { color:var(--purple); }
+    .topnav .lang-btn { font-size:0.82rem; color:var(--purple); font-weight:700; background:var(--purple-light); border:1px solid var(--purple-mid); border-radius:8px; padding:4px 10px; cursor:pointer; text-decoration:none; }
+
+    @keyframes fadeInUp   { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes bounceIn { 0%{opacity:0;transform:scale(0.6)} 60%{opacity:1;transform:scale(1.08)} 80%{transform:scale(0.97)} 100%{transform:scale(1)} }
+    .anim-fadeInUp { animation:fadeInUp 0.7s ease forwards; }
+    .anim-bounceIn { animation:bounceIn 0.75s cubic-bezier(.68,-.55,.27,1.55) forwards; }
+
+    section { padding: 4rem 1.5rem; max-width: 900px; margin: 0 auto; }
+    section:first-of-type { padding-top: 6rem; }
+
+    .hero {
+      min-height:88vh; display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; padding-top:5rem;
+      background: linear-gradient(160deg, #2e1065 0%, #4c1d95 40%, #6d28d9 75%, #312e81 100%);
+      border-radius: 0 0 48px 48px; position:relative; overflow:hidden;
+    }
+    .hero::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 30% 40%, rgba(167,139,250,0.18) 0%, transparent 60%),
+                  radial-gradient(ellipse at 75% 65%, rgba(124,58,237,0.13) 0%, transparent 50%);
+    }
+    .hero-eyebrow { font-size:0.78rem; font-weight:800; letter-spacing:0.1em; color:var(--purple-mid); text-transform:uppercase; margin-bottom:.5rem; position:relative; }
+    .hero-title { font-family:'Baloo 2',cursive; font-size:clamp(2rem,6vw,3.5rem); font-weight:800; color:white; line-height:1.15; position:relative; }
+    .hero-sub { font-size:1.05rem; color:rgba(255,255,255,0.78); margin-top:.75rem; max-width:560px; position:relative; }
+    .hero-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin-top:1.5rem; position:relative; }
+    .badge { background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); color:white; font-size:0.78rem; font-weight:700; padding:5px 14px; border-radius:20px; }
+    .badge.accent { background:var(--purple-mid); color:#2e1065; border-color:var(--purple-mid); }
+    .hero-img { width:100%; max-width:760px; border-radius:20px; margin-top:2rem; box-shadow:0 20px 60px rgba(0,0,0,0.5); position:relative; }
+    .hero-offer { background:linear-gradient(90deg,#6d28d9,#7c3aed); color:white; font-size:0.9rem; font-weight:800; padding:8px 24px; border-radius:24px; margin-top:1.5rem; display:inline-block; position:relative; }
+    .hero-offer s { font-weight:400; opacity:0.6; }
+    .scroll-hint { margin-top:2.5rem; font-size:0.8rem; color:rgba(255,255,255,0.4); letter-spacing:.08em; position:relative; }
+
+    .sec-label { font-size:0.72rem; font-weight:800; letter-spacing:.1em; color:var(--purple); text-transform:uppercase; margin-bottom:.4rem; }
+    .sec-title { font-family:'Baloo 2',cursive; font-size:clamp(1.6rem,4vw,2.4rem); font-weight:800; color:var(--navy); line-height:1.2; margin-bottom:.75rem; }
+    .sec-intro { font-size:1rem; color:var(--muted); line-height:1.8; margin-bottom:2rem; }
+
+    .story-grid { display:grid; gap:1.5rem; }
+    .story-card { background:white; border-radius:20px; padding:1.5rem 1.75rem; box-shadow:0 4px 20px rgba(0,0,0,0.07); border-left:5px solid var(--purple); display:flex; flex-direction:column; gap:.75rem; }
+    .story-card.indigo { border-left-color: var(--indigo); }
+    .story-card.violet { border-left-color: var(--violet); }
+    .story-card.gold   { border-left-color: var(--gold);   }
+    .story-card.rose   { border-left-color: var(--rose);   }
+
+    .char-tag { display:inline-flex; align-items:center; gap:.5rem; font-size:0.8rem; font-weight:800; padding:3px 10px; border-radius:20px; }
+    .char-tag.purple { color:#2e1065; background:#ede9fe; }
+    .char-tag.indigo { color:#1e1b4b; background:#e0e7ff; }
+    .char-tag.violet { color:#3b0764; background:#f3e8ff; }
+    .char-tag.gold   { color:#451a03; background:#fef3c7; }
+    .char-tag.rose   { color:#4c0519; background:#ffe4e6; }
+
+    .story-text { font-size:1rem; line-height:1.9; color:var(--text); }
+    .speech-bubble { background:var(--purple-light); border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; font-style:italic; color:#2e1065; margin-top:.5rem; }
+    .speech-bubble::before { content:'💬 '; }
+    .warn-bubble { background:#fff7ed; border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; color:#92400e; margin-top:.5rem; border:1px solid #fcd34d; }
+    .warn-bubble::before { content:'⚠️ '; font-weight:800; }
+    .safe-bubble { background:#ecfdf5; border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; color:#065f46; margin-top:.5rem; border:1px solid #a7f3d0; }
+    .safe-bubble::before { content:'✅ '; font-weight:800; }
+
+    .tip-card { background:var(--purple-light); border-radius:16px; padding:1.25rem 1.5rem; border:1px solid var(--purple-mid); margin-top:1.5rem; }
+    .tip-card .tip-head { font-weight:800; color:#2e1065; font-size:1rem; margin-bottom:.5rem; }
+    .tip-card p { font-size:0.95rem; line-height:1.8; color:#4c1d95; }
+
+    .steps-list { list-style:none; display:flex; flex-direction:column; gap:1rem; margin-top:1rem; }
+    .steps-list li { display:flex; gap:1rem; align-items:flex-start; }
+    .step-num { background:var(--purple); color:white; border-radius:50%; min-width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; flex-shrink:0; margin-top:2px; }
+    .step-text { font-size:1rem; line-height:1.8; color:var(--text); }
+
+    .ba-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem; }
+    @media(max-width:600px){ .ba-grid { grid-template-columns:1fr; } }
+    .ba-col { border-radius:14px; padding:1rem 1.25rem; }
+    .ba-col.danger { background:#fef2f2; border:1px solid #fecaca; }
+    .ba-col.safe   { background:#ecfdf5; border:1px solid #a7f3d0; }
+    .ba-col .ba-head { font-size:0.75rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; margin-bottom:.5rem; }
+    .ba-col.danger .ba-head { color:#b91c1c; }
+    .ba-col.safe   .ba-head { color:#065f46; }
+    .ba-col p { font-size:0.9rem; line-height:1.8; }
+
+    .cheat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.25rem; }
+    .cheat-card { background:white; border-radius:16px; padding:1.25rem; box-shadow:0 2px 12px rgba(0,0,0,0.07); border-top:4px solid var(--purple); }
+    .cheat-card.indigo { border-top-color:var(--indigo); }
+    .cheat-card.violet { border-top-color:var(--violet); }
+    .cheat-card.gold   { border-top-color:var(--gold);   }
+    .cheat-card.rose   { border-top-color:var(--rose);   }
+    .cheat-card h3 { font-size:0.95rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .cheat-card p  { font-size:0.88rem; color:var(--muted); line-height:1.7; }
+
+    .pledge-card { background: linear-gradient(135deg, #2e1065 0%, #4c1d95 50%, #6d28d9 100%); border-radius:20px; padding:2rem; color:white; }
+    .pledge-card h3 { font-family:'Baloo 2',cursive; font-size:1.4rem; font-weight:800; margin-bottom:1.25rem; color:var(--purple-mid); }
+    .pledge-rule { display:flex; gap:1rem; align-items:flex-start; margin-bottom:1rem; }
+    .pledge-icon { font-size:1.5rem; flex-shrink:0; margin-top:2px; }
+    .pledge-text { font-size:1rem; line-height:1.7; }
+    .pledge-text strong { color:var(--purple-mid); }
+
+    .scene-img { width:100%; border-radius:16px; margin:1rem 0; box-shadow:0 6px 24px rgba(0,0,0,0.15); }
+
+    .quiz-wrap { background:white; border-radius:24px; padding:2rem; box-shadow:0 8px 32px rgba(109,40,217,0.15); }
+    .quiz-q { margin-bottom:1.5rem; }
+    .quiz-q .q-text { font-weight:800; font-size:1.05rem; color:var(--navy); margin-bottom:.75rem; line-height:1.7; }
+    .quiz-options { display:flex; flex-direction:column; gap:.5rem; }
+    .quiz-options label { display:flex; align-items:center; gap:.75rem; background:var(--purple-light); border-radius:10px; padding:.7rem 1rem; cursor:pointer; font-size:0.95rem; line-height:1.6; transition:background .15s; }
+    .quiz-options label:hover { background:var(--purple-mid); color:white; }
+    .quiz-options input[type=radio] { accent-color:var(--purple); width:16px; height:16px; flex-shrink:0; }
+    .quiz-submit { background:var(--purple); color:white; font-family:'Nunito',sans-serif; font-weight:800; font-size:1rem; border:none; border-radius:14px; padding:.9rem 2.5rem; cursor:pointer; margin-top:1rem; transition:background .2s; }
+    .quiz-submit:hover { background:#5b21b6; }
+    #quiz-result { margin-top:1.25rem; font-weight:800; font-size:1.05rem; display:none; }
+    #quiz-result.pass { color:#059669; }
+    #quiz-result.fail { color:#dc2626; }
+
+    #cert-section { display:none; }
+    .cert-box { background: linear-gradient(135deg, #2e1065 0%, #4c1d95 50%, #6d28d9 100%); border-radius:24px; padding:2.5rem 2rem; text-align:center; color:white; box-shadow:0 12px 48px rgba(109,40,217,0.4); }
+    .cert-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; margin-bottom:.25rem; }
+    .cert-box .cert-name { font-size:1.4rem; font-weight:700; color:var(--purple-mid); margin:.5rem 0; }
+    .cert-box p { font-size:0.95rem; color:rgba(255,255,255,0.75); margin-bottom:1.25rem; line-height:1.7; }
+    .skill-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin:1.25rem 0; }
+    .skill-badge { background:rgba(255,255,255,0.1); border:1px solid rgba(167,139,250,0.4); border-radius:12px; padding:.5rem .9rem; font-size:0.8rem; font-weight:700; color:var(--purple-mid); }
+    .cert-btn { background:var(--purple-mid); color:#2e1065; font-weight:800; font-size:0.95rem; border:none; border-radius:14px; padding:.8rem 2rem; cursor:pointer; margin-top:.75rem; }
+
+    .completion-box { text-align:center; padding:3rem 2rem; }
+    .completion-box .big-emoji { font-size:4rem; margin-bottom:1rem; }
+    .completion-box h2 { font-family:'Baloo 2',cursive; font-size:1.8rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .completion-box p { font-size:1rem; color:var(--muted); max-width:520px; margin:0 auto 1.5rem; line-height:1.8; }
+    .next-btn { display:inline-block; background:var(--purple); color:white; font-weight:800; font-size:1rem; padding:.85rem 2.5rem; border-radius:14px; text-decoration:none; }
+    .next-btn:hover { background:#5b21b6; }
+
+    #auth-nav-area { display:flex; align-items:center; gap:.5rem; }
+    img { max-width:100%; }
+    @media(max-width:600px){ .cheat-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav class="topnav">
+  <a href="../../../site/index-te.html" class="brand">🌟 Mitra AI Life</a>
+  <span class="level-tag">స్థాయి 10 · ₹500</span>
+  <div style="display:flex;align-items:center;gap:.75rem;">
+    <div id="auth-nav-area"></div>
+    <a href="level-10-comic.html" class="lang-btn">English</a>
+    <a href="../../../site/index-te.html" class="back-link">← హోమ్</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 1 · HERO                                                       -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="hero">
+  <p class="hero-eyebrow anim-fadeInUp" style="animation-delay:.1s">స్థాయి 10 · AI భద్రత &amp; సమాజం · Capstone</p>
+  <h1 class="hero-title anim-fadeInUp" style="animation-delay:.2s">AI ని తెలివిగా వాడండి.<br>సురక్షితంగా ఉండండి.</h1>
+  <p class="hero-sub anim-fadeInUp" style="animation-delay:.3s">Deepfakes. తప్పుడు సమాచారం. Voice fraud. Privacy. AI దుర్వినియోగాన్ని గుర్తించడం, మీ కుటుంబాన్ని రక్షించుకోవడం నేర్చుకోండి — మీ AI ప్రయాణంలో చివరి మెట్టు.</p>
+  <div class="hero-badges anim-fadeInUp" style="animation-delay:.4s">
+    <span class="badge">⏱ 2–3 గంటలు</span>
+    <span class="badge">🛡️ 5 భద్రతా నైపుణ్యాలు</span>
+    <span class="badge">🇮🇳 భారత ఉదాహరణలు</span>
+    <span class="badge accent">₹500</span>
+  </div>
+  <div class="hero-offer anim-bounceIn" style="animation-delay:.55s">
+    🎉 Early Access — <s>₹500</s> <strong>మొదటి నేర్చుకునే వారికి ఉచితం</strong>
+  </div>
+  <img class="hero-img anim-fadeInUp" style="animation-delay:.5s"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l10-s01-hero.jpg"
+       alt="ఐదుగురు నేర్చుకునే వారు AI భద్రత గురించి కలిసి ఆలోచిస్తున్నారు" />
+  <p class="scroll-hint anim-fadeInUp" style="animation-delay:.7s">కింద చదవడం ప్రారంభించండి ↓</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 2 · CHARACTERS                                                 -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="sec-label">తిరిగి వచ్చిన పాత్రలు</div>
+  <h2 class="sec-title">ఐదుగురు నేర్చుకునే వారు. ఐదు నిజమైన AI భద్రతా పరిస్థితులు.</h2>
+  <p class="sec-intro">9 స్థాయిలలో వారిని అనుసరించారు. ఇప్పుడు వారు చివరి సవాలును ఎదుర్కొంటున్నారు — ప్రతి ఒక్కరూ బాధ్యతగా AI ని ఉపయోగించకపోయినా, తాము బాధ్యతగా ఉపయోగించడం.</p>
+
+  <div class="cheat-grid">
+    <div class="cheat-card" style="border-top-color:var(--purple);">
+      <h3>🎓 కావ్య — వరంగల్</h3>
+      <p>ఒక రాజకీయ నాయకుడు ఏదో అన్నారని WhatsApp వీడియో వస్తుంది. అది నిజమైనట్లు కనిపిస్తుంది. అది deepfake. ఆమె దాన్ని 50 మందికి forward చేయబోయింది.</p>
+    </div>
+    <div class="cheat-card indigo">
+      <h3>💼 శ్రీనివాస్ — హైదరాబాద్</h3>
+      <p>ఒక client AI తో రాసిన "research" లోని తప్పుడు statistics ని marketing article లో వాడమంటాడు. ఏమి చేయాలో నిర్ణయించాలి.</p>
+    </div>
+    <div class="cheat-card violet">
+      <h3>🍳 పద్మ — విజయవాడ</h3>
+      <p>తన కూతురి గొంతులాగే ఒక phone call వస్తుంది — ₹5,000 అత్యవసరంగా కావాలని. అది AI voice-clone fraud.</p>
+    </div>
+    <div class="cheat-card gold">
+      <h3>📸 రాజు — నిజామాబాద్</h3>
+      <p>తెలియకుండా ఒక నిజమైన వ్యక్తి ముఖాన్ని consent లేకుండా AI poster లో వాడతాడు. Privacy rights గురించి నేర్చుకుంటాడు.</p>
+    </div>
+    <div class="cheat-card rose">
+      <h3>📚 మీరా — హైదరాబాద్ (కొత్త)</h3>
+      <p>19 ఏళ్ల college student. AI తో essay రాసి తన సొంత పని అని submit చేస్తుంది. Teacher తో కష్టమైన సంభాషణ — మరియు ఒక నేర్చుకోవడం.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 3 · ACT 1                                                      -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section style="background:white; border-radius:24px; box-shadow:0 4px 24px rgba(0,0,0,0.06); padding:3rem 2rem;">
+  <div class="sec-label">Act 1</div>
+  <h2 class="sec-title">సమాజ సమావేశం: "AI నన్ను మోసం చేయబోయింది"</h2>
+
+  <div class="story-grid">
+    <div class="story-card">
+      <p class="story-text">ఐదుగురూ హైదరాబాద్ లో ఒక community space లో కలుస్తారు. అంశం: "AI తో జరిగిన చెడు అనుభవాలు." ప్రతి ఒక్కరూ గత నెలలో తమకు లేదా తమకు తెలిసిన వారికి జరిగిన ఒక విషయం చెప్తారు.</p>
+      <div class="speech-bubble">కావ్య: "నేను దాదాపు ఒక deepfake వీడియో forward చేశాను. నా cousin ఆలోచించకుండా share చేస్తాడు. నేను దాదాపు అదే చేశాను."</div>
+      <div class="speech-bubble">శ్రీనివాస్: "ఒక client నేను verify చేయలేని AI statistics వాడమన్నాడు. Client ని సంతోషపెట్టడానికి నేను దాదాపు అలా చేశాను."</div>
+      <div class="speech-bubble">పద్మ: "నా కూతురి గొంతులాగే ఒక call వచ్చింది. నేను దాదాపు ₹5,000 transfer చేశాను."</div>
+    </div>
+    <div class="story-card rose">
+      <p class="story-text">రాజు మరియు మీరా కూడా చెప్తారు. తర్వాత అందరూ ఒక విషయంపై అంగీకరిస్తారు: AI ప్రమాదాలు నిజమైనవి, కానీ నేర్చుకోదగినవి. ఏమి చూడాలో తెలిస్తే మొదటి మరియు అత్యంత శక్తివంతమైన రక్షణ ఉంటుంది.</p>
+      <div class="safe-bubble">ముఖ్య సందేశం: "ప్రమాదాలు తెలుసుకోవడం మిమ్మల్ని బలంగా చేస్తుంది, భయపెట్టదు. ఈ గదిలో ప్రతి ఒక్కరూ ఈ రోజు ముందు కంటే ఇప్పుడు సురక్షితంగా ఉన్నారు."</div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-head">🛡️ ఈ స్థాయి ఎందుకు ముఖ్యమైనది</div>
+    <p>AI మనకు శక్తివంతమైన సాధనాలు ఇస్తుంది. కానీ శక్తివంతమైన సాధనాలు దుర్వినియోగం అవుతాయి — ఇతరులచే, మరియు కొన్నిసార్లు మనమే తెలియకుండా. ఈ స్థాయి మిమ్మల్ని, మీ కుటుంబాన్ని మరియు సమాజాన్ని రక్షించడం నేర్పిస్తుంది.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 4 · ACT 2: DEEPFAKES                                          -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="sec-label">Act 2</div>
+  <h2 class="sec-title">కావ్య యొక్క deepfake: "అది పూర్తిగా నిజమైనట్లు కనిపించింది"</h2>
+
+  <img class="scene-img"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l10-s02-deepfake.jpg"
+       alt="కావ్య తన phone లో ఒక అనుమానాస్పద వీడియో ను జాగ్రత్తగా చూస్తోంది" />
+
+  <div class="story-grid">
+    <div class="story-card">
+      <span class="char-tag purple">🎓 కావ్య · వరంగల్</span>
+      <p class="story-text">వీడియోలో ఒక స్థానిక రాజకీయ నాయకుడు shocking విషయాలు చెప్తున్నట్లు కనిపించింది. Audio స్పష్టంగా ఉంది. ముఖం సరిగ్గా ఉంది. కావ్య thumb ఇప్పటికే forward button పై ఉంది. అప్పుడు ఆమె ఒక విషయం గమనించింది: ఒక చోట పెదవులు మాటలకు సరిగ్గా match అవ్వలేదు.</p>
+      <div class="warn-bubble">ఆమె గమనించిన హెచ్చరిక సంకేతాలు: ముఖం చుట్టూ కొంచెం blurred edges, పెదవుల కదలిక audio కు match కాలేదు, skin texture అసహజంగా smooth గా కనిపించింది.</div>
+    </div>
+    <div class="story-card indigo">
+      <span class="char-tag purple">🎓 కావ్య share చేయడానికి ముందు check చేసింది</span>
+      <p class="story-text">Forward చేయడానికి బదులు, ఆమె AltNews.in కి వెళ్ళింది — భారతదేశపు fact-checking platform. వీడియో ఇప్పటికే fake గా flag చేయబడింది. ఒక నిజమైన news outlet ఇప్పటికే దాన్ని debunk చేసింది. ఆమె fact-check link ని share చేసింది.</p>
+      <div class="safe-bubble">ఫలితం: 50 మందికి తప్పుడు సమాచారం చేరలేదు. కావ్య కుటుంబ group లో కొత్త నియమం: share చేయడానికి ముందు check చేయండి.</div>
+    </div>
+  </div>
+
+  <div style="background:white; border-radius:16px; padding:1.5rem; box-shadow:0 2px 12px rgba(0,0,0,0.07); margin-top:1.5rem;">
+    <div class="sec-label" style="margin-bottom:.75rem;">Deepfake వీడియో ను ఎలా గుర్తించాలి</div>
+    <ul class="steps-list">
+      <li><span class="step-num">1</span><span class="step-text"><strong>పెదవులు చూడండి:</strong> మాటలకు సరిగ్గా match అవుతున్నాయా? Deepfakes లో తరచుగా audio-visual mismatch ఉంటుంది.</span></li>
+      <li><span class="step-num">2</span><span class="step-text"><strong>అంచులు check చేయండి:</strong> hair line, చెవులు, chin చూడండి. Deepfakes లో తరచుగా కొంచెం blurring లేదా warping ఉంటుంది.</span></li>
+      <li><span class="step-num">3</span><span class="step-text"><strong>కళ్ళు చూడండి:</strong> అసహజంగా blinking లేదా staring ఉందా? AI generated faces సహజంగా తక్కువగా blink చేస్తాయి.</span></li>
+      <li><span class="step-num">4</span><span class="step-text"><strong>Share చేయడానికి ముందు search చేయండి:</strong> Google లో లేదా AltNews.in లో claim ని వెతకండి. ఇప్పటికే viral అయితే, ఎవరైనా check చేసి ఉంటారు.</span></li>
+      <li><span class="step-num">5</span><span class="step-text"><strong>"Shock reflex" ని pause చేయండి:</strong> ఒక వీడియో మిమ్మల్ని shocked లేదా outraged చేస్తే, ఆ feeling సరిగ్గా slow down అవ్వాల్సిన సమయం.</span></li>
+    </ul>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-head">💡 నైపుణ్యం 1: Deepfake గుర్తించి Share చేయడానికి ముందు Verify చేయండి</div>
+    <p>భారతదేశానికి fact-check tools: <strong>AltNews.in</strong>, <strong>BoomLive.in</strong>, <strong>FactCheck.in</strong>, మరియు Google Fact Check Explorer. కనీసం ఒకదాన్ని bookmark చేయండి. ఒక వీడియో మిమ్మల్ని ఆశ్చర్యపరిచినప్పుడు ప్రతిసారీ వాడండి.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 5 · ACT 3: MISINFORMATION                                     -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section style="background:white; border-radius:24px; box-shadow:0 4px 24px rgba(0,0,0,0.06); padding:3rem 2rem;">
+  <div class="sec-label">Act 3</div>
+  <h2 class="sec-title">శ్రీనివాస్ మరియు AI రాసిన తప్పుడు statistic</h2>
+
+  <img class="scene-img"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l10-s03-fact-check.jpg"
+       alt="శ్రీనివాస్ fact-check websites తో AI article ని cross-reference చేస్తున్నాడు" />
+
+  <div class="story-grid">
+    <div class="story-card">
+      <span class="char-tag indigo">💼 శ్రీనివాస్ · హైదరాబాద్</span>
+      <p class="story-text">ఒక client ఉత్పత్తి health benefits గురించి marketing article రాయమని అడిగాడు. శ్రీనివాస్ research మరియు draft కోసం AI వాడాడు. AI ఇది confidently రాసింది: "85% భారతీయ కుటుంబాలు prescription medicine కంటే natural health remedies prefer చేస్తాయి." అది perfect గా అనిపించింది. అది పూర్తిగా తప్పుడు సమాచారం.</p>
+      <div class="warn-bubble">AI hallucination: AI ఏ source లేకుండా convincing, specific statistic రాసింది. ఇది తరచుగా జరుగుతుంది. ప్రమాదం ఏమిటంటే అది నిజమైన fact లాగే అనిపిస్తుంది.</div>
+    </div>
+    <div class="story-card violet">
+      <span class="char-tag indigo">💼 శ్రీనివాస్ దాన్ని పట్టుకున్నాడు</span>
+      <p class="story-text">అతను మూడు చోట్ల statistic వెతికాడు: Google, Ministry of Health website, మరియు ఒక journal. ఏమీ లేదు. అతను AI కి తిరిగి వెళ్ళి అడిగాడు: "ఈ statistic కి source ఏమిటి?" AI అది source లేదని అంగీకరించింది. అతను దాన్ని తీసేసి, verified statistic కనుగొని, మళ్ళీ రాశాడు.</p>
+      <div class="safe-bubble">Client reaction: "మీరు దాన్ని check చేసినందుకు ధన్యవాదాలు. మీరు confirm చేసినందుకు నేను మీ పనిని మరింత trust చేస్తున్నాను."</div>
+    </div>
+  </div>
+
+  <div class="ba-grid">
+    <div class="ba-col danger">
+      <div class="ba-head">❌ Check చేయకపోతే</div>
+      <p>తప్పుడు statistic publish అయేది. Client reputation దెబ్బతినేది. Possible legal issues. Trust పోయేది.</p>
+    </div>
+    <div class="ba-col safe">
+      <div class="ba-head">✅ Check చేసినందుకు</div>
+      <p>Article accurate గా ఉంది. Client trust పెరిగింది. శ్రీనివాస్ professional reputation రక్షించబడింది.</p>
+    </div>
+  </div>
+
+  <div class="tip-card" style="margin-top:1.5rem;">
+    <div class="tip-head">💡 నైపుణ్యం 2: AI Output ని వాడే ముందు Fact-Check చేయండి</div>
+    <p>బంగారు నియమం: <strong>AI confidently రాయవచ్చు మరియు పూర్తిగా తప్పు అవ్వొచ్చు.</strong> AI నుండి వచ్చిన ముఖ్యమైన claim, number, లేదా statistic ఏదైనా — కనీసం ఒక reliable source లో verify చేయండి. Google, government websites, లేదా established news outlets వాడండి. AI statistics ని check చేయకుండా ఎప్పుడూ publish చేయకండి.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 6 · ACT 4: PRIVACY & CONSENT                                  -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="sec-label">Act 4</div>
+  <h2 class="sec-title">పద్మ యొక్క fake కూతురు call — మరియు రాజు యొక్క consent తప్పు</h2>
+
+  <div class="story-grid">
+    <div class="story-card">
+      <span class="char-tag violet">🍳 పద్మ · విజయవాడ</span>
+      <p class="story-text">పద్మకు ఒక call వచ్చింది. గొంతు ఆమె కూతురిది — same tone, accent, మాట్లాడే తీరు. "అమ్మా, నాకు emergency, దయచేసి ₹5,000 ఇప్పుడే transfer చేయి." పద్మ చేయి UPI app తెరవడానికి కదిలింది. అప్పుడు ఆమె pause చేసింది. ఏదో సరిగ్గా లేదని అనిపించింది.</p>
+      <div class="warn-bubble">ఎలా జరుగుతుందో: Criminals social media reels మరియు WhatsApp status videos నుండి voice clips collect చేస్తారు. AI tools 30 seconds audio నుండి voice clone చేయగలవు. ఆ call AI generated.</div>
+      <img class="scene-img"
+           src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l10-s04-voice-clone-scam.jpg"
+           alt="పద్మ suspicious phone call లో ఉండగా నేపథ్యంలో ఆమె కూతురు సురక్షితంగా ఉంది" />
+    </div>
+    <div class="story-card violet">
+      <span class="char-tag violet">🍳 పద్మ యొక్క సురక్షిత response</span>
+      <p class="story-text">పద్మ phone పెట్టేసింది. ఆమె తన కూతుర్ని నేరుగా known number లో call చేసింది. ఆమె కూతురు ఇంట్లో ఉంది, పూర్తిగా safe గా, ఏ call గురించీ తెలియకుండా. Fraud confirm అయింది. పద్మ తన కుటుంబానికి ఒక కొత్త నియమం చెప్పింది.</p>
+      <div class="safe-bubble">Family safety code: అత్యవసరంగా డబ్బు అడిగే ఏ call వచ్చినా, వారు family code word ("గొంగూర") వాడాలి. వారికి తెలియకపోతే, call suspicious. Phone పెట్టేసి known number లో call back చేయండి.</div>
+    </div>
+  </div>
+
+  <div class="story-grid" style="margin-top:2rem;">
+    <div class="story-card gold">
+      <span class="char-tag gold">📸 రాజు · నిజామాబాద్</span>
+      <p class="story-text">ఒక client తమ కొత్త hotel కోసం promotional poster చేయమని అడిగాడు. రాజు client ఇచ్చిన reference photo నుండి ఒక young woman ముఖాన్ని AI తో poster లో వాడాడు. ఆ woman consent ఇవ్వలేదు. Poster publicly display అయినప్పుడు ఆమె disappointed గా feel అయి తీసేయమని అడిగింది.</p>
+      <img class="scene-img"
+           src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l10-s05-consent-privacy.jpg"
+           alt="రాజు తన consent తప్పును గుర్తించిన scene" />
+    </div>
+    <div class="story-card">
+      <span class="char-tag gold">📸 రాజు నేర్చుకుని fix చేశాడు</span>
+      <p class="story-text">రాజు poster వెంటనే తీసేశాడు. క్షమాపణ చెప్పాడు. దాన్ని AI generated fictional person తో replace చేశాడు — నిజమైన ముఖం, identity లేకుండా. ఇప్పుడు అతను ప్రతి client కి ఒక నిమయం చెప్తాడు: "మేము written permission తో మాత్రమే నిజమైన ముఖాలు వాడతాం."</p>
+      <div class="safe-bubble">India IT Act వ్యక్తిగత data ని photographs తో సహా రక్షిస్తుంది. Commercial use కోసం అయినా consent లేకుండా face వాడితే legal complaints అవుతాయి. ఎప్పుడూ అడగండి. ముందు consent తీసుకోండి.</div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-head">💡 నైపుణ్యం 3: Personal Privacy రక్షించుకోండి — మీకు మరియు ఇతరులకు</div>
+    <p><strong>Voice fraud కోసం:</strong> Public reels లో personal voice clips తగ్గించండి. Family code word set చేయండి. ఏ transfer అయినా unexpected call ఆధారంగా చేయకండి — మొదట known number లో call back చేయండి.<br><br>
+    <strong>Consent కోసం:</strong> AI తో ఎవరి face, voice, లేదా personal images ని వారి explicit permission లేకుండా వాడకండి. AI చేయగలిగేది మరియు మీరు చేయడానికి allowed అయినది ఒకటి కాదు.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 7 · ACT 5: RESPONSIBLE AI PLEDGE                              -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section style="background:white; border-radius:24px; box-shadow:0 4px 24px rgba(0,0,0,0.06); padding:3rem 2rem;">
+  <div class="sec-label">Act 5 · Capstone</div>
+  <h2 class="sec-title">మీరా యొక్క పాఠం — మరియు బాధ్యతాయుత AI Pledge</h2>
+
+  <img class="scene-img"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l10-s06-meera-integrity.jpg"
+       alt="మీరా తన teacher తో AI మరియు academic integrity గురించి సంభాషణ లో ఉంది" />
+
+  <div class="story-grid">
+    <div class="story-card rose">
+      <span class="char-tag rose">📚 మీరా · హైదరాబాద్</span>
+      <p class="story-text">మీరా తన sociology class కోసం AI తో full essay రాసింది. తన సొంత పని గా submit చేసింది. Teacher మీరా usual writing style కంటే వేరుగా ఉందని గమనించారు. Punish చేయడానికి బదులు, private conversation చేశారు.</p>
+      <div class="speech-bubble">Teacher: "మీరా, నేను కోపంగా లేను. AI ఒక powerful tool. కానీ AI thinking ని — ఇతరుల thinking ని — మీ సొంతంగా submit చేయడం మీకు growth లేదు. నువ్వు ఈ topic గురించి నిజంగా ఏమనుకున్నావు?"</div>
+    </div>
+    <div class="story-card">
+      <span class="char-tag rose">📚 మీరా నేర్చుకున్నది</span>
+      <p class="story-text">మీరా essay మళ్ళీ రాసింది — ఈసారి AI ని ghostwriter గా కాకుండా brainstorming partner గా వాడింది. తన సొంత analysis రాసింది. AI ఎక్కడ help చేసిందో cite చేసింది. Teacher rewrite కి full marks ఇచ్చారు. AI వాడడం మరియు AI పై ఆధారపడడం మధ్య తేడా ఏమిటో అర్థమైంది.</p>
+      <div class="safe-bubble">Learning కోసం AI వాడే సరైన తీరు: "AI, ఈ topic కోసం arguments గురించి నాకు think చేయడంలో help చేయి." తర్వాత మీ సొంత conclusion రాయండి. AI thinking aid గా help చేసిందని declare చేయండి.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:2rem;">
+    <img class="scene-img"
+         src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l10-s07-5-rules.jpg"
+         alt="5 rules of responsible AI use — illustrated pledge card" />
+
+    <div class="pledge-card" style="margin-top:1.5rem;">
+      <h3>🤝 బాధ్యతాయుత AI Pledge</h3>
+      <div class="pledge-rule">
+        <span class="pledge-icon">🔍</span>
+        <span class="pledge-text"><strong>నియమం 1: Share చేయడానికి ముందు Verify చేయండి.</strong> Shocking వీడియో లేదా message కి 60 seconds checking deserve అవుతుంది — 50 మందికి reach కావడానికి ముందు.</span>
+      </div>
+      <div class="pledge-rule">
+        <span class="pledge-icon">💬</span>
+        <span class="pledge-text"><strong>నియమం 2: AI help చేసినప్పుడు Declare చేయండి.</strong> AI రాసినా, plan చేసినా, generate చేసినా — చెప్పండి. Honesty trust build చేస్తుంది.</span>
+      </div>
+      <div class="pledge-rule">
+        <span class="pledge-icon">❌</span>
+        <span class="pledge-text"><strong>నియమం 3: Harm లేదా deceive చేయడానికి AI వాడకండి.</strong> Deepfakes, fake reviews, manipulative content — ఇది ఎవరినైనా hurt చేయగలిగితే, create చేయకండి.</span>
+      </div>
+      <div class="pledge-rule">
+        <span class="pledge-icon">🔒</span>
+        <span class="pledge-text"><strong>నియమం 4: Personal data రక్షించండి.</strong> మీకు మరియు ఇతరులకు. AI tools తో faces, voices, లేదా private information వాడే ముందు consent తీసుకోండి.</span>
+      </div>
+      <div class="pledge-rule">
+        <span class="pledge-icon">👥</span>
+        <span class="pledge-text"><strong>నియమం 5: ఒక వ్యక్తికి నేర్పండి.</strong> మీ చుట్టూ ఉన్న చాలా మందికి మీకు తెలిసినంత తెలియదు. ఈ రోజు నేర్చుకున్న ఒక విషయం అవసరమైన వారికి share చేయండి.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 8 · SKILLS                                                     -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="sec-label">మీ Safety Toolkit</div>
+  <h2 class="sec-title">ప్రతి బాధ్యతాయుత AI user కి ఉండే 5 నైపుణ్యాలు</h2>
+  <p class="sec-intro">ఇది save చేయండి. Share చేయండి. AI మిమ్మల్ని surprise చేసిన ప్రతిసారీ వాడండి.</p>
+
+  <div class="cheat-grid">
+    <div class="cheat-card" style="border-top-color:var(--purple);">
+      <h3>🎭 Deepfakes గుర్తించడం</h3>
+      <p>పెదవులు, అంచులు, కళ్ళు check చేయండి. Shock reflex pause చేయండి. Share చేయడానికి ముందు search చేయండి. AltNews.in లేదా BoomLive.in వాడండి.</p>
+    </div>
+    <div class="cheat-card indigo">
+      <h3>📊 AI Output Fact-Check చేయడం</h3>
+      <p>Verify చేయకుండా AI statistics publish చేయకండి. AI కి source అడగండి — అది తరచుగా లేదని అంగీకరిస్తుంది.</p>
+    </div>
+    <div class="cheat-card violet">
+      <h3>📞 Voice Fraud Defence</h3>
+      <p>Family code word set చేయండి. Known number లో call back చేయండి. Unexpected call ఆధారంగా ఎప్పుడూ money transfer చేయకండి.</p>
+    </div>
+    <div class="cheat-card gold">
+      <h3>🖼️ AI Images కోసం Consent</h3>
+      <p>Permission లేకుండా real faces AI తో వాడకండి. India IT Act personal images రక్షిస్తుంది. ముందు అడగండి.</p>
+    </div>
+    <div class="cheat-card rose">
+      <h3>🎓 Honest AI వాడకం</h3>
+      <p>AI ని thinking partner గా వాడండి, ghostwriter గా కాదు. AI help చేసినప్పుడు declare చేయండి. మీ thinking అత్యంత ముఖ్యమైనది.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 9 · PRACTICE                                                   -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section style="background:white; border-radius:24px; box-shadow:0 4px 24px rgba(0,0,0,0.06); padding:3rem 2rem;">
+  <div class="sec-label">Practice</div>
+  <h2 class="sec-title">ఈ రోజు చేయవలసిన మూడు పనులు</h2>
+  <p class="sec-intro">Quiz తీసుకోవడానికి ముందు వీటిలో కనీసం ఒకటి try చేయండి.</p>
+
+  <div style="display:flex; flex-direction:column; gap:1.25rem;">
+    <div class="tip-card">
+      <div class="tip-head">Challenge 1 — Family code word set చేయండి</div>
+      <p>ఈ రోజు మీ కుటుంబంతో మాట్లాడండి. ఎవరైనా డబ్బు గురించి call చేస్తే తెలియాల్సిన secret code word agree చేయండి. దాన్ని safe place లో రాయండి. ఒక family member తో ఒకసారి test చేయండి.</p>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">Challenge 2 — ఒక విషయం Fact-Check చేయండి</div>
+      <p>AltNews.in లేదా BoomLive.in కి వెళ్ళండి. గత వారం మీ WhatsApp groups లో వచ్చిన ఏ viral video లేదా claim ని search చేయండి. అది verified, debunked, లేదా unverified అని చూడండి. మీరు కనుగొన్నది ఒక వ్యక్తితో share చేయండి.</p>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">Challenge 3 — ఒక నియమం నేర్పండి</div>
+      <p>ఈ రోజు ఒక వ్యక్తికి 5 బాధ్యతాయుత AI నియమాలలో ఒకటి share చేయండి — parent, sibling, friend, లేదా colleague. Simple words లో explain చేయండి. మీరు చేసిన వెంటనే మీరు teacher అయ్యారు.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 10 · QUIZ                                                      -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="sec-label">Knowledge Check</div>
+  <h2 class="sec-title">5 ప్రశ్నలు · స్థాయి 10 పూర్తి చేయడానికి 4 pass అవ్వాలి</h2>
+
+  <div class="quiz-wrap">
+    <form id="quiz-form">
+
+      <div class="quiz-q">
+        <div class="q-text">1. కావ్యకు WhatsApp లో ఒక రాజకీయ నాయకుడు controversial విషయాలు చెప్పాడని shocking వీడియో వస్తుంది. ఆమె మొదట ఏమి చేయాలి?</div>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> a) వెంటనే contacts కి forward చేయండి — వారికి తెలియాలి</label>
+          <label><input type="radio" name="q1" value="b"> b) Deepfake signs check చేసి, share చేయడానికి ముందు fact-check site లో verify చేయండి</label>
+          <label><input type="radio" name="q1" value="c"> c) దాన్ని Instagram లో తన opinion తో post చేయండి</label>
+          <label><input type="radio" name="q1" value="d"> d) నేరుగా రాజకీయ నాయకుడి office call చేయండి</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <div class="q-text">2. శ్రీనివాస్ marketing article రాయడానికి AI వాడతాడు, అది ఒక statistic రాస్తుంది: "85% భారతీయులు daily AI వాడతారు." అతను దీన్ని వేరే చోట కనుగొనలేడు. అతను ఏమి చేయాలి?</div>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> a) వాడండి — AI numbers విషయంలో usually accurate గా ఉంటుంది</label>
+          <label><input type="radio" name="q2" value="b"> b) దాన్ని తీసేయండి లేదా reliable source నుండి verified statistic తో replace చేయండి</label>
+          <label><input type="radio" name="q2" value="c"> c) AI ని అదే statistic మళ్ళీ confirm చేయమని అడగండి</label>
+          <label><input type="radio" name="q2" value="d"> d) Disclaimer add చేసి statistic ఉంచండి</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <div class="q-text">3. పద్మకు ఆమె కూతురిలాగే ఒక phone call వస్తుంది, ₹5,000 అత్యవసరంగా transfer చేయమని అడుగుతుంది. అత్యంత సురక్షిత next step ఏమిటి?</div>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> a) వెంటనే money transfer చేయండి — అది emergency లాగా అనిపిస్తుంది</label>
+          <label><input type="radio" name="q3" value="b"> b) Phone పెట్టేసి, కూతుర్ని directly known number లో call చేసి verify చేయండి</label>
+          <label><input type="radio" name="q3" value="c"> c) Identity confirm చేయడానికి caller ని bank account number అడగండి</label>
+          <label><input type="radio" name="q3" value="d"> d) Money send చేసి తర్వాత police కి report చేయండి</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <div class="q-text">4. రాజు shop display కోసం ఒక real customer ముఖాన్ని AI poster లో వాడాలనుకుంటున్నాడు. అతను మొదట ఏమి చేయాలి?</div>
+        <div class="quiz-options">
+          <label><input type="radio" name="q4" value="a"> a) చేయండి — photo public Instagram post నుండి</label>
+          <label><input type="radio" name="q4" value="b"> b) Customer face వాడే ముందు వారి నుండి clear verbal లేదా written consent తీసుకోండి</label>
+          <label><input type="radio" name="q4" value="c"> c) ముఖాన్ని కొంచెం blur చేయండి — fully recognisable కాకుండా</label>
+          <label><input type="radio" name="q4" value="d"> d) Post చేసి, person complain చేస్తేనే తీసేయండి</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <div class="q-text">5. బాధ్యతాయుత AI user యొక్క 5 నియమాలలో ఏది నియమం కాదు?</div>
+        <div class="quiz-options">
+          <label><input type="radio" name="q5" value="a"> a) Share చేయడానికి ముందు verify చేయండి</label>
+          <label><input type="radio" name="q5" value="b"> b) AI మీకు help చేసినప్పుడు declare చేయండి</label>
+          <label><input type="radio" name="q5" value="c"> c) Arguments గెలవడానికి మరియు మీరు ఎప్పుడూ right అని prove చేయడానికి AI వాడండి</label>
+          <label><input type="radio" name="q5" value="d"> d) మీ మరియు ఇతరుల personal data రక్షించండి</label>
+        </div>
+      </div>
+
+      <button type="button" class="quiz-submit" onclick="submitQuiz()">సమాధానాలు Submit చేయండి</button>
+    </form>
+    <div id="quiz-result"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 11 · CERTIFICATE                                               -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section id="cert-section">
+  <div class="cert-box">
+    <div style="font-size:3rem; margin-bottom:.5rem;">🏆</div>
+    <h2>స్థాయి 10 పూర్తయింది!</h2>
+    <div class="cert-name" id="cert-name">బాధ్యతాయుత AI User</div>
+    <p>మీరు Mitra AI Life Education యొక్క అన్ని 10 స్థాయిలు పూర్తి చేశారు. Deepfakes గుర్తించడం, AI output fact-check చేయడం, privacy రక్షించుకోవడం, integrity తో AI వాడడం, మరియు మీ చుట్టూ ఉన్న వారికి నేర్పడం — ఇది పూర్తి ప్రయాణం.</p>
+    <div class="skill-badges">
+      <span class="skill-badge">🎭 Deepfake గుర్తింపు</span>
+      <span class="skill-badge">📊 Fact-Checking</span>
+      <span class="skill-badge">📞 Voice Fraud Defence</span>
+      <span class="skill-badge">🖼️ Consent &amp; Privacy</span>
+      <span class="skill-badge">🎓 Honest AI వాడకం</span>
+    </div>
+    <button class="cert-btn" onclick="window.print()">🖨️ Certificate Print చేయండి</button>
+  </div>
+
+  <div class="completion-box">
+    <div class="big-emoji">🌟</div>
+    <h2>మీరు పూర్తి ప్రయాణం పూర్తి చేశారు!</h2>
+    <p>స్థాయి 1 లో మీ మొదటి AI prompt నుండి స్థాయి 10 లో బాధ్యతాయుత AI advocate గా మారేవరకు — మీరు అద్భుతమైన దూరం వచ్చారు. భారతదేశానికి మీలాంటి వ్యక్తులు అవసరం.</p>
+    <a href="../../../site/index-te.html" class="next-btn">← హోమ్ పేజీకి తిరిగి వెళ్ళండి</a>
+  </div>
+</section>
+
+<!-- CELEBRATION IMAGE -->
+<section style="padding-bottom:5rem;">
+  <img class="scene-img"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l10-s08-celebration.jpg"
+       alt="ఐదుగురూ 10 స్థాయిల పూర్తి ప్రయాణం celebrate చేసుకుంటున్నారు" />
+  <p style="text-align:center; color:var(--muted); margin-top:1rem; font-size:0.95rem;">భారతదేశానికి లక్షల మంది బాధ్యతాయుత AI users అవసరం. మీరు వారిలో ఒకరు. 🇮🇳</p>
+</section>
+
+<!-- DISQUS -->
+<section style="padding-top:2rem;">
+  <div class="sec-label">Discussion</div>
+  <h2 class="sec-title" style="margin-bottom:1.5rem;">మీ అభిప్రాయాలు share చేయండి</h2>
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://mitraailife.com/content/english/level-10-ai-safety/level-10-comic-te.html';
+      this.page.identifier = 'level-10-safety-te';
+    };
+    (function() {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://mitra-ai-life.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+</section>
+
+<!-- SCRIPTS -->
+<script src="../../../site/auth.js"></script>
+<script src="../../../site/mitra-chat.js"></script>
+<script>
+  window.addEventListener('scroll', () => {
+    const el = document.getElementById('progress-bar');
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+    el.style.width = Math.min(pct, 100) + '%';
+  });
+
+  const ANSWERS = { q1:'b', q2:'b', q3:'b', q4:'b', q5:'c' };
+  function submitQuiz() {
+    let score = 0;
+    for (const [q, ans] of Object.entries(ANSWERS)) {
+      const sel = document.querySelector(`input[name="${q}"]:checked`);
+      if (sel && sel.value === ans) score++;
+    }
+    const resultEl = document.getElementById('quiz-result');
+    resultEl.style.display = 'block';
+    if (score >= 4) {
+      resultEl.className = 'pass';
+      resultEl.textContent = `🎉 మీరు pass అయ్యారు! ${score}/5 correct. మీరు ఒక బాధ్యతాయుత AI user!`;
+      document.getElementById('cert-section').style.display = 'block';
+      document.getElementById('cert-section').scrollIntoView({ behavior: 'smooth' });
+      if (typeof saveProgress === 'function') saveProgress('level-10', score);
+    } else {
+      resultEl.className = 'fail';
+      resultEl.textContent = `మీరు ${score}/5 పొందారు. Pass కావడానికి 4 కావాలి. పైన safety skills review చేసి మళ్ళీ try చేయండి.`;
+    }
+  }
+</script>
+</body>
+</html>

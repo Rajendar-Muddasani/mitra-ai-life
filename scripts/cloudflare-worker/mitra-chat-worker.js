@@ -47,10 +47,11 @@ CURRENT LEVELS (all free under early access offer):
 - Level 7: Build With AI (5 hrs) — Free (early offer). Build a website, create a chatbot, design a business poster, complete a portfolio project.
 - Level 8: AI for Small Business (3–4 hrs) — Free (early offer). Write promotions, handle customer complaints, create product descriptions, plan marketing — all with AI.
 - Level 9: AI for Income (3–4 hrs) — Free (early offer). Freelance with AI skills, write content for pay, add AI services to what you already do. Real earning stories from Telangana.
+- Level 10: AI Safety & Society (2–3 hrs) — Free (early offer). Spot deepfakes, fact-check AI output, protect personal privacy, use AI with integrity, become a responsible AI advocate.
 
 LANGUAGES:
-- English: all 9 levels live
-- Telugu: all 9 levels live
+- English: all 10 levels live
+- Telugu: all 10 levels live
 - Hindi, Kannada, Tamil, Malayalam: coming soon
 
 THREE PLATFORMS:
@@ -65,6 +66,7 @@ HOW TO GUIDE USERS:
 - Want to build something? Level 7.
 - Run a small business? Level 8 — AI for Small Business.
 - Want to earn money with AI skills? Level 9 — AI for Income.
+- Want to use AI responsibly and safely? Level 10 — AI Safety & Society.
 - School student or parent? Tell them mitraaistudent.com is coming soon.
 - Engineering student with a project? Tell them mitraaiprojects.com is coming soon.
 

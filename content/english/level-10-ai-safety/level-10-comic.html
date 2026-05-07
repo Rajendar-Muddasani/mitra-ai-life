@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Level 10: AI Safety &amp; Society | Mitra AI Life Education</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QGY0LH6W93');
+  </script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:         #1e1b4b;
+      --purple:       #6d28d9;
+      --indigo:       #7c3aed;
+      --violet:       #8b5cf6;
+      --purple-light: #ede9fe;
+      --purple-mid:   #a78bfa;
+      --gold:         #d97706;
+      --rose:         #e11d48;
+      --cream:        #f5f3ff;
+      --white:        #FFFFFF;
+      --text:         #1C1C2E;
+      --muted:        #64748B;
+      --panel:        #faf5ff;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+    #progress-bar { position:fixed; top:0; left:0; height:5px;
+      background: linear-gradient(90deg, var(--purple), var(--violet), var(--purple-mid));
+      width:0%; z-index:999; transition:width 0.3s ease; }
+
+    .topnav {
+      position:fixed; top:5px; left:0; right:0; height:52px;
+      background:rgba(245,243,255,0.95); backdrop-filter:blur(8px);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 1.5rem; z-index:100;
+      border-bottom:2px solid rgba(109,40,217,0.2);
+    }
+    .topnav .brand { font-family:'Baloo 2',cursive; font-weight:800; font-size:1.1rem; color:var(--navy); text-decoration:none; }
+    .topnav .level-tag { background:var(--purple); color:white; font-size:0.75rem; font-weight:700; padding:3px 12px; border-radius:20px; }
+    .topnav .back-link { font-size:0.82rem; color:var(--muted); font-weight:700; text-decoration:none; }
+    .topnav .back-link:hover { color:var(--purple); }
+    .topnav .lang-btn { font-size:0.82rem; color:var(--purple); font-weight:700; background:var(--purple-light); border:1px solid var(--purple-mid); border-radius:8px; padding:4px 10px; cursor:pointer; text-decoration:none; }
+
+    @keyframes fadeInUp   { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideInLeft  { from{opacity:0;transform:translateX(-48px)} to{opacity:1;transform:translateX(0)} }
+    @keyframes slideInRight { from{opacity:0;transform:translateX(48px)}  to{opacity:1;transform:translateX(0)} }
+    @keyframes bounceIn { 0%{opacity:0;transform:scale(0.6)} 60%{opacity:1;transform:scale(1.08)} 80%{transform:scale(0.97)} 100%{transform:scale(1)} }
+    @keyframes float  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .anim-fadeInUp   { animation:fadeInUp   0.7s ease forwards; }
+    .anim-slideLeft  { animation:slideInLeft  0.7s ease forwards; }
+    .anim-slideRight { animation:slideInRight 0.7s ease forwards; }
+    .anim-bounceIn   { animation:bounceIn    0.75s cubic-bezier(.68,-.55,.27,1.55) forwards; }
+    .anim-float      { animation:float 3s ease-in-out infinite; }
+
+    section { padding: 4rem 1.5rem; max-width: 900px; margin: 0 auto; }
+    section:first-of-type { padding-top: 6rem; }
+
+    /* HERO */
+    .hero {
+      min-height:88vh; display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; padding-top:5rem;
+      background: linear-gradient(160deg, #2e1065 0%, #4c1d95 40%, #6d28d9 75%, #312e81 100%);
+      border-radius: 0 0 48px 48px; position:relative; overflow:hidden;
+    }
+    .hero::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 30% 40%, rgba(167,139,250,0.18) 0%, transparent 60%),
+                  radial-gradient(ellipse at 75% 65%, rgba(124,58,237,0.13) 0%, transparent 50%);
+    }
+    .hero-eyebrow { font-size:0.78rem; font-weight:800; letter-spacing:0.15em; color:var(--purple-mid); text-transform:uppercase; margin-bottom:.5rem; position:relative; }
+    .hero-title { font-family:'Baloo 2',cursive; font-size:clamp(2.2rem,6vw,3.8rem); font-weight:800; color:white; line-height:1.1; position:relative; }
+    .hero-sub { font-size:1.1rem; color:rgba(255,255,255,0.78); margin-top:.75rem; max-width:560px; position:relative; }
+    .hero-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin-top:1.5rem; position:relative; }
+    .badge { background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); color:white; font-size:0.78rem; font-weight:700; padding:5px 14px; border-radius:20px; }
+    .badge.accent { background:var(--purple-mid); color:#2e1065; border-color:var(--purple-mid); }
+    .hero-img { width:100%; max-width:760px; border-radius:20px; margin-top:2rem; box-shadow:0 20px 60px rgba(0,0,0,0.5); position:relative; }
+    .hero-offer { background:linear-gradient(90deg,#6d28d9,#7c3aed); color:white; font-size:0.9rem; font-weight:800; padding:8px 24px; border-radius:24px; margin-top:1.5rem; display:inline-block; position:relative; }
+    .hero-offer s { font-weight:400; opacity:0.6; }
+    .scroll-hint { margin-top:2.5rem; font-size:0.8rem; color:rgba(255,255,255,0.4); letter-spacing:.08em; position:relative; }
+
+    /* SHARED COMPONENTS */
+    .sec-label { font-size:0.72rem; font-weight:800; letter-spacing:.14em; color:var(--purple); text-transform:uppercase; margin-bottom:.4rem; }
+    .sec-title { font-family:'Baloo 2',cursive; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:800; color:var(--navy); line-height:1.2; margin-bottom:.75rem; }
+    .sec-intro { font-size:1.05rem; color:var(--muted); line-height:1.7; margin-bottom:2rem; }
+
+    .story-grid { display:grid; gap:1.5rem; }
+    .story-card { background:white; border-radius:20px; padding:1.5rem 1.75rem; box-shadow:0 4px 20px rgba(0,0,0,0.07); border-left:5px solid var(--purple); display:flex; flex-direction:column; gap:.75rem; }
+    .story-card.indigo { border-left-color: var(--indigo); }
+    .story-card.violet { border-left-color: var(--violet); }
+    .story-card.gold   { border-left-color: var(--gold);   }
+    .story-card.rose   { border-left-color: var(--rose);   }
+
+    .char-tag { display:inline-flex; align-items:center; gap:.5rem; font-size:0.8rem; font-weight:800; padding:3px 10px; border-radius:20px; }
+    .char-tag.purple { color:#2e1065; background:#ede9fe; }
+    .char-tag.indigo { color:#1e1b4b; background:#e0e7ff; }
+    .char-tag.violet { color:#3b0764; background:#f3e8ff; }
+    .char-tag.gold   { color:#451a03; background:#fef3c7; }
+    .char-tag.rose   { color:#4c0519; background:#ffe4e6; }
+
+    .story-text { font-size:1rem; line-height:1.8; color:var(--text); }
+    .speech-bubble { background:var(--purple-light); border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; font-style:italic; color:#2e1065; position:relative; margin-top:.5rem; }
+    .speech-bubble::before { content:'💬'; margin-right:.5rem; }
+    .warn-bubble { background:#fff7ed; border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; color:#92400e; position:relative; margin-top:.5rem; border:1px solid #fcd34d; }
+    .warn-bubble::before { content:'⚠️ '; font-weight:800; }
+    .safe-bubble { background:#ecfdf5; border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; color:#065f46; position:relative; margin-top:.5rem; border:1px solid #a7f3d0; }
+    .safe-bubble::before { content:'✅ '; font-weight:800; }
+
+    .tip-card { background:var(--purple-light); border-radius:16px; padding:1.25rem 1.5rem; border:1px solid var(--purple-mid); margin-top:1.5rem; }
+    .tip-card .tip-head { font-weight:800; color:#2e1065; font-size:1rem; margin-bottom:.5rem; }
+    .tip-card p { font-size:0.95rem; line-height:1.7; color:#4c1d95; }
+
+    .steps-list { list-style:none; display:flex; flex-direction:column; gap:1rem; margin-top:1rem; }
+    .steps-list li { display:flex; gap:1rem; align-items:flex-start; }
+    .step-num { background:var(--purple); color:white; border-radius:50%; min-width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; flex-shrink:0; margin-top:2px; }
+    .step-text { font-size:1rem; line-height:1.7; color:var(--text); }
+
+    .ba-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem; }
+    @media(max-width:600px){ .ba-grid { grid-template-columns:1fr; } }
+    .ba-col { border-radius:14px; padding:1rem 1.25rem; }
+    .ba-col.danger { background:#fef2f2; border:1px solid #fecaca; }
+    .ba-col.safe   { background:#ecfdf5; border:1px solid #a7f3d0; }
+    .ba-col .ba-head { font-size:0.75rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin-bottom:.5rem; }
+    .ba-col.danger .ba-head { color:#b91c1c; }
+    .ba-col.safe   .ba-head { color:#065f46; }
+    .ba-col p { font-size:0.9rem; line-height:1.7; }
+
+    .cheat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.25rem; }
+    .cheat-card { background:white; border-radius:16px; padding:1.25rem; box-shadow:0 2px 12px rgba(0,0,0,0.07); border-top:4px solid var(--purple); }
+    .cheat-card.indigo { border-top-color:var(--indigo); }
+    .cheat-card.violet { border-top-color:var(--violet); }
+    .cheat-card.gold   { border-top-color:var(--gold);   }
+    .cheat-card.rose   { border-top-color:var(--rose);   }
+    .cheat-card h3 { font-size:0.95rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .cheat-card p  { font-size:0.88rem; color:var(--muted); line-height:1.6; }
+
+    .pledge-card { background: linear-gradient(135deg, #2e1065 0%, #4c1d95 50%, #6d28d9 100%); border-radius:20px; padding:2rem; color:white; }
+    .pledge-card h3 { font-family:'Baloo 2',cursive; font-size:1.5rem; font-weight:800; margin-bottom:1.25rem; color:var(--purple-mid); }
+    .pledge-rule { display:flex; gap:1rem; align-items:flex-start; margin-bottom:1rem; }
+    .pledge-icon { font-size:1.5rem; flex-shrink:0; margin-top:2px; }
+    .pledge-text { font-size:1rem; line-height:1.6; }
+    .pledge-text strong { color:var(--purple-mid); }
+
+    .scene-img { width:100%; border-radius:16px; margin:1rem 0; box-shadow:0 6px 24px rgba(0,0,0,0.15); }
+
+    /* QUIZ */
+    .quiz-wrap { background:white; border-radius:24px; padding:2rem; box-shadow:0 8px 32px rgba(109,40,217,0.15); }
+    .quiz-q { margin-bottom:1.5rem; }
+    .quiz-q .q-text { font-weight:800; font-size:1.05rem; color:var(--navy); margin-bottom:.75rem; }
+    .quiz-options { display:flex; flex-direction:column; gap:.5rem; }
+    .quiz-options label { display:flex; align-items:center; gap:.75rem; background:var(--purple-light); border-radius:10px; padding:.7rem 1rem; cursor:pointer; font-size:0.95rem; transition:background .15s; }
+    .quiz-options label:hover { background:var(--purple-mid); color:white; }
+    .quiz-options input[type=radio] { accent-color:var(--purple); width:16px; height:16px; }
+    .quiz-submit { background:var(--purple); color:white; font-family:'Nunito',sans-serif; font-weight:800; font-size:1rem; border:none; border-radius:14px; padding:.9rem 2.5rem; cursor:pointer; margin-top:1rem; transition:background .2s; }
+    .quiz-submit:hover { background:#5b21b6; }
+    #quiz-result { margin-top:1.25rem; font-weight:800; font-size:1.05rem; display:none; }
+    #quiz-result.pass { color:#059669; }
+    #quiz-result.fail { color:#dc2626; }
+
+    #cert-section { display:none; }
+    .cert-box {
+      background: linear-gradient(135deg, #2e1065 0%, #4c1d95 50%, #6d28d9 100%);
+      border-radius:24px; padding:2.5rem 2rem; text-align:center; color:white;
+      box-shadow:0 12px 48px rgba(109,40,217,0.4);
+    }
+    .cert-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; margin-bottom:.25rem; }
+    .cert-box .cert-name { font-size:1.5rem; font-weight:700; color:var(--purple-mid); margin:.5rem 0; }
+    .cert-box p { font-size:0.95rem; color:rgba(255,255,255,0.75); margin-bottom:1.25rem; }
+    .skill-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin:1.25rem 0; }
+    .skill-badge { background:rgba(255,255,255,0.1); border:1px solid rgba(167,139,250,0.4); border-radius:12px; padding:.5rem .9rem; font-size:0.8rem; font-weight:700; color:var(--purple-mid); }
+    .cert-btn { background:var(--purple-mid); color:#2e1065; font-weight:800; font-size:0.95rem; border:none; border-radius:14px; padding:.8rem 2rem; cursor:pointer; margin-top:.75rem; }
+
+    .completion-box { text-align:center; padding:3rem 2rem; }
+    .completion-box .big-emoji { font-size:4rem; margin-bottom:1rem; }
+    .completion-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .completion-box p { font-size:1.05rem; color:var(--muted); max-width:520px; margin:0 auto 1.5rem; }
+    .next-btn { display:inline-block; background:var(--purple); color:white; font-weight:800; font-size:1rem; padding:.85rem 2.5rem; border-radius:14px; text-decoration:none; }
+    .next-btn:hover { background:#5b21b6; }
+
+    #auth-nav-area { display:flex; align-items:center; gap:.5rem; }
+    img { max-width:100%; }
+    @media(max-width:600px){ .cheat-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">🌟 Mitra AI Life</a>
+  <span class="level-tag">Level 10 · ₹500</span>
+  <div style="display:flex;align-items:center;gap:.75rem;">
+    <div id="auth-nav-area"></div>
+    <a href="level-10-comic-te.html" class="lang-btn">తెలుగు</a>
+    <a href="../../../site/index.html" class="back-link">← Home</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 1 · HERO                                                       -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="hero">
+  <p class="hero-eyebrow anim-fadeInUp" style="animation-delay:.1s">Level 10 · AI Safety &amp; Society · Capstone</p>
+  <h1 class="hero-title anim-fadeInUp" style="animation-delay:.2s">Use AI Wisely.<br>Stay Safe.</h1>
+  <p class="hero-sub anim-fadeInUp" style="animation-delay:.3s">Deepfakes. Misinformation. Voice fraud. Privacy. Learn to spot AI misuse, protect your family, and become a responsible AI user — the final step in your AI journey.</p>
+  <div class="hero-badges anim-fadeInUp" style="animation-delay:.4s">
+    <span class="badge">⏱ 2–3 hours</span>
+    <span class="badge">🛡️ 5 Safety Skills</span>
+    <span class="badge">🇮🇳 India-specific examples</span>
+    <span class="badge accent">₹500</span>
+  </div>
+  <div class="hero-offer anim-bounceIn" style="animation-delay:.55s">
+    🎉 Early Access — <s>₹500</s> <strong>Free for first learners</strong>
+  </div>
+  <img class="hero-img anim-fadeInUp" style="animation-delay:.5s"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l10-s01-hero.jpg"
+       alt="Five learners gathered together, empowered and united around AI safety" />
+  <p class="scroll-hint anim-fadeInUp" style="animation-delay:.7s">scroll to begin ↓</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 2 · MEET THE CHARACTERS                                        -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="sec-label">Returning Cast</div>
+  <h2 class="sec-title">Five learners. Five real AI safety scenarios.</h2>
+  <p class="sec-intro">You have followed them through 9 levels. Now they face the final challenge — using AI responsibly in a world where not everyone does.</p>
+
+  <div class="cheat-grid">
+    <div class="cheat-card" style="border-top-color:var(--purple);">
+      <h3>🎓 Kavya — Warangal</h3>
+      <p>Gets a shocking WhatsApp video of a politician saying something controversial. It looks real. It is a deepfake. She almost forwarded it to 50 contacts.</p>
+    </div>
+    <div class="cheat-card indigo">
+      <h3>💼 Srinivas — Hyderabad</h3>
+      <p>A client asks him to use AI-generated "research" with made-up statistics in a marketing article. He has to decide what is the right thing to do.</p>
+    </div>
+    <div class="cheat-card violet">
+      <h3>🍳 Padma — Vijayawada</h3>
+      <p>Gets a voice call from someone who sounds exactly like her daughter — asking for ₹5,000 urgently. It is an AI voice-clone scam.</p>
+    </div>
+    <div class="cheat-card gold">
+      <h3>📸 Raju — Nizamabad</h3>
+      <p>Accidentally creates an AI photo of a real person without consent for a client poster. He learns about privacy rights and how to fix the mistake.</p>
+    </div>
+    <div class="cheat-card rose">
+      <h3>📚 Meera — Hyderabad (New)</h3>
+      <p>19-year-old college student. Uses AI to write an essay and submits it as her own. Faces a difficult conversation with her teacher — and learns from it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 3 · ACT 1: WHAT CAN GO WRONG                                  -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section style="background:white; border-radius:24px; box-shadow:0 4px 24px rgba(0,0,0,0.06); padding:3rem 2rem;">
+  <div class="sec-label">Act 1</div>
+  <h2 class="sec-title">The community meeting: "AI almost got me"</h2>
+
+  <div class="story-grid">
+    <div class="story-card">
+      <p class="story-text">All five characters meet at a community space in Hyderabad. The topic: "AI Bad Experiences." Each person shares something that happened to them or someone they know in the last month. The room goes quiet as the stories come out — one by one.</p>
+      <div class="speech-bubble">Kavya: "I almost shared a deepfake video. My cousin shares things without checking. I nearly did the same."</div>
+      <div class="speech-bubble">Srinivas: "A client asked me to use AI statistics I could not verify. I almost did it just to keep the client happy."</div>
+      <div class="speech-bubble">Padma: "I got a call from someone who sounded exactly like my daughter. I nearly transferred ₹5,000."</div>
+    </div>
+    <div class="story-card rose">
+      <p class="story-text">Raju and Meera share too. Then the group agrees on something important: the risks of AI are real, but they are learnable. Knowing what to look for is the first and most powerful defence.</p>
+      <div class="safe-bubble">Key message: "Knowing the risks makes you stronger, not scared. Every person in this room is already safer than they were before today."</div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-head">🛡️ Why this level matters</div>
+    <p>AI gives people powerful tools. But powerful tools can be misused — by others, and sometimes by us without realising it. This level teaches you to protect yourself, your family, and your community.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 4 · ACT 2: DEEPFAKES                                           -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="sec-label">Act 2</div>
+  <h2 class="sec-title">Kavya's deepfake: "It looked completely real"</h2>
+
+  <img class="scene-img"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l10-s02-deepfake.jpg"
+       alt="Kavya looking sceptically at a suspicious video on her phone" />
+
+  <div class="story-grid">
+    <div class="story-card">
+      <span class="char-tag purple">🎓 Kavya · Warangal</span>
+      <p class="story-text">The video showed a local politician making a shocking statement. The audio was clear. The face looked right. Kavya's thumb was already on the forward button. Then she noticed something: the lips did not quite match the words at one point. She paused. She looked more carefully.</p>
+      <div class="warn-bubble">Warning signs she spotted: slightly blurred edges around the face, one moment where the lip movement did not match the audio, skin texture that looked too smooth in bright light.</div>
+    </div>
+    <div class="story-card indigo">
+      <span class="char-tag purple">🎓 Kavya checks before sharing</span>
+      <p class="story-text">Instead of forwarding, she went to AltNews.in — India's fact-checking platform. The video was already flagged as fake. A real news outlet had already debunked it. She shared the fact-check link instead, with a message to her family group.</p>
+      <div class="safe-bubble">Result: 50 contacts did not receive misinformation. Kavya's family group now has a new rule: check before you share.</div>
+    </div>
+  </div>
+
+  <div style="background:white; border-radius:16px; padding:1.5rem; box-shadow:0 2px 12px rgba(0,0,0,0.07); margin-top:1.5rem;">
+    <div class="sec-label" style="margin-bottom:.75rem;">How to spot a deepfake video</div>
+    <ul class="steps-list">
+      <li><span class="step-num">1</span><span class="step-text"><strong>Watch the lips:</strong> Do they match the words exactly? Deepfakes often have slight audio-visual mismatch.</span></li>
+      <li><span class="step-num">2</span><span class="step-text"><strong>Check the edges:</strong> Look at the hairline, ears, and chin. Deepfakes often have slight blurring or warping.</span></li>
+      <li><span class="step-num">3</span><span class="step-text"><strong>Watch the eyes:</strong> Unnatural blinking or staring? AI-generated faces blink less naturally.</span></li>
+      <li><span class="step-num">4</span><span class="step-text"><strong>Search before sharing:</strong> Paste the claim in Google or AltNews.in. If it is viral, someone has already checked it.</span></li>
+      <li><span class="step-num">5</span><span class="step-text"><strong>Pause the "shock reflex":</strong> If a video makes you feel outraged or shocked, that feeling is exactly when you must slow down.</span></li>
+    </ul>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-head">💡 Skill 1: Spot a deepfake and verify before sharing</div>
+    <p>Fact-check tools for India: <strong>AltNews.in</strong>, <strong>BoomLive.in</strong>, <strong>FactCheck.in</strong>, and Google's Fact Check Explorer. Bookmark at least one. Use it every time a video surprises you.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 5 · ACT 3: MISINFORMATION                                     -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section style="background:white; border-radius:24px; box-shadow:0 4px 24px rgba(0,0,0,0.06); padding:3rem 2rem;">
+  <div class="sec-label">Act 3</div>
+  <h2 class="sec-title">Srinivas and the AI-written statistic that was not real</h2>
+
+  <img class="scene-img"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l10-s03-fact-check.jpg"
+       alt="Srinivas cross-referencing an AI article with fact-check websites" />
+
+  <div class="story-grid">
+    <div class="story-card">
+      <span class="char-tag indigo">💼 Srinivas · Hyderabad</span>
+      <p class="story-text">A client asked Srinivas to write a marketing article about health benefits of their product. He used AI to research and draft it. The AI produced this confidently: "85% of Indian families prefer natural health remedies over prescription medicine." It sounded perfect. It was completely made up.</p>
+      <div class="warn-bubble">AI hallucination: AI generated a convincing, specific statistic with no real source. This happens regularly. The danger is that it sounds exactly like a real fact.</div>
+    </div>
+    <div class="story-card violet">
+      <span class="char-tag indigo">💼 Srinivas catches it</span>
+      <p class="story-text">He searched for the statistic in three places: Google, the Ministry of Health website, and a journal. Nothing. He went back to AI and asked: "What is the source for this statistic?" The AI admitted it could not find one. He removed it, found a real verified statistic, and rewrote the section. He told the client.</p>
+      <div class="safe-bubble">Client's response: "Thank you for catching that. I trust your work more because you checked."</div>
+    </div>
+  </div>
+
+  <div class="ba-grid">
+    <div class="ba-col danger">
+      <div class="ba-head">❌ If he had not checked</div>
+      <p>Published a false statistic. Client's reputation damaged. Potential legal issues. Loss of trust.</p>
+    </div>
+    <div class="ba-col safe">
+      <div class="ba-head">✅ Because he checked</div>
+      <p>Article accurate. Client trust increased. Srinivas's professional reputation protected.</p>
+    </div>
+  </div>
+
+  <div class="tip-card" style="margin-top:1.5rem;">
+    <div class="tip-head">💡 Skill 2: Fact-check AI output before using it</div>
+    <p>Golden rule: <strong>AI can write confidently and be completely wrong.</strong> For any important claim, number, or statistic from AI — verify in at least one other reliable source. Use Google, government websites, or established news outlets. Never publish AI statistics without checking.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 6 · ACT 4: PRIVACY, CONSENT & VOICE FRAUD                     -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="sec-label">Act 4</div>
+  <h2 class="sec-title">Padma's fake daughter call — and Raju's consent mistake</h2>
+
+  <div class="story-grid">
+    <div class="story-card">
+      <span class="char-tag violet">🍳 Padma · Vijayawada</span>
+      <p class="story-text">Padma got a call. The voice was her daughter's — the exact same tone, accent, and way of speaking. "Amma, I have an emergency, please transfer ₹5,000 right now." Padma's hand moved to open her UPI app. Then she paused. Something felt wrong.</p>
+      <div class="warn-bubble">How it works: Criminals collect voice clips from social media reels and WhatsApp status videos. AI tools can clone a voice from just 30 seconds of audio. The call was AI-generated.</div>
+      <img class="scene-img"
+           src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l10-s04-voice-clone-scam.jpg"
+           alt="Padma on a suspicious phone call while her daughter is safe in the background" />
+    </div>
+    <div class="story-card violet">
+      <span class="char-tag violet">🍳 Padma's safe response</span>
+      <p class="story-text">Padma hung up. She called her daughter directly on her known number. Her daughter was home, completely fine, unaware of any call. The scam was confirmed. Padma then told her family about a new rule they set together.</p>
+      <div class="safe-bubble">Family safety code: If anyone calls asking for money urgently, they must use the family code word ("Gongura"). If they do not know it, the call is suspicious. Hang up and call back on the known number.</div>
+    </div>
+  </div>
+
+  <div class="story-grid" style="margin-top:2rem;">
+    <div class="story-card gold">
+      <span class="char-tag gold">📸 Raju · Nizamabad</span>
+      <p class="story-text">A client asked Raju to make a promotional poster for their new hotel. Raju used AI to put a smiling young woman's face on the poster — a face from a reference photo the client gave him. The young woman had not given consent. When she saw the poster displayed publicly, she was upset and asked for it to be removed.</p>
+      <img class="scene-img"
+           src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l10-s05-consent-privacy.jpg"
+           alt="Raju realising his consent mistake with a client poster" />
+    </div>
+    <div class="story-card">
+      <span class="char-tag gold">📸 Raju learns and fixes it</span>
+      <p class="story-text">Raju removed the poster immediately. He apologised. He replaced it with an AI-generated fictional person instead — no real face, no identity. He now has a one-line rule for every client: "We only use real faces with written permission."</p>
+      <div class="safe-bubble">India's IT Act protects personal data including photographs. Using someone's face without consent — even for commercial use — can lead to legal complaints. Always ask. Always get consent first.</div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-head">💡 Skill 3: Protect personal privacy — yours and others'</div>
+    <p><strong>For voice fraud:</strong> Limit personal voice clips in public reels. Set a family code word. Always call back on a known number before any transfer.<br><br>
+    <strong>For consent:</strong> Never use someone's face, voice, or personal images with AI without their explicit permission. What AI can do and what you are allowed to do are not the same thing.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 7 · ACT 5: RESPONSIBLE AI PLEDGE                              -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section style="background:white; border-radius:24px; box-shadow:0 4px 24px rgba(0,0,0,0.06); padding:3rem 2rem;">
+  <div class="sec-label">Act 5 · The Capstone</div>
+  <h2 class="sec-title">Meera's lesson — and the Responsible AI Pledge</h2>
+
+  <img class="scene-img"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l10-s06-meera-integrity.jpg"
+       alt="Meera in a mentoring conversation with her teacher about AI and academic integrity" />
+
+  <div class="story-grid">
+    <div class="story-card rose">
+      <span class="char-tag rose">📚 Meera · Hyderabad</span>
+      <p class="story-text">Meera used AI to write a full essay for her sociology class. She submitted it as her own work. Her teacher noticed the writing style was different from Meera's usual work. Instead of punishing her, the teacher had a private conversation.</p>
+      <div class="speech-bubble">Teacher: "Meera, I'm not angry. AI is a powerful tool. But submitting someone else's thinking — even AI thinking — as your own does not help you grow. What did you actually think about this topic?"</div>
+    </div>
+    <div class="story-card">
+      <span class="char-tag rose">📚 What Meera learned</span>
+      <p class="story-text">Meera rewrote the essay — this time, she used AI as a brainstorming partner, not a ghostwriter. She wrote her own analysis. She cited where AI helped her think. Her teacher gave her full marks for the rewrite. More importantly, she understood the difference between using AI and relying on AI.</p>
+      <div class="safe-bubble">Right way to use AI for learning: "AI, help me think through the arguments for this topic." Then write your own conclusion. Declare that you used AI as a thinking aid.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:2rem;">
+    <img class="scene-img"
+         src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l10-s07-5-rules.jpg"
+         alt="The 5 rules of responsible AI use — illustrated pledge card" />
+
+    <div class="pledge-card" style="margin-top:1.5rem;">
+      <h3>🤝 The Responsible AI Pledge</h3>
+      <div class="pledge-rule">
+        <span class="pledge-icon">🔍</span>
+        <span class="pledge-text"><strong>Rule 1: Verify before you share.</strong> A shocking video or message deserves 60 seconds of checking before it reaches 50 contacts.</span>
+      </div>
+      <div class="pledge-rule">
+        <span class="pledge-icon">💬</span>
+        <span class="pledge-text"><strong>Rule 2: Declare when AI helped you.</strong> If AI wrote it, helped plan it, or generated it — say so. Honesty builds trust.</span>
+      </div>
+      <div class="pledge-rule">
+        <span class="pledge-icon">❌</span>
+        <span class="pledge-text"><strong>Rule 3: Never use AI to harm or deceive.</strong> Deepfakes, fake reviews, manipulative content — if it could hurt someone, do not create it.</span>
+      </div>
+      <div class="pledge-rule">
+        <span class="pledge-icon">🔒</span>
+        <span class="pledge-text"><strong>Rule 4: Protect personal data.</strong> Yours and others'. Consent before using faces, voices, or private information with AI tools.</span>
+      </div>
+      <div class="pledge-rule">
+        <span class="pledge-icon">👥</span>
+        <span class="pledge-text"><strong>Rule 5: Teach one person.</strong> You now know more than most people around you. Share one thing you learned today with someone who needs it.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 8 · SKILLS CHEAT SHEET                                         -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="sec-label">Your Safety Toolkit</div>
+  <h2 class="sec-title">5 skills every responsible AI user has</h2>
+  <p class="sec-intro">Save this. Share it. Use it every time AI surprises you.</p>
+
+  <div class="cheat-grid">
+    <div class="cheat-card" style="border-top-color:var(--purple);">
+      <h3>🎭 Spot Deepfakes</h3>
+      <p>Check lips, edges, and eyes. Pause the shock reflex. Search before sharing. Use AltNews.in or BoomLive.in.</p>
+    </div>
+    <div class="cheat-card indigo">
+      <h3>📊 Fact-Check AI Output</h3>
+      <p>Never publish AI statistics without verifying. Ask AI for its source — it will often admit it has none.</p>
+    </div>
+    <div class="cheat-card violet">
+      <h3>📞 Voice Fraud Defence</h3>
+      <p>Set a family code word. Always call back on a known number. Never transfer money based on an unexpected call.</p>
+    </div>
+    <div class="cheat-card gold">
+      <h3>🖼️ Consent Before AI Images</h3>
+      <p>Never use real faces with AI without permission. India's IT Act protects personal images. Always ask first.</p>
+    </div>
+    <div class="cheat-card rose">
+      <h3>🎓 Honest AI Use</h3>
+      <p>Use AI as a thinking partner, not a ghostwriter. Declare when AI helped. Your thinking is still what matters most.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 9 · PRACTICE                                                   -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section style="background:white; border-radius:24px; box-shadow:0 4px 24px rgba(0,0,0,0.06); padding:3rem 2rem;">
+  <div class="sec-label">Practice</div>
+  <h2 class="sec-title">Three things to do today</h2>
+  <p class="sec-intro">Before you take the quiz, try at least one of these.</p>
+
+  <div style="display:flex; flex-direction:column; gap:1.25rem;">
+    <div class="tip-card">
+      <div class="tip-head">Challenge 1 — Set your family code word</div>
+      <p>Talk to your family today. Agree on a secret code word that anyone calling about money must know. Write it somewhere safe. Test it once with one family member.</p>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">Challenge 2 — Fact-check something</div>
+      <p>Go to AltNews.in or BoomLive.in. Search for any viral video or claim from the last week in your WhatsApp groups. See if it is verified, debunked, or unverified. Share what you find with one person.</p>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">Challenge 3 — Teach one rule</div>
+      <p>Share one of the 5 Responsible AI Rules with one person today — a parent, sibling, friend, or colleague. Explain it in simple words. You become a teacher the moment you do.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 10 · QUIZ                                                      -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="sec-label">Knowledge Check</div>
+  <h2 class="sec-title">5 Questions · Pass 4 to complete Level 10</h2>
+
+  <div class="quiz-wrap">
+    <form id="quiz-form">
+
+      <div class="quiz-q">
+        <div class="q-text">1. Kavya receives a shocking video on WhatsApp claiming a politician said something controversial. What should she do first?</div>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> a) Forward it to her contacts immediately so they know</label>
+          <label><input type="radio" name="q1" value="b"> b) Check the video for signs of deepfake and verify on a fact-check site before sharing</label>
+          <label><input type="radio" name="q1" value="c"> c) Post it on Instagram with her opinion</label>
+          <label><input type="radio" name="q1" value="d"> d) Call the politician's office directly</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <div class="q-text">2. Srinivas uses AI to write a marketing article and it includes a statistic: "85% of Indians use AI daily." He cannot find this anywhere else. What should he do?</div>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> a) Use it — AI is usually accurate with numbers</label>
+          <label><input type="radio" name="q2" value="b"> b) Remove it or replace it with a verified statistic from a reliable source</label>
+          <label><input type="radio" name="q2" value="c"> c) Ask AI to confirm the same statistic again</label>
+          <label><input type="radio" name="q2" value="d"> d) Add a disclaimer and keep the statistic</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <div class="q-text">3. Padma gets a phone call from someone who sounds exactly like her daughter, asking to transfer ₹5,000 urgently. What is the safest next step?</div>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> a) Transfer the money immediately — it sounds like an emergency</label>
+          <label><input type="radio" name="q3" value="b"> b) Hang up and call her daughter directly on her known number to verify</label>
+          <label><input type="radio" name="q3" value="c"> c) Ask the caller for the bank account number to confirm identity</label>
+          <label><input type="radio" name="q3" value="d"> d) Send the money and report to police later</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <div class="q-text">4. Raju wants to create an AI-generated poster using a real customer's face for the shop's display. What must he do first?</div>
+        <div class="quiz-options">
+          <label><input type="radio" name="q4" value="a"> a) Go ahead — the photo was from a public Instagram post</label>
+          <label><input type="radio" name="q4" value="b"> b) Get clear verbal or written consent from the customer before using their face</label>
+          <label><input type="radio" name="q4" value="c"> c) Blur the face slightly so it is not fully recognisable</label>
+          <label><input type="radio" name="q4" value="d"> d) Post it and remove it only if the person complains</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <div class="q-text">5. Which of these is NOT one of the 5 rules of a responsible AI user?</div>
+        <div class="quiz-options">
+          <label><input type="radio" name="q5" value="a"> a) Verify before you share</label>
+          <label><input type="radio" name="q5" value="b"> b) Declare when AI helped you create something</label>
+          <label><input type="radio" name="q5" value="c"> c) Use AI to win arguments and prove you are always right</label>
+          <label><input type="radio" name="q5" value="d"> d) Protect your own and others' personal data</label>
+        </div>
+      </div>
+
+      <button type="button" class="quiz-submit" onclick="submitQuiz()">Submit Answers</button>
+    </form>
+    <div id="quiz-result"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 11 · CERTIFICATE                                               -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section id="cert-section">
+  <div class="cert-box">
+    <div style="font-size:3rem; margin-bottom:.5rem;">🏆</div>
+    <h2>Level 10 Complete!</h2>
+    <div class="cert-name" id="cert-name">Responsible AI User</div>
+    <p>You have completed all 10 levels of Mitra AI Life Education. You can spot deepfakes, fact-check AI output, protect your privacy, use AI with integrity, and teach others around you. That is the full journey.</p>
+    <div class="skill-badges">
+      <span class="skill-badge">🎭 Deepfake Detection</span>
+      <span class="skill-badge">📊 Fact-Checking</span>
+      <span class="skill-badge">📞 Voice Fraud Defence</span>
+      <span class="skill-badge">🖼️ Consent &amp; Privacy</span>
+      <span class="skill-badge">🎓 Honest AI Use</span>
+    </div>
+    <button class="cert-btn" onclick="window.print()">🖨️ Print Certificate</button>
+  </div>
+
+  <div class="completion-box">
+    <div class="big-emoji">🌟</div>
+    <h2>You completed the full journey!</h2>
+    <p>From your first AI prompt in Level 1 to becoming a responsible AI advocate in Level 10 — you have come an incredible distance. India needs people like you.</p>
+    <a href="../../../site/index.html" class="next-btn">← Back to Home</a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 12 · CELEBRATION IMAGE                                         -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section style="padding-bottom:5rem;">
+  <img class="scene-img"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l10-s08-celebration.jpg"
+       alt="All five characters celebrating completing the full 10-level journey" />
+  <p style="text-align:center; color:var(--muted); margin-top:1rem; font-size:0.95rem;">India needs millions of responsible AI users. You are one of them. 🇮🇳</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- DISQUS                                                                 -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section style="padding-top:2rem;">
+  <div class="sec-label">Discussion</div>
+  <h2 class="sec-title" style="margin-bottom:1.5rem;">Share your thoughts</h2>
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://mitraailife.com/content/english/level-10-ai-safety/level-10-comic.html';
+      this.page.identifier = 'level-10-safety';
+    };
+    (function() {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://mitra-ai-life.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+</section>
+
+<!-- SCRIPTS -->
+<script src="../../../site/auth.js"></script>
+<script src="../../../site/mitra-chat.js"></script>
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const el = document.getElementById('progress-bar');
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+    el.style.width = Math.min(pct, 100) + '%';
+  });
+
+  // Quiz
+  const ANSWERS = { q1:'b', q2:'b', q3:'b', q4:'b', q5:'c' };
+  function submitQuiz() {
+    let score = 0;
+    for (const [q, ans] of Object.entries(ANSWERS)) {
+      const sel = document.querySelector(`input[name="${q}"]:checked`);
+      if (sel && sel.value === ans) score++;
+    }
+    const resultEl = document.getElementById('quiz-result');
+    resultEl.style.display = 'block';
+    if (score >= 4) {
+      resultEl.className = 'pass';
+      resultEl.textContent = `🎉 You passed! ${score}/5 correct. You are a responsible AI user!`;
+      document.getElementById('cert-section').style.display = 'block';
+      document.getElementById('cert-section').scrollIntoView({ behavior: 'smooth' });
+      if (typeof saveProgress === 'function') saveProgress('level-10', score);
+    } else {
+      resultEl.className = 'fail';
+      resultEl.textContent = `You got ${score}/5. Need 4 to pass. Review the safety skills above and try again.`;
+    }
+  }
+</script>
+</body>
+</html>

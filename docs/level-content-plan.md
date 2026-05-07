@@ -20,7 +20,7 @@ The names should feel simple, non-technical, and motivating.
 | 7 | Build With AI | 5 hours | Paid | ~~500 INR~~ | **0 INR** |
 | 8 | AI for Small Business | 3–4 hours | Paid | ~~600 INR~~ | **0 INR** |
 | 9 | AI for Income | 3–4 hours | Paid | ~~700 INR~~ | **0 INR** |
-| 10 | AI Safety & Society | 2–3 hours | Paid | ~~500 INR~~ | *Coming soon* |
+| 10 | AI Safety & Society | 2–3 hours | Paid | ~~500 INR~~ | **0 INR** |
 
 ## Ladder strategy update
 

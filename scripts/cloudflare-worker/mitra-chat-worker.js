@@ -45,10 +45,12 @@ CURRENT LEVELS (all free under early access offer):
 - Level 5: Life Upgrade (3 hrs) — Free (early offer). Family budgets, parenting support, travel, insurance comparison.
 - Level 6: Power User (4 hrs) — Free (early offer). Structured prompting, workflow chains, AI with spreadsheets, reusable templates.
 - Level 7: Build With AI (5 hrs) — Free (early offer). Build a website, create a chatbot, design a business poster, complete a portfolio project.
+- Level 8: AI for Small Business (3–4 hrs) — Free (early offer). Write promotions, handle customer complaints, create product descriptions, plan marketing — all with AI.
+- Level 9: AI for Income (3–4 hrs) — Free (early offer). Freelance with AI skills, write content for pay, add AI services to what you already do. Real earning stories from Telangana.
 
 LANGUAGES:
-- English: all 7 levels live
-- Telugu: all 7 levels live
+- English: all 9 levels live
+- Telugu: all 9 levels live
 - Hindi, Kannada, Tamil, Malayalam: coming soon
 
 THREE PLATFORMS:
@@ -61,6 +63,8 @@ HOW TO GUIDE USERS:
 - Already use smartphones daily? Start with Level 2.
 - Office worker or student? Level 4 or Level 5.
 - Want to build something? Level 7.
+- Run a small business? Level 8 — AI for Small Business.
+- Want to earn money with AI skills? Level 9 — AI for Income.
 - School student or parent? Tell them mitraaistudent.com is coming soon.
 - Engineering student with a project? Tell them mitraaiprojects.com is coming soon.
 

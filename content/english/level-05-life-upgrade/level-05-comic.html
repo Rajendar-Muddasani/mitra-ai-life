@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Level 5: Life Upgrade | Mitra AI Life Education</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QGY0LH6W93');
+  </script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:    #1E3A5F;
+      --orange:  #EA580C;
+      --or-light:#fff7ed;
+      --or-mid:  #fb923c;
+      --sky:     #38BDF8;
+      --amber:   #F59E0B;
+      --green:   #10B981;
+      --red:     #EF4444;
+      --teal:    #0D9488;
+      --cream:   #fff7ed;
+      --white:   #FFFFFF;
+      --text:    #1C1C2E;
+      --muted:   #64748B;
+      --panel:   #ffedd5;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+    /* progress bar */
+    #progress-bar { position:fixed; top:0; left:0; height:5px;
+      background: linear-gradient(90deg, var(--orange), var(--or-mid), var(--amber));
+      width:0%; z-index:999; transition:width 0.3s ease; }
+
+    /* nav */
+    .topnav {
+      position:fixed; top:5px; left:0; right:0; height:52px;
+      background:rgba(255,247,237,0.93); backdrop-filter:blur(8px);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 1.5rem; z-index:100;
+      border-bottom:2px solid rgba(234,88,12,0.15);
+    }
+    .topnav .brand { font-family:'Baloo 2',cursive; font-weight:800; font-size:1.1rem; color:var(--navy); text-decoration:none; }
+    .topnav .level-tag { background:var(--orange); color:white; font-size:0.75rem; font-weight:700; padding:3px 12px; border-radius:20px; }
+    .topnav .back-link { font-size:0.82rem; color:var(--muted); font-weight:700; text-decoration:none; }
+    .topnav .back-link:hover { color:var(--orange); }
+    .topnav .lang-btn { font-size:0.82rem; color:var(--orange); font-weight:700; background:var(--or-light); border:1px solid var(--or-mid); border-radius:8px; padding:4px 10px; cursor:pointer; text-decoration:none; }
+
+    /* animations */
+    @keyframes fadeInUp   { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideInLeft  { from{opacity:0;transform:translateX(-48px)} to{opacity:1;transform:translateX(0)} }
+    @keyframes slideInRight { from{opacity:0;transform:translateX(48px)}  to{opacity:1;transform:translateX(0)} }
+    @keyframes bounceIn { 0%{opacity:0;transform:scale(0.6)} 60%{opacity:1;transform:scale(1.08)} 80%{transform:scale(0.97)} 100%{transform:scale(1)} }
+    @keyframes float  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    @keyframes pulse  { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+    .anim-fadeInUp   { animation:fadeInUp   0.7s ease forwards; }
+    .anim-slideLeft  { animation:slideInLeft  0.7s ease forwards; }
+    .anim-slideRight { animation:slideInRight 0.7s ease forwards; }
+    .anim-bounceIn   { animation:bounceIn    0.75s cubic-bezier(.68,-.55,.27,1.55) forwards; }
+    .anim-float      { animation:float 3s ease-in-out infinite; }
+    .anim-pulse      { animation:pulse 2.5s ease-in-out infinite; }
+
+    /* sections */
+    section { padding: 4rem 1.5rem; max-width: 900px; margin: 0 auto; }
+    section:first-of-type { padding-top: 6rem; }
+
+    /* hero */
+    .hero {
+      min-height: 88vh; display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; padding-top:5rem;
+      background: linear-gradient(160deg, #431407 0%, #7c2d12 40%, #9a3412 75%, #1e3a5f 100%);
+      border-radius: 0 0 48px 48px; position:relative; overflow:hidden;
+    }
+    .hero::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 30% 40%, rgba(251,146,60,0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 75% 65%, rgba(245,158,11,0.1) 0%, transparent 50%);
+    }
+    .hero-eyebrow { font-size:0.78rem; font-weight:800; letter-spacing:0.15em; color:var(--or-mid); text-transform:uppercase; margin-bottom:.5rem; position:relative; }
+    .hero-title { font-family:'Baloo 2',cursive; font-size:clamp(2.4rem,6vw,4rem); font-weight:800; color:white; line-height:1.1; position:relative; }
+    .hero-sub { font-size:1.15rem; color:rgba(255,255,255,0.75); margin-top:.75rem; max-width:560px; position:relative; }
+    .hero-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin-top:1.5rem; position:relative; }
+    .badge { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; font-size:0.78rem; font-weight:700; padding:5px 14px; border-radius:20px; }
+    .badge.accent { background:var(--amber); color:#1c1c2e; border-color:var(--amber); }
+    .hero-img { width:100%; max-width:760px; border-radius:20px; margin-top:2rem; box-shadow:0 20px 60px rgba(0,0,0,0.5); position:relative; }
+    .hero-offer { background:linear-gradient(90deg,#f59e0b,#fbbf24); color:#1c1c2e; font-size:0.9rem; font-weight:800; padding:8px 24px; border-radius:24px; margin-top:1.5rem; display:inline-block; position:relative; }
+    .hero-offer s { font-weight:400; opacity:0.55; }
+    .scroll-hint { margin-top:2.5rem; font-size:0.8rem; color:rgba(255,255,255,0.4); letter-spacing:.08em; position:relative; }
+
+    /* skill banner */
+    .skill-banner { background:var(--orange); color:white; border-radius:16px; padding:1rem 1.5rem; margin-bottom:2rem; font-size:0.95rem; font-weight:700; display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; }
+    .skill-banner .sk-num { background:rgba(255,255,255,0.2); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+
+    /* section titles */
+    .sec-label { font-size:0.72rem; font-weight:800; letter-spacing:.14em; color:var(--orange); text-transform:uppercase; margin-bottom:.4rem; }
+    .sec-title { font-family:'Baloo 2',cursive; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:800; color:var(--navy); line-height:1.2; margin-bottom:.75rem; }
+    .sec-intro { font-size:1.05rem; color:var(--muted); line-height:1.7; margin-bottom:2rem; }
+
+    /* story panels */
+    .story-grid { display:grid; gap:1.5rem; }
+    .story-card {
+      background:white; border-radius:20px; padding:1.5rem 1.75rem;
+      box-shadow:0 4px 20px rgba(0,0,0,0.07);
+      border-left:5px solid var(--orange);
+      display:flex; flex-direction:column; gap:.75rem;
+    }
+    .story-card.amber { border-left-color: var(--amber); }
+    .story-card.teal  { border-left-color: var(--teal);  }
+    .story-card.sky   { border-left-color: var(--sky);   }
+    .story-card.green { border-left-color: var(--green); }
+    .char-tag { display:inline-flex; align-items:center; gap:.5rem; font-size:0.8rem; font-weight:800; color:var(--orange); background:var(--or-light); padding:3px 10px; border-radius:20px; }
+    .char-tag.amber { color:#92400e; background:#fef3c7; }
+    .char-tag.teal  { color:#134e4a; background:#ccfbf1; }
+    .char-tag.sky   { color:#0c4a6e; background:#e0f2fe; }
+    .char-tag.green { color:#14532d; background:#dcfce7; }
+    .story-text { font-size:1rem; line-height:1.75; color:var(--text); }
+    .speech-bubble { background:var(--or-light); border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; font-style:italic; color:var(--navy); position:relative; margin-top:.5rem; }
+    .speech-bubble::before { content:'💬'; margin-right:.5rem; }
+    .ai-bubble { background:#ecfdf5; border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; color:#065f46; position:relative; margin-top:.5rem; border:1px solid #a7f3d0; }
+    .ai-bubble::before { content:'🤖 Mitra says: '; font-weight:800; }
+
+    /* skill steps */
+    .steps-list { list-style:none; display:flex; flex-direction:column; gap:1rem; margin-top:1rem; }
+    .steps-list li { display:flex; gap:1rem; align-items:flex-start; }
+    .step-num { background:var(--orange); color:white; border-radius:50%; min-width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; flex-shrink:0; margin-top:2px; }
+    .step-text { font-size:1rem; line-height:1.7; color:var(--text); }
+
+    /* tip card */
+    .tip-card { background:var(--or-light); border-radius:16px; padding:1.25rem 1.5rem; border:1px solid var(--or-mid); margin-top:1.5rem; }
+    .tip-card .tip-head { font-weight:800; color:var(--orange); font-size:1rem; margin-bottom:.5rem; }
+    .tip-card p { font-size:0.95rem; line-height:1.7; color:var(--navy); }
+
+    /* prompt box */
+    .prompt-box { background:#431407; border-radius:14px; padding:1.25rem 1.5rem; margin-top:1rem; }
+    .prompt-box .pb-label { font-size:0.72rem; font-weight:800; letter-spacing:.1em; color:var(--or-mid); text-transform:uppercase; margin-bottom:.5rem; }
+    .prompt-box .pb-text { font-family:monospace; font-size:0.92rem; color:#fed7aa; line-height:1.65; }
+
+    /* before-after */
+    .ba-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem; }
+    @media(max-width:600px){ .ba-grid { grid-template-columns:1fr; } }
+    .ba-col { border-radius:14px; padding:1rem 1.25rem; }
+    .ba-col.before { background:#fef2f2; border:1px solid #fecaca; }
+    .ba-col.after  { background:#ecfdf5; border:1px solid #a7f3d0; }
+    .ba-col .ba-head { font-size:0.75rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin-bottom:.5rem; }
+    .ba-col.before .ba-head { color:#b91c1c; }
+    .ba-col.after  .ba-head { color:#065f46; }
+    .ba-col p { font-size:0.9rem; line-height:1.7; }
+
+    /* cheat sheet */
+    .cheat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.25rem; }
+    .cheat-card { background:white; border-radius:16px; padding:1.25rem; box-shadow:0 2px 12px rgba(0,0,0,0.07); border-top:4px solid var(--orange); }
+    .cheat-card.amber { border-top-color:var(--amber); }
+    .cheat-card.teal  { border-top-color:var(--teal);  }
+    .cheat-card.green { border-top-color:var(--green);  }
+    .cheat-card.sky   { border-top-color:var(--sky);    }
+    .cheat-card h3 { font-size:0.95rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .cheat-card p  { font-size:0.88rem; color:var(--muted); line-height:1.6; }
+    .prompt-chip { background:var(--or-light); border-radius:8px; padding:4px 10px; font-size:0.82rem; font-family:monospace; color:var(--orange); display:inline-block; margin-top:.4rem; }
+
+    /* practice arena */
+    .arena-grid { display:grid; gap:1.25rem; }
+    .arena-card { background:white; border-radius:16px; padding:1.5rem; box-shadow:0 3px 14px rgba(0,0,0,0.08); border:2px solid transparent; transition:border-color .2s; }
+    .arena-card:hover { border-color:var(--or-mid); }
+    .arena-card .ac-num { font-size:0.8rem; font-weight:800; color:var(--or-mid); margin-bottom:.4rem; text-transform:uppercase; letter-spacing:.1em; }
+    .arena-card h3 { font-size:1rem; font-weight:800; color:var(--navy); margin-bottom:.4rem; }
+    .arena-card p { font-size:0.93rem; color:var(--muted); line-height:1.6; }
+
+    /* quiz */
+    .quiz-wrap { background:white; border-radius:24px; padding:2rem; box-shadow:0 8px 32px rgba(234,88,12,0.12); }
+    .quiz-q { margin-bottom:1.5rem; }
+    .quiz-q .q-text { font-weight:800; font-size:1.05rem; color:var(--navy); margin-bottom:.75rem; }
+    .quiz-options { display:flex; flex-direction:column; gap:.5rem; }
+    .quiz-options label { display:flex; align-items:center; gap:.75rem; background:var(--or-light); border-radius:10px; padding:.7rem 1rem; cursor:pointer; font-size:0.95rem; transition:background .15s; }
+    .quiz-options label:hover { background:var(--or-mid); color:white; }
+    .quiz-options input[type=radio] { accent-color:var(--orange); width:16px; height:16px; }
+    .quiz-submit { background:var(--orange); color:white; font-family:'Nunito',sans-serif; font-weight:800; font-size:1rem; border:none; border-radius:14px; padding:.9rem 2.5rem; cursor:pointer; margin-top:1rem; transition:background .2s; }
+    .quiz-submit:hover { background:#c2410c; }
+    #quiz-result { margin-top:1.25rem; font-weight:800; font-size:1.05rem; display:none; }
+    #quiz-result.pass { color:#059669; }
+    #quiz-result.fail { color:#dc2626; }
+
+    /* certificate */
+    #cert-section { display:none; }
+    .cert-box {
+      background: linear-gradient(135deg, #431407 0%, #7c2d12 50%, #9a3412 100%);
+      border-radius:24px; padding:2.5rem 2rem; text-align:center; color:white;
+      box-shadow:0 12px 48px rgba(234,88,12,0.4);
+    }
+    .cert-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; margin-bottom:.25rem; }
+    .cert-box .cert-name { font-size:1.5rem; font-weight:700; color:var(--or-mid); margin:.5rem 0; }
+    .cert-box p { font-size:0.95rem; color:rgba(255,255,255,0.75); margin-bottom:1.25rem; }
+    .skill-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin:1.25rem 0; }
+    .skill-badge { background:rgba(255,255,255,0.1); border:1px solid rgba(251,146,60,0.4); border-radius:12px; padding:.5rem .9rem; font-size:0.8rem; font-weight:700; color:var(--or-mid); }
+    .cert-btn { background:var(--amber); color:#1c1c2e; font-weight:800; font-size:0.95rem; border:none; border-radius:14px; padding:.8rem 2rem; cursor:pointer; margin-top:.75rem; }
+
+    /* completion */
+    .completion-box { text-align:center; padding:3rem 2rem; }
+    .completion-box .big-emoji { font-size:4rem; margin-bottom:1rem; }
+    .completion-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .completion-box p { font-size:1.05rem; color:var(--muted); max-width:520px; margin:0 auto 1.5rem; }
+    .next-btn { display:inline-block; background:var(--orange); color:white; font-weight:800; font-size:1rem; padding:.85rem 2.5rem; border-radius:14px; text-decoration:none; }
+    .next-btn:hover { background:#c2410c; }
+
+    /* auth nav area */
+    #auth-nav-area { display:flex; align-items:center; gap:.5rem; }
+
+    /* disqus */
+    .disqus-wrap { margin-top:2rem; }
+
+    /* recap banner */
+    .recap-banner { background:linear-gradient(135deg,#7c2d12,#9a3412); border-radius:20px; padding:1.5rem 2rem; color:white; margin-bottom:2rem; }
+    .recap-banner h3 { font-family:'Baloo 2',cursive; font-size:1.3rem; font-weight:800; margin-bottom:.75rem; }
+    .recap-list { list-style:none; display:flex; flex-direction:column; gap:.4rem; }
+    .recap-list li { font-size:0.92rem; display:flex; gap:.5rem; }
+    .recap-list li::before { content:'✓'; color:var(--or-mid); font-weight:800; }
+
+    img { max-width:100%; }
+    @media(max-width:600px){
+      .story-grid { grid-template-columns:1fr; }
+      .cheat-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">🌟 Mitra AI Life</a>
+  <span class="level-tag">Level 5 · ₹300</span>
+  <div style="display:flex;align-items:center;gap:.75rem;">
+    <div id="auth-nav-area"></div>
+    <a href="level-05-comic-te.html" class="lang-btn">తెలుగు</a>
+    <a href="../../../site/index.html" class="back-link">← Home</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 1 · HERO                                       -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="hero">
+  <p class="hero-eyebrow anim-fadeInUp" style="animation-delay:.1s">Level 5 · Life Upgrade</p>
+  <h1 class="hero-title anim-fadeInUp" style="animation-delay:.2s">Smarter Budget.<br>Better Decisions.<br>Happier Family.</h1>
+  <p class="hero-sub anim-fadeInUp" style="animation-delay:.3s">Use AI for your household budget, your children's learning, travel, insurance, and daily habits — real life improvements, starting today.</p>
+  <div class="hero-badges anim-fadeInUp" style="animation-delay:.4s">
+    <span class="badge">⏱ 3 Hours</span>
+    <span class="badge">🏡 5 Life Skills</span>
+    <span class="badge">📊 Real Decisions</span>
+    <span class="badge accent">₹300</span>
+  </div>
+  <div class="hero-offer anim-bounceIn" style="animation-delay:.55s">
+    🎉 Early Access — <s>₹300</s> <strong>FREE for first 100 learners</strong>
+  </div>
+  <img class="hero-img anim-fadeInUp" style="animation-delay:.5s"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l5-s01-hero.jpg"
+       alt="Level 5 Life Upgrade hero — Indian family using AI for everyday life decisions"
+       loading="lazy" />
+  <p class="scroll-hint anim-fadeInUp" style="animation-delay:.8s">▾ Scroll to begin</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 2 · RECAP                                      -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="recap-banner anim-fadeInUp">
+    <h3>✅ Quick Recap from Level 4</h3>
+    <ul class="recap-list">
+      <li>You drafted professional emails in 60 seconds</li>
+      <li>You turned rough notes into clean meeting summaries</li>
+      <li>You improved your resume with action verbs and numbers</li>
+      <li>You practised job interviews with AI as your mock interviewer</li>
+      <li>You created study plans based on your actual available hours</li>
+    </ul>
+  </div>
+  <p class="sec-label">Level 5</p>
+  <h2 class="sec-title">Now let's use AI for everyday life</h2>
+  <p class="sec-intro">
+    Lakshmi is a homemaker in Visakhapatnam who wants to control her monthly spending.
+    Ramaiah is a father in Warangal whose son is struggling in school.
+    Kavitha is planning a family trip from Kadapa on a tight budget.
+    Srinivas is a young professional in Rajahmundry comparing two phone plans.
+    Meera is a working woman in Vijayawada who wants to build better daily habits.<br><br>
+    In this level, you will see how each of them uses AI to make better decisions — and learn five skills that improve everyday life.
+  </p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 3 · SKILL 1 · HOUSEHOLD BUDGET                -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">1</span>
+    <span>Skill 1 — Plan your household budget with AI</span>
+  </div>
+
+  <p class="sec-label">Lakshmi's story</p>
+  <h2 class="sec-title">The month that ran out of money on day 22</h2>
+  <p class="sec-intro">Lakshmi manages her family's finances in Visakhapatnam. Every month, money seems to disappear before the 25th. She does not know exactly where it goes. Her husband earns ₹45,000 per month. They have rent, school fees, groceries, and small expenses that add up. Lakshmi feels anxious every time a bill arrives.</p>
+
+  <div class="story-grid">
+    <div class="story-card amber anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag amber">👩 Lakshmi · Visakhapatnam</span>
+      <p class="story-text">Lakshmi writes expenses in a notebook but never totals them until the money is already gone. She has no system. She feels guilty about small purchases but does not know which category is actually over-spending.</p>
+      <div class="speech-bubble">"We earn enough but somehow it never lasts the whole month. I need to understand where the money is going."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 The AI approach</span>
+      <p class="story-text">Lakshmi tells AI her monthly income, fixed costs, and spending categories. AI creates a full budget breakdown, shows her where she is likely overspending, and gives her a savings target that is actually achievable.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Lakshmi's prompt</p>
+        <p class="pb-text">Help me plan a monthly household budget.
+Monthly income: ₹45,000
+Fixed expenses every month:
+- Rent: ₹10,000
+- School fees (2 children): ₹4,500
+- Loan EMI: ₹6,000
+- Electricity, water, gas: ₹2,500
+
+Variable spending categories: groceries, vegetables, milk,
+eating out, clothing, medicines, transport, mobile recharge, savings.
+
+Please create a budget table with suggested amounts for each category.
+Show total and remaining balance.
+Suggest how much I can save each month realistically.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ The result</span>
+      <p class="story-text">AI shows Lakshmi her fixed expenses total ₹23,000, leaving ₹22,000 for variable spending. It suggests specific amounts per category and identifies that eating out is likely eating up ₹4,000 a month — money she did not realise she was spending. She sets a realistic savings target of ₹3,000 per month.</p>
+      <div class="ai-bubble">
+        Monthly Budget Plan — ₹45,000 income<br><br>
+        Fixed: Rent ₹10,000 + School ₹4,500 + EMI ₹6,000 + Utilities ₹2,500 = ₹23,000<br><br>
+        Variable budget (₹22,000): Groceries ₹6,000 · Vegetables/Milk ₹2,500 · Transport ₹2,000 · Medicines ₹1,000 · Mobile ₹800 · Clothing ₹1,500 · Eating out ₹2,200 · Miscellaneous ₹1,000 · <strong>Savings ₹3,000</strong><br><br>
+        Tip: Reducing eating out from ₹4,000 to ₹2,200 saves ₹1,800 per month — that is ₹21,600 per year.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">💰 Budget prompt formula</p>
+    <p>Give AI your <strong>exact income + fixed expenses first</strong>, then list your spending categories. Ask for a table with suggested amounts and a savings target. Review it monthly and update when anything changes.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">List your total monthly income (all sources)</span></li>
+    <li><span class="step-num">2</span><span class="step-text">List all fixed costs — rent, EMIs, fees, utilities</span></li>
+    <li><span class="step-num">3</span><span class="step-text">List your spending categories (groceries, travel, eating out, etc.)</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Ask AI for a budget table with amounts and a savings target</span></li>
+    <li><span class="step-num">5</span><span class="step-text">After the first month, tell AI actual spending and ask what to adjust</span></li>
+  </ul>
+
+  <div class="ba-grid" style="margin-top:1.5rem;">
+    <div class="ba-col before">
+      <p class="ba-head">❌ Without AI</p>
+      <p>Lakshmi writes expenses in a notebook. Money runs out on day 22. She does not know which category caused it. Cycle repeats every month.</p>
+    </div>
+    <div class="ba-col after">
+      <p class="ba-head">✅ With AI</p>
+      <p>Lakshmi has a clear budget table. She sees exactly where money goes. She cuts eating out and starts saving ₹3,000 per month — her first consistent savings habit.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l5-s02-lakshmi-budget.jpg"
+       alt="Lakshmi planning her household budget with AI assistance" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 4 · SKILL 2 · PARENT-CHILD LEARNING           -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">2</span>
+    <span>Skill 2 — Help your child learn with AI explanations</span>
+  </div>
+
+  <p class="sec-label">Ramaiah's story</p>
+  <h2 class="sec-title">The homework question nobody could answer</h2>
+  <p class="sec-intro">Ramaiah is a government clerk in Warangal. His 8th grade son Arjun is struggling with science — especially electricity and circuits. Ramaiah studied commerce in college and does not remember physics. He cannot explain the topic. Tuition costs ₹2,500 per month. Ramaiah wants a better option.</p>
+
+  <div class="story-grid">
+    <div class="story-card teal anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag teal">👨 Ramaiah · Warangal</span>
+      <p class="story-text">Arjun brings his textbook to his father and points to a chapter on Ohm's Law. Ramaiah stares at the formulas and feels helpless. He tells Arjun to ask his teacher tomorrow. Arjun has an exam in 2 days.</p>
+      <div class="speech-bubble">"I want to help my son but I don't understand his textbook. I feel like a bad father when I can't answer his questions."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 The AI approach</span>
+      <p class="story-text">Ramaiah types the topic into AI and asks it to explain Ohm's Law in simple Telugu-friendly English, using a real-life example. He reads it himself first, then reads it to Arjun together. Arjun understands in 10 minutes.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Ramaiah's prompt</p>
+        <p class="pb-text">My son is in 8th grade and is struggling to understand Ohm's Law.
+Please explain it in very simple English — as if you are talking to a 13-year-old.
+Use a real-life example that a child in India would understand,
+like a water pipe or a road — not a lab example.
+Then give 3 practice questions at the end with answers.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ The result</span>
+      <p class="story-text">AI explains Ohm's Law using a water pipe analogy — voltage is water pressure, resistance is a narrow pipe, current is the flow. Arjun immediately says "Oh! It's like water!" and gets all 3 practice questions right. Ramaiah feels confident helping his son every evening.</p>
+      <div class="ai-bubble">
+        Think of electricity like water in a pipe.<br><br>
+        Voltage = the pressure pushing the water.<br>
+        Current = how much water flows per second.<br>
+        Resistance = how narrow the pipe is — a narrow pipe lets less water through.<br><br>
+        Ohm's Law says: Current = Voltage ÷ Resistance (I = V/R)<br><br>
+        Real example: If a torch battery gives 3 volts and the bulb has 6 ohms resistance, current = 3 ÷ 6 = 0.5 amperes. More resistance means less brightness!
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">📚 Parent tutoring tip</p>
+    <p>Always tell AI your child's <strong>class level</strong> and ask for a <strong>real-life Indian example</strong>. Generic explanations are forgettable. An example using water, roads, or local situations makes the concept stick.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">Note the exact topic and your child's class (e.g. "8th grade, Ohm's Law")</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Ask AI to explain it in simple English with a real-life Indian example</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Ask for 3 to 5 practice questions with answers</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Read the explanation yourself first, then read it with your child</span></li>
+    <li><span class="step-num">5</span><span class="step-text">Ask your child to explain it back to you — this is the strongest test of understanding</span></li>
+  </ul>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l5-s03-ramaiah-homework.jpg"
+       alt="Ramaiah helping his son with homework using AI explanations" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 5 · SKILL 3 · TRAVEL PLANNING                 -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">3</span>
+    <span>Skill 3 — Plan a complete family trip with AI</span>
+  </div>
+
+  <p class="sec-label">Kavitha's story</p>
+  <h2 class="sec-title">The trip that never got planned</h2>
+  <p class="sec-intro">Kavitha is a teacher in Kadapa. Every year she wants to take her family on a short trip — her husband and two children. But planning feels overwhelming. Which trains to take? Which hotels are safe and cheap? What to see in 3 days? She ends up watching YouTube videos for hours and still not booking anything.</p>
+
+  <div class="story-grid">
+    <div class="story-card amber anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag amber">👩‍🏫 Kavitha · Kadapa</span>
+      <p class="story-text">Kavitha wants to go to Tirupati or Vijayawada for her summer break. She has 3 days and a budget of ₹8,000 for the whole family. Every time she starts researching she gets overwhelmed and gives up. This year, she still hasn't booked anything even though the trip is 2 weeks away.</p>
+      <div class="speech-bubble">"I want to plan a nice trip but there is so much to figure out — I don't know where to even start."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 The AI approach</span>
+      <p class="story-text">Kavitha tells AI her departure city, destination, travel dates, budget, and family details. AI gives her a complete 3-day itinerary with approximate costs, places to visit, best time for each activity, food suggestions, and travel tips for families with children.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Kavitha's prompt</p>
+        <p class="pb-text">Plan a 3-day family trip for 4 people (2 adults, 2 children aged 8 and 11).
+Travelling from Kadapa to Tirupati.
+Travel dates: 20–22 May 2026.
+Total budget: ₹8,000 (excluding train tickets already booked).
+We want to visit the temple, one nature spot, and one fun activity for kids.
+We prefer vegetarian food.
+Include: Day-by-day itinerary, estimated cost per activity,
+  budget hotel suggestion, and 3 travel tips for families.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ The result</span>
+      <p class="story-text">AI gives Kavitha a clear 3-day plan: Day 1 for temple darshan, Day 2 for Chandragiri Fort and a local park, Day 3 for shopping and return journey — with cost estimates that fit within ₹8,000. She books the hotel that evening and feels excited for the first time in months.</p>
+      <div class="ai-bubble">
+        Day 1 (20 May): Arrive Tirupati by 8 AM. Darshan at Sri Venkateswara Temple — book online darshan tickets in advance (₹300/adult, free for children). Dinner at Arvind Bhavan (budget-friendly vegetarian). Hotel: Bhimas Residency (~₹1,800/night for family room).<br><br>
+        Day 2 (21 May): Chandragiri Fort (entry ₹25/adult) + Talakona Waterfalls — 30 km drive, auto-hire ~₹600 return. Pack lunch from hotel to save ₹400.<br><br>
+        Day 3 (22 May): Laddu prasadam shopping, return by 2 PM train. Budget remaining: ₹1,200 buffer for snacks and auto-rides.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">✈️ Travel planning tip</p>
+    <p>Give AI your <strong>exact budget</strong> and <strong>group details</strong>. A vague "plan a trip to Tirupati" gives a generic response. Specific details (ages of children, dietary preference, number of days, budget) give you a personalised, usable plan.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">State your travel dates, number of people, and ages</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Give your total budget and any preferences (vegetarian, no overnight travel, etc.)</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Ask for a day-by-day itinerary with estimated costs</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Ask separately for hotel suggestions and food options in your budget</span></li>
+    <li><span class="step-num">5</span><span class="step-text">Verify hotel prices and availability on MakeMyTrip or Google before booking</span></li>
+  </ul>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l5-s04-kavitha-travel.jpg"
+       alt="Kavitha planning a family trip using AI with a 3-day itinerary" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 6 · SKILL 4 · COMPARISON SHOPPING             -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">4</span>
+    <span>Skill 4 — Compare plans and products using AI</span>
+  </div>
+
+  <p class="sec-label">Srinivas's story</p>
+  <h2 class="sec-title">The phone plan that wasted ₹600 every month</h2>
+  <p class="sec-intro">Srinivas is a 26-year-old bank officer in Rajahmundry. He is on a ₹999 Jio plan but uses only 30 GB of his 1.5 GB/day data. His colleague told him a ₹479 Airtel plan gives faster speeds and better calling. Srinivas does not know how to compare properly. He ends up doing nothing because he is not sure.</p>
+
+  <div class="story-grid">
+    <div class="story-card sky anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag sky">👨 Srinivas · Rajahmundry</span>
+      <p class="story-text">Srinivas spends 20 minutes looking at both plans on different websites. The comparison is confusing — some show per-day data, some show total. He cannot tell which is actually better value for how he uses his phone.</p>
+      <div class="speech-bubble">"I spend ₹999 but barely use the data. But what if I switch and miss something? I need someone to just tell me which one is better for me."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 The AI approach</span>
+      <p class="story-text">Srinivas lists both plans with their details and his usage habits. AI analyses which plan suits him, calculates the annual savings, and warns him about hidden differences like roaming or SMS limits.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Srinivas's prompt</p>
+        <p class="pb-text">I need help comparing two mobile plans.
+
+Plan A — Jio ₹999/84 days:
+- 1.5 GB/day data (total 126 GB), unlimited calls, 100 SMS/day
+
+Plan B — Airtel ₹479/28 days:
+- 2 GB/day data (total 56 GB for 28 days), unlimited 5G calls, 100 SMS/day
+
+My usage: About 1 GB/day data, unlimited calling, normal SMS.
+I live in Rajahmundry — both networks have good coverage here.
+
+Please compare both plans. Tell me which is better value for my usage,
+calculate annual cost for each, and list any hidden trade-offs I should know.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ The result</span>
+      <p class="story-text">AI shows Srinivas that Plan A costs ₹4,282/year and Plan B costs ₹6,243/year. For his 1 GB/day usage, Plan A is better value by ₹1,961 per year. Srinivas keeps Plan A and feels confident he made the right choice — backed by actual numbers, not guesswork.</p>
+      <div class="ai-bubble">
+        Annual cost comparison:<br>
+        Plan A (Jio ₹999/84 days) = ~4.3 cycles/year = <strong>₹4,282/year</strong><br>
+        Plan B (Airtel ₹479/28 days) = ~13 cycles/year = <strong>₹6,243/year</strong><br><br>
+        For your usage (1 GB/day): Plan A gives you 50% more data than you need. Plan B gives you 100% more data than you need. Both cover you — but Plan A saves you ₹1,961 per year.<br><br>
+        Recommendation: Stick with Plan A. The only reason to switch to Plan B is if you need 5G speed or if Airtel coverage is noticeably better in your area.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">🔍 Comparison shopping tip</p>
+    <p>Always give AI <strong>your actual usage</strong> alongside the plan details. "Which plan is better?" gives a generic answer. "I use 1 GB/day and make 30 minutes of calls per day — which of these two plans suits me?" gives a decision you can act on.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">List each option with its exact features and price</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Describe your actual usage honestly (how much data, calls, etc.)</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Ask AI to calculate annual cost for each option</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Ask AI to list hidden trade-offs or conditions you might miss</span></li>
+    <li><span class="step-num">5</span><span class="step-text">Use AI comparison for insurance, appliances, loan offers too — same method works</span></li>
+  </ul>
+
+  <div class="ba-grid" style="margin-top:1.5rem;">
+    <div class="ba-col before">
+      <p class="ba-head">❌ Without AI</p>
+      <p>Srinivas spends 20 minutes confused by different websites. He cannot compare properly and does nothing. He overpays by ₹1,961 every year.</p>
+    </div>
+    <div class="ba-col after">
+      <p class="ba-head">✅ With AI</p>
+      <p>Srinivas gets a clear annual cost comparison in 2 minutes. He makes a confident decision and saves nearly ₹2,000 per year — just from one comparison.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l5-s05-srinivas-compare.jpg"
+       alt="Srinivas comparing mobile phone plans using AI analysis" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 7 · SKILL 5 · HABIT & HEALTH GOALS            -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">5</span>
+    <span>Skill 5 — Build a personal habit and health plan with AI</span>
+  </div>
+
+  <p class="sec-label">Meera's story</p>
+  <h2 class="sec-title">The resolution that lasted three days</h2>
+  <p class="sec-intro">Meera is a 32-year-old accountant in Vijayawada. She has been meaning to exercise and eat better for two years. Every January she starts — and stops by the 4th. Her doctor told her she is pre-diabetic. She needs to change her lifestyle but does not know where to begin and what is realistic for a working woman with a busy schedule.</p>
+
+  <div class="story-grid">
+    <div class="story-card teal anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag teal">👩 Meera · Vijayawada</span>
+      <p class="story-text">Meera wakes up at 7 AM, reaches office by 9, works until 7 PM, cooks dinner, and sleeps by 11. She has about 30 minutes free in the morning and 45 minutes after dinner. She wants to exercise and reduce sugar but every plan she finds online seems designed for someone with 3 free hours a day.</p>
+      <div class="speech-bubble">"I know I need to change but every app and YouTube video seems too intense. I just need something I can actually do."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 The AI approach</span>
+      <p class="story-text">Meera tells AI her actual schedule, health situation, and goal. AI creates a realistic week plan using only her available 30-minute morning windows, suggests simple food swaps (not a full diet), and gives her a 4-week progression so she does not feel overwhelmed.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Meera's prompt</p>
+        <p class="pb-text">I am a 32-year-old working woman. I was recently told I am pre-diabetic.
+My goal: reduce blood sugar, lose 5 kg in 3 months, build consistent exercise habit.
+
+My schedule: Free 30 minutes every morning before 8 AM.
+              Sometimes 30 minutes after dinner but not always.
+I cannot afford a gym. I have no equipment — just a flat floor and stairs.
+I eat South Indian food (rice, idli, dal, vegetables).
+
+Please create:
+1. A 4-week exercise plan I can do at home in 30 minutes
+2. 5 simple food swaps I can make without changing my cooking style
+3. A weekly habit tracker table to follow
+Keep everything realistic for a busy working woman.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ The result</span>
+      <p class="story-text">AI gives Meera a specific 30-minute morning plan (10 min walk, 15 min bodyweight exercises, 5 min stretching), 5 food swaps that work with South Indian cooking, and a simple weekly tracker. After 3 weeks she has lost 1.2 kg and her morning energy has improved noticeably.</p>
+      <div class="ai-bubble">
+        Week 1–2 (Building base): 10 min brisk walk + 5 squats, 5 lunges, 10 wall push-ups + 5 min stretching. No gym needed.<br><br>
+        Food swaps: White rice → smaller portion + more dal/vegetables · Fruit juice → whole fruit · Evening biscuits → handful of groundnuts · Curd rice → plain curd (less sugar impact) · Morning tea with sugar → tea with less sugar + one soaked almond.<br><br>
+        Habit tracker: Check off each day you complete the morning routine. Target 5 out of 7 days in Week 1. It is okay to miss 2 days — consistency over perfection.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">🏃 Habit-building tip</p>
+    <p>Always tell AI your <strong>actual free time</strong> — not the ideal time you wish you had. A plan for 30 minutes that you follow beats a 2-hour plan that you abandon. Ask for a 4-week progression, not a 1-day plan.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">Tell AI your exact goal (lose weight, better sleep, exercise habit, etc.)</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Give your actual free time — be honest, not optimistic</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Mention what equipment, space, or resources you have access to</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Ask for a 4-week progression — starting easy and building up</span></li>
+    <li><span class="step-num">5</span><span class="step-text">Ask for small food or lifestyle swaps — big changes rarely stick</span></li>
+  </ul>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l5-s06-meera-habits.jpg"
+       alt="Meera following her AI-generated health and habit plan in the morning" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 8 · PRACTICE ARENA                            -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">Your turn</p>
+  <h2 class="sec-title">Practice Arena — Try all 5 skills</h2>
+  <p class="sec-intro">Pick one task below. Open ChatGPT, Gemini, or any AI app. Copy the prompt style, fill in your own details, and run it. Each task takes 5 to 10 minutes and gives you a real, usable result today.</p>
+
+  <div class="arena-grid">
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.1s">
+      <p class="ac-num">Task 1 · Budget</p>
+      <h3>Build your monthly budget today</h3>
+      <p>Tell AI your income, fixed expenses, and spending categories. Ask for a budget table with amounts and a savings target. Takes 5 minutes — you will see your finances clearly for the first time.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.15s">
+      <p class="ac-num">Task 2 · Learning</p>
+      <h3>Explain a school topic to your child</h3>
+      <p>Pick any topic your child is studying this week. Ask AI to explain it in simple English with an Indian real-life example. Read it together. Ask your child to explain it back to you.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.2s">
+      <p class="ac-num">Task 3 · Travel</p>
+      <h3>Plan a trip you have been postponing</h3>
+      <p>Think of a trip you have been meaning to take. Give AI your dates, budget, number of people, and what you enjoy. Ask for a day-by-day plan with cost estimates. You might book it today.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.25s">
+      <p class="ac-num">Task 4 · Compare</p>
+      <h3>Compare your phone plan or insurance</h3>
+      <p>Find one financial product you pay for regularly — phone plan, insurance, or broadband. List the details plus one alternative you have heard about. Ask AI which is better for your actual usage.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.3s">
+      <p class="ac-num">Task 5 · Habits</p>
+      <h3>Build a habit plan for this month</h3>
+      <p>Choose one habit you want to build: exercise, reading, water intake, or better sleep. Tell AI your exact free time, your current routine, and your goal. Ask for a realistic 4-week plan.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l5-s07-practice.jpg"
+       alt="Learner practising all 5 life upgrade skills using AI" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:2rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 9 · CHEAT SHEET                               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">Quick reference</p>
+  <h2 class="sec-title">Level 5 Cheat Sheet</h2>
+  <p class="sec-intro">Save these 5 prompt formulas. Each one improves a real area of your life in under 10 minutes.</p>
+
+  <div class="cheat-grid">
+    <div class="cheat-card amber">
+      <h3>💰 Budget</h3>
+      <p>Income + fixed costs + categories → budget table + savings target</p>
+      <code class="prompt-chip">"Create a monthly budget for ₹[X] income..."</code>
+    </div>
+    <div class="cheat-card teal">
+      <h3>📚 Child Learning</h3>
+      <p>Topic + class level → simple explanation + Indian example + practice questions</p>
+      <code class="prompt-chip">"Explain [topic] to a [grade] student using a simple Indian example..."</code>
+    </div>
+    <div class="cheat-card sky">
+      <h3>✈️ Travel Plan</h3>
+      <p>Dates + budget + group details + preferences → day-by-day itinerary with costs</p>
+      <code class="prompt-chip">"Plan a [N]-day trip for [X] people on ₹[Y] budget..."</code>
+    </div>
+    <div class="cheat-card">
+      <h3>🔍 Comparison</h3>
+      <p>List both options with full details + your actual usage → recommendation + annual cost</p>
+      <code class="prompt-chip">"Compare these two plans for my usage of [X]..."</code>
+    </div>
+    <div class="cheat-card green">
+      <h3>🏃 Habit Plan</h3>
+      <p>Goal + actual free time + current routine → 4-week progression + small swaps</p>
+      <code class="prompt-chip">"Create a 4-week habit plan for [goal] with [X] minutes per day..."</code>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 10 · QUIZ                                      -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">Test your learning</p>
+  <h2 class="sec-title">Quick Quiz — 5 questions</h2>
+  <p class="sec-intro">Score 4 or more to earn your Level 5 certificate. You can retake as many times as you like.</p>
+
+  <div class="quiz-wrap">
+    <form id="quiz-form">
+
+      <div class="quiz-q">
+        <p class="q-text">1. Lakshmi wants AI to help plan her household budget. What information gives AI the most useful result?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Just ask AI to make a budget</label>
+          <label><input type="radio" name="q1" value="b"> Tell AI her family size and city</label>
+          <label><input type="radio" name="q1" value="c"> Tell AI her monthly income, fixed expenses like rent and EMIs, and her spending categories</label>
+          <label><input type="radio" name="q1" value="d"> Show AI a photo of her bank passbook</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">2. Ramaiah wants AI to help explain a school topic to his 8th grade son. What detail makes the biggest difference?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> The name of the textbook publisher</label>
+          <label><input type="radio" name="q2" value="b"> His son's class level and a request for a simple real-life Indian example</label>
+          <label><input type="radio" name="q2" value="c"> How many marks the topic carries in the exam</label>
+          <label><input type="radio" name="q2" value="d"> The name of his son's school and teacher</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">3. Kavitha is planning a family trip. What information produces the most useful travel plan from AI?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> Her travel dates, exact budget, number and ages of travellers, and family preferences</label>
+          <label><input type="radio" name="q3" value="b"> Only the destination city and number of days</label>
+          <label><input type="radio" name="q3" value="c"> The names of hotels she has already heard about</label>
+          <label><input type="radio" name="q3" value="d"> A list of foods the family enjoys</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">4. Srinivas wants to compare two mobile plans using AI. What is the best way to do this?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q4" value="a"> Ask AI which mobile network is best in India</label>
+          <label><input type="radio" name="q4" value="b"> Tell AI only the monthly cost of each plan</label>
+          <label><input type="radio" name="q4" value="c"> Ask AI to recommend the most popular plan in Andhra Pradesh</label>
+          <label><input type="radio" name="q4" value="d"> List both plans with their full details plus his actual usage and ask AI to compare and calculate annual cost</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">5. Meera wants AI to help her build a daily exercise habit. What makes the plan most realistic and likely to succeed?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q5" value="a"> Telling AI she wants to exercise 2 hours every day</label>
+          <label><input type="radio" name="q5" value="b"> Telling AI her actual free time, current schedule, available space, and a specific health goal</label>
+          <label><input type="radio" name="q5" value="c"> Asking AI to design a gym routine for working professionals</label>
+          <label><input type="radio" name="q5" value="d"> Telling AI she wants to lose 15 kg in one month</label>
+        </div>
+      </div>
+
+      <button type="button" class="quiz-submit" onclick="checkQuiz()">Submit Answers</button>
+    </form>
+
+    <div id="quiz-result"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 11 · CERTIFICATE                              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section id="cert-section">
+  <div class="cert-box">
+    <p style="font-size:2.5rem;margin-bottom:.5rem;">🏆</p>
+    <h2>Certificate of Completion</h2>
+    <p class="cert-name">Life Upgrade — Level 5</p>
+    <p>You have mastered 5 AI skills for smarter everyday decisions</p>
+    <div class="skill-badges">
+      <span class="skill-badge">💰 Household Budget</span>
+      <span class="skill-badge">📚 Child Learning</span>
+      <span class="skill-badge">✈️ Travel Planning</span>
+      <span class="skill-badge">🔍 Smart Comparison</span>
+      <span class="skill-badge">🏃 Habit &amp; Health</span>
+    </div>
+    <p style="font-size:0.85rem;opacity:0.6;margin-top:.5rem;">Mitra AI Life Education · mitraailife.com</p>
+    <button class="cert-btn" onclick="window.print()">🖨 Print / Save Certificate</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 12 · COMPLETION + NEXT LEVEL TEASER           -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="completion-box">
+    <div class="big-emoji">🎉</div>
+    <h2>You completed Level 5!</h2>
+    <p>You now manage your budget with clarity, help your children learn, plan trips confidently, compare products intelligently, and build habits that actually stick. AI is now your everyday life advisor.</p>
+    <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l5-s08-celebration.jpg"
+         alt="All Level 5 characters celebrating life upgrades together" loading="lazy"
+         style="width:100%;max-width:700px;border-radius:16px;margin:1.5rem 0;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+    <p><strong>What's next in Level 6 — Power User:</strong><br>
+    Master structured prompting, chain multiple AI steps together, build reusable templates, and use AI with spreadsheets. Go from smart user to power user.</p>
+    <a href="../../../site/index.html" class="next-btn" style="margin-top:1rem;">→ Go to Level 6 (Coming Soon)</a>
+  </div>
+
+  <!-- Disqus -->
+  <div class="disqus-wrap">
+    <h3 style="font-family:'Baloo 2',cursive;color:var(--navy);margin-bottom:1rem;">Questions or comments?</h3>
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = window.location.href;
+        this.page.identifier = 'level-05-comic';
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://mitra-ai-life.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SCRIPTS                                               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<script src="../../../site/auth.js"></script>
+<script>
+  /* progress bar */
+  window.addEventListener('scroll', () => {
+    const el = document.getElementById('progress-bar');
+    const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    el.style.width = Math.min(pct, 100) + '%';
+  });
+
+  /* scroll animations */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.anim-fadeInUp,.anim-slideLeft,.anim-slideRight,.anim-bounceIn')
+    .forEach(el => { el.style.opacity = '0'; observer.observe(el); });
+
+  /* quiz */
+  function checkQuiz() {
+    const answers = { q1:'c', q2:'b', q3:'a', q4:'d', q5:'b' };
+    let score = 0;
+    for (const [q, correct] of Object.entries(answers)) {
+      const sel = document.querySelector(`input[name="${q}"]:checked`);
+      if (sel && sel.value === correct) score++;
+    }
+    const result = document.getElementById('quiz-result');
+    result.style.display = 'block';
+    if (score >= 4) {
+      result.className = 'pass';
+      result.textContent = '🎉 ' + score + '/5 correct — Excellent! Your certificate is below.';
+      document.getElementById('cert-section').style.display = 'block';
+      document.getElementById('cert-section').scrollIntoView({ behavior:'smooth', block:'center' });
+      if (typeof saveProgress === 'function') saveProgress('level-05', score);
+    } else {
+      result.className = 'fail';
+      result.textContent = score + '/5 correct — Review the skills above and try again. You need 4 or more to pass.';
+    }
+  }
+</script>
+</body>
+</html>

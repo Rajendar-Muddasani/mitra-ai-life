@@ -89,31 +89,112 @@ async function renderAuthUI(authNavArea) {
 
 // ─── Progress badges on index page ────────────────────────────────────────
 
+// Inject progress styles once
+function _injectProgressStyles() {
+  if (document.getElementById('mitra-progress-styles')) return;
+  const s = document.createElement('style');
+  s.id = 'mitra-progress-styles';
+  s.textContent = `
+    .ladder-row.is-done {
+      border-left: 4px solid #10b981 !important;
+      background: rgba(16,185,129,0.06) !important;
+      opacity: 0.82;
+    }
+    .ladder-row.is-done .ladder-num {
+      background: #10b981 !important;
+    }
+    .ladder-row.is-done .ladder-tag {
+      background: rgba(16,185,129,0.15) !important;
+      color: #065f46 !important;
+      border: 1px solid #6ee7b7 !important;
+    }
+    .ladder-row.is-next {
+      border-left: 4px solid #3b82f6 !important;
+      box-shadow: 0 0 0 2px rgba(59,130,246,0.18) !important;
+    }
+    .ladder-row.is-next .ladder-tag {
+      background: rgba(59,130,246,0.12) !important;
+      color: #1e40af !important;
+      border: 1px solid #93c5fd !important;
+    }
+    #mitra-resume-bar {
+      display:flex;align-items:center;gap:14px;
+      background:linear-gradient(90deg,rgba(59,130,246,0.08),rgba(16,185,129,0.08));
+      border:1px solid rgba(59,130,246,0.2);
+      border-radius:14px;padding:14px 20px;margin-bottom:1.5rem;
+      flex-wrap:wrap;
+    }
+    #mitra-resume-bar .rb-label {
+      flex:1;font-size:0.92rem;color:#1e3a5f;font-weight:600;min-width:160px;
+    }
+    #mitra-resume-bar .rb-bar-wrap {
+      display:flex;align-items:center;gap:8px;
+    }
+    #mitra-resume-bar .rb-bar-bg {
+      width:140px;height:8px;border-radius:6px;background:#e2e8f0;overflow:hidden;
+    }
+    #mitra-resume-bar .rb-bar-fill {
+      height:100%;border-radius:6px;
+      background:linear-gradient(90deg,#3b82f6,#10b981);
+      transition:width 0.6s ease;
+    }
+    #mitra-resume-bar .rb-count {
+      font-size:0.82rem;color:#64748b;white-space:nowrap;
+    }
+    #mitra-resume-bar .rb-cta {
+      font-size:0.85rem;font-weight:700;color:#2563eb;
+      background:rgba(59,130,246,0.1);border:1px solid #93c5fd;
+      border-radius:20px;padding:5px 14px;text-decoration:none;white-space:nowrap;
+    }
+    #mitra-resume-bar .rb-cta:hover { background:rgba(59,130,246,0.18); }
+  `;
+  document.head.appendChild(s);
+}
+
+const LEVEL_IDS = ['level-01','level-02','level-03','level-04','level-05','level-06','level-07'];
+
 async function renderProgressBadges() {
   const progress = await getProgress();
-  if (!progress.length) return;
+  _injectProgressStyles();
 
   const done = new Set(progress.map(r => r.level_id));
+  const doneCount = LEVEL_IDS.filter(id => done.has(id)).length;
 
-  // Level cards on index.html have data-level-id attributes
-  document.querySelectorAll('[data-level-id]').forEach(card => {
-    const lid = card.dataset.levelId;
+  // Mark ladder rows
+  let nextLevelEl = null;
+  LEVEL_IDS.forEach(lid => {
+    const row = document.querySelector(`.ladder-row[data-level-id="${lid}"]`);
+    if (!row) return;
     if (done.has(lid)) {
-      // Add a ✓ Done badge if not already there
-      if (!card.querySelector('.progress-done-badge')) {
-        const badge = document.createElement('div');
-        badge.className = 'progress-done-badge';
-        badge.style.cssText =
-          'position:absolute;top:10px;right:10px;background:#10b981;color:white;'
-          + 'font-size:0.7rem;font-weight:800;padding:3px 10px;border-radius:12px;'
-          + 'letter-spacing:0.5px;';
-        badge.textContent = '✓ Done';
-        // card needs position:relative
-        card.style.position = 'relative';
-        card.appendChild(badge);
-      }
+      row.classList.add('is-done');
+      const tag = row.querySelector('.ladder-tag');
+      if (tag) tag.textContent = '✓ Completed';
+    } else if (!nextLevelEl) {
+      nextLevelEl = row;
+      row.classList.add('is-next');
+      const tag = row.querySelector('.ladder-tag');
+      if (tag) tag.textContent = '▶ Continue here';
     }
   });
+
+  // Show resume bar above ladder if user has any progress
+  if (doneCount > 0) {
+    const ladderWrap = document.querySelector('.ladder-wrap');
+    if (ladderWrap && !document.getElementById('mitra-resume-bar')) {
+      const pct = Math.round((doneCount / 7) * 100);
+      const nextHref = nextLevelEl ? nextLevelEl.href : '#levels';
+      const bar = document.createElement('div');
+      bar.id = 'mitra-resume-bar';
+      bar.innerHTML =
+        `<div class="rb-label">Your progress: ${doneCount} of 7 levels done</div>`
+        + `<div class="rb-bar-wrap">`
+        +   `<div class="rb-bar-bg"><div class="rb-bar-fill" style="width:${pct}%"></div></div>`
+        +   `<span class="rb-count">${pct}%</span>`
+        + `</div>`
+        + (nextLevelEl ? `<a href="${nextHref}" class="rb-cta">Continue Level ${LEVEL_IDS.indexOf(nextLevelEl.dataset.levelId) + 1} →</a>` : `<span class="rb-cta">🎉 All done!</span>`);
+      ladderWrap.insertBefore(bar, ladderWrap.firstChild);
+    }
+  }
 }
 
 // ─── Auto-init on DOMContentLoaded ────────────────────────────────────────

@@ -222,6 +222,11 @@ footer a { color: var(--cyan); text-decoration: none; font-weight: 800; }
 .faq details[open] summary::after { content: '\2212'; }
 .faq details p { margin-top: 0.6rem; color: var(--muted); line-height: 1.55; }
 
+/* Touch targets: ensure interactive elements meet 44px guideline */
+.faq summary { min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.faq summary::after { float: none; margin-left: auto; }
+footer a { padding: 0.35rem 0.1rem; display: inline-block; }
+
 body.theme-daily { --bg: #06111f; --cyan: #68e1ff; --amber: #f59e0b; }
 body.theme-students { --bg: #082033; --cyan: #7dd3fc; --amber: #facc15; }
 body.theme-tuition { --bg: #102018; --cyan: #86efac; --amber: #fbbf24; }
@@ -247,4 +252,5 @@ body.theme-contact { --bg: #111827; --cyan: #93c5fd; --amber: #fbbf24; }
   .topnav { padding: 0.75rem 4vw; }
   .hero, .band { padding-left: 4vw; padding-right: 4vw; }
   .panel { padding: 1.2rem; }
+  .status-card .btn { width: 100%; text-align: center; margin-top: 0.75rem; }
 }

@@ -3,9 +3,12 @@
  * Mitra AI Life · public site QA
  *
  * Checks for:
- *   - missing local href targets (ignoring fragments and external URLs)
+ *   - missing local href targets (ignoring external URLs)
+ *   - in-page anchor fragments (#id) that do not resolve to an element
  *   - SEO basics on every public HTML page (title, description, canonical,
  *     og:title, og:description, og:image, viewport, lang attribute)
+ *   - og:image / twitter:image files served from this site exist on disk
+ *   - JSON-LD blocks parse as valid JSON
  *   - sitemap.xml coverage of the public top-level pages
  *
  * Usage:
@@ -45,7 +48,8 @@ function checkLinks(file, html) {
   const issues = [];
   const hrefs = [...html.matchAll(/href="([^"]+)"/g)].map((m) => m[1]);
   for (let href of hrefs) {
-    if (/^(https?:|mailto:|tel:|#)/.test(href)) continue;
+    if (/^(https?:|mailto:|tel:)/.test(href)) continue;
+    if (href.startsWith('#')) continue; // handled by checkAnchors
     href = href.split('#')[0];
     if (!href) continue;
     const target = path.normalize(
@@ -55,6 +59,52 @@ function checkLinks(file, html) {
       issues.push(`broken local link: ${href}`);
     }
   }
+  return issues;
+}
+
+function checkAnchors(file, html) {
+  const issues = [];
+  const ids = new Set(
+    [...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]),
+  );
+  const fragments = [...html.matchAll(/href="#([^"]+)"/g)].map((m) => m[1]);
+  for (const frag of fragments) {
+    if (!ids.has(frag)) {
+      issues.push(`broken anchor: #${frag}`);
+    }
+  }
+  return issues;
+}
+
+function checkLocalAssets(file, html) {
+  const issues = [];
+  const SITE_ORIGIN = 'https://mitraailife.com';
+  const metas = [
+    ...html.matchAll(/<meta\s+(?:property|name)="(?:og:image|twitter:image)"\s+content="([^"]+)"/gi),
+  ].map((m) => m[1]);
+  for (const url of metas) {
+    if (!url.startsWith(SITE_ORIGIN + '/')) continue; // skip external (e.g. S3)
+    const rel = url.slice(SITE_ORIGIN.length).replace(/^\//, '');
+    const target = path.join(SITE_DIR, rel);
+    if (!fs.existsSync(target)) {
+      issues.push(`og/twitter image missing on disk: ${rel}`);
+    }
+  }
+  return issues;
+}
+
+function checkJsonLd(file, html) {
+  const issues = [];
+  const blocks = [
+    ...html.matchAll(/<script\s+type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi),
+  ].map((m) => m[1]);
+  blocks.forEach((raw, i) => {
+    try {
+      JSON.parse(raw.trim());
+    } catch (err) {
+      issues.push(`JSON-LD block #${i + 1} invalid: ${err.message}`);
+    }
+  });
   return issues;
 }
 
@@ -120,7 +170,13 @@ function main() {
 
   for (const file of files) {
     const html = readFile(file);
-    const issues = [...checkLinks(file, html), ...checkSeo(file, html)];
+    const issues = [
+      ...checkLinks(file, html),
+      ...checkAnchors(file, html),
+      ...checkLocalAssets(file, html),
+      ...checkJsonLd(file, html),
+      ...checkSeo(file, html),
+    ];
     if (issues.length) {
       problems += issues.length;
       console.log(`\n${file}`);

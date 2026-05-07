@@ -61,6 +61,7 @@ Keep each track separate in audience, tone, and content path. Do not merge every
 - `docs/mitraaituition-master-plan.md` — AI Tuition strategy
 - `docs/mitra-ai-language-learning-master-plan.md` — Spoken English and language-learning strategy
 - `docs/github-pages-deployment-checklist.md` — public site deployment checklist
+- `docs/telugu-video-production-checklist.md` — Telugu intro video production workflow
 - `docs/level-content-plan.md` — AI Daily Life curriculum plan
 - `site/pitch-deck.html` — pitch deck page
 

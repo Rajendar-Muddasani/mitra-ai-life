@@ -146,9 +146,7 @@ print(f"  Using ffmpeg: {ffmpeg_bin}")
 from moviepy import (
     ImageClip,
     AudioFileClip,
-    CompositeVideoClip,
     concatenate_videoclips,
-    TextClip,
 )
 from PIL import Image, ImageFilter
 import numpy as np
@@ -159,39 +157,34 @@ FPS = 24
 def make_clip(img_name, audio_path, scene_idx):
     img_path = SCENES_DIR / img_name
 
-    # Load & resize image
+    # Load, fill-fit and centre-crop image to VIDEO_W × VIDEO_H
     pil_img = Image.open(img_path).convert("RGB")
-    pil_img = pil_img.resize((VIDEO_W, VIDEO_H), Image.LANCZOS)
+    iw, ih = pil_img.size
+    scale = max(VIDEO_W / iw, VIDEO_H / ih)
+    pil_img = pil_img.resize((int(iw * scale), int(ih * scale)), Image.LANCZOS)
+    left = (pil_img.width  - VIDEO_W) // 2
+    top  = (pil_img.height - VIDEO_H) // 2
+    pil_img = pil_img.crop((left, top, left + VIDEO_W, top + VIDEO_H))
     frame = np.array(pil_img)
 
     audio = AudioFileClip(str(audio_path))
-    duration = audio.duration + 0.5  # small trailing pause
+    duration = audio.duration + 0.4
 
-    clip = ImageClip(frame, duration=duration).with_fps(FPS)
+    clip = ImageClip(frame, duration=duration)
+
+    # Subtle Ken Burns zoom using transform (get_frame, t) signature
+    def zoom_frame(get_frame, t):
+        f = get_frame(t)
+        s = 1.0 + 0.04 * (float(t) / duration)
+        h, w = f.shape[:2]
+        nw, nh = int(w * s), int(h * s)
+        zoomed = Image.fromarray(f).resize((nw, nh), Image.LANCZOS)
+        ox, oy = (nw - w) // 2, (nh - h) // 2
+        return np.array(zoomed.crop((ox, oy, ox + w, oy + h)))
+
+    clip = clip.transform(zoom_frame, apply_to="video")
     clip = clip.with_audio(audio)
-
-    # Subtle Ken Burns zoom: 1.0 → 1.06
-    def zoom(t):
-        scale = 1.0 + 0.06 * (t / duration)
-        new_w = int(VIDEO_W * scale)
-        new_h = int(VIDEO_H * scale)
-        pil_z = Image.fromarray(frame).resize((new_w, new_h), Image.LANCZOS)
-        x = (new_w - VIDEO_W) // 2
-        y = (new_h - VIDEO_H) // 2
-        cropped = np.array(pil_z)[y:y+VIDEO_H, x:x+VIDEO_W]
-        return cropped
-
-    clip = clip.image_transform(zoom)
-
-    # Level counter overlay (bottom-left)
-    label = TextClip(
-        text=f"స్థాయి 1  •  {scene_idx}/{len(SCENES)}",
-        font_size=22,
-        color="white",
-        font="DejaVu-Sans",
-    ).with_duration(duration).with_position((30, VIDEO_H - 50))
-
-    return CompositeVideoClip([clip, label])
+    return clip
 
 
 print("  Clips build చేస్తున్నాం...")

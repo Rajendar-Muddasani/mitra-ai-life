@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>లెవెల్ 6: పవర్ యూజర్ | మిత్ర AI లైఫ్ ఎడ్యుకేషన్</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QGY0LH6W93');
+  </script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:      #1E3A5F;
+      --rose:      #E11D48;
+      --rose-light:#fff1f2;
+      --rose-mid:  #fb7185;
+      --sky:       #38BDF8;
+      --amber:     #F59E0B;
+      --green:     #10B981;
+      --red:       #EF4444;
+      --teal:      #0D9488;
+      --cream:     #fff1f2;
+      --white:     #FFFFFF;
+      --text:      #1C1C2E;
+      --muted:     #64748B;
+      --panel:     #ffe4e6;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+    #progress-bar { position:fixed; top:0; left:0; height:5px;
+      background: linear-gradient(90deg, var(--rose), var(--rose-mid), var(--amber));
+      width:0%; z-index:999; transition:width 0.3s ease; }
+
+    .topnav {
+      position:fixed; top:5px; left:0; right:0; height:52px;
+      background:rgba(255,241,242,0.93); backdrop-filter:blur(8px);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 1.5rem; z-index:100;
+      border-bottom:2px solid rgba(225,29,72,0.15);
+    }
+    .topnav .brand { font-family:'Baloo 2',cursive; font-weight:800; font-size:1.1rem; color:var(--navy); text-decoration:none; }
+    .topnav .level-tag { background:var(--rose); color:white; font-size:0.75rem; font-weight:700; padding:3px 12px; border-radius:20px; }
+    .topnav .back-link { font-size:0.82rem; color:var(--muted); font-weight:700; text-decoration:none; }
+    .topnav .back-link:hover { color:var(--rose); }
+    .topnav .lang-btn { font-size:0.82rem; color:var(--rose); font-weight:700; background:var(--rose-light); border:1px solid var(--rose-mid); border-radius:8px; padding:4px 10px; cursor:pointer; text-decoration:none; }
+
+    @keyframes fadeInUp   { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideInLeft  { from{opacity:0;transform:translateX(-48px)} to{opacity:1;transform:translateX(0)} }
+    @keyframes slideInRight { from{opacity:0;transform:translateX(48px)}  to{opacity:1;transform:translateX(0)} }
+    @keyframes bounceIn { 0%{opacity:0;transform:scale(0.6)} 60%{opacity:1;transform:scale(1.08)} 80%{transform:scale(0.97)} 100%{transform:scale(1)} }
+    @keyframes float  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    @keyframes pulse  { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+    .anim-fadeInUp   { animation:fadeInUp   0.7s ease forwards; }
+    .anim-slideLeft  { animation:slideInLeft  0.7s ease forwards; }
+    .anim-slideRight { animation:slideInRight 0.7s ease forwards; }
+    .anim-bounceIn   { animation:bounceIn    0.75s cubic-bezier(.68,-.55,.27,1.55) forwards; }
+    .anim-float      { animation:float 3s ease-in-out infinite; }
+    .anim-pulse      { animation:pulse 2.5s ease-in-out infinite; }
+
+    section { padding: 4rem 1.5rem; max-width: 900px; margin: 0 auto; }
+    section:first-of-type { padding-top: 6rem; }
+
+    .hero {
+      min-height: 88vh; display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; padding-top:5rem;
+      background: linear-gradient(160deg, #4c0519 0%, #881337 40%, #9f1239 75%, #1e3a5f 100%);
+      border-radius: 0 0 48px 48px; position:relative; overflow:hidden;
+    }
+    .hero::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 30% 40%, rgba(251,113,133,0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 75% 65%, rgba(245,158,11,0.1) 0%, transparent 50%);
+    }
+    .hero-eyebrow { font-size:0.78rem; font-weight:800; letter-spacing:0.15em; color:var(--rose-mid); text-transform:uppercase; margin-bottom:.5rem; position:relative; }
+    .hero-title { font-family:'Baloo 2',cursive; font-size:clamp(2.2rem,6vw,3.8rem); font-weight:800; color:white; line-height:1.15; position:relative; }
+    .hero-sub { font-size:1.1rem; color:rgba(255,255,255,0.75); margin-top:.75rem; max-width:560px; position:relative; }
+    .hero-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin-top:1.5rem; position:relative; }
+    .badge { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; font-size:0.78rem; font-weight:700; padding:5px 14px; border-radius:20px; }
+    .badge.accent { background:var(--amber); color:#1c1c2e; border-color:var(--amber); }
+    .hero-img { width:100%; max-width:760px; border-radius:20px; margin-top:2rem; box-shadow:0 20px 60px rgba(0,0,0,0.5); position:relative; }
+    .hero-offer { background:linear-gradient(90deg,#f59e0b,#fbbf24); color:#1c1c2e; font-size:0.9rem; font-weight:800; padding:8px 24px; border-radius:24px; margin-top:1.5rem; display:inline-block; position:relative; }
+    .hero-offer s { font-weight:400; opacity:0.55; }
+    .scroll-hint { margin-top:2.5rem; font-size:0.8rem; color:rgba(255,255,255,0.4); letter-spacing:.08em; position:relative; }
+
+    .skill-banner { background:var(--rose); color:white; border-radius:16px; padding:1rem 1.5rem; margin-bottom:2rem; font-size:0.95rem; font-weight:700; display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; }
+    .skill-banner .sk-num { background:rgba(255,255,255,0.2); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+
+    .sec-label { font-size:0.72rem; font-weight:800; letter-spacing:.14em; color:var(--rose); text-transform:uppercase; margin-bottom:.4rem; }
+    .sec-title { font-family:'Baloo 2',cursive; font-size:clamp(1.7rem,4vw,2.5rem); font-weight:800; color:var(--navy); line-height:1.2; margin-bottom:.75rem; }
+    .sec-intro { font-size:1.05rem; color:var(--muted); line-height:1.75; margin-bottom:2rem; }
+
+    .story-grid { display:grid; gap:1.5rem; }
+    .story-card {
+      background:white; border-radius:20px; padding:1.5rem 1.75rem;
+      box-shadow:0 4px 20px rgba(0,0,0,0.07);
+      border-left:5px solid var(--rose);
+      display:flex; flex-direction:column; gap:.75rem;
+    }
+    .story-card.amber { border-left-color: var(--amber); }
+    .story-card.teal  { border-left-color: var(--teal);  }
+    .story-card.sky   { border-left-color: var(--sky);   }
+    .story-card.green { border-left-color: var(--green); }
+    .char-tag { display:inline-flex; align-items:center; gap:.5rem; font-size:0.8rem; font-weight:800; color:var(--rose); background:var(--rose-light); padding:3px 10px; border-radius:20px; }
+    .char-tag.amber { color:#92400e; background:#fef3c7; }
+    .char-tag.teal  { color:#134e4a; background:#ccfbf1; }
+    .char-tag.sky   { color:#0c4a6e; background:#e0f2fe; }
+    .char-tag.green { color:#14532d; background:#dcfce7; }
+    .story-text { font-size:1rem; line-height:1.8; color:var(--text); }
+    .speech-bubble { background:var(--rose-light); border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; font-style:italic; color:var(--navy); position:relative; margin-top:.5rem; }
+    .speech-bubble::before { content:'💬'; margin-right:.5rem; }
+    .ai-bubble { background:#ecfdf5; border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; color:#065f46; position:relative; margin-top:.5rem; border:1px solid #a7f3d0; }
+    .ai-bubble::before { content:'🤖 మిత్ర చెప్పింది: '; font-weight:800; }
+
+    .steps-list { list-style:none; display:flex; flex-direction:column; gap:1rem; margin-top:1rem; }
+    .steps-list li { display:flex; gap:1rem; align-items:flex-start; }
+    .step-num { background:var(--rose); color:white; border-radius:50%; min-width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; flex-shrink:0; margin-top:2px; }
+    .step-text { font-size:1rem; line-height:1.7; color:var(--text); }
+
+    .tip-card { background:var(--rose-light); border-radius:16px; padding:1.25rem 1.5rem; border:1px solid var(--rose-mid); margin-top:1.5rem; }
+    .tip-card .tip-head { font-weight:800; color:var(--rose); font-size:1rem; margin-bottom:.5rem; }
+    .tip-card p { font-size:0.95rem; line-height:1.7; color:var(--navy); }
+
+    .prompt-box { background:#4c0519; border-radius:14px; padding:1.25rem 1.5rem; margin-top:1rem; }
+    .prompt-box .pb-label { font-size:0.72rem; font-weight:800; letter-spacing:.1em; color:var(--rose-mid); text-transform:uppercase; margin-bottom:.5rem; }
+    .prompt-box .pb-text { font-family:monospace; font-size:0.9rem; color:#fecdd3; line-height:1.65; }
+
+    .ba-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem; }
+    @media(max-width:600px){ .ba-grid { grid-template-columns:1fr; } }
+    .ba-col { border-radius:14px; padding:1rem 1.25rem; }
+    .ba-col.before { background:#fef2f2; border:1px solid #fecaca; }
+    .ba-col.after  { background:#ecfdf5; border:1px solid #a7f3d0; }
+    .ba-col .ba-head { font-size:0.75rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin-bottom:.5rem; }
+    .ba-col.before .ba-head { color:#b91c1c; }
+    .ba-col.after  .ba-head { color:#065f46; }
+    .ba-col p { font-size:0.9rem; line-height:1.7; }
+
+    .cheat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.25rem; }
+    .cheat-card { background:white; border-radius:16px; padding:1.25rem; box-shadow:0 2px 12px rgba(0,0,0,0.07); border-top:4px solid var(--rose); }
+    .cheat-card.amber { border-top-color:var(--amber); }
+    .cheat-card.teal  { border-top-color:var(--teal);  }
+    .cheat-card.green { border-top-color:var(--green);  }
+    .cheat-card.sky   { border-top-color:var(--sky);    }
+    .cheat-card h3 { font-size:0.95rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .cheat-card p  { font-size:0.88rem; color:var(--muted); line-height:1.6; }
+    .prompt-chip { background:var(--rose-light); border-radius:8px; padding:4px 10px; font-size:0.82rem; font-family:monospace; color:var(--rose); display:inline-block; margin-top:.4rem; }
+
+    .arena-grid { display:grid; gap:1.25rem; }
+    .arena-card { background:white; border-radius:16px; padding:1.5rem; box-shadow:0 3px 14px rgba(0,0,0,0.08); border:2px solid transparent; transition:border-color .2s; }
+    .arena-card:hover { border-color:var(--rose-mid); }
+    .arena-card .ac-num { font-size:0.8rem; font-weight:800; color:var(--rose-mid); margin-bottom:.4rem; text-transform:uppercase; letter-spacing:.1em; }
+    .arena-card h3 { font-size:1rem; font-weight:800; color:var(--navy); margin-bottom:.4rem; }
+    .arena-card p { font-size:0.93rem; color:var(--muted); line-height:1.6; }
+
+    .quiz-wrap { background:white; border-radius:24px; padding:2rem; box-shadow:0 8px 32px rgba(225,29,72,0.12); }
+    .quiz-q { margin-bottom:1.5rem; }
+    .quiz-q .q-text { font-weight:800; font-size:1.05rem; color:var(--navy); margin-bottom:.75rem; }
+    .quiz-options { display:flex; flex-direction:column; gap:.5rem; }
+    .quiz-options label { display:flex; align-items:center; gap:.75rem; background:var(--rose-light); border-radius:10px; padding:.7rem 1rem; cursor:pointer; font-size:0.95rem; transition:background .15s; }
+    .quiz-options label:hover { background:var(--rose-mid); color:white; }
+    .quiz-options input[type=radio] { accent-color:var(--rose); width:16px; height:16px; }
+    .quiz-submit { background:var(--rose); color:white; font-family:'Nunito',sans-serif; font-weight:800; font-size:1rem; border:none; border-radius:14px; padding:.9rem 2.5rem; cursor:pointer; margin-top:1rem; transition:background .2s; }
+    .quiz-submit:hover { background:#9f1239; }
+    #quiz-result { margin-top:1.25rem; font-weight:800; font-size:1.05rem; display:none; }
+    #quiz-result.pass { color:#059669; }
+    #quiz-result.fail { color:#dc2626; }
+
+    #cert-section { display:none; }
+    .cert-box {
+      background: linear-gradient(135deg, #4c0519 0%, #881337 50%, #9f1239 100%);
+      border-radius:24px; padding:2.5rem 2rem; text-align:center; color:white;
+      box-shadow:0 12px 48px rgba(225,29,72,0.4);
+    }
+    .cert-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; margin-bottom:.25rem; }
+    .cert-box .cert-name { font-size:1.5rem; font-weight:700; color:var(--rose-mid); margin:.5rem 0; }
+    .cert-box p { font-size:0.95rem; color:rgba(255,255,255,0.75); margin-bottom:1.25rem; }
+    .skill-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin:1.25rem 0; }
+    .skill-badge { background:rgba(255,255,255,0.1); border:1px solid rgba(251,113,133,0.4); border-radius:12px; padding:.5rem .9rem; font-size:0.8rem; font-weight:700; color:var(--rose-mid); }
+    .cert-btn { background:var(--amber); color:#1c1c2e; font-weight:800; font-size:0.95rem; border:none; border-radius:14px; padding:.8rem 2rem; cursor:pointer; margin-top:.75rem; }
+
+    .completion-box { text-align:center; padding:3rem 2rem; }
+    .completion-box .big-emoji { font-size:4rem; margin-bottom:1rem; }
+    .completion-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .completion-box p { font-size:1.05rem; color:var(--muted); max-width:520px; margin:0 auto 1.5rem; }
+    .next-btn { display:inline-block; background:var(--rose); color:white; font-weight:800; font-size:1rem; padding:.85rem 2.5rem; border-radius:14px; text-decoration:none; }
+    .next-btn:hover { background:#9f1239; }
+
+    #auth-nav-area { display:flex; align-items:center; gap:.5rem; }
+    .disqus-wrap { margin-top:2rem; }
+
+    .recap-banner { background:linear-gradient(135deg,#881337,#9f1239); border-radius:20px; padding:1.5rem 2rem; color:white; margin-bottom:2rem; }
+    .recap-banner h3 { font-family:'Baloo 2',cursive; font-size:1.3rem; font-weight:800; margin-bottom:.75rem; }
+    .recap-list { list-style:none; display:flex; flex-direction:column; gap:.4rem; }
+    .recap-list li { font-size:0.92rem; display:flex; gap:.5rem; }
+    .recap-list li::before { content:'✓'; color:var(--rose-mid); font-weight:800; }
+
+    img { max-width:100%; }
+    @media(max-width:600px){
+      .story-grid { grid-template-columns:1fr; }
+      .cheat-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav class="topnav">
+  <a href="../../../site/index-te.html" class="brand">🌟 మిత్ర AI లైఫ్</a>
+  <span class="level-tag">లెవెల్ 6 · ₹400</span>
+  <div style="display:flex;align-items:center;gap:.75rem;">
+    <div id="auth-nav-area"></div>
+    <a href="level-06-comic.html" class="lang-btn">English</a>
+    <a href="../../../site/index-te.html" class="back-link">← హోమ్</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 1 · HERO                                       -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="hero">
+  <p class="hero-eyebrow anim-fadeInUp" style="animation-delay:.1s">లెవెల్ 6 · పవర్ యూజర్</p>
+  <h1 class="hero-title anim-fadeInUp" style="animation-delay:.2s">అదే AI.<br>పది రెట్లు ఫలితాలు.<br>సగం సమయంలో.</h1>
+  <p class="hero-sub anim-fadeInUp" style="animation-delay:.3s">రూటీన్‌లు, స్ట్రక్చర్డ్ అవుట్‌పుట్‌లు, స్ప్రెడ్‌షీట్ విశ్లేషణ, రీయూజబుల్ టెంప్లేట్‌లు, మరియు AI ని ఎప్పుడు నమ్మకూడదో తెలుసుకోవడం — ఈ ఐదు అలవాట్లు మీని పవర్ యూజర్‌గా మారుస్తాయి.</p>
+  <div class="hero-badges anim-fadeInUp" style="animation-delay:.4s">
+    <span class="badge">⏱ 4 గంటలు</span>
+    <span class="badge">⚡ 5 పవర్ స్కిల్స్</span>
+    <span class="badge">🔁 రీయూజబుల్ సిస్టమ్‌లు</span>
+    <span class="badge accent">₹400</span>
+  </div>
+  <div class="hero-offer anim-bounceIn" style="animation-delay:.55s">
+    🎉 ఎర్లీ యాక్సెస్ — <s>₹400</s> <strong>మొదటి 100 మందికి ఉచితం</strong>
+  </div>
+  <img class="hero-img anim-fadeInUp" style="animation-delay:.5s"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l6-s01-hero.jpg"
+       alt="లెవెల్ 6 పవర్ యూజర్ హీరో — ఐదుగురు భారతీయ నిపుణులు AI ని నిష్ణాతంగా వాడుతున్నారు"
+       loading="lazy" />
+  <p class="scroll-hint anim-fadeInUp" style="animation-delay:.8s">▾ స్క్రోల్ చేయండి</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 2 · RECAP                                      -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="recap-banner anim-fadeInUp">
+    <h3>✅ లెవెల్ 5 రివ్యూ</h3>
+    <ul class="recap-list">
+      <li>స్పష్టమైన సేవింగ్స్ టార్గెట్‌తో ఇంటి బడ్జెట్ ప్లాన్ చేశారు</li>
+      <li>పిల్లలు చదివే ఏ విషయాన్నైనా నిమిషాల్లో వివరించగలిగారు</li>
+      <li>బడ్జెట్‌లోపు పూర్తి ఫ్యామిలీ ట్రిప్ ప్లాన్ రెడీ చేశారు</li>
+      <li>మొబైల్ ప్లాన్‌లు, ఫైనాన్షియల్ ప్రొడక్ట్‌లను నిజమైన సంఖ్యలతో పోల్చారు</li>
+      <li>మీ అసలు సమయానికి తగిన హెల్త్ హేబిట్ ప్లాన్ తయారు చేశారు</li>
+    </ul>
+  </div>
+  <p class="sec-label">లెవెల్ 6</p>
+  <h2 class="sec-title">ఇప్పుడు సిస్టమ్‌లు నిర్మించుకుందాం, కేవలం రిజల్ట్‌లు కాదు</h2>
+  <p class="sec-intro">
+    ప్రదీప్ హైదరాబాద్‌లో HR మేనేజర్ — ప్రతిరోజూ అదే AI పని మళ్ళీ మళ్ళీ మొదటి నుండి చేస్తున్నాడు.
+    అనన్య విజయవాడలో ప్రాజెక్ట్ కోఆర్డినేటర్ — 15 పేజీల రిపోర్ట్‌ను 10 AM కల్లా 1 పేజీ సారాంశంగా మార్చాలి.
+    వెంకట్ తిరుపతిలో స్టేషనరీ షాప్ నడిపిస్తున్నాడు — 2 సంవత్సరాల సేల్స్ డేటా ఉంది కానీ సరైన అర్థం రాదు.
+    దివ్య గుంటూరులో ఫ్రీలాన్స్ రైటర్ — ప్రతి వారం అదే ప్రొపోజల్ ఫార్మాట్ తిరిగి రాస్తోంది.
+    రాజన్ విజాగ్‌లో సివిల్ ఇంజినీర్ — ఏ నిర్ణయాలు AI కి అప్పగించకూడదో తెలుసు.<br><br>
+    ఈ లెవెల్‌లో వారంతా సాధారణ AI యూజర్ నుండి నిజమైన పవర్ యూజర్‌గా ఎలా మారతారో చూస్తారు — మీకు ఇప్పటికే తెలిసిన అన్నింటినీ రెట్టింపు చేసే ఐదు స్కిల్స్ నేర్చుకుంటారు.
+  </p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 3 · SKILL 1 · DAILY AI ROUTINE                -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">1</span>
+    <span>స్కిల్ 1 — ఒక పనిని రోజువారీ AI రూటీన్‌గా మార్చుకోండి</span>
+  </div>
+
+  <p class="sec-label">ప్రదీప్ కథ</p>
+  <h2 class="sec-title">ప్రతి పొద్దున్న సున్నా నుండి మొదలుపెట్టే HR మేనేజర్</h2>
+  <p class="sec-intro">ప్రదీప్ హైదరాబాద్‌లో ఒక మాన్యుఫ్యాక్చరింగ్ కంపెనీలో HR మేనేజర్. ప్రతి పొద్దున్న ChatGPT తెరిచి మళ్ళీ కొత్త ప్రాంప్ట్ రాస్తాడు — అటెండెన్స్ రిపోర్ట్ సారాంశం, ట్రైనింగ్ నోటీసు, లేట్ జాయినింగ్ ఉద్యోగికి ఈమెయిల్. ఫలితాలు బాగుంటాయి కానీ ప్రతిసారీ అదే context మళ్ళీ వివరిస్తూ 30 నిమిషాలు వృథా అవుతున్నాయి.</p>
+
+  <div class="story-grid">
+    <div class="story-card amber anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag amber">👨 ప్రదీప్ · హైదరాబాద్</span>
+      <p class="story-text">ప్రదీప్ ప్రతిరోజూ AI వాడతాడు కానీ ప్రతిసారీ తాజా సంభాషణలా చేస్తాడు. కంపెనీ పేరు, తన పాత్ర, నేపథ్యం — అన్నీ ప్రతిరోజూ మళ్ళీ టైప్ చేస్తాడు. సోమవారం ప్రాంప్ట్ మరియు శుక్రవారం ప్రాంప్ట్ దాదాపు ఒకేలా ఉంటాయి — కానీ శూన్యం నుండి మళ్ళీ మళ్ళీ నిర్మిస్తాడు.</p>
+      <div class="speech-bubble">"నేను రోజూ AI వాడతాను కానీ context టైప్ చేయడంలోనే సమయం పోతోంది. మంచి పద్ధతి ఉండాలి కదా."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 AI పద్ధతి</span>
+      <p class="story-text">ప్రదీప్ ఒక saved context block తయారు చేస్తాడు — తన పాత్ర, సంస్థ రకం, tone, మరియు పదే పదే వచ్చే పనుల గురించి చిన్న వివరణ. ప్రతి సెషన్ మొదటలో దీన్ని paste చేసి నేరుగా నిర్దిష్ట పనిలోకి దూకుతాడు. తన 3 అత్యంత సాధారణ పనుల కోసం trigger prompts కూడా తయారు చేస్తాడు.</p>
+      <div class="prompt-box">
+        <p class="pb-label">ప్రదీప్ సేవ్ చేసిన context block</p>
+        <p class="pb-text">Context: నేను ప్రదీప్, హైదరాబాద్‌లో 200 మంది ఉద్యోగులున్న
+మాన్యుఫ్యాక్చరింగ్ కంపెనీలో HR మేనేజర్.
+మా communication style: professional కానీ friendly.
+ఉద్యోగులు diverse backgrounds నుండి వచ్చారు — చాలా మంది
+simple English prefer చేస్తారు.
+నా common tasks: అటెండెన్స్ నోటీసులు, ట్రైనింగ్ announcements,
+policy reminders, joining/exit email templates.
+
+నేటి పని: [ఇక్కడ నిర్దిష్ట పని రాయండి]
+
+Format preference: చిన్న paragraphs. Lists కి bullet points వాడండి.
+Emails 150 words లోపు ఉండాలి.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ ఫలితం</span>
+      <p class="story-text">ప్రదీప్ ఇప్పుడు context block paste చేసి నేటి పని ఒక్క line లో add చేస్తాడు. 30 నిమిషాల పొద్దున్న AI సెషన్ 7 నిమిషాలకు తగ్గింది. తన 3 అత్యంత పదే వచ్చే పనుల కోసం trigger prompts తయారు చేసి రెండు సహోద్యోగులతో share చేశాడు. వారి team కి ఇప్పుడు ఒక AI starter pack ఉంది.</p>
+      <div class="ai-bubble">
+        సోమవారం పొద్దున్న (మొత్తం 7 నిమిషాలు):<br><br>
+        Context block paste → "నేటి పని: జూన్ 1 నుండి అమలయ్యే కొత్త అటెండెన్స్ పాలసీ గురించి reminder notice రాయండి. Friendly tone. 100 words లోపు."<br><br>
+        ఫలితం: 20 seconds లో professional notice రెడీ. Review, చిన్న edit, పంపు — అయిపోయింది.<br><br>
+        శూన్యం నుండి మొదలుపెట్టడంతో పోలిస్తే ఆదా: రోజుకు 23 నిమిషాలు × 22 working days = <strong>నెలకు 8+ గంటలు.</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">🔁 రూటీన్ నిర్మించే చిట్కా</p>
+    <p>పదే వచ్చే ప్రతి AI పని కోసం <strong>saved context block</strong> తయారు చేయండి — మీ పాత్ర, tone, output format, సాధారణ audience. దీన్ని మీ phone notes లో లేదా text file లో save చేయండి. ప్రతి సెషన్ మొదటలో paste చేయండి. మీరు ఇదివరకే వివరించిన context మళ్ళీ ఎప్పుడూ రాయకండి.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">మీరు ప్రతి వారం చేసే 3 common AI పనులు జాబితా చేయండి</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Context block రాయండి: మీ పాత్ర, సంస్థ రకం, tone, output preferences</span></li>
+    <li><span class="step-num">3</span><span class="step-text">ప్రతి పని కోసం trigger prompt తయారు చేయండి — short, specific, [FILL-IN] placeholders తో</span></li>
+    <li><span class="step-num">4</span><span class="step-text">అన్నింటినీ phone notes లో "నా AI Starter Kit" అని save చేయండి</span></li>
+    <li><span class="step-num">5</span><span class="step-text">ప్రతి పొద్దున్న: context block + trigger prompt paste → నేటి variable fill చేయండి → run చేయండి</span></li>
+  </ul>
+
+  <div class="ba-grid" style="margin-top:1.5rem;">
+    <div class="ba-col before">
+      <p class="ba-head">❌ రూటీన్ లేకుండా</p>
+      <p>ప్రదీప్ ప్రతి సెషన్‌లో context మళ్ళీ వివరిస్తూ 30 నిమిషాలు వృథా చేస్తాడు. వారానికి 5 సెషన్‌లు × 30 నిమిషాలు = వారానికి 2.5 గంటలు పోతాయి.</p>
+    </div>
+    <div class="ba-col after">
+      <p class="ba-head">✅ రూటీన్‌తో</p>
+      <p>Context block + trigger prompt = సెషన్‌కు 7 నిమిషాలు. ప్రదీప్ వారానికి 1.5 గంటలు తిరిగి పొందుతాడు — నెలకు 6 గంటలు — నాణ్యత తగ్గకుండా.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l6-s02-pradeep-routine.jpg"
+       alt="ప్రదీప్ తన HR డెస్క్ వద్ద రోజువారీ AI workflow రూటీన్ నిర్మిస్తున్నాడు" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 4 · SKILL 2 · STRUCTURED OUTPUTS              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">2</span>
+    <span>స్కిల్ 2 — AI దగ్గర tables, checklists, సారాంశాలు కలిసి అడగండి</span>
+  </div>
+
+  <p class="sec-label">అనన్య కథ</p>
+  <h2 class="sec-title">ఎవరూ చదవడానికి సమయం లేని రిపోర్ట్</h2>
+  <p class="sec-intro">అనన్య విజయవాడలో ఒక కన్స్ట్రక్షన్ కంపెనీలో project coordinator. ప్రతి సోమవారం 4 సైట్ teams నుండి 15 పేజీల weekly status report వస్తుంది. మేనేజర్ 10 AM కల్లా 1 పేజీ సారాంశం, action list, risk table కావాలని అడుగుతారు. రిపోర్ట్ చదివి restructure చేయడానికే 2 గంటలు పడుతున్నాయి. ఆమె ఎప్పుడూ late అవుతోంది.</p>
+
+  <div class="story-grid">
+    <div class="story-card teal anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag teal">👩 అనన్య · విజయవాడ</span>
+      <p class="story-text">అనన్య ప్రతి పేజీ చదివి, కీలక పాయింట్లు highlight చేసి, manually summary టైప్ చేసి, Excel లో action table తయారు చేస్తుంది. ప్రతి వారం 10 AM deadline మిస్ అవుతోంది. మేనేజర్ frustrated గా ఉన్నారు. సమస్య workload కాదు — process.</p>
+      <div class="speech-bubble">"15 పేజీల రిపోర్ట్‌ను 1 పేజీ summary గా మార్చడానికి రోజూ 2 గంటలు పోతున్నాయి. తెలివైన పద్ధతి ఉండాలి."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 AI పద్ధతి</span>
+      <p class="story-text">అనన్య రిపోర్ట్ text AI లో paste చేసి ఒకే structured prompt తో మూడు outputs ఒకసారి అడుగుతుంది — summary paragraph, priority action checklist, risk table. 2 నిమిషాల్లో మూడూ వస్తాయి. 9:30 AM కల్లా review చేసి submit చేస్తుంది.</p>
+      <div class="prompt-box">
+        <p class="pb-label">అనన్య structured output prompt</p>
+        <p class="pb-text">నేను ఒక 15 పేజీల weekly project status report paste చేస్తాను.
+దయచేసి ఈ exact format లో మూడు విషయాలు ఇవ్వండి:
+
+1. EXECUTIVE SUMMARY (max 150 words)
+   మొత్తం progress, ఈ వారం key achievements,
+   ఒక main concern కవర్ చేయండి.
+
+2. ACTION CHECKLIST (table format)
+   Columns: Action Item | Owner | Due Date | Priority (High/Medium/Low)
+   ఈ వారం follow-up అవసరమైన అన్నింటినీ list చేయండి.
+
+3. RISK TABLE (table format)
+   Columns: Risk | Site/Team | Likelihood (H/M/L) | Impact (H/M/L) | Suggested Response
+
+రిపోర్ట్ ఇదిగో:
+[REPORT TEXT PASTE చేయండి]</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ ఫలితం</span>
+      <p class="story-text">AI స్పష్టమైన 150 words సారాంశం, రిపోర్ట్ నుండి owner పేర్లు due dates తో 7 item action table, మరియు 4 flagged items తో risk table ఇస్తుంది. అనన్య 10 నిమిషాల్లో review చేసి 9:30 AM కల్లా పంపుతుంది. మేనేజర్ "నెలల తర్వాత అత్యంత స్పష్టమైన సోమవారం రిపోర్ట్" అని చెప్పారు.</p>
+      <div class="ai-bubble">
+        EXECUTIVE SUMMARY: వారం 18 లో 4 sites అంతటా 73% overall progress. కొండపల్లి సైట్ schedule కంటే ముందే concrete pour పూర్తి చేసింది. Main concern: Benz Circle సైట్ electrical contractor వచ్చే వారం material delivery confirm చేయలేదు — 3 రోజుల delay risk ఉంది.<br><br>
+        ACTION CHECKLIST:<br>
+        → Electrical material delivery confirm · రవి కుమార్ · 9 May · HIGH<br>
+        → Revised drawing PMC కి submit · అనన్య · 10 May · HIGH<br>
+        → 3 pending invoices process · Accounts · 11 May · MEDIUM<br><br>
+        RISK TABLE: 4 items flagged — electrical delay (H/H), వారం 19 వర్షం (M/M), ఒక subcontractor payment dispute (L/H), drawing revision cycle (M/L).
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">📋 Structured output చిట్కా</p>
+    <p>AI కి "ఇది summarise చేయండి" అని అడిగి అది choose చేసిన format accept చేయకండి. <strong>మీకు కావలసిన format prompt లోనే specify చేయండి</strong> — words సంఖ్య, table columns, section headers, order. Format ముందే define చేస్తే output reformat చేయకుండా నేరుగా use చేయవచ్చు.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">Prompt రాయడానికి ముందే మీకు ఏ output formats కావాలో decide చేయండి</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Prompt లో ప్రతి output type number వేయండి — "1. Summary 2. Action table 3. Risks"</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Tables కోసం prompt లోనే column names specify చేయండి</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Summaries కి word/length limits set చేయండి — "max 150 words" — లేకుంటే AI చాలా రాస్తుంది</span></li>
+    <li><span class="step-num">5</span><span class="step-text">ఈ structured prompt template save చేయండి — ఏ document, meeting notes, email thread కైనా పని చేస్తుంది</span></li>
+  </ul>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l6-s03-ananya-structure.jpg"
+       alt="అనన్య AI generated structured summary tables and checklists review చేస్తోంది" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 5 · SKILL 3 · AI WITH SPREADSHEETS            -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">3</span>
+    <span>స్కిల్ 3 — మీ spreadsheet data AI తో analyse చేయండి</span>
+  </div>
+
+  <p class="sec-label">వెంకట్ కథ</p>
+  <h2 class="sec-title">డేటా అంతా ఉంది కానీ సమాధానాలు లేని షాప్ ఓనర్</h2>
+  <p class="sec-intro">వెంకట్ తిరుపతిలో stationery మరియు gift shop నడిపిస్తున్నాడు. 2 సంవత్సరాల daily sales Excel sheet maintain చేస్తున్నాడు — date, product, quantity, price, customer type. Data useful అని తెలుసు కానీ best sellers ఏవో, slow months ఏవో, stock ఏం invest చేయాలో అర్థం కాదు. అతని Excel skills totals మరియు filters వరకే ఉన్నాయి.</p>
+
+  <div class="story-grid">
+    <div class="story-card sky anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag sky">👨 వెంకట్ · తిరుపతి</span>
+      <p class="story-text">వెంకట్ ప్రతి శుక్రవారం sales sheet తెరుస్తాడు కానీ total చూడడం తప్ప ఏం చేయాలో తెలియదు. Excel charts YouTube tutorials చూసి 20 నిమిషాల్లో give up చేస్తాడు. Stock decisions gut feel మీద చేస్తాడు — కొన్ని items overstocking, మరికొన్నింటికి stock out ప్రతి నెలా జరుగుతుంది.</p>
+      <div class="speech-bubble">"2 సంవత్సరాల sales data ఉంది కానీ ఏం చేయాలో తెలియడం లేదు. Data అక్కడే కూర్చుని ఉంది, నేను blind గా ఉన్నాను."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 AI పద్ధతి</span>
+      <p class="story-text">వెంకట్ ఒక వారం sales data copy చేసి AI లో paste చేస్తాడు. తన business గురించి నిర్దిష్టంగా అడుగుతాడు — best sellers, slow months, ఏ product categories ఎక్కువ revenue ఇస్తున్నాయో. AI pasted data analyse చేసి స్పష్టమైన సమాధానాలు recommendations తో ఇస్తుంది.</p>
+      <div class="prompt-box">
+        <p class="pb-label">వెంకట్ spreadsheet analysis prompt</p>
+        <p class="pb-text">నేను తిరుపతిలో stationery మరియు gift shop నడిపిస్తున్నాను.
+నా Excel sheet నుండి weekly sales data copy చేశాను.
+ప్రతి row ఒక transaction.
+Columns: Date | Product | Category | Qty Sold | Unit Price | Customer Type
+
+[DATA PASTE — example:]
+01-Apr-2026 | Notebook A4 | Stationery | 15 | 45 | Walk-in
+01-Apr-2026 | Gift Wrap Set | Gifts | 8 | 120 | Repeat
+...
+
+దయచేసి answer చేయండి:
+1. ఈ వారం అత్యధిక units అమ్మిన 5 products ఏవి?
+2. అత్యధిక revenue generate చేసిన category ఏది?
+3. Zero లేదా 1 unit మాత్రమే అమ్మిన products ఏవి? (overstock risk)
+4. Walk-in vs repeat customers average transaction value ఎంత?
+5. ఈ data ఆధారంగా వచ్చే వారం ఏం stock ఎక్కువగా ఉండాలి?</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ ఫలితం</span>
+      <p class="story-text">AI వెంకట్ కి top 5 products చెప్తుంది, Gifts category 20% transactions తో 45% revenue generate చేస్తోందని చూపిస్తుంది, ఈ వారం zero sales తో 6 products overstock risk గా flag చేస్తుంది, మరియు upcoming festival week కోసం greeting card stock రెట్టింపు చేయమని recommend చేస్తుంది. వెంకట్ మొదటి data-driven stock order చేస్తాడు.</p>
+      <div class="ai-bubble">
+        Units ద్వారా Top 5: Notebook A4 (82) · Pens Box (71) · Greeting Cards (54) · Sketch Pens (48) · Gift Wrap Set (44)<br><br>
+        Revenue breakdown: Gifts (45%) తక్కువ transactions తో Stationery (41%) ను అధిగమిస్తుంది — higher unit prices వల్ల.<br><br>
+        Overstock risk: 6 products ఈ వారం 0–1 units అమ్మాయి.<br><br>
+        Recommendation: 10 May ముందు Greeting Card stock 40% పెంచండి — గత 3 వారాల data లో festival demand pattern కనిపిస్తోంది.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">📊 Spreadsheet analysis చిట్కా</p>
+    <p>Excel expert అవసరం లేదు. <strong>Data copy చేసి AI లో paste చేయండి</strong> మరియు నిర్దిష్ట business questions అడగండి. AI మీరు manually చేయడానికి గంటలు పట్టే patterns నిమిషాల్లో కనుగొంటుంది. Data complex అయితే ఒక్కో question అడగండి.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">మీ data నుండి answer కావలసిన question identify చేయండి</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Spreadsheet నుండి relevant columns మరియు rows copy చేయండి (50–100 rows వరకు)</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Data paste చేసి దాని గురించి 3 నుండి 5 నిర్దిష్ట questions అడగండి</span></li>
+    <li><span class="step-num">4</span><span class="step-text">AI reasoning explain చేయమని అడగండి — ఏదైనా miss అయిందో spot చేయడానికి సహాయపడుతుంది</span></li>
+    <li><span class="step-num">5</span><span class="step-text">Weekly చేయండి — అదే data type మీద recurring analysis అత్యంత valuable AI habit</span></li>
+  </ul>
+
+  <div class="ba-grid" style="margin-top:1.5rem;">
+    <div class="ba-col before">
+      <p class="ba-head">❌ AI లేకుండా</p>
+      <p>వెంకట్ totals చూసి gut feel తో stock decisions చేస్తాడు. Craft kits overstocking, festivals ముందు greeting cards out of stock. 18 నెలలు revenue flat గా ఉంది.</p>
+    </div>
+    <div class="ba-col after">
+      <p class="ba-head">✅ AI తో</p>
+      <p>వెంకట్ 5 నిమిషాల్లో weekly data insights పొందుతాడు. మొదటి data-driven stock order festival week revenue 28% పెంచింది. ఇప్పుడు ప్రతి శుక్రవారం data analyse చేయడం non-negotiable routine.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l6-s04-venkat-sheets.jpg"
+       alt="వెంకట్ తన shop sales spreadsheet AI insights తో analyze చేస్తున్నాడు" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 6 · SKILL 4 · REUSABLE TEMPLATES              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">4</span>
+    <span>స్కిల్ 4 — Reusable AI prompt templates నిర్మించండి</span>
+  </div>
+
+  <p class="sec-label">దివ్య కథ</p>
+  <h2 class="sec-title">ప్రతి వారం అదే proposal మళ్ళీ రాసే రైటర్</h2>
+  <p class="sec-intro">దివ్య గుంటూరులో freelance content writer. చిన్న వ్యాపారాల కోసం blog posts, social media captions, project proposals రాస్తుంది. ప్రతి కొత్త client కి కొత్త proposal — అదే sections, అదే structure, కానీ ప్రతిసారీ scratch నుండి రాస్తుంది. ప్రాజెక్ట్‌కు ₹2,500 charge చేస్తుంది కానీ proposal రాయడానికే 90 నిమిషాలు వెళ్తున్నాయి. అది project earnings లో దాదాపు సగం సమయం cost.</p>
+
+  <div class="story-grid">
+    <div class="story-card amber anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag amber">👩 దివ్య · గుంటూరు</span>
+      <p class="story-text">దివ్య నెలకు 4 నుండి 6 proposals రాస్తుంది. ప్రతీది అదే areas cover చేస్తుంది — తన గురించి, services, timeline, pricing, testimonial. ప్రతి client కోసం wording adjust చేస్తుంది కానీ structure ఎప్పుడూ ఒకే లా ఉంటుంది. Actual writing కంటే admin పై ఎక్కువ సమయం వెళ్తోందని feel అవుతోంది.</p>
+      <div class="speech-bubble">"నేను writer ని కానీ actual writing కంటే proposals మీద ఎక్కువ సమయం పోతోంది. సిస్టమ్ కావాలి నాకు."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 AI పద్ధతి</span>
+      <p class="story-text">దివ్య variable parts కోసం [PLACEHOLDERS] తో master proposal template తయారు చేస్తుంది. ఒక్కసారి save చేస్తుంది. ప్రతి కొత్త client కి 5 specific details fill చేసి AI లో paste చేస్తుంది. AI 2 నిమిషాల్లో ఆ client industry, tone, project type కి అనుగుణంగా proposal adapt చేస్తుంది.</p>
+      <div class="prompt-box">
+        <p class="pb-label">దివ్య reusable proposal template</p>
+        <p class="pb-text">ఈ details తో professional freelance content writing proposal రాయండి:
+
+CLIENT NAME: [e.g. సాయి ట్రేడర్స్ ప్రైవేట్ లిమిటెడ్]
+CLIENT INDUSTRY: [e.g. hardware and building materials]
+PROJECT TYPE: [e.g. 8 product descriptions + 2 blog posts/month]
+TIMELINE: [e.g. 3 weeks first batch, then monthly retainer]
+MY RATE: [e.g. ₹2,500/project లేదా ₹8,000/month retainer]
+
+FIXED DETAILS (always include):
+- నా పేరు దివ్య, 4 సంవత్సరాల B2B content writing experience
+- Retail, education, healthcare లో clients ఉన్నారు
+- On time deliver, deliverable కి 1 revision, clear English
+- AI tools research కి వాడతాను — content human-reviewed మరియు original
+
+Format: 4 sections — Introduction, Scope of Work, Timeline, Investment.
+350 words లోపు. Professional కానీ warm tone.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ ఫలితం</span>
+      <p class="story-text">దివ్య proposal time per client 90 నిమిషాల నుండి 12 నిమిషాలకు తగ్గింది. Product writing, social media, blog retainers కోసం మూడు template variations తయారు చేసింది. మొదటి నెలలో templates వాడిన తర్వాత 2 additional clients తీసుకుంది. Extra working hours లేకుండా monthly income ₹5,000 పెరిగింది.</p>
+      <div class="ai-bubble">
+        సాయి ట్రేడర్స్ కోసం template run (మొత్తం 12 నిమిషాలు):<br><br>
+        5 fields fill చేయండి → AI లో template paste చేయండి → 350-word proposal review చేయండి → Minor tone adjustment → పంపు.<br><br>
+        పాత process: Writing, editing, formatting కోసం 90 నిమిషాలు.<br>
+        కొత్త process: Review తో కలిపి 12 నిమిషాలు.<br><br>
+        ఆదా: proposal కి 78 నిమిషాలు × నెలకు 5 proposals = <strong>నెలకు 6.5 గంటలు</strong> — 2 extra projects కి సరిపడా.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">📝 Template నిర్మించే చిట్కా</p>
+    <p>మంచి template లో రెండు భాగాలు ఉంటాయి: <strong>fixed context</strong> (మీరు ఎవరు, మీ style, మీ constraints — ఎప్పుడూ మారనివి) మరియు <strong>[PLACEHOLDERS]</strong> (ప్రతి use కి fill చేసేవి). ఒక్కసారి template తయారు చేయండి. 3 సార్లు test చేయండి. Save చేయండి. మళ్ళీ scratch నుండి ఎప్పుడూ నిర్మించకండి.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">మీరు repeat చేసే పని identify చేయండి — proposals, reports, emails, posts, meeting agendas</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Fixed context మరియు [PLACEHOLDERS] తో prompt ఒక్కసారి రాయండి</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Real use cases తో 3 సార్లు template test చేయండి — consistently good output వచ్చే వరకు adjust చేయండి</span></li>
+    <li><span class="step-num">4</span><span class="step-text">అన్ని templates ఒక document లో save చేయండి: "నా AI Template Library"</span></li>
+    <li><span class="step-num">5</span><span class="step-text">నెలకు ఒకసారి template library review చేయండి — ఇక పని చేయని వాటిని update లేదా retire చేయండి</span></li>
+  </ul>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l6-s05-divya-templates.jpg"
+       alt="దివ్య proposals కోసం reusable AI prompt template library నిర్మిస్తోంది" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 7 · SKILL 5 · WHAT NOT TO OUTSOURCE           -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">5</span>
+    <span>స్కిల్ 5 — AI కి ఏం అప్పగించకూడదో సరిగ్గా తెలుసుకోండి</span>
+  </div>
+
+  <p class="sec-label">రాజన్ కథ</p>
+  <h2 class="sec-title">ఒక్కసారి AI ని మరీ నమ్మిన ఇంజినీర్</h2>
+  <p class="sec-intro">రాజన్ విజాగ్‌లో construction firm లో senior civil engineer. రోజూ AI తో reports, calculations, specifications వాడతాడు. మూడు నెలల క్రితం structural beam material specifications draft చేయడానికి AI help అడిగాడు. Output perfect గా కనిపించింది. ఒక్క line కూడా check చేయకుండా submit చేశాడు. Specification లో grade error ఉంది — M30 అవసరమైన చోట M20 concrete రాసింది. Site inspection లో catch అయింది. Project 2 వారాలు delay అయింది.</p>
+
+  <div class="story-grid">
+    <div class="story-card teal anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag teal">👨 రాజన్ · విజాగ్</span>
+      <p class="story-text">రాజన్ AI output ని junior colleague పని లాగా trust చేశాడు — formatting మరియు logic review చేశాడు కానీ నిర్దిష్ట technical figures check చేయలేదు. AI plausible-sounding content ఒక critical error తో produce చేసింది. ఇప్పుడు రాజన్ తన team లో ప్రతి engineer కి ఒక rule చెప్తాడు: AI powerful drafter — safety-critical specifications లో final authority ఎప్పుడూ కాదు.</p>
+      <div class="speech-bubble">"AI గత నెల నాకు 40 గంటలు ఆదా చేసింది మరియు ఒక్క రోజు 2 వారాలు cost చేసింది. ఎక్కడ నమ్మాలో ఎక్కడ review skip చేయకూడదో ఇప్పుడు తెలుసు."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 AI పద్ధతి</span>
+      <p class="story-text">రాజన్ ఇప్పుడు drafting, summarising, explaining కి AI freely వాడతాడు — కానీ safety, law, medicine, finance, official compliance involve అయిన ఏ output అయినా submit చేయడానికి ముందు పూర్తిగా verify చేస్తాడు. 3 నిమిషాలు పట్టే simple checklist తయారు చేశాడు.</p>
+      <div class="prompt-box">
+        <p class="pb-label">రాజన్ AI output verification rule</p>
+        <p class="pb-text">AI generate చేసిన content submit చేయడానికి ముందు check చేస్తాను:
+
+HIGH RISK — ALWAYS VERIFY IN FULL (check చేయకుండా submit చేయకండి):
+□ Structural calculations, load values, material grades
+□ Legal clauses, contract terms, regulatory compliance
+□ Medical dosages, drug interactions, clinical protocols
+□ Official documents లో financial figures (tax, audit, loan)
+□ Sign, stamp, లేదా authorities కి submit చేసే outputs
+
+MEDIUM RISK — SPOT CHECK (key facts మరియు figures verify చేయండి):
+□ Standards reference చేసే technical specifications (IS, BIS, etc.)
+□ Clients లేదా senior management కి వెళ్ళే reports
+□ Financial consequences ఉన్న decisions కోసం data summaries
+
+LOW RISK — USE AS-IS WITH LIGHT REVIEW:
+□ Internal use కోసం drafts, templates, emails
+□ Personal planning కోసం summaries
+□ Review చేయడానికి confident గా ఉన్న creative content</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ ఫలితం</span>
+      <p class="story-text">రాజన్ తన documentation లో 80% AI తో చేస్తాడు — ముందటి కంటే వేగంగా. అతని 3-నిమిషాల pre-submission checklist గత 3 నెలల్లో 4 AI errors catch చేసింది, అన్నీ high-risk categories లో. ఇప్పుడు ప్రతి కొత్త hire కి నేర్పిస్తాడు: "AI అన్నీ draft చేయనీయండి. Matter అయిన అన్నీ మీరు verify చేయండి."</p>
+      <div class="ai-bubble">
+        రాజన్ verification rule తో 3-నెలల track record:<br><br>
+        Submit చేసిన AI-generated documents: 47<br>
+        Fully verified (high-risk): 12 → submission ముందే 4 errors catch చేశారు<br>
+        Spot-checked (medium-risk): 21 → 2 minor inaccuracies catch చేశారు<br>
+        As-is (low-risk): 14 → ఏ issues report కాలేదు<br><br>
+        Key insight: 4 significant errors అన్నీ structural specifications మరియు compliance documents లో — exactly high-risk category. Rule work అవుతోంది.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">⚠️ పవర్ యూజర్ non-negotiable rule</p>
+    <p>AI మీ అత్యంత వేగవంతమైన drafter — కానీ మీ final authority కాదు. <strong>AI వాడటంలో మీరు తెలివైనకొద్దీ మీ verification habit మరింత ముఖ్యమవుతుంది.</strong> High-risk output (safety, law, medical, financial compliance) — ఎప్పుడూ, ఏ exception లేకుండా మీరు check చేయాలి. ఇదే reckless user నుండి power user ని వేరు చేసేది.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">ప్రతి AI task categorise చేయండి: High risk / Medium risk / Low risk — తప్పు అయితే ఏం జరుగుతుందో ఆధారంగా</span></li>
+    <li><span class="step-num">2</span><span class="step-text">High risk (legal, medical, safety, financial documents): submit చేయడానికి ముందు ప్రతి fact మరియు figure verify చేయండి</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Medium risk (client reports, management summaries): key claims మరియు numbers spot-check చేయండి</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Low risk (internal drafts, personal planning): light review సరిపోతుంది</span></li>
+    <li><span class="step-num">5</span><span class="step-text">ఏ category అనే అర్థం కాకపోతే — high risk గా treat చేయండి</span></li>
+  </ul>
+
+  <div class="ba-grid" style="margin-top:1.5rem;">
+    <div class="ba-col before">
+      <p class="ba-head">❌ Verification rule లేకుండా</p>
+      <p>రాజన్ correct గా కనిపించే AI output trust చేస్తాడు. Structural spec లో ఒక grade error 2-వారాల project delay మరియు client trust దెబ్బ తీస్తుంది. ఒక unverified document నెలల productivity gains కంటే ఎక్కువ cost అవుతుంది.</p>
+    </div>
+    <div class="ba-col after">
+      <p class="ba-head">✅ Verification rule తో</p>
+      <p>రాజన్ 80% documentation AI తో చేస్తాడు, document కి 3 నిమిషాల్లో critical errors catch చేస్తాడు. Rule implement చేసిన తర్వాత 47 AI-assisted documents లో ఒక్క error కూడా client కి reach కాలేదు.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l6-s06-rajan-limits.jpg"
+       alt="రాజన్ verification checklist తో AI-generated structural specification critically review చేస్తున్నాడు" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 8 · PRACTICE ARENA                            -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">మీ వంతు</p>
+  <h2 class="sec-title">Practice Arena — మీ పవర్ యూజర్ సిస్టమ్ నిర్మించండి</h2>
+  <p class="sec-intro">ఒక పని select చేయండి. ChatGPT, Gemini, లేదా ఏదైనా AI app తెరవండి. ఒకేసారి answer కాదు — మళ్ళీ వాడగలిగే ఏదైనా నిర్మించండి. ప్రతి task 10 నుండి 15 నిమిషాలు తీసుకుంటుంది మరియు reusable system create చేస్తుంది.</p>
+
+  <div class="arena-grid">
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.1s">
+      <p class="ac-num">Task 1 · Routine</p>
+      <h3>మీ personal AI starter kit నిర్మించండి</h3>
+      <p>మీ job లేదా daily life కోసం context block రాయండి. మీ repeat tasks కోసం 3 trigger prompts add చేయండి. Phone notes లో save చేయండి. ఈరోజే ఒక trigger prompt try చేసి పాత పద్ధతితో సమయం compare చేయండి.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.15s">
+      <p class="ac-num">Task 2 · Structure</p>
+      <h3>Long document ని 3 structured outputs చేయండి</h3>
+      <p>ఈ వారం వచ్చిన long email thread, meeting notes, లేదా report ఏదైనా తీసుకోండి. Summary, action checklist with owners, open questions table అడగండి. Prompt లో format define చేయండి.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.2s">
+      <p class="ac-num">Task 3 · Spreadsheet</p>
+      <h3>మీ ఒక వారం data analyse చేయండి</h3>
+      <p>మీరు track చేసే ఏ data అయినా — expenses, sales, attendance, marks — copy చేసి AI లో paste చేయండి. 3 specific questions అడగండి. AI spot చేసిన patterns మీరు miss చేసినవి చూడండి.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.25s">
+      <p class="ac-num">Task 4 · Templates</p>
+      <h3>మీ మొదటి reusable AI template తయారు చేయండి</h3>
+      <p>ప్రతి వారం repeat చేసే ఒక పని గురించి think చేయండి — email, post, report section, proposal. [PLACEHOLDERS] తో template నిర్మించండి. Real examples తో రెండు సార్లు test చేయండి. Save చేయండి. నెలల తరబడి వాడతారు.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.3s">
+      <p class="ac-num">Task 5 · Verification</p>
+      <h3>మీ personal AI risk checklist నిర్మించండి</h3>
+      <p>మీరు AI వాడే 5 tasks list చేయండి. ప్రతిదాన్ని High, Medium, లేదా Low risk గా categorise చేయండి. Submit చేయడానికి ముందు మీరు ఎప్పుడూ verify చేసే personal rule రాయండి. ప్రతి రోజూ చూసే చోట save చేయండి.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l6-s07-practice.jpg"
+       alt="learner reusable AI systems నిర్మిస్తూ 5 power user skills practice చేస్తున్నారు" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:2rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 9 · CHEAT SHEET                               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">Quick reference</p>
+  <h2 class="sec-title">లెవెల్ 6 చీట్ షీట్</h2>
+  <p class="sec-intro">ఈ 5 power user principles save చేయండి. సమయంతో పాటు ప్రతీది compound అవుతుంది — వాడినకొద్దీ విలువ పెరుగుతుంది.</p>
+
+  <div class="cheat-grid">
+    <div class="cheat-card amber">
+      <h3>🔁 Daily Routine</h3>
+      <p>Context block + trigger prompt → paste, ఒక variable fill చేయండి, run చేయండి. ఇదివరకే వివరించిన context మళ్ళీ explain చేయకండి.</p>
+      <code class="prompt-chip">"Context: [role + org + tone]. Task: [నేటి నిర్దిష్ట పని]..."</code>
+    </div>
+    <div class="cheat-card teal">
+      <h3>📋 Structured Output</h3>
+      <p>Prompt లో format define చేయండి — numbered sections, table columns, word limits. AI మీ structure exactly follow చేస్తుంది.</p>
+      <code class="prompt-chip">"ఇవ్వండి: 1. Summary (150 words) 2. Action table 3. Risk table..."</code>
+    </div>
+    <div class="cheat-card sky">
+      <h3>📊 Spreadsheet Analysis</h3>
+      <p>Data paste + 3–5 నిర్దిష్ట questions అడగండి. AI manually చేయడానికి గంటలు పట్టే patterns నిమిషాల్లో కనుగొంటుంది.</p>
+      <code class="prompt-chip">"ఇది నా sales data. Answer: 1. Top 5 products 2. Slow movers..."</code>
+    </div>
+    <div class="cheat-card">
+      <h3>📝 Reusable Templates</h3>
+      <p>Fixed context + [PLACEHOLDERS] = ఎప్పటికీ వాడగలిగే template. ఒక్కసారి నిర్మించండి, save చేయండి, ప్రతి similar task కి reuse చేయండి.</p>
+      <code class="prompt-chip">"ఈ template వాడండి: [CLIENT NAME] [PROJECT TYPE] [RATE]..."</code>
+    </div>
+    <div class="cheat-card green">
+      <h3>⚠️ Verification Rule</h3>
+      <p>High risk (safety/law/finance): అన్నీ verify చేయండి. Medium: spot-check. Low: light review. Doubt లో ఉంటే high risk గా treat చేయండి.</p>
+      <code class="prompt-chip">"Submit చేయడానికి ముందు: ఇది high / medium / low risk?"</code>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 10 · QUIZ                                      -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">మీ అభ్యాసం పరీక్షించుకోండి</p>
+  <h2 class="sec-title">Quick Quiz — 5 ప్రశ్నలు</h2>
+  <p class="sec-intro">లెవెల్ 6 సర్టిఫికేట్ పొందడానికి 5 లో 4 లేదా అంతకంటే ఎక్కువ score చేయండి. ఎన్నిసార్లైనా retry చేయవచ్చు.</p>
+
+  <div class="quiz-wrap">
+    <form id="quiz-form">
+
+      <div class="quiz-q">
+        <p class="q-text">1. ప్రదీప్ ప్రతి పొద్దున్న AI prompt context మళ్ళీ నిర్మించడం ఆపాలనుకుంటున్నాడు. అత్యంత effective solution ఏది?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> Repetition avoid చేయడానికి ప్రతి రోజూ different AI tool వాడండి</label>
+          <label><input type="radio" name="q1" value="b"> తన role, organisation, tone, task types తో saved context block తయారు చేసి ప్రతి సెషన్ మొదటలో paste చేయండి</label>
+          <label><input type="radio" name="q1" value="c"> ఒక colleague కి prompts తయారు చేయమని అడగండి</label>
+          <label><input type="radio" name="q1" value="d"> Prompt memorize చేసుకుని ప్రతి పొద్దున్న memory నుండి type చేయండి</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">2. అనన్య 15-పేజీల రిపోర్ట్ ని summary, action table, risk table గా మార్చాలనుకుంటోంది. ఆమె prompt ని అత్యంత effective గా ఏది చేస్తుంది?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> AI కి "ఈ report best గా summarise చేయండి" అని అడగడం</label>
+          <label><input type="radio" name="q2" value="b"> Report ని 3 separate messages లో పంపడం, output ఒక్కొక్కటి</label>
+          <label><input type="radio" name="q2" value="c"> ప్రతి output type ని exact format specifications తో number వేయడం — section names, table columns, summary కి word limit</label>
+          <label><input type="radio" name="q2" value="d"> Report లో key paragraphs highlight చేసి వాటినే పంపడం</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">3. వెంకట్ తన Excel sales data అర్థం చేసుకోవడానికి AI సహాయం కావాలి. అత్యంత effective approach ఏది?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> Actual data AI లో paste చేసి 3 నుండి 5 specific business questions అడగడం</label>
+          <label><input type="radio" name="q3" value="b"> Data words లో describe చేసి AI ని patterns guess చేయమని అడగడం</label>
+          <label><input type="radio" name="q3" value="c"> AI ని ఏ Excel charts తయారు చేయాలో చెప్పమని అడిగి తాను charts నిర్మించడం</label>
+          <label><input type="radio" name="q3" value="d"> Data analyst hire చేయడం — AI sales data handle చేయలేదు</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">4. దివ్య ప్రతి వారం proposal scratch నుండి రాయడం ఆపాలనుకుంటోంది. Best reusable solution ఏది?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q4" value="a"> తన best previous proposal copy చేసి ప్రతి కొత్త client కి అదే పంపడం</label>
+          <label><input type="radio" name="q4" value="b"> ప్రతిసారీ AI కి కొత్త proposal రాయమని అడిగి వేగం పెరుగుతుందని ఆశించడం</label>
+          <label><input type="radio" name="q4" value="c"> తన గురించి fixed context మరియు client-specific details కోసం [PLACEHOLDERS] తో prompt template తయారు చేసి, ప్రతిసారీ variables మాత్రం fill చేయడం</label>
+          <label><input type="radio" name="q4" value="d"> General proposal రాసి client-specific details పూర్తిగా remove చేయడం</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">5. రాజన్ AI మరియు structural specifications గురించి ముఖ్యమైన పాఠం నేర్చుకున్నాడు. Submit చేయడానికి ముందు ఏ tasks ఎప్పుడూ పూర్తిగా verify చేయాలి?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q5" value="a"> Internal team emails మరియు personal planning documents</label>
+          <label><input type="radio" name="q5" value="b"> మీ స్వంత reference కోసం meeting summaries</label>
+          <label><input type="radio" name="q5" value="c"> Safety, legal compliance, medical information, లేదా officially submitted లేదా acted upon చేయబోయే financial documents involve అయిన ఏ output అయినా</label>
+          <label><input type="radio" name="q5" value="d"> Government offices కి వెళ్ళే documents మాత్రమే</label>
+        </div>
+      </div>
+
+      <button type="button" class="quiz-submit" onclick="checkQuiz()">జవాబులు Submit చేయండి</button>
+    </form>
+
+    <div id="quiz-result"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 11 · CERTIFICATE                              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section id="cert-section">
+  <div class="cert-box">
+    <p style="font-size:2.5rem;margin-bottom:.5rem;">🏆</p>
+    <h2>పూర్తి చేసిన సర్టిఫికేట్</h2>
+    <p class="cert-name">పవర్ యూజర్ — లెవెల్ 6</p>
+    <p>మీరు systematic, efficient AI use కోసం 5 power user skills నేర్చుకున్నారు</p>
+    <div class="skill-badges">
+      <span class="skill-badge">🔁 Daily AI Routine</span>
+      <span class="skill-badge">📋 Structured Outputs</span>
+      <span class="skill-badge">📊 Spreadsheet Analysis</span>
+      <span class="skill-badge">📝 Reusable Templates</span>
+      <span class="skill-badge">⚠️ Verification Rule</span>
+    </div>
+    <p style="font-size:0.85rem;opacity:0.6;margin-top:.5rem;">మిత్ర AI లైఫ్ ఎడ్యుకేషన్ · mitraailife.com</p>
+    <button class="cert-btn" onclick="window.print()">🖨 Print / Save చేయండి</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 12 · COMPLETION + NEXT LEVEL TEASER           -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="completion-box">
+    <div class="big-emoji">🎉</div>
+    <h2>మీరు లెవెల్ 6 పూర్తి చేశారు!</h2>
+    <p>మీకు ఇప్పుడు వారానికి గంటలు ఆదా చేసే routines, నేరుగా వాడగలిగే structured outputs, మీ స్వంత spreadsheets నుండి data insights, ఎన్నటికీ expire కాని reusable templates, మరియు matter అయ్యే AI errors నుండి మిమ్మల్ని రక్షించే verification rule ఉన్నాయి.</p>
+    <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l6-s08-celebration.jpg"
+         alt="లెవెల్ 6 characters అందరూ AI power users అయినందుకు celebrate చేస్తున్నారు" loading="lazy"
+         style="width:100%;max-width:700px;border-radius:16px;margin:1.5rem 0;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+    <p><strong>లెవెల్ 7 — Build With AI లో ఏముంది:</strong><br>
+    చిన్న website create చేయండి, mini chatbot నిర్మించండి, business plan లేదా poster design చేయండి, మరియు real portfolio project complete చేయండి — AI మీ co-builder గా.</p>
+    <a href="../../../site/index-te.html" class="next-btn" style="margin-top:1rem;">→ లెవెల్ 7 కి వెళ్ళండి (త్వరలో వస్తుంది)</a>
+  </div>
+
+  <!-- Disqus -->
+  <div class="disqus-wrap">
+    <h3 style="font-family:'Baloo 2',cursive;color:var(--navy);margin-bottom:1rem;">ప్రశ్నలు లేదా వ్యాఖ్యలు?</h3>
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = window.location.href;
+        this.page.identifier = 'level-06-comic-te';
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://mitra-ai-life.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SCRIPTS                                               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<script src="../../../site/auth.js"></script>
+<script>
+  /* progress bar */
+  window.addEventListener('scroll', () => {
+    const el = document.getElementById('progress-bar');
+    const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    el.style.width = Math.min(pct, 100) + '%';
+  });
+
+  /* scroll animations */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.anim-fadeInUp,.anim-slideLeft,.anim-slideRight,.anim-bounceIn')
+    .forEach(el => { el.style.opacity = '0'; observer.observe(el); });
+
+  /* quiz */
+  function checkQuiz() {
+    const answers = { q1:'b', q2:'c', q3:'a', q4:'c', q5:'c' };
+    let score = 0;
+    for (const [q, correct] of Object.entries(answers)) {
+      const sel = document.querySelector(`input[name="${q}"]:checked`);
+      if (sel && sel.value === correct) score++;
+    }
+    const result = document.getElementById('quiz-result');
+    result.style.display = 'block';
+    if (score >= 4) {
+      result.className = 'pass';
+      result.textContent = '🎉 ' + score + '/5 సరైనవి — చాలా బాగుంది! మీ సర్టిఫికేట్ దిగువన ఉంది.';
+      document.getElementById('cert-section').style.display = 'block';
+      document.getElementById('cert-section').scrollIntoView({ behavior:'smooth', block:'center' });
+      if (typeof saveProgress === 'function') saveProgress('level-06', score);
+    } else {
+      result.className = 'fail';
+      result.textContent = score + '/5 సరైనవి — పైన skills review చేసి మళ్ళీ try చేయండి. Pass అవడానికి 4 లేదా అంతకంటే ఎక్కువ కావాలి.';
+    }
+  }
+</script>
+</body>
+</html>

@@ -60,6 +60,7 @@ Keep each track separate in audience, tone, and content path. Do not merge every
 - `docs/mitraailife-unified-platform-plan.md` — one-site platform strategy
 - `docs/mitraaituition-master-plan.md` — AI Tuition strategy
 - `docs/mitra-ai-language-learning-master-plan.md` — Spoken English and language-learning strategy
+- `docs/github-pages-deployment-checklist.md` — public site deployment checklist
 - `docs/level-content-plan.md` — AI Daily Life curriculum plan
 - `site/pitch-deck.html` — pitch deck page
 

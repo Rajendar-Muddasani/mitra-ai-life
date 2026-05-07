@@ -15,6 +15,7 @@ import os
 import sys
 import time
 import urllib.request
+import hashlib
 from pathlib import Path
 
 # ── Load .env ────────────────────────────────────────────────────────────────
@@ -34,6 +35,11 @@ SCENES_DIR = ROOT / "content" / "assets" / "scenes"
 AUDIO_DIR  = ROOT / "content" / "assets" / "videos" / "audio_tmp_te"
 VIDEO_OUT  = ROOT / "content" / "assets" / "videos" / "level-01-intro-te.mp4"
 
+TTS_MODEL = "tts-1"
+TTS_VOICE = "nova"
+TTS_SPEED = 0.86
+AUDIO_GAIN = 1.15
+
 AUDIO_DIR.mkdir(parents=True, exist_ok=True)
 VIDEO_OUT.parent.mkdir(parents=True, exist_ok=True)
 
@@ -41,90 +47,99 @@ VIDEO_OUT.parent.mkdir(parents=True, exist_ok=True)
 SCENES = [
     (
         "img-s01-hero.jpg",
-        "Mitra AI Life యొక్క స్థాయి 1 కి స్వాగతం. "
-        "ఇతను రవి — హైదరాబాద్ లో ఒక చిన్న కిరాణా దుకాణదారు. "
-        "అతను తన కొడుకు school కి ఒక letter రాయాలి. కానీ ఎలా మొదలుపెట్టాలో తెలియడం లేదు.",
+        "మిత్ర ఏఐ లైఫ్ స్థాయి 1 కి స్వాగతం. "
+        "ఇతను రవి. హైదరాబాద్ లో చిన్న కిరాణా దుకాణం నడుపుతాడు. "
+        "తన కొడుకు స్కూల్ కి ఒక లెటర్ రాయాలి. "
+        "కానీ ఎలా మొదలుపెట్టాలో అతనికి తెలియడం లేదు.",
         10,
     ),
     (
         "img-s03-frustrated.jpg",
-        "45 నిమిషాలు గడిచాయి. పేపర్ ఖాళీగా ఉంది. "
-        "ఒక సాధారణ formal letter రాయడానికి రవి చాలా కష్టపడుతున్నాడు — "
-        "ఎక్కడ మొదలుపెట్టాలో అర్థం కావడం లేదు.",
+        "45 నిమిషాలు గడిచాయి. పేపర్ ఇంకా ఖాళీగానే ఉంది. "
+        "ఒక చిన్న ఫార్మల్ లెటర్ కూడా రవి మొదలుపెట్టలేక ఇబ్బంది పడుతున్నాడు.",
         9,
     ),
     (
         "img-s04-priya-entering.jpg",
-        "అతని neighbor ప్రియ వస్తుంది. ఆమె చెప్తుంది — AI try చేయి. "
-        "రవికి అనుమానంగా ఉంది. కానీ ప్రయత్నించాల్సిన అవసరం ఉంది. అందుకే try చేశాడు.",
+        "అప్పుడు అతని పక్కింటి ప్రియ వస్తుంది. "
+        "ఆమె చెప్తుంది... ఏఐ ని ఒక్కసారి ట్రై చేయి. "
+        "రవికి ఇంకా అనుమానం ఉంది. అయినా ఒకసారి ప్రయత్నించాలి అనుకుంటాడు.",
         9,
     ),
     (
         "img-s07-typing-phone.jpg",
-        "రవి తన phone తీసి AI కి తన problem type చేశాడు — "
-        "simple words లో, తన భాషలో. "
-        "Special training అవసరం లేదు. English degree అవసరం లేదు.",
+        "రవి తన ఫోన్ తీసి ఏఐ కి తన సమస్య రాశాడు. "
+        "చాలా సింపుల్ మాటల్లో రాశాడు. తన భాషలోనే రాశాడు. "
+        "ప్రత్యేక శిక్షణ అవసరం లేదు. ఇంగ్లీష్ డిగ్రీ కూడా అవసరం లేదు.",
         9,
     ),
     (
         "img-s08-ravi-amazed.jpg",
-        "2 నిమిషాల్లో — letter ready అయింది. "
-        "Perfect English. సరైన tone. Polite మరియు professional. "
-        "రవి ఒక్క పేరు మరియు date మాత్రమే మార్చాడు. పని అయిపోయింది.",
+        "రెండు నిమిషాల్లోనే లెటర్ రెడీ అయింది. "
+        "చక్కని ఇంగ్లీష్. సరైన టోన్. మర్యాదగా ఉంది. స్పష్టంగా ఉంది. "
+        "రవి తన పేరు, తేదీ మాత్రమే మార్చాడు. పని అయిపోయింది.",
         9,
     ),
     (
         "img-s06-library-analogy.jpg",
-        "అయితే — AI అంటే ఏమిటి? "
-        "ఒక చాలా పెద్ద library గురించి imagine చేయండి — "
-        "అది ప్రపంచంలో రాసిన అన్ని పుస్తకాలు, articles, conversations చదివింది — "
-        "మరియు ఏ question అడిగినా వెంటనే జవాబు ఇవ్వగలదు.",
+        "అయితే ఏఐ అంటే ఏమిటి? "
+        "ఒక పెద్ద లైబ్రరీ ని ఊహించండి. "
+        "అది ఎన్నో పుస్తకాలు, వ్యాసాలు, మాటలు చదివింది. "
+        "మీరు ఏ ప్రశ్న అడిగినా వెంటనే జవాబు చెప్పగలదు.",
         11,
     ),
     (
         "img-s09-priya-kitchen.jpg",
-        "ప్రియ తన diabetic అత్తమ్మ కోసం healthy snack recipe Telugu లో AI అడిగింది. "
-        "AI Telugu లోనే జవాబు ఇచ్చింది — పూర్తి recipe తో, కొన్ని seconds లోనే.",
+        "ప్రియ తన డయాబెటిక్ అత్తమ్మ కోసం ఆరోగ్యకరమైన స్నాక్ రెసిపీని ఏఐ ని అడిగింది. "
+        "ఏఐ తెలుగులోనే పూర్తి రెసిపీ ఇచ్చింది. అది కూడా కొన్ని సెకండ్లలోనే.",
         9,
     ),
     (
         "img-s10-rahul-studying.jpg",
-        "రాహుల్ photosynthesis ని simple words లో explain చేయమని AI అడిగాడు. "
-        "AI చపాతీ example తో explain చేసింది. "
-        "5 నిమిషాల్లో రాహుల్ అర్థం చేసుకున్నాడు — textbook లో week అయినా అర్థం కాలేదు.",
+        "రాహుల్ ఫోటోసింథసిస్ ని చాలా సులభంగా చెప్పమని ఏఐ ని అడిగాడు. "
+        "ఏఐ చపాతీ ఉదాహరణతో వివరించింది. "
+        "ఐదు నిమిషాల్లో రాహుల్ కి విషయం అర్థమైంది. "
+        "పుస్తకం వారం రోజులుగా చెప్పలేనిది అది చెప్పింది.",
         10,
     ),
     (
         "img-s11-safety-warning.jpg",
-        "కానీ గుర్తుంచుకోండి — AI ఒక helper, సర్వజ్ఞుడు కాదు. "
-        "తప్పులు చేయవచ్చు. ముఖ్యమైన విషయాలు మళ్ళీ check చేయండి. "
-        "మీ Aadhaar number, bank details, లేదా passwords ఏ AI తో share చేయకండి.",
+        "కానీ గుర్తుంచుకోండి. ఏఐ ఒక సహాయకుడు మాత్రమే. అన్నీ తెలిసినవాడు కాదు. "
+        "ఇది తప్పు చెప్పవచ్చు. ముఖ్యమైన విషయాలు మళ్ళీ చెక్ చేయండి. "
+        "మీ ఆధార్ నంబర్, బ్యాంక్ వివరాలు, లేదా పాస్ వర్డ్లు ఏఐ తో పంచుకోకండి.",
         10,
     ),
     (
         "img-s13-celebration.jpg",
-        "అది స్థాయి 1. "
-        "AI అంటే ఏమిటో, ఎలా వాడాలో, సురక్షితంగా ఉండటం ఎలాగో ఇప్పుడు మీకు తెలుసు. "
-        "Quiz వెంటనే వస్తుంది. మీ మొదటి try కి ready గా ఉన్నారా? పదండి!",
+        "ఇదే స్థాయి 1. "
+        "ఏఐ అంటే ఏమిటో, ఎలా వాడాలో, సురక్షితంగా ఎలా ఉండాలో ఇప్పుడు మీకు తెలుసు. "
+        "క్విజ్ వెంటనే వస్తుంది. మీ మొదటి ప్రయత్నానికి సిద్ధమా? పదండి!",
         10,
     ),
 ]
+
+
+def scene_audio_path(scene_idx, text):
+    cache_key = hashlib.sha1(
+        f"{TTS_MODEL}|{TTS_VOICE}|{TTS_SPEED}|{text}".encode("utf-8")
+    ).hexdigest()[:10]
+    return AUDIO_DIR / f"scene-{scene_idx:02d}-{cache_key}.mp3"
 
 # ── Step 1: Generate TTS audio for each scene ────────────────────────────────
 print("Step 1: Telugu TTS narration audio generate అవుతోంది...")
 audio_files = []
 
 for i, (img, text, _) in enumerate(SCENES, start=1):
-    audio_path = AUDIO_DIR / f"scene-{i:02d}.mp3"
+    audio_path = scene_audio_path(i, text)
     if audio_path.exists():
         print(f"  [SKIP] Scene {i} audio already exists")
     else:
         print(f"  [{i}/{len(SCENES)}] TTS: {text[:50]}...")
         response = client.audio.speech.create(
-            model="tts-1",
-            voice="nova",        # nova handles Telugu text well
+            model=TTS_MODEL,
+            voice=TTS_VOICE,      # nova handles Telugu text well
             input=text,
-            speed=0.92,          # slightly slower for Telugu clarity
+            speed=TTS_SPEED,      # slower for clearer Telugu delivery
         )
         response.stream_to_file(str(audio_path))
         print(f"    Saved: {audio_path.name}")
@@ -167,7 +182,7 @@ def make_clip(img_name, audio_path, scene_idx):
     pil_img = pil_img.crop((left, top, left + VIDEO_W, top + VIDEO_H))
     frame = np.array(pil_img)
 
-    audio = AudioFileClip(str(audio_path))
+    audio = AudioFileClip(str(audio_path)).with_volume_scaled(AUDIO_GAIN)
     duration = audio.duration + 0.4
 
     clip = ImageClip(frame, duration=duration)

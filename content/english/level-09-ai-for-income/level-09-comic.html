@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Level 9: AI for Income | Mitra AI Life Education</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QGY0LH6W93');
+  </script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:         #0f2318;
+      --teal:         #0d9488;
+      --emerald:      #10b981;
+      --teal-light:   #ccfbf1;
+      --teal-mid:     #2dd4bf;
+      --green:        #16a34a;
+      --sky:          #0ea5e9;
+      --rose:         #e11d48;
+      --cream:        #f0fdfa;
+      --white:        #FFFFFF;
+      --text:         #1C1C2E;
+      --muted:        #64748B;
+      --panel:        #f0fdf4;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+    #progress-bar { position:fixed; top:0; left:0; height:5px;
+      background: linear-gradient(90deg, var(--teal), var(--emerald), var(--teal-mid));
+      width:0%; z-index:999; transition:width 0.3s ease; }
+
+    .topnav {
+      position:fixed; top:5px; left:0; right:0; height:52px;
+      background:rgba(240,253,250,0.95); backdrop-filter:blur(8px);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 1.5rem; z-index:100;
+      border-bottom:2px solid rgba(13,148,136,0.2);
+    }
+    .topnav .brand { font-family:'Baloo 2',cursive; font-weight:800; font-size:1.1rem; color:var(--navy); text-decoration:none; }
+    .topnav .level-tag { background:var(--teal); color:white; font-size:0.75rem; font-weight:700; padding:3px 12px; border-radius:20px; }
+    .topnav .back-link { font-size:0.82rem; color:var(--muted); font-weight:700; text-decoration:none; }
+    .topnav .back-link:hover { color:var(--teal); }
+    .topnav .lang-btn { font-size:0.82rem; color:var(--teal); font-weight:700; background:var(--teal-light); border:1px solid var(--teal-mid); border-radius:8px; padding:4px 10px; cursor:pointer; text-decoration:none; }
+
+    @keyframes fadeInUp   { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideInLeft  { from{opacity:0;transform:translateX(-48px)} to{opacity:1;transform:translateX(0)} }
+    @keyframes slideInRight { from{opacity:0;transform:translateX(48px)}  to{opacity:1;transform:translateX(0)} }
+    @keyframes bounceIn { 0%{opacity:0;transform:scale(0.6)} 60%{opacity:1;transform:scale(1.08)} 80%{transform:scale(0.97)} 100%{transform:scale(1)} }
+    @keyframes float  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .anim-fadeInUp   { animation:fadeInUp   0.7s ease forwards; }
+    .anim-slideLeft  { animation:slideInLeft  0.7s ease forwards; }
+    .anim-slideRight { animation:slideInRight 0.7s ease forwards; }
+    .anim-bounceIn   { animation:bounceIn    0.75s cubic-bezier(.68,-.55,.27,1.55) forwards; }
+    .anim-float      { animation:float 3s ease-in-out infinite; }
+
+    section { padding: 4rem 1.5rem; max-width: 900px; margin: 0 auto; }
+    section:first-of-type { padding-top: 6rem; }
+
+    /* HERO */
+    .hero {
+      min-height:88vh; display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; padding-top:5rem;
+      background: linear-gradient(160deg, #042f2e 0%, #0f4c47 40%, #0d9488 75%, #065f46 100%);
+      border-radius: 0 0 48px 48px; position:relative; overflow:hidden;
+    }
+    .hero::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 30% 40%, rgba(45,212,191,0.18) 0%, transparent 60%),
+                  radial-gradient(ellipse at 75% 65%, rgba(16,185,129,0.13) 0%, transparent 50%);
+    }
+    .hero-eyebrow { font-size:0.78rem; font-weight:800; letter-spacing:0.15em; color:var(--teal-mid); text-transform:uppercase; margin-bottom:.5rem; position:relative; }
+    .hero-title { font-family:'Baloo 2',cursive; font-size:clamp(2.2rem,6vw,3.8rem); font-weight:800; color:white; line-height:1.1; position:relative; }
+    .hero-sub { font-size:1.1rem; color:rgba(255,255,255,0.78); margin-top:.75rem; max-width:560px; position:relative; }
+    .hero-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin-top:1.5rem; position:relative; }
+    .badge { background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); color:white; font-size:0.78rem; font-weight:700; padding:5px 14px; border-radius:20px; }
+    .badge.accent { background:var(--teal-mid); color:#042f2e; border-color:var(--teal-mid); }
+    .hero-img { width:100%; max-width:760px; border-radius:20px; margin-top:2rem; box-shadow:0 20px 60px rgba(0,0,0,0.5); position:relative; }
+    .hero-offer { background:linear-gradient(90deg,#0d9488,#10b981); color:white; font-size:0.9rem; font-weight:800; padding:8px 24px; border-radius:24px; margin-top:1.5rem; display:inline-block; position:relative; }
+    .hero-offer s { font-weight:400; opacity:0.6; }
+    .scroll-hint { margin-top:2.5rem; font-size:0.8rem; color:rgba(255,255,255,0.4); letter-spacing:.08em; position:relative; }
+
+    /* SHARED COMPONENTS */
+    .sec-label { font-size:0.72rem; font-weight:800; letter-spacing:.14em; color:var(--teal); text-transform:uppercase; margin-bottom:.4rem; }
+    .sec-title { font-family:'Baloo 2',cursive; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:800; color:var(--navy); line-height:1.2; margin-bottom:.75rem; }
+    .sec-intro { font-size:1.05rem; color:var(--muted); line-height:1.7; margin-bottom:2rem; }
+
+    .story-grid { display:grid; gap:1.5rem; }
+    .story-card { background:white; border-radius:20px; padding:1.5rem 1.75rem; box-shadow:0 4px 20px rgba(0,0,0,0.07); border-left:5px solid var(--teal); display:flex; flex-direction:column; gap:.75rem; }
+    .story-card.emerald { border-left-color: var(--emerald); }
+    .story-card.green   { border-left-color: var(--green);   }
+    .story-card.sky     { border-left-color: var(--sky);     }
+    .story-card.rose    { border-left-color: var(--rose);    }
+
+    .char-tag { display:inline-flex; align-items:center; gap:.5rem; font-size:0.8rem; font-weight:800; padding:3px 10px; border-radius:20px; }
+    .char-tag.teal    { color:#042f2e; background:#ccfbf1; }
+    .char-tag.emerald { color:#065f46; background:#d1fae5; }
+    .char-tag.green   { color:#14532d; background:#dcfce7; }
+    .char-tag.sky     { color:#0c4a6e; background:#e0f2fe; }
+
+    .story-text { font-size:1rem; line-height:1.8; color:var(--text); }
+    .speech-bubble { background:var(--teal-light); border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; font-style:italic; color:#042f2e; position:relative; margin-top:.5rem; }
+    .speech-bubble::before { content:'💬'; margin-right:.5rem; }
+    .ai-bubble { background:#ecfdf5; border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; color:#065f46; position:relative; margin-top:.5rem; border:1px solid #a7f3d0; }
+    .ai-bubble::before { content:'🤖 AI replies: '; font-weight:800; }
+
+    .prompt-box { background:#0a1f1f; border-radius:14px; padding:1.25rem 1.5rem; margin-top:1rem; }
+    .prompt-box .pb-label { font-size:0.72rem; font-weight:800; letter-spacing:.1em; color:var(--teal-mid); text-transform:uppercase; margin-bottom:.5rem; }
+    .prompt-box .pb-text { font-family:monospace; font-size:0.9rem; color:#a7f3d0; line-height:1.65; }
+
+    .tip-card { background:var(--teal-light); border-radius:16px; padding:1.25rem 1.5rem; border:1px solid var(--teal-mid); margin-top:1.5rem; }
+    .tip-card .tip-head { font-weight:800; color:#042f2e; font-size:1rem; margin-bottom:.5rem; }
+    .tip-card p { font-size:0.95rem; line-height:1.7; color:#0f4c47; }
+
+    .skill-banner { background:linear-gradient(135deg,var(--teal),var(--emerald)); color:white; border-radius:16px; padding:1rem 1.5rem; margin-bottom:2rem; font-size:0.95rem; font-weight:700; display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; }
+    .skill-banner .sk-icon { font-size:1.4rem; }
+
+    .steps-list { list-style:none; display:flex; flex-direction:column; gap:1rem; margin-top:1rem; }
+    .steps-list li { display:flex; gap:1rem; align-items:flex-start; }
+    .step-num { background:var(--teal); color:white; border-radius:50%; min-width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; flex-shrink:0; margin-top:2px; }
+    .step-text { font-size:1rem; line-height:1.7; color:var(--text); }
+
+    .ba-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem; }
+    @media(max-width:600px){ .ba-grid { grid-template-columns:1fr; } }
+    .ba-col { border-radius:14px; padding:1rem 1.25rem; }
+    .ba-col.before { background:#fef2f2; border:1px solid #fecaca; }
+    .ba-col.after  { background:#ecfdf5; border:1px solid #a7f3d0; }
+    .ba-col .ba-head { font-size:0.75rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin-bottom:.5rem; }
+    .ba-col.before .ba-head { color:#b91c1c; }
+    .ba-col.after  .ba-head { color:#065f46; }
+    .ba-col p { font-size:0.9rem; line-height:1.7; }
+
+    .cheat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.25rem; }
+    .cheat-card { background:white; border-radius:16px; padding:1.25rem; box-shadow:0 2px 12px rgba(0,0,0,0.07); border-top:4px solid var(--teal); }
+    .cheat-card.emerald { border-top-color:var(--emerald); }
+    .cheat-card.green   { border-top-color:var(--green);   }
+    .cheat-card.sky     { border-top-color:var(--sky);     }
+    .cheat-card h3 { font-size:0.95rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .cheat-card p  { font-size:0.88rem; color:var(--muted); line-height:1.6; }
+    .prompt-chip { background:var(--teal-light); border-radius:8px; padding:4px 10px; font-size:0.82rem; font-family:monospace; color:#042f2e; display:inline-block; margin-top:.4rem; }
+
+    .scene-img { width:100%; border-radius:16px; margin:1rem 0; box-shadow:0 6px 24px rgba(0,0,0,0.15); }
+
+    /* QUIZ */
+    .quiz-wrap { background:white; border-radius:24px; padding:2rem; box-shadow:0 8px 32px rgba(13,148,136,0.15); }
+    .quiz-q { margin-bottom:1.5rem; }
+    .quiz-q .q-text { font-weight:800; font-size:1.05rem; color:var(--navy); margin-bottom:.75rem; }
+    .quiz-options { display:flex; flex-direction:column; gap:.5rem; }
+    .quiz-options label { display:flex; align-items:center; gap:.75rem; background:var(--teal-light); border-radius:10px; padding:.7rem 1rem; cursor:pointer; font-size:0.95rem; transition:background .15s; }
+    .quiz-options label:hover { background:var(--teal-mid); color:white; }
+    .quiz-options input[type=radio] { accent-color:var(--teal); width:16px; height:16px; }
+    .quiz-submit { background:var(--teal); color:white; font-family:'Nunito',sans-serif; font-weight:800; font-size:1rem; border:none; border-radius:14px; padding:.9rem 2.5rem; cursor:pointer; margin-top:1rem; transition:background .2s; }
+    .quiz-submit:hover { background:#0f766e; }
+    #quiz-result { margin-top:1.25rem; font-weight:800; font-size:1.05rem; display:none; }
+    #quiz-result.pass { color:#059669; }
+    #quiz-result.fail { color:#dc2626; }
+
+    #cert-section { display:none; }
+    .cert-box {
+      background: linear-gradient(135deg, #042f2e 0%, #0f4c47 50%, #0d9488 100%);
+      border-radius:24px; padding:2.5rem 2rem; text-align:center; color:white;
+      box-shadow:0 12px 48px rgba(13,148,136,0.4);
+    }
+    .cert-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; margin-bottom:.25rem; }
+    .cert-box .cert-name { font-size:1.5rem; font-weight:700; color:var(--teal-mid); margin:.5rem 0; }
+    .cert-box p { font-size:0.95rem; color:rgba(255,255,255,0.75); margin-bottom:1.25rem; }
+    .skill-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin:1.25rem 0; }
+    .skill-badge { background:rgba(255,255,255,0.1); border:1px solid rgba(45,212,191,0.4); border-radius:12px; padding:.5rem .9rem; font-size:0.8rem; font-weight:700; color:var(--teal-mid); }
+    .cert-btn { background:var(--teal-mid); color:#042f2e; font-weight:800; font-size:0.95rem; border:none; border-radius:14px; padding:.8rem 2rem; cursor:pointer; margin-top:.75rem; }
+
+    .completion-box { text-align:center; padding:3rem 2rem; }
+    .completion-box .big-emoji { font-size:4rem; margin-bottom:1rem; }
+    .completion-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .completion-box p { font-size:1.05rem; color:var(--muted); max-width:520px; margin:0 auto 1.5rem; }
+    .next-btn { display:inline-block; background:var(--teal); color:white; font-weight:800; font-size:1rem; padding:.85rem 2.5rem; border-radius:14px; text-decoration:none; }
+    .next-btn:hover { background:#0f766e; }
+
+    #auth-nav-area { display:flex; align-items:center; gap:.5rem; }
+    img { max-width:100%; }
+    @media(max-width:600px){ .cheat-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">🌟 Mitra AI Life</a>
+  <span class="level-tag">Level 9 · ₹700</span>
+  <div style="display:flex;align-items:center;gap:.75rem;">
+    <div id="auth-nav-area"></div>
+    <a href="level-09-comic-te.html" class="lang-btn">తెలుగు</a>
+    <a href="../../../site/index.html" class="back-link">← Home</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 1 · HERO                                                       -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="hero">
+  <p class="hero-eyebrow anim-fadeInUp" style="animation-delay:.1s">Level 9 · AI for Income</p>
+  <h1 class="hero-title anim-fadeInUp" style="animation-delay:.2s">Your AI Skills<br>= Real Income</h1>
+  <p class="hero-sub anim-fadeInUp" style="animation-delay:.3s">Freelance with AI. Create content for pay. Add AI services to what you already do. No office. No boss. Just your phone, your skills, and real earnings.</p>
+  <div class="hero-badges anim-fadeInUp" style="animation-delay:.4s">
+    <span class="badge">⏱ 3–4 hours</span>
+    <span class="badge">💰 4 Real Earning Stories</span>
+    <span class="badge">📲 Start from your phone</span>
+    <span class="badge accent">₹700</span>
+  </div>
+  <div class="hero-offer anim-bounceIn" style="animation-delay:.55s">
+    🎉 Early Access — <s>₹700</s> <strong>Free for first learners</strong>
+  </div>
+  <img class="hero-img anim-fadeInUp" style="animation-delay:.5s"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l9-s01-hero.jpg"
+       alt="Kavya using AI to earn income from her phone at home" />
+  <p class="scroll-hint anim-fadeInUp" style="animation-delay:.7s">scroll to begin ↓</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 2 · MEET THE CHARACTERS                                        -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="sec-label">The People</div>
+  <h2 class="sec-title">Four people. Four ways to earn with AI.</h2>
+  <p class="sec-intro">Each character in this level found a real income path using only the AI skills taught in Levels 1–8. No coding. No expensive tools. Just smart prompting and real work.</p>
+
+  <div class="cheat-grid">
+    <div class="cheat-card teal" style="border-top-color:var(--teal);">
+      <h3>🎓 Kavya — Warangal</h3>
+      <p>24 years old. B.Com graduate. No job yet. She discovered that writing product descriptions and captions for small businesses with AI is a real service people pay for.</p>
+    </div>
+    <div class="cheat-card emerald">
+      <h3>💼 Srinivas — Hyderabad</h3>
+      <p>38 years old. Civil engineer, full-time job. On weekends he writes social media content for 3 local businesses using AI — earning ₹4,500 extra per month.</p>
+    </div>
+    <div class="cheat-card green">
+      <h3>🍳 Padma — Vijayawada</h3>
+      <p>45 years old. Homemaker and excellent cook. Uses AI to write Telugu food video scripts and descriptions for her new YouTube channel — building an audience and future income.</p>
+    </div>
+    <div class="cheat-card sky">
+      <h3>📸 Raju — Nizamabad</h3>
+      <p>27 years old. Photo studio owner. Adds an "AI content package" (captions + WhatsApp promo) to every shoot — charges ₹200 extra, earns ₹3,000 more per month with almost no extra time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 3 · ACT 1: THE OPPORTUNITY                                     -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section style="background:white; border-radius:24px; box-shadow:0 4px 24px rgba(0,0,0,0.06); padding:3rem 2rem;">
+  <div class="sec-label">Act 1</div>
+  <h2 class="sec-title">Kavya realises her AI skills are worth money</h2>
+
+  <img class="scene-img"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l9-s02-kavya-gig.jpg"
+       alt="Kavya showing AI-generated product descriptions to a saree shop owner" />
+
+  <div class="story-grid">
+    <div class="story-card">
+      <span class="char-tag teal">🎓 Kavya · Warangal</span>
+      <p class="story-text">After finishing Levels 1–8, Kavya was good at prompting AI. She could write a product description in 3 minutes, draft a WhatsApp promo in under 2 minutes, and create 5 social captions in 10 minutes. Then a neighbour who runs a saree shop said something that changed everything.</p>
+      <div class="speech-bubble">"I spend 2 hours every Sunday trying to write captions for Instagram. If you can do it faster, I'll pay you."</div>
+    </div>
+    <div class="story-card teal">
+      <span class="char-tag teal">🎓 Kavya's first paid gig</span>
+      <p class="story-text">Kavya spent 45 minutes writing 10 product descriptions and 5 Instagram captions for the saree shop. She charged ₹500. The shop owner loved them, sent a UPI payment immediately, and asked for the same next week.</p>
+      <div class="prompt-box">
+        <div class="pb-label">Kavya's pitch prompt (she used this to sell the service)</div>
+        <div class="pb-text">I help small businesses write product descriptions, Instagram captions, and WhatsApp promotions using AI. I deliver within 24 hours. I charge ₹500 for 10 descriptions + 5 captions. Would you like a free sample?</div>
+      </div>
+      <div class="ai-bubble">Kavya's result: ₹500 earned. 45 minutes of work. Repeat client confirmed. First freelance income — done.</div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-head">💡 Skill 1: Identify and pitch AI freelance services</div>
+    <p>You don't need to call it "AI" when pitching. Say: "I write content for small businesses — product descriptions, captions, WhatsApp messages. Fast delivery, reasonable price." Your value is speed + quality. AI is your tool, not your product.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 4 · ACT 2: DELIVER FAST WITH AI                                -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="sec-label">Act 2</div>
+  <h2 class="sec-title">Srinivas turns 2 weekend hours into ₹4,500/month</h2>
+
+  <img class="scene-img"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l9-s03-srinivas-clients.jpg"
+       alt="Srinivas managing social media content for three clients using AI" />
+
+  <div class="story-grid">
+    <div class="story-card emerald">
+      <span class="char-tag emerald">💼 Srinivas · Hyderabad</span>
+      <p class="story-text">Srinivas is an engineer. Stable job. But he wanted extra income on weekends. He approached 3 local businesses — a dental clinic, a restaurant, and a tutoring centre. He offered to manage their WhatsApp and LinkedIn content for ₹1,500 per month each. All three said yes.</p>
+      <div class="speech-bubble">"I don't have time to write posts every week. If you can handle it, ₹1,500 is fine."</div>
+    </div>
+    <div class="story-card">
+      <span class="char-tag emerald">💼 Srinivas's weekly workflow</span>
+      <p class="story-text">Every Saturday morning, Srinivas spends 2 hours. He uses AI to write 2 posts per client per week — themed to their business. He reviews, personalises, and sends. 6 posts total, 2 hours total, ₹4,500 per month.</p>
+      <div class="prompt-box">
+        <div class="pb-label">Srinivas's batch prompt (one for each client)</div>
+        <div class="pb-text">Write 2 LinkedIn posts for a dental clinic in Hyderabad for this week. Theme 1: importance of regular checkups. Theme 2: painless root canal — busting myths. Keep it professional, friendly, and under 150 words each. Add 3 hashtags.</div>
+      </div>
+      <div class="ai-bubble">
+        Post 1: "Did you know a simple 20-minute checkup every 6 months can prevent 90% of dental problems? ..."<br><br>
+        Post 2: "Root canal — two words that scare most people. But here's the truth: modern root canal treatment is as simple as a filling ..."
+      </div>
+    </div>
+  </div>
+
+  <div class="ba-grid">
+    <div class="ba-col before">
+      <div class="ba-head">❌ Without AI</div>
+      <p>Srinivas would need 8–10 hours to research and write 6 posts. Not possible alongside a full-time job.</p>
+    </div>
+    <div class="ba-col after">
+      <div class="ba-head">✅ With AI</div>
+      <p>2 hours. 6 posts. 3 happy clients. ₹4,500 every month. No extra tools needed.</p>
+    </div>
+  </div>
+
+  <div class="tip-card" style="margin-top:1.5rem;">
+    <div class="tip-head">💡 Skill 2: Deliver AI writing work professionally</div>
+    <p>Always personalise AI output before sending. Change names, add specific local details, fix anything that sounds generic. Clients pay for quality, not raw AI output. Your edit makes the difference.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 5 · ACT 3: CONTENT CREATION BUSINESS                          -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section style="background:white; border-radius:24px; box-shadow:0 4px 24px rgba(0,0,0,0.06); padding:3rem 2rem;">
+  <div class="sec-label">Act 3</div>
+  <h2 class="sec-title">Padma builds a content business from her kitchen</h2>
+
+  <img class="scene-img"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l9-s04-padma-youtube.jpg"
+       alt="Padma recording a Telugu food video with AI script on her phone" />
+
+  <div class="story-grid">
+    <div class="story-card green">
+      <span class="char-tag green">🍳 Padma · Vijayawada</span>
+      <p class="story-text">Padma has been cooking for 25 years. Her daughters kept saying: "Amma, you should be on YouTube." But she didn't know how to script a video, write a title, or come up with content every week. AI solved all three problems.</p>
+      <div class="speech-bubble">"I know what to cook. I just didn't know what to say, how to title it, or how to write descriptions in proper English and Telugu."</div>
+    </div>
+    <div class="story-card">
+      <span class="char-tag green">🍳 Padma's AI content workflow</span>
+      <p class="story-text">Every Tuesday, Padma decides the dish. She tells AI: the dish, the language (Telugu + English subtitles), and the audience (home cooks, 30–55 years old). AI writes the script, the YouTube title, the description, and even the community post. She cooks and records. Published in 3 hours. 2 videos a week. 1,000 subscribers in 3 months.</p>
+      <div class="prompt-box">
+        <div class="pb-label">Padma's script prompt</div>
+        <div class="pb-text">Write a 3-minute Telugu YouTube video script for making Gongura Pachadi (sorrel leaf chutney). Audience: home cooks aged 30–55 in Andhra Pradesh. Include: intro (30 seconds), ingredients list, step-by-step method, and a warm closing. Conversational style, spoken Telugu, not formal.</div>
+      </div>
+      <div class="ai-bubble">
+        నమస్కారం! నేను పద్మ. ఈ రోజు మనం చేస్తున్నది — అమ్మమ్మ చేసే అసలైన గొంగూర పచ్చడి...<br><br>
+        (Translation: Hello! I am Padma. Today we are making — grandmother's authentic Gongura Pachadi...)
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-head">💡 Skill 3: Build a content creation workflow with AI</div>
+    <p>AI lowers the barrier to content creation — you supply the knowledge and personality. AI handles structure, scripting, and SEO titles. Your content, AI's format. Together: a real channel that can earn from ads and partnerships.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 6 · ACT 4: RAJU ADDS A PREMIUM AI LAYER                       -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="sec-label">Act 4</div>
+  <h2 class="sec-title">Raju adds ₹200 to every booking — with no extra time</h2>
+
+  <img class="scene-img"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l9-s05-raju-studio.jpg"
+       alt="Raju showing AI-written captions to a client at his photo studio" />
+
+  <div class="story-grid">
+    <div class="story-card sky">
+      <span class="char-tag sky">📸 Raju · Nizamabad</span>
+      <p class="story-text">Raju owns a photo studio. Business is okay — passport photos, birthday shoots, product photography for small shops. But he wanted to earn more without working more hours. He realised his clients always struggled with one thing after the shoot: what to write.</p>
+      <div class="speech-bubble">"Every client asks: 'Can you write a caption for this photo?' I was doing it free. Now I charge ₹200 for the full AI content package."</div>
+    </div>
+    <div class="story-card teal">
+      <span class="char-tag sky">📸 Raju's AI package</span>
+      <p class="story-text">For every shoot, Raju offers an add-on: ₹200 for 3 captions, 1 WhatsApp promotional message, and 1 product description (for shop clients). He spends 8 minutes per client using AI. 15 clients a month × ₹200 = ₹3,000 extra every month.</p>
+      <div class="prompt-box">
+        <div class="pb-label">Raju's content package prompt</div>
+        <div class="pb-text">My client is a sweets shop in Nizamabad. I just photographed their new Diwali gift boxes. Write: 1) 3 Instagram captions (festive, warm tone), 2) 1 WhatsApp promotional message (60 words, urgent offer), 3) 1 product description for their website. Item: Assorted Diwali gift box, ₹450, contains 12 sweets.</div>
+      </div>
+      <div class="ai-bubble">
+        📸 Caption 1: "Every Diwali needs a box full of love and sweetness ✨ Gift joy this festive season with our Assorted Gift Box — 12 handmade sweets, beautifully packaged..."<br><br>
+        📱 WhatsApp: "🪔 Diwali Special! Assorted Gift Box — 12 handmade sweets for just ₹450. Order before stocks run out! Contact [number] 📞"
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-head">💡 Skill 4: Price your time correctly</div>
+    <p>If 8 minutes of AI work earns ₹200, that is ₹1,500 per hour. Always charge for the value delivered to the client — not just the time you spent. A client saves 2 hours of work. ₹200 is fair. Always tell them what they get.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 7 · ACT 5: SCALE WITHOUT BURNING OUT                          -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section style="background:white; border-radius:24px; box-shadow:0 4px 24px rgba(0,0,0,0.06); padding:3rem 2rem;">
+  <div class="sec-label">Act 5</div>
+  <h2 class="sec-title">Kavya grows from ₹500 to ₹12,000 a month</h2>
+
+  <img class="scene-img"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l9-s06-pricing.jpg"
+       alt="Pricing tiers illustration for AI freelance services" />
+
+  <div class="story-grid">
+    <div class="story-card">
+      <span class="char-tag teal">🎓 Kavya · 3 months later</span>
+      <p class="story-text">After her first saree shop client, Kavya had 3 regular clients within 6 weeks. She switched from per-piece pricing to monthly retainers — ₹2,000 per client for 8 posts per month. With 6 clients, she earns ₹12,000 a month working 3–4 hours a day.</p>
+      <div class="speech-bubble">"My first payment was ₹500. I thought it was a one-time thing. Now it's ₹12,000 a month and growing. I didn't build a startup. I just started."</div>
+    </div>
+    <div class="story-card emerald">
+      <span class="char-tag teal">🎓 Kavya's scaling system</span>
+      <p class="story-text">Kavya built reusable prompt templates — one for product descriptions, one for captions, one for WhatsApp promos. For each new client she just fills in their business name and details. Work per client: 30–40 minutes a week. No meetings needed, payment via UPI, work via WhatsApp.</p>
+      <ul class="steps-list" style="margin-top:.75rem;">
+        <li><span class="step-num">1</span><span class="step-text">Build a prompt template per content type (save in notes app)</span></li>
+        <li><span class="step-num">2</span><span class="step-text">Get client details once — business name, tone, products, audience</span></li>
+        <li><span class="step-num">3</span><span class="step-text">Fill template, run AI, review + personalise, send to client</span></li>
+        <li><span class="step-num">4</span><span class="step-text">Collect monthly payment via UPI. Ask for a WhatsApp review.</span></li>
+        <li><span class="step-num">5</span><span class="step-text">Reviews bring new clients. Repeat.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-head">💡 Skill 5: Use AI to scale without burning out</div>
+    <p>The secret is reusable prompt templates. Write a great prompt once, adapt it for every client. You are not starting from scratch each time — you are running a system. That is a real business, not just a gig.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 8 · SKILLS CHEAT SHEET                                         -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="sec-label">Your Toolkit</div>
+  <h2 class="sec-title">5 AI income skills you can use from tomorrow</h2>
+  <p class="sec-intro">Save this. Come back to it every time you start a new client.</p>
+
+  <div class="cheat-grid">
+    <div class="cheat-card teal" style="border-top-color:var(--teal);">
+      <h3>🤝 Pitch &amp; Find Clients</h3>
+      <p>Walk into any small shop, restaurant, or clinic. Offer one free sample post.</p>
+      <span class="prompt-chip">"Would you like a free sample caption for your business?"</span>
+    </div>
+    <div class="cheat-card emerald">
+      <h3>✍️ Deliver Writing Work</h3>
+      <p>Use AI as first draft. Always add personal details and review before sending.</p>
+      <span class="prompt-chip">"Write [content type] for [business] — tone: [friendly/professional]"</span>
+    </div>
+    <div class="cheat-card green">
+      <h3>🎥 Content Creation Workflow</h3>
+      <p>Script → title → description → community post. Ask AI for all four at once.</p>
+      <span class="prompt-chip">"Write a YouTube script + title + description for [topic] in [language]"</span>
+    </div>
+    <div class="cheat-card sky">
+      <h3>💰 Price Your Services</h3>
+      <p>Start with per-piece. Move to monthly retainer once clients trust you.</p>
+      <span class="prompt-chip">Per piece: ₹50–₹200 | Retainer: ₹1,500–₹3,000/month</span>
+    </div>
+    <div class="cheat-card" style="border-top-color:#7c3aed;">
+      <h3>🔁 Build Prompt Templates</h3>
+      <p>Create one master prompt per content type. Fill in client details each time.</p>
+      <span class="prompt-chip">"Write [X] for [business name], audience: [type], tone: [style]"</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 9 · PRACTICE ARENA                                             -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section style="background:white; border-radius:24px; box-shadow:0 4px 24px rgba(0,0,0,0.06); padding:3rem 2rem;">
+  <div class="sec-label">Practice Arena</div>
+  <h2 class="sec-title">Try it yourself before the quiz</h2>
+  <p class="sec-intro">These are real practice tasks. Open any AI app and try them now.</p>
+
+  <img class="scene-img"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l9-s07-practice.jpg"
+       alt="Group of learners practising AI freelance work together" />
+
+  <div style="display:flex; flex-direction:column; gap:1.25rem; margin-top:1.5rem;">
+    <div class="tip-card">
+      <div class="tip-head">Challenge 1 — Your first pitch</div>
+      <p>Write a 3-sentence WhatsApp message you would send to a local sweet shop offering your AI content writing services. Include what you offer, the price, and how to contact you.</p>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">Challenge 2 — Deliver a content package</div>
+      <p>A gym in your city is launching a new batch. Use AI to write: 1 WhatsApp message, 2 Instagram captions, and 1 product description for their "3-month membership at ₹1,999" offer. Personalise each one.</p>
+    </div>
+    <div class="tip-card">
+      <div class="tip-head">Challenge 3 — Build a reusable template</div>
+      <p>Write a master prompt for product descriptions that works for any product. Include placeholder labels like [product name], [price], [key features], [target buyer]. Test it with two different products.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 10 · QUIZ                                                      -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="sec-label">Knowledge Check</div>
+  <h2 class="sec-title">5 Questions · Pass 4 to complete Level 9</h2>
+
+  <div class="quiz-wrap">
+    <form id="quiz-form">
+
+      <div class="quiz-q">
+        <div class="q-text">1. Kavya wants to offer AI writing services to local businesses. What is the best first step?</div>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> a) Build a professional website first</label>
+          <label><input type="radio" name="q1" value="b"> b) Identify one nearby business that needs content and offer a free sample</label>
+          <label><input type="radio" name="q1" value="c"> c) Wait until she has 100 hours of AI experience</label>
+          <label><input type="radio" name="q1" value="d"> d) Ask AI to automatically find clients for her</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <div class="q-text">2. Srinivas charges ₹1,500/month per client for 2 social posts per week. He has 3 clients. Each post takes 20 minutes with AI. How many hours per week does he need?</div>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> a) 8 hours</label>
+          <label><input type="radio" name="q2" value="b"> b) 12 hours</label>
+          <label><input type="radio" name="q2" value="c"> c) 2 hours</label>
+          <label><input type="radio" name="q2" value="d"> d) 20 minutes</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <div class="q-text">3. Padma wants to start a Telugu food YouTube channel. How does AI help her most?</div>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> a) AI cooks the food for her</label>
+          <label><input type="radio" name="q3" value="b"> b) AI writes her scripts, titles, and descriptions so she can focus on cooking and presenting</label>
+          <label><input type="radio" name="q3" value="c"> c) AI automatically uploads and edits her videos</label>
+          <label><input type="radio" name="q3" value="d"> d) AI finds sponsors for her channel</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <div class="q-text">4. Raju adds an AI content package to his photo studio. What is the smartest pricing approach?</div>
+        <div class="quiz-options">
+          <label><input type="radio" name="q4" value="a"> a) Give it free to all clients always</label>
+          <label><input type="radio" name="q4" value="b"> b) Charge the same as the full photography session</label>
+          <label><input type="radio" name="q4" value="c"> c) Offer it as a small add-on (₹200–₹300) that adds clear value to the client's photoshoot</label>
+          <label><input type="radio" name="q4" value="d"> d) Refuse to charge because AI did the work</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <div class="q-text">5. What is the most important thing to remember when charging for AI-assisted work?</div>
+        <div class="quiz-options">
+          <label><input type="radio" name="q5" value="a"> a) Never tell the client you used AI</label>
+          <label><input type="radio" name="q5" value="b"> b) Your value is in choosing the right prompts, editing the output, and understanding the client's needs — not just pressing a button</label>
+          <label><input type="radio" name="q5" value="c"> c) AI work should always be free because the tool does everything</label>
+          <label><input type="radio" name="q5" value="d"> d) Only certified experts can charge for AI work</label>
+        </div>
+      </div>
+
+      <button type="button" class="quiz-submit" onclick="submitQuiz()">Submit Answers</button>
+    </form>
+    <div id="quiz-result"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 11 · CERTIFICATE                                               -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section id="cert-section">
+  <div class="cert-box">
+    <div style="font-size:3rem; margin-bottom:.5rem;">🏆</div>
+    <h2>Level 9 Complete!</h2>
+    <div class="cert-name" id="cert-name">Income Builder</div>
+    <p>You have learned to turn AI skills into real income — freelancing, content creation, retainer clients, and scalable prompt systems. You are now an AI-powered earner.</p>
+    <div class="skill-badges">
+      <span class="skill-badge">🤝 Client Pitching</span>
+      <span class="skill-badge">✍️ Content Delivery</span>
+      <span class="skill-badge">🎥 Content Workflows</span>
+      <span class="skill-badge">💰 Pricing Strategy</span>
+      <span class="skill-badge">🔁 Prompt Templates</span>
+    </div>
+    <button class="cert-btn" onclick="window.print()">🖨️ Print Certificate</button>
+  </div>
+
+  <div class="completion-box">
+    <div class="big-emoji">🚀</div>
+    <h2>What's next?</h2>
+    <p>Level 10 — AI Safety &amp; Society. Learn about deepfakes, misinformation, AI bias, and what it means to be a responsible AI user in India. Coming soon.</p>
+    <a href="../../../site/index.html" class="next-btn">← Back to all levels</a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 12 · CELEBRATION IMAGE + DISQUS                                -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<section style="text-align:center; padding-bottom:5rem;">
+  <img class="scene-img" style="max-width:680px; margin:0 auto 2rem;"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l9-s08-celebration.jpg"
+       alt="All four characters celebrating their first AI income" />
+
+  <div class="disqus-wrap" style="text-align:left;">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://mitraailife.com/content/english/level-09-ai-for-income/level-09-comic.html';
+        this.page.identifier = 'level-09-income';
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://mitra-ai-life.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- SCRIPTS                                                                 -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<script src="../../../site/auth.js"></script>
+
+<script>
+// Progress bar
+window.addEventListener('scroll', () => {
+  const scrollTop = document.documentElement.scrollTop;
+  const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  document.getElementById('progress-bar').style.width = (scrollTop / docHeight * 100) + '%';
+});
+
+// Quiz
+const ANSWERS = { q1:'b', q2:'c', q3:'b', q4:'c', q5:'b' };
+
+function submitQuiz() {
+  const form = document.getElementById('quiz-form');
+  let score = 0;
+  const total = Object.keys(ANSWERS).length;
+
+  for (const [q, correct] of Object.entries(ANSWERS)) {
+    const sel = form.querySelector(`input[name="${q}"]:checked`);
+    if (sel && sel.value === correct) score++;
+  }
+
+  const resultEl = document.getElementById('quiz-result');
+  resultEl.style.display = 'block';
+
+  if (score >= 4) {
+    resultEl.className = 'pass';
+    resultEl.textContent = `🎉 You scored ${score}/${total}! Excellent — you have mastered AI for Income!`;
+    document.getElementById('cert-section').style.display = 'block';
+    saveProgress('level-09', score);
+    setTimeout(() => document.getElementById('cert-section').scrollIntoView({ behavior:'smooth' }), 500);
+  } else {
+    resultEl.className = 'fail';
+    resultEl.textContent = `You scored ${score}/${total}. You need 4 to pass. Review the stories above and try again!`;
+  }
+}
+</script>
+
+  <!-- Mitra chatbot widget -->
+  <script src="../../../site/mitra-chat.js"></script>
+</body>
+</html>

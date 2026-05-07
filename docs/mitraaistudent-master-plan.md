@@ -124,19 +124,53 @@ git remote add origin git@github.com:rajendarmuddasani/mitra-ai-student.git
 
 ## 4. Design System
 
-### Color Theme — Bright, Friendly, School Colors
+### Color Theme — Bright Multi-Color (kids love color variety)
+
+Each level gets its own accent color — like colored subject notebooks.
+
 ```css
---bg:          #f0f9ff;   /* very light sky blue */
---surface:     #ffffff;
---primary:     #0ea5e9;   /* sky blue — energetic, trustworthy */
---secondary:   #10b981;   /* emerald green — growth, learning */
---accent:      #f59e0b;   /* amber — highlights, badges, stars */
---purple:      #7c3aed;   /* shared Mitra brand purple */
+/* Global base */
+--bg:          #ffffff;
+--surface:     #f8fafc;   /* near-white card background */
 --text:        #1e293b;
 --muted:       #64748b;
+
+/* Brand colors — rotate per level */
+--sky:         #0ea5e9;   /* bright sky blue  — Levels S-01, S-02 */
+--green:       #22c55e;   /* fresh green      — Levels S-03, S-04 */
+--orange:      #f97316;   /* warm orange      — Levels S-05, S-06 */
+--pink:        #ec4899;   /* hot pink         — Levels S-07, S-08 */
+--violet:      #8b5cf6;   /* purple/violet    — Levels S-09, S-10 */
+
+/* Shared Mitra brand purple (nav, footer, logo) */
+--purple:      #7c3aed;
+
+/* Semantic */
 --danger:      #ef4444;
---success:     #10b981;
+--success:     #22c55e;
+--gold:        #f59e0b;   /* badges, stars, achievements */
 ```
+
+**Level color assignments:**
+| Level | Primary color | Background tint |
+|---|---|---|
+| S-01 | `#0ea5e9` sky blue | `#f0f9ff` |
+| S-02 | `#0ea5e9` sky blue | `#f0f9ff` |
+| S-03 | `#22c55e` green | `#f0fdf4` |
+| S-04 | `#22c55e` green | `#f0fdf4` |
+| S-05 | `#f97316` orange | `#fff7ed` |
+| S-06 | `#f97316` orange | `#fff7ed` |
+| S-07 | `#ec4899` pink | `#fdf2f8` |
+| S-08 | `#ec4899` pink | `#fdf2f8` |
+| S-09 | `#8b5cf6` violet | `#f5f3ff` |
+| S-10 | `#8b5cf6` violet | `#f5f3ff` |
+
+**Hero gradients (example S-01):**
+```css
+background: linear-gradient(135deg, #0369a1 0%, #0ea5e9 50%, #38bdf8 100%);
+```
+
+**Visual motifs:** Stars ⭐, rockets 🚀, lightbulbs 💡, trophies 🏆 — used as section icons and achievement badges. Rounded corners (border-radius: 20px+). Bold, chunky headings. Large emoji section headers.
 
 ### Fonts
 ```html

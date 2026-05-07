@@ -123,17 +123,43 @@ git remote add origin git@github.com:rajendarmuddasani/mitra-ai-projects.git
 
 ## 4. Design System
 
-### Color Theme — Dark Technical (different from mitraailife.com warm purple)
+### Color Theme — Professional Dark (2 main colors + 1 accent)
+
+Inspired by GitHub Dark + terminal aesthetic. Clean, focused, no distraction.
+
 ```css
---bg:         #0f0f17;   /* near-black background */
---surface:    #1a1a2e;   /* card backgrounds */
---primary:    #00d4aa;   /* teal/cyan — the "engineering green" */
---secondary:  #7c3aed;   /* purple (shared brand color) */
---accent:     #f59e0b;   /* amber for highlights/warnings */
---text:       #e2e8f0;   /* light gray text */
---muted:      #64748b;   /* subdued text */
---border:     rgba(0,212,170,0.15);
+/* 2 main colors + 1 accent — never add more */
+--primary:    #00d4aa;   /* teal/cyan — THE engineering color, CTAs, highlights */
+--bg-dark:    #0d1117;   /* GitHub-style near-black — page background */
+--surface:    #161b22;   /* slightly lighter — card/section backgrounds */
+
+/* 1 accent only */
+--accent:     #f0b429;   /* warm amber — warnings, badges, pricing only */
+
+/* Supporting (neutral, not brand colors) */
+--text:       #e6edf3;   /* primary text */
+--muted:      #7d8590;   /* secondary text */
+--border:     rgba(0,212,170,0.12);
+--border-dim: rgba(255,255,255,0.06);
+
+/* Shared Mitra purple — used sparingly, e.g. completion certificates only */
+--purple:     #7c3aed;
 ```
+
+**Color discipline rules:**
+- `--primary` (teal): buttons, links, active states, code highlights, progress bars
+- `--accent` (amber): price tags, warning callouts, "new" badges only
+- `--purple`: certificates and brand footer only — never as main page color
+- All other UI is black/white/gray — no reds, no greens, no blues
+- Code blocks: dark background `#0d1117`, teal syntax highlights
+
+**Hero gradient:**
+```css
+background: linear-gradient(160deg, #0d1117 0%, #0d2818 50%, #0a2520 100%);
+/* subtle teal tint — not bright, professional */
+```
+
+**Visual motifs:** Terminal window chrome `>_`, circuit lines, clean monospace code snippets shown as actual UI elements, minimal iconography (▶ Play, ✓ Done, ⚡ Fast).
 
 ### Fonts (same CDN, different selection)
 ```html

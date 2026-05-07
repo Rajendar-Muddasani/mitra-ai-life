@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>లెవెల్ 7: AI తో నిర్మించండి | మిత్ర AI లైఫ్ ఎడ్యుకేషన్</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QGY0LH6W93');
+  </script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:       #1E3A5F;
+      --indigo:     #4F46E5;
+      --indigo-mid: #818cf8;
+      --indigo-light:#eef2ff;
+      --sky:        #38BDF8;
+      --amber:      #F59E0B;
+      --green:      #10B981;
+      --rose:       #E11D48;
+      --teal:       #0D9488;
+      --cream:      #eef2ff;
+      --white:      #FFFFFF;
+      --text:       #1C1C2E;
+      --muted:      #64748B;
+      --panel:      #e0e7ff;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+    #progress-bar { position:fixed; top:0; left:0; height:5px;
+      background: linear-gradient(90deg, var(--indigo), var(--indigo-mid), var(--amber));
+      width:0%; z-index:999; transition:width 0.3s ease; }
+
+    .topnav {
+      position:fixed; top:5px; left:0; right:0; height:52px;
+      background:rgba(238,242,255,0.93); backdrop-filter:blur(8px);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 1.5rem; z-index:100;
+      border-bottom:2px solid rgba(79,70,229,0.15);
+    }
+    .topnav .brand { font-family:'Baloo 2',cursive; font-weight:800; font-size:1.1rem; color:var(--navy); text-decoration:none; }
+    .topnav .level-tag { background:var(--indigo); color:white; font-size:0.75rem; font-weight:700; padding:3px 12px; border-radius:20px; }
+    .topnav .back-link { font-size:0.82rem; color:var(--muted); font-weight:700; text-decoration:none; }
+    .topnav .back-link:hover { color:var(--indigo); }
+    .topnav .lang-btn { font-size:0.82rem; color:var(--indigo); font-weight:700; background:var(--indigo-light); border:1px solid var(--indigo-mid); border-radius:8px; padding:4px 10px; cursor:pointer; text-decoration:none; }
+
+    @keyframes fadeInUp   { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideInLeft  { from{opacity:0;transform:translateX(-48px)} to{opacity:1;transform:translateX(0)} }
+    @keyframes slideInRight { from{opacity:0;transform:translateX(48px)}  to{opacity:1;transform:translateX(0)} }
+    @keyframes bounceIn { 0%{opacity:0;transform:scale(0.6)} 60%{opacity:1;transform:scale(1.08)} 80%{transform:scale(0.97)} 100%{transform:scale(1)} }
+    @keyframes float  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    @keyframes pulse  { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+    .anim-fadeInUp   { animation:fadeInUp   0.7s ease forwards; }
+    .anim-slideLeft  { animation:slideInLeft  0.7s ease forwards; }
+    .anim-slideRight { animation:slideInRight 0.7s ease forwards; }
+    .anim-bounceIn   { animation:bounceIn    0.75s cubic-bezier(.68,-.55,.27,1.55) forwards; }
+    .anim-float      { animation:float 3s ease-in-out infinite; }
+    .anim-pulse      { animation:pulse 2.5s ease-in-out infinite; }
+
+    section { padding: 4rem 1.5rem; max-width: 900px; margin: 0 auto; }
+    section:first-of-type { padding-top: 6rem; }
+
+    .hero {
+      min-height: 88vh; display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; padding-top:5rem;
+      background: linear-gradient(160deg, #1e1b4b 0%, #312e81 40%, #3730a3 75%, #1e3a5f 100%);
+      border-radius: 0 0 48px 48px; position:relative; overflow:hidden;
+    }
+    .hero::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 30% 40%, rgba(129,140,248,0.2) 0%, transparent 60%),
+                  radial-gradient(ellipse at 75% 65%, rgba(245,158,11,0.12) 0%, transparent 50%);
+    }
+    .hero-eyebrow { font-size:0.78rem; font-weight:800; letter-spacing:0.15em; color:var(--indigo-mid); text-transform:uppercase; margin-bottom:.5rem; position:relative; }
+    .hero-title { font-family:'Baloo 2',cursive; font-size:clamp(2.4rem,6vw,4rem); font-weight:800; color:white; line-height:1.1; position:relative; }
+    .hero-sub { font-size:1.15rem; color:rgba(255,255,255,0.75); margin-top:.75rem; max-width:560px; position:relative; }
+    .hero-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin-top:1.5rem; position:relative; }
+    .badge { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; font-size:0.78rem; font-weight:700; padding:5px 14px; border-radius:20px; }
+    .badge.accent { background:var(--amber); color:#1c1c2e; border-color:var(--amber); }
+    .hero-img { width:100%; max-width:760px; border-radius:20px; margin-top:2rem; box-shadow:0 20px 60px rgba(0,0,0,0.5); position:relative; }
+    .hero-offer { background:linear-gradient(90deg,#f59e0b,#fbbf24); color:#1c1c2e; font-size:0.9rem; font-weight:800; padding:8px 24px; border-radius:24px; margin-top:1.5rem; display:inline-block; position:relative; }
+    .hero-offer s { font-weight:400; opacity:0.55; }
+    .scroll-hint { margin-top:2.5rem; font-size:0.8rem; color:rgba(255,255,255,0.4); letter-spacing:.08em; position:relative; }
+
+    .skill-banner { background:var(--indigo); color:white; border-radius:16px; padding:1rem 1.5rem; margin-bottom:2rem; font-size:0.95rem; font-weight:700; display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; }
+    .skill-banner .sk-num { background:rgba(255,255,255,0.2); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+
+    .sec-label { font-size:0.72rem; font-weight:800; letter-spacing:.14em; color:var(--indigo); text-transform:uppercase; margin-bottom:.4rem; }
+    .sec-title { font-family:'Baloo 2',cursive; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:800; color:var(--navy); line-height:1.2; margin-bottom:.75rem; }
+    .sec-intro { font-size:1.05rem; color:var(--muted); line-height:1.7; margin-bottom:2rem; }
+
+    .story-grid { display:grid; gap:1.5rem; }
+    .story-card {
+      background:white; border-radius:20px; padding:1.5rem 1.75rem;
+      box-shadow:0 4px 20px rgba(0,0,0,0.07);
+      border-left:5px solid var(--indigo);
+      display:flex; flex-direction:column; gap:.75rem;
+    }
+    .story-card.amber { border-left-color: var(--amber); }
+    .story-card.teal  { border-left-color: var(--teal);  }
+    .story-card.sky   { border-left-color: var(--sky);   }
+    .story-card.green { border-left-color: var(--green); }
+    .story-card.rose  { border-left-color: var(--rose);  }
+    .char-tag { display:inline-flex; align-items:center; gap:.5rem; font-size:0.8rem; font-weight:800; color:var(--indigo); background:var(--indigo-light); padding:3px 10px; border-radius:20px; }
+    .char-tag.amber { color:#92400e; background:#fef3c7; }
+    .char-tag.teal  { color:#134e4a; background:#ccfbf1; }
+    .char-tag.sky   { color:#0c4a6e; background:#e0f2fe; }
+    .char-tag.green { color:#14532d; background:#dcfce7; }
+    .char-tag.rose  { color:#9f1239; background:#fff1f2; }
+    .story-text { font-size:1rem; line-height:1.8; color:var(--text); }
+    .speech-bubble { background:var(--indigo-light); border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; font-style:italic; color:var(--navy); position:relative; margin-top:.5rem; }
+    .speech-bubble::before { content:'💬'; margin-right:.5rem; }
+    .ai-bubble { background:#ecfdf5; border-radius:14px; padding:1rem 1.25rem; font-size:0.95rem; color:#065f46; position:relative; margin-top:.5rem; border:1px solid #a7f3d0; }
+    .ai-bubble::before { content:'🤖 మిత్ర చెప్పింది: '; font-weight:800; }
+
+    .steps-list { list-style:none; display:flex; flex-direction:column; gap:1rem; margin-top:1rem; }
+    .steps-list li { display:flex; gap:1rem; align-items:flex-start; }
+    .step-num { background:var(--indigo); color:white; border-radius:50%; min-width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; flex-shrink:0; margin-top:2px; }
+    .step-text { font-size:1rem; line-height:1.7; color:var(--text); }
+
+    .tip-card { background:var(--indigo-light); border-radius:16px; padding:1.25rem 1.5rem; border:1px solid var(--indigo-mid); margin-top:1.5rem; }
+    .tip-card .tip-head { font-weight:800; color:var(--indigo); font-size:1rem; margin-bottom:.5rem; }
+    .tip-card p { font-size:0.95rem; line-height:1.7; color:var(--navy); }
+
+    .prompt-box { background:#1e1b4b; border-radius:14px; padding:1.25rem 1.5rem; margin-top:1rem; }
+    .prompt-box .pb-label { font-size:0.72rem; font-weight:800; letter-spacing:.1em; color:var(--indigo-mid); text-transform:uppercase; margin-bottom:.5rem; }
+    .prompt-box .pb-text { font-family:monospace; font-size:0.9rem; color:#c7d2fe; line-height:1.65; }
+
+    .build-output { background:#f0fdf4; border:1px solid #a7f3d0; border-radius:14px; padding:1.25rem 1.5rem; margin-top:1rem; }
+    .build-output .bo-label { font-size:0.75rem; font-weight:800; letter-spacing:.1em; color:#065f46; text-transform:uppercase; margin-bottom:.5rem; }
+    .build-output pre { font-family:monospace; font-size:0.88rem; color:#1a2e1e; line-height:1.7; white-space:pre-wrap; }
+
+    .ba-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem; }
+    @media(max-width:600px){ .ba-grid { grid-template-columns:1fr; } }
+    .ba-col { border-radius:14px; padding:1rem 1.25rem; }
+    .ba-col.before { background:#fef2f2; border:1px solid #fecaca; }
+    .ba-col.after  { background:#ecfdf5; border:1px solid #a7f3d0; }
+    .ba-col .ba-head { font-size:0.75rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin-bottom:.5rem; }
+    .ba-col.before .ba-head { color:#b91c1c; }
+    .ba-col.after  .ba-head { color:#065f46; }
+    .ba-col p { font-size:0.9rem; line-height:1.7; }
+
+    .cheat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.25rem; }
+    .cheat-card { background:white; border-radius:16px; padding:1.25rem; box-shadow:0 2px 12px rgba(0,0,0,0.07); border-top:4px solid var(--indigo); }
+    .cheat-card.amber { border-top-color:var(--amber); }
+    .cheat-card.teal  { border-top-color:var(--teal);  }
+    .cheat-card.green { border-top-color:var(--green); }
+    .cheat-card.sky   { border-top-color:var(--sky);   }
+    .cheat-card h3 { font-size:0.95rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .cheat-card p  { font-size:0.88rem; color:var(--muted); line-height:1.6; }
+    .prompt-chip { background:var(--indigo-light); border-radius:8px; padding:4px 10px; font-size:0.82rem; font-family:monospace; color:var(--indigo); display:inline-block; margin-top:.4rem; }
+
+    .arena-grid { display:grid; gap:1.25rem; }
+    .arena-card { background:white; border-radius:16px; padding:1.5rem; box-shadow:0 3px 14px rgba(0,0,0,0.08); border:2px solid transparent; transition:border-color .2s; }
+    .arena-card:hover { border-color:var(--indigo-mid); }
+    .arena-card .ac-num { font-size:0.8rem; font-weight:800; color:var(--indigo-mid); margin-bottom:.4rem; text-transform:uppercase; letter-spacing:.1em; }
+    .arena-card h3 { font-size:1rem; font-weight:800; color:var(--navy); margin-bottom:.4rem; }
+    .arena-card p { font-size:0.93rem; color:var(--muted); line-height:1.6; }
+
+    .quiz-wrap { background:white; border-radius:24px; padding:2rem; box-shadow:0 8px 32px rgba(79,70,229,0.12); }
+    .quiz-q { margin-bottom:1.5rem; }
+    .quiz-q .q-text { font-weight:800; font-size:1.05rem; color:var(--navy); margin-bottom:.75rem; }
+    .quiz-options { display:flex; flex-direction:column; gap:.5rem; }
+    .quiz-options label { display:flex; align-items:center; gap:.75rem; background:var(--indigo-light); border-radius:10px; padding:.7rem 1rem; cursor:pointer; font-size:0.95rem; transition:background .15s; }
+    .quiz-options label:hover { background:var(--indigo-mid); color:white; }
+    .quiz-options input[type=radio] { accent-color:var(--indigo); width:16px; height:16px; }
+    .quiz-submit { background:var(--indigo); color:white; font-family:'Nunito',sans-serif; font-weight:800; font-size:1rem; border:none; border-radius:14px; padding:.9rem 2.5rem; cursor:pointer; margin-top:1rem; transition:background .2s; }
+    .quiz-submit:hover { background:#3730a3; }
+    #quiz-result { margin-top:1.25rem; font-weight:800; font-size:1.05rem; display:none; }
+    #quiz-result.pass { color:#059669; }
+    #quiz-result.fail { color:#dc2626; }
+
+    #cert-section { display:none; }
+    .cert-box {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #3730a3 100%);
+      border-radius:24px; padding:2.5rem 2rem; text-align:center; color:white;
+      box-shadow:0 12px 48px rgba(79,70,229,0.4);
+    }
+    .cert-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; margin-bottom:.25rem; }
+    .cert-box .cert-name { font-size:1.5rem; font-weight:700; color:var(--indigo-mid); margin:.5rem 0; }
+    .cert-box p { font-size:0.95rem; color:rgba(255,255,255,0.75); margin-bottom:1.25rem; }
+    .skill-badges { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin:1.25rem 0; }
+    .skill-badge { background:rgba(255,255,255,0.1); border:1px solid rgba(129,140,248,0.4); border-radius:12px; padding:.5rem .9rem; font-size:0.8rem; font-weight:700; color:var(--indigo-mid); }
+    .cert-btn { background:var(--amber); color:#1c1c2e; font-weight:800; font-size:0.95rem; border:none; border-radius:14px; padding:.8rem 2rem; cursor:pointer; margin-top:.75rem; }
+
+    .completion-box { text-align:center; padding:3rem 2rem; }
+    .completion-box .big-emoji { font-size:4rem; margin-bottom:1rem; }
+    .completion-box h2 { font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; color:var(--navy); margin-bottom:.5rem; }
+    .completion-box p { font-size:1.05rem; color:var(--muted); max-width:520px; margin:0 auto 1.5rem; }
+    .next-btn { display:inline-block; background:var(--indigo); color:white; font-weight:800; font-size:1rem; padding:.85rem 2.5rem; border-radius:14px; text-decoration:none; }
+    .next-btn:hover { background:#3730a3; }
+
+    #auth-nav-area { display:flex; align-items:center; gap:.5rem; }
+    .disqus-wrap { margin-top:2rem; }
+
+    .recap-banner { background:linear-gradient(135deg,#312e81,#3730a3); border-radius:20px; padding:1.5rem 2rem; color:white; margin-bottom:2rem; }
+    .recap-banner h3 { font-family:'Baloo 2',cursive; font-size:1.3rem; font-weight:800; margin-bottom:.75rem; }
+    .recap-list { list-style:none; display:flex; flex-direction:column; gap:.4rem; }
+    .recap-list li { font-size:0.92rem; display:flex; gap:.5rem; }
+    .recap-list li::before { content:'✓'; color:var(--indigo-mid); font-weight:800; }
+
+    img { max-width:100%; }
+    @media(max-width:600px){
+      .story-grid { grid-template-columns:1fr; }
+      .cheat-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav class="topnav">
+  <a href="../../../site/index-te.html" class="brand">🌟 మిత్ర AI లైఫ్</a>
+  <span class="level-tag">లెవెల్ 7 · ₹500</span>
+  <div style="display:flex;align-items:center;gap:.75rem;">
+    <div id="auth-nav-area"></div>
+    <a href="level-07-comic.html" class="lang-btn">English</a>
+    <a href="../../../site/index-te.html" class="back-link">← హోమ్</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 1 · HERO                                       -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="hero">
+  <p class="hero-eyebrow anim-fadeInUp" style="animation-delay:.1s">లెవెల్ 7 · AI తో నిర్మించండి</p>
+  <h1 class="hero-title anim-fadeInUp" style="animation-delay:.2s">వాడటం ఆపండి.<br>నిర్మించడం మొదలుపెట్టండి.</h1>
+  <p class="hero-sub anim-fadeInUp" style="animation-delay:.3s">వెబ్‌సైట్, FAQ చాట్‌బాట్, బిజినెస్ పోస్టర్, మరియు నిజమైన పోర్ట్‌ఫోలియో ప్రాజెక్ట్ — AI మీ co-builder. మీరు ఆలోచన తీసుకురండి. AI దాన్ని నిర్మించడంలో సహాయం చేస్తుంది.</p>
+  <div class="hero-badges anim-fadeInUp" style="animation-delay:.4s">
+    <span class="badge">⏱ 5 గంటలు</span>
+    <span class="badge">🛠 4 బిల్డ్ ప్రాజెక్టులు</span>
+    <span class="badge">🎯 నిజమైన పోర్ట్‌ఫోలియో</span>
+    <span class="badge accent">₹500</span>
+  </div>
+  <div class="hero-offer anim-bounceIn" style="animation-delay:.55s">
+    🎉 ఎర్లీ యాక్సెస్ — <s>₹500</s> <strong>మొదటి 100 మందికి ఉచితం</strong>
+  </div>
+  <img class="hero-img anim-fadeInUp" style="animation-delay:.5s"
+       src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l7-s01-hero.jpg"
+       alt="లెవెల్ 7 హీరో — నలుగురు భారతీయ నిపుణులు AI తో నిర్మిస్తున్నారు"
+       loading="lazy" />
+  <p class="scroll-hint anim-fadeInUp" style="animation-delay:.8s">▾ నిర్మించడం మొదలుపెట్టండి</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 2 · RECAP                                      -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="recap-banner anim-fadeInUp">
+    <h3>✅ లెవెల్ 6 రీక్యాప్</h3>
+    <ul class="recap-list">
+      <li>రోజువారీ AI సెటప్ సమయాన్ని తగ్గించడానికి saved context block మరియు trigger prompts నిర్మించారు</li>
+      <li>ఒక్క prompt లో summaries, action tables, మరియు risk grids వంటి structured outputs పొందారు</li>
+      <li>నిజమైన spreadsheet డేటాను AI లో పేస్ట్ చేసి నిర్దిష్ట బిజినెస్ ప్రశ్నలు అడిగారు</li>
+      <li>పదే పదే చేసే పనుల కోసం [PLACEHOLDERS] తో reusable prompt templates నిర్మించారు</li>
+      <li>అధిక-రిస్క్ AI outputs గురించి personal verification rule సృష్టించారు</li>
+    </ul>
+  </div>
+  <p class="sec-label">లెవెల్ 7</p>
+  <h2 class="sec-title">ఇప్పుడు మీరు user నుండి creator గా మారతారు</h2>
+  <p class="sec-intro">
+    నందిని నెల్లూరులో స్కూల్ టీచర్ — ఆమె తన ట్యూషన్ సెంటర్ వివరాలు share చేయడానికి ఒక సాధారణ వెబ్‌సైట్ కావాలి కానీ coding జ్ఞానం లేదు.
+    సురేష్ కరీంనగర్ లో మెడికల్ షాప్ ఓనర్ — కస్టమర్లు రోజూ అదే ప్రశ్నలు అడిగి phone చేస్తున్నారు.
+    పూజా హైదరాబాద్ లో freelance గ్రాఫిక్ డిజైనర్ — ఆమెకు వేగంగా ఒక business poster మరియు service brochure కావాలి.
+    కిరణ్ గుంటూరులో final-year engineering student — అతనికి employer లకు AI నైపుణ్యం చూపించే ఒక portfolio project కావాలి.<br><br>
+    ఈ లెవెల్ లో, వారిలో ప్రతి ఒక్కరూ AI ను co-builder గా ఉపయోగించి నిజమైన ఏదైనా నిర్మిస్తారు. Coding course అవసరం లేదు. Design degree అవసరం లేదు. కేవలం స్పష్టమైన సూచనలు, సరైన prompts, మరియు మొదటి రోజే అసంపూర్ణమైన ఏదైనా ship చేయాలనే సంసిద్ధత.
+  </p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 3 · SKILL 1 · WEBSITE WITH AI                 -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">1</span>
+    <span>నైపుణ్యం 1 — AI తో సాధారణ వెబ్‌సైట్ నిర్మించండి (coding జ్ఞానం అక్కర్లేదు)</span>
+  </div>
+
+  <p class="sec-label">నందిని కథ</p>
+  <h2 class="sec-title">వెబ్‌సైట్ "tech people" కోసమే అని అనుకున్న టీచర్</h2>
+  <p class="sec-intro">నందిని నెల్లూరులో 6–10 తరగతి విద్యార్థులకు math మరియు science నేర్పిస్తుంది. ఆమె ఇంటి నుండి ట్యూషన్ సెంటర్ నిర్వహిస్తుంది. తల్లిదండ్రులు ఆమెను word of mouth ద్వారా కనుగొంటారు — కానీ share చేయడానికి ఒక సాధారణ page లేనందుకు ఆమె చాలా enquiries miss చేస్తోంది. వెబ్‌సైట్ నిర్మించాలంటే నెలల తరబడి నేర్చుకోవాలని మరియు చాలా డబ్బు కావాలని ఆమె అనుకుంది.</p>
+
+  <div class="story-grid">
+    <div class="story-card amber anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag amber">👩 నందిని · నెల్లూరు</span>
+      <p class="story-text">నందిని ఒకసారి Wix try చేసి 30 నిమిషాల తర్వాత వదిలేసింది. Templates ఆమెకు సరిగ్గా అనిపించలేదు, settings అర్థం కాలేదు, ఏం రాయాలో తెలియలేదు. "someday" deal చేస్తానని చెప్పుకుంది. అది ఎనిమిది నెలల క్రితం.</p>
+      <div class="speech-bubble">"నేను ఎవరినో, ఏం నేర్పిస్తానో, నా timings ఏంటో, ఎలా contact చేయాలో చెప్పే ఒక్క page కావాలి. దాని కోసం computer science degree అవసరం ఉండకూడదు."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 AI approach</span>
+      <p class="story-text">నందిని ముందు AI ని ఉపయోగించి అన్ని content draft చేస్తుంది — bio, class descriptions, timings, fee structure, FAQ — plain text లో. తర్వాత ఆమె AI ని ఆ content ని ఒక clean single-page HTML file గా మార్చమని అడుగుతుంది. Free hosting service ఉపయోగించి దాన్ని online పెట్టడం technical setup లేకుండా చేస్తుంది.</p>
+      <div class="prompt-box">
+        <p class="pb-label">నందిని వెబ్‌సైట్ prompt (English లో ఇవ్వండి)</p>
+        <p class="pb-text">Create a simple single-page website for my home tuition centre.
+
+MY DETAILS:
+Name: Nandini Reddy
+Location: Nellore, Andhra Pradesh
+Classes: Maths and Science for Class 6 to Class 10
+Timings: Monday to Saturday, 4 PM to 7 PM
+Fees: ₹800/month per subject, ₹1,400/month for both
+Contact: WhatsApp 98765-XXXXX
+
+ABOUT ME: 12 years teaching experience.
+Students score above 85% in board exams.
+Simple Telugu and English, personal attention.
+
+FAQ:
+Q: Do you take students mid-year? A: Yes, any time.
+Q: Is there a trial class? A: Yes, first class is free.
+
+OUTPUT FORMAT:
+One complete HTML file. Clean, mobile-friendly.
+Warm colour scheme. Large readable font.
+WhatsApp button at top and bottom.
+No external CSS frameworks.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ ఏం జరిగింది</span>
+      <p class="story-text">AI 30 seconds కంటే తక్కువ సమయంలో complete, clean HTML file generate చేసింది. నందిని browser లో తెరిచి రెండు చిన్న edits చేసింది (ఒక colour మార్చింది, phone number update చేసింది), Tiiny.host కి upload చేసింది — ఒక free drag-and-drop hosting service. అదే ఉదయంలో share చేయడానికి live link దొరికింది. ఆ వారం మూడు కొత్త enquiries వచ్చాయి.</p>
+      <div class="ai-bubble">
+        AI generate చేసింది: About, Classes, Timings, Fees, FAQ, WhatsApp CTA తో complete index.html file — responsive, clean, no frameworks.<br><br>
+        నందిని edit time: 8 నిమిషాలు (accent colour మార్చింది, phone number fix చేసింది, ఒక FAQ add చేసింది).<br><br>
+        Tiiny.host upload: HTML file drag చేయండి → link పొందండి → WhatsApp లో share చేయండి. 2 నిమిషాల కంటే తక్కువ.<br><br>
+        Zero నుండి live వెబ్‌సైట్ వరకు మొత్తం సమయం: <strong>45 నిమిషాల కంటే తక్కువ.</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">🌐 వెబ్‌సైట్ నిర్మించే tip</p>
+    <p>ఈ విధంగా working website నిర్మించడానికి HTML అర్థం చేసుకోవాల్సిన అవసరం లేదు. <strong>మీ పని కేవలం AI కి accurate content మరియు clear format instruction ఇవ్వడం.</strong> మీ content details (name, services, timings, prices, contact) ఎంత better గా ఉంటే output అంత better గా ఉంటుంది. Design నచ్చకపోతే — HTML ని AI లో paste చేసి ఏం మార్చాలో cheppandi. Designer కి feedback ఇస్తున్నట్టు treat చేయండి.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">Page మీద కావాల్సిన అన్ని content రాసుకోండి — name, services, prices, timings, contact, short bio</span></li>
+    <li><span class="step-num">2</span><span class="step-text">ఈ content తో clear output instruction ఇవ్వండి: "single-page HTML file create cheyyi, mobile-friendly, no frameworks"</span></li>
+    <li><span class="step-num">3</span><span class="step-text">HTML output copy చేయండి, <code>index.html</code> గా save చేయండి, browser లో preview కోసం తెరవండి</span></li>
+    <li><span class="step-num">4</span><span class="step-text">నచ్చనిది fix చేయమని AI ని అడగండి — full HTML paste చేసి "X ని Y కి మార్చు" అని చెప్పండి</span></li>
+    <li><span class="step-num">5</span><span class="step-text">Tiiny.host (free) లేదా Netlify Drop (free) కి upload చేయండి — file drag చేయండి, shareable link పొందండి, అయిపోయింది</span></li>
+  </ul>
+
+  <div class="ba-grid" style="margin-top:1.5rem;">
+    <div class="ba-col before">
+      <p class="ba-head">❌ పాత అనుభవం</p>
+      <p>వెబ్‌సైట్ నిర్మించడానికి HTML, CSS, JavaScript నేర్చుకోవడానికి నెలలు కావాలి. డబ్బు కావాలి. Developer కావాలి. Technical training లేకుండా సాధారణ వ్యక్తి చేయలేరు.</p>
+    </div>
+    <div class="ba-col after">
+      <p class="ba-head">✅ AI వాస్తవికత</p>
+      <p>AI కి content మరియు format requirements ఇవ్వండి. ఒక్క నిమిషంలో working HTML file పొందండి. Natural language తో edit చేయండి. 2 నిమిషాల కంటే తక్కువ సమయంలో free hosting తో live అవ్వండి. Beginner కి మొత్తం సమయం: 1 గంట కంటే తక్కువ.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l7-s02-nandini-website.jpg"
+       alt="నందిని నెల్లూరులో తన laptop లో AI-generated ట్యూషన్ సెంటర్ వెబ్‌సైట్ చూస్తోంది" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 4 · SKILL 2 · MINI CHATBOT                    -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">2</span>
+    <span>నైపుణ్యం 2 — Local అవసరం కోసం mini chatbot నిర్మించండి</span>
+  </div>
+
+  <p class="sec-label">సురేష్ కథ</p>
+  <h2 class="sec-title">రోజూ 40 సార్లు అదే ప్రశ్నలకు సమాధానం చెప్పిన మెడికల్ షాప్ ఓనర్</h2>
+  <p class="sec-intro">సురేష్ కరీంనగర్ లో మెడికల్ షాప్ నడిపిస్తున్నాడు. రోజూ 30–40 calls వస్తాయి: "Sunday తెరిచి ఉంటారా?" "ఈ medicine ఉందా?" "Delivery చేస్తారా?" "ఎన్ని గంటలకు మూస్తారు?" అతను మరియు అతని assistant రోజు దాదాపు 2 గంటలు purchase లేని information-only calls కోసం ఖర్చు చేస్తున్నారు.</p>
+
+  <div class="story-grid">
+    <div class="story-card teal anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag teal">👨 సురేష్ · కరీంనగర్</span>
+      <p class="story-text">సురేష్ షాప్ కి WhatsApp number ఉంది కానీ automated replies లేవు. ప్రతి message కి time ఉన్నప్పుడు manually reply చేస్తున్నాడు. కొన్నిసార్లు replies 3 గంటల తర్వాత వస్తాయి. వేగంగా answer చేసే competitor దగ్గరికి customers వెళ్తున్నారు. Problem తెలుసు కానీ ఎవరైనా hire చేయకుండా fix ఎలా చేయాలో తెలియలేదు.</p>
+      <div class="speech-bubble">"రోజూ అదే ప్రశ్నలు. Counter దగ్గర busy గా ఉన్నప్పుడు automatically answer చేసే ఏదైనా కావాలి. పెద్ద software system కి డబ్బు లేదు."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 AI approach</span>
+      <p class="story-text">సురేష్ AI ఉపయోగించి ఒక standalone HTML page గా చిన్న FAQ chatbot నిర్మిస్తాడు — server లేదు, backend లేదు, monthly fees లేవు. Visitor ఒక ప్రశ్న type చేస్తే, AI రాసిన simple keyword-matching script సరైన pre-written answer return చేస్తుంది. Server అవసరం లేదు, API లేదు, offline పని చేస్తుంది. అతను WhatsApp Business auto-reply కోసం AI-drafted templates కూడా set up చేశాడు.</p>
+      <div class="prompt-box">
+        <p class="pb-label">సురేష్ chatbot page prompt (English లో ఇవ్వండి)</p>
+        <p class="pb-text">Build a simple FAQ chatbot as a single HTML page for my medical shop.
+
+SHOP DETAILS:
+Name: Suresh Medical Store, Karimnagar
+Open: Mon–Sat 8 AM–10 PM, Sunday 9 AM–6 PM
+Services: medicine dispensing, home delivery (₹30, 3 km radius), BP/sugar check (free)
+
+FAQ LIST:
+Q: timings / open / hours → [show timings]
+Q: sunday / holiday → [show sunday timings]
+Q: delivery / deliver → [show delivery policy]
+Q: BP / sugar / test → [show free test info]
+Q: medicine not available / order → [explain same-day order]
+Q: price / generic / substitute → [explain generic availability]
+Q: contact / phone / call → [show phone number]
+
+OUTPUT:
+- Single HTML file with simple chat UI
+- JavaScript keyword matching (no API key, works offline)
+- Mobile-friendly
+- "Type your question below" as placeholder</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ ఏం జరిగింది</span>
+      <p class="story-text">AI అన్ని 7 question categories కి JavaScript keyword logic తో complete working chatbot HTML file generate చేసింది. సురేష్ phone లో test చేసి రెండు FAQs add చేసి Tiiny.host link ని తన WhatsApp status లో share చేశాడు. మొదటి రెండు వారాల్లో phone enquiry calls 60% తగ్గాయి.</p>
+      <div class="ai-bubble">
+        Chatbot file: 1 HTML page, ~120 lines JavaScript, 7 FAQ categories, mobile-friendly chat UI.<br><br>
+        సురేష్ test time: 15 నిమిషాలు — అన్ని responses సరిగ్గా ఉన్నాయో verify చేయడానికి real customer questions type చేశాడు.<br><br>
+        WhatsApp auto-reply templates: AI 2 నిమిషాల కంటే తక్కువ సమయంలో 10 templates draft చేసింది.<br><br>
+        2 వారాల తర్వాత result: 60% తక్కువ information-only calls. Assistant ఇప్పుడు పూర్తి సమయం counter దగ్గర ఉంటున్నాడు.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">🤖 Chatbot నిర్మించే tip</p>
+    <p>Useful chatbot కి natural language perfectly అర్థం చేసుకోవాల్సిన అవసరం లేదు. <strong>Keyword-matching FAQ bot నిజమైన customer questions లో 80% కి zero ongoing cost తో సమాధానం చెప్తుంది.</strong> Key ఏమిటంటే AI bot నిర్మించమని అడగడానికి ముందు good FAQ list చేయడం. మీ customers అత్యధికంగా అడిగే 10 ప్రశ్నలు list చేయడానికి 10 నిమిషాలు గడపండి. ఆ list AI కి ఇవ్వండి. Chatbot అదే రాసుకుంటుంది.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">మీకు వచ్చే 10 most common ప్రశ్నలు list చేయండి (calls, messages, in-person)</span></li>
+    <li><span class="step-num">2</span><span class="step-text">ప్రతి దానికి clear answer రాయండి — short, specific, useful</span></li>
+    <li><span class="step-num">3</span><span class="step-text">AI కి Q&A list ఇచ్చి keyword-matching HTML chatbot page అడగండి</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Real ప్రశ్నల variations type చేసి test చేయండి — అంతరాలు కనుగొంటే AI తో fix చేయండి</span></li>
+    <li><span class="step-num">5</span><span class="step-text">Tiiny.host లో host చేసి customers normally reach అయ్యే చోట link share చేయండి</span></li>
+  </ul>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l7-s03-suresh-chatbot.jpg"
+       alt="సురేష్ కరీంనగర్ మెడికల్ షాప్ counter దగ్గర AI-built FAQ chatbot page phone లో చూపిస్తున్నాడు" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 5 · SKILL 3 · POSTER & BUSINESS PLAN          -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">3</span>
+    <span>నైపుణ్యం 3 — AI తో business poster మరియు one-page business plan నిర్మించండి</span>
+  </div>
+
+  <p class="sec-label">పూజా కథ</p>
+  <h2 class="sec-title">ఒక గంటలో అయిపోవాల్సిన poster కోసం పూర్తి రోజు గడిపిన freelancer</h2>
+  <p class="sec-intro">పూజా హైదరాబాద్ లో freelance graphic designer. ఆమె తన services expand చేస్తోంది మరియు రెండు పనులు వేగంగా కావాలి: social media promotional poster మరియు potential business partner తో share చేయడానికి one-page business plan. ఆమె design తెలుసు కానీ copywriting లో చాలా సమయం పోతుంది — ఏం చెప్పాలి, ఎలా position చేయాలి, ఏ structure వాడాలి అని.</p>
+
+  <div class="story-grid">
+    <div class="story-card rose anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag rose">👩 పూజా · హైదరాబాద్</span>
+      <p class="story-text">పూజా blank Canva template తెరిచి అక్కడే ఉండిపోతుంది. Headline ఎలా రాయాలో, offer ఏం చెప్పాలో, pricing ఎలా frame చేయాలో తెలియలేదు. ఆమె excellent visual designer కానీ copy ఆమె weak spot. 1 గంటలో అయిపోవాల్సిన పని రోజంతా పడుతుంది ఎందుకంటే content decisions ఆమెను stuck చేస్తాయి.</p>
+      <div class="speech-bubble">"మీరు ఏం ఇచ్చినా design చేయగలను. Problem ఏమిటంటే words ఎవరూ ఇవ్వరు. నా own copy నచ్చకపోవడంతో మూడుసార్లు redesign చేస్తాను."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 AI approach</span>
+      <p class="story-text">పూజా ముందు AI ఉపయోగించి అన్ని copy generate చేస్తుంది — headline, tagline, package descriptions, CTA. తర్వాత దాన్ని Canva లో paste చేస్తుంది. Business plan కోసం AI కి తన goals, current clients, 3-month targets ఇచ్చి directly share చేయగలిగే clean one-page business plan అడుగుతుంది. Copy మరియు structure 20 నిమిషాల్లో అయిపోతుంది — మిగతా సమయం ఆమె ఇష్టపడే design లో గడుపుతుంది.</p>
+      <div class="prompt-box">
+        <p class="pb-label">పూజా poster copy prompt (English లో ఇవ్వండి)</p>
+        <p class="pb-text">Write all the copy for a social media promotional poster
+for my freelance graphic design services.
+
+ABOUT ME:
+Name: Pooja Sharma, Hyderabad
+Speciality: Brand identity, social media graphics, print materials
+Experience: 5 years, 40+ clients across retail and education sectors
+Unique value: Fast turnaround (48 hours), unlimited revisions,
+bilingual (English + Telugu)
+
+PACKAGES:
+Starter: ₹3,500 — logo + 3 social media templates
+Growth: ₹7,500 — full brand kit
+Custom: ₹15,000+ — complete brand identity
+
+OUTPUT NEEDED:
+1. One strong headline (max 8 words, punchy, benefit-focused)
+2. One supporting tagline (max 15 words)
+3. Three package names with one-line descriptions
+4. One call-to-action line with WhatsApp CTA
+5. Short "Why choose me" block (3 bullet points)
+
+Tone: professional, warm, confident.
+Target: small business owners.</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.2s">
+      <span class="char-tag green">✅ ఏం జరిగింది</span>
+      <p class="story-text">AI 1 నిమిషం కంటే తక్కువ సమయంలో అన్ని poster copy deliver చేసింది. పూజా first try లోనే నచ్చే headline పొందింది మరియు రెండు bullet points మాత్రమే minor edit చేసింది. Business plan sections మరియు simple revenue projection table తో clean గా వచ్చింది. ఆ రోజే afternoon లో studio partner కి forward చేసింది. Poster ఆ రోజే 11 AM కి Instagram లో live అయింది.</p>
+      <div class="ai-bubble">
+        Poster copy: headline "Your Brand, Built in 48 Hours." + tagline + 3 packages + CTA — 45 seconds లో ready.<br><br>
+        పూజా copy edit time: 8 నిమిషాలు (ఒక package name మరియు ఒక bullet point adjust చేసింది).<br><br>
+        Business plan: 390 words, 5 sections, one revenue projection table — అదే రోజు share చేసింది.<br><br>
+        పాత process: 6+ గంటలు. కొత్త process: 20 నిమిషాల AI పని → మిగతా రోజు design లో.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">🎨 Poster + plan నిర్మించే tip</p>
+    <p>మీరు good writer అయినా AI మీకంటే వేగంగా first draft చేస్తుంది. <strong>Trick ఏమిటంటే AI కి మీ real numbers మరియు specific situation ఇవ్వడం</strong>, vague descriptions కాదు. "5 years, 40+ clients, 48-hour turnaround" అనేది "experienced designer" కంటే చాలా better input. మీ input ఎంత specific గా ఉంటే output మీద editing అంత తక్కువ అవసరం అవుతుంది.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">మీ real specifics రాసుకోండి — experience, numbers, prices, మీరు ఎందుకు వేరుగా ఉన్నారు</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Numbered list format లో copy అడగండి — headline, tagline, descriptions, CTA separately</span></li>
+    <li><span class="step-num">3</span><span class="step-text">Copy ని Canva, Google Slides, లేదా మీకు తెలిసిన visual tool లో paste చేయండి</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Business plan కోసం: current revenue, 3 goals, audience ఇచ్చి table తో one-page version అడగండి</span></li>
+    <li><span class="step-num">5</span><span class="step-text">మొదటి version చాలా formal లేదా casual గా feel అయితే వేరే tone లో rewrite చేయమని అడగండి</span></li>
+  </ul>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l7-s04-pooja-poster.jpg"
+       alt="పూజా హైదరాబాద్ లో AI-generated copy ఉపయోగించి Canva లో business poster నిర్మిస్తోంది" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 6 · SKILL 4 · PORTFOLIO PROJECT               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="skill-banner anim-slideLeft">
+    <span class="sk-num">4</span>
+    <span>నైపుణ్యం 4 — నిజమైన AI నైపుణ్యం నిరూపించే portfolio project నిర్మించండి</span>
+  </div>
+
+  <p class="sec-label">కిరణ్ కథ</p>
+  <h2 class="sec-title">Certificate కాదు, proof కావాలని చెప్పిన engineering student</h2>
+  <p class="sec-intro">కిరణ్ గుంటూరులో final-year Computer Science student. Exams లో బాగా చేశాడు కానీ అతని resume అందరి students లాగే ఉంది — college projects మరియు grades list. అతను product మరియు data analyst roles కి apply చేస్తున్నాడు మరియు interviewers "show me something you built" అని అడుగుతున్నారు. AI tools ని actually use చేయగలిగినట్టు — కేవలం మాట్లాడినట్టు కాదు — చూపించే ఒక portfolio project కావాలి.</p>
+
+  <div class="story-grid">
+    <div class="story-card sky anim-slideLeft" style="animation-delay:.1s">
+      <span class="char-tag sky">👨 కిరణ్ · గుంటూరు</span>
+      <p class="story-text">కిరణ్ నెలల తరబడి project idea గురించి ఆలోచిస్తున్నాడు. Relevant గా, కొన్ని వారాల్లో complete చేయగలిగినట్టు, interview లో discuss చేయడానికి impressive గా ఉండాల్సిన ఏదైనా కావాలి. Choice paralysis వల్ల ఎప్పుడూ start చేయడు. అతని batchmates అదే situation లో ఉన్నారు.</p>
+      <div class="speech-bubble">"AI tools use చేయడం తెలుసు కానీ show చేయడానికి ఏమీ లేదు. Project build చేయమని అందరూ చెప్తారు కానీ build చేయడానికి worthy ఏది అని ఎవరూ చెప్పరు."</div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.15s">
+      <span class="char-tag">💡 AI approach</span>
+      <p class="story-text">కిరణ్ 3-step AI workflow వాడతాడు: మొదట AI ఉపయోగించి skills మరియు target role based గా right project idea select చేస్తాడు. తర్వాత AI ఉపయోగించి project plan, README, మొదటి working code structure generate చేస్తాడు. చివరగా AI ఉపయోగించి project ఏం demonstrate చేస్తుందో articulate చేస్తాడు — interviews లో confidently explain చేయడానికి.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Step 1 — Project selection prompt (English లో ఇవ్వండి)</p>
+        <p class="pb-text">I am a final-year CS student in India targeting product analyst
+and data analyst roles at mid-size tech companies.
+
+My skills: Python (intermediate), SQL (good), Excel, basic Pandas.
+Time available: 3 weeks, working 1–2 hours/day.
+I want something I can build, deploy publicly, and explain in interviews.
+
+Suggest 5 portfolio project ideas that:
+- Are achievable solo in 3 weeks with my skill level
+- Solve a real Indian or local problem
+- Demonstrate analytical thinking and some AI or data work
+- Can be deployed free (GitHub Pages, Streamlit Cloud, etc.)
+- Have a clear 2-sentence "why this matters" explanation
+
+For each: project name, 2-sentence description, tech stack, difficulty (1–5).</p>
+      </div>
+    </div>
+    <div class="story-card anim-slideRight" style="animation-delay:.2s">
+      <span class="char-tag">🛠 Step 2 — AI co-coder తో నిర్మించండి</span>
+      <p class="story-text">కిరణ్ "College Canteen Menu Optimiser" ఎంచుకున్నాడు — ఒక Python + Streamlit app, canteen manager daily sales data input చేసి food waste తగ్గించడానికి AI-driven menu suggestions పొందవచ్చు. తర్వాత AI ఉపయోగించి project plan, code structure, మరియు README generate చేశాడు.</p>
+      <div class="prompt-box">
+        <p class="pb-label">Step 2 — Project plan + starter code prompt</p>
+        <p class="pb-text">I am building "College Canteen Menu Optimiser" — a Streamlit web app
+where a canteen manager inputs daily sales data and gets AI-driven
+menu suggestions to reduce food waste.
+
+Tech stack: Python, Streamlit, Pandas, OpenAI API (GPT-4o-mini)
+
+Please generate:
+1. A 3-week project plan with daily tasks (1–2 hrs/day)
+2. File structure for the project
+3. Starter code for app.py — Streamlit UI with:
+   - CSV data upload section
+   - Sales data display table
+   - "Get AI Menu Suggestions" button
+   - Placeholder function for OpenAI call
+4. A README.md with: project description, features, how to run</p>
+      </div>
+    </div>
+    <div class="story-card green anim-fadeInUp" style="animation-delay:.25s">
+      <span class="char-tag green">✅ ఏం జరిగింది</span>
+      <p class="story-text">AI ఒక్క response లో 3-week plan, full file structure, 80 lines working starter Streamlit code, మరియు complete README generate చేసింది. కిరణ్ start చేసిన 2 గంటల్లో browser లో running app ఉంది — తను ఒక్క line రాయడానికి ముందే. తర్వాత 3 వారాలు AI suggestions logic refine చేసి UI improve చేశాడు. Week 3 లో deployed app, GitHub repo తో 12 commits, మరియు 2-minute demo video ఉన్నాయి.</p>
+      <div class="ai-bubble">
+        AI deliver చేసింది: 3-week plan (21 daily tasks) + file structure + 80 lines working Streamlit starter code + README — ఒక్క response లో, 60 seconds కంటే తక్కువ సమయంలో.<br><br>
+        కిరణ్ first session: 2 గంటల్లో browser లో running app.<br><br>
+        Week 3 result: live Streamlit app + GitHub repo + demo video + interview answer: "నేను నా own college canteen లో చూసిన నిజమైన problem కి solution నిర్మించాను. Data flow, AI integration, మరియు next time ఏం differently చేస్తానో ఇక్కడ ఉంది."<br><br>
+        Interview result: project చూపించిన 4 లో 3 companies లో shortlist అయ్యాడు.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <p class="tip-head">🎓 Portfolio project tip</p>
+    <p>Best portfolio project technically complex అయిన అవసరం లేదు. <strong>Clearly explain చేయగలిగేది, someone recognise చేసే real problem solve చేసేది, మరియు idea నుండి deployed output వరకు take చేయగలిగినట్టు చూపించేది.</strong> AI faster గా start చేయడానికి మరియు unstuck అవ్వడానికి help చేస్తుంది. కానీ decisions — ఏ problem solve చేయాలి, ఏ data వాడాలి, తర్వాత ఏం improve చేయాలి — అవి మీవే. Interviewers దాన్నే search చేస్తున్నారు.</p>
+  </div>
+
+  <ul class="steps-list" style="margin-top:1.5rem;">
+    <li><span class="step-num">1</span><span class="step-text">AI కి మీ skill level, realistic time, మరియు target role చెప్పండి — difficulty ratings తో 5 project ideas అడగండి</span></li>
+    <li><span class="step-num">2</span><span class="step-text">Best sounding one కాదు — best explain చేయగలిగేది pick చేయండి</span></li>
+    <li><span class="step-num">3</span><span class="step-text">AI నుండి ఒక prompt లో అడగండి: project plan, file structure, starter code, మరియు README</span></li>
+    <li><span class="step-num">4</span><span class="step-text">Day 1 polish గురించి worry చేయకండి — ముందు locally working version చేయండి</span></li>
+    <li><span class="step-num">5</span><span class="step-text">Publicly deploy చేయండి (GitHub Pages, Streamlit Cloud, లేదా Tiiny.host) — live link local screenshot కంటే 10× convincing</span></li>
+  </ul>
+
+  <div class="ba-grid" style="margin-top:1.5rem;">
+    <div class="ba-col before">
+      <p class="ba-head">❌ AI లేకుండా</p>
+      <p>కిరణ్ నెలల తరబడి ఏం build చేయాలో ఆలోచించి ఎప్పుడూ start చేయడు. Portfolio link లేకుండా resumes submit చేస్తాడు. చాలా applications unanswered గా ఉంటాయి.</p>
+    </div>
+    <div class="ba-col after">
+      <p class="ba-head">✅ AI co-builder తో</p>
+      <p>కిరణ్ 2 గంటల్లో running app, 3 వారాల్లో deployed project, confident 2-minute demo answer పొందాడు. Project చూపించిన 4 లో 3 companies లో shortlist అయ్యాడు.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l7-s05-kiran-portfolio.jpg"
+       alt="కిరణ్ గుంటూరులో తన laptop లో AI-assisted portfolio project చూస్తున్నాడు, GitHub page visible" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:1.5rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 7 · PRACTICE ARENA                            -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">మీ వంత్రు</p>
+  <h2 class="sec-title">Practice Arena — ఈ రోజు ఒక్క పని build చేయండి</h2>
+  <p class="sec-intro">మీకు actually అవసరమైన దానికి దగ్గరగా ఉన్న task pick చేయండి. ఏ AI tool అయినా తెరవండి. Perfect కోసం aim చేయకండి — రేపు improve చేయగలిగే working first version కోసం aim చేయండి. ఈ కింది ప్రతి task 2 గంటల్లో achievable.</p>
+
+  <div class="arena-grid">
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.1s">
+      <p class="ac-num">Task 1 · వెబ్‌సైట్</p>
+      <h3>మీ own one-page site build చేయండి</h3>
+      <p>మీ name, మీరు ఏం చేస్తున్నారో లేదా sell చేస్తున్నారో, timings, prices, మరియు contact method రాసుకోండి. ఈ content తో AI కి single-page HTML file, mobile-friendly, no frameworks అడగండి. Browser లో తెరవండి, ఒక edit చేయండి, Tiiny.host కి upload చేయండి. ఈ రోజే మీకు live website ఉంది.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.15s">
+      <p class="ac-num">Task 2 · చాట్‌బాట్</p>
+      <h3>Most common ప్రశ్నలకు FAQ bot build చేయండి</h3>
+      <p>మీకు వచ్చే 8–10 ప్రశ్నలు list చేయండి. ప్రతి దానికి short answer రాయండి. AI ని keyword-matching HTML chatbot page గా మార్చమని అడగండి. 10 real question variations తో test చేయండి. Host చేసి link share చేయండి. వారానికి ఎన్ని calls లేదా messages save అవుతాయో estimate చేయండి.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.2s">
+      <p class="ac-num">Task 3 · పోస్టర్</p>
+      <h3>Promotional poster కోసం copy generate చేయండి</h3>
+      <p>Promote చేయాల్సిన ఒక్క విషయం ఆలోచించండి — service, product, event, మీరే. AI కి real specifics ఇవ్వండి. అడగండి: 1 headline, 1 tagline, 3 benefit points, 1 CTA. Canva లో paste చేయండి. ఈ రోజే public గా post చేయండి.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.25s">
+      <p class="ac-num">Task 4 · Business Plan</p>
+      <h3>మీ one-page business plan రాయండి</h3>
+      <p>AI కి ఇవ్వండి: current situation (ఏం చేస్తున్నారు, current income లేదా traction), 3-month goal, ఎవరికోసం రాస్తున్నారు. Sections మరియు ఒక table తో one-page business plan అడగండి. Review చేయండి. Wrong అయిన numbers update చేయండి. ఇప్పుడు bank, investor, లేదా partner తో share చేయగలిగే document మీ దగ్గర ఉంది.</p>
+    </div>
+    <div class="arena-card anim-fadeInUp" style="animation-delay:.3s">
+      <p class="ac-num">Task 5 · Portfolio Project</p>
+      <h3>మీ portfolio project idea pick చేయండి</h3>
+      <p>AI కి మీ skills, realistic time (realistic గా చెప్పండి), మరియు outcome type చెప్పండి. Difficulty rating తో 5 project ideas అడగండి. ఒకటి pick చేయండి. Project plan, file structure, starter code, మరియు README ఒక prompt లో అడగండి. మీ next free afternoon end కావడానికి ముందు locally running ఏదైనా పొందండి.</p>
+    </div>
+  </div>
+
+  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l7-s06-practice.jpg"
+       alt="learner AI co-builder తో నిజమైన project నిర్మిస్తున్నారు — website, chatbot, poster, portfolio visible" loading="lazy"
+       style="width:100%;border-radius:16px;margin-top:2rem;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 8 · CHEAT SHEET                               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">Quick reference</p>
+  <h2 class="sec-title">లెవెల్ 7 Cheat Sheet</h2>
+  <p class="sec-intro">ఈ 4 build patterns save చేసుకోండి. ప్రతి ఒక్కటి వేరే creation goal కోసం పని చేస్తుంది మరియు కొత్తగా ఏదైనా నిర్మించాల్సిన ప్రతిసారీ reuse చేయవచ్చు.</p>
+
+  <div class="cheat-grid">
+    <div class="cheat-card amber">
+      <h3>🌐 వెబ్‌సైట్</h3>
+      <p>AI కి ఇవ్వండి: content + format requirement ("single HTML file, mobile-friendly, no frameworks"). Natural language తో edit చేయండి. Tiiny.host లేదా Netlify Drop లో free host చేయండి.</p>
+      <code class="prompt-chip">"Create a single-page HTML file for my [business]. Content: [paste]..."</code>
+    </div>
+    <div class="cheat-card teal">
+      <h3>🤖 FAQ Chatbot</h3>
+      <p>AI కి ఇవ్వండి: top 10 Q&A pairs. Keyword-matching HTML chat page అడగండి. Real question variations తో test చేయండి. No server, no cost, offline works.</p>
+      <code class="prompt-chip">"Build a keyword-matching FAQ chatbot. Q&A list: [paste]..."</code>
+    </div>
+    <div class="cheat-card sky">
+      <h3>🎨 Poster Copy</h3>
+      <p>AI కి ఇవ్వండి: real specifics (numbers, prices, differentiators). Numbered list అడగండి: headline + tagline + bullets + CTA. Canva లో paste చేయండి. అయిపోయింది.</p>
+      <code class="prompt-chip">"Write poster copy: 1. headline 2. tagline 3. bullets 4. CTA. Details: [specifics]"</code>
+    </div>
+    <div class="cheat-card green">
+      <h3>🎓 Portfolio Project</h3>
+      <p>AI కి ఇవ్వండి: skills + time + target role → 5 ideas పొందండి. ఒకటి pick చేయండి. ఒక prompt లో plan + file structure + starter code + README అడగండి. Deploy చేయండి.</p>
+      <code class="prompt-chip">"Suggest 5 portfolio projects for [role]. Skills: [list]. Time: [X weeks]."</code>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 9 · QUIZ                                       -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <p class="sec-label">మీరు నేర్చుకున్నది test చేయండి</p>
+  <h2 class="sec-title">Quick Quiz — 5 ప్రశ్నలు</h2>
+  <p class="sec-intro">లెవెల్ 7 certificate పొందడానికి 5 లో 4 లేదా ఎక్కువ score చేయండి. మీరు ఎన్నిసార్లు అయినా retry చేయవచ్చు.</p>
+
+  <div class="quiz-wrap">
+    <form id="quiz-form">
+
+      <div class="quiz-q">
+        <p class="q-text">1. నందిని HTML తెలియకుండా తన ట్యూషన్ సెంటర్ కోసం one-page website build చేయాలనుకుంటోంది. AI ఉపయోగించి ఇందుకు అత్యంత effective way ఏది?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> ఏదైనా build చేయడానికి ముందు AI ఆమెకు step by step HTML నేర్పించమని అడగడం</label>
+          <label><input type="radio" name="q1" value="b"> పూర్తి content (bio, services, timings, fees, contact) AI కి ఇచ్చి single-page HTML file అడగడం — తర్వాత natural language తో edit చేసి free లో host చేయడం</label>
+          <label><input type="radio" name="q1" value="c"> AI ని ఆమె కోసం best WordPress theme pick చేయమని అడగడం</label>
+          <label><input type="radio" name="q1" value="d"> Good tuition website ఎలా ఉంటుందో AI describe చేయమని అడగి తర్వాత developer hire చేయడం</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">2. సురేష్ ongoing cost లేకుండా most common customer ప్రశ్నలకు సమాధానం చెప్పే chatbot కావాలి. Best approach ఏది?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> Enterprise chatbot SaaS platform కి sign up చేయడం</label>
+          <label><input type="radio" name="q2" value="b"> Natural language processing వాడే live AI chatbot build చేయడం</label>
+          <label><input type="radio" name="q2" value="c"> Top 10 Q&A pairs వాడే keyword-matching HTML chatbot build చేయడం — server లేదు, API key లేదు, free గా works</label>
+          <label><input type="radio" name="q2" value="d"> నెలలో ఒకసారి WhatsApp status లో FAQ post చేయడం</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">3. పూజా promotional poster కోసం copy రాయడంలో stuck అయింది. AI తో fastest way to unblock ఏది?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> AI కి real specifics ఇచ్చి (experience, prices, differentiators) numbered list అడగడం: headline, tagline, benefit bullets, CTA</label>
+          <label><input type="radio" name="q3" value="b"> AI ని full poster design చేయమని అడగడం</label>
+          <label><input type="radio" name="q3" value="c"> AI ని copy చేయడానికి other designers' posters find చేయమని అడగడం</label>
+          <label><input type="radio" name="q3" value="d"> AI నుండి general copywriting tips అడిగి తర్వాత scratch నుండి copy రాయడం</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">4. కిరణ్ data analyst role కోసం portfolio project choose చేస్తున్నాడు. Interviewers ని impress చేసే project ఏది?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q4" value="a"> Technically most complex project, అతను explain చేయలేకపోయినా సరే</label>
+          <label><input type="radio" name="q4" value="b"> Clearly explain చేయగలిగే, recognisable real problem solve చేసే, idea నుండి deployed output వరకు చూపించే deployed project</label>
+          <label><input type="radio" name="q4" value="c"> Famous research paper mimic చేసే project, time లో build చేయగలిగినా కాకపోయినా</label>
+          <label><input type="radio" name="q4" value="d"> Personal contribution లేకుండా AI పూర్తిగా చేసిన project</label>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <p class="q-text">5. AI కి portfolio project plan generate చేయమని అడగేటప్పుడు చేర్చాల్సిన most important విషయం ఏది?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q5" value="a"> నేర్చుకోవాల్సిన అన్ని programming languages list</label>
+          <label><input type="radio" name="q5" value="b"> మీ college name మరియు exam scores</label>
+          <label><input type="radio" name="q5" value="c"> మీ real current skill level, realistic time available, మరియు target role — AI project correctly scope చేయడానికి</label>
+          <label><input type="radio" name="q5" value="d"> AI tools ఏంటో మరియు ఎలా work చేస్తాయో detailed description</label>
+        </div>
+      </div>
+
+      <button type="button" class="quiz-submit" onclick="checkQuiz()">సమాధానాలు Submit చేయండి</button>
+    </form>
+
+    <div id="quiz-result"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 10 · CERTIFICATE                              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section id="cert-section">
+  <div class="cert-box">
+    <p style="font-size:2.5rem;margin-bottom:.5rem;">🏆</p>
+    <h2>పూర్తి చేసిన Certificate</h2>
+    <p class="cert-name">AI తో నిర్మించండి — లెవెల్ 7</p>
+    <p>మీరు 4 creator skills పూర్తి చేసి AI co-builder తో నిజమైన portfolio-ready projects నిర్మించారు</p>
+    <div class="skill-badges">
+      <span class="skill-badge">🌐 వెబ్‌సైట్ Builder</span>
+      <span class="skill-badge">🤖 Chatbot Builder</span>
+      <span class="skill-badge">🎨 పోస్టర్ + Business Plan</span>
+      <span class="skill-badge">🎓 Portfolio Project</span>
+    </div>
+    <p style="font-size:0.85rem;opacity:0.6;margin-top:.5rem;">మిత్ర AI లైఫ్ ఎడ్యుకేషన్ · mitraailife.com</p>
+    <button class="cert-btn" onclick="window.print()">🖨 Print / Save</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 11 · COMPLETION                               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="completion-box">
+    <div class="big-emoji">🎉</div>
+    <h2>మీరు పూర్తి మిత్ర AI లైఫ్ ladder complete చేశారు!</h2>
+    <p>లెవెల్ 1 లో మీ first AI conversation నుండి ఇక్కడ లెవెల్ 7 లో real website, chatbot, business poster, మరియు portfolio project నిర్మించడం వరకు — మీరు చాలా దూరం వచ్చారు. మీరు కేవలం AI user కాదు. మీరు AI builder.</p>
+    <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-l7-s07-celebration.jpg"
+         alt="లెవెల్ 7 characters పూర్తి మిత్ర AI లైఫ్ ladder complete చేసిన సంతోషంతో జరుపుకుంటున్నారు" loading="lazy"
+         style="width:100%;max-width:700px;border-radius:16px;margin:1.5rem 0;box-shadow:0 8px 28px rgba(0,0,0,0.12);" />
+    <p><strong>తర్వాత ఏమిటి:</strong> Advanced engineering project tracks, school మరియు student programmes, మరియు upcoming workshops కోసం <a href="../../../site/index-te.html" style="color:var(--indigo);font-weight:700;">మిత్ర AI లైఫ్ home page</a> explore చేయండి. Builder path ఇంకా కొనసాగుతోంది.</p>
+    <a href="../../../site/index-te.html" class="next-btn" style="margin-top:1rem;">→ హోమ్ కి వెళ్ళండి</a>
+  </div>
+
+  <!-- Disqus -->
+  <div class="disqus-wrap">
+    <h3 style="font-family:'Baloo 2',cursive;color:var(--navy);margin-bottom:1rem;">ప్రశ్నలు లేదా వ్యాఖ్యలు?</h3>
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = window.location.href;
+        this.page.identifier = 'level-07-comic-te';
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://mitra-ai-life.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SCRIPTS                                               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<script src="../../../site/auth.js"></script>
+<script>
+  /* progress bar */
+  window.addEventListener('scroll', () => {
+    const el = document.getElementById('progress-bar');
+    const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    el.style.width = Math.min(pct, 100) + '%';
+  });
+
+  /* scroll animations */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.anim-fadeInUp,.anim-slideLeft,.anim-slideRight,.anim-bounceIn')
+    .forEach(el => { el.style.opacity = '0'; observer.observe(el); });
+
+  /* quiz */
+  function checkQuiz() {
+    const answers = { q1:'b', q2:'c', q3:'a', q4:'b', q5:'c' };
+    let score = 0;
+    for (const [q, correct] of Object.entries(answers)) {
+      const sel = document.querySelector(`input[name="${q}"]:checked`);
+      if (sel && sel.value === correct) score++;
+    }
+    const result = document.getElementById('quiz-result');
+    result.style.display = 'block';
+    if (score >= 4) {
+      result.className = 'pass';
+      result.textContent = '🎉 ' + score + '/5 సరైనవి — చాలా బాగుంది! మీ certificate కింద ఉంది.';
+      document.getElementById('cert-section').style.display = 'block';
+      document.getElementById('cert-section').scrollIntoView({ behavior:'smooth', block:'center' });
+      if (typeof saveProgress === 'function') saveProgress('level-07', score);
+    } else {
+      result.className = 'fail';
+      result.textContent = score + '/5 సరైనవి — పైన skills review చేసి మళ్ళీ try చేయండి. Pass కావడానికి 4 లేదా ఎక్కువ కావాలి.';
+    }
+  }
+</script>
+</body>
+</html>

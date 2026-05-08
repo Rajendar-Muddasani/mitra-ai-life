@@ -735,4 +735,39 @@ Hub page: `content/students/class-07/class-07.html`
 
 ---
 
-*Last updated: 8 May 2026 · Class 6 complete (12 lessons) · Class 7 Lessons 1–9 live · L10–L12 in progress.*
+---
+
+### Lesson 10 — Critical Thinking with AI
+
+**File:** `content/students/class-07/lesson-10.html`  
+**Duration:** 40–50 min · 8 sections · Free  
+**Story character:** Sanjay (13yo, Pune) — debate collapse because he used AI statistics without verifying; Nitika's sharp cross-questioning
+
+**Section topics:**
+1. What is critical thinking — definition + 5 core habits (question claims, ask for sources, consider other side, correlation ≠ causation, stay open to change)
+2. 5 questions to ask every AI output (fact/opinion, source, whole picture, currency, India context)
+3. 6 common logical fallacies with AI examples: false dilemma, hasty generalisation, correlation ≠ causation, appeal to popularity, slippery slope, straw man
+4. 5-step claim verification workflow + source quality tiers (high/medium/low) for Indian students
+5. Spotting misleading information and fake news — warning signs + misinformation check prompt
+6. Critical thinking in debates and essays — debate preparation prompt
+7. Critical thinking in everyday AI use — 30-second habit, situations to trust/question AI
+8. Summary table — the critical thinker's AI toolkit
+
+**Quiz (10 questions) — answers:**
+
+| Q | Question | Correct |
+|---|----------|---------|
+| 1 | Sanjay's critical error before his debate | c |
+| 2 | Best definition of critical thinking | c |
+| 3 | What to do when AI gives a statistic | c |
+| 4 | Problem with 'sleep → exam scores' reasoning | c |
+| 5 | Most important next step after AI gives one-sided arguments | b |
+| 6 | 'Either study all the time or wasting potential' fallacy | c |
+| 7 | Most reliable source for Indian education policy | c |
+| 8 | How to treat a very confident AI claim | c |
+| 9 | 'AI supporters want students to stop thinking' fallacy | b |
+| 10 | Best 30-second habit for AI outputs | b |
+
+---
+
+*Last updated: 8 May 2026 · Class 6 complete (12 lessons) · Class 7 Lessons 1–10 live · L11–L12 in progress.*

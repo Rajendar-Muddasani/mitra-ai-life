@@ -665,4 +665,39 @@ Hub page: `content/students/class-07/class-07.html`
 
 ---
 
-*Last updated: 8 May 2026 · Class 6 complete (12 lessons) · Class 7 Lessons 1–7 live.*
+---
+
+### Lesson 8 — AI Images and Creative Tools
+
+**File:** `content/students/class-07/lesson-08.html`  
+**Duration:** 40–50 min · 8 sections · Free  
+**Story character:** Preethi (12yo, Coimbatore) — AI-generated Science diagram looked great but she couldn't explain the parts
+
+**Section topics:**
+1. How AI image generators work — what they are and are not good at
+2. The 4-ingredient image prompt formula: subject, setting, style, mood
+3. Iteration — refining results and adjusting prompts
+4. Using AI images in school projects — the right way (dos and don'ts)
+5. Copyright, ownership, and the honesty rule
+6. AI creative tools beyond images (Canva AI, Adobe Firefly, Suno)
+7. AI and your own creativity — partners not rivals
+8. Summary table — AI images: the smart student's guide
+
+**Quiz (10 questions) — answers:**
+
+| Q | Question | Correct |
+|---|----------|---------|
+| 1 | Why did Preethi's teacher lower her mark? | c |
+| 2 | The 4 ingredients of a good image prompt | b |
+| 3 | Weakest image prompt | c |
+| 4 | Right next step when colours are wrong but subject is right | c |
+| 5 | Why "no text or labels" is important | b |
+| 6 | Correct use of AI image for Science project | b |
+| 7 | What you must always do when using AI image in school | b |
+| 8 | What you should NEVER generate | c |
+| 9 | AI image tools are NOT reliable for | c |
+| 10 | Best way to use AI image tools alongside own artistic skills | c |
+
+---
+
+*Last updated: 8 May 2026 · Class 6 complete (12 lessons) · Class 7 Lessons 1–8 live · L9–L12 in progress.*

@@ -69,21 +69,63 @@ async function renderAuthUI(authNavArea) {
       + 'color:#3c4043;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,0.12);'
       + '">'
       + '<svg width="16" height="16" viewBox="0 0 48 48"><path fill="#4285F4" d="M46.1 24.6c0-1.6-.1-3.1-.4-4.6H24v8.7h12.4c-.5 2.7-2.1 5-4.5 6.5v5.4h7.3c4.3-3.9 6.9-9.7 6.9-16z"/><path fill="#34A853" d="M24 47c6.5 0 11.9-2.1 15.9-5.8l-7.3-5.4c-2.2 1.5-5 2.3-8.6 2.3-6.6 0-12.2-4.5-14.2-10.5H2.2v5.6C6.2 41.9 14.5 47 24 47z"/><path fill="#FBBC05" d="M9.8 27.6A14.9 14.9 0 0 1 9.8 20.4V14.8H2.2A23 23 0 0 0 1 24c0 3.2.5 6.3 1.2 9.2l7.6-5.6z"/><path fill="#EA4335" d="M24 9.5c3.7 0 7 1.3 9.6 3.8l7.2-7.2C36.9 2.1 31.5 0 24 0 14.5 0 6.2 5.1 2.2 12.8l7.6 5.6C11.8 12 17.4 9.5 24 9.5z"/></svg>'
-      + 'Sign in with Google'
+      + 'Sign in'
       + '</button>';
   } else {
     const name    = user.user_metadata?.full_name || user.email || 'Learner';
     const avatar  = user.user_metadata?.avatar_url;
     const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
 
+    // Inject dropdown styles once
+    if (!document.getElementById('mitra-auth-dropdown-styles')) {
+      const st = document.createElement('style');
+      st.id = 'mitra-auth-dropdown-styles';
+      st.textContent = [
+        '.auth-wrap{position:relative;display:inline-block}',
+        '.auth-avatar-btn{background:none;border:none;padding:0;cursor:pointer;display:block;border-radius:50%}',
+        '.auth-avatar-btn img,.auth-avatar-btn .auth-initials{width:32px;height:32px;border-radius:50%;display:block}',
+        '.auth-avatar-btn img{object-fit:cover;border:2px solid rgba(99,179,255,0.5)}',
+        '.auth-avatar-btn .auth-initials{background:#2563eb;color:white;font-size:0.72rem;font-weight:800;display:flex;align-items:center;justify-content:center}',
+        '.auth-drop{display:none;position:absolute;right:0;top:calc(100% + 6px);min-width:160px;background:#0d1b2e;border:1px solid rgba(83,166,255,0.22);border-radius:12px;padding:10px;z-index:400;box-shadow:0 8px 32px rgba(0,0,0,0.5)}',
+        '.auth-wrap.open .auth-drop{display:block}',
+        '.auth-drop-name{font-size:0.82rem;font-weight:700;color:#e2e8f0;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px}',
+        '.auth-sign-out{width:100%;font-size:0.78rem;padding:6px 10px;border:1px solid rgba(255,255,255,0.15);border-radius:8px;background:rgba(255,255,255,0.05);cursor:pointer;color:#94a3b8;text-align:left}'
+      ].join('');
+      document.head.appendChild(st);
+    }
+
+    const avatarEl = avatar
+      ? '<img src="' + avatar + '" alt="' + initials + '">'
+      : '<div class="auth-initials">' + initials + '</div>';
+
     authNavArea.innerHTML =
-      '<div style="display:flex;align-items:center;gap:8px;">'
-      + (avatar
-          ? '<img src="' + avatar + '" alt="" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:2px solid #2563eb;">'
-          : '<div style="width:30px;height:30px;border-radius:50%;background:#2563eb;color:white;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:800;">' + initials + '</div>')
-      + '<span style="font-size:0.82rem;font-weight:700;color:#1e3a5f;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + name.split(' ')[0] + '</span>'
-      + '<button onclick="signOut()" style="font-size:0.75rem;padding:4px 10px;border:1px solid #e2e8f0;border-radius:14px;background:transparent;cursor:pointer;color:#64748b;">Sign out</button>'
-      + '</div>';
+      '<div class="auth-wrap" id="mitra-auth-wrap">'
+      + '<button class="auth-avatar-btn" aria-label="Account menu" aria-expanded="false">' + avatarEl + '</button>'
+      + '<div class="auth-drop" role="menu">'
+      + '<div class="auth-drop-name">' + name + '</div>'
+      + '<button class="auth-sign-out" onclick="signOut()">Sign out</button>'
+      + '</div></div>';
+
+    // Toggle dropdown on avatar click; close on outside click
+    const wrap = document.getElementById('mitra-auth-wrap');
+    if (wrap) {
+      wrap.querySelector('.auth-avatar-btn').addEventListener('click', function(e) {
+        e.stopPropagation();
+        const open = wrap.classList.toggle('open');
+        this.setAttribute('aria-expanded', String(open));
+      });
+      document.addEventListener('click', function() {
+        wrap.classList.remove('open');
+        wrap.querySelector('.auth-avatar-btn')?.setAttribute('aria-expanded', 'false');
+      });
+    }
+  }
+
+  // Update language switcher button to show compact current language
+  const langBtn = document.querySelector('.lang-switcher-btn');
+  if (langBtn) {
+    const lang = document.documentElement.lang || 'en';
+    langBtn.innerHTML = '&#127760;&nbsp;' + (lang === 'te' ? 'TE' : 'EN') + ' &#9662;';
   }
 }
 

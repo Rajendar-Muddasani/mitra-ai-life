@@ -64,3 +64,6 @@ yarn-error.log*
 
 # Sensitive accounts file (local only)
 accounts.md
+
+# Voice test output
+voice_tests/

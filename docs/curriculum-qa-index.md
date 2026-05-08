@@ -15,7 +15,7 @@ Target age group: 10–17 · School students · India · English · CBSE/SSC com
 ## Class 6 — AI Literacy for Beginners (Age 10–11)
 
 Theme colour: Sky blue `#0ea5e9`  
-Full year: 12 lessons · Lessons 1–10 Live · Lessons 11–12 Coming Soon  
+Full year: 12 lessons · Lessons 1–11 Live · Lesson 12 Coming Soon  
 Hub page: `content/students/class-06/class-06.html`
 
 ---
@@ -349,11 +349,42 @@ Hub page: `content/students/class-06/class-06.html`
 
 ---
 
-### Lessons 11–12 — Coming Soon
+### Lesson 11 — AI Careers in India
+
+**File:** `content/students/class-06/lesson-11.html`  
+**Duration:** 60–90 min · 8 sections · Free
+
+**Section topics:**
+1. Jobs Are Changing — Not Disappearing — historical technology shifts, NASSCOM, India's AI talent opportunity
+2. AI Jobs in India Right Now — Data Scientist, ML Engineer, Prompt Engineer, AI Trainer, AI Ethics Researcher, AI Product Manager, AI UX Designer, AI in Healthcare
+3. Jobs That AI Helps — Not Replaces — Doctor, Teacher, Lawyer, Farmer, Journalist, Civil Engineer
+4. India's AI Industry — Cities and Companies — Bengaluru, Hyderabad, Mumbai, Chennai, Pune, Delhi hubs; Zoho, Freshworks, Ola, ISRO
+5. Skills That Always Matter — Critical thinking, Empathy, Creativity, Communication, Ethical judgment, Adaptability, AI Literacy, Maths, English
+6. How to Prepare Now — Class 6 Roadmap — five-stage path from Class 6 to career; free resources (NPTEL, Code.org, Khan Academy)
+7. Indian Role Models in AI — Sundar Pichai, Satya Nadella, Sridhar Vembu, Girish Mathrubootham, Dr. Tessy Thomas
+8. Your AI Career Path — Technical AI, AI+Domain, AI+Humanities routes; three illustrated career routes
+
+**Quiz Q&A:**
+
+| Q# | Question (short) | A | B | C | D | ✓ |
+|----|-----------------|---|---|---|---|---|
+| 1 | What happens to total employment when major technology arrives (historical pattern)? | Always decreases permanently | Stays exactly the same | **Technology changes tasks and creates new roles — historically total employment grows** | Only changes in tech sector | **c** |
+| 2 | What does a Data Scientist primarily do? | Designs AI app appearance | **Analyses large datasets using maths/AI tools to find patterns and inform decisions** | Writes ethical guidelines for AI | Labels and classifies training data | **b** |
+| 3 | Which city is known as India's Silicon Valley? | Mumbai | **Bengaluru** | Chennai | Hyderabad | **b** |
+| 4 | What is a Prompt Engineer? | Designs hardware for AI | Trains AI using machine learning | **Specialises in writing clear instructions to AI to get most useful outputs** | Medical AI professional | **c** |
+| 5 | Which part of a doctor's job does AI MOST help with? | Patient relationships and emotional care | **Reading medical scans, flagging unusual patterns, suggesting diagnoses** | Performing surgery | All final treatment decisions | **b** |
+| 6 | Which skill becomes MORE valuable as AI becomes more powerful? | Typing speed | Memorising large amounts of information | **Empathy — genuinely understanding and caring about other people's feelings** | Arithmetic calculation speed | **c** |
+| 7 | Where did Sridhar Vembu build Zoho Corporation? | Mumbai | Bengaluru | **Chennai** | Hyderabad | **c** |
+| 8 | Best thing a Class 6 student can do now to prepare for AI careers? | Specialise in AI coding only | **Build foundations in Maths, Science, English; develop curiosity; practise logical thinking; use AI tools with verification** | Decide on specific career now | Focus only on English | **b** |
+| 9 | What does an AI Ethics Researcher do? | Trains AI to recognise ethical language | Writes code to prevent illegal AI use | **Studies moral, social, and fairness implications of AI — ensuring it is safe, unbiased, beneficial** | Reviews AI output for grammar | **c** |
+| 10 | What should a student interested in medicine do for an AI-influenced career? | Switch to Computer Science | **Follow medical school path (Maths + Science); develop AI literacy as part of medical training** | Study only Biology | Wait until college to think about AI | **b** |
+
+---
+
+### Lesson 12 — Coming Soon
 
 | Lesson | Title | Status |
 |--------|-------|--------|
-| 11 | AI Careers in India | Coming Soon |
 | 12 | Year Discovery Journal | Coming Soon |
 
 ---
@@ -371,4 +402,4 @@ Hub page: `content/students/class-06/class-06.html`
 
 ---
 
-*Last updated: 09 May 2026 · Lessons 1–10 live · This document grows with each new lesson.*
+*Last updated: 10 May 2026 · Lessons 1–11 live · This document grows with each new lesson.*

@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Class 6 Lesson 2 — AI Around You | Mitra AI Life</title>
+<meta name="description" content="Class 6 Lesson 2 — Spot AI in YouTube, Google Maps, face unlock, autocorrect, weather apps and more. Understand filter bubbles and become a smart AI user." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-06/lesson-02.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="../../../site/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../../../site/apple-touch-icon.png" />
+<meta name="theme-color" content="#0ea5e9" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Class 6 Lesson 2 — AI Around You | Mitra AI Life" />
+<meta property="og:description" content="Spot AI in YouTube, Google Maps, face unlock, autocorrect, and weather apps. Understand filter bubbles and become a smart AI user." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-06/lesson-02.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+/* ── Reset and base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.65; }
+a { color: #0ea5e9; text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { max-width: 100%; height: auto; border-radius: 10px; }
+
+/* ── Nav ── */
+.topnav { background: #0f172a; padding: 0.75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+.topnav .brand { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800; text-decoration: none; }
+.topnav .brand span { color: #0ea5e9; }
+.topnav .nav-links { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.topnav .nav-links a { color: rgba(255,255,255,0.70); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+.topnav .nav-links a:hover { color: #fff; }
+.topnav .nav-links a.active { color: #38bdf8; }
+
+/* ── Lesson header ── */
+.lesson-header { background: linear-gradient(135deg, #0c4a6e, #0369a1, #0ea5e9); padding: 3rem 1.5rem 3.5rem; text-align: center; }
+.lh-badge { display: inline-block; background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.9rem; border-radius: 20px; margin-bottom: 1rem; }
+.lesson-header h1 { color: #fff; font-family: 'Baloo 2', cursive; font-size: clamp(1.6rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: 0.7rem; line-height: 1.2; }
+.lh-sub { color: rgba(255,255,255,0.8); font-size: clamp(0.9rem, 2vw, 1.05rem); max-width: 640px; margin: 0 auto 1.4rem; }
+.lh-meta { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+.lh-meta span { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.8rem; border-radius: 20px; }
+
+/* ── Video section ── */
+.lesson-video { background: linear-gradient(135deg, #1e1b4b, #0c4a6e); padding: 2.5rem 0; text-align: center; }
+.sec-label { display: inline-block; background: rgba(56,189,248,0.15); color: #38bdf8; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.25rem 0.75rem; border-radius: 12px; margin-bottom: 0.6rem; }
+.lesson-video h2 { color: #fff; font-size: clamp(1rem, 2vw, 1.4rem); font-weight: 800; margin: 0 0 1.2rem; }
+.video-box { position: relative; width: 90%; max-width: 820px; margin: 0 auto; padding-top: 56.25%; border-radius: 14px; overflow: hidden; background: #1e293b; border: 2px dashed rgba(56,189,248,0.3); }
+.video-box-inner { position: absolute; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.6rem; }
+.video-box-inner .vi { font-size:2.8rem; }
+.video-box-inner .vl { color:rgba(255,255,255,0.75); font-size:0.95rem; font-weight:700; }
+.video-box-inner .vb { padding:4px 16px; background:rgba(56,189,248,0.10); border:1px solid rgba(56,189,248,0.25); border-radius:20px; color:rgba(255,255,255,0.45); font-size:0.72rem; font-weight:700; letter-spacing:0.1em; }
+.video-caption { color:rgba(255,255,255,0.28); font-size:0.76rem; margin-top:0.7rem; }
+
+/* ── Content wrapper ── */
+.content-wrap { width: 90%; max-width: 860px; margin: 0 auto; padding: 2.5rem 0 4rem; }
+
+/* ── Story panel ── */
+.story-panel { background: #fff; border-radius: 16px; border-left: 5px solid #0ea5e9; padding: 1.8rem; margin-bottom: 2rem; box-shadow: 0 2px 12px rgba(14,165,233,0.08); }
+.story-eyebrow { font-size: 0.72rem; font-weight: 800; color: #0ea5e9; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+.story-panel h2 { color: #0c4a6e; font-size: 1.3rem; font-weight: 800; margin-bottom: 0.8rem; }
+.story-panel p { color: #374151; font-size: 0.95rem; margin-bottom: 0.75rem; }
+.story-highlight { background: #f0f9ff; border-radius: 10px; padding: 0.9rem 1.1rem; font-size: 0.9rem; color: #0369a1; font-weight: 700; margin-top: 0.75rem; }
+
+/* ── Lesson sections ── */
+.lesson-section { background: #fff; border-radius: 16px; padding: 1.6rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+.sec-eyebrow { font-size: 0.7rem; font-weight: 800; color: #0ea5e9; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.5rem; }
+.lesson-section h2 { color: #0c4a6e; font-size: 1.25rem; font-weight: 800; margin-bottom: 1rem; }
+.lesson-section p { color: #374151; font-size: 0.93rem; margin-bottom: 0.8rem; }
+.lesson-section ul, .lesson-section ol { color: #374151; font-size: 0.93rem; padding-left: 1.3rem; margin-bottom: 0.8rem; }
+.lesson-section li { margin-bottom: 0.35rem; }
+.lesson-section strong { color: #0c4a6e; }
+
+/* ── Callout ── */
+.callout { border-radius: 12px; padding: 1rem 1.2rem; font-size: 0.9rem; margin: 1rem 0; }
+.callout.sky { background: #f0f9ff; border-left: 4px solid #0ea5e9; color: #0369a1; }
+.callout.amber { background: #fffbeb; border-left: 4px solid #f59e0b; color: #92400e; }
+.callout.green { background: #f0fdf4; border-left: 4px solid #22c55e; color: #15803d; }
+.callout.red { background: #fef2f2; border-left: 4px solid #ef4444; color: #991b1b; }
+
+/* ── Compare grid ── */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+@media(max-width:520px){ .compare-grid { grid-template-columns: 1fr; } }
+.compare-card { border-radius: 12px; padding: 1rem 1.1rem; }
+.compare-card.good { background: #f0fdf4; border: 1px solid #bbf7d0; }
+.compare-card.careful { background: #fff7ed; border: 1px solid #fed7aa; }
+.compare-card h4 { font-size: 0.88rem; font-weight: 800; margin-bottom: 0.5rem; color: #15803d; }
+.compare-card.careful h4 { color: #c2410c; }
+.compare-card ul { font-size: 0.85rem; color: #374151; padding-left: 1.1rem; }
+
+/* ── How it works steps ── */
+.steps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.9rem; margin: 1.2rem 0; }
+.step-card { background: #f8fafc; border-radius: 12px; padding: 1rem; border: 1.5px solid #e2e8f0; }
+.step-card .step-num { font-size: 0.68rem; font-weight: 800; color: #0ea5e9; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; }
+.step-card h4 { color: #0c4a6e; font-size: 0.88rem; font-weight: 800; margin-bottom: 0.25rem; }
+.step-card p { color: #475569; font-size: 0.8rem; margin: 0; }
+
+/* ── Ai spotter table ── */
+.spotter-table { width:100%; border-collapse:collapse; font-size:0.85rem; margin:1.2rem 0; }
+.spotter-table th { background:#0ea5e9; color:#fff; padding:0.5rem 0.75rem; text-align:left; font-weight:700; }
+.spotter-table td { padding:0.45rem 0.75rem; border-bottom:1px solid #e0f2fe; vertical-align:top; }
+.spotter-table tr:nth-child(even) td { background:#f0f9ff; }
+.spotter-table tr:last-child td { border-bottom:none; }
+
+/* ── Habits list ── */
+.habits-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:0.9rem; margin:1.2rem 0; }
+.habit-card { background:#fff; border-radius:12px; padding:1rem; border-left:4px solid #0ea5e9; box-shadow:0 2px 6px rgba(14,165,233,0.07); }
+.habit-card .hc-num { font-size:0.68rem; font-weight:800; color:#0ea5e9; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.2rem; }
+.habit-card h4 { color:#0c4a6e; font-size:0.88rem; font-weight:800; margin:0 0 0.25rem; }
+.habit-card p { color:#475569; font-size:0.8rem; margin:0; line-height:1.45; }
+
+/* ── Safety rules ── */
+.safety-rules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.9rem; margin: 1.2rem 0; }
+.sr-card { background: #fff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 1rem; text-align: center; }
+.sr-icon { font-size: 1.8rem; margin-bottom: 0.4rem; }
+.sr-rule { color: #0c4a6e; font-size: 0.85rem; font-weight: 800; margin-bottom: 0.25rem; }
+.sr-desc { color: #64748b; font-size: 0.78rem; line-height: 1.4; }
+
+/* ── Quiz ── */
+.quiz-section { background: linear-gradient(135deg, #0c4a6e, #0369a1); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; color: #fff; }
+.quiz-section h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 1.5rem; }
+.quiz-q { margin-bottom: 1.4rem; }
+.q-text { font-size: 0.92rem; font-weight: 700; margin-bottom: 0.6rem; color: #e0f2fe; }
+.quiz-options { display: flex; flex-direction: column; gap: 0.4rem; }
+.quiz-opt { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 0.5rem 0.85rem; color: rgba(255,255,255,0.85); font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 600; text-align: left; cursor: pointer; transition: background 0.15s; }
+.quiz-opt:hover { background: rgba(255,255,255,0.14); }
+.quiz-opt.correct { background: rgba(34,197,94,0.25); border-color: #4ade80; color: #fff; }
+.quiz-opt.wrong { background: rgba(239,68,68,0.20); border-color: #f87171; color: rgba(255,255,255,0.75); }
+.quiz-feedback { display:none; font-size:0.83rem; padding:0.55rem 0.75rem; border-radius:8px; margin-top:0.4rem; font-weight:700; }
+.quiz-feedback.show { display:block; }
+.quiz-feedback.ok { background:rgba(34,197,94,0.15); color:#86efac; }
+.quiz-feedback.no { background:rgba(239,68,68,0.15); color:#fca5a5; }
+.quiz-submit { width:100%; padding:0.75rem; background:#0ea5e9; border:none; border-radius:10px; color:#fff; font-family:'Nunito',sans-serif; font-size:1rem; font-weight:800; cursor:pointer; margin-top:0.5rem; }
+.quiz-submit:hover { background:#38bdf8; }
+.quiz-submit:disabled { opacity:0.55; cursor:not-allowed; }
+.quiz-score-box { display:none; background:rgba(255,255,255,0.08); border-radius:12px; padding:1.2rem; text-align:center; margin-top:1rem; }
+.quiz-score-box.show { display:block; }
+.quiz-score-box .qs-num { font-size:2.5rem; font-weight:900; color:#a5b4fc; }
+.quiz-score-box .qs-label { color:rgba(255,255,255,0.60); font-size:0.85rem; margin-top:0.2rem; }
+.quiz-score-box .qs-msg { color:#c7d2fe; font-size:0.9rem; font-weight:700; margin-top:0.7rem; }
+
+/* ── Worksheet ── */
+.worksheet-section { background: #fff; border-radius: 16px; padding: 1.6rem; margin-bottom: 1.5rem; border: 2px dashed #bae6fd; }
+.worksheet-section h2 { color: #0c4a6e; font-size: 1.15rem; font-weight: 800; margin-bottom: 0.8rem; }
+.worksheet-section p { color: #374151; font-size: 0.92rem; margin-bottom: 0.8rem; }
+.ws-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 1rem 0; }
+.ws-table th { background: #0ea5e9; color: #fff; padding: 0.5rem 0.75rem; text-align: left; font-weight: 700; }
+.ws-table td { padding: 0.6rem 0.75rem; border: 1px solid #e0f2fe; vertical-align: top; min-height: 40px; }
+.ws-download-note { color: #94a3b8; font-size: 0.78rem; font-style: italic; }
+
+/* ── Parent note ── */
+.parent-note { background: #fafaf9; border-radius: 16px; padding: 1.6rem; margin-bottom: 1.5rem; border: 1px solid #e7e5e4; }
+.pn-header { display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; font-weight: 800; color: #44403c; margin-bottom: 1rem; }
+.parent-note p { color: #57534e; font-size: 0.9rem; margin-bottom: 0.6rem; }
+.parent-note ul { color: #57534e; font-size: 0.9rem; padding-left: 1.2rem; margin-bottom: 0.6rem; }
+.parent-note li { margin-bottom: 0.3rem; }
+.parent-note strong { color: #292524; }
+
+/* ── Bottom nav ── */
+.bottom-nav { background: #0f172a; padding: 2rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.bottom-nav a { color: rgba(255,255,255,0.75); font-size: 0.88rem; font-weight: 700; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); text-decoration: none; }
+.bottom-nav a:hover { background: rgba(255,255,255,0.08); }
+.bottom-nav a.next-btn { background: #0ea5e9; border-color: #0ea5e9; color: #fff; }
+
+/* ── Footer ── */
+footer { background: #0f172a; border-top: 1px solid rgba(255,255,255,0.06); padding: 1.2rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+footer span { color: rgba(255,255,255,0.35); font-size: 0.78rem; }
+footer .fl { display: flex; gap: 1rem; }
+footer .fl a { color: rgba(255,255,255,0.40); font-size: 0.75rem; }
+footer .fl a:hover { color: rgba(255,255,255,0.70); }
+
+@media(max-width:600px){
+  .content-wrap { width: 95%; padding: 2rem 0 3rem; }
+  .lesson-section { padding: 1.2rem 1.1rem; }
+  .quiz-section { padding: 1.2rem 1.1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<nav class="topnav">
+  <a class="brand" href="../../../site/index.html">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="../../../site/index.html">Home</a>
+    <a href="../../../site/students.html">AI for Students</a>
+    <a href="class-06.html">Class 6 Hub</a>
+    <a class="active" href="lesson-02.html">Lesson 2</a>
+  </div>
+</nav>
+
+<!-- ── Lesson Header ── -->
+<header class="lesson-header">
+  <div class="lh-badge">Class 6 · Age 10–11 · AI for Students · Lesson 2 of 12</div>
+  <h1>AI Around You — Going Deeper</h1>
+  <p class="lh-sub">Spot AI in YouTube, Google Maps, face unlock, autocorrect, and weather apps — then learn how to stay in control as a smart AI user.</p>
+  <div class="lh-meta">
+    <span>📘 Class 6 · Lesson 2</span>
+    <span>🕐 60–75 min</span>
+    <span>🚫 No coding needed</span>
+    <span>🆓 Free lesson</span>
+  </div>
+</header>
+
+<!-- ── Lesson Video (placeholder) ── -->
+<section class="lesson-video">
+  <div style="width:90%;max-width:860px;margin:0 auto;">
+    <div class="sec-label">Watch first · 2–3 minutes</div>
+    <h2>Class 6 Lesson 2 — AI Around You</h2>
+    <div class="video-box">
+      <div class="video-box-inner">
+        <div class="vi">🎬</div>
+        <div class="vl">Lesson 2 Video — Coming Soon</div>
+        <div class="vb">BEING PRODUCED</div>
+      </div>
+    </div>
+    <p class="video-caption">Video narration will be added here · No sign-in needed · English · Safe for all school ages</p>
+  </div>
+</section>
+
+<!-- ── Main content ── -->
+<main class="content-wrap">
+
+  <!-- Story -->
+  <div class="story-panel">
+    <div class="story-eyebrow">Story · Meet Anu Again</div>
+    <h2>Anu's AI Spy Day 🕵️</h2>
+    <p>After her first lesson, Anu told her friend Priya about AI. Priya wasn't convinced. "It's just apps," she said. "Nothing special."</p>
+    <p>Anu decided to prove it. She kept a small notebook with her for one full day and wrote down every time she thought AI was involved. By lunch she had 6 things. By bedtime she had 14.</p>
+    <p>Priya read the list and went quiet. "Wait — even the weather app?" she asked.</p>
+    <p>"Especially the weather app," said Anu. "And face unlock. And every time YouTube suggested a video. And autocorrect. And Maps knowing about the traffic even before Appa checked. And—"</p>
+    <p>"Okay, okay," said Priya. "Teach me."</p>
+    <div class="story-highlight">
+      👉 In this lesson you will do exactly what Anu did: spot AI in the apps and tools you use every single day — and understand how each one works.
+    </div>
+  </div>
+
+  <!-- Section 1: YouTube Algorithm -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 1 of 8</div>
+    <h2>📺 YouTube — The Recommendation Machine</h2>
+    <p>When you open YouTube, the first thing you see is not a random list. Every single video on that page was chosen <strong>specifically for you</strong> by an AI system that has been watching what you do.</p>
+    <p>Here is what the YouTube AI notices about you:</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">Signal 1</div>
+        <h4>Watch Time</h4>
+        <p>How many seconds of each video did you actually watch? Did you rewind parts? Or did you skip ahead or stop early?</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Signal 2</div>
+        <h4>Completion Rate</h4>
+        <p>Did you watch a video all the way to the end? A video watched fully tells the AI you loved it — even if you didn't click Like.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Signal 3</div>
+        <h4>What You Click Next</h4>
+        <p>After watching, did you click on a suggested video or go back? What you click next tells the AI what you want more of.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Signal 4</div>
+        <h4>Similar Viewers</h4>
+        <p>The AI groups you with millions of people who watched the same things. Whatever those similar people loved next — it suggests that to you too.</p>
+      </div>
+    </div>
+    <div class="callout sky">
+      <strong>The rabbit hole effect:</strong> If you watch one cricket video, the AI might suggest another cricket video, then a batting technique video, then a live match clip, then a cricket academy ad. Each step feels like your choice — but the AI is guiding you. This is called the <strong>rabbit hole</strong>. You went looking for one thing and ended up somewhere very different.
+    </div>
+    <div class="compare-grid">
+      <div class="compare-card good">
+        <h4>Smart way to use YouTube</h4>
+        <ul>
+          <li>Search for what you actually need</li>
+          <li>Use it for learning with intention</li>
+          <li>Set a timer before you start</li>
+          <li>Notice when you have gone off-topic</li>
+        </ul>
+      </div>
+      <div class="compare-card careful">
+        <h4>What the rabbit hole looks like</h4>
+        <ul>
+          <li>Opening YouTube "just for 5 minutes"</li>
+          <li>Following "Up Next" without thinking</li>
+          <li>Watching 11 videos when you planned 1</li>
+          <li>Forgetting what you originally came for</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout amber">
+      <strong>Important fact:</strong> YouTube's AI does not care if the content is good for you. It only cares about keeping you watching longer. That is why it sometimes pushes videos that feel addictive rather than useful.
+    </div>
+  </div>
+
+  <!-- Section 2: Google Search -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 2 of 8</div>
+    <h2>🔍 Google Search — More Than Just Keywords</h2>
+    <p>When you type something in Google and press Enter, you are not just looking up words in a dictionary. You are using one of the most complex AI systems ever built.</p>
+    <p><strong>Two big things Google AI does that most people don't know:</strong></p>
+    <ol>
+      <li style="margin-bottom:0.7rem;"><strong>It reads the meaning, not just the words.</strong> If you type "best food for exam day", Google understands you want healthy, brain-boosting food ideas — not a list of every page that contains those exact words. This is called <strong>semantic search</strong>.</li>
+      <li><strong>It personalises your results.</strong> Two students can search the exact same thing and see different results — because Google remembers their past searches, location, what device they use, and even what language they usually read in.</li>
+    </ol>
+    <div class="callout sky">
+      <strong>Try this experiment (with a parent's phone):</strong> Search the same thing on your phone and on your parent's phone at the same time. Compare the top 5 results. They will often be different — because Google has learned different things about each user.
+    </div>
+    <p>Google also now shows <strong>AI-generated answers</strong> at the very top of results (called AI Overviews). These are written by AI in real time. They can be very helpful — but they can also be wrong. Always check the sources linked below the AI answer.</p>
+    <div class="callout amber">
+      <strong>School rule to remember:</strong> Never use a Google AI Overview as a source for your project or assignment. AI summaries can contain errors. Go to the actual webpage and verify before using.
+    </div>
+  </div>
+
+  <!-- Section 3: Google Maps -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 3 of 8</div>
+    <h2>🗺️ Google Maps — The Traffic Predictor</h2>
+    <p>When your family checks Google Maps before leaving home, and it says "there's heavy traffic on NH-65 — try Ring Road instead" — that is AI at work.</p>
+    <p><strong>How does Maps know about traffic that is happening right now?</strong></p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">Source 1</div>
+        <h4>Crowdsourced Speed Data</h4>
+        <p>Every phone with Google Maps open (and location enabled) sends its GPS speed to Google. Millions of phones on every road = real-time traffic map.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Source 2</div>
+        <h4>Historical Patterns</h4>
+        <p>Maps remembers: every Monday morning at 8:30 AM, the road near this school is jammed. This historical pattern gets added to the prediction.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Source 3</div>
+        <h4>Local Events</h4>
+        <p>If a cricket match or festival is happening nearby, Maps knows and adjusts. It learns from past events to predict future congestion.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Source 4</div>
+        <h4>Real-Time Incidents</h4>
+        <p>Users can report accidents. AI analyses patterns in sudden slowdowns to detect unreported accidents and adjust routes automatically.</p>
+      </div>
+    </div>
+    <p>This is why Maps can say "<strong>arrive by 9:15 AM</strong>" with surprising accuracy. It calculated that ETA in milliseconds by running thousands of possible routes through AI.</p>
+    <div class="callout green">
+      <strong>Amazing India fact:</strong> During COVID-19 lockdowns in March 2020, Google Maps traffic data showed the streets of Mumbai go quiet before the official lockdown announcement. AI spotted the change before the news reported it.
+    </div>
+  </div>
+
+  <!-- Section 4: Face Unlock -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 4 of 8</div>
+    <h2>🔓 Face Unlock — AI Recognising You</h2>
+    <p>When you pick up a phone and it unlocks just by looking at your face — that is biometric AI. "Biometric" means using your physical features (face, fingerprint, voice) as a password.</p>
+    <p><strong>How does face unlock work?</strong> When you first set it up, the phone takes many photos of your face from slightly different angles. An AI model analyses these and builds a <strong>mathematical map</strong> of your face — the distance between your eyes, the shape of your nose, the curve of your jaw.</p>
+    <p>Every time you pick up the phone, this map is compared against your face in less than half a second.</p>
+    <div class="callout amber">
+      <strong>Why does it sometimes fail?</strong>
+      <ul style="margin-top:0.4rem;">
+        <li>Bright sunlight or very dark rooms confuse the camera</li>
+        <li>If you are unwell and your face looks different</li>
+        <li>Early face unlock systems could be fooled by a photo — modern ones use infrared sensors to check for depth (so a flat photo does not work)</li>
+      </ul>
+    </div>
+    <div class="callout sky">
+      <strong>Privacy question to think about:</strong> Your face data on most modern phones is stored only on your device — not sent to any company's server. But many apps (shopping, social media) ask to access your camera. That face data <em>can</em> be sent online. This is why parents should review app permissions regularly.
+    </div>
+    <p><strong>Other biometric AI examples in India:</strong> Aadhaar eKYC uses face matching. Banks use voice recognition for phone banking. Railway stations use face recognition at entry gates in some cities.</p>
+  </div>
+
+  <!-- Section 5: Autocorrect & Predictive Text -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 5 of 8</div>
+    <h2>⌨️ Autocorrect and Predictive Text — Your Smart Keyboard</h2>
+    <p>Every time you type on your phone's keyboard and it fixes a spelling mistake or suggests the next word — that is a small but powerful AI model running on your device.</p>
+    <p><strong>How does predictive text work?</strong> The keyboard AI has studied billions of real sentences in English (and in your language, if enabled). It learned which words usually come after which other words.</p>
+    <p>For example: after "I am going to the" — the most likely next words are "school", "market", "hospital", or "station". So those are suggested.</p>
+    <div class="callout sky">
+      <strong>The AI is also learning your personal style.</strong> Over time, your phone keyboard notices: you often type "Amma" instead of "Mum", you use certain Telugu phrases, you like ending sentences with "okay?". It adapts to your habits. This is why your phone's autocorrect suggestions are different from someone else's even with the same model phone.
+    </div>
+    <div class="compare-grid">
+      <div class="compare-card good">
+        <h4>When autocorrect helps</h4>
+        <ul>
+          <li>Fixing typing speed errors</li>
+          <li>Learning new vocabulary spelling</li>
+          <li>Finishing common phrases faster</li>
+          <li>Swipe typing (slide finger over letters)</li>
+        </ul>
+      </div>
+      <div class="compare-card careful">
+        <h4>When autocorrect causes trouble</h4>
+        <ul>
+          <li>Changing a correct word to a wrong one</li>
+          <li>Changing names it doesn't know</li>
+          <li>Making embarrassing changes in messages</li>
+          <li>Fixing technical terms incorrectly</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout amber">
+      <strong>Important habit:</strong> Always read your message once before sending. Autocorrect can change your meaning completely without you noticing. Especially in exam answers typed on a device — always proof-read.
+    </div>
+  </div>
+
+  <!-- Section 6: Weather AI -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 6 of 8</div>
+    <h2>🌦️ Weather Apps — AI that Reads the Sky</h2>
+    <p>Your phone's weather app knows it will rain at 3 PM today in your specific area. Twenty years ago, this level of precision was impossible. Today, AI-powered weather forecasting has changed everything.</p>
+    <p><strong>What data does weather AI use?</strong></p>
+    <ul>
+      <li><strong>Satellites</strong> — India's INSAT and IRNSS satellites send images of cloud movements and temperatures every 15 minutes</li>
+      <li><strong>Weather stations</strong> — Thousands of sensors across India measure temperature, humidity, wind speed, and air pressure on the ground</li>
+      <li><strong>Ocean buoys</strong> — Sensors in the Bay of Bengal and Arabian Sea detect early signs of cyclone formation</li>
+      <li><strong>Historical records</strong> — 100+ years of India weather data teaches the AI what patterns repeat every monsoon season</li>
+      <li><strong>Radar</strong> — Doppler radar scans rain clouds and measures how fast they are moving toward which locations</li>
+    </ul>
+    <div class="callout green">
+      <strong>Real achievement:</strong> India now gets <strong>5-day cyclone track forecasts</strong> with high accuracy, thanks to AI. The IMD (India Meteorological Department) uses AI to give district-level warnings — so a farmer in one taluk gets a different alert from a farmer 50 km away. This saves lives and crops.
+    </div>
+    <p>The AI does not "know" the weather the way a person knows things. It runs mathematical models: "given all the data inputs right now, what is the most probable atmospheric state in 6 hours, 12 hours, 24 hours?" It runs millions of calculations per second to answer that question.</p>
+    <div class="callout amber">
+      <strong>Why forecasts are not always right:</strong> Weather is a chaotic system. A tiny variation in one place can change outcomes far away — this is the famous "butterfly effect". AI improves forecasts enormously but cannot guarantee 100% accuracy. Always check the latest update before outdoor plans.
+    </div>
+  </div>
+
+  <!-- Section 7: Filter Bubbles -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 7 of 8</div>
+    <h2>🫧 The Recommendation Trap — Filter Bubbles</h2>
+    <p>Here is a problem that no one talks about enough — and it is caused by recommendation AI working perfectly.</p>
+    <p>A <strong>filter bubble</strong> happens when an AI keeps showing you content that matches what you already believe, like, and agree with — until you stop seeing different ideas at all.</p>
+    <p><strong>Example:</strong> Ravi watches one video supporting one political party. YouTube shows him another. Then another. After a month, his feed shows only those views. He starts to think "everyone thinks this way" — but in reality, he has been put inside a bubble. The AI never showed him the other side, because the algorithm found he did not click on opposing views.</p>
+    <div class="callout red">
+      <strong>Why this matters for you:</strong> If you only see content that agrees with you — in news, YouTube, Instagram, or WhatsApp — you stop developing critical thinking. You never have to question your own ideas. This is dangerous for democracy, for education, and for your personal growth.
+    </div>
+    <p><strong>How to break out of a filter bubble:</strong></p>
+    <ul>
+      <li>Deliberately search for views you have not heard before</li>
+      <li>Follow channels or accounts with different perspectives</li>
+      <li>Notice when you are only seeing one side of any debate</li>
+      <li>Ask: "What would someone who disagrees say about this?"</li>
+      <li>Read actual news articles rather than social media summaries</li>
+    </ul>
+    <div class="callout sky">
+      <strong>India-specific concern:</strong> WhatsApp forwards often contain one-sided news, rumours, or doctored images. AI in WhatsApp also personalises what types of groups and content get suggested to you. Always verify before forwarding anything — especially news and health information.
+    </div>
+  </div>
+
+  <!-- Section 8: Smart AI User Habits -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 8 of 8</div>
+    <h2>🧠 You Are Now an AI Spotter — 5 Habits of Smart Users</h2>
+    <p>By the end of this lesson you know that AI is everywhere around you — in apps, maps, keyboards, cameras, weather, and your social feeds. Now the question is: <strong>what do you do with that knowledge?</strong></p>
+    <div class="habits-grid">
+      <div class="habit-card">
+        <div class="hc-num">Habit 1</div>
+        <h4>Spot it and name it</h4>
+        <p>When you use any app, ask yourself: "Is AI involved here?" Over time this becomes automatic — and you stop being surprised or fooled by AI.</p>
+      </div>
+      <div class="habit-card">
+        <div class="hc-num">Habit 2</div>
+        <h4>Search with intention</h4>
+        <p>Don't let the recommendation engine drive your time. Decide what you want to watch or read before you open YouTube or a news app. Search directly.</p>
+      </div>
+      <div class="habit-card">
+        <div class="hc-num">Habit 3</div>
+        <h4>Verify before you trust</h4>
+        <p>AI Overviews, weather forecasts, and WhatsApp forwards can all be wrong. Always check the original source before trusting important information.</p>
+      </div>
+      <div class="habit-card">
+        <div class="hc-num">Habit 4</div>
+        <h4>Check your privacy settings</h4>
+        <p>Know which apps have access to your camera, location, and contacts. Ask your parent to review these with you once every few months.</p>
+      </div>
+      <div class="habit-card">
+        <div class="hc-num">Habit 5</div>
+        <h4>Seek different viewpoints</h4>
+        <p>Deliberately consume content from different sources on important topics. Break your own filter bubble before it forms. This makes you a stronger thinker.</p>
+      </div>
+    </div>
+    <div class="callout sky">
+      <strong>Bridge to Lesson 3:</strong> Now you know AI is everywhere and you know how some AI tools work on the outside. In the next lesson we will go one level deeper: how does AI actually learn to do all these things? What happens inside when millions of photos are turned into a face recognition system? That is Lesson 3 — How AI Learns.
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section" id="quiz">
+    <h2>🎯 Quick Quiz — 10 Questions to Check What You Learned</h2>
+
+    <div class="quiz-q" id="q1">
+      <div class="q-text">Q1. YouTube showed Anu a science video she had never searched for, but she loved it. Why did YouTube know she would like it?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="1" data-val="a">A) YouTube guessed randomly</button>
+        <button class="quiz-opt" data-q="1" data-val="b">B) AI studied her watch history, completion rates, and what similar users enjoyed</button>
+        <button class="quiz-opt" data-q="1" data-val="c">C) A YouTube employee reviewed her profile manually</button>
+        <button class="quiz-opt" data-q="1" data-val="d">D) Anu clicked a science button in her settings</button>
+      </div>
+      <div class="quiz-feedback" id="fb1"></div>
+    </div>
+
+    <div class="quiz-q" id="q2">
+      <div class="q-text">Q2. Raju and his teacher search "best study tips" on Google and see different results. Why?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="2" data-val="a">A) Google shows random pages each time</button>
+        <button class="quiz-opt" data-q="2" data-val="b">B) Google personalises results based on each user's search history, location, and device</button>
+        <button class="quiz-opt" data-q="2" data-val="c">C) Google changes results every hour automatically</button>
+        <button class="quiz-opt" data-q="2" data-val="d">D) Raju and his teacher live in different countries</button>
+      </div>
+      <div class="quiz-feedback" id="fb2"></div>
+    </div>
+
+    <div class="quiz-q" id="q3">
+      <div class="q-text">Q3. How does Google Maps know there is a traffic jam on a road right now?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="3" data-val="a">A) It watches CCTV cameras on every road</button>
+        <button class="quiz-opt" data-q="3" data-val="b">B) Traffic police radio Google the information</button>
+        <button class="quiz-opt" data-q="3" data-val="c">C) GPS speed data from millions of phones using Maps is collected and analysed in real time</button>
+        <button class="quiz-opt" data-q="3" data-val="d">D) Maps only uses information from 2 years ago</button>
+      </div>
+      <div class="quiz-feedback" id="fb3"></div>
+    </div>
+
+    <div class="quiz-q" id="q4">
+      <div class="q-text">Q4. Meena unlocks her phone with her face every morning. Where is her face data stored in most modern phones?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="4" data-val="a">A) In Google's servers in the USA</button>
+        <button class="quiz-opt" data-q="4" data-val="b">B) In a special database in Aadhaar</button>
+        <button class="quiz-opt" data-q="4" data-val="c">C) Only on her phone's own secure chip — not sent anywhere</button>
+        <button class="quiz-opt" data-q="4" data-val="d">D) In WhatsApp's servers</button>
+      </div>
+      <div class="quiz-feedback" id="fb4"></div>
+    </div>
+
+    <div class="quiz-q" id="q5">
+      <div class="q-text">Q5. Rahul types "I am going to the" and his phone suggests "school, market, hospital". What type of AI is doing this?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="5" data-val="a">A) Face recognition AI</button>
+        <button class="quiz-opt" data-q="5" data-val="b">B) Voice AI</button>
+        <button class="quiz-opt" data-q="5" data-val="c">C) Predictive text / language AI in the keyboard</button>
+        <button class="quiz-opt" data-q="5" data-val="d">D) Recommendation AI</button>
+      </div>
+      <div class="quiz-feedback" id="fb5"></div>
+    </div>
+
+    <div class="quiz-q" id="q6">
+      <div class="q-text">Q6. What is the main data source that allows weather apps to show district-level rain predictions in India?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="6" data-val="a">A) Reports from school students who step outside</button>
+        <button class="quiz-opt" data-q="6" data-val="b">B) Satellites, weather sensors, radar, ocean buoys, and 100+ years of historical data processed by AI</button>
+        <button class="quiz-opt" data-q="6" data-val="c">C) A single very powerful computer in Delhi</button>
+        <button class="quiz-opt" data-q="6" data-val="d">D) AI guesses based on the current month</button>
+      </div>
+      <div class="quiz-feedback" id="fb6"></div>
+    </div>
+
+    <div class="quiz-q" id="q7">
+      <div class="q-text">Q7. What is a filter bubble?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="7" data-val="a">A) A special browser feature that blocks harmful websites</button>
+        <button class="quiz-opt" data-q="7" data-val="b">B) A situation where AI keeps showing you only content that matches your existing views, hiding different perspectives</button>
+        <button class="quiz-opt" data-q="7" data-val="c">C) A type of water purification technology</button>
+        <button class="quiz-opt" data-q="7" data-val="d">D) A parental control setting on YouTube</button>
+      </div>
+      <div class="quiz-feedback" id="fb7"></div>
+    </div>
+
+    <div class="quiz-q" id="q8">
+      <div class="q-text">Q8. A Google AI Overview at the top of search results says a famous battle happened in 1205 CE. Your history textbook says 1191 CE. What should you do?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="8" data-val="a">A) Trust Google AI — it is more recent and always correct</button>
+        <button class="quiz-opt" data-q="8" data-val="b">B) Use the textbook date for your exam and check the actual source pages linked below the AI answer</button>
+        <button class="quiz-opt" data-q="8" data-val="c">C) Go with whichever answer your friend agrees with</button>
+        <button class="quiz-opt" data-q="8" data-val="d">D) Delete the Google result and search again until they match</button>
+      </div>
+      <div class="quiz-feedback" id="fb8"></div>
+    </div>
+
+    <div class="quiz-q" id="q9">
+      <div class="q-text">Q9. Which of these is the BEST habit for a smart AI user?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="9" data-val="a">A) Always follow the "Up Next" video on YouTube without thinking</button>
+        <button class="quiz-opt" data-q="9" data-val="b">B) Share every WhatsApp forward immediately so more people see it</button>
+        <button class="quiz-opt" data-q="9" data-val="c">C) Decide what you want before opening an app, search intentionally, and verify important information</button>
+        <button class="quiz-opt" data-q="9" data-val="d">D) Avoid all AI tools because they are dangerous</button>
+      </div>
+      <div class="quiz-feedback" id="fb9"></div>
+    </div>
+
+    <div class="quiz-q" id="q10">
+      <div class="q-text">Q10. Anu's phone keyboard autocorrected "Amma" to "Mama" in a message to her mother. What is the best lesson from this?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="10" data-val="a">A) Delete autocorrect — it is never useful</button>
+        <button class="quiz-opt" data-q="10" data-val="b">B) Only send messages in English</button>
+        <button class="quiz-opt" data-q="10" data-val="c">C) Always proof-read messages before sending — AI helpers can change your meaning without you noticing</button>
+        <button class="quiz-opt" data-q="10" data-val="d">D) Autocorrect only makes mistakes with Telugu words</button>
+      </div>
+      <div class="quiz-feedback" id="fb10"></div>
+    </div>
+
+    <button class="quiz-submit" id="quizSubmit">Check My Answers</button>
+    <div class="quiz-score-box" id="scoreBox">
+      <div class="qs-num" id="scoreNum">0/10</div>
+      <div class="qs-label">questions correct</div>
+      <div class="qs-msg" id="scoreMsg"></div>
+    </div>
+  </div>
+
+  <!-- Worksheet -->
+  <div class="worksheet-section">
+    <h2>📝 Activity — Anu's AI Spy Day Challenge</h2>
+    <p>Just like Anu did in the story, spend one full day noticing AI around you. Use this table to record what you find. Write in your notebook or print this page.</p>
+    <table class="ws-table">
+      <tr>
+        <th>#</th>
+        <th>App or Tool</th>
+        <th>What did the AI do?</th>
+        <th>Type of AI</th>
+        <th>Was it helpful? Y / N</th>
+      </tr>
+      <tr><td>1</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr><td>2</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr><td>3</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr><td>4</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr><td>5</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr><td>6</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr><td>7</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr><td>8</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    </table>
+    <p><strong>Reflection questions (write in your notebook):</strong></p>
+    <ol style="font-size:0.9rem;color:#374151;padding-left:1.3rem;margin-top:0.5rem;">
+      <li>Which AI tool surprised you most? Why?</li>
+      <li>Did you notice a filter bubble at work during the day? Describe it.</li>
+      <li>Name one AI tool you will use more intentionally after this lesson.</li>
+    </ol>
+    <p class="ws-download-note">📄 Printable worksheet PDF — coming soon. You can copy this table into your notebook today.</p>
+  </div>
+
+  <!-- Parent / Teacher note -->
+  <div class="parent-note">
+    <div class="pn-header">
+      <span>👨‍👩‍👧</span> For Parents and Teachers
+    </div>
+    <p><strong>What this lesson covers:</strong> This is <strong>Lesson 2 of 12</strong> in the Class 6 full-year AI curriculum. Students explore AI in the apps they use every day — YouTube recommendations, personalised Google Search, Google Maps traffic prediction, face unlock, autocorrect / predictive text, and weather forecasting. The lesson introduces filter bubbles and builds five smart-user habits.</p>
+    <p><strong>Learning time:</strong> Around 60–75 minutes, or split across two sessions. The "AI Spy Day" worksheet activity works well as a one-day homework assignment.</p>
+    <p><strong>Safety by design:</strong></p>
+    <ul>
+      <li>No personal data collected from students on this page.</li>
+      <li>No login or sign-up required.</li>
+      <li>Privacy and safety points are woven into every section, not just mentioned once.</li>
+      <li>The filter bubble section builds media literacy — a core safety skill for digital citizens.</li>
+    </ul>
+    <p><strong>Great conversation starter:</strong> Ask your child tonight: "Can you find 3 AIs you used today without realising it?" Then listen — you may be surprised by what they know now.</p>
+    <p><strong>For classroom use:</strong> The AI Spy Day activity works brilliantly as a 2-day project: Day 1 introduce the concepts, Day 2 students share their spy lists. Class discussion on filter bubbles can be a powerful critical thinking exercise.</p>
+  </div>
+
+</main>
+
+<!-- ── Bottom nav ── -->
+<div class="bottom-nav">
+  <a href="class-06.html">← Lesson 1: What is AI?</a>
+  <a href="lesson-03.html" class="next-btn">Next: Lesson 3 — How AI Learns →</a>
+</div>
+
+<!-- ── Footer ── -->
+<footer>
+  <span>Mitra AI Life · Class 6 · Lesson 2 · AI Around You · Free</span>
+  <div class="fl">
+    <a href="../../../site/index.html">Home</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/privacy.html">Privacy</a>
+    <a href="../../../site/contact.html">Contact</a>
+  </div>
+</footer>
+
+<script>
+// ── Quiz logic ──
+const correct = { "1":"b", "2":"b", "3":"c", "4":"c", "5":"c", "6":"b", "7":"b", "8":"b", "9":"c", "10":"c" };
+const feedback = {
+  "1": { b:"✓ Correct! YouTube's AI analyses your watch time, completion rate, and what similar viewers enjoy — then picks videos just for you.", wrong:"Not quite. YouTube AI studies your detailed watch behaviour and compares you to millions of similar users to predict what you will enjoy." },
+  "2": { b:"✓ Correct! Google personalises search results based on your past searches, location, device, and language habits.", wrong:"Not quite. Google actively personalises results — two people can see quite different pages for the exact same search query." },
+  "3": { c:"✓ Correct! Every phone using Google Maps with location enabled sends its GPS speed. Millions of these data points create a real-time traffic map.", wrong:"Not quite. Maps collects real-time speed data from millions of phones using the app — this is called crowdsourced traffic data." },
+  "4": { c:"✓ Correct! On most modern phones, face data is stored in a secure chip on the device itself (like Apple's Secure Enclave) and is never sent to any server.", wrong:"Not quite. On most modern phones, face data is stored only on your device's secure chip — not sent to any company's cloud server." },
+  "5": { c:"✓ Correct! Keyboard predictive text uses a language AI model that learned from billions of sentences which words typically follow which other words.", wrong:"Not this one. The keyboard's word suggestions come from a language AI model trained on billions of sentences — it predicts likely next words based on context." },
+  "6": { b:"✓ Correct! India's weather AI uses satellites, ground sensors, radar, ocean buoys, and over a century of historical records to produce district-level forecasts.", wrong:"Not quite. Accurate weather forecasting uses a rich combination of satellite imagery, ground sensors, radar, ocean data, and deep historical patterns." },
+  "7": { b:"✓ Correct! A filter bubble is when AI recommendation systems keep showing you only content that matches your existing views — hiding different perspectives.", wrong:"Not quite. A filter bubble is when AI keeps showing you content you already agree with, creating an invisible wall around your information diet." },
+  "8": { b:"✓ Correct! AI Overviews can contain errors. Always trust your verified textbook for exams and check the original sources linked in the search results.", wrong:"Option B is correct. AI-generated search summaries can and do make factual errors. Your textbook is the verified source for exam answers." },
+  "9": { c:"✓ Correct! The smart AI user approach is: decide what you need before opening an app, search intentionally, and always verify important information at the original source.", wrong:"Option C describes the smart approach: intention before opening apps, direct search, and verification before trusting." },
+  "10": { c:"✓ Correct! Autocorrect can silently change your meaning. Always read messages before sending — even a single word change can completely alter what you are saying.", wrong:"Option C is the key lesson. Autocorrect is helpful but imperfect. Reading before sending is a habit that prevents misunderstandings." }
+};
+const msgs = ["Keep going — re-read the sections for each question you missed!", "Good start! A few sections need another read.", "Not bad! Review the sections you found tricky.", "Solid effort! Almost there — check the questions you missed.", "Strong work! One or two points to review.", "Very good! Nearly perfect.", "9/10 — Excellent! One quick re-read will get you to 10.", "10/10 — Outstanding! You are an official AI Spotter! 🕵️🎉"];
+
+let answered = {};
+let submitted = false;
+
+document.querySelectorAll('.quiz-opt').forEach(btn => {
+  btn.addEventListener('click', function() {
+    if (submitted) return;
+    const q = this.dataset.q;
+    answered[q] = this.dataset.val;
+    document.querySelectorAll(`.quiz-opt[data-q="${q}"]`).forEach(b => { b.classList.remove('correct','wrong'); });
+    this.classList.add(this.dataset.val === correct[q] ? 'correct' : 'wrong');
+  });
+});
+
+document.getElementById('quizSubmit').addEventListener('click', function() {
+  if (submitted) return;
+  submitted = true;
+  let score = 0;
+  for (let q = 1; q <= 10; q++) {
+    const ans = answered[String(q)];
+    const fb = document.getElementById('fb' + q);
+    if (ans) {
+      const isRight = ans === correct[String(q)];
+      if (isRight) score++;
+      fb.textContent = isRight ? feedback[String(q)][ans] : feedback[String(q)]['wrong'];
+      fb.className = 'quiz-feedback show ' + (isRight ? 'ok' : 'no');
+    } else {
+      fb.textContent = "You did not answer this question. The correct answer was: " + correct[String(q)].toUpperCase();
+      fb.className = 'quiz-feedback show no';
+    }
+    document.querySelectorAll(`.quiz-opt[data-q="${q}"]`).forEach(b => {
+      if (b.dataset.val === correct[String(q)]) b.classList.add('correct');
+    });
+  }
+  const sb = document.getElementById('scoreBox');
+  sb.classList.add('show');
+  document.getElementById('scoreNum').textContent = score + '/10';
+  const msgIdx = score <= 4 ? score : score - 3;
+  document.getElementById('scoreMsg').textContent = msgs[Math.min(msgIdx, msgs.length - 1)];
+  this.textContent = 'Done! Scroll up to review.';
+  this.disabled = true;
+  gtag('event', 'quiz_complete', { event_category: 'class6', event_label: 'class06_lesson02_quiz', value: score });
+});
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Class 6 Lesson 2 — AI Around You",
+  "description": "Spot AI in YouTube, Google Maps, face unlock, autocorrect, and weather apps. Understand filter bubbles. For Indian school students age 10–11.",
+  "educationalLevel": "Class 6",
+  "audience": {"@type":"EducationalAudience","educationalRole":"student"},
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "provider": {"@type":"Organization","name":"Mitra AI Life","url":"https://mitraailife.com"}
+}
+</script>
+
+</body>
+</html>

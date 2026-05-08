@@ -1297,3 +1297,108 @@ Hub page: `content/students/class-07/class-07.html`
 **Interactive:** Animated `heroGrad` gradient header, 12-card recap grid (11 lessons + "You are here"), 12-item skills checklist + JS `accent-color:#d97706` progress bar, 4-prompt portfolio builder textareas, certificate generator (name input + JS reveal), wisdom quotes table (11 entries), Class 12 6-card preview grid  
 **Sections:** Recap grid with links, skills checklist, portfolio builder, wisdom table (L01–L11), certificate generator, Class 12 preview, 10-question capstone quiz  
 **Quiz (10 capstone questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b', 9:'b', 10:'b'}` · GA4: `class11_lesson12_quiz`
+
+---
+
+## Class 12 — Applied AI Mastery (JC +2)
+
+**Hub:** `content/students/class-12/class-12.html`  
+**Theme:** Indigo (`#4f46e5` / `#3730a3`), animated hero gradient, 12-card curriculum grid, "After Class 12 → Engineering College" closing card, `Course` JSON-LD  
+**Generator:** `scripts/generate_class12_lessons.py` — reusable `page()` function with f-string template (escaped `{{ }}` for CSS/JS literals); produces L01–L11 in one run. L12 hand-written for richer interactivity.
+
+---
+
+### Lesson 01 — LLM Fine-tuning with QLoRA
+**File:** `content/students/class-12/lesson-01.html`  
+**Story:** Aishwarya, Pune — Marathi tutor by fine-tuning Llama-3-8B with QLoRA on a free Colab T4  
+**Sections:** Why LoRA (concept grid), QLoRA code (`BitsAndBytesConfig` 4-bit nf4 + double_quant + `LoraConfig` r=16 target q/k/v/o_proj + `SFTTrainer` paged_adamw_8bit), inference with `PeftModel.from_pretrained`, production tips  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class12_lesson01_quiz`
+
+---
+
+### Lesson 02 — Vector Databases and Hybrid RAG
+**File:** `content/students/class-12/lesson-02.html`  
+**Story:** Karthik, Chennai — Tamil legal-aid chatbot, 5K queries/day, P95 4s→280ms, accuracy 62%→89%  
+**Sections:** Vector DB comparison table (ChromaDB / Pinecone / Weaviate / Qdrant / pgvector), Pinecone indexing with `intfloat/multilingual-e5-large` + `RecursiveCharacterTextSplitter`, hybrid retrieval (`BM25Okapi` + dense + `BAAI/bge-reranker-v2-m3`), production optimisations  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class12_lesson02_quiz`
+
+---
+
+### Lesson 03 — Distributed Training with PyTorch DDP
+**File:** `content/students/class-12/lesson-03.html`  
+**Story:** Ishaan, Bengaluru — IndicBERT pre-training on 2M tweets, 14h→2h on 8× A100  
+**Sections:** Why DDP (data/model/tensor/pipeline/ZeRO/FSDP concept grid), DDP in 12 lines (`DistributedSampler` + `DDP()` wrap + `torchrun`), theory (replicate/forward+backward/all-reduce/step), beyond DDP (ZeRO-1/2/3 table, FSDP), linear scaling rule callout (LR × world_size + warmup)  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class12_lesson03_quiz`
+
+---
+
+### Lesson 04 — Graph Neural Networks
+**File:** `content/students/class-12/lesson-04.html`  
+**Story:** Sneha, Kolkata — UPI fraud detection, false positives 32%→9%  
+**Sections:** Why graphs + 4-card concept grid (GCN/GraphSAGE/GAT/GIN), PyG `SAGEConv` `FraudGNN` class, `NeighborLoader` mini-batch training with `class_weights=[1.0, 50.0]`, production (latency / online updates / GNNExplainer / cold start)  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class12_lesson04_quiz`
+
+---
+
+### Lesson 05 — Diffusion Models and Image Generation
+**File:** `content/students/class-12/lesson-05.html`  
+**Story:** Tara, Goa — Konkani Warli folk-art posters with SDXL + ControlNet  
+**Sections:** Theory (forward/reverse + DDPM/DDIM/Latent/CFG concept grid), SDXL code with `negative_prompt` + `guidance_scale=7.5`, ControlNet code (Canny edge + `controlnet-canny-sdxl-1.0`), ethics (negative prompts / safety_checker / visible+invisible watermarks / no real faces / IT Rules 2021/2023 / DPDPA 2023, red callout)  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class12_lesson05_quiz`
+
+---
+
+### Lesson 06 — Speech AI: TTS and Voice Cloning Ethics
+**File:** `content/students/class-12/lesson-06.html`  
+**Story:** Manav, Lucknow — Hindi-Urdu audiobooks for visually-impaired school + refused celebrity voice clone offer  
+**Sections:** How TTS works (text→spectrogram→audio + comparison table Coqui XTTS / IndicTTS / Bark / Google / ElevenLabs), Coqui XTTS Hindi audiobook code (sentence chunking on `'।'`), ethics (Anil Kapoor v Simply Life India 2023, IT Rules 2021/2023 amendment, DPDPA 2023, 5 principles, school project consent), detection (AASIST / RawNet3 / AudioSeal, SpeechBrain `SpeakerRecognition` code)  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class12_lesson06_quiz`
+
+---
+
+### Lesson 07 — Recommender Systems at Scale
+**File:** `content/students/class-12/lesson-07.html`  
+**Story:** Priya, Hyderabad — Telugu OTT recommender, engagement 4→19 min/day in 8 weeks  
+**Sections:** Recommender toolbox concept grid (Popularity/CF/MF/Content/Two-Tower/Transformer-based), `TwoTowerRecommender` PyTorch model with separate user+item encoders + `F.normalize` cosine similarity, training with sampled-softmax negative sampling, FAISS index for serving, cold start + diversity (MMR) + filter-bubble exploration + ethics  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class12_lesson07_quiz`
+
+---
+
+### Lesson 08 — AI at Scale: Kubernetes + vLLM
+**File:** `content/students/class-12/lesson-08.html`  
+**Story:** Rohit, Mumbai — Llama-3-8B serving 50K daily users at ₹40K/month vs OpenAI ₹3.2L/month  
+**Sections:** Why vLLM (PagedAttention + continuous batching concept grid + throughput table), vLLM Docker run + OpenAI-compatible API client code, Kubernetes Deployment YAML + `HorizontalPodAutoscaler` scaling on `vllm_requests_running`, Indian cloud (Yotta/E2E/Tata) + DPDPA tip, cost crossover ~5K DAU + DevOps reality callouts  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class12_lesson08_quiz`
+
+---
+
+### Lesson 09 — Time Series Forecasting
+**File:** `content/students/class-12/lesson-09.html`  
+**Story:** Anjali, Delhi — family mithai shop, ₹40K→₹3K/month waste + zero Diwali stockouts  
+**Sections:** Components (trend/seasonal/residual), method comparison table (ARIMA/Prophet/N-BEATS/TFT/Chronos foundation models), Prophet with `make_holidays_df(country="IN")` + custom Raksha Bandhan event + multiplicative seasonality, `neuralforecast` `NBEATS` code, MAPE/MASE/Pinball metrics, drift handling, asymmetric-cost quantile decisions for inventory  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class12_lesson09_quiz`
+
+---
+
+### Lesson 10 — AI Product Management
+**File:** `content/students/class-12/lesson-10.html`  
+**Story:** Devansh, Ahmedabad — Ahmedabad fintech AI categorise-expenses feature, +2.3% retention  
+**Sections:** AI PRD template (5 sections: problem / metrics / failure modes / data + DPDPA basis / rollout plan), offline vs online vs guardrail vs counter metrics concept grid, shadow → 1% canary → A/B 50/50 → 100% rollout table + kill-switch callout, two-proportion z-test SciPy code with sample-size/power calc  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class12_lesson10_quiz`
+
+---
+
+### Lesson 11 — College Admissions and AI Career Path
+**File:** `content/students/class-12/lesson-11.html`  
+**Story:** Ananya, Coimbatore — BITS Pilani CSE + IIIT-H CSD admits + IIT-Madras summer research  
+**Sections:** 3-flagship GitHub portfolio rule (callout), Indian colleges tier table (IITs / IIIT-H CSD / IIIT-D CSAI / IISc UG / BITS Pilani / Plaksha / Ashoka / NITs / VIT / specialised AI B.Tech), global colleges (CMU/MIT/Stanford/Berkeley/Princeton/UIUC/GT/UMich + Cambridge/Oxford/Imperial/UCL + NUS/NTU + UToronto/Waterloo/UBC + ETH/EPFL/TUM), cold-email template (specific paper + concrete reproduction + GitHub link + flexibility), Year 0–5+ AI career compensation table, Indian foundation-model startups (Sarvam/Krutrim/TWO AI) + global AI employers  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class12_lesson11_quiz`
+
+---
+
+### Lesson 12 — Capstone: My College AI Portfolio
+**File:** `content/students/class-12/lesson-12.html`  
+**Story:** All 11 characters referenced — Aishwarya through Ananya  
+**Interactive:** Animated indigo `heroGrad` gradient header (`#1e1b4b → #3730a3 → #4f46e5`), 12-card recap grid (11 lessons + "You are here"), 12-item skills checklist + JS `accent-color:#4f46e5` progress bar, 4-textarea portfolio builder (3 flagship projects + 1 college essay paragraph), certificate generator (name input + JS reveal), wisdom quotes table (11 entries L01–L11), "After Class 12 → Engineering College" 6-card roadmap (JEE/Flagships/Cold-email/Kaggle/OSS/MS Abroad)  
+**Sections:** Recap grid with links, skills checklist, 3-flagship portfolio builder, wisdom table (L01–L11), certificate generator, post-Class-12 roadmap, 10-question cross-lesson capstone quiz  
+**Quiz (10 capstone questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b', 9:'b', 10:'b'}` · GA4: `class12_lesson12_quiz`

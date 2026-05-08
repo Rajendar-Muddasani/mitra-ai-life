@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 09 — Time Series Forecasting | Class 12 | Mitra AI Life</title>
+<meta name="description" content="Class 12 Lesson 09 for JC +2 students: Time Series Forecasting. Story of Anjali, Delhi. Forecasts demand for her family's Delhi sweet shop using Prophet and N-BEATS — and saves ₹3 lakh in wasted inventory." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-12/lesson-09.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#4f46e5" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 09 — Time Series Forecasting | Class 12 | Mitra AI Life" />
+<meta property="og:description" content="Class 12 Lesson 09: Time Series Forecasting. Forecasts demand for her family's Delhi sweet shop using Prophet and N-BEATS — and saves ₹3 lakh in wasted inventory." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-12/lesson-09.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#eef2ff;color:#312e81;line-height:1.7}
+a{color:#4f46e5;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#a5b4fc}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#a5b4fc}
+.lesson-hero{background:linear-gradient(135deg,#1e1b4b,#3730a3,#4f46e5);padding:3rem 1.5rem 4rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.78);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.9rem,5vw,3rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.78);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem;display:inline-block}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#4f46e5;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#312e81;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#4338ca;margin-bottom:.9rem}
+.lesson-section ul,ol{font-size:.93rem;color:#4338ca;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.lesson-section strong{color:#312e81}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.indigo{background:#eef2ff;border-left:4px solid #4f46e5;color:#312e81}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.red{background:#fef2f2;border-left:4px solid #dc2626;color:#7f1d1d}
+pre{background:#1e1b4b;color:#e0e7ff;border-radius:10px;padding:.9rem 1rem;overflow-x:auto;font-size:.8rem;line-height:1.55;margin:.8rem 0;font-family:'Menlo','Monaco',monospace}
+code{font-family:'Menlo','Monaco',monospace;background:#e0e7ff;color:#3730a3;padding:1px 5px;border-radius:4px;font-size:.85em}
+pre code{background:transparent;color:inherit;padding:0}
+.story-card{background:#fff;border:2px solid #c7d2fe;border-radius:14px;padding:1.1rem 1.3rem;margin:1rem 0}
+.story-card .story-who{font-size:.78rem;font-weight:800;color:#4f46e5;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem}
+.story-card p{margin-bottom:.6rem}
+.story-card p:last-child{margin-bottom:0}
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.7rem;margin:1rem 0}
+.concept-card{background:#fff;border:1.5px solid #c7d2fe;border-radius:10px;padding:.7rem .85rem}
+.concept-card h4{font-family:'Baloo 2',cursive;font-size:.88rem;color:#4f46e5;margin-bottom:.25rem}
+.concept-card p{font-size:.78rem;color:#4338ca;margin:0;line-height:1.45}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.84rem}
+th{background:#4f46e5;color:#fff;padding:.5rem .7rem;text-align:left}
+td{padding:.5rem .7rem;border-bottom:1px solid #c7d2fe;color:#312e81;vertical-align:top}
+tr:nth-child(even) td{background:#eef2ff}
+.quiz-section{background:#fff;border:2px solid #4f46e5;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#312e81;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#312e81;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #c7d2fe;background:#eef2ff;font-size:.87rem;color:#312e81;transition:border-color .15s;line-height:1.45}
+.quiz-opt:hover{border-color:#4f46e5}
+.quiz-opt.selected{border-color:#4f46e5;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#4f46e5;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#3730a3}
+.quiz-btn:disabled{opacity:.6;cursor:not-allowed}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fef3c7;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #4f46e5;color:#4f46e5}
+.lesson-nav .btn-hub{background:#4f46e5;color:#fff}
+.lesson-nav .btn-prev:hover{background:#eef2ff}
+.lesson-nav .btn-hub:hover{background:#3730a3}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.concept-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-12.html" class="active">Class 12</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-12.html">Class 12</a> → Lesson 09</div>
+  <h1>Time Series Forecasting 📈</h1>
+  <div class="meta">
+    <span>Class 12</span><span>Age 16-17</span><span>Lesson 09 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-12/lesson-09-hero.jpg" alt="Class 12 Lesson 09 hero — Anjali, Delhi" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+
+  <div class="lesson-section">
+    <div class="ls-label">Story</div>
+    <div class="ls-title">Anjali's Mithai Shop Forecast</div>
+    <div class="story-card"><div class="story-who">👩‍💼 Anjali · Delhi · Age 17</div>
+<p>Anjali's family runs a sweet shop in Karol Bagh. They threw away ₹40,000 of unsold mithai every month — and ran out of besan ladoo on Diwali two years running. Anjali built a forecasting system using <strong>Prophet</strong> (with Indian holidays) and <strong>N-BEATS</strong>.</p>
+<p>Eight months later: waste down to ₹3,000/month, zero stockouts on festivals, and her father uses the dashboard daily. Total saving: ~₹3 lakhs/year.</p></div>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Theory</div>
+    <div class="ls-title">Components of a Time Series</div>
+    <p>Every time series can be decomposed into three signals:</p>
+<ol>
+<li><strong>Trend:</strong> The long-term direction. Anjali's shop grew 8% YoY.</li>
+<li><strong>Seasonality:</strong> Repeating patterns. Weekly (weekend spike), yearly (Diwali, Holi, Karva Chauth), and even hourly.</li>
+<li><strong>Residual:</strong> What's left after removing trend + seasonality. Often modelled as noise or with autoregression.</li>
+</ol>
+<table>
+<thead><tr><th>Method</th><th>When to Use</th><th>Pros</th><th>Cons</th></tr></thead>
+<tbody>
+<tr><td>ARIMA</td><td>Short series, simple seasonality</td><td>Interpretable, classic</td><td>Manual order tuning</td></tr>
+<tr><td>Prophet</td><td>Daily data with holidays</td><td>Auto-tunes, handles holidays</td><td>Limited features</td></tr>
+<tr><td>N-BEATS</td><td>Long series, complex patterns</td><td>SOTA accuracy, no feature engineering</td><td>Less interpretable</td></tr>
+<tr><td>TFT (Temporal Fusion Transformer)</td><td>Multi-variate, multi-horizon</td><td>Handles many features + attention explanations</td><td>Compute heavy</td></tr>
+<tr><td>Chronos / TimeGPT (foundation models)</td><td>Zero-shot forecasting</td><td>No training needed</td><td>Black box, costly API</td></tr>
+</tbody>
+</table>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Code</div>
+    <div class="ls-title">Prophet with Indian Holidays</div>
+    <pre><code>!pip install -q prophet
+
+import pandas as pd
+from prophet import Prophet
+from prophet.make_holidays import make_holidays_df
+
+# Load 3 years of daily ladoo sales
+df = pd.read_csv("ladoo_sales.csv")  # columns: ds, y
+df["ds"] = pd.to_datetime(df["ds"])
+
+# Indian holidays — built-in support
+holidays = make_holidays_df(year_list=[2023, 2024, 2025, 2026], country="IN")
+
+# Add custom mithai-relevant events
+custom = pd.DataFrame({
+    "holiday": "raksha_bandhan_week",
+    "ds": pd.to_datetime(["2024-08-19", "2025-08-09", "2026-08-28"]),
+    "lower_window": -3, "upper_window": 1,  # spike starts 3 days before
+})
+holidays = pd.concat([holidays, custom])
+
+m = Prophet(
+    holidays=holidays,
+    yearly_seasonality=True,
+    weekly_seasonality=True,
+    daily_seasonality=False,
+    seasonality_mode="multiplicative",  # spikes scale with trend
+    changepoint_prior_scale=0.05,       # default; raise to fit faster trend changes
+)
+m.fit(df)
+
+future = m.make_future_dataframe(periods=60)        # 60-day forecast
+forecast = m.predict(future)
+
+# yhat = point estimate, yhat_lower / yhat_upper = 80% confidence interval
+print(forecast[["ds", "yhat", "yhat_lower", "yhat_upper"]].tail(10))
+m.plot(forecast)
+m.plot_components(forecast)  # trend / weekly / yearly / holidays</code></pre>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Code</div>
+    <div class="ls-title">N-BEATS for Higher Accuracy</div>
+    <pre><code>!pip install -q neuralforecast
+
+from neuralforecast import NeuralForecast
+from neuralforecast.models import NBEATS
+
+# Same dataframe but renamed to neuralforecast convention
+df_nf = df.rename(columns={"ds": "ds", "y": "y"})
+df_nf["unique_id"] = "ladoo"   # one series — could be many if multi-shop
+
+model = NBEATS(
+    h=60,                       # forecast horizon = 60 days
+    input_size=180,             # use last 180 days as input
+    max_steps=2000,
+    stack_types=["trend", "seasonality"],
+    n_blocks=[3, 3],
+    mlp_units=[[256, 256], [256, 256]],
+    learning_rate=1e-3,
+    early_stop_patience_steps=20,
+)
+nf = NeuralForecast(models=[model], freq="D")
+nf.fit(df_nf)
+
+predictions = nf.predict()
+print(predictions.head())</code></pre>
+<p>N-BEATS often beats Prophet on long, noisy series because it learns trend and seasonality basis functions directly from data rather than assuming a fixed parametric form.</p>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Production</div>
+    <div class="ls-title">Evaluation, Drift, and Inventory Decisions</div>
+    <p><strong>Right metrics:</strong></p>
+<ul>
+<li><strong>MAPE (Mean Absolute Percentage Error):</strong> Most intuitive. "Forecast was off by 12% on average."</li>
+<li><strong>MASE (Mean Absolute Scaled Error):</strong> Compares to a naive baseline (yesterday=today). MASE &lt; 1 means you beat the baseline.</li>
+<li><strong>Pinball loss (quantile loss):</strong> If you forecast a confidence interval, this scores it.</li>
+</ul>
+<p><strong>Drift handling:</strong> Retail patterns shift (new metro line opens, competitor closes). Anjali retrains weekly and runs a drift detector — if MAPE jumps 30% above baseline for 3 consecutive days, alert.</p>
+<p><strong>From forecast to inventory:</strong> Raw forecasts mislead. Anjali uses the <strong>upper 80% confidence interval</strong> for perishable items (better to slightly over-stock than stockout) and the <strong>lower 60%</strong> for non-perishable packaging (cash-flow optimisation). The forecast is one input — final order quantity also factors in: shelf life, safety stock, supplier lead time, cash on hand.</p>
+<div class="callout green"><strong>Anjali's outcome:</strong> ₹40,000 → ₹3,000/month waste. Zero Diwali stockouts. The dashboard runs on a ₹4,500 Raspberry Pi in the shop. Her father — who never used a computer — checks tomorrow's forecast every evening at 9 PM.</div>
+  </div>
+
+  <div class="quiz-section">
+    <h3>📝 Check Your Understanding (8 Questions)</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. What are the three components of a classical time-series decomposition?</div>
+        <div class="quiz-opt" data-opt="a">a) Mean, variance, and skewness</div>
+        <div class="quiz-opt" data-opt="b">b) Trend (long-term direction), seasonality (repeating patterns at fixed periods), and residual (everything left over after removing trend + seasonality)</div>
+        <div class="quiz-opt" data-opt="c">c) Past, present, and future</div>
+        <div class="quiz-opt" data-opt="d">d) X-axis, Y-axis, and Z-axis</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. Why does Anjali use Prophet's built-in Indian holiday list plus custom events?</div>
+        <div class="quiz-opt" data-opt="a">a) Prophet refuses to fit data without a holiday parameter</div>
+        <div class="quiz-opt" data-opt="b">b) Mithai sales spike sharply on Diwali, Raksha Bandhan, Karva Chauth, etc.; without holidays, the model would treat these spikes as noise and over- or under-forecast around them. Custom 'lower_window=-3' captures the pre-festival ramp-up</div>
+        <div class="quiz-opt" data-opt="c">c) Indian holidays are required for Prophet to converge</div>
+        <div class="quiz-opt" data-opt="d">d) Prophet only supports holiday-based forecasts</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. What does seasonality_mode='multiplicative' mean in Prophet?</div>
+        <div class="quiz-opt" data-opt="a">a) The model multiplies the data by 2 before fitting</div>
+        <div class="quiz-opt" data-opt="b">b) Seasonal effects scale proportionally with the trend — a 50% Diwali spike on a ₹10K baseline becomes a 50% spike on a ₹15K baseline next year, not a fixed ₹5K spike. Right for retail; wrong for stationary processes</div>
+        <div class="quiz-opt" data-opt="c">c) It enables multi-output forecasting</div>
+        <div class="quiz-opt" data-opt="d">d) It runs the model on multiple GPUs</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. Why does N-BEATS often outperform Prophet on long, noisy series?</div>
+        <div class="quiz-opt" data-opt="a">a) N-BEATS uses GPU acceleration</div>
+        <div class="quiz-opt" data-opt="b">b) N-BEATS learns trend and seasonality basis functions directly from data via stacked residual blocks, instead of assuming a fixed parametric form (Fourier series + piecewise-linear trend). It captures patterns Prophet's prior assumptions miss</div>
+        <div class="quiz-opt" data-opt="c">c) N-BEATS does not need any training data</div>
+        <div class="quiz-opt" data-opt="d">d) N-BEATS only handles English text inputs</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. What does MASE < 1 indicate?</div>
+        <div class="quiz-opt" data-opt="a">a) The model has overfit</div>
+        <div class="quiz-opt" data-opt="b">b) The model is more accurate than the naive baseline (predicting today's value will equal yesterday's). MASE >= 1 means you have not beaten the trivial 'no model' forecast and your model adds no value</div>
+        <div class="quiz-opt" data-opt="c">c) The model uses less than 1 GB of memory</div>
+        <div class="quiz-opt" data-opt="d">d) The data has fewer than 1,000 points</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. Why does Anjali order based on the upper 80% confidence interval for perishables but the lower 60% for packaging?</div>
+        <div class="quiz-opt" data-opt="a">a) It is the only choice the Prophet API allows</div>
+        <div class="quiz-opt" data-opt="b">b) For perishables, the cost of stockout (lost sale + customer disappointment) is higher than the cost of slight overstock — so she orders for the optimistic case; for packaging (non-perishable), cash flow matters more, so she orders conservatively. The right quantile depends on cost asymmetry</div>
+        <div class="quiz-opt" data-opt="c">c) Higher percentiles use more memory</div>
+        <div class="quiz-opt" data-opt="d">d) 80% is the default and 60% is the minimum</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. What is concept drift in time-series forecasting and why does it matter?</div>
+        <div class="quiz-opt" data-opt="a">a) A bug in the Prophet library</div>
+        <div class="quiz-opt" data-opt="b">b) The underlying pattern changes (new metro station opens, competitor closes, pandemic) so the model trained on old data systematically errs; detect by monitoring MAPE vs baseline and trigger a retrain when drift exceeds a threshold for several consecutive days</div>
+        <div class="quiz-opt" data-opt="c">c) When the time-series data is shuffled accidentally</div>
+        <div class="quiz-opt" data-opt="d">d) It happens only in financial time series</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. Why is the forecast only one input to Anjali's final order quantity?</div>
+        <div class="quiz-opt" data-opt="a">a) Because forecasts are always wrong</div>
+        <div class="quiz-opt" data-opt="b">b) A point forecast ignores shelf life, supplier lead time, safety stock policy, cash on hand, and the asymmetric cost of stockout vs waste — the final inventory decision combines forecast + business constraints + risk preference</div>
+        <div class="quiz-opt" data-opt="c">c) Because she does not trust her own model</div>
+        <div class="quiz-opt" data-opt="d">d) Because Prophet outputs are illegal in India</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Quiz</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-08.html" class="btn-prev">← Lesson 8: AI at Scale</a>
+    <a href="lesson-10.html" class="btn-hub">Lesson 10: AI Product Management →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-12.html">Class 12</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'b',8:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q])o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=80){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — You're ready for the next lesson.`;}
+  else if(pct>=60){res.className='quiz-result ok';res.textContent=`${score}/${total} (${pct}%) — Good. Review the wrong ones, then continue.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Re-read the lesson, especially the sections related to the wrong answers.`;}
+  gtag('event','quiz_complete',{event_category:'class12',event_label:'class12_lesson09_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"Time Series Forecasting — Class 12 Lesson 09",
+  "description":"Class 12 Lesson 09: Time Series Forecasting. Forecasts demand for her family's Delhi sweet shop using Prophet and N-BEATS — and saves ₹3 lakh in wasted inventory.",
+  "url":"https://mitraailife.com/content/students/class-12/lesson-09.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Junior College +2",
+  "typicalAgeRange":"16-17",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

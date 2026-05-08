@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 04 — Graph Neural Networks | Class 12 | Mitra AI Life</title>
+<meta name="description" content="Class 12 Lesson 04 for JC +2 students: Graph Neural Networks. Story of Sneha, Kolkata. Builds a transaction-graph fraud detector that catches money-laundering rings missed by traditional rule-based systems." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-12/lesson-04.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#4f46e5" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 04 — Graph Neural Networks | Class 12 | Mitra AI Life" />
+<meta property="og:description" content="Class 12 Lesson 04: Graph Neural Networks. Builds a transaction-graph fraud detector that catches money-laundering rings missed by traditional rule-based systems." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-12/lesson-04.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#eef2ff;color:#312e81;line-height:1.7}
+a{color:#4f46e5;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#a5b4fc}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#a5b4fc}
+.lesson-hero{background:linear-gradient(135deg,#1e1b4b,#3730a3,#4f46e5);padding:3rem 1.5rem 4rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.78);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.9rem,5vw,3rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.78);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem;display:inline-block}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#4f46e5;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#312e81;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#4338ca;margin-bottom:.9rem}
+.lesson-section ul,ol{font-size:.93rem;color:#4338ca;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.lesson-section strong{color:#312e81}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.indigo{background:#eef2ff;border-left:4px solid #4f46e5;color:#312e81}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.red{background:#fef2f2;border-left:4px solid #dc2626;color:#7f1d1d}
+pre{background:#1e1b4b;color:#e0e7ff;border-radius:10px;padding:.9rem 1rem;overflow-x:auto;font-size:.8rem;line-height:1.55;margin:.8rem 0;font-family:'Menlo','Monaco',monospace}
+code{font-family:'Menlo','Monaco',monospace;background:#e0e7ff;color:#3730a3;padding:1px 5px;border-radius:4px;font-size:.85em}
+pre code{background:transparent;color:inherit;padding:0}
+.story-card{background:#fff;border:2px solid #c7d2fe;border-radius:14px;padding:1.1rem 1.3rem;margin:1rem 0}
+.story-card .story-who{font-size:.78rem;font-weight:800;color:#4f46e5;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem}
+.story-card p{margin-bottom:.6rem}
+.story-card p:last-child{margin-bottom:0}
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.7rem;margin:1rem 0}
+.concept-card{background:#fff;border:1.5px solid #c7d2fe;border-radius:10px;padding:.7rem .85rem}
+.concept-card h4{font-family:'Baloo 2',cursive;font-size:.88rem;color:#4f46e5;margin-bottom:.25rem}
+.concept-card p{font-size:.78rem;color:#4338ca;margin:0;line-height:1.45}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.84rem}
+th{background:#4f46e5;color:#fff;padding:.5rem .7rem;text-align:left}
+td{padding:.5rem .7rem;border-bottom:1px solid #c7d2fe;color:#312e81;vertical-align:top}
+tr:nth-child(even) td{background:#eef2ff}
+.quiz-section{background:#fff;border:2px solid #4f46e5;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#312e81;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#312e81;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #c7d2fe;background:#eef2ff;font-size:.87rem;color:#312e81;transition:border-color .15s;line-height:1.45}
+.quiz-opt:hover{border-color:#4f46e5}
+.quiz-opt.selected{border-color:#4f46e5;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#4f46e5;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#3730a3}
+.quiz-btn:disabled{opacity:.6;cursor:not-allowed}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fef3c7;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #4f46e5;color:#4f46e5}
+.lesson-nav .btn-hub{background:#4f46e5;color:#fff}
+.lesson-nav .btn-prev:hover{background:#eef2ff}
+.lesson-nav .btn-hub:hover{background:#3730a3}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.concept-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-12.html" class="active">Class 12</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-12.html">Class 12</a> → Lesson 04</div>
+  <h1>Graph Neural Networks 🕸️</h1>
+  <div class="meta">
+    <span>Class 12</span><span>Age 16-17</span><span>Lesson 04 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-12/lesson-04-hero.jpg" alt="Class 12 Lesson 04 hero — Sneha, Kolkata" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+
+  <div class="lesson-section">
+    <div class="ls-label">Story</div>
+    <div class="ls-title">Sneha's Fraud Detection Network</div>
+    <div class="story-card"><div class="story-who">👩‍💼 Sneha · Kolkata · Age 17</div>
+<p>Sneha interned with a Kolkata fintech startup. Their UPI fraud detector used 30 hand-written rules ("flag if &gt; ₹50,000 to a new payee at 3 AM") and had a 32% false-positive rate, annoying real users.</p>
+<p>The fraud team showed her a graph: nodes are accounts, edges are transactions. Fraud rings form distinctive patterns — a "fan" of small transfers into one account, then a single large outflow. Traditional ML treats each transaction independently and misses these patterns. <strong>Graph Neural Networks</strong> see the whole structure.</p>
+<p>Sneha built a <strong>GraphSAGE</strong> model that reduced false positives from 32% to 9% while catching 28% more actual fraud rings.</p></div>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Concepts</div>
+    <div class="ls-title">Why Graphs?</div>
+    <p>Many real-world problems are naturally graphs:</p>
+<ul>
+<li><strong>UPI fraud:</strong> accounts ↔ transactions</li>
+<li><strong>Drug discovery:</strong> atoms ↔ chemical bonds</li>
+<li><strong>Recommendations:</strong> users ↔ products they bought</li>
+<li><strong>Knowledge graphs:</strong> entities ↔ relationships</li>
+<li><strong>Indian Railways:</strong> stations ↔ train routes (delay propagation)</li>
+</ul>
+<p>The core operation in a GNN is <strong>message passing</strong>: each node updates its representation by aggregating information from its neighbours. Stack k layers, and each node "sees" k hops away.</p>
+<div class="concept-grid">
+<div class="concept-card"><h4>GCN</h4><p>Symmetric normalised aggregation. Foundational. Limited to fixed graphs.</p></div>
+<div class="concept-card"><h4>GraphSAGE</h4><p>Samples a fixed-size neighbourhood. Scales to billions of nodes. Inductive (works on unseen nodes).</p></div>
+<div class="concept-card"><h4>GAT</h4><p>Graph Attention — neighbours weighted by learned attention. Best when some edges matter more.</p></div>
+<div class="concept-card"><h4>GIN</h4><p>Graph Isomorphism Network. Most expressive — can distinguish structurally different graphs.</p></div>
+</div>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Code</div>
+    <div class="ls-title">Build a Fraud Detector with PyTorch Geometric</div>
+    <pre><code>!pip install -q torch-geometric</code></pre>
+<p>Build the transaction graph:</p>
+<pre><code>import torch
+from torch_geometric.data import Data
+
+# Each account is a node with features (age_days, kyc_level, avg_balance, ...)
+node_features = torch.tensor([
+    [180, 2, 12000.0, 23, 0],   # account 0: 180 days old, KYC L2, ...
+    [12,  1, 800.0,   45, 1],   # account 1: new, low KYC, suspicious
+    # ... thousands of accounts
+], dtype=torch.float)
+
+# Edges: each transaction is a directed edge from sender to receiver
+edge_index = torch.tensor([
+    [0, 1, 1, 2, 3],   # source accounts
+    [1, 2, 3, 4, 4],   # destination accounts
+], dtype=torch.long)
+
+# Edge features: amount, timestamp, channel
+edge_attr = torch.tensor([
+    [5000.0, 1700000000, 0],
+    [4900.0, 1700000050, 0],
+    # ...
+], dtype=torch.float)
+
+# Labels: 0 = clean, 1 = fraud (only on labelled accounts)
+y = torch.tensor([0, 1, 1, 0, 0], dtype=torch.long)
+
+graph = Data(x=node_features, edge_index=edge_index,
+             edge_attr=edge_attr, y=y)</code></pre>
+<p>Define the GraphSAGE classifier:</p>
+<pre><code>import torch.nn.functional as F
+from torch_geometric.nn import SAGEConv
+
+class FraudGNN(torch.nn.Module):
+    def __init__(self, in_dim, hidden_dim, out_dim):
+        super().__init__()
+        self.sage1 = SAGEConv(in_dim, hidden_dim, aggr="mean")
+        self.sage2 = SAGEConv(hidden_dim, hidden_dim, aggr="mean")
+        self.classifier = torch.nn.Linear(hidden_dim, out_dim)
+
+    def forward(self, x, edge_index):
+        # 1-hop neighbourhood aggregation
+        h = self.sage1(x, edge_index)
+        h = F.relu(h)
+        h = F.dropout(h, p=0.3, training=self.training)
+        # 2-hop: each node now sees neighbours-of-neighbours
+        h = self.sage2(h, edge_index)
+        h = F.relu(h)
+        return self.classifier(h)  # logits per node</code></pre>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Training</div>
+    <div class="ls-title">Mini-batch Training with NeighborLoader</div>
+    <p>Real fraud graphs have millions of nodes — too big to fit one batch. <code>NeighborLoader</code> samples a fixed-size neighbourhood per labelled node:</p>
+<pre><code>from torch_geometric.loader import NeighborLoader
+
+train_loader = NeighborLoader(
+    graph,
+    num_neighbors=[20, 10],   # 20 1-hop neighbours, 10 2-hop neighbours
+    batch_size=256,
+    input_nodes=train_mask,
+)
+
+model = FraudGNN(in_dim=5, hidden_dim=64, out_dim=2).cuda()
+opt = torch.optim.Adam(model.parameters(), lr=1e-3)
+
+# Class weighting — fraud is rare (~0.5% of accounts)
+class_weights = torch.tensor([1.0, 50.0]).cuda()
+
+for epoch in range(20):
+    model.train()
+    for batch in train_loader:
+        batch = batch.cuda()
+        out = model(batch.x, batch.edge_index)
+        # Predictions only for the seed nodes in the batch
+        loss = F.cross_entropy(
+            out[:batch.batch_size],
+            batch.y[:batch.batch_size],
+            weight=class_weights,
+        )
+        opt.zero_grad(); loss.backward(); opt.step()
+    print(f"Epoch {epoch}  loss={loss.item():.4f}")</code></pre>
+<div class="callout indigo"><strong>Why NeighborLoader matters:</strong> A node's 2-hop neighbourhood can have millions of nodes (high-degree hubs). Sampling caps per-batch compute and forces the model to generalise from partial neighbourhoods — the same idea that made Inception/Dropout work for CNNs.</div>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Production</div>
+    <div class="ls-title">Deploying the Fraud Model</div>
+    <ul>
+<li><strong>Inference latency:</strong> Each new transaction adds an edge. To score it, gather both accounts' k-hop neighbourhoods, run the GNN. With k=2 and degree cap 20, this is ~30ms on CPU.</li>
+<li><strong>Online graph updates:</strong> Use a graph store like Neo4j or DGraph that handles streaming edge inserts. Embed-on-the-fly for new nodes via GraphSAGE's inductive nature.</li>
+<li><strong>Explainability:</strong> Use <code>GNNExplainer</code> from PyG to highlight which neighbours drove the fraud prediction — auditors and regulators need this.</li>
+<li><strong>Cold start:</strong> Brand-new accounts have no neighbours. Fall back to feature-only logistic regression for the first 7 days.</li>
+</ul>
+<div class="callout green"><strong>Sneha's outcome:</strong> 32% → 9% false positive rate. The fintech team productionised the model. Sneha's GitHub repo got 800 stars and an internship offer.</div>
+  </div>
+
+  <div class="quiz-section">
+    <h3>📝 Check Your Understanding (8 Questions)</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. Why do traditional ML models miss fraud rings that GNNs catch?</div>
+        <div class="quiz-opt" data-opt="a">a) Traditional models can't process amounts above ₹50,000</div>
+        <div class="quiz-opt" data-opt="b">b) Traditional ML treats each transaction as an independent row of features and ignores the graph structure of relationships between accounts; fraud rings are defined by their structural pattern, not individual transactions</div>
+        <div class="quiz-opt" data-opt="c">c) GNNs use newer hardware that traditional ML cannot access</div>
+        <div class="quiz-opt" data-opt="d">d) Traditional ML always overfits on imbalanced classes</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. What is 'message passing' in a GNN?</div>
+        <div class="quiz-opt" data-opt="a">a) A way for nodes to send each other email-like alerts about suspicious activity</div>
+        <div class="quiz-opt" data-opt="b">b) The core operation where each node updates its representation by aggregating (e.g., averaging) feature vectors from its neighbours; stacking k layers means each node sees information from k hops away</div>
+        <div class="quiz-opt" data-opt="c">c) A network protocol used by GraphSAGE to coordinate distributed training</div>
+        <div class="quiz-opt" data-opt="d">d) A debugging mechanism that prints intermediate node states</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. Why does Sneha choose GraphSAGE over GCN for production fraud detection?</div>
+        <div class="quiz-opt" data-opt="a">a) GraphSAGE always achieves higher accuracy than GCN on every benchmark</div>
+        <div class="quiz-opt" data-opt="b">b) GraphSAGE samples a fixed-size neighbourhood per node, scales to millions of nodes via mini-batching, and is inductive — it can produce embeddings for brand-new accounts not seen during training</div>
+        <div class="quiz-opt" data-opt="c">c) GCN does not support PyTorch Geometric</div>
+        <div class="quiz-opt" data-opt="d">d) GraphSAGE was specifically designed for UPI fraud by NPCI</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. What does the class_weights = [1.0, 50.0] argument do?</div>
+        <div class="quiz-opt" data-opt="a">a) It scales the learning rate differently for clean vs fraud nodes</div>
+        <div class="quiz-opt" data-opt="b">b) It makes the loss function penalise misclassifying rare fraud cases 50× more than misclassifying clean accounts, counteracting the severe class imbalance (~0.5% fraud rate)</div>
+        <div class="quiz-opt" data-opt="c">c) It normalises node degrees in the message-passing aggregation</div>
+        <div class="quiz-opt" data-opt="d">d) It controls the dropout rate for fraud vs clean predictions</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. What problem does NeighborLoader solve?</div>
+        <div class="quiz-opt" data-opt="a">a) It encrypts neighbour data for privacy compliance</div>
+        <div class="quiz-opt" data-opt="b">b) A node's full k-hop neighbourhood can explode to millions of nodes (especially with high-degree hubs); NeighborLoader samples a fixed number of neighbours per hop, capping per-batch compute and enabling training on huge graphs</div>
+        <div class="quiz-opt" data-opt="c">c) It removes neighbours that have already been seen in previous batches</div>
+        <div class="quiz-opt" data-opt="d">d) It loads neighbour features from disk one at a time to save RAM</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. Why does Sneha need GNNExplainer in production?</div>
+        <div class="quiz-opt" data-opt="a">a) To make the model run faster on CPU</div>
+        <div class="quiz-opt" data-opt="b">b) When the model flags an account as fraud, regulators and the fraud team need to know which neighbours and edges drove the prediction; GNNExplainer highlights the influential subgraph, supporting audit and appeal processes</div>
+        <div class="quiz-opt" data-opt="c">c) To convert the model into a decision tree for serving</div>
+        <div class="quiz-opt" data-opt="d">d) To compress the model for mobile deployment</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. What is the cold-start problem for GNN fraud detection?</div>
+        <div class="quiz-opt" data-opt="a">a) The model fails when training data is older than 6 months</div>
+        <div class="quiz-opt" data-opt="b">b) Brand-new accounts have no transaction edges yet, so their k-hop neighbourhoods are empty and the GNN cannot generate meaningful embeddings — fallback to feature-only models is needed for the first few days</div>
+        <div class="quiz-opt" data-opt="c">c) GPUs need to warm up for 10 minutes before serving GNN models</div>
+        <div class="quiz-opt" data-opt="d">d) The first batch of every epoch always has anomalously high loss</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. Why does stacking 2 SAGEConv layers help catch fraud rings?</div>
+        <div class="quiz-opt" data-opt="a">a) Two layers always produce more accurate predictions than one</div>
+        <div class="quiz-opt" data-opt="b">b) With 2 layers each node aggregates information from neighbours-of-neighbours (2-hop) — fraud rings often span exactly 2–3 hops (sender → mule → cash-out), so 2 hops capture the structural pattern</div>
+        <div class="quiz-opt" data-opt="c">c) PyTorch Geometric requires at least 2 layers per GNN</div>
+        <div class="quiz-opt" data-opt="d">d) One layer cannot be combined with dropout</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Quiz</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-03.html" class="btn-prev">← Lesson 3: Distributed Training</a>
+    <a href="lesson-05.html" class="btn-hub">Lesson 5: Diffusion Models →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-12.html">Class 12</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'b',8:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q])o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=80){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — You're ready for the next lesson.`;}
+  else if(pct>=60){res.className='quiz-result ok';res.textContent=`${score}/${total} (${pct}%) — Good. Review the wrong ones, then continue.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Re-read the lesson, especially the sections related to the wrong answers.`;}
+  gtag('event','quiz_complete',{event_category:'class12',event_label:'class12_lesson04_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"Graph Neural Networks — Class 12 Lesson 04",
+  "description":"Class 12 Lesson 04: Graph Neural Networks. Builds a transaction-graph fraud detector that catches money-laundering rings missed by traditional rule-based systems.",
+  "url":"https://mitraailife.com/content/students/class-12/lesson-04.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Junior College +2",
+  "typicalAgeRange":"16-17",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

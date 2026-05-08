@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 10 — AI Product Management | Class 12 | Mitra AI Life</title>
+<meta name="description" content="Class 12 Lesson 10 for JC +2 students: AI Product Management. Story of Devansh, Ahmedabad. Manages an AI feature for a fintech app — writes the PRD, runs an A/B test, and ships safely with shadow → canary → full" />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-12/lesson-10.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#4f46e5" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 10 — AI Product Management | Class 12 | Mitra AI Life" />
+<meta property="og:description" content="Class 12 Lesson 10: AI Product Management. Manages an AI feature for a fintech app — writes the PRD, runs an A/B test, and ships safely with shadow → canary → full rollout." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-12/lesson-10.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#eef2ff;color:#312e81;line-height:1.7}
+a{color:#4f46e5;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#a5b4fc}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#a5b4fc}
+.lesson-hero{background:linear-gradient(135deg,#1e1b4b,#3730a3,#4f46e5);padding:3rem 1.5rem 4rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.78);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.9rem,5vw,3rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.78);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem;display:inline-block}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#4f46e5;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#312e81;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#4338ca;margin-bottom:.9rem}
+.lesson-section ul,ol{font-size:.93rem;color:#4338ca;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.lesson-section strong{color:#312e81}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.indigo{background:#eef2ff;border-left:4px solid #4f46e5;color:#312e81}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.red{background:#fef2f2;border-left:4px solid #dc2626;color:#7f1d1d}
+pre{background:#1e1b4b;color:#e0e7ff;border-radius:10px;padding:.9rem 1rem;overflow-x:auto;font-size:.8rem;line-height:1.55;margin:.8rem 0;font-family:'Menlo','Monaco',monospace}
+code{font-family:'Menlo','Monaco',monospace;background:#e0e7ff;color:#3730a3;padding:1px 5px;border-radius:4px;font-size:.85em}
+pre code{background:transparent;color:inherit;padding:0}
+.story-card{background:#fff;border:2px solid #c7d2fe;border-radius:14px;padding:1.1rem 1.3rem;margin:1rem 0}
+.story-card .story-who{font-size:.78rem;font-weight:800;color:#4f46e5;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem}
+.story-card p{margin-bottom:.6rem}
+.story-card p:last-child{margin-bottom:0}
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.7rem;margin:1rem 0}
+.concept-card{background:#fff;border:1.5px solid #c7d2fe;border-radius:10px;padding:.7rem .85rem}
+.concept-card h4{font-family:'Baloo 2',cursive;font-size:.88rem;color:#4f46e5;margin-bottom:.25rem}
+.concept-card p{font-size:.78rem;color:#4338ca;margin:0;line-height:1.45}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.84rem}
+th{background:#4f46e5;color:#fff;padding:.5rem .7rem;text-align:left}
+td{padding:.5rem .7rem;border-bottom:1px solid #c7d2fe;color:#312e81;vertical-align:top}
+tr:nth-child(even) td{background:#eef2ff}
+.quiz-section{background:#fff;border:2px solid #4f46e5;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#312e81;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#312e81;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #c7d2fe;background:#eef2ff;font-size:.87rem;color:#312e81;transition:border-color .15s;line-height:1.45}
+.quiz-opt:hover{border-color:#4f46e5}
+.quiz-opt.selected{border-color:#4f46e5;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#4f46e5;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#3730a3}
+.quiz-btn:disabled{opacity:.6;cursor:not-allowed}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fef3c7;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #4f46e5;color:#4f46e5}
+.lesson-nav .btn-hub{background:#4f46e5;color:#fff}
+.lesson-nav .btn-prev:hover{background:#eef2ff}
+.lesson-nav .btn-hub:hover{background:#3730a3}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.concept-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-12.html" class="active">Class 12</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-12.html">Class 12</a> → Lesson 10</div>
+  <h1>AI Product Management 📋</h1>
+  <div class="meta">
+    <span>Class 12</span><span>Age 16-17</span><span>Lesson 10 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-12/lesson-10-hero.jpg" alt="Class 12 Lesson 10 hero — Devansh, Ahmedabad" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+
+  <div class="lesson-section">
+    <div class="ls-label">Story</div>
+    <div class="ls-title">Devansh's First PM Role</div>
+    <div class="story-card"><div class="story-who">👨‍💼 Devansh · Ahmedabad · Age 17</div>
+<p>Devansh interned at an Ahmedabad fintech startup. They wanted to add an "AI categorise my expenses" feature. He wasn't writing the model — he was the <strong>product manager</strong>: defining what success looks like, what could go wrong, and how to ship it without breaking the existing app.</p>
+<p>The model was 84% accurate in offline testing. Six weeks later, after shadow deployment, A/B test, and gradual rollout, the feature reached 100% of users with 2.3% increase in 7-day retention. The PM craft mattered more than the model.</p></div>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">PRD</div>
+    <div class="ls-title">The AI PRD Template</div>
+    <p>An AI Product Requirements Document differs from a regular PRD in five sections:</p>
+<ol>
+<li><strong>Problem statement (1 paragraph):</strong> Who hurts, how badly, today. "Users spend 6 minutes/week categorising 80 expenses by hand. 40% give up after a month."</li>
+<li><strong>Success metrics:</strong> Both <em>offline</em> (model accuracy ≥ 80%) and <em>online</em> (% of users who manually correct &lt; 15%, +2% week-2 retention).</li>
+<li><strong>Failure modes:</strong> What happens when the model is wrong? Wrong category is reversible (1 tap to fix); wrong PIN-entry would not be. List the worst plausible failure and the mitigation.</li>
+<li><strong>Data requirements:</strong> Source, labels, refresh cadence, privacy controls, DPDPA basis (consent? legitimate use?). Will we send transaction text to a third-party API? If yes, who and under what DPA?</li>
+<li><strong>Rollout plan:</strong> Shadow → 1% canary → 10% → 50% → 100%. Kill switch at every stage. Define what triggers rollback.</li>
+</ol>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Metrics</div>
+    <div class="ls-title">Offline vs Online Metrics</div>
+    <div class="concept-grid">
+<div class="concept-card"><h4>Offline Metrics (Model Quality)</h4><p>Accuracy, F1, AUC, MAPE on a held-out test set. Cheap to measure but doesn't predict business impact.</p></div>
+<div class="concept-card"><h4>Online Metrics (Business Outcome)</h4><p>Retention, conversion, revenue per user, NPS. The metrics that actually matter — but only measurable in production via A/B test.</p></div>
+<div class="concept-card"><h4>Guardrail Metrics</h4><p>Things that must not regress: latency P99, crash rate, support ticket volume. Catch bad releases that the success metric misses.</p></div>
+<div class="concept-card"><h4>Counter Metrics</h4><p>Watch for unintended harm: complaint rate, accessibility breaks, demographic accuracy disparities.</p></div>
+</div>
+<div class="callout indigo"><strong>The PM trap:</strong> Optimising for offline accuracy alone often regresses business metrics — a 92%-accurate model that is slow or scary can lose more revenue than the 84% model that is fast and friendly.</div>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Rollout</div>
+    <div class="ls-title">Shadow → Canary → Full</div>
+    <table>
+<thead><tr><th>Stage</th><th>What Happens</th><th>Trigger to Advance</th></tr></thead>
+<tbody>
+<tr><td>1. Offline eval</td><td>Test model on held-out historical data</td><td>Beats baseline by ≥ 10% on F1</td></tr>
+<tr><td>2. Shadow</td><td>Run model on 100% of live traffic but show old result; log both</td><td>Online metrics ≥ offline within 5%</td></tr>
+<tr><td>3. 1% canary</td><td>1% of users see new feature</td><td>No regression in guardrails for 5 days</td></tr>
+<tr><td>4. A/B test (50/50)</td><td>Random 50% see new, 50% see old; measure online metrics</td><td>p-value &lt; 0.05 on success metric, no guardrail regression</td></tr>
+<tr><td>5. 100% rollout</td><td>Everyone gets the feature</td><td>—</td></tr>
+<tr><td>6. Monitor + iterate</td><td>Dashboards, weekly review, retrain cadence</td><td>—</td></tr>
+</tbody>
+</table>
+<div class="callout red"><strong>Always have a kill switch.</strong> A single feature flag that can disable the AI feature within 60 seconds. AI features have failure modes that traditional code does not — model decay, adversarial inputs, prompt injection. Without a kill switch you ship without insurance.</div>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Stats</div>
+    <div class="ls-title">A/B Testing — Real Statistical Significance</div>
+    <p>The most common mistake junior PMs make: declaring a winner from a tiny sample because the average looks better. Real A/B testing:</p>
+<pre><code>from scipy import stats
+
+# Treatment: 4,832 users, 1,287 retained at day 7  → 26.6% retention
+# Control:   4,801 users, 1,202 retained at day 7  → 25.0% retention
+
+n_t, k_t = 4832, 1287
+n_c, k_c = 4801, 1202
+
+# Two-proportion z-test
+p_pool = (k_t + k_c) / (n_t + n_c)
+se = (p_pool * (1 - p_pool) * (1/n_t + 1/n_c)) ** 0.5
+z = ((k_t/n_t) - (k_c/n_c)) / se
+p_value = 2 * (1 - stats.norm.cdf(abs(z)))
+print(f"Lift: {(k_t/n_t - k_c/n_c)*100:+.2f}pp, z={z:.2f}, p={p_value:.4f}")
+# Lift: +1.65pp, z=2.04, p=0.0411 → significant at α=0.05</code></pre>
+<p><strong>Sample size first:</strong> Use a power calculator before you start. To detect a 1.5pp lift with 80% power and α=0.05 you need ~5,000 users per arm. If your traffic can't deliver that in 2 weeks, the test is underpowered and shouldn't run.</p>
+<div class="callout green"><strong>Devansh's outcome:</strong> Feature shipped to 100% of users with +2.3% retention (p=0.003). His PRD template is now the company's standard for every AI feature. He learned that the PM craft — clear metrics, safe rollout, honest measurement — multiplies the value of any model.</div>
+  </div>
+
+  <div class="quiz-section">
+    <h3>📝 Check Your Understanding (8 Questions)</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. What is the difference between offline and online metrics?</div>
+        <div class="quiz-opt" data-opt="a">a) Offline metrics are computed without internet; online metrics require internet</div>
+        <div class="quiz-opt" data-opt="b">b) Offline metrics measure model quality on held-out historical data (accuracy, F1, AUC) and are cheap; online metrics measure business outcomes (retention, revenue) only available from production A/B tests — and are the metrics that actually matter</div>
+        <div class="quiz-opt" data-opt="c">c) Offline metrics are for training, online metrics are for inference</div>
+        <div class="quiz-opt" data-opt="d">d) There is no meaningful difference</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. Why does Devansh include a 'failure modes' section in his PRD?</div>
+        <div class="quiz-opt" data-opt="a">a) It is required by Indian fintech regulation</div>
+        <div class="quiz-opt" data-opt="b">b) AI features fail in ways traditional code does not — wrong predictions, drift, prompt injection. Listing the worst plausible failure and its mitigation forces the team to design for graceful degradation rather than discovering the failure in production</div>
+        <div class="quiz-opt" data-opt="c">c) It makes the PRD longer and more impressive</div>
+        <div class="quiz-opt" data-opt="d">d) Failure modes have no real impact on shipping</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. What is the purpose of shadow deployment?</div>
+        <div class="quiz-opt" data-opt="a">a) To save GPU cost during development</div>
+        <div class="quiz-opt" data-opt="b">b) Run the new model on 100% of real traffic but do not show its output to users — log predictions side-by-side with the existing system. This validates online metrics, surfaces edge cases, and stress-tests infrastructure with zero user risk before any rollout</div>
+        <div class="quiz-opt" data-opt="c">c) To test the model on synthetic data</div>
+        <div class="quiz-opt" data-opt="d">d) To hide the model from competitors</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. What are guardrail metrics and why does Devansh track them in every A/B test?</div>
+        <div class="quiz-opt" data-opt="a">a) They are metrics displayed on a literal guardrail</div>
+        <div class="quiz-opt" data-opt="b">b) Things that must NOT regress (P99 latency, crash rate, support ticket volume) — even when the success metric improves, regressions in guardrails can mean the feature is causing hidden harm; without them, a 'winning' test can ship a net-negative experience</div>
+        <div class="quiz-opt" data-opt="c">c) They measure how many guardrails are deployed</div>
+        <div class="quiz-opt" data-opt="d">d) They are a synonym for offline metrics</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. Why does Devansh do a power calculation before running the A/B test?</div>
+        <div class="quiz-opt" data-opt="a">a) It is required by the company's CFO</div>
+        <div class="quiz-opt" data-opt="b">b) To know how many users per arm are needed to detect the expected lift with adequate statistical power (e.g., 80%) at α=0.05 — running an underpowered test wastes time and produces ambiguous results that cannot reject either hypothesis</div>
+        <div class="quiz-opt" data-opt="c">c) Power calculations make the test run faster</div>
+        <div class="quiz-opt" data-opt="d">d) It is the only way to compute p-values</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. Why is a kill switch (single feature flag with 60-second propagation) essential for AI features?</div>
+        <div class="quiz-opt" data-opt="a">a) It is required by Kubernetes for any deployment</div>
+        <div class="quiz-opt" data-opt="b">b) AI features have failure modes traditional code lacks — model drift, adversarial inputs, prompt injection, sudden regression after a third-party API change. Without an instant kill switch, every release ships without insurance against catastrophic failures discovered post-launch</div>
+        <div class="quiz-opt" data-opt="c">c) It speeds up CI/CD pipelines</div>
+        <div class="quiz-opt" data-opt="d">d) It is required by the AI safety regulator</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. What DPDPA-related question must an AI PRD answer for any feature processing user data?</div>
+        <div class="quiz-opt" data-opt="a">a) Whether the model is open-source or proprietary</div>
+        <div class="quiz-opt" data-opt="b">b) What is the lawful basis (consent or legitimate use), where is the data processed (in-country or cross-border), who is the data fiduciary, what data minimisation is applied, and is there a third-party processor agreement (DPA) — DPDPA 2023 requires this clarity before launch</div>
+        <div class="quiz-opt" data-opt="c">c) What programming language the model is written in</div>
+        <div class="quiz-opt" data-opt="d">d) Whether the model is bigger than 7 billion parameters</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. What is the central insight of Devansh's lesson about AI product management?</div>
+        <div class="quiz-opt" data-opt="a">a) The most important PM skill is writing perfect specs</div>
+        <div class="quiz-opt" data-opt="b">b) The PM craft — clear success metrics, honest measurement, staged rollout with kill switches — multiplies (or destroys) the value of any AI model; an 84%-accurate model shipped well outperforms a 92%-accurate model shipped badly</div>
+        <div class="quiz-opt" data-opt="c">c) PMs should write the model code themselves</div>
+        <div class="quiz-opt" data-opt="d">d) AI features should always be shipped to 100% of users on day 1</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Quiz</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-09.html" class="btn-prev">← Lesson 9: Time Series</a>
+    <a href="lesson-11.html" class="btn-hub">Lesson 11: College &amp; Career →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-12.html">Class 12</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'b',8:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q])o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=80){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — You're ready for the next lesson.`;}
+  else if(pct>=60){res.className='quiz-result ok';res.textContent=`${score}/${total} (${pct}%) — Good. Review the wrong ones, then continue.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Re-read the lesson, especially the sections related to the wrong answers.`;}
+  gtag('event','quiz_complete',{event_category:'class12',event_label:'class12_lesson10_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"AI Product Management — Class 12 Lesson 10",
+  "description":"Class 12 Lesson 10: AI Product Management. Manages an AI feature for a fintech app — writes the PRD, runs an A/B test, and ships safely with shadow → canary → full rollout.",
+  "url":"https://mitraailife.com/content/students/class-12/lesson-10.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Junior College +2",
+  "typicalAgeRange":"16-17",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

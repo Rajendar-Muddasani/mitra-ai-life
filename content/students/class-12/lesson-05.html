@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 05 — Diffusion Models &amp; Image Generation | Class 12 | Mitra AI Life</title>
+<meta name="description" content="Class 12 Lesson 05 for JC +2 students: Diffusion Models &amp; Image Generation. Story of Tara, Goa. Generates Konkani folk-art posters with Stable Diffusion + ControlNet for a heritage preservation project — and learns t" />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-12/lesson-05.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#4f46e5" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 05 — Diffusion Models &amp; Image Generation | Class 12 | Mitra AI Life" />
+<meta property="og:description" content="Class 12 Lesson 05: Diffusion Models &amp; Image Generation. Generates Konkani folk-art posters with Stable Diffusion + ControlNet for a heritage preservation project — and learns the ethics of image g" />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-12/lesson-05.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#eef2ff;color:#312e81;line-height:1.7}
+a{color:#4f46e5;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#a5b4fc}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#a5b4fc}
+.lesson-hero{background:linear-gradient(135deg,#1e1b4b,#3730a3,#4f46e5);padding:3rem 1.5rem 4rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.78);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.9rem,5vw,3rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.78);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem;display:inline-block}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#4f46e5;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#312e81;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#4338ca;margin-bottom:.9rem}
+.lesson-section ul,ol{font-size:.93rem;color:#4338ca;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.lesson-section strong{color:#312e81}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.indigo{background:#eef2ff;border-left:4px solid #4f46e5;color:#312e81}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.red{background:#fef2f2;border-left:4px solid #dc2626;color:#7f1d1d}
+pre{background:#1e1b4b;color:#e0e7ff;border-radius:10px;padding:.9rem 1rem;overflow-x:auto;font-size:.8rem;line-height:1.55;margin:.8rem 0;font-family:'Menlo','Monaco',monospace}
+code{font-family:'Menlo','Monaco',monospace;background:#e0e7ff;color:#3730a3;padding:1px 5px;border-radius:4px;font-size:.85em}
+pre code{background:transparent;color:inherit;padding:0}
+.story-card{background:#fff;border:2px solid #c7d2fe;border-radius:14px;padding:1.1rem 1.3rem;margin:1rem 0}
+.story-card .story-who{font-size:.78rem;font-weight:800;color:#4f46e5;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem}
+.story-card p{margin-bottom:.6rem}
+.story-card p:last-child{margin-bottom:0}
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.7rem;margin:1rem 0}
+.concept-card{background:#fff;border:1.5px solid #c7d2fe;border-radius:10px;padding:.7rem .85rem}
+.concept-card h4{font-family:'Baloo 2',cursive;font-size:.88rem;color:#4f46e5;margin-bottom:.25rem}
+.concept-card p{font-size:.78rem;color:#4338ca;margin:0;line-height:1.45}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.84rem}
+th{background:#4f46e5;color:#fff;padding:.5rem .7rem;text-align:left}
+td{padding:.5rem .7rem;border-bottom:1px solid #c7d2fe;color:#312e81;vertical-align:top}
+tr:nth-child(even) td{background:#eef2ff}
+.quiz-section{background:#fff;border:2px solid #4f46e5;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#312e81;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#312e81;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #c7d2fe;background:#eef2ff;font-size:.87rem;color:#312e81;transition:border-color .15s;line-height:1.45}
+.quiz-opt:hover{border-color:#4f46e5}
+.quiz-opt.selected{border-color:#4f46e5;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#4f46e5;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#3730a3}
+.quiz-btn:disabled{opacity:.6;cursor:not-allowed}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fef3c7;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #4f46e5;color:#4f46e5}
+.lesson-nav .btn-hub{background:#4f46e5;color:#fff}
+.lesson-nav .btn-prev:hover{background:#eef2ff}
+.lesson-nav .btn-hub:hover{background:#3730a3}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.concept-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-12.html" class="active">Class 12</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-12.html">Class 12</a> → Lesson 05</div>
+  <h1>Diffusion Models &amp; Image Generation 🎨</h1>
+  <div class="meta">
+    <span>Class 12</span><span>Age 16-17</span><span>Lesson 05 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-12/lesson-05-hero.jpg" alt="Class 12 Lesson 05 hero — Tara, Goa" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+
+  <div class="lesson-section">
+    <div class="ls-label">Story</div>
+    <div class="ls-title">Tara's Konkani Heritage Posters</div>
+    <div class="story-card"><div class="story-who">👩‍🎨 Tara · Goa · Age 17</div>
+<p>Tara's grandmother teaches Konkani folk-art workshops. She wanted to create posters in the traditional Warli + Goan style, but custom illustrations cost ₹2,000 each. Tara fine-tuned <strong>Stable Diffusion</strong> on 200 photos of her grandmother's paintings and used <strong>ControlNet</strong> to keep the composition under her control.</p>
+<p>She also learned the hard truth: image generation can be misused. Her lesson includes the safety controls she added — content filters, watermarks, and a clear "AI-generated" credit on every poster.</p></div>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Theory</div>
+    <div class="ls-title">How Diffusion Models Work</div>
+    <p>The big idea: instead of generating an image directly (hard), train a model to <strong>remove noise</strong> from a noisy image (easier). Then start from pure noise and gradually denoise.</p>
+<p><strong>Forward process:</strong> add tiny amounts of Gaussian noise over T=1000 steps until the image is pure noise. This is just math — no neural network needed.</p>
+<p><strong>Reverse process:</strong> train a neural network (typically a U-Net) to predict the noise that was added at each step. At inference, start from noise and call the network 1000 (or with DDIM, just 50) times to denoise back to a clean image.</p>
+<div class="concept-grid">
+<div class="concept-card"><h4>DDPM</h4><p>Original diffusion. 1000 denoising steps. Slow but high quality.</p></div>
+<div class="concept-card"><h4>DDIM</h4><p>Same model, deterministic schedule, 50 steps. 20× faster.</p></div>
+<div class="concept-card"><h4>Latent Diffusion (SD)</h4><p>Diffuse in compressed latent space (8× smaller). Stable Diffusion's secret sauce.</p></div>
+<div class="concept-card"><h4>Classifier-Free Guidance</h4><p>Sample with both conditional and unconditional model, push toward conditional. Controls prompt strength.</p></div>
+</div>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Code</div>
+    <div class="ls-title">Generate with Stable Diffusion XL</div>
+    <pre><code>!pip install -q diffusers transformers accelerate
+
+from diffusers import StableDiffusionXLPipeline
+import torch
+
+pipe = StableDiffusionXLPipeline.from_pretrained(
+    "stabilityai/stable-diffusion-xl-base-1.0",
+    torch_dtype=torch.float16,
+).to("cuda")
+
+prompt = "Goan Warli folk art style poster, women dancing in coconut grove, white figures on terracotta background, traditional patterns, festive"
+negative_prompt = "blurry, low quality, modern style, 3d render, photograph"
+
+image = pipe(
+    prompt=prompt,
+    negative_prompt=negative_prompt,
+    num_inference_steps=30,
+    guidance_scale=7.5,
+    height=1024, width=1024,
+).images[0]
+image.save("warli_poster.png")</code></pre>
+<p><strong>Guidance scale</strong> controls prompt adherence. Too low (&lt;5) ignores the prompt. Too high (&gt;15) creates over-saturated, deep-fried images. 7–9 is the sweet spot.</p>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Code</div>
+    <div class="ls-title">ControlNet for Composition Control</div>
+    <p>Pure prompt generation is unpredictable. ControlNet adds a second image (edge map, pose skeleton, depth map) that the model must follow:</p>
+<pre><code>from diffusers import StableDiffusionXLControlNetPipeline, ControlNetModel
+from PIL import Image
+import cv2, numpy as np
+
+# Load Tara's pencil sketch and convert to edge map
+sketch = np.array(Image.open("grandmother_sketch.jpg").convert("RGB"))
+edges = cv2.Canny(sketch, 100, 200)
+edge_image = Image.fromarray(np.stack([edges]*3, axis=-1))
+
+controlnet = ControlNetModel.from_pretrained(
+    "diffusers/controlnet-canny-sdxl-1.0", torch_dtype=torch.float16
+)
+pipe = StableDiffusionXLControlNetPipeline.from_pretrained(
+    "stabilityai/stable-diffusion-xl-base-1.0",
+    controlnet=controlnet, torch_dtype=torch.float16,
+).to("cuda")
+
+image = pipe(
+    prompt="Warli folk art style, traditional Goan motifs, terracotta and white",
+    image=edge_image,                  # composition controlled by edges
+    controlnet_conditioning_scale=0.7,
+    num_inference_steps=30,
+).images[0]</code></pre>
+<div class="callout indigo"><strong>Why ControlNet matters:</strong> Tara's grandmother sketched the layout she wanted. ControlNet preserves that sketch's composition while filling in the artistic style. This makes the AI a collaborator, not a replacement.</div>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Ethics</div>
+    <div class="ls-title">Safety Controls Tara Added</div>
+    <p>Image generation is powerful and dangerous. The same Stable Diffusion that paints folk art can generate harmful content. Tara built these safeguards:</p>
+<ol>
+<li><strong>Negative prompts:</strong> Always include <code>"nsfw, nude, child, violence, gore"</code> in negative prompts.</li>
+<li><strong>Safety checker:</strong> The Hugging Face <code>StableDiffusionSafetyChecker</code> blocks NSFW outputs. Don't disable it.</li>
+<li><strong>Watermark:</strong> Add a visible "AI-generated · Mitra Heritage Project" watermark to every output.</li>
+<li><strong>Invisible watermark:</strong> Use <code>imwatermark</code> or Stability AI's invisible watermark to mark AI provenance even after cropping.</li>
+<li><strong>No real faces:</strong> Refuse to generate identifiable people without consent. Use generic figures only.</li>
+<li><strong>Source credit:</strong> Always credit "Trained on grandmother's original paintings, with permission."</li>
+</ol>
+<div class="callout red"><strong>Indian law context:</strong> The IT Rules 2021 (amended 2023) require deepfake-style AI content to be clearly labelled. The DPDPA 2023 prohibits processing personal data (including likenesses) without consent. Generating images of identifiable people without consent is both unethical and likely illegal.</div>
+<div class="callout green"><strong>Tara's outcome:</strong> 50 posters printed for her grandmother's heritage workshop. Zero NSFW incidents. The "AI-generated, original art trained on grandmother's permission" credit became the workshop's tagline.</div>
+  </div>
+
+  <div class="quiz-section">
+    <h3>📝 Check Your Understanding (8 Questions)</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. What is the core insight that makes diffusion models work?</div>
+        <div class="quiz-opt" data-opt="a">a) Images are easier to generate when broken into 8x8 pixel blocks</div>
+        <div class="quiz-opt" data-opt="b">b) Generating an image directly is hard, but predicting the noise added at each step of a noising process is much easier; train a network to denoise, then start from pure noise and iteratively denoise to get a generated image</div>
+        <div class="quiz-opt" data-opt="c">c) Random initialisation of pixel values produces realistic images after enough training epochs</div>
+        <div class="quiz-opt" data-opt="d">d) Diffusion models replace GANs because they have no discriminator</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. Why does Stable Diffusion use latent diffusion instead of pixel-space diffusion?</div>
+        <div class="quiz-opt" data-opt="a">a) Latent space is required by the licensing agreement</div>
+        <div class="quiz-opt" data-opt="b">b) Diffusing in a compressed VAE latent space (8× smaller in each dimension) cuts compute by ~64×, enabling 1024×1024 generation on a single consumer GPU instead of an entire server cluster</div>
+        <div class="quiz-opt" data-opt="c">c) Latent diffusion produces strictly higher quality than pixel diffusion</div>
+        <div class="quiz-opt" data-opt="d">d) Pixel-space diffusion is unstable and never converges</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. What is the role of guidance_scale (CFG) in image generation?</div>
+        <div class="quiz-opt" data-opt="a">a) It sets the maximum image dimensions the model can generate</div>
+        <div class="quiz-opt" data-opt="b">b) Classifier-Free Guidance — at each step, sample with and without the prompt and push toward the conditional direction; higher values force closer prompt adherence but oversaturate around 12+</div>
+        <div class="quiz-opt" data-opt="c">c) It controls how many GPUs are used in parallel</div>
+        <div class="quiz-opt" data-opt="d">d) It is the random seed for the noise schedule</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. Why does Tara use ControlNet with an edge map of her grandmother's sketch?</div>
+        <div class="quiz-opt" data-opt="a">a) ControlNet is required for any non-English prompt</div>
+        <div class="quiz-opt" data-opt="b">b) ControlNet conditions the generation on the structural information in the edge map, preserving the composition Tara's grandmother sketched while letting the diffusion model fill in the Warli folk-art style</div>
+        <div class="quiz-opt" data-opt="c">c) ControlNet runs faster than vanilla Stable Diffusion</div>
+        <div class="quiz-opt" data-opt="d">d) It allows generating multiple images in parallel</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. Why should the StableDiffusionSafetyChecker generally not be disabled in user-facing apps?</div>
+        <div class="quiz-opt" data-opt="a">a) Disabling it voids the Apache 2.0 licence</div>
+        <div class="quiz-opt" data-opt="b">b) It blocks the most obvious NSFW outputs; disabling it removes a safety layer that protects users (especially minors) from harmful content and protects the developer from legal liability</div>
+        <div class="quiz-opt" data-opt="c">c) It is required for the model to converge during inference</div>
+        <div class="quiz-opt" data-opt="d">d) It produces higher-resolution images when enabled</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. Why does Tara add a visible watermark and an invisible watermark to every generated poster?</div>
+        <div class="quiz-opt" data-opt="a">a) Watermarks improve the model's training process</div>
+        <div class="quiz-opt" data-opt="b">b) Visible watermarks prevent casual misrepresentation as human-made art; invisible watermarks (steganographic) survive cropping/screenshots and prove AI provenance — both are best practice and increasingly required by India's IT Rules and EU AI Act</div>
+        <div class="quiz-opt" data-opt="c">c) Watermarks help search engines find the images</div>
+        <div class="quiz-opt" data-opt="d">d) Hugging Face's terms of service mandate watermarks</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. What is the legal context in India for AI-generated images of identifiable people?</div>
+        <div class="quiz-opt" data-opt="a">a) There are no laws that apply to AI-generated images in India</div>
+        <div class="quiz-opt" data-opt="b">b) The DPDPA 2023 prohibits processing personal data (including likenesses) without consent, and the IT Rules 2021 (2023 amendment) require synthetic media to be clearly labelled — generating images of identifiable people without consent is unethical and likely illegal</div>
+        <div class="quiz-opt" data-opt="c">c) Only commercial use of AI-generated images is regulated</div>
+        <div class="quiz-opt" data-opt="d">d) Indian law allows any AI image generation as long as it is not commercial</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. What is the difference between DDPM (1000 steps) and DDIM (50 steps) at inference time?</div>
+        <div class="quiz-opt" data-opt="a">a) DDIM uses a different and incompatible model architecture</div>
+        <div class="quiz-opt" data-opt="b">b) DDIM is a deterministic sampler that uses the same trained model but a non-Markovian schedule, achieving comparable quality in ~20× fewer steps — turning interactive prompting from minutes per image to seconds per image</div>
+        <div class="quiz-opt" data-opt="c">c) DDIM produces black-and-white images only</div>
+        <div class="quiz-opt" data-opt="d">d) DDIM requires 20× more GPU memory than DDPM</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Quiz</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-04.html" class="btn-prev">← Lesson 4: GNNs</a>
+    <a href="lesson-06.html" class="btn-hub">Lesson 6: Speech AI &amp; Ethics →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-12.html">Class 12</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'b',8:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q])o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=80){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — You're ready for the next lesson.`;}
+  else if(pct>=60){res.className='quiz-result ok';res.textContent=`${score}/${total} (${pct}%) — Good. Review the wrong ones, then continue.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Re-read the lesson, especially the sections related to the wrong answers.`;}
+  gtag('event','quiz_complete',{event_category:'class12',event_label:'class12_lesson05_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"Diffusion Models &amp; Image Generation — Class 12 Lesson 05",
+  "description":"Class 12 Lesson 05: Diffusion Models &amp; Image Generation. Generates Konkani folk-art posters with Stable Diffusion + ControlNet for a heritage preservation project — and learns the ethics of image g",
+  "url":"https://mitraailife.com/content/students/class-12/lesson-05.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Junior College +2",
+  "typicalAgeRange":"16-17",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

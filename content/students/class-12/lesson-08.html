@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 08 — AI at Scale: Kubernetes + vLLM | Class 12 | Mitra AI Life</title>
+<meta name="description" content="Class 12 Lesson 08 for JC +2 students: AI at Scale: Kubernetes + vLLM. Story of Rohit, Mumbai. Serves a 7B Llama-3 model to 50,000 daily users with vLLM on Kubernetes — at 1/8th the cost of OpenAI." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-12/lesson-08.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#4f46e5" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 08 — AI at Scale: Kubernetes + vLLM | Class 12 | Mitra AI Life" />
+<meta property="og:description" content="Class 12 Lesson 08: AI at Scale: Kubernetes + vLLM. Serves a 7B Llama-3 model to 50,000 daily users with vLLM on Kubernetes — at 1/8th the cost of OpenAI." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-12/lesson-08.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#eef2ff;color:#312e81;line-height:1.7}
+a{color:#4f46e5;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#a5b4fc}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#a5b4fc}
+.lesson-hero{background:linear-gradient(135deg,#1e1b4b,#3730a3,#4f46e5);padding:3rem 1.5rem 4rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.78);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.9rem,5vw,3rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.78);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem;display:inline-block}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#4f46e5;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#312e81;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#4338ca;margin-bottom:.9rem}
+.lesson-section ul,ol{font-size:.93rem;color:#4338ca;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.lesson-section strong{color:#312e81}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.indigo{background:#eef2ff;border-left:4px solid #4f46e5;color:#312e81}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.red{background:#fef2f2;border-left:4px solid #dc2626;color:#7f1d1d}
+pre{background:#1e1b4b;color:#e0e7ff;border-radius:10px;padding:.9rem 1rem;overflow-x:auto;font-size:.8rem;line-height:1.55;margin:.8rem 0;font-family:'Menlo','Monaco',monospace}
+code{font-family:'Menlo','Monaco',monospace;background:#e0e7ff;color:#3730a3;padding:1px 5px;border-radius:4px;font-size:.85em}
+pre code{background:transparent;color:inherit;padding:0}
+.story-card{background:#fff;border:2px solid #c7d2fe;border-radius:14px;padding:1.1rem 1.3rem;margin:1rem 0}
+.story-card .story-who{font-size:.78rem;font-weight:800;color:#4f46e5;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem}
+.story-card p{margin-bottom:.6rem}
+.story-card p:last-child{margin-bottom:0}
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.7rem;margin:1rem 0}
+.concept-card{background:#fff;border:1.5px solid #c7d2fe;border-radius:10px;padding:.7rem .85rem}
+.concept-card h4{font-family:'Baloo 2',cursive;font-size:.88rem;color:#4f46e5;margin-bottom:.25rem}
+.concept-card p{font-size:.78rem;color:#4338ca;margin:0;line-height:1.45}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.84rem}
+th{background:#4f46e5;color:#fff;padding:.5rem .7rem;text-align:left}
+td{padding:.5rem .7rem;border-bottom:1px solid #c7d2fe;color:#312e81;vertical-align:top}
+tr:nth-child(even) td{background:#eef2ff}
+.quiz-section{background:#fff;border:2px solid #4f46e5;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#312e81;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#312e81;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #c7d2fe;background:#eef2ff;font-size:.87rem;color:#312e81;transition:border-color .15s;line-height:1.45}
+.quiz-opt:hover{border-color:#4f46e5}
+.quiz-opt.selected{border-color:#4f46e5;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#4f46e5;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#3730a3}
+.quiz-btn:disabled{opacity:.6;cursor:not-allowed}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fef3c7;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #4f46e5;color:#4f46e5}
+.lesson-nav .btn-hub{background:#4f46e5;color:#fff}
+.lesson-nav .btn-prev:hover{background:#eef2ff}
+.lesson-nav .btn-hub:hover{background:#3730a3}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.concept-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-12.html" class="active">Class 12</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-12.html">Class 12</a> → Lesson 08</div>
+  <h1>AI at Scale: Kubernetes + vLLM 🚢</h1>
+  <div class="meta">
+    <span>Class 12</span><span>Age 16-17</span><span>Lesson 08 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-12/lesson-08-hero.jpg" alt="Class 12 Lesson 08 hero — Rohit, Mumbai" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+
+  <div class="lesson-section">
+    <div class="ls-label">Story</div>
+    <div class="ls-title">Rohit's ₹40,000/month LLM Service</div>
+    <div class="story-card"><div class="story-who">👨‍💻 Rohit · Mumbai · Age 17</div>
+<p>Rohit's school built a Hindi study chatbot. Using OpenAI GPT-3.5 for 50,000 daily students cost ₹3.2 lakhs/month — unaffordable. Rohit migrated to a self-hosted Llama-3-8B served with <strong>vLLM</strong> on a single A10 GPU rented for ₹40,000/month from an Indian cloud provider (Yotta or E2E).</p>
+<p>The service handles 50,000 daily users with P99 latency of 1.4 seconds. The trick: vLLM's <strong>PagedAttention</strong> + continuous batching gets 14× more throughput than naive HuggingFace serving.</p></div>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Why vLLM</div>
+    <div class="ls-title">The Throughput Problem</div>
+    <p>Naive LLM serving allocates a contiguous KV-cache slot per request, sized for the worst case (max output length). Most requests use a fraction of it. Result: 60–80% of GPU memory is wasted, and you can only batch 8–16 concurrent requests on an A10 GPU.</p>
+<p><strong>vLLM's two innovations:</strong></p>
+<div class="concept-grid">
+<div class="concept-card"><h4>PagedAttention</h4><p>Treats KV-cache like virtual memory pages. Allocates blocks on demand. Memory waste &lt; 4%. Supports 5–10× more concurrent requests.</p></div>
+<div class="concept-card"><h4>Continuous Batching</h4><p>Doesn't wait for all requests in a batch to finish. As soon as one request completes, a new one slots in. GPU stays busy.</p></div>
+</div>
+<table>
+<thead><tr><th>Server</th><th>Throughput (tok/s)</th><th>Concurrent Requests</th><th>Setup</th></tr></thead>
+<tbody>
+<tr><td>HF Transformers</td><td>~600</td><td>4–8</td><td>1 line</td></tr>
+<tr><td>HF TGI</td><td>~3,500</td><td>32</td><td>Docker</td></tr>
+<tr><td>vLLM</td><td>~9,000</td><td>128+</td><td>Docker + config</td></tr>
+<tr><td>SGLang / TensorRT-LLM</td><td>~12,000</td><td>128+</td><td>Complex setup</td></tr>
+</tbody>
+</table>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Code</div>
+    <div class="ls-title">Run vLLM in 3 Commands</div>
+    <pre><code># 1. Start vLLM server with Llama-3-8B
+docker run --gpus all -p 8000:8000 \
+  -v ~/.cache/huggingface:/root/.cache/huggingface \
+  vllm/vllm-openai:latest \
+  --model meta-llama/Meta-Llama-3-8B-Instruct \
+  --max-model-len 4096 \
+  --gpu-memory-utilization 0.92</code></pre>
+<p>vLLM exposes an OpenAI-compatible API. Existing OpenAI client code works with one line change:</p>
+<pre><code>from openai import OpenAI
+
+client = OpenAI(
+    base_url="http://localhost:8000/v1",
+    api_key="dummy",  # vLLM doesn't check keys by default
+)
+
+response = client.chat.completions.create(
+    model="meta-llama/Meta-Llama-3-8B-Instruct",
+    messages=[
+        {"role": "system", "content": "You are a Hindi study tutor."},
+        {"role": "user", "content": "प्रकाश संश्लेषण समझाइए"},
+    ],
+    temperature=0.7,
+    max_tokens=400,
+)
+print(response.choices[0].message.content)</code></pre>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Code</div>
+    <div class="ls-title">Kubernetes Deployment with Autoscaling</div>
+    <pre><code># vllm-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vllm-llama3
+spec:
+  replicas: 2
+  selector:
+    matchLabels: {app: vllm}
+  template:
+    metadata:
+      labels: {app: vllm}
+    spec:
+      nodeSelector:
+        nvidia.com/gpu.product: NVIDIA-A10
+      containers:
+      - name: vllm
+        image: vllm/vllm-openai:latest
+        args:
+        - --model=meta-llama/Meta-Llama-3-8B-Instruct
+        - --max-model-len=4096
+        - --gpu-memory-utilization=0.92
+        ports: [{containerPort: 8000}]
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+            memory: "32Gi"
+        readinessProbe:
+          httpGet: {path: /health, port: 8000}
+          initialDelaySeconds: 120  # vLLM takes ~2 min to load 8B model
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: vllm-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: vllm-llama3
+  minReplicas: 1
+  maxReplicas: 4
+  metrics:
+  - type: Pods
+    pods:
+      metric: {name: vllm_requests_running}
+      target: {type: AverageValue, averageValue: "60"}</code></pre>
+<pre><code>kubectl apply -f vllm-deployment.yaml
+kubectl get pods -l app=vllm
+# vllm-llama3-7c6f4d89b8-x2k4p  Running</code></pre>
+<div class="callout indigo"><strong>Indian cloud tip:</strong> Yotta, E2E, and Tata Cloud all offer A10/L40 GPUs at 30–50% lower price than AWS for Indian-hosted workloads. Data localisation under DPDPA 2023 also favours Indian infrastructure for student data.</div>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Cost</div>
+    <div class="ls-title">The Economics — Why Self-Hosting Wins at Scale</div>
+    <table>
+<thead><tr><th>Approach</th><th>Cost / Month</th><th>50K daily users</th></tr></thead>
+<tbody>
+<tr><td>OpenAI GPT-3.5</td><td>~₹3.2 lakh</td><td>Pay-per-token, scales linearly</td></tr>
+<tr><td>OpenAI GPT-4o</td><td>~₹12 lakh</td><td>Higher quality, much higher cost</td></tr>
+<tr><td>vLLM Llama-3-8B (1× A10)</td><td>~₹40,000</td><td>Self-hosted, fixed cost</td></tr>
+<tr><td>vLLM Llama-3-70B (4× A100)</td><td>~₹3.5 lakh</td><td>GPT-4-class quality at GPT-3.5 price</td></tr>
+</tbody>
+</table>
+<div class="callout green"><strong>Crossover point:</strong> Self-hosting wins when you have ~5,000+ daily active users. Below that, OpenAI / Anthropic / Google APIs are cheaper because the GPU sits idle most of the time. Don't self-host prematurely.</div>
+<div class="callout red"><strong>Operational reality:</strong> Self-hosting requires DevOps capability — GPU monitoring, autoscaling, model upgrades, security patches. Budget 0.25 FTE engineering time. Below that, the API price is worth it.</div>
+  </div>
+
+  <div class="quiz-section">
+    <h3>📝 Check Your Understanding (8 Questions)</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. What problem does PagedAttention solve in LLM serving?</div>
+        <div class="quiz-opt" data-opt="a">a) It speeds up the matrix multiplications inside attention</div>
+        <div class="quiz-opt" data-opt="b">b) Naive serving allocates a worst-case-sized contiguous KV cache per request, wasting 60-80% of GPU memory; PagedAttention treats KV cache like virtual-memory pages allocated on demand, reducing waste to under 4% and enabling 5-10× more concurrent requests</div>
+        <div class="quiz-opt" data-opt="c">c) It removes the attention mechanism entirely</div>
+        <div class="quiz-opt" data-opt="d">d) It encrypts the KV cache for privacy</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. What is continuous batching in vLLM?</div>
+        <div class="quiz-opt" data-opt="a">a) A scheduling policy that batches all requests every 10 milliseconds</div>
+        <div class="quiz-opt" data-opt="b">b) The scheduler doesn't wait for every request in a batch to finish — as soon as one completes, a new request slots into its place; the GPU stays continuously busy instead of idling on the slowest request</div>
+        <div class="quiz-opt" data-opt="c">c) A way to batch training and inference workloads on the same GPU</div>
+        <div class="quiz-opt" data-opt="d">d) A continuous integration test that runs each batch through CI</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. Why does Rohit use the OpenAI-compatible API exposed by vLLM?</div>
+        <div class="quiz-opt" data-opt="a">a) It is the only API that vLLM supports</div>
+        <div class="quiz-opt" data-opt="b">b) OpenAI's chat completions API is the de-facto standard; vLLM exposing the same interface means the existing chatbot code works with a single base_url change — zero rewrite, easy migration back to OpenAI if needed</div>
+        <div class="quiz-opt" data-opt="c">c) OpenAI requires it for licensing reasons</div>
+        <div class="quiz-opt" data-opt="d">d) The OpenAI API is the only one that supports Hindi</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. Why does Rohit's HorizontalPodAutoscaler scale on vllm_requests_running rather than CPU usage?</div>
+        <div class="quiz-opt" data-opt="a">a) CPU metrics are not exposed by Kubernetes for GPU pods</div>
+        <div class="quiz-opt" data-opt="b">b) LLM workloads are GPU-bound — CPU usage stays low even at full GPU saturation; vLLM exposes a queue-depth metric that actually tracks load and is the right scaling signal</div>
+        <div class="quiz-opt" data-opt="c">c) The pods do not have CPU limits set</div>
+        <div class="quiz-opt" data-opt="d">d) Memory is the only meaningful metric for LLMs</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. Why does the readiness probe have initialDelaySeconds: 120?</div>
+        <div class="quiz-opt" data-opt="a">a) It is a Kubernetes-imposed minimum</div>
+        <div class="quiz-opt" data-opt="b">b) vLLM takes ~2 minutes to download (if not cached) and load the 8B-parameter model into GPU memory and warm up CUDA kernels; serving health checks before that period would mark the pod ready prematurely</div>
+        <div class="quiz-opt" data-opt="c">c) The Llama license requires a 2-minute waiting period</div>
+        <div class="quiz-opt" data-opt="d">d) Kubernetes garbage collection runs every 120 seconds</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. At what scale does self-hosting an LLM with vLLM become cheaper than OpenAI's API?</div>
+        <div class="quiz-opt" data-opt="a">a) Self-hosting is always cheaper than any API</div>
+        <div class="quiz-opt" data-opt="b">b) Approximately 5,000+ daily active users — below that, the GPU sits idle most of the time and pay-per-token APIs win on cost; above that, fixed self-hosted infrastructure becomes much cheaper per query</div>
+        <div class="quiz-opt" data-opt="c">c) Self-hosting is never cheaper because of DevOps overhead</div>
+        <div class="quiz-opt" data-opt="d">d) At 100 users per day</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. Why is gpu-memory-utilization=0.92 a good default for vLLM?</div>
+        <div class="quiz-opt" data-opt="a">a) 0.92 is the maximum value vLLM accepts</div>
+        <div class="quiz-opt" data-opt="b">b) vLLM pre-allocates 92% of GPU memory for KV cache + model weights; leaving 8% headroom prevents OOM crashes from temporary spikes (long prompts, beam search) while maximising concurrent request capacity</div>
+        <div class="quiz-opt" data-opt="c">c) It matches the recommended ratio in NVIDIA's CUDA documentation</div>
+        <div class="quiz-opt" data-opt="d">d) 92% is the average utilisation seen in production</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. What hidden cost does Rohit's lesson warn about with self-hosting?</div>
+        <div class="quiz-opt" data-opt="a">a) Electricity bills become prohibitively expensive</div>
+        <div class="quiz-opt" data-opt="b">b) DevOps engineering time — GPU monitoring, autoscaling, model upgrades, security patches require ~0.25 FTE; teams without that capability should pay for the API even if the per-request cost is higher, because operational outages cost more than savings</div>
+        <div class="quiz-opt" data-opt="c">c) GPU drivers must be re-licensed monthly</div>
+        <div class="quiz-opt" data-opt="d">d) Indian cloud providers do not offer A10 GPUs</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Quiz</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-07.html" class="btn-prev">← Lesson 7: Recommender Systems</a>
+    <a href="lesson-09.html" class="btn-hub">Lesson 9: Time Series →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-12.html">Class 12</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'b',8:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q])o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=80){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — You're ready for the next lesson.`;}
+  else if(pct>=60){res.className='quiz-result ok';res.textContent=`${score}/${total} (${pct}%) — Good. Review the wrong ones, then continue.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Re-read the lesson, especially the sections related to the wrong answers.`;}
+  gtag('event','quiz_complete',{event_category:'class12',event_label:'class12_lesson08_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"AI at Scale: Kubernetes + vLLM — Class 12 Lesson 08",
+  "description":"Class 12 Lesson 08: AI at Scale: Kubernetes + vLLM. Serves a 7B Llama-3 model to 50,000 daily users with vLLM on Kubernetes — at 1/8th the cost of OpenAI.",
+  "url":"https://mitraailife.com/content/students/class-12/lesson-08.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Junior College +2",
+  "typicalAgeRange":"16-17",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

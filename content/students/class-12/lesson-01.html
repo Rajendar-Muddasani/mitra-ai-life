@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 01 — LLM Fine-tuning with LoRA &amp; QLoRA | Class 12 | Mitra AI Life</title>
+<meta name="description" content="Class 12 Lesson 01 for JC +2 students: LLM Fine-tuning with LoRA &amp; QLoRA. Story of Aishwarya, Pune. College student fine-tunes Llama-3 on Marathi-English Q&A using LoRA on a free Colab GPU." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-12/lesson-01.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#4f46e5" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 01 — LLM Fine-tuning with LoRA &amp; QLoRA | Class 12 | Mitra AI Life" />
+<meta property="og:description" content="Class 12 Lesson 01: LLM Fine-tuning with LoRA &amp; QLoRA. College student fine-tunes Llama-3 on Marathi-English Q&A using LoRA on a free Colab GPU." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-12/lesson-01.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#eef2ff;color:#312e81;line-height:1.7}
+a{color:#4f46e5;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#a5b4fc}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#a5b4fc}
+.lesson-hero{background:linear-gradient(135deg,#1e1b4b,#3730a3,#4f46e5);padding:3rem 1.5rem 4rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.78);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.9rem,5vw,3rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.78);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem;display:inline-block}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#4f46e5;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#312e81;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#4338ca;margin-bottom:.9rem}
+.lesson-section ul,ol{font-size:.93rem;color:#4338ca;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.lesson-section strong{color:#312e81}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.indigo{background:#eef2ff;border-left:4px solid #4f46e5;color:#312e81}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.red{background:#fef2f2;border-left:4px solid #dc2626;color:#7f1d1d}
+pre{background:#1e1b4b;color:#e0e7ff;border-radius:10px;padding:.9rem 1rem;overflow-x:auto;font-size:.8rem;line-height:1.55;margin:.8rem 0;font-family:'Menlo','Monaco',monospace}
+code{font-family:'Menlo','Monaco',monospace;background:#e0e7ff;color:#3730a3;padding:1px 5px;border-radius:4px;font-size:.85em}
+pre code{background:transparent;color:inherit;padding:0}
+.story-card{background:#fff;border:2px solid #c7d2fe;border-radius:14px;padding:1.1rem 1.3rem;margin:1rem 0}
+.story-card .story-who{font-size:.78rem;font-weight:800;color:#4f46e5;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem}
+.story-card p{margin-bottom:.6rem}
+.story-card p:last-child{margin-bottom:0}
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.7rem;margin:1rem 0}
+.concept-card{background:#fff;border:1.5px solid #c7d2fe;border-radius:10px;padding:.7rem .85rem}
+.concept-card h4{font-family:'Baloo 2',cursive;font-size:.88rem;color:#4f46e5;margin-bottom:.25rem}
+.concept-card p{font-size:.78rem;color:#4338ca;margin:0;line-height:1.45}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.84rem}
+th{background:#4f46e5;color:#fff;padding:.5rem .7rem;text-align:left}
+td{padding:.5rem .7rem;border-bottom:1px solid #c7d2fe;color:#312e81;vertical-align:top}
+tr:nth-child(even) td{background:#eef2ff}
+.quiz-section{background:#fff;border:2px solid #4f46e5;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#312e81;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#312e81;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #c7d2fe;background:#eef2ff;font-size:.87rem;color:#312e81;transition:border-color .15s;line-height:1.45}
+.quiz-opt:hover{border-color:#4f46e5}
+.quiz-opt.selected{border-color:#4f46e5;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#4f46e5;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#3730a3}
+.quiz-btn:disabled{opacity:.6;cursor:not-allowed}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fef3c7;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #4f46e5;color:#4f46e5}
+.lesson-nav .btn-hub{background:#4f46e5;color:#fff}
+.lesson-nav .btn-prev:hover{background:#eef2ff}
+.lesson-nav .btn-hub:hover{background:#3730a3}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.concept-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-12.html" class="active">Class 12</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-12.html">Class 12</a> → Lesson 01</div>
+  <h1>LLM Fine-tuning with LoRA &amp; QLoRA 🔧</h1>
+  <div class="meta">
+    <span>Class 12</span><span>Age 16-17</span><span>Lesson 01 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-12/lesson-01-hero.jpg" alt="Class 12 Lesson 01 hero — Aishwarya, Pune" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+
+  <div class="lesson-section">
+    <div class="ls-label">Story</div>
+    <div class="ls-title">Aishwarya's Marathi Tutor Bot</div>
+    <div class="story-card"><div class="story-who">👩‍🎓 Aishwarya · Pune · Age 17</div>
+<p>Aishwarya wanted to build a Marathi-English study tutor for her school's juniors. Llama-3-8B understands Marathi roughly but answers awkwardly. Full fine-tuning needs 80GB of GPU memory — way beyond Colab's free 15GB T4.</p>
+<p>She discovered <strong>LoRA</strong>: train only 0.5% of the parameters, freeze the rest. With <strong>QLoRA</strong> (4-bit quantisation), she fine-tuned Llama-3-8B on a free Colab GPU in 2 hours using 1,000 Marathi Q&A pairs. The result: a tutor that explains concepts in fluent Marathi-English code-switching.</p></div>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Why LoRA</div>
+    <div class="ls-title">The Problem with Full Fine-tuning</div>
+    <p>Llama-3-8B has 8 billion parameters. To fine-tune all of them you need to store: model weights (16GB in fp16), gradients (16GB), optimiser state (32GB for Adam) = <strong>64GB+ of GPU memory</strong>. A free Colab T4 has 15GB. An A100 80GB costs ₹150/hour.</p>
+<p><strong>Insight from research (Hu et al., 2021):</strong> When you fine-tune, the weight updates have very low intrinsic rank. You can approximate the update <code>ΔW</code> as a product of two small matrices: <code>ΔW ≈ B·A</code> where <code>A</code> is <code>r×k</code> and <code>B</code> is <code>d×r</code>, with <code>r=8</code> or <code>16</code>.</p>
+<div class="concept-grid">
+<div class="concept-card"><h4>Full FT</h4><p>8B trainable params · 64GB VRAM · ₹150/hr A100</p></div>
+<div class="concept-card"><h4>LoRA r=16</h4><p>~40M trainable (0.5%) · 18GB VRAM · 1× A10</p></div>
+<div class="concept-card"><h4>QLoRA r=16</h4><p>~40M trainable + 4-bit base · 12GB VRAM · free T4</p></div>
+</div>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Code</div>
+    <div class="ls-title">Fine-tune Llama-3 with QLoRA in Colab</div>
+    <p>Install dependencies (run once in Colab):</p>
+<pre><code>!pip install -q transformers peft bitsandbytes accelerate datasets trl</code></pre>
+<p>Load Llama-3 in 4-bit and add LoRA adapters:</p>
+<pre><code>from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
+
+bnb_config = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_compute_dtype="bfloat16",
+    bnb_4bit_use_double_quant=True,
+)
+
+model_id = "meta-llama/Meta-Llama-3-8B-Instruct"
+tokenizer = AutoTokenizer.from_pretrained(model_id)
+model = AutoModelForCausalLM.from_pretrained(
+    model_id, quantization_config=bnb_config, device_map="auto"
+)
+model = prepare_model_for_kbit_training(model)
+
+lora_config = LoraConfig(
+    r=16, lora_alpha=32, lora_dropout=0.05, bias="none",
+    target_modules=["q_proj", "k_proj", "v_proj", "o_proj"],
+    task_type="CAUSAL_LM",
+)
+model = get_peft_model(model, lora_config)
+model.print_trainable_parameters()
+# trainable params: 41,943,040 || all params: 8,071,061,504 || trainable%: 0.52</code></pre>
+<p>Train with TRL's SFTTrainer on Aishwarya's Marathi Q&A dataset:</p>
+<pre><code>from trl import SFTTrainer
+from transformers import TrainingArguments
+from datasets import load_dataset
+
+dataset = load_dataset("json", data_files="marathi_qa.jsonl", split="train")
+
+trainer = SFTTrainer(
+    model=model, tokenizer=tokenizer, train_dataset=dataset,
+    dataset_text_field="text", max_seq_length=512,
+    args=TrainingArguments(
+        output_dir="./marathi-tutor", num_train_epochs=3,
+        per_device_train_batch_size=4, gradient_accumulation_steps=4,
+        learning_rate=2e-4, logging_steps=10, save_strategy="epoch",
+        bf16=True, optim="paged_adamw_8bit",
+    ),
+)
+trainer.train()
+model.save_pretrained("./marathi-tutor-lora")  # only ~150 MB</code></pre>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Inference</div>
+    <div class="ls-title">Loading and Using Your Adapter</div>
+    <pre><code>from peft import PeftModel
+
+base = AutoModelForCausalLM.from_pretrained(model_id, quantization_config=bnb_config, device_map="auto")
+model = PeftModel.from_pretrained(base, "./marathi-tutor-lora")
+
+prompt = "विद्यार्थी: प्रकाश संश्लेषण म्हणजे काय?\nशिक्षक:"
+inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
+output = model.generate(**inputs, max_new_tokens=200, temperature=0.7)
+print(tokenizer.decode(output[0], skip_special_tokens=True))</code></pre>
+<div class="callout indigo"><strong>Tip:</strong> The LoRA adapter is just ~150MB. You can keep multiple adapters (Marathi tutor, Hindi tutor, English summariser) and swap them on the same base model. This is the foundation of multi-tenant LLM serving.</div>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">What's Next</div>
+    <div class="ls-title">Production Considerations</div>
+    <ul>
+<li><strong>Evaluation:</strong> Don't trust loss numbers. Build a held-out Marathi test set with 50 questions and have a Marathi speaker rate each answer.</li>
+<li><strong>Merge for serving:</strong> <code>model.merge_and_unload()</code> bakes the adapter into the base for faster inference.</li>
+<li><strong>Llama license:</strong> Meta's Llama-3 community license allows commercial use up to 700M monthly users — fine for any Indian school project.</li>
+<li><strong>Beware overfit:</strong> 3 epochs on 1,000 examples works. 30 epochs makes the model parrot training data and forget general knowledge.</li>
+</ul>
+  </div>
+
+  <div class="quiz-section">
+    <h3>📝 Check Your Understanding (8 Questions)</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. Why does Aishwarya choose LoRA over full fine-tuning for her Marathi tutor?</div>
+        <div class="quiz-opt" data-opt="a">a) LoRA always produces higher quality models than full fine-tuning</div>
+        <div class="quiz-opt" data-opt="b">b) Full fine-tuning of Llama-3-8B requires ~64GB GPU memory which exceeds Colab's free T4 (15GB); LoRA trains only 0.5% of parameters, fitting easily in 12GB</div>
+        <div class="quiz-opt" data-opt="c">c) LoRA is the only method that supports Indian languages</div>
+        <div class="quiz-opt" data-opt="d">d) Full fine-tuning is illegal under Meta's Llama license</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. What is the core mathematical idea behind LoRA?</div>
+        <div class="quiz-opt" data-opt="a">a) Replace all matrix multiplications with element-wise operations</div>
+        <div class="quiz-opt" data-opt="b">b) Approximate weight updates ΔW as a low-rank product B·A where A is r×k and B is d×r, with r much smaller than d and k</div>
+        <div class="quiz-opt" data-opt="c">c) Use Fourier transforms to compress the weight matrices</div>
+        <div class="quiz-opt" data-opt="d">d) Train the model only on the most important 1% of training data</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. What does QLoRA add on top of LoRA?</div>
+        <div class="quiz-opt" data-opt="a">a) Quantum-inspired noise injection during training</div>
+        <div class="quiz-opt" data-opt="b">b) 4-bit quantisation (NF4) of the frozen base model, dramatically reducing memory while still training the LoRA adapters in higher precision</div>
+        <div class="quiz-opt" data-opt="c">c) Q-learning style reward shaping during fine-tuning</div>
+        <div class="quiz-opt" data-opt="d">d) Quality-of-service guarantees for production deployment</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. In Aishwarya's LoraConfig, why does she target q_proj, k_proj, v_proj, o_proj?</div>
+        <div class="quiz-opt" data-opt="a">a) Those are the only modules that PEFT library supports</div>
+        <div class="quiz-opt" data-opt="b">b) These are the attention projection matrices — empirically the highest-impact modules to adapt; touching them changes how the model attends to information</div>
+        <div class="quiz-opt" data-opt="c">c) LoRA cannot be applied to feed-forward layers due to a mathematical limitation</div>
+        <div class="quiz-opt" data-opt="d">d) These four modules collectively contain over 90% of the model's parameters</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. Why is the saved LoRA adapter only ~150 MB despite the base model being 16 GB?</div>
+        <div class="quiz-opt" data-opt="a">a) The PEFT library compresses the base model alongside the adapter</div>
+        <div class="quiz-opt" data-opt="b">b) The adapter only contains the small A and B matrices (millions of parameters), not the frozen 8 billion base parameters which remain unchanged</div>
+        <div class="quiz-opt" data-opt="c">c) Hugging Face automatically removes redundant weights when saving adapters</div>
+        <div class="quiz-opt" data-opt="d">d) The adapter is stored as a delta against a publicly known checksum</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. If Aishwarya trains for 30 epochs instead of 3 on 1,000 Marathi examples, what is the most likely outcome?</div>
+        <div class="quiz-opt" data-opt="a">a) The model becomes 10× more accurate because it sees the data more times</div>
+        <div class="quiz-opt" data-opt="b">b) Catastrophic overfitting — the model memorises and regurgitates training answers and loses general knowledge from pre-training</div>
+        <div class="quiz-opt" data-opt="c">c) The model converts to a different language by accident</div>
+        <div class="quiz-opt" data-opt="d">d) The training crashes because PEFT does not support more than 5 epochs</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. Why is paged_adamw_8bit a good optimiser choice in QLoRA training?</div>
+        <div class="quiz-opt" data-opt="a">a) It runs natively on Apple Silicon and Intel CPUs</div>
+        <div class="quiz-opt" data-opt="b">b) It pages optimiser state between GPU and CPU memory and stores it in 8-bit, drastically reducing GPU memory use vs standard AdamW</div>
+        <div class="quiz-opt" data-opt="c">c) It is the only optimiser compatible with NF4 quantisation</div>
+        <div class="quiz-opt" data-opt="d">d) It uses pages of memory rather than continuous allocation, which improves cache hit rates</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. What is the most reliable way to know if Aishwarya's fine-tuned model is actually better at Marathi?</div>
+        <div class="quiz-opt" data-opt="a">a) Compare the final training loss to the starting loss</div>
+        <div class="quiz-opt" data-opt="b">b) Build a held-out test set of ~50 Marathi questions and have a Marathi speaker rate the answers from base model vs fine-tuned model side-by-side</div>
+        <div class="quiz-opt" data-opt="c">c) Check the perplexity score on a generic English benchmark</div>
+        <div class="quiz-opt" data-opt="d">d) Count the number of Marathi tokens in the model's output vocabulary</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Quiz</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="class-12.html" class="btn-prev">← Class 12 Hub</a>
+    <a href="lesson-02.html" class="btn-hub">Lesson 2: Vector DBs &amp; RAG →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-12.html">Class 12</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'b',8:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q])o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=80){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — You're ready for the next lesson.`;}
+  else if(pct>=60){res.className='quiz-result ok';res.textContent=`${score}/${total} (${pct}%) — Good. Review the wrong ones, then continue.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Re-read the lesson, especially the sections related to the wrong answers.`;}
+  gtag('event','quiz_complete',{event_category:'class12',event_label:'class12_lesson01_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"LLM Fine-tuning with LoRA &amp; QLoRA — Class 12 Lesson 01",
+  "description":"Class 12 Lesson 01: LLM Fine-tuning with LoRA &amp; QLoRA. College student fine-tunes Llama-3 on Marathi-English Q&A using LoRA on a free Colab GPU.",
+  "url":"https://mitraailife.com/content/students/class-12/lesson-01.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Junior College +2",
+  "typicalAgeRange":"16-17",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

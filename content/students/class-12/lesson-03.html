@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 03 — Distributed Training (PyTorch DDP) | Class 12 | Mitra AI Life</title>
+<meta name="description" content="Class 12 Lesson 03 for JC +2 students: Distributed Training (PyTorch DDP). Story of Ishaan, Bengaluru. Speeds up training of an Indian-language sentiment model from 14 hours on 1 GPU to 2 hours on 8 GPUs using PyTorch DDP." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-12/lesson-03.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#4f46e5" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 03 — Distributed Training (PyTorch DDP) | Class 12 | Mitra AI Life" />
+<meta property="og:description" content="Class 12 Lesson 03: Distributed Training (PyTorch DDP). Speeds up training of an Indian-language sentiment model from 14 hours on 1 GPU to 2 hours on 8 GPUs using PyTorch DDP." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-12/lesson-03.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#eef2ff;color:#312e81;line-height:1.7}
+a{color:#4f46e5;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#a5b4fc}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#a5b4fc}
+.lesson-hero{background:linear-gradient(135deg,#1e1b4b,#3730a3,#4f46e5);padding:3rem 1.5rem 4rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.78);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.9rem,5vw,3rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.78);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem;display:inline-block}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#4f46e5;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#312e81;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#4338ca;margin-bottom:.9rem}
+.lesson-section ul,ol{font-size:.93rem;color:#4338ca;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.lesson-section strong{color:#312e81}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.indigo{background:#eef2ff;border-left:4px solid #4f46e5;color:#312e81}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.red{background:#fef2f2;border-left:4px solid #dc2626;color:#7f1d1d}
+pre{background:#1e1b4b;color:#e0e7ff;border-radius:10px;padding:.9rem 1rem;overflow-x:auto;font-size:.8rem;line-height:1.55;margin:.8rem 0;font-family:'Menlo','Monaco',monospace}
+code{font-family:'Menlo','Monaco',monospace;background:#e0e7ff;color:#3730a3;padding:1px 5px;border-radius:4px;font-size:.85em}
+pre code{background:transparent;color:inherit;padding:0}
+.story-card{background:#fff;border:2px solid #c7d2fe;border-radius:14px;padding:1.1rem 1.3rem;margin:1rem 0}
+.story-card .story-who{font-size:.78rem;font-weight:800;color:#4f46e5;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem}
+.story-card p{margin-bottom:.6rem}
+.story-card p:last-child{margin-bottom:0}
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.7rem;margin:1rem 0}
+.concept-card{background:#fff;border:1.5px solid #c7d2fe;border-radius:10px;padding:.7rem .85rem}
+.concept-card h4{font-family:'Baloo 2',cursive;font-size:.88rem;color:#4f46e5;margin-bottom:.25rem}
+.concept-card p{font-size:.78rem;color:#4338ca;margin:0;line-height:1.45}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.84rem}
+th{background:#4f46e5;color:#fff;padding:.5rem .7rem;text-align:left}
+td{padding:.5rem .7rem;border-bottom:1px solid #c7d2fe;color:#312e81;vertical-align:top}
+tr:nth-child(even) td{background:#eef2ff}
+.quiz-section{background:#fff;border:2px solid #4f46e5;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#312e81;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#312e81;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #c7d2fe;background:#eef2ff;font-size:.87rem;color:#312e81;transition:border-color .15s;line-height:1.45}
+.quiz-opt:hover{border-color:#4f46e5}
+.quiz-opt.selected{border-color:#4f46e5;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#4f46e5;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#3730a3}
+.quiz-btn:disabled{opacity:.6;cursor:not-allowed}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fef3c7;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #4f46e5;color:#4f46e5}
+.lesson-nav .btn-hub{background:#4f46e5;color:#fff}
+.lesson-nav .btn-prev:hover{background:#eef2ff}
+.lesson-nav .btn-hub:hover{background:#3730a3}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.concept-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-12.html" class="active">Class 12</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-12.html">Class 12</a> → Lesson 03</div>
+  <h1>Distributed Training (PyTorch DDP) ⚡</h1>
+  <div class="meta">
+    <span>Class 12</span><span>Age 16-17</span><span>Lesson 03 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-12/lesson-03-hero.jpg" alt="Class 12 Lesson 03 hero — Ishaan, Bengaluru" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+
+  <div class="lesson-section">
+    <div class="ls-label">Story</div>
+    <div class="ls-title">Ishaan's 14-Hour to 2-Hour Win</div>
+    <div class="story-card"><div class="story-who">👨‍💻 Ishaan · Bengaluru · Age 17</div>
+<p>Ishaan was training an IndicBERT sentiment classifier on 2M Hindi+Telugu+Tamil tweets. On a single A100 GPU, one epoch took 4.7 hours. With 3 epochs needed, the experiment took 14 hours — and a single typo cost him a day.</p>
+<p>His college lab had 8× A100s in one node. Using <strong>PyTorch DDP (DistributedDataParallel)</strong>, he scaled to all 8 GPUs in 12 lines of code change. Training dropped to 2 hours. Then he learned <strong>DeepSpeed ZeRO</strong> for fitting larger models that don't even fit on one GPU.</p></div>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Why DDP</div>
+    <div class="ls-title">Data Parallel vs Model Parallel</div>
+    <div class="concept-grid">
+<div class="concept-card"><h4>Data Parallel (DDP)</h4><p>Each GPU has a full model copy + a different data shard. Gradients averaged via all-reduce. Use when model fits on 1 GPU.</p></div>
+<div class="concept-card"><h4>Model Parallel</h4><p>Model split across GPUs. Each GPU runs different layers. Use when model is too big for 1 GPU.</p></div>
+<div class="concept-card"><h4>Tensor Parallel</h4><p>Each layer's weight matrix split across GPUs. Used inside huge LLMs (Megatron-LM).</p></div>
+<div class="concept-card"><h4>Pipeline Parallel</h4><p>Layers in stages, micro-batches flow through. Reduces idle time vs naive model parallel.</p></div>
+<div class="concept-card"><h4>ZeRO (DeepSpeed)</h4><p>Shards optimiser state, gradients, and parameters across GPUs. Enables huge models with little extra code.</p></div>
+<div class="concept-card"><h4>FSDP (PyTorch)</h4><p>PyTorch's native ZeRO-equivalent. Recommended for new projects after PyTorch 2.0.</p></div>
+</div>
+<p>Ishaan's IndicBERT model is 280M parameters — fits easily on one A100 (40GB). So <strong>DDP is the right choice</strong>: 8× speedup with no engineering complexity.</p>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Code</div>
+    <div class="ls-title">DDP in 12 Lines</div>
+    <p>Single-GPU training looks like this (simplified):</p>
+<pre><code>model = IndicBERTClassifier().cuda()
+loader = DataLoader(dataset, batch_size=64, shuffle=True)
+opt = torch.optim.AdamW(model.parameters(), lr=2e-5)
+for batch in loader:
+    loss = model(batch).loss
+    loss.backward(); opt.step(); opt.zero_grad()</code></pre>
+<p>The DDP version — only 5 lines change:</p>
+<pre><code>import torch
+import torch.distributed as dist
+from torch.nn.parallel import DistributedDataParallel as DDP
+from torch.utils.data.distributed import DistributedSampler
+
+def train(local_rank: int, world_size: int):
+    dist.init_process_group("nccl", rank=local_rank, world_size=world_size)
+    torch.cuda.set_device(local_rank)
+
+    model = IndicBERTClassifier().cuda(local_rank)
+    model = DDP(model, device_ids=[local_rank])
+
+    sampler = DistributedSampler(dataset, num_replicas=world_size, rank=local_rank)
+    loader = DataLoader(dataset, batch_size=64, sampler=sampler)
+    opt = torch.optim.AdamW(model.parameters(), lr=2e-5)
+
+    for epoch in range(3):
+        sampler.set_epoch(epoch)  # so shuffling differs per epoch
+        for batch in loader:
+            batch = {k: v.cuda(local_rank) for k, v in batch.items()}
+            loss = model(**batch).loss
+            loss.backward()
+            opt.step(); opt.zero_grad()
+
+    dist.destroy_process_group()</code></pre>
+<p>Launch with <code>torchrun</code>:</p>
+<pre><code># 1 node, 8 GPUs
+torchrun --nproc_per_node=8 train_ddp.py</code></pre>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Theory</div>
+    <div class="ls-title">What Happens Inside DDP</div>
+    <ol>
+<li><strong>Replicate:</strong> Each GPU starts with an identical copy of the model.</li>
+<li><strong>Shard data:</strong> <code>DistributedSampler</code> ensures each GPU sees a different subset of the batch each step.</li>
+<li><strong>Forward + backward locally:</strong> Each GPU computes its own gradients on its own data shard.</li>
+<li><strong>All-reduce gradients:</strong> Before <code>opt.step()</code>, NCCL averages every gradient across all 8 GPUs. After this, every GPU has identical gradients.</li>
+<li><strong>Step optimiser:</strong> Each GPU applies the same optimiser update with the same gradients — so all model copies stay in sync without explicit broadcast.</li>
+</ol>
+<p>The genius is that all-reduce happens <strong>during</strong> the backward pass (overlapped with compute), so the only extra wall time is the slowest GPU's bandwidth.</p>
+<div class="callout indigo"><strong>Effective batch size:</strong> With 8 GPUs × batch_size=64, your <em>effective</em> batch is 512. That changes the optimal learning rate. Linear scaling rule: multiply LR by world_size (so 2e-5 → 1.6e-4) — but warm up over the first epoch to avoid divergence.</div>
+  </div>
+  <div class="lesson-section">
+    <div class="ls-label">Beyond DDP</div>
+    <div class="ls-title">When You Need DeepSpeed ZeRO or FSDP</div>
+    <p>If Ishaan wanted to fine-tune Llama-3-70B (140GB in fp16) on 8× A100s, no single GPU could hold the full model. ZeRO-3 / FSDP shards the model itself:</p>
+<table>
+<thead><tr><th>Stage</th><th>Shards</th><th>VRAM Saving</th><th>Comm Overhead</th></tr></thead>
+<tbody>
+<tr><td>ZeRO-1</td><td>Optimiser state</td><td>~4× (Adam)</td><td>None vs DDP</td></tr>
+<tr><td>ZeRO-2</td><td>+ Gradients</td><td>~8×</td><td>Slight</td></tr>
+<tr><td>ZeRO-3</td><td>+ Parameters</td><td>~N× (linear in GPUs)</td><td>~50% more</td></tr>
+</tbody>
+</table>
+<p>FSDP API is similar — PyTorch native, recommended for new code:</p>
+<pre><code>from torch.distributed.fsdp import FullyShardedDataParallel as FSDP
+model = FSDP(model, sharding_strategy=ShardingStrategy.FULL_SHARD)</code></pre>
+<div class="callout green"><strong>Indian student tip:</strong> Most college labs have one node with 4–8 GPUs. DDP is enough for almost everything you'll do as a student. Save FSDP/ZeRO for when you're training a 70B+ model — usually after you join an industry team.</div>
+  </div>
+
+  <div class="quiz-section">
+    <h3>📝 Check Your Understanding (8 Questions)</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. Why does Ishaan choose DistributedDataParallel (DDP) over model parallelism for his IndicBERT classifier?</div>
+        <div class="quiz-opt" data-opt="a">a) Model parallelism is deprecated in PyTorch 2.0</div>
+        <div class="quiz-opt" data-opt="b">b) His 280M-parameter model fits comfortably on one A100 (40GB), so the simpler and faster approach is to replicate it on each GPU and shard the data — which is exactly what DDP does</div>
+        <div class="quiz-opt" data-opt="c">c) DDP supports BERT-style models while model parallel does not</div>
+        <div class="quiz-opt" data-opt="d">d) Model parallelism requires Kubernetes which is unavailable in his lab</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. What does the all-reduce step in DDP accomplish?</div>
+        <div class="quiz-opt" data-opt="a">a) It synchronises model weights across GPUs by broadcasting from rank 0</div>
+        <div class="quiz-opt" data-opt="b">b) It averages gradients across all GPUs so that, after the optimiser step, every model replica applies the same update and stays identical without explicit weight broadcast</div>
+        <div class="quiz-opt" data-opt="c">c) It reduces the precision of weights from fp32 to fp16 to save memory</div>
+        <div class="quiz-opt" data-opt="d">d) It removes duplicate samples from each GPU's data shard</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. Why must Ishaan call sampler.set_epoch(epoch) every epoch?</div>
+        <div class="quiz-opt" data-opt="a">a) It is required to log the current epoch to the distributed logger</div>
+        <div class="quiz-opt" data-opt="b">b) DistributedSampler uses the epoch number as a shuffle seed; without it, every epoch sees the same shard order, hurting generalisation</div>
+        <div class="quiz-opt" data-opt="c">c) It tells NCCL to switch communication backends between epochs</div>
+        <div class="quiz-opt" data-opt="d">d) It resets gradient accumulation buffers between epochs</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. What is the linear scaling rule for learning rate when going from 1 GPU to 8 GPUs?</div>
+        <div class="quiz-opt" data-opt="a">a) Divide the learning rate by the number of GPUs</div>
+        <div class="quiz-opt" data-opt="b">b) Multiply the learning rate by the number of GPUs (world size), because effective batch size grew by that factor — but combine with a warmup to prevent early divergence</div>
+        <div class="quiz-opt" data-opt="c">c) Keep the learning rate the same — DDP handles scaling internally</div>
+        <div class="quiz-opt" data-opt="d">d) Square the learning rate to compensate for parallel noise reduction</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. When would Ishaan need to use ZeRO-3 (or FSDP) instead of plain DDP?</div>
+        <div class="quiz-opt" data-opt="a">a) When he wants to train faster on the same model</div>
+        <div class="quiz-opt" data-opt="b">b) When the model itself is too large to fit on a single GPU — ZeRO-3 shards parameters across GPUs, enabling models like Llama-3-70B on 8× A100s</div>
+        <div class="quiz-opt" data-opt="c">c) When training data exceeds 1 TB</div>
+        <div class="quiz-opt" data-opt="d">d) When the model uses attention layers</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. Why is the all-reduce communication overlapped with the backward pass?</div>
+        <div class="quiz-opt" data-opt="a">a) It is mandated by the NCCL protocol</div>
+        <div class="quiz-opt" data-opt="b">b) To hide communication latency behind useful compute — the moment one layer's gradients are ready, NCCL begins reducing them while later layers continue to compute, so the only wall time penalty is the slowest GPU's bandwidth</div>
+        <div class="quiz-opt" data-opt="c">c) It is a side effect of how PyTorch implements autograd</div>
+        <div class="quiz-opt" data-opt="d">d) It compresses gradients into smaller tensors during the backward</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. What does torchrun --nproc_per_node=8 do?</div>
+        <div class="quiz-opt" data-opt="a">a) It runs the script 8 times sequentially with different random seeds</div>
+        <div class="quiz-opt" data-opt="b">b) It launches 8 worker processes on the current node, one per GPU, each receiving its own LOCAL_RANK environment variable so the training script can call dist.init_process_group correctly</div>
+        <div class="quiz-opt" data-opt="c">c) It splits the script into 8 sub-processes that share a single GPU via time-slicing</div>
+        <div class="quiz-opt" data-opt="d">d) It spawns 8 Docker containers, one per GPU</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. What is the most important practical lesson from Ishaan's DDP work?</div>
+        <div class="quiz-opt" data-opt="a">a) Always use the maximum number of GPUs available regardless of model size</div>
+        <div class="quiz-opt" data-opt="b">b) DDP gives near-linear speedup with minimal code change when the model fits on one GPU; choose the simplest distributed strategy that solves your actual bottleneck — don't over-engineer with FSDP/ZeRO until you need them</div>
+        <div class="quiz-opt" data-opt="c">c) DDP requires rewriting the entire training loop in JAX</div>
+        <div class="quiz-opt" data-opt="d">d) DDP is only useful for models with more than 1 billion parameters</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Quiz</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-02.html" class="btn-prev">← Lesson 2: Vector DBs &amp; RAG</a>
+    <a href="lesson-04.html" class="btn-hub">Lesson 4: Graph Neural Networks →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-12.html">Class 12</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'b',8:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q])o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=80){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — You're ready for the next lesson.`;}
+  else if(pct>=60){res.className='quiz-result ok';res.textContent=`${score}/${total} (${pct}%) — Good. Review the wrong ones, then continue.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Re-read the lesson, especially the sections related to the wrong answers.`;}
+  gtag('event','quiz_complete',{event_category:'class12',event_label:'class12_lesson03_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"Distributed Training (PyTorch DDP) — Class 12 Lesson 03",
+  "description":"Class 12 Lesson 03: Distributed Training (PyTorch DDP). Speeds up training of an Indian-language sentiment model from 14 hours on 1 GPU to 2 hours on 8 GPUs using PyTorch DDP.",
+  "url":"https://mitraailife.com/content/students/class-12/lesson-03.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Junior College +2",
+  "typicalAgeRange":"16-17",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

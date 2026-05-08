@@ -1,414 +1,1373 @@
-# mitraaistudent.com — Complete Master Plan
+# AI for Students — Class 6 to JC +2 Master Implementation Plan
 
-> **Purpose of this document:** Drop this file into a new VS Code workspace for mitraaistudent.com. GitHub Copilot will read it and know everything — infrastructure, accounts, design patterns, and exactly what to build next. No re-engineering. No asking for details already solved in mitraailife.com.
-
----
-
-## 1. What Is This Platform
-
-**mitraaistudent.com** is the school-student track under the Mitra AI family.
-
-| Property | Value |
-|---|---|
-| Target audience | School students Grade 6–12 (age 11–18), India |
-| Core promise | Fun, visual, story-driven AI education — safe for classrooms |
-| Language | English first; Telugu, Hindi next |
-| Price | Freemium — free first 3 levels, ₹199/month or ₹999/year school subscription |
-| Status | Not yet built. Domain registered. Planning only. |
-
-**Relationship to mitraailife.com:**
-- Same founder, same company, same AWS/GA4/Supabase accounts
-- Shared infrastructure — do NOT create separate cloud accounts
-- Different GitHub repo, different domain, different color theme (bright, school-friendly)
-- Content is simpler and age-appropriate vs. mitraailife.com which targets adults
+> Purpose of this document: one source of truth for the AI for Students track inside Mitra AI Life. This replaces the older separate-domain plan. The student track now stays under the main platform and is designed class-wise, not level-wise.
 
 ---
 
-## 2. Shared Infrastructure — USE EXACTLY THESE, DO NOT REINVENT
+## 1. Final Product Decision
 
-### AWS S3
-```
-Bucket:     mitra-ai-life-assets
-Region:     us-west-2
-CDN base:   https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/
-```
-- Create subfolder: `student/` for mitraaistudent.com assets
-- Access keys are in `.env` of mitraailife.com workspace:
-  - `AWS_ACCESS_KEY_ID=AKIA2OLSTCW7NXHUAOPQ`
-  - `AWS_SECRET_ACCESS_KEY=<in .env>`
-  - `AWS_DEFAULT_REGION=us-west-2`
-- Upload: `source .env && aws s3 cp <file> s3://mitra-ai-life-assets/student/...`
+### What this track is
 
-### Google Analytics
-```
-GA4 Measurement ID: G-QGY0LH6W93
-```
-- Same property — track all three Mitra sites together
-- Add the identical GA4 snippet to every page
+AI for Students is a school-safe, English-medium AI literacy track for students from Class 6 to Junior College +2 (Class 12 / Intermediate 2nd Year / PUC-2).
 
-### Disqus
-```
-Shortname: mitra-ai-life
-```
-- Use same shortname on student lesson pages
-- Set `page.identifier` = `student-<slug>` (e.g., `student-level-01`)
-- Note: Consider whether Disqus is appropriate for under-18 users — may add a parental consent notice
+It is not job training.
+It is not a coding bootcamp.
+It is not a shortcut-for-homework product.
 
-### Supabase (auth + progress)
-```
-URL:       https://kuriwaysdlqnzqqzabts.supabase.co
-Anon key:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1cml3YXlzZGxxbnpxcXphYnRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNTE5NzYsImV4cCI6MjA5MzYyNzk3Nn0.UA2AgEmnA6r_evrAyXz0MTVhohziKdspkjuB6wHD6fw
-```
-- Use the same `user_progress` table or a new table `student_progress`
-- Add a `grade_level` column if needed
-- Row Level Security already configured
+It is a guided learning track for:
 
-### Cloudflare Worker (chatbot proxy)
-```
-Existing Worker URL:  https://mitra-chat-worker.rajendar-mi46.workers.dev
-```
-- Create a new worker: `mitra-student-worker` for age-appropriate responses
-- Update SYSTEM_PROMPT to: speak simply to students, avoid adult topics, encourage curiosity
-- OPENAI_API_KEY is already set as a Cloudflare Secret — reuse for new worker
+- AI awareness
+- study support
+- safe and honest homework use
+- digital thinking
+- beginner Python
+- simple notebooks
+- age-appropriate ML, DL, GenAI, and agentic AI understanding
+- future readiness before college
 
-### OpenAI
-```
-API key:  in .env as OPENAI_API_KEY
-Models:
-  - gpt-4o-mini  →  chatbot (use system prompt with child-safe guardrails)
-  - tts-1        →  narration (voice: nova or shimmer for younger feel)
-  - dall-e-3     →  scene images (quality="standard", style="vivid")
-```
+### Core positioning
 
-### Python Environment
-```
-Python 3.14
-Virtualenv at: .venv/  (create new .venv in mitraaistudent workspace)
-Key packages: openai, boto3, moviepy, imageio-ffmpeg, pillow
-Install:  python -m venv .venv && .venv/bin/pip install openai boto3 moviepy imageio-ffmpeg pillow
-```
+Teach students to use AI as:
 
-### .env File Template (create in mitraaistudent workspace root, never commit)
-```
-GITHUB_TOKEN=<same token>
-OPENAI_API_KEY=<same key>
-AWS_ACCESS_KEY_ID=AKIA2OLSTCW7NXHUAOPQ
-AWS_SECRET_ACCESS_KEY=<same secret>
-AWS_DEFAULT_REGION=us-west-2
-```
+- a study helper
+- an explanation tool
+- a revision partner
+- a creativity tool
+- a safe digital skill
+- a future academic foundation
+
+Never teach AI as:
+
+- a cheating machine
+- a marks guarantee
+- a replacement for learning
+- a replacement for teachers or parents
+- a promise of a job before higher education
+
+### Final structural decision
+
+- Use class-wise navigation from Class 6 to Junior College +2.
+- Class 11 is labelled "Junior College +1" (also covers Inter 1st Year / PUC-1 / CBSE Class 11).
+- Class 12 is labelled "Junior College +2" (also covers Inter 2nd Year / PUC-2 / CBSE Class 12).
+- Do not use Level 1, Level 2, Level 3 naming for this track.
+- Keep launch language English only.
+- Keep the track under the existing site at `/students.html` and future class pages under the same Mitra AI Life repo.
+- Keep early access free until the founder explicitly decides otherwise.
 
 ---
 
-## 3. Domain & Hosting
+## 2. Non-Negotiable Rules
 
-| Item | Value |
-|---|---|
-| Domain | mitraaistudent.com |
-| Hosting | GitHub Pages |
-| GitHub user | rajendarmuddasani |
-| Repo to create | `mitra-ai-student` (new separate repo) |
-| Branch | `main` |
-| Pages settings | Source: branch `main`, folder `/` or `/site/` |
-| Custom domain | Set `mitraaistudent.com` in repo Settings → Pages |
-| HTTPS | Enforce in Pages settings |
+### Audience rule
 
-### How to set up the new GitHub repo
-```bash
-mkdir ~/mitra-ai-student && cd ~/mitra-ai-student
-git init
-git remote add origin git@github.com:rajendarmuddasani/mitra-ai-student.git
-# Create repo on github.com first, then push
-```
+This track serves minors. Every decision must assume the learner may be 10 to 18 years old.
 
----
+### Safety rule
 
-## 4. Design System
+Every page, video, worksheet, notebook, and chatbot interaction must be safe for school-age learners.
 
-### Color Theme — Bright Multi-Color (kids love color variety)
+### Content rule
 
-Each level gets its own accent color — like colored subject notebooks.
+Use simple English, strong visuals, Indian school-life examples, and original content.
 
-```css
-/* Global base */
---bg:          #ffffff;
---surface:     #f8fafc;   /* near-white card background */
---text:        #1e293b;
---muted:       #64748b;
+### Curriculum rule
 
-/* Brand colors — rotate per level */
---sky:         #0ea5e9;   /* bright sky blue  — Levels S-01, S-02 */
---green:       #22c55e;   /* fresh green      — Levels S-03, S-04 */
---orange:      #f97316;   /* warm orange      — Levels S-05, S-06 */
---pink:        #ec4899;   /* hot pink         — Levels S-07, S-08 */
---violet:      #8b5cf6;   /* purple/violet    — Levels S-09, S-10 */
+Follow CBSE, ICSE, Cambridge, and SSC patterns broadly, but do not copy textbooks or copyrighted materials.
 
-/* Shared Mitra brand purple (nav, footer, logo) */
---purple:      #7c3aed;
+### Academic honesty rule
 
-/* Semantic */
---danger:      #ef4444;
---success:     #22c55e;
---gold:        #f59e0b;   /* badges, stars, achievements */
-```
+Always frame AI as help for understanding, planning, brainstorming, practice, and revision.
+Never frame AI as a way to submit answers without learning.
 
-**Level color assignments:**
-| Level | Primary color | Background tint |
-|---|---|---|
-| S-01 | `#0ea5e9` sky blue | `#f0f9ff` |
-| S-02 | `#0ea5e9` sky blue | `#f0f9ff` |
-| S-03 | `#22c55e` green | `#f0fdf4` |
-| S-04 | `#22c55e` green | `#f0fdf4` |
-| S-05 | `#f97316` orange | `#fff7ed` |
-| S-06 | `#f97316` orange | `#fff7ed` |
-| S-07 | `#ec4899` pink | `#fdf2f8` |
-| S-08 | `#ec4899` pink | `#fdf2f8` |
-| S-09 | `#8b5cf6` violet | `#f5f3ff` |
-| S-10 | `#8b5cf6` violet | `#f5f3ff` |
+### Data privacy rule
 
-**Hero gradients (example S-01):**
-```css
-background: linear-gradient(135deg, #0369a1 0%, #0ea5e9 50%, #38bdf8 100%);
-```
+Do not ask children to share:
 
-**Visual motifs:** Stars ⭐, rockets 🚀, lightbulbs 💡, trophies 🏆 — used as section icons and achievement badges. Rounded corners (border-radius: 20px+). Bold, chunky headings. Large emoji section headers.
+- home address
+- phone number
+- school ID
+- Aadhaar
+- parent income
+- private photos
+- personal marksheets
+- passwords
 
-### Fonts
-```html
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+Telugu:wght@400;600;700&display=swap" rel="stylesheet" />
-```
-- `Baloo 2` → headings (keeps Mitra brand feel, also fun for students)
-- `Nunito` → body (rounded, friendly for younger readers)
-- `Noto Sans Telugu` → Telugu translations
+### Community rule
 
-### Key UX differences from mitraailife.com
-- Larger font sizes (min 1.05rem body)
-- More white space, less dense
-- Progress stars/badges instead of just a progress bar
-- Characters are students their age (not adults)
-- Every lesson ends with a "Fun Challenge" (activity-based)
-- Simpler English — Grade 6 reading level target
-- Shorter lessons: 30–45 min max per level
-- Teacher resources section on each level (printable notes)
+Do not enable public comments or open chat spaces on child-facing student pages.
+For this track, avoid Disqus on class pages.
+
+### Language rule
+
+Launch in English only for the student track.
+Telugu can be added later after the English curriculum stabilizes.
 
 ---
 
-## 5. Content Plan — Student Levels
+## 3. What Success Looks Like
 
-Each level = one visual comic-style lesson (same format as mitraailife.com):
-1. Story with student characters (same age as learner)
-2. Visual concept explanation
-3. Real-school example
-4. Try-it challenge (simple activity)
-5. Quiz (5 questions, pass 4/5)
-6. Certificate
+### Student outcomes
 
-### Planned Levels (Grades 6–12)
+By the end of the track, a student should be able to:
 
-| Level | Title | Grade Focus | Duration | Price |
+- explain in simple words what AI is
+- use AI safely for study support
+- ask better questions
+- check AI answers instead of trusting blindly
+- use simple Python notebooks
+- understand basic data and ML ideas
+- understand what GenAI is and where it can fail
+- understand what agentic AI means at a basic level
+- use AI honestly in school work
+
+### Parent and teacher outcomes
+
+Parents and teachers should feel that this track:
+
+- is safe
+- is practical
+- does not push cheating
+- explains AI without hype
+- introduces coding gradually
+- builds future readiness in a calm way
+
+### Business outcome
+
+This track should strengthen the platform as a trusted education product, not as a generic AI tool directory.
+
+---
+
+## 4. Curriculum Design Principles
+
+### Principle 1: age-appropriate progression
+
+- Classes 6 to 7: awareness, safety, prompting, study help
+- Classes 8 to 10: Python, notebooks, data thinking, responsible AI, projects
+- Classes 11 to 12: stronger Python, ML foundations, GenAI, agentic AI, future-ready projects
+
+### Principle 2: visual first
+
+Use simple images, diagrams, comics, flow cards, and slide-style teaching before deep text.
+
+### Principle 3: short learning units
+
+Students should learn in small pieces.
+
+- class intro video
+- 1 main lesson page
+- 1 worksheet
+- 1 mini quiz
+- 1 safe chatbot helper
+- 1 notebook where relevant
+
+### Principle 4: notebook use should grow gradually
+
+- Class 6: none
+- Class 7: very light exposure only
+- Class 8: first real notebooks
+- Class 9 to 10: guided notebooks and mini projects
+- Class 11 to 12: stronger notebook workflows and project work
+
+### Principle 5: school relevance over hype
+
+Teach what helps students now:
+
+- chapter explanation
+- revision support
+- project planning
+- presentation help
+- concept clarity
+- safety awareness
+- digital responsibility
+
+### Principle 6: future-readiness without pressure
+
+Teach ML, DL, GenAI, and agentic AI as concepts and simple projects, not as corporate training.
+
+---
+
+## 5. Broad Curriculum Alignment
+
+### How to align with boards
+
+This curriculum should be board-neutral but broadly compatible with:
+
+- CBSE AI skill education themes
+- CBSE Class 11 and 12 Python and data logic patterns
+- ICSE computer applications and logical thinking patterns
+- Cambridge digital literacy, ICT, and computational thinking patterns
+- SSC learners who need simpler explanations and lower jargon
+
+### What to borrow broadly
+
+- AI awareness
+- data and pattern recognition
+- ethics and responsible use
+- computational thinking
+- Python basics
+- project-based learning
+- presentation and communication support
+
+### What not to do
+
+- do not copy syllabus text directly
+- do not mirror textbook chapter order exactly
+- do not make the product feel like exam-only tuition
+
+---
+
+## 6. Class-Wise Complexity Map
+
+| Class | Main focus | AI depth | Coding depth | Typical format |
 |---|---|---|---|---|
-| S-01 | What is AI? | Gr 6–8 | 30 min | Free |
-| S-02 | AI in Daily School Life | Gr 6–8 | 30 min | Free |
-| S-03 | How AI Learns | Gr 7–9 | 45 min | Free |
-| S-04 | AI for Homework Help | Gr 7–10 | 45 min | ₹199/month |
-| S-05 | AI Writing Assistant | Gr 8–10 | 45 min | subscription |
-| S-06 | AI in Science & Math | Gr 9–11 | 60 min | subscription |
-| S-07 | Prompt Engineering Basics | Gr 10–12 | 60 min | subscription |
-| S-08 | AI Safety for Students | Gr 6–12 | 45 min | subscription |
-| S-09 | Build a Simple AI Project | Gr 11–12 | 90 min | subscription |
-| S-10 | AI Careers & Future | Gr 10–12 | 60 min | subscription |
-
-### Level S-01 content outline (build first):
-- Story: 12-year-old Anu from Vijayawada wonders what AI is after seeing it in the news
-- Characters: Anu (Gr 7 student), her older brother Kiran (Gr 11, explains patiently), Teacher Lakshmi
-- Concept: What AI is, simple examples from school life (smart search, auto-correct, YouTube recommendations)
-- Images: School setting, bright colors, Indian school uniforms, textbook + phone
-- Quiz: 5 questions, Gr 6 reading level
-- Image theme: Sky blue + amber, Indian school, cheerful
+| 6 | awareness and safe use | very light | none | stories, images, short video |
+| 7 | prompting and study help | light | tiny Python exposure | visual lessons, guided examples |
+| 8 | first Python and AI concepts | beginner | beginner | videos, worksheets, first notebooks |
+| 9 | data and simple ML thinking | moderate | beginner+ | notebooks, mini projects |
+| 10 | GenAI and responsible AI | moderate+ | intermediate beginner | projects, notebooks, case studies |
+| 11 | Python, data science, ML foundation | stronger | intermediate | notebooks and guided projects |
+| 12 | applied AI, GenAI, agentic AI | strongest school level | intermediate+ | projects, portfolio, future-readiness |
 
 ---
 
-## 6. File & Folder Structure to Create
+## 7. Class 6 Plan
 
-```
-mitra-ai-student/                   ← new GitHub repo root
-├── .env                            ← never commit
-├── .gitignore
-├── README.md
-├── site/
-│   ├── index.html                  ← home / level catalog
-│   ├── index-te.html               ← Telugu home (later)
-│   ├── auth.js                     ← copy + modify from mitraailife.com
-│   ├── mitra-chat.js               ← copy from mitraailife.com (update worker URL)
-│   └── teachers.html               ← teacher resources page (later)
-├── content/
-│   ├── assets/
-│   │   └── scenes/                 ← student images (S3 prefix: student/)
-│   └── levels/
-│       └── level-s01-what-is-ai/
-│           ├── level-s01.html      ← English
-│           └── level-s01-te.html   ← Telugu (later)
-├── scripts/
-│   ├── generate_levels01_images.py
-│   ├── deploy_s3.py                ← copy from mitraailife.com
-│   └── cloudflare-worker/
-│       └── mitra-student-worker.js
-└── docs/
-    └── mitraaistudent-master-plan.md   ← this file
-```
+### Goal
 
----
+Make AI understandable, useful, and safe for a child who has never studied it before.
 
-## 7. Scripts to Copy from mitraailife.com
+### Learning outcomes
 
-- `scripts/deploy_s3.py` → change S3 prefix to `student/`
-- `scripts/cloudflare-worker/mitra-chat-worker.js` → update SYSTEM_PROMPT for student chatbot
-- `site/auth.js` → change `LEVEL_IDS` to `STUDENT_LEVEL_IDS` (S-01 through S-10)
-- `site/mitra-chat.js` → update Worker URL to `mitra-student-worker`
+The learner should be able to:
 
----
+- say what AI means in simple words
+- identify a few AI examples from daily life
+- understand that AI is not always correct
+- use AI only with safe and simple questions
+- avoid sharing private information
 
-## 8. Student Chatbot System Prompt (for mitra-student-worker)
+### Content topics
 
-```
-You are Mitra, the AI learning assistant for Mitra AI Student (mitraaistudent.com).
+- what is AI?
+- where students see AI in daily life
+- AI is a helper, not magic
+- asking simple questions
+- AI for explaining a chapter simply
+- AI for study planning at a basic level
+- AI safety basics
+- honesty in homework
 
-Your personality:
-- Warm, encouraging, and fun — like a knowledgeable older sibling
-- Speak at Grade 7 reading level — simple sentences, no jargon
-- If the student writes in Telugu, reply in Telugu
-- Never discuss adult topics, politics, violence, or anything not related to AI learning
-- Praise curiosity — every question is a good question
-- Keep answers to 2–3 sentences unless the student asks for more detail
+### Teaching style
 
-What you know:
-- This platform teaches AI to school students Grades 6–12 in India
-- Lessons are visual, story-driven, and fun
-- Platform: mitraaistudent.com
+- comic story with student characters
+- large visuals
+- tiny paragraphs
+- 2 to 3 minute video clips
+- no notebook required
 
-IMPORTANT:
-- Never give personal advice (medical, legal, emotional)
-- Always say: "AI can make mistakes. Check with your teacher for important things."
-- If asked something inappropriate, gently say: "That is not something I can help with here. Let us go back to learning about AI!"
-- Never pretend to be human if asked directly
-```
+### Content assets
+
+- hero comic story
+- 1 short intro video
+- 1 image-based lesson page
+- 1 safety poster worksheet
+- 1 five-question quiz
+- 1 parent note
+
+### Python and notebooks
+
+Do not teach Python here.
+
+### Small challenge
+
+Create an "AI safety promise" poster or a "5 ways AI can help me learn" sheet.
+
+### Chatbot role
+
+Only explain simple concepts, create tiny quizzes, and help rephrase textbook ideas in simpler English.
+
+### Avoid
+
+- coding pressure
+- advanced terminology
+- abstract model explanations
+- open-ended homework answer generation
 
 ---
 
-## 9. What To Build — Exact Next Steps (in order)
+## 8. Class 7 Plan
 
-### Step 1: Create GitHub repo and structure
-```bash
-mkdir ~/mitra-ai-student && cd ~/mitra-ai-student
-git init
-# create repo on github.com: rajendarmuddasani/mitra-ai-student
-git remote add origin git@github.com:rajendarmuddasani/mitra-ai-student.git
-mkdir -p site content/assets/scenes content/levels/level-s01-what-is-ai scripts/cloudflare-worker docs
-echo ".env\ncontent/assets/\n*.mp4\n*.mp3\n__pycache__/\n.venv/" > .gitignore
-```
+### Goal
 
-### Step 2: Set up Python environment
-```bash
-python -m venv .venv
-.venv/bin/pip install openai boto3 moviepy imageio-ffmpeg pillow
-```
+Introduce prompting, study help, and the idea that better questions lead to better answers.
 
-### Step 3: Create .env (never commit)
-Copy values from mitraailife.com `.env`
+### Learning outcomes
 
-### Step 4: Copy and adapt auth.js and mitra-chat.js
-- Change `LEVEL_IDS` → `['student-01','student-02',...,'student-10']`
-- Point chatbot to `mitra-student-worker` URL once deployed
+The learner should be able to:
 
-### Step 5: Generate Level S-01 images
-- 8–10 scenes: Anu's question → classroom → examples → challenge
-- DALL-E 3: `quality="standard"`, `style="vivid"`
-- Upload to S3 under `student/` prefix
+- write simple prompts
+- ask AI to explain a lesson more clearly
+- ask for examples and summaries
+- identify when AI gives weak or wrong answers
+- use AI for revision instead of copying
 
-### Step 6: Build level-s01.html (English)
-- Sky blue + amber theme
-- Same 5-section structure as mitraailife.com but simpler text
-- Add "Fun Challenge" card before quiz
-- Add "Teacher Notes" collapsible section at the bottom
-- Quiz: 5 questions, Grade 6 reading level
+### Content topics
 
-### Step 7: Build level-s01-te.html (Telugu)
-- Same pattern as mitraailife.com Telugu pages
-- Noto Sans Telugu font
+- what is a prompt?
+- how to ask better questions
+- asking for simpler explanations
+- asking for examples
+- making flashcards and revision quizzes
+- checking answers with textbook notes
+- safe use and academic honesty
 
-### Step 8: Build site/index.html (student home)
-- Show all 10 levels in a visual grid (not a ladder — use colorful cards)
-- Levels S-01 to S-03 marked Free, rest as subscription
-- Bright, fun hero section with Anu character
-- Auth widget
+### Teaching style
 
-### Step 9: Deploy Cloudflare student worker
-- Copy `mitra-chat-worker.js`, update SYSTEM_PROMPT for students
-- Deploy as `mitra-student-worker` in Cloudflare dashboard
-- Add `OPENAI_API_KEY` secret (already available in Cloudflare account)
+- guided prompt cards
+- teacher-like examples
+- short video walkthroughs
+- worksheet practice
 
-### Step 10: GitHub Pages + custom domain
-- Push to main, enable Pages, set mitraaistudent.com
+### Content assets
+
+- 1 class intro video
+- 1 prompt lesson page
+- 1 prompt practice worksheet
+- 1 chatbot demo block
+- 1 revision quiz sheet
+
+### Python and notebooks
+
+Only a light introduction.
+Possible single notebook lesson:
+
+- what is code?
+- `print()`
+- changing simple text
+- number addition
+
+### Small challenge
+
+Make a revision quiz for one chapter using AI, then answer it without copying from AI.
+
+### Chatbot role
+
+Help students convert weak prompts into better prompts.
+
+### Avoid
+
+- heavy syntax teaching
+- too many new tools
+- advanced ML words without context
 
 ---
 
-## 10. Pricing & Subscriptions
+## 9. Class 8 Plan
 
-| Plan | Price | Access |
+### Goal
+
+Bridge AI literacy and first Python skills.
+
+### Learning outcomes
+
+The learner should be able to:
+
+- explain the difference between AI, ML, and deep learning in simple words
+- run a beginner Python notebook
+- understand data as examples or records
+- understand that AI learns patterns from data
+- create one small school-friendly notebook output
+
+### Content topics
+
+- AI vs ML vs DL
+- data and patterns
+- examples of classification and prediction
+- fairness and bias at a simple level
+- AI in school, health, transport, farming, and home life
+- safe use and output checking
+
+### Python topics
+
+- variables
+- strings and numbers
+- lists
+- simple `if` logic
+- loops
+- very small functions
+
+### Notebook topics
+
+- print text
+- simple calculator
+- marks average
+- list of subjects
+- simple chart
+
+### Content assets
+
+- 1 class intro video
+- 1 concept explainer page
+- 2 beginner notebooks
+- 1 worksheet on AI vs ML
+- 1 mini project sheet
+- 1 quiz
+
+### Small challenge
+
+Build a simple notebook that stores subject names and prints a study plan.
+
+### Chatbot role
+
+Explain Python errors in simple words and give hints, not full hidden solutions.
+
+### Avoid
+
+- difficult math notation
+- advanced libraries too early
+- building pressure around performance
+
+---
+
+## 10. Class 9 Plan
+
+### Goal
+
+Teach data thinking and first simple ML ideas through guided projects.
+
+### Learning outcomes
+
+The learner should be able to:
+
+- explain what a dataset is
+- distinguish labels, rows, and columns
+- understand training and testing as a simple idea
+- use a guided notebook with CSV data
+- build one basic school project with AI support
+
+### Content topics
+
+- dataset basics
+- clean data vs messy data
+- classification and prediction
+- NLP basics through text examples
+- computer vision basics through labeled images
+- GenAI basics
+- hallucination and fact-checking
+
+### Python topics
+
+- lists and dictionaries
+- basic file reading
+- CSV basics
+- pandas introduction
+- simple charts
+- simple text operations
+
+### Notebook topics
+
+- read a CSV
+- analyze student survey data
+- bar chart or pie chart
+- simple classification demo
+
+### Content assets
+
+- 1 class intro video
+- 1 data lesson page
+- 2 notebooks
+- 1 project template
+- 1 worksheet on spotting wrong AI output
+- 1 quiz
+
+### Small challenge
+
+Create a small study-habit survey analysis notebook using dummy data.
+
+### Chatbot role
+
+Help students understand columns, charts, and step-by-step notebook instructions.
+
+### Avoid
+
+- advanced statistics language
+- black-box code dumps
+- unrestricted general web answers
+
+---
+
+## 11. Class 10 Plan
+
+### Goal
+
+Introduce responsible AI, GenAI, and practical project-based use at a stronger school level.
+
+### Learning outcomes
+
+The learner should be able to:
+
+- explain the AI workflow from problem to output
+- distinguish ML and GenAI
+- understand bias, privacy, deepfakes, and misinformation
+- use AI for revision and presentations honestly
+- build one mini AI-related school project
+
+### Content topics
+
+- AI lifecycle
+- ML vs GenAI
+- deep learning in simple language
+- recommendation systems
+- image and text generation basics
+- prompt improvement
+- fact-checking workflow
+- academic integrity
+
+### Python topics
+
+- functions
+- data cleaning basics
+- pandas and charts
+- simple ML library exposure
+
+### Notebook topics
+
+- dataset visualization
+- simple text classification demo
+- model result interpretation at a simple level
+
+### Content assets
+
+- 1 class intro video
+- 1 responsible AI lesson page
+- 2 notebooks
+- 1 ethics case-study worksheet
+- 1 project brief
+- 1 quiz
+
+### Small challenge
+
+Build a simple project on "How to spot fake or misleading AI content".
+
+### Chatbot role
+
+Help students compare answers, improve prompts, and explain notebook steps.
+
+### Avoid
+
+- unsupported claims about jobs or income
+- unsafe image generation prompts
+- overcomplicated ML evaluation language
+
+---
+
+## 12. Class 11 Plan
+
+### Goal
+
+Build a strong foundation in Python, data science, and beginner ML.
+
+### Learning outcomes
+
+The learner should be able to:
+
+- work comfortably in Python notebooks
+- analyze simple datasets
+- visualize data
+- understand supervised learning at a beginner level
+- understand model evaluation in simple terms
+
+### Content topics
+
+- Python revision and deeper practice
+- datasets and analysis
+- regression vs classification
+- overfitting in plain English
+- useful AI applications
+- responsible prompting for research and productivity
+
+### Python topics
+
+- functions
+- modules
+- file handling
+- CSV and JSON
+- pandas
+- numpy basics
+- matplotlib basics
+
+### ML topics
+
+- linear regression
+- decision tree concept
+- nearest-neighbor concept
+- clustering concept
+
+### Content assets
+
+- 1 class intro video
+- 1 stronger notebook guide page
+- 3 notebooks
+- 1 project brief
+- 1 practice worksheet
+- 1 quiz
+
+### Small challenge
+
+Analyze a simple marks or attendance dataset and present the insights in charts.
+
+### Chatbot role
+
+Help interpret code errors, explain concepts, and guide project planning.
+
+### Avoid
+
+- too many libraries at once
+- advanced mathematics beyond school comfort
+- turning the course into a college syllabus clone
+
+---
+
+## 13. Class 12 Plan
+
+### Goal
+
+Give students a mature, future-ready view of AI before college.
+
+### Learning outcomes
+
+The learner should be able to:
+
+- explain ML, DL, GenAI, and agentic AI at a beginner but serious level
+- build stronger notebooks and mini projects
+- understand retrieval-based assistants and document Q and A in simple terms
+- understand limits, risks, and responsible use
+- prepare a simple AI portfolio for higher education readiness
+
+### Content topics
+
+- AI project lifecycle
+- neural networks in plain language
+- GenAI basics and limitations
+- embeddings in plain language
+- RAG concept
+- agentic AI concept
+- automation basics
+- AI ethics and governance awareness
+- college readiness and portfolio thinking
+
+### Python topics
+
+- stronger notebook workflow
+- working with text files and structured data
+- simple app or demo flow
+- optional Streamlit exposure later
+
+### Notebook topics
+
+- simple ML project
+- document Q and A concept notebook
+- prompt evaluation notebook
+- mini portfolio project
+
+### Content assets
+
+- 1 class intro video
+- 1 future-readiness lesson page
+- 3 notebooks
+- 1 portfolio template
+- 1 case-study worksheet
+- 1 quiz
+
+### Small challenge
+
+Create a mini AI learning portfolio with one notebook, one reflection, and one ethical-use checklist.
+
+### Chatbot role
+
+Help with concept explanation, project planning, and safe refinement of ideas.
+
+### Avoid
+
+- pretending agentic AI is ready for unsupervised school use
+- overpromising college or job outcomes
+- forcing advanced frameworks too early
+
+---
+
+## 14. Topic Progression for AI Concepts
+
+| Topic | First introduction | Stronger treatment |
 |---|---|---|
-| Free | ₹0 | Levels S-01, S-02, S-03 |
-| Student Monthly | ₹199/month | All 10 levels |
-| Student Yearly | ₹999/year | All 10 levels (save 58%) |
-| School License | ₹5,000/year | 30 students per school |
-| Teacher Access | Free | Teacher notes only, no quiz |
-
-Payment: Razorpay (add later — launch with just email contact first, then integrate)
-
----
-
-## 11. Safety & Legal for Under-18 Users
-
-- Add COPPA/India IT Act compliance notice (no personal data collection from under-13 without parent consent)
-- Google OAuth sign-in: only use "Sign in with Google" — users must have a Google account (implies 13+)
-- Disqus comments: consider disabling for under-13 sections (configurable per level)
-- Privacy Policy must mention: student data, parent rights, data deletion on request
-- All AI outputs on lesson pages: add "AI content reviewed by human educators" badge
-- Teacher dashboard (later): read-only, no student PII exposed
+| what is AI | Class 6 | Class 7 onward |
+| prompting | Class 7 | Class 8 to 12 |
+| Python | Class 7 light | Class 8 to 12 |
+| notebooks | Class 7 light | Class 8 to 12 |
+| data | Class 8 | Class 9 to 12 |
+| ML | Class 8 concept | Class 9 to 12 |
+| DL | Class 8 mention | Class 10 to 12 |
+| GenAI | Class 9 mention | Class 10 to 12 |
+| ethics and safety | Class 6 | all classes |
+| agentic AI | Class 12 | Class 12 only |
 
 ---
 
-## 12. Copilot Working Rules for This Project
+## 15. Topic Progression for Content Formats
 
-When Copilot works in this workspace:
-- Always use shared infrastructure from Section 2 (never create new AWS/GA/Supabase accounts)
-- Never commit `.env`, `content/assets/`, `*.mp4`, `*.mp3`
-- Image generation: `quality="standard"`, `style="vivid"` — DALL-E 3 separate parameters
-- S3 upload prefix: `student/` not `scenes/`
-- Color theme: sky blue primary (`#0ea5e9`), NOT purple-first
-- Language level: Grade 6–7 English — short sentences, no jargon
-- Characters: students aged 12–17, Indian school setting
-- Work one level at a time: finish EN → TE → next level
-- Level IDs: `student-01` through `student-10`
-- Commit format: `feat: Student Level S-01 — [what was done]`
+| Class band | Text | Images | Video | Worksheets | Notebooks | Projects |
+|---|---|---|---|---|---|---|
+| 6 to 7 | very simple | heavy | very short | yes | minimal | tiny |
+| 8 to 10 | simple | medium | short | yes | regular | guided |
+| 11 to 12 | simple but deeper | supportive | short to medium | yes | strong | stronger |
 
 ---
 
-## 13. Relationship Between All Three Mitra Sites
+## 16. Universal Student Safety Rules
 
-```
-mitraailife.com       ← adults, daily life, Levels 1–10, purple theme (LIVE ✅)
-mitraaistudent.com    ← school students Gr 6–12, sky blue theme (PLAN ⬜)
-mitraaiprojects.com   ← engineering students, project kits, teal theme (PLAN ⬜)
-```
+These rules must appear in lesson design, chatbot policy, teacher notes, and platform UX.
 
-All three share:
-- AWS S3 bucket: `mitra-ai-life-assets` (different subfolders)
-- GA4: `G-QGY0LH6W93`
-- Supabase: `kuriwaysdlqnzqqzabts`
-- Disqus: `mitra-ai-life`
-- Cloudflare account (separate workers per site)
-- OpenAI API key (separate Cloudflare workers with their own SYSTEM_PROMPTs)
-- GitHub account: `rajendarmuddasani` (separate repos per site)
+### Rule 1: no cheating framing
+
+Always say:
+
+- use AI to understand
+- use AI to practice
+- use AI to revise
+- write final answers in your own words
+
+Never say:
+
+- let AI finish your homework
+- copy this answer directly
+- submit this project as-is
+
+### Rule 2: no personal data sharing
+
+Do not let the product encourage the student to share private information.
+
+### Rule 3: no adult or harmful topics
+
+Block or deflect:
+
+- sexual content
+- self-harm advice
+- abuse instructions
+- illegal activity
+- hate content
+- private family conflicts
+- medical diagnosis
+- legal advice
+
+### Rule 4: no emotional dependency language
+
+The chatbot should never act like a best friend, therapist, or secret keeper.
+
+### Rule 5: no open public comments
+
+Do not add Disqus or open comment threads to student-facing class pages.
+
+### Rule 6: parent and teacher visibility
+
+For younger classes, always include a visible note for parents and teachers.
+
+### Rule 7: no forced sign-up for younger learners
+
+Class 6 to 8 content should be accessible without account creation wherever possible.
+
+### Rule 8: no external AI tool dependency in early classes
+
+Class 6 to 8 should work even if the learner never opens a third-party AI app.
 
 ---
 
-*Last updated: 2026-05-07 | mitraailife.com at commit 9534dd6 (L10 complete, all 10 levels EN+TE live)*
+## 17. Content Package for Every Class
+
+Each class should eventually have:
+
+- one class home section
+- one class intro video
+- one flagship lesson page
+- one safety reminder card
+- one worksheet
+- one quiz
+- one chatbot mode
+- notebooks if relevant
+- one parent and teacher guide
+
+### Minimum first-launch package
+
+For each launched class, ship:
+
+- 1 overview page
+- 1 intro video
+- 1 main lesson
+- 1 worksheet
+- 1 quiz
+- 1 chatbot helper mode
+
+---
+
+## 18. Homepage Strategy for `/students.html`
+
+### Homepage purpose
+
+The student homepage should answer five questions quickly:
+
+1. Who is this for?
+2. Is it safe?
+3. What will students learn class-wise?
+4. How do notebooks and videos fit in?
+5. How does the chatbot help without promoting cheating?
+
+### Design tone
+
+- bright
+- classroom-safe
+- colorful
+- confident but not childish
+- clean enough for parents and schools
+
+### Home page content structure
+
+#### Section 1: hero
+
+Eyebrow:
+
+`English-medium · Class 6 to Class 12 · School-safe AI literacy`
+
+Headline:
+
+`Help Students Use AI Safely, Smartly, and Honestly`
+
+Subhead:
+
+`Simple lessons, short videos, guided notebooks, and a safe study helper for school students who need AI awareness, homework support, and future-ready digital skills.`
+
+Primary CTA:
+
+`Explore Classes`
+
+Secondary CTA:
+
+`Watch 90-sec Intro`
+
+Trust strip under CTA:
+
+- English only at launch
+- built for classes 6 to 12
+- visual lessons and safe notebooks
+- no cheating-first approach
+
+#### Section 2: overview video
+
+Place a 75 to 90 second overview video immediately below the hero.
+
+Purpose of this video:
+
+- explain what this track is
+- reassure parents and teachers
+- show class buttons below it
+- introduce safe chatbot in one line
+
+Video content outline:
+
+1. what students will learn
+2. safe use promise
+3. class-wise journey
+4. notebooks for older students
+5. chatbot as helper, not homework doer
+
+#### Section 3: class selector grid
+
+Show seven class cards as large buttons.
+
+Buttons:
+
+- Class 6
+- Class 7
+- Class 8
+- Class 9
+- Class 10
+- Class 11
+- Class 12
+
+Each card should show:
+
+- one-line promise
+- age band
+- whether notebooks are included
+- whether projects are included
+
+Suggested taglines:
+
+- Class 6: AI around me
+- Class 7: ask better questions
+- Class 8: first Python and AI ideas
+- Class 9: data and mini ML projects
+- Class 10: GenAI and responsible use
+- Class 11: Python plus ML foundations
+- Class 12: future-ready AI projects
+
+#### Section 4: three learning bands
+
+Show the student journey in three bands:
+
+- Classes 6 to 7: awareness and safe study help
+- Classes 8 to 10: notebooks, data, projects, responsible AI
+- Classes 11 to 12: Python, ML, GenAI, agentic AI, college readiness
+
+#### Section 5: what students learn
+
+Six icon cards:
+
+- AI basics
+- safe homework help
+- prompting
+- Python notebooks
+- ML and GenAI foundations
+- digital safety and honesty
+
+#### Section 6: safety promise band
+
+Show a high-contrast section with the platform promise:
+
+- no direct homework cheating
+- no personal data sharing
+- no unsafe topics
+- parent and teacher friendly
+- honest learning first
+
+#### Section 7: safe chatbot explainer
+
+This section should explain:
+
+- what the chatbot can do
+- what it will not do
+- how it helps class-wise
+- why it is safe
+
+Possible heading:
+
+`Meet Mitra Study Helper`
+
+Possible body:
+
+`It can explain, quiz, simplify, and guide. It does not write final homework for students to copy.`
+
+#### Section 8: notebook preview block
+
+Show notebook screenshots or illustration cards.
+
+Heading:
+
+`Older classes also learn with simple Python notebooks`
+
+Sub-points:
+
+- Class 7: tiny intro
+- Class 8: first real notebook
+- Classes 9 to 12: guided data and AI notebooks
+
+#### Section 9: parent and teacher note
+
+This section should explain:
+
+- how parents can supervise
+- how teachers can use the material
+- why the track is school-safe
+
+#### Section 10: FAQ
+
+Suggested FAQ topics:
+
+- will AI write my homework?
+- is it safe for younger children?
+- do students need coding knowledge?
+- when do notebooks start?
+- does the chatbot know school subjects?
+- is this only for CBSE?
+
+#### Section 11: bottom CTA
+
+Primary CTA:
+
+`Start with Class 6`
+
+Secondary CTA:
+
+`Compare All Classes`
+
+---
+
+## 19. Homepage Video Placement Strategy
+
+### Video 1: homepage overview video
+
+Placement: directly below hero
+
+Length: 75 to 90 seconds
+
+Audience: students, parents, teachers
+
+Goal: explain the track quickly
+
+### Video 2: optional safety mini-video
+
+Placement: in or just above the safety promise section
+
+Length: 45 to 60 seconds
+
+Goal: explain what safe AI use means
+
+### Video on class pages
+
+Each class page should have its own class intro video near the top of the class page, above the main lesson content.
+
+Recommended class video length:
+
+- Class 6 to 8: 60 to 120 seconds
+- Class 9 to 10: 90 to 150 seconds
+- Class 11 to 12: 120 to 180 seconds
+
+### Video UI rules
+
+- no autoplay with sound
+- subtitles always on by default if possible
+- transcript below video
+- clear thumbnail
+- mobile-safe player size
+
+---
+
+## 20. Safe Chatbot Strategy
+
+### What the chatbot is
+
+The student chatbot is a guided study helper, not a general unrestricted AI assistant.
+
+### What it should do
+
+- explain a concept in simple English
+- simplify a paragraph
+- create practice questions
+- create revision flashcards
+- help improve prompts
+- give hints for Python notebook errors
+- help plan a project in steps
+
+### What it should not do
+
+- give final homework answers to copy
+- write full assignments for submission
+- answer unsafe or adult topics
+- ask for private personal data
+- act like a therapist or secret friend
+- pretend it knows everything perfectly
+
+### Key answer to the founder question
+
+If we put a chatbot on the site today without a curated knowledge base, it will only have general model knowledge. That is not enough for strong, reliable class-wise homework help.
+
+So the right design is:
+
+- narrow scope
+- curated school-safe knowledge base
+- guided answer styles
+- class-aware behavior
+
+### Recommended chatbot architecture
+
+Frontend widget on page
+
+-> Cloudflare Worker with student-safe system prompt
+
+-> safety filter and intent classifier
+
+-> retrieval from approved class content
+
+-> OpenAI model response
+
+-> final policy check before displaying answer
+
+### Retrieval content sources
+
+Use only approved internal content first:
+
+- our own class lesson pages
+- our own worksheets
+- our own notebook explanations
+- our own glossary
+- our own FAQ answers
+- our own safe prompt templates
+
+Do not rely on random open-web answering in the early phase.
+
+### Chatbot scopes by phase
+
+#### Phase 1: homepage chatbot
+
+Knows only:
+
+- what the platform offers
+- what each class covers
+- safety rules
+- how AI should be used for study support
+
+#### Phase 2: class-specific chatbot
+
+Knows only:
+
+- its class lessons
+- its glossary
+- its worksheets
+- its notebook guidance
+
+#### Phase 3: notebook assistant
+
+Knows only:
+
+- class notebook instructions
+- supported code templates
+- common beginner errors
+
+### Chatbot placement on homepage
+
+Use two placements:
+
+1. One visible explainer section inside the page body.
+2. One floating chatbot button at bottom-right on desktop and bottom-center or bottom-right on mobile.
+
+### Chatbot placement on class pages
+
+Place the floating chatbot on every class page.
+Also add one inline "Ask Mitra Study Helper" card near:
+
+- the main lesson section
+- notebook section for Class 8 and above
+
+### Suggested chatbot starter prompts
+
+- Explain AI in simple words for my class.
+- Make 5 revision questions from this topic.
+- Help me improve my prompt.
+- Give me hints, not the final homework answer.
+- Explain this Python error simply.
+
+---
+
+## 21. Model Strategy and Cost Plan
+
+### Founder question: low-cost or better model?
+
+Recommendation:
+
+- Use a low-cost strong mini model for default chatbot traffic.
+- Improve the system with retrieval and safety design first.
+- Do not try to solve quality only by paying for a bigger model.
+
+The quality of this chatbot will come mostly from:
+
+- narrow scope
+- good system prompt
+- class-aware retrieval
+- output filters
+- short answer format
+
+### Recommended model plan
+
+#### Launch phase
+
+Default model: `gpt-4o-mini`
+
+Reason:
+
+- cheaper than heavier models
+- good enough for short, guided student help
+- works well when paired with retrieval and strict instructions
+
+#### Premium or tougher workflows later
+
+Use a stronger model only for selective cases such as:
+
+- class 11 to 12 notebook debugging
+- content generation for internal team workflows
+- teacher/admin-facing advanced drafting
+
+Possible stronger route later:
+
+- `gpt-4.1-mini` for tougher student help or notebook guidance
+- stronger models only for internal content QA, not for every chatbot turn
+
+### Cost-control rules
+
+- keep answers short
+- cap tokens per message
+- rate-limit anonymous users
+- cache common FAQ and glossary responses
+- use retrieval snippets instead of long free generation
+- keep homepage bot narrow
+- add daily usage caps during free phase
+
+### Best strategic choice
+
+During free phase, use the better low-cost model plus strong retrieval.
+After monetization, keep the same low-cost base model for most users and upgrade only specific flows if needed.
+
+Do not move the whole product to an expensive model just because the platform becomes paid.
+
+---
+
+## 22. What the Chatbot Should Say for Homework Help
+
+### Good behavior
+
+`I can help you understand the question, break it into steps, create practice questions, or check your draft. I should not give a final answer to copy.`
+
+### Response pattern for homework requests
+
+When a student asks for direct answers, the bot should:
+
+1. restate the topic simply
+2. explain the concept
+3. give a hint or structure
+4. offer practice questions
+5. ask the student to write their own final answer
+
+### Response pattern for notebook help
+
+1. explain what the code is trying to do
+2. point to the likely error
+3. suggest one small fix at a time
+4. avoid dumping a full advanced rewrite unless needed for older classes
+
+---
+
+## 23. Content Source and Knowledge Base Plan
+
+### Source-of-truth items per class
+
+For each class, create and maintain:
+
+- class overview markdown
+- lesson markdown
+- glossary markdown
+- safety note markdown
+- worksheet markdown
+- quiz JSON or markdown
+- notebook files for applicable classes
+- chatbot retrieval snippets
+
+### Knowledge base design
+
+The chatbot should search only approved short documents, not the whole internet.
+
+Suggested retrieval buckets:
+
+- class-overview
+- lesson-explainer
+- glossary
+- prompt-help
+- notebook-help
+- safety-policy
+- parent-teacher-note
+
+---
+
+## 24. Launch Sequence
+
+### Do not build all seven classes at once
+
+Recommended build order:
+
+1. Class 6
+2. Class 8
+3. Class 11
+4. Class 7
+5. Class 9
+6. Class 10
+7. Class 12
+
+### Why this order works
+
+- Class 6 proves the school-safe visual foundation.
+- Class 8 proves the first notebook bridge.
+- Class 11 proves the serious Python plus ML track.
+- The remaining classes can expand from those strong anchors.
+
+---
+
+## 25. Immediate Build Plan
+
+### Phase A: planning and homepage
+
+- finalize this master plan
+- redesign `site/students.html`
+- add class button grid
+- add homepage video placeholder or real video later
+- add chatbot explainer section
+- do not enable live student chatbot until guardrails are ready
+
+### Phase B: Class 6 first launch
+
+- class 6 overview page
+- class 6 flagship lesson
+- class 6 worksheet
+- class 6 quiz
+- class 6 intro video
+- class 6 chatbot scope
+
+### Phase C: Class 8
+
+- first notebook-enabled student class
+- Python basics and AI concept bridge
+
+### Phase D: Class 11
+
+- stronger notebook and ML foundation track
+
+---
+
+## 26. Homepage Acceptance Checklist
+
+The students homepage is ready only when it clearly shows:
+
+- English-only launch
+- Class 6 to Class 12 buttons
+- safety-first promise
+- class-wise progression
+- overview video placement
+- notebook explanation
+- safe chatbot explanation
+- parent and teacher reassurance
+
+---
+
+## 27. Chatbot Acceptance Checklist
+
+The student chatbot is ready only when:
+
+- it refuses cheating-style requests correctly
+- it avoids unsafe topics correctly
+- it does not request personal data
+- it stays within class-appropriate scope
+- it uses approved retrieval content
+- it explains concepts simply
+- it gives hints before answers where needed
+
+---
+
+## 28. Final Product Summary
+
+This track should feel like:
+
+- safe for children
+- useful for study support
+- respectful of teachers and parents
+- future-ready without hype
+- visual and approachable for younger learners
+- strong enough for older students to begin Python and AI foundations
+
+The first concrete build after this document should be:
+
+1. redesign the students homepage using this structure
+2. create Class 6 as the first full student class

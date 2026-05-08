@@ -805,4 +805,39 @@ Hub page: `content/students/class-07/class-07.html`
 
 ---
 
-*Last updated: 8 May 2026 · Class 6 complete (12 lessons) · Class 7 Lessons 1–11 live · L12 in progress.*
+---
+
+### Lesson 12 — My Class 7 AI Portfolio (Capstone)
+
+**File:** `content/students/class-07/lesson-12.html`  
+**Duration:** 45–55 min · 8 sections · Free · Capstone  
+**Story character:** Meera (13yo, Hyderabad) — portfolio presentation day: teacher asks how she worked, not just what she made; Meera explains every decision
+
+**Section topics:**
+1. Class 7 AI learning journey recap — 12-card grid, one per lesson with key skill
+2. Class 7 AI Skills Checklist — 12 interactive JS tick-off items with running score display
+3. Building your portfolio — 5 sections: best prompts, best study output, creative work, catching AI errors, personal reflection + AI prompt for each section
+4. Interactive printable certificate — name input, 6 skill badges, print-CSS-optimised
+5. What makes a good AI user — 7-point Class 7 learner summary
+6. How to present your portfolio — 5-step 3-minute presentation structure
+7. Class 8 preview — 6-card grid: how AI works, workflows, data, ethics, personal projects, Indian innovation
+8. Final message + wisdom table
+
+**Quiz (10 capstone questions spanning all 12 lessons) — answers:**
+
+| Q | Question | Correct |
+|---|----------|---------|
+| 1 | Most important factor making a prompt effective | c |
+| 2 | Definition of AI hallucination | b |
+| 3 | When NOT to use AI output without checking | c |
+| 4 | 4-ingredient AI image prompt formula | b |
+| 5 | Most important rule for school research with AI | c |
+| 6 | Which of these is NOT a logical fallacy | c |
+| 7 | The Ananya Test definition | b |
+| 8 | What does NEP 2020 stand for | c |
+| 9 | Your most important role in creative writing with AI | c |
+| 10 | Single most important mindset for Class 7 AI learner | c |
+
+---
+
+*Last updated: 8 May 2026 · Class 6 complete (12 lessons) · **Class 7 ALL 12 lessons COMPLETE AND LIVE** · Class 8 in planning.*

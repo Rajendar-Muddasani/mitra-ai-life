@@ -15,7 +15,7 @@ Target age group: 10–17 · School students · India · English · CBSE/SSC com
 ## Class 6 — AI Literacy for Beginners (Age 10–11)
 
 Theme colour: Sky blue `#0ea5e9`  
-Full year: 12 lessons · Lessons 1–9 Live · Lessons 10–12 Coming Soon  
+Full year: 12 lessons · Lessons 1–10 Live · Lessons 11–12 Coming Soon  
 Hub page: `content/students/class-06/class-06.html`
 
 ---
@@ -317,11 +317,42 @@ Hub page: `content/students/class-06/class-06.html`
 
 ---
 
-### Lessons 10–12 — Coming Soon
+### Lesson 10 — When AI Gets It Wrong
+
+**File:** `content/students/class-06/lesson-10.html`  
+**Duration:** 60–90 min · 8 sections · Free
+
+**Section topics:**
+1. When AI Sounds Confident But Is Wrong — hallucinations, confident errors, Aryan's history project
+2. Types of AI Mistakes — factual errors, maths mistakes, stale info, bias, hallucinated sources, context confusion
+3. Why AI Halluccinates — token prediction, no internal fact-check, training data gaps
+4. AI and Numbers — why LLMs fail at arithmetic, multi-step problems, statistics
+5. AI Bias and Fairness — gender bias, urban bias, language bias, Western-centric bias
+6. AI Knowledge Cutoffs — what AI doesn't know, safe vs risky question types
+7. How to Fact-Check AI Output — 5-step process, Indian fact-checking resources
+8. Building Critical AI Habits — red flags, green habits, two-source rule
+
+**Quiz Q&A:**
+
+| Q# | Question (short) | A | B | C | D | ✓ |
+|----|-----------------|---|---|---|---|---|
+| 1 | What is an AI hallucination? | AI giving random unrelated answers | **AI generating confident content that is factually wrong or invented** | AI creating images from text | AI freezing when it can't answer | **b** |
+| 2 | AI gives current CM of Andhra Pradesh — what to do? | Trust it — CMs don't change often | Trust it — AI knows current political info | **Verify with current news or official AP government site — AI may be outdated** | Ask AI same question again | **c** |
+| 3 | AI answers a maths word problem — what to do? | Trust completely — computers are always right with numbers | **Verify by solving yourself or using a calculator — AI can make arithmetic errors** | Ask two AI tools and take the common answer | Never use AI for maths | **b** |
+| 4 | Why does AI have a knowledge cutoff? | Companies withhold recent info to charge for it | AI gets tired of learning | **AI trained on data to a certain date and does not auto-update** | AI only needs info up to a certain date | **c** |
+| 5 | Best way to fact-check an AI answer? | Ask same AI again | Ask different AI | **Find two independent reliable sources — textbook, government site, newspaper** | Trust it if it sounds detailed | **c** |
+| 6 | AI gives specific statistic from a named study — what to do? | Use it — AI wouldn't make up a percentage | Remove all statistics | **Search for original study before using — AI frequently fabricates statistics and sources** | Change the number slightly | **c** |
+| 7 | What does AI bias mean? | AI programmed to favour certain parties | **AI outputs reflect stereotypes and imbalances from training data** | AI gives different answers by location | AI rewards frequent users | **b** |
+| 8 | For which question is AI MOST reliable? | Current state election winner | Current onion price in Delhi | **Explain what photosynthesis is** | Next year's CBSE syllabus | **c** |
+| 9 | AI names a historical official that no textbook confirms — what to conclude? | Textbooks are wrong | Keep searching — it must be in an obscure book | **AI likely hallucinated the name — unverifiable AI facts should not be used** | Ask AI where it found the info | **c** |
+| 10 | Best overall approach using AI for school research? | Never use AI — too unreliable | Use AI for everything and trust all answers | **Use AI as starting point, verify key facts against reliable sources before using** | Only use AI for maths | **c** |
+
+---
+
+### Lessons 11–12 — Coming Soon
 
 | Lesson | Title | Status |
 |--------|-------|--------|
-| 10 | When AI Gets It Wrong | Coming Soon |
 | 11 | AI Careers in India | Coming Soon |
 | 12 | Year Discovery Journal | Coming Soon |
 
@@ -340,4 +371,4 @@ Hub page: `content/students/class-06/class-06.html`
 
 ---
 
-*Last updated: 09 May 2026 · Lessons 1–9 live · This document grows with each new lesson.*
+*Last updated: 09 May 2026 · Lessons 1–10 live · This document grows with each new lesson.*

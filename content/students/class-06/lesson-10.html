@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Class 6 Lesson 10 — When AI Gets It Wrong | Mitra AI Life</title>
+<meta name="description" content="Class 6 Lesson 10 — Learn why AI makes mistakes, what hallucinations are, how to fact-check AI output, and how to build critical AI habits. Essential digital literacy for Class 6 Indian students." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-06/lesson-10.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="../../../site/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../../../site/apple-touch-icon.png" />
+<meta name="theme-color" content="#0ea5e9" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Class 6 Lesson 10 — When AI Gets It Wrong | Mitra AI Life" />
+<meta property="og:description" content="Why AI makes mistakes, what hallucinations are, how to fact-check AI output, and how to build critical AI habits. Essential for Class 6 students." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-06/lesson-10.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#f8fafc;color:#1e293b;line-height:1.65}
+a{color:#0ea5e9;text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Nav */
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#0ea5e9}
+.topnav .nav-links{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.70);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}
+.topnav .nav-links a.active{color:#38bdf8}
+
+/* Lesson header */
+.lesson-header{background:linear-gradient(135deg,#0c4a6e,#0369a1,#0ea5e9);padding:3rem 1.5rem 3.5rem;text-align:center}
+.lh-badge{display:inline-block;background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .9rem;border-radius:20px;margin-bottom:1rem}
+.lesson-header h1{color:#fff;font-family:'Baloo 2',cursive;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:800;margin-bottom:.7rem;line-height:1.2}
+.lh-sub{color:rgba(255,255,255,.8);font-size:clamp(.9rem,2vw,1.05rem);max-width:640px;margin:0 auto 1.4rem}
+.lh-meta{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+.lh-meta span{background:rgba(255,255,255,.12);color:rgba(255,255,255,.85);font-size:.8rem;font-weight:700;padding:.3rem .8rem;border-radius:20px}
+
+/* Video */
+.lesson-video{background:linear-gradient(135deg,#1e1b4b,#0c4a6e);padding:2.5rem 0;text-align:center}
+.sec-label{display:inline-block;background:rgba(56,189,248,.15);color:#38bdf8;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:.25rem .75rem;border-radius:12px;margin-bottom:.6rem}
+.lesson-video h2{color:#fff;font-size:clamp(1rem,2vw,1.4rem);font-weight:800;margin:0 0 1.2rem}
+.video-box{position:relative;width:90%;max-width:820px;margin:0 auto;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#1e293b;border:2px dashed rgba(56,189,248,.3)}
+.video-box-inner{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem}
+.video-box-inner .vi{font-size:2.8rem}
+.video-box-inner .vl{color:rgba(255,255,255,.75);font-size:.95rem;font-weight:700}
+.video-box-inner .vb{padding:4px 16px;background:rgba(56,189,248,.10);border:1px solid rgba(56,189,248,.25);border-radius:20px;color:rgba(255,255,255,.45);font-size:.72rem;font-weight:700;letter-spacing:.1em}
+.video-caption{color:rgba(255,255,255,.28);font-size:.76rem;margin-top:.7rem}
+
+/* Content */
+.content-wrap{width:90%;max-width:860px;margin:0 auto;padding:2.5rem 0 4rem}
+
+/* Story */
+.story-panel{background:#fff;border-radius:16px;border-left:5px solid #ef4444;padding:1.8rem;margin-bottom:2rem;box-shadow:0 2px 12px rgba(239,68,68,.08)}
+.story-eyebrow{font-size:.72rem;font-weight:800;color:#dc2626;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem}
+.story-panel h2{color:#7f1d1d;font-size:1.3rem;font-weight:800;margin-bottom:.8rem}
+.story-panel p{color:#374151;font-size:.95rem;margin-bottom:.75rem}
+.story-highlight{background:#fef2f2;border-radius:10px;padding:.9rem 1.1rem;font-size:.9rem;color:#991b1b;font-weight:700;margin-top:.75rem}
+
+/* Section cards */
+.section-card{background:#fff;border-radius:16px;padding:1.6rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.05);border:1px solid #e2e8f0}
+.sc-eyebrow{font-size:.7rem;font-weight:800;color:#0ea5e9;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.5rem}
+.section-card h2{color:#0c4a6e;font-size:1.25rem;font-weight:800;margin-bottom:.8rem}
+.section-card p{color:#374151;font-size:.93rem;margin-bottom:.8rem}
+.section-card ul,.section-card ol{color:#374151;font-size:.93rem;padding-left:1.3rem;margin-bottom:.8rem}
+.section-card li{margin-bottom:.4rem}
+.section-card strong{color:#0c4a6e}
+.section-card table{width:100%;border-collapse:collapse;font-size:.87rem;margin:1rem 0}
+.section-card th{background:#0ea5e9;color:#fff;padding:.5rem .75rem;text-align:left;font-weight:700}
+.section-card td{padding:.55rem .75rem;border:1px solid #e0f2fe;vertical-align:top}
+.section-card tr:nth-child(even) td{background:#f0f9ff}
+
+/* Hallucination examples */
+.halluc-box{background:#1e293b;border-radius:12px;padding:1.2rem 1.4rem;margin:1rem 0;font-size:.85rem;line-height:1.65}
+.hb-q{color:#94a3b8;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem}
+.hb-ai{color:#f87171;font-weight:600;margin-bottom:.5rem;border-left:3px solid #ef4444;padding-left:.75rem}
+.hb-truth{color:#86efac;font-weight:600;border-left:3px solid #22c55e;padding-left:.75rem}
+.hb-label-ai{display:inline-block;background:rgba(239,68,68,.15);color:#f87171;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:.15rem .5rem;border-radius:6px;margin-bottom:.3rem}
+.hb-label-truth{display:inline-block;background:rgba(34,197,94,.15);color:#86efac;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:.15rem .5rem;border-radius:6px;margin-bottom:.3rem}
+
+/* Callouts */
+.callout{border-radius:12px;padding:1rem 1.2rem;font-size:.9rem;margin:1rem 0}
+.callout.sky{background:#f0f9ff;border-left:4px solid #0ea5e9;color:#0369a1}
+.callout.amber{background:#fffbeb;border-left:4px solid #f59e0b;color:#92400e}
+.callout.green{background:#f0fdf4;border-left:4px solid #22c55e;color:#15803d}
+.callout.red{background:#fef2f2;border-left:4px solid #ef4444;color:#991b1b}
+.callout.purple{background:#faf5ff;border-left:4px solid #a855f7;color:#6b21a8}
+.callout.slate{background:#f8fafc;border-left:4px solid #64748b;color:#334155}
+
+/* Error type grid */
+.error-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:.9rem;margin:1rem 0}
+.eg-card{border-radius:12px;padding:1rem;border:1.5px solid}
+.eg-card.fact{background:#fef2f2;border-color:#fca5a5}
+.eg-card.calc{background:#fff7ed;border-color:#fed7aa}
+.eg-card.date{background:#fefce8;border-color:#fef08a}
+.eg-card.bias{background:#faf5ff;border-color:#e9d5ff}
+.eg-card.stale{background:#f0f9ff;border-color:#bae6fd}
+.eg-card.context{background:#f0fdf4;border-color:#bbf7d0}
+.eg-icon{font-size:1.6rem;margin-bottom:.4rem}
+.eg-title{font-size:.88rem;font-weight:800;color:#1e293b;margin-bottom:.25rem}
+.eg-body{font-size:.78rem;color:#475569;line-height:1.4}
+
+/* Why hallucination diagram */
+.why-box{background:linear-gradient(135deg,#0f172a,#1e293b);border-radius:14px;padding:1.4rem;margin:1rem 0}
+.wb-title{color:#38bdf8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem}
+.wb-row{display:flex;gap:.6rem;align-items:flex-start;margin-bottom:.75rem;flex-wrap:wrap}
+.wb-num{background:#0ea5e9;color:#fff;font-size:.75rem;font-weight:900;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.wb-text{color:#e2e8f0;font-size:.85rem;line-height:1.5;flex:1}
+.wb-text strong{color:#7dd3fc}
+
+/* Fact-check steps */
+.fc-steps{counter-reset:fc-step;margin:1rem 0}
+.fc-step{display:flex;gap:.9rem;align-items:flex-start;padding:.85rem 1rem;border-radius:12px;margin-bottom:.55rem;background:#f8fafc;border:1px solid #e2e8f0}
+.fcs-num{background:#0ea5e9;color:#fff;font-size:.82rem;font-weight:900;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.fcs-body{flex:1}
+.fcs-title{font-size:.9rem;font-weight:800;color:#0c4a6e;margin-bottom:.2rem}
+.fcs-desc{font-size:.83rem;color:#475569;line-height:1.45}
+
+/* Trust meter */
+.trust-table{width:100%;border-collapse:collapse;font-size:.87rem;margin:1rem 0}
+.trust-table th{background:#0ea5e9;color:#fff;padding:.5rem .75rem;text-align:left;font-weight:700}
+.trust-table td{padding:.55rem .75rem;border:1px solid #e0f2fe;vertical-align:top}
+.trust-table tr:nth-child(even) td{background:#f0f9ff}
+.trust-high{color:#15803d;font-weight:800}
+.trust-med{color:#92400e;font-weight:800}
+.trust-low{color:#991b1b;font-weight:800}
+
+/* Red flag list */
+.red-flags{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.75rem;margin:1rem 0}
+.rf-card{background:#fef2f2;border:1.5px solid #fca5a5;border-radius:11px;padding:.85rem 1rem}
+.rf-icon{font-size:1.3rem;margin-bottom:.3rem}
+.rf-title{font-size:.85rem;font-weight:800;color:#991b1b;margin-bottom:.2rem}
+.rf-body{font-size:.78rem;color:#7f1d1d;line-height:1.4}
+
+/* Green habits */
+.habits-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.8rem;margin:1rem 0}
+.hg-card{background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:11px;padding:.85rem 1rem}
+.hg-icon{font-size:1.3rem;margin-bottom:.3rem}
+.hg-title{font-size:.85rem;font-weight:800;color:#15803d;margin-bottom:.2rem}
+.hg-body{font-size:.78rem;color:#166534;line-height:1.4}
+
+/* Quiz */
+.quiz-section{background:linear-gradient(135deg,#0c4a6e,#0369a1);border-radius:20px;padding:2rem;margin-bottom:2rem;color:#fff}
+.quiz-section h2{font-size:1.3rem;font-weight:800;margin-bottom:1.5rem}
+.quiz-q{margin-bottom:1.4rem}
+.q-text{font-size:.92rem;font-weight:700;margin-bottom:.6rem;color:#e0f2fe}
+.quiz-options{display:flex;flex-direction:column;gap:.4rem}
+.quiz-opt{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:.5rem .85rem;color:rgba(255,255,255,.85);font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:600;text-align:left;cursor:pointer;transition:background .15s}
+.quiz-opt:hover{background:rgba(255,255,255,.14)}
+.quiz-opt.correct{background:rgba(34,197,94,.25);border-color:#4ade80;color:#fff}
+.quiz-opt.wrong{background:rgba(239,68,68,.20);border-color:#f87171;color:rgba(255,255,255,.75)}
+.quiz-feedback{display:none;font-size:.83rem;padding:.55rem .75rem;border-radius:8px;margin-top:.4rem;font-weight:700}
+.quiz-feedback.show{display:block}
+.quiz-feedback.ok{background:rgba(34,197,94,.15);color:#86efac}
+.quiz-feedback.no{background:rgba(239,68,68,.15);color:#fca5a5}
+.quiz-submit{width:100%;padding:.75rem;background:#0ea5e9;border:none;border-radius:10px;color:#fff;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;cursor:pointer;margin-top:.5rem}
+.quiz-submit:hover{background:#38bdf8}
+.quiz-submit:disabled{opacity:.55;cursor:not-allowed}
+.quiz-score-box{display:none;background:rgba(255,255,255,.08);border-radius:12px;padding:1.2rem;text-align:center;margin-top:1rem}
+.quiz-score-box.show{display:block}
+.quiz-score-box .qs-num{font-size:2.5rem;font-weight:900;color:#a5b4fc}
+.quiz-score-box .qs-label{color:rgba(255,255,255,.60);font-size:.85rem;margin-top:.2rem}
+.quiz-score-box .qs-msg{color:#c7d2fe;font-size:.9rem;font-weight:700;margin-top:.7rem}
+
+/* Worksheet */
+.worksheet-section{background:#fff;border-radius:16px;padding:1.6rem;margin-bottom:1.5rem;border:2px dashed #bae6fd}
+.worksheet-section h2{color:#0c4a6e;font-size:1.15rem;font-weight:800;margin-bottom:.8rem}
+.worksheet-section p{color:#374151;font-size:.92rem;margin-bottom:.8rem}
+.ws-table{width:100%;border-collapse:collapse;font-size:.85rem;margin:1rem 0}
+.ws-table th{background:#0ea5e9;color:#fff;padding:.5rem .75rem;text-align:left;font-weight:700}
+.ws-table td{padding:.6rem .75rem;border:1px solid #e0f2fe;vertical-align:top;min-height:36px}
+.ws-download-note{color:#94a3b8;font-size:.78rem;font-style:italic}
+
+/* Parent note */
+.parent-note{background:#fafaf9;border-radius:16px;padding:1.6rem;margin-bottom:1.5rem;border:1px solid #e7e5e4}
+.pn-header{font-size:1rem;font-weight:800;color:#44403c;margin-bottom:1rem}
+.parent-note p{color:#57534e;font-size:.9rem;margin-bottom:.6rem}
+.parent-note ul{color:#57534e;font-size:.9rem;padding-left:1.2rem;margin-bottom:.6rem}
+.parent-note li{margin-bottom:.3rem}
+.parent-note strong{color:#292524}
+
+/* Bottom nav */
+.bottom-nav{background:#0f172a;padding:2rem 1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.bottom-nav a{color:rgba(255,255,255,.75);font-size:.88rem;font-weight:700;padding:.5rem 1rem;border-radius:8px;border:1px solid rgba(255,255,255,.15);text-decoration:none}
+.bottom-nav a:hover{background:rgba(255,255,255,.08)}
+.bottom-nav a.next-btn{background:#0ea5e9;border-color:#0ea5e9;color:#fff}
+
+/* Footer */
+footer{background:#0f172a;border-top:1px solid rgba(255,255,255,.06);padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+footer span{color:rgba(255,255,255,.35);font-size:.78rem}
+footer .fl{display:flex;gap:1rem}
+footer .fl a{color:rgba(255,255,255,.40);font-size:.75rem}
+footer .fl a:hover{color:rgba(255,255,255,.70)}
+
+@media(max-width:600px){
+  .content-wrap{width:95%;padding:2rem 0 3rem}
+  .section-card{padding:1.2rem 1.1rem}
+  .quiz-section{padding:1.2rem 1.1rem}
+  .error-grid,.red-flags,.habits-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:400px){
+  .error-grid,.red-flags,.habits-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a class="brand" href="../../../site/index.html">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="../../../site/index.html">Home</a>
+    <a href="../../../site/students.html">AI for Students</a>
+    <a href="class-06.html">Class 6 Hub</a>
+    <a class="active" href="lesson-10.html">Lesson 10</a>
+  </div>
+</nav>
+
+<header class="lesson-header">
+  <div class="lh-badge">Class 6 · Age 10–11 · AI for Students · Lesson 10 of 12</div>
+  <h1>When AI Gets It Wrong</h1>
+  <p class="lh-sub">AI can sound completely confident and still be completely wrong. Learn why AI makes mistakes, how to spot them, and how to fact-check anything AI tells you.</p>
+  <div class="lh-meta">
+    <span>⏱ 60–90 min</span>
+    <span>● Free</span>
+    <span>💬 English</span>
+    <span>📖 8 Sections</span>
+    <span>✅ 10-Question Quiz</span>
+  </div>
+</header>
+
+<section class="lesson-video">
+  <div class="sec-label">Watch First</div>
+  <h2>Lesson 10 — Video Introduction (Coming Soon)</h2>
+  <div class="video-box">
+    <div class="video-box-inner">
+      <div class="vi">🎬</div>
+      <div class="vl">Lesson 10 Video — Coming Soon</div>
+      <div class="vb">VIDEO COMING SOON</div>
+    </div>
+  </div>
+  <p class="video-caption">Read all 8 sections below while we prepare the video.</p>
+</section>
+
+<div class="content-wrap">
+
+  <!-- Story -->
+  <div class="story-panel">
+    <div class="story-eyebrow">📖 Meet Aryan</div>
+    <h2>The Project That Went Wrong</h2>
+    <p>Aryan is 11 years old and lives in Delhi. His Social Science teacher assigned a project on the Maurya Empire — specifically about Emperor Chandragupta Maurya and the founding of India's first great empire.</p>
+    <p>Aryan was excited. He had seen his older cousin use AI for assignments and it seemed incredibly fast. He opened ChatGPT, asked it to explain the Maurya Empire, and wrote down everything it said. The AI was confident, detailed, and impressive — it gave him dates, names, and specific facts. Aryan submitted his project feeling great about it.</p>
+    <p>The teacher returned it with corrections marked throughout. Several dates were wrong. One minister the AI mentioned — "Amitraghat" — did not appear to exist in any historical record. The AI had invented a plausible-sounding name. The founding date it gave was off by decades.</p>
+    <p><em>"Aryan,"</em> said his teacher, <em>"the AI gave you a very confident answer. But confident and correct are not the same thing."</em></p>
+    <p>That evening, Aryan's older sister Divya, who studies journalism, sat with him. <em>"This is the most important lesson about AI,"</em> she said. <em>"AI never tells you when it's uncertain. It gives a wrong answer in the same calm, fluent voice it gives a right answer. Your job is to check."</em></p>
+    <div class="story-highlight">⚠️ The problem wasn't that Aryan used AI — it was that he trusted AI without checking. This lesson teaches you to use AI as a starting point and always verify before you submit, share, or act on what AI tells you.</div>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="section-card">
+    <div class="sc-eyebrow">Section 1 of 8</div>
+    <h2>🤔 When AI Sounds Confident But Is Wrong</h2>
+    <p>One of the strangest things about AI mistakes is that they don't look like mistakes. When AI gets something wrong, it doesn't say <em>"I'm not sure about this"</em> or <em>"you should check this"</em>. It writes in exactly the same fluent, confident, detailed way as when it's correct.</p>
+    <p>This is dangerous. If you see a person looking uncertain, you know to double-check. If you see a person looking completely confident, you might trust them. AI always looks completely confident — even when it is completely wrong.</p>
+
+    <div class="halluc-box">
+      <div class="hb-q">Question asked to AI: "Who founded the Maurya Empire and when?"</div>
+      <div style="margin-bottom:.75rem">
+        <div class="hb-label-ai">AI answer (contains error)</div>
+        <div class="hb-ai">"The Maurya Empire was founded by Chandragupta Maurya in 312 BCE, with the support of his advisor Chanakya and a minister named Amitraghat who oversaw the treasury of the new empire."</div>
+      </div>
+      <div>
+        <div class="hb-label-truth">Historical fact</div>
+        <div class="hb-truth">"The Maurya Empire was founded by Chandragupta Maurya around 321 BCE with the guidance of his mentor Chanakya (Kautilya). There is no historical record of a minister named 'Amitraghat' — this appears to be a fabricated name."</div>
+      </div>
+    </div>
+
+    <p>Aryan's AI answer was mostly right — Chandragupta Maurya did found the Maurya Empire and Chanakya was his mentor. But the date was wrong, and the AI invented an official who did not exist. If Aryan had cross-checked with his textbook, he would have caught both errors in two minutes.</p>
+
+    <div class="callout red">
+      <strong>The core rule:</strong> Treat everything AI tells you as a first draft that needs checking — not a final answer you can trust immediately. This is especially important for facts you will share with others: school work, conversations, social media posts.
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section-card">
+    <div class="sc-eyebrow">Section 2 of 8</div>
+    <h2>📋 Types of AI Mistakes</h2>
+    <p>AI doesn't make just one type of mistake. Here are the six most common categories — with Indian examples so you can recognise them in real life:</p>
+
+    <div class="error-grid">
+      <div class="eg-card fact">
+        <div class="eg-icon">❌</div>
+        <div class="eg-title">Factual Errors</div>
+        <div class="eg-body">Stating wrong facts confidently. Example: giving the wrong year for India's independence, wrong capital for a state, or invented historical details.</div>
+      </div>
+      <div class="eg-card calc">
+        <div class="eg-icon">🔢</div>
+        <div class="eg-title">Maths Mistakes</div>
+        <div class="eg-body">AI language models can make arithmetic errors. Example: AI calculates a train ticket discount wrong, or gets a percentage calculation wrong.</div>
+      </div>
+      <div class="eg-card date">
+        <div class="eg-icon">📅</div>
+        <div class="eg-title">Stale Information</div>
+        <div class="eg-body">AI was trained until a cutoff date. It cannot know current events, new laws, recent cricket results, or latest exam patterns.</div>
+      </div>
+      <div class="eg-card bias">
+        <div class="eg-icon">⚖️</div>
+        <div class="eg-title">Biased Output</div>
+        <div class="eg-body">AI can reflect stereotypes or imbalances from its training data. Example: AI descriptions of professions might skew towards certain genders or regions.</div>
+      </div>
+      <div class="eg-card stale">
+        <div class="eg-icon">📰</div>
+        <div class="eg-title">Hallucinated Sources</div>
+        <div class="eg-body">AI invents books, papers, articles, or quotes that don't exist. Example: AI cites "a 2019 NCERT report" that was never published.</div>
+      </div>
+      <div class="eg-card context">
+        <div class="eg-icon">🔄</div>
+        <div class="eg-title">Context Confusion</div>
+        <div class="eg-body">AI misunderstands your question and answers a different, related question confidently. Example: You ask about Hyderabad, Telangana — AI answers about Hyderabad in Pakistan (Sindh).</div>
+      </div>
+    </div>
+
+    <div class="callout sky">
+      <strong>Important:</strong> All six types of mistakes can look identical on the surface — fluent, detailed, confident writing. The only way to tell them apart from correct information is to check against a reliable source.
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section-card">
+    <div class="sc-eyebrow">Section 3 of 8</div>
+    <h2>🧠 Why Does AI Hallucinate?</h2>
+    <p>The word <strong>"hallucination"</strong> is the technical term AI researchers use for when AI generates content that sounds plausible but is factually wrong or invented. It comes from the idea of seeing something that isn't really there.</p>
+    <p>Why does this happen? Here is a simple explanation:</p>
+
+    <div class="why-box">
+      <div class="wb-title">Why AI hallucinations happen — step by step</div>
+      <div class="wb-row">
+        <div class="wb-num">1</div>
+        <div class="wb-text">AI is trained on billions of text documents — books, websites, Wikipedia, articles. It learns <strong>patterns</strong> of how words, ideas, and facts connect.</div>
+      </div>
+      <div class="wb-row">
+        <div class="wb-num">2</div>
+        <div class="wb-text">When you ask a question, AI generates a response <strong>token by token</strong> — predicting what word comes next based on those patterns. It is not searching a database for verified facts.</div>
+      </div>
+      <div class="wb-row">
+        <div class="wb-num">3</div>
+        <div class="wb-text">If the training data had gaps, errors, or conflicting information — <strong>AI fills the gap with the most statistically plausible-sounding content</strong>. This can be wrong.</div>
+      </div>
+      <div class="wb-row">
+        <div class="wb-num">4</div>
+        <div class="wb-text">AI has no way to internally verify whether its output is true. It has <strong>no separate fact-checking system</strong> built in. It produces fluent text and is not always certain when it is wrong.</div>
+      </div>
+      <div class="wb-row">
+        <div class="wb-num">5</div>
+        <div class="wb-text">The result: <strong>AI generates confident-sounding, well-written content that can contain invented names, wrong dates, or fabricated statistics</strong> — with no warning to you.</div>
+      </div>
+    </div>
+
+    <div class="callout amber">
+      <strong>The key insight:</strong> AI is not lying — it doesn't know it's wrong. It is doing exactly what it was designed to do: generate fluent, contextually appropriate text. "Being accurate" and "being fluent" are not the same thing, and AI optimises for fluency. Your job is to check for accuracy.
+    </div>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="section-card">
+    <div class="sc-eyebrow">Section 4 of 8</div>
+    <h2>🔢 AI and Numbers — Be Extra Careful</h2>
+    <p>Many students assume that because computers are good at maths, AI must be perfect at calculations. This is a common and dangerous misconception. AI language models are <em>text prediction systems</em> — they were not built primarily as calculators.</p>
+
+    <table>
+      <tr><th>Type of maths</th><th>AI reliability</th><th>What to do</th></tr>
+      <tr><td>Simple arithmetic (2+2, 15×4)</td><td>Usually correct but can still fail</td><td>Double-check with a calculator for any work you submit</td></tr>
+      <tr><td>Multi-step word problems</td><td>Unreliable — AI often makes setup errors</td><td>Solve yourself, use AI only to check your approach</td></tr>
+      <tr><td>Statistics and percentages</td><td>Low reliability — often fabricated</td><td>Always find the original source</td></tr>
+      <tr><td>Logical reasoning problems</td><td>Inconsistent — depends on the question type</td><td>Verify with a textbook or teacher</td></tr>
+      <tr><td>Complex algebra or geometry</td><td>Can work but makes errors in multi-step problems</td><td>Use a dedicated maths tool like Wolfram Alpha or check manually</td></tr>
+    </table>
+
+    <div class="halluc-box">
+      <div class="hb-q">Example: Aryan asks AI a maths word problem</div>
+      <div style="margin-bottom:.75rem">
+        <div class="hb-label-ai">Question given to AI</div>
+        <div class="hb-ai">"A train travels 360 km in 4 hours for the first part of a journey, then 210 km in 3 hours for the second part. What is its average speed for the whole journey?"</div>
+      </div>
+      <div style="margin-bottom:.75rem">
+        <div class="hb-label-ai">AI incorrect answer (sometimes seen)</div>
+        <div class="hb-ai">"The average speed is 85 km/h." (Simply averaging 90 and 70 — incorrect method)</div>
+      </div>
+      <div>
+        <div class="hb-label-truth">Correct calculation</div>
+        <div class="hb-truth">Total distance = 360 + 210 = 570 km. Total time = 4 + 3 = 7 hours. Average speed = 570 ÷ 7 = 81.4 km/h. The correct method uses total distance ÷ total time, not the average of the two speeds.</div>
+      </div>
+    </div>
+
+    <div class="callout green">
+      <strong>Safe approach:</strong> For all maths in school work, solve the problem yourself first. You may use AI to explain a concept you don't understand — but always verify the final answer with your own calculation or a trusted maths tool.
+    </div>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="section-card">
+    <div class="sc-eyebrow">Section 5 of 8</div>
+    <h2>⚖️ AI Bias — When AI Is Unfair</h2>
+    <p>AI is trained on human-generated data — and human data contains biases, stereotypes, and imbalances. As a result, AI can produce outputs that are unfair, stereotyped, or represent some groups better than others.</p>
+    <p>This is not always obvious, which makes it important to think critically about AI output — especially when AI describes people, professions, communities, or cultures.</p>
+
+    <table>
+      <tr><th>Type of bias</th><th>Example in Indian context</th><th>Why it matters</th></tr>
+      <tr><td><strong>Gender bias</strong></td><td>AI consistently generates male names when asked for "a scientist" or "an engineer," and female names for "a nurse" or "a teacher"</td><td>Reinforces harmful stereotypes about who belongs in what profession</td></tr>
+      <tr><td><strong>Urban bias</strong></td><td>AI examples about "Indian life" often feature cities, ignoring that most Indians live in rural areas</td><td>Misrepresents the majority of Indian experience</td></tr>
+      <tr><td><strong>Language bias</strong></td><td>AI performs much better in English than in Telugu, Hindi, or other Indian languages — more training data exists in English</td><td>AI may give worse answers for Indian-language queries</td></tr>
+      <tr><td><strong>Western-centric bias</strong></td><td>AI may give better historical coverage of European events than of South Asian events — more English-language content exists about the West</td><td>Can lead to a distorted view of world history and knowledge</td></tr>
+      <tr><td><strong>Recency bias</strong></td><td>Events that happened frequently online are better represented in AI training data than older or less-documented events</td><td>AI may have gaps in knowledge about important topics that were less documented</td></tr>
+    </table>
+
+    <div class="callout purple">
+      <strong>What to do:</strong> When AI gives you information about people, communities, professions, or cultures — ask yourself: "Who might be missing from this picture?" If the answer concerns you, search for sources that represent a broader range of perspectives. AI is not the only source of knowledge.
+    </div>
+  </div>
+
+  <!-- Section 6 -->
+  <div class="section-card">
+    <div class="sc-eyebrow">Section 6 of 8</div>
+    <h2>📅 AI Knowledge Cutoffs — Why AI Doesn't Know "Now"</h2>
+    <p>Every AI language model has a <strong>knowledge cutoff</strong> — a date beyond which it has no information. It is trained on data collected up to that date, and then it stops learning automatically. The world keeps changing; AI's knowledge does not update in real time.</p>
+
+    <div class="callout red">
+      <strong>Never ask AI for current information without checking the date:</strong> Current news, recent match results, new government policies, latest exam dates, new scientific discoveries, current prices, recent court judgments — these could all be outdated or completely unknown to AI.
+    </div>
+
+    <table>
+      <tr><th>Question type</th><th>AI reliability</th><th>Better source</th></tr>
+      <tr><td>"Who is the current Chief Minister of Telangana?"</td><td class="trust-low">⚠️ May be outdated</td><td>Official state government website or a current news site</td></tr>
+      <tr><td>"What are the CBSE Class 6 maths topics this year?"</td><td class="trust-low">⚠️ May be outdated</td><td>CBSE official website or your current textbook</td></tr>
+      <tr><td>"Who won the 2025 IPL?"</td><td class="trust-low">⚠️ May not know</td><td>Any sports news website</td></tr>
+      <tr><td>"Explain the water cycle"</td><td class="trust-high">✅ Reliable</td><td>AI is fine for stable scientific concepts</td></tr>
+      <tr><td>"What does democracy mean?"</td><td class="trust-high">✅ Reliable</td><td>AI is fine for definitions of established concepts</td></tr>
+      <tr><td>"What caused the 2008 financial crisis?"</td><td class="trust-med">🔶 Check key facts</td><td>AI is mostly reliable for well-documented past events but verify statistics and dates</td></tr>
+    </table>
+
+    <div class="callout sky">
+      <strong>Tip:</strong> You can ask AI directly: "What is your knowledge cutoff date?" A well-designed AI will tell you. If a topic involves anything that may have changed in the last year or two, always verify with a current source.
+    </div>
+  </div>
+
+  <!-- Section 7 -->
+  <div class="section-card">
+    <div class="sc-eyebrow">Section 7 of 8</div>
+    <h2>🔍 How to Fact-Check AI Output — 5 Steps</h2>
+    <p>Divya (Aryan's sister, the journalism student) taught him the same fact-checking process journalists use. It works just as well for school students checking AI output.</p>
+
+    <div class="fc-steps">
+      <div class="fc-step">
+        <div class="fcs-num">1</div>
+        <div class="fcs-body">
+          <div class="fcs-title">Identify the checkable claims</div>
+          <div class="fcs-desc">Read the AI output and underline every specific fact — dates, names, numbers, statistics, quotes, locations. These are the things you can verify. Opinions and general descriptions are harder to check, but specific facts can be confirmed or denied.</div>
+        </div>
+      </div>
+      <div class="fc-step">
+        <div class="fcs-num">2</div>
+        <div class="fcs-body">
+          <div class="fcs-title">Check your primary source first</div>
+          <div class="fcs-desc">For school work, your NCERT or state board textbook is the primary source. If AI says something different from your textbook, your textbook is almost certainly right for exam purposes. For general knowledge, official websites, encyclopedias, or reputable news sites are primary sources.</div>
+        </div>
+      </div>
+      <div class="fc-step">
+        <div class="fcs-num">3</div>
+        <div class="fcs-body">
+          <div class="fcs-title">Find at least two independent sources</div>
+          <div class="fcs-desc">If your textbook doesn't cover the topic, find two independent reliable sources that confirm the same fact. "Independent" means they did their own research — not two websites copying from each other. Reliable sources include: government websites (.gov.in), established newspapers (The Hindu, Times of India), encyclopedias (Britannica), and official educational bodies (NCERT, ISRO, etc.).</div>
+        </div>
+      </div>
+      <div class="fc-step">
+        <div class="fcs-num">4</div>
+        <div class="fcs-body">
+          <div class="fcs-title">Be suspicious of very specific numbers</div>
+          <div class="fcs-desc">If AI gives you a very specific statistic — "67.3% of Indian farmers…" or "₹2.4 lakh crore was spent on…" — be extra careful. AI frequently fabricates precise numbers. Ask: "Does AI tell me where this number comes from?" If not, find the original source before using it.</div>
+        </div>
+      </div>
+      <div class="fc-step">
+        <div class="fcs-num">5</div>
+        <div class="fcs-body">
+          <div class="fcs-title">Use Indian fact-checking resources</div>
+          <div class="fcs-desc">For news-related claims: <strong>Boom Live</strong> (boomlive.in), <strong>Alt News</strong> (altnews.in), and <strong>The Quint WebQoof</strong> are dedicated Indian fact-checking platforms. For historical and academic facts: NCERT textbooks, India.gov.in, and the National Archives of India (nationalarchives.nic.in) are reliable official sources.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout green">
+      <strong>Aryan's revision:</strong> After learning this process, Aryan redid his project. He used AI to get a quick overview of the Maurya Empire — then checked every single date and name against his NCERT Class 6 Social Science textbook. Two minutes of checking caught all the errors. His revised project was excellent.
+    </div>
+  </div>
+
+  <!-- Section 8 -->
+  <div class="section-card">
+    <div class="sc-eyebrow">Section 8 of 8</div>
+    <h2>🛡️ Building Critical AI Habits</h2>
+    <p>The goal of this lesson isn't to make you afraid of AI — it's to make you a smarter user. The best AI users are not the ones who trust AI most; they are the ones who know when to trust it, when to check it, and when to look elsewhere.</p>
+
+    <p><strong>Red flags — be extra careful when you see these:</strong></p>
+    <div class="red-flags">
+      <div class="rf-card">
+        <div class="rf-icon">🔢</div>
+        <div class="rf-title">Specific numbers without sources</div>
+        <div class="rf-body">"73.6% of students…" — where did this come from? Verify before using.</div>
+      </div>
+      <div class="rf-card">
+        <div class="rf-icon">📚</div>
+        <div class="rf-title">Named books, reports, or quotes</div>
+        <div class="rf-body">AI frequently invents academic citations. Search for the source directly.</div>
+      </div>
+      <div class="rf-card">
+        <div class="rf-icon">📅</div>
+        <div class="rf-title">Recent or current events</div>
+        <div class="rf-body">Anything that happened recently may be outside AI's knowledge cutoff or wrong.</div>
+      </div>
+      <div class="rf-card">
+        <div class="rf-icon">👤</div>
+        <div class="rf-title">Specific person's statements</div>
+        <div class="rf-body">"Dr. X said…" — AI may fabricate quotes. Find the original speech or article.</div>
+      </div>
+      <div class="rf-card">
+        <div class="rf-icon">🗺️</div>
+        <div class="rf-title">Precise geographic or local facts</div>
+        <div class="rf-body">Local details about specific cities, districts, or villages are often least reliable.</div>
+      </div>
+      <div class="rf-card">
+        <div class="rf-icon">⚖️</div>
+        <div class="rf-title">Legal or health information</div>
+        <div class="rf-body">Laws and medical facts change. Always verify with official or professional sources.</div>
+      </div>
+    </div>
+
+    <p><strong>Good habits to build now:</strong></p>
+    <div class="habits-grid">
+      <div class="hg-card">
+        <div class="hg-icon">📖</div>
+        <div class="hg-title">Textbook first</div>
+        <div class="hg-body">For school subjects, check your textbook before trusting AI. Your textbook is aligned to your exam.</div>
+      </div>
+      <div class="hg-card">
+        <div class="hg-icon">🔍</div>
+        <div class="hg-title">Two-source rule</div>
+        <div class="hg-body">Never use a fact in your work if you only have AI as a source. Find at least one other reliable source.</div>
+      </div>
+      <div class="hg-card">
+        <div class="hg-icon">❓</div>
+        <div class="hg-title">Ask "how do I know this is true?"</div>
+        <div class="hg-body">Develop the habit of asking this question for every important fact — whether from AI, a website, or even a friend.</div>
+      </div>
+      <div class="hg-card">
+        <div class="hg-icon">🗓️</div>
+        <div class="hg-title">Check the date</div>
+        <div class="hg-body">For anything current, ask when the information was last updated. AI may not know things from the past year or two.</div>
+      </div>
+      <div class="hg-card">
+        <div class="hg-icon">💬</div>
+        <div class="hg-title">Tell others when AI helped</div>
+        <div class="hg-body">If you use AI and then verify, tell your teacher. Showing your verification process is a sign of maturity.</div>
+      </div>
+      <div class="hg-card">
+        <div class="hg-icon">🎯</div>
+        <div class="hg-title">Use AI for concepts, check facts</div>
+        <div class="hg-body">AI is reliable for explaining concepts and definitions. Be extra careful with specific names, dates, and numbers.</div>
+      </div>
+    </div>
+
+    <div class="callout slate">
+      <strong>The bigger picture:</strong> The habit of checking facts — whether from AI, social media, TV news, or friends — is one of the most important thinking skills of this century. People who develop this habit early will be better students, better professionals, and better citizens. Start now, with AI. Apply it everywhere.
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h2>🧠 Lesson 10 Quiz — 10 Questions</h2>
+
+    <div class="quiz-q" id="q1">
+      <div class="q-text">1. What is an AI "hallucination"?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="1" data-v="a">A) AI getting confused and giving random, unrelated answers</button>
+        <button class="quiz-opt" data-q="1" data-v="b">B) When AI generates content that sounds confident and fluent but is factually incorrect or invented</button>
+        <button class="quiz-opt" data-q="1" data-v="c">C) AI creating visual images from text</button>
+        <button class="quiz-opt" data-q="1" data-v="d">D) AI freezing when it encounters a question it can't answer</button>
+      </div>
+      <div class="quiz-feedback" id="fb1"></div>
+    </div>
+
+    <div class="quiz-q" id="q2">
+      <div class="q-text">2. Rohan asks AI: "Who is the current Chief Minister of Andhra Pradesh?" AI gives a confident answer. What should Rohan do?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="2" data-v="a">A) Trust it — Chief Ministers don't change often</button>
+        <button class="quiz-opt" data-q="2" data-v="b">B) Trust it — AI always knows current political information</button>
+        <button class="quiz-opt" data-q="2" data-v="c">C) Verify with a current news source or the official Andhra Pradesh government website — AI's information about current officeholders may be outdated</button>
+        <button class="quiz-opt" data-q="2" data-v="d">D) Ask AI the same question again in different words</button>
+      </div>
+      <div class="quiz-feedback" id="fb2"></div>
+    </div>
+
+    <div class="quiz-q" id="q3">
+      <div class="q-text">3. AI gives you the answer to a maths word problem for your homework. What should you do?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="3" data-v="a">A) Trust it completely — AI is a computer and computers are always right with numbers</button>
+        <button class="quiz-opt" data-q="3" data-v="b">B) Verify by solving it yourself or using a calculator — AI language models can and do make arithmetic errors</button>
+        <button class="quiz-opt" data-q="3" data-v="c">C) Ask the same question to two different AI tools and take the most common answer</button>
+        <button class="quiz-opt" data-q="3" data-v="d">D) Never use AI for maths — it is completely useless</button>
+      </div>
+      <div class="quiz-feedback" id="fb3"></div>
+    </div>
+
+    <div class="quiz-q" id="q4">
+      <div class="q-text">4. Why does AI have a "knowledge cutoff"?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="4" data-v="a">A) AI companies intentionally withhold recent information to charge for it</button>
+        <button class="quiz-opt" data-q="4" data-v="b">B) AI gets tired of learning after a while</button>
+        <button class="quiz-opt" data-q="4" data-v="c">C) AI is trained on data collected up to a certain date and does not automatically update when new events happen in the world</button>
+        <button class="quiz-opt" data-q="4" data-v="d">D) AI only needs to know information up to a certain date to be useful</button>
+      </div>
+      <div class="quiz-feedback" id="fb4"></div>
+    </div>
+
+    <div class="quiz-q" id="q5">
+      <div class="q-text">5. What is the BEST way to fact-check an important fact that AI gave you?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="5" data-v="a">A) Ask the same AI the same question again</button>
+        <button class="quiz-opt" data-q="5" data-v="b">B) Ask a different AI tool the same question</button>
+        <button class="quiz-opt" data-q="5" data-v="c">C) Find at least two independent reliable sources — your textbook, a government website, or an established newspaper — that confirm the same fact</button>
+        <button class="quiz-opt" data-q="5" data-v="d">D) Trust it if it sounds detailed and specific — vague answers are the ones to doubt</button>
+      </div>
+      <div class="quiz-feedback" id="fb5"></div>
+    </div>
+
+    <div class="quiz-q" id="q6">
+      <div class="q-text">6. AI tells you: "According to a 2022 study by the Indian Education Research Institute, 71.4% of Class 6 students struggle with fractions." You want to use this in your school essay. What should you do?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="6" data-v="a">A) Use it — AI wouldn't make up a specific percentage</button>
+        <button class="quiz-opt" data-q="6" data-v="b">B) Remove all statistics from your essay since AI might be wrong</button>
+        <button class="quiz-opt" data-q="6" data-v="c">C) Search for the original study before using it — AI frequently fabricates specific statistics and sources</button>
+        <button class="quiz-opt" data-q="6" data-v="d">D) Change the percentage slightly so it doesn't seem copied</button>
+      </div>
+      <div class="quiz-feedback" id="fb6"></div>
+    </div>
+
+    <div class="quiz-q" id="q7">
+      <div class="q-text">7. What does "AI bias" mean when it comes to AI outputs?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="7" data-v="a">A) AI is programmed by companies to favour certain political parties</button>
+        <button class="quiz-opt" data-q="7" data-v="b">B) AI outputs can reflect stereotypes, gaps, or imbalances present in the data it was trained on — without the AI or user necessarily realising it</button>
+        <button class="quiz-opt" data-q="7" data-v="c">C) AI deliberately gives different answers to different users based on their location</button>
+        <button class="quiz-opt" data-q="7" data-v="d">D) AI always gives better answers to people who use it more</button>
+      </div>
+      <div class="quiz-feedback" id="fb7"></div>
+    </div>
+
+    <div class="quiz-q" id="q8">
+      <div class="q-text">8. For which of these questions is AI MOST likely to give a reliable answer?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="8" data-v="a">A) "Who won the most recent Indian state election?"</button>
+        <button class="quiz-opt" data-q="8" data-v="b">B) "What is the current price of onions in Delhi?"</button>
+        <button class="quiz-opt" data-q="8" data-v="c">C) "Explain what photosynthesis is and why it is important for life on Earth"</button>
+        <button class="quiz-opt" data-q="8" data-v="d">D) "What will be the CBSE Class 6 Science syllabus next year?"</button>
+      </div>
+      <div class="quiz-feedback" id="fb8"></div>
+    </div>
+
+    <div class="quiz-q" id="q9">
+      <div class="q-text">9. Priya asks AI about Chandragupta Maurya and AI confidently states that his advisor was "Amitraghat." Priya cannot find this name in any textbook or reliable website. What should she conclude?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="9" data-v="a">A) The textbooks are wrong and AI found a rare historical fact</button>
+        <button class="quiz-opt" data-q="9" data-v="b">B) She should search more — it must be in some obscure book</button>
+        <button class="quiz-opt" data-q="9" data-v="c">C) AI likely hallucinated this name — a fact that cannot be verified in any reliable source should not be used</button>
+        <button class="quiz-opt" data-q="9" data-v="d">D) She should ask AI where it found this information and trust the answer</button>
+      </div>
+      <div class="quiz-feedback" id="fb9"></div>
+    </div>
+
+    <div class="quiz-q" id="q10">
+      <div class="q-text">10. What is the BEST overall approach when using AI for school research?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="10" data-v="a">A) Never use AI for school work — it is too unreliable</button>
+        <button class="quiz-opt" data-q="10" data-v="b">B) Use AI for everything and trust all its answers</button>
+        <button class="quiz-opt" data-q="10" data-v="c">C) Use AI as a starting point to understand topics and generate ideas — then verify key facts against reliable sources before using them in your work</button>
+        <button class="quiz-opt" data-q="10" data-v="d">D) Only use AI for maths since it is more accurate there</button>
+      </div>
+      <div class="quiz-feedback" id="fb10"></div>
+    </div>
+
+    <button class="quiz-submit" id="quizSubmit">Submit Answers</button>
+    <div class="quiz-score-box" id="scoreBox">
+      <div class="qs-num" id="scoreNum">0/10</div>
+      <div class="qs-label">Your Score</div>
+      <div class="qs-msg" id="scoreMsg"></div>
+    </div>
+  </div>
+
+  <!-- Worksheet -->
+  <div class="worksheet-section">
+    <h2>📝 Worksheet — AI Fact-Check Challenge</h2>
+    <p>Choose any topic from your current school curriculum. Ask AI 5 specific factual questions about it. Then check each answer against your textbook or a reliable website. Record your findings below.</p>
+    <p><strong>Topic I chose:</strong> _______________________________ &nbsp;&nbsp; <strong>Subject:</strong> _______________________</p>
+
+    <table class="ws-table">
+      <tr>
+        <th>#</th>
+        <th>Question I asked AI</th>
+        <th>What AI said</th>
+        <th>What I verified in my source</th>
+        <th>Correct / Wrong / Couldn't verify</th>
+      </tr>
+      <tr><td>1</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr><td>2</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr><td>3</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr><td>4</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr><td>5</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    </table>
+
+    <p><strong>My score: AI was correct ___ / 5 times.</strong></p>
+    <p><strong>My reflection:</strong> What surprised me about AI's accuracy? What will I do differently when I use AI for school work next time?</p>
+    <p style="height:60px;border:1px dashed #bae6fd;border-radius:8px;padding:.5rem;">&nbsp;</p>
+    <p class="ws-download-note">Do this challenge every month with a different subject. Track whether AI accuracy varies by subject — you may find that AI is more reliable for some topics than others.</p>
+  </div>
+
+  <!-- Parent Note -->
+  <div class="parent-note">
+    <div class="pn-header">👨‍👩‍👧 Note for Parents and Teachers</div>
+    <p>This lesson teaches Class 6 students one of the most critical AI literacy skills: understanding that AI can be wrong — and learning how to check. The lesson covers AI hallucinations, types of AI errors, the knowledge cutoff problem, AI bias, and a practical 5-step fact-checking process.</p>
+    <p>What your child learned today:</p>
+    <ul>
+      <li>What AI hallucinations are — why AI invents plausible-sounding but false information</li>
+      <li>The six types of AI mistakes: factual errors, maths mistakes, stale information, bias, hallucinated sources, and context confusion</li>
+      <li>Why AI language models can fail at maths — and why calculators are still needed</li>
+      <li>How AI bias reflects imbalances in training data — gender, language, geographic, and cultural bias</li>
+      <li>Why AI has a knowledge cutoff and which question types are safe vs risky</li>
+      <li>The 5-step fact-checking process: identify claims → check primary source → find two independent sources → be suspicious of specific numbers → use Indian fact-checking resources</li>
+      <li>Red flags in AI output and critical AI habits to build</li>
+    </ul>
+    <p><strong>How to support at home:</strong></p>
+    <ul>
+      <li>Ask your child to show you the AI Fact-Check Challenge worksheet and explain what they found</li>
+      <li>When your child says "AI said…" — ask them: "Did you check?" This single question builds the most important habit</li>
+      <li>Model fact-checking yourself: when you read something surprising in WhatsApp or social media, say out loud "let me check this before I forward it"</li>
+    </ul>
+    <p><strong>For teachers:</strong> The AI Fact-Check Challenge is an excellent formative assessment — students demonstrate both subject knowledge and critical thinking by verifying AI output against their curriculum. Consider making it a regular monthly activity. It builds research skills alongside AI literacy.</p>
+  </div>
+
+</div><!-- end content-wrap -->
+
+<nav class="bottom-nav">
+  <a href="lesson-09.html">← Lesson 9: AI and Creativity</a>
+  <a class="next-btn" href="lesson-11.html">Lesson 11: AI Careers in India →</a>
+</nav>
+
+<footer>
+  <span>© 2026 Mitra AI Life Education. Class 6 · Lesson 10 · Free</span>
+  <div class="fl">
+    <a href="../../../site/privacy.html">Privacy</a>
+    <a href="../../../site/payment-policy.html">Policies</a>
+    <a href="../../../site/contact.html">Contact</a>
+  </div>
+</footer>
+
+<script>
+const correct = {"1":"b","2":"c","3":"b","4":"c","5":"c","6":"c","7":"b","8":"c","9":"c","10":"c"};
+const feedback = {
+  "1":{"b":"Correct! A hallucination is when AI generates content that sounds fluent and confident but is factually wrong or invented — like the non-existent minister in Aryan's history project.","_":"Not quite. An AI hallucination is when AI produces confident, well-written content that is factually incorrect or completely made up — without any warning that it might be wrong."},
+  "2":{"c":"Correct! Current political information — who holds which position right now — is exactly the type of content AI may have outdated or incorrect. Always verify from a current official source.","_":"Not quite. AI's knowledge has a cutoff date and political positions change. For current officeholders, always check an official government website or current news source."},
+  "3":{"b":"Correct! AI language models were designed for text generation, not calculation. They can and do make arithmetic errors. Always verify maths answers yourself.","_":"Not quite. AI language models are text prediction systems, not calculators. They can make arithmetic errors — always verify maths by solving it yourself or using a calculator."},
+  "4":{"c":"Correct! AI is trained on data up to a certain date. After that point, the world keeps changing but AI's knowledge does not update automatically.","_":"Not quite. AI has a knowledge cutoff because it is trained on data collected up to a specific date. Events that happened after that date are unknown to the AI."},
+  "5":{"c":"Correct! Two independent reliable sources — textbook, government website, established newspaper — is the standard for fact-checking. Asking the same or a different AI just repeats the same potential error.","_":"Not quite. The best fact-check uses independent, authoritative sources outside AI — your textbook, official websites, or established newspapers. Asking AI again just re-checks the same flawed source."},
+  "6":{"c":"Correct! AI very commonly fabricates specific statistics and invents institutional sources. Always search for the original study before using any AI-provided statistic in your work.","_":"Not quite. AI frequently invents precise-sounding statistics and fabricates research sources. Always find and verify the original study before using any specific figure AI provides."},
+  "7":{"b":"Correct! AI bias means AI outputs can reflect stereotypes, gaps, and imbalances from its training data — gender bias, geographic bias, language bias, and more — without the AI realising it.","_":"Not quite. AI bias refers to patterns, stereotypes, or imbalances in AI outputs that come from biases in its training data. It is not deliberate programming — it emerges from the data."},
+  "8":{"c":"Correct! Photosynthesis is a stable, well-established scientific concept with extensive accurate documentation in AI training data. AI is much more reliable for established concepts than for current events or prices.","_":"Not quite. Photosynthesis is a stable, well-documented scientific concept — AI is reliable for these. Current elections, prices, and future syllabi are all prone to being outdated or unknown to AI."},
+  "9":{"c":"Correct! When a specific fact from AI cannot be verified in any reliable source — especially something as checkable as a historical figure's name — AI has almost certainly hallucinated it.","_":"Not quite. If a specific fact from AI cannot be found in any reliable source (textbook, encyclopedia, official history), this is a strong signal that AI hallucinated the information. Do not use unverifiable AI facts."},
+  "10":{"c":"Correct! AI is a powerful starting point — for understanding topics, generating ideas, and getting a quick overview. But key facts must always be verified against reliable sources before you use them in your work.","_":"Not quite. The best approach is to use AI as a starting point — for concepts, ideas, and overviews — and then verify specific facts against reliable sources. Neither avoiding AI completely nor trusting it blindly is optimal."}
+};
+
+let answered = {};
+document.querySelectorAll('.quiz-opt').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    const q=this.dataset.q, v=this.dataset.v;
+    if(answered[q]) return;
+    answered[q]=v;
+    document.querySelectorAll(`[data-q="${q}"]`).forEach(o=>{
+      o.disabled=true;
+      if(o.dataset.v===correct[q]) o.classList.add('correct');
+      else if(o.dataset.v===v) o.classList.add('wrong');
+    });
+    const fb=document.getElementById(`fb${q}`);
+    const isOk=(v===correct[q]);
+    fb.textContent=isOk?(feedback[q][v]||feedback[q]['_']):(feedback[q]['_']);
+    fb.className='quiz-feedback show '+(isOk?'ok':'no');
+  });
+});
+
+document.getElementById('quizSubmit').addEventListener('click',function(){
+  let score=0;
+  for(let q=1;q<=10;q++){if(answered[q]===correct[q]) score++;}
+  document.getElementById('scoreNum').textContent=score+'/10';
+  let msg='';
+  if(score===10) msg='Perfect! You are a critical AI thinker — you know exactly when and how to check AI output.';
+  else if(score>=8) msg='Excellent! Strong understanding of AI limitations and fact-checking.';
+  else if(score>=6) msg='Good work! Review sections on hallucinations and the 5-step fact-check process.';
+  else if(score>=4) msg='Keep going! Re-read sections 1, 2, and 7 — these cover the core skills of this lesson.';
+  else msg='Take your time with this lesson — sections 1 through 3 are the foundation. Understanding why AI gets things wrong is as important as knowing how to use AI.';
+  document.getElementById('scoreMsg').textContent=msg;
+  document.getElementById('scoreBox').classList.add('show');
+  this.disabled=true;
+  gtag('event','quiz_complete',{event_category:'class6',event_label:'class06_lesson10_quiz',value:score});
+});
+</script>
+</body>
+</html>

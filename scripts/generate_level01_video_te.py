@@ -15,6 +15,7 @@ Run: .venv/bin/python scripts/generate_level01_video_te.py
 """
 
 import os
+import re
 import sys
 import time
 import urllib.request
@@ -148,7 +149,10 @@ for i, (img, text, _) in enumerate(SCENES, start=1):
         print(f"  [SKIP] Scene {i} audio already exists")
     else:
         print(f"  [{i}/{len(SCENES)}] TTS: {text[:50]}...")
-        synthesis_input = gtts.SynthesisInput(text=text)
+        # SSML fix: pronounce AI as individual letters (Ay + Eye)
+        _ssml = text.replace('ఏఐ', '<say-as interpret-as="characters">AI</say-as>')
+        _ssml = re.sub(r'(?<![a-zA-Z])AI(?![a-zA-Z])', '<say-as interpret-as="characters">AI</say-as>', _ssml)
+        synthesis_input = gtts.SynthesisInput(ssml=f'<speak>{_ssml}</speak>')
         voice_params = gtts.VoiceSelectionParams(
             language_code=GTTS_LANGUAGE,
             name=GTTS_VOICE,

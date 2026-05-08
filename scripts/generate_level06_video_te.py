@@ -5,6 +5,7 @@ Run: .venv/bin/python scripts/generate_level06_video_te.py
 """
 
 import os, sys, time, hashlib
+import re
 from pathlib import Path
 
 env_path = Path(__file__).parent.parent / ".env"
@@ -118,7 +119,13 @@ for i, (img, text, _) in enumerate(SCENES, start=1):
     else:
         print(f"  [{i}/{len(SCENES)}] TTS: {text[:50]}...")
         response = google_tts_client.synthesize_speech(
-            input=gtts.SynthesisInput(text=text),
+            input=gtts.SynthesisInput(ssml=(
+                '<speak>' +
+                re.sub(r'(?<![a-zA-Z])AI(?![a-zA-Z])',
+                    '<say-as interpret-as="characters">AI</say-as>',
+                    text.replace('ఏఐ', '<say-as interpret-as="characters">AI</say-as>')
+                ) + '</speak>'
+            )),
             voice=gtts.VoiceSelectionParams(language_code=GTTS_LANGUAGE, name=GTTS_VOICE),
             audio_config=gtts.AudioConfig(audio_encoding=gtts.AudioEncoding.MP3, speaking_rate=GTTS_SPEED),
         )

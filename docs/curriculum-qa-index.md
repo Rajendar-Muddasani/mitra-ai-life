@@ -770,4 +770,39 @@ Hub page: `content/students/class-07/class-07.html`
 
 ---
 
-*Last updated: 8 May 2026 · Class 6 complete (12 lessons) · Class 7 Lessons 1–10 live · L11–L12 in progress.*
+---
+
+### Lesson 11 — AI Safety for Teenagers
+
+**File:** `content/students/class-07/lesson-11.html`  
+**Duration:** 40–50 min · 8 sections · Free  
+**Story character:** Ananya (13yo, Bengaluru) — shared personal details (school, area, daily routine) with an unofficial chatbot; mother spots the risk
+
+**Section topics:**
+1. Why AI safety matters for teenagers — 4 key areas: privacy, scams, digital footprint, reporting
+2. What data AI tools collect and why it matters
+3. Share / Never Share table + the Ananya Test
+4. Your digital footprint: active/passive, 10-year rule, 4 management steps
+5. Phishing and scam patterns for Indian teenagers: fake scholarships, unofficial chatbots, social engineering, gaming scams, AI voice cloning + 3-second scam pause
+6. How to evaluate AI tools for safety — green flags and warning signs
+7. What to do when something feels wrong — trusted adults + Indian resources (cybercrime.gov.in, 1098, CyberDost)
+8. AI Safety Quick Reference summary table
+
+**Quiz (10 questions) — answers:**
+
+| Q | Question | Correct |
+|---|----------|---------|
+| 1 | Ananya's key mistake | c |
+| 2 | Safe to type into AI | c |
+| 3 | What is a digital footprint? | c |
+| 4 | Scholarship scam message response | c |
+| 5 | AI chatbot asking for schedule/route | c |
+| 6 | The Ananya Test definition | b |
+| 7 | Sign a tool is likely safer | c |
+| 8 | AI voice cloning definition and risk | b |
+| 9 | Best approach when something feels wrong | c |
+| 10 | Indian government resource for cybercrime | b |
+
+---
+
+*Last updated: 8 May 2026 · Class 6 complete (12 lessons) · Class 7 Lessons 1–11 live · L12 in progress.*

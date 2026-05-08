@@ -15,7 +15,7 @@ Target age group: 10–17 · School students · India · English · CBSE/SSC com
 ## Class 6 — AI Literacy for Beginners (Age 10–11)
 
 Theme colour: Sky blue `#0ea5e9`  
-Full year: 12 lessons · Lessons 1–8 Live · Lessons 9–12 Coming Soon  
+Full year: 12 lessons · Lessons 1–9 Live · Lessons 10–12 Coming Soon  
 Hub page: `content/students/class-06/class-06.html`
 
 ---
@@ -285,12 +285,42 @@ Hub page: `content/students/class-06/class-06.html`
 
 ---
 
-### Lessons 9–12 — Coming Soon
+### Lesson 9 — AI and Creativity
+
+**File:** `content/students/class-06/lesson-09.html`  
+**Duration:** 60–90 min · 8 sections · Free
+
+**Section topics:**
+1. Can Machines Be Creative? — AI content generation vs human creativity, co-creation model
+2. AI for Writing and Storytelling — story prompts, character building, getting unstuck
+3. AI for Poetry and Song Lyrics — haiku, Indian folk song styles, acrostics
+4. AI for Art and Visual Ideas — text-to-image, 5-element prompt formula
+5. AI for Comic Strips and Scripts — panel scripting, dialogue, scene descriptions
+6. AI for Music and Sound Ideas — song structure, Indian classical/folk context, lyric exploration
+7. AI as Your Creative Collaborator — 6-step process, yes-and technique, the "your voice" test
+8. Creativity Rules and Copyright — who owns AI content, Indian copyright law, school ethics
+
+**Quiz Q&A:**
+
+| Q# | Question (short) | A | B | C | D | ✓ |
+|----|-----------------|---|---|---|---|---|
+| 1 | Best description of AI creativity? | AI imagines from its own experiences | AI copies and slightly changes existing stories | **AI combines patterns from training data — no personal experience or emotion** | AI is equally creative to humans | **c** |
+| 2 | Kavya wants story ideas — best prompt? | "Write me a story" | **Specific prompt with age, city, theme, format, structure requirement** | "What stories do children like?" | "Story competition" | **b** |
+| 3 | Riya submits full AI-written poem as her own — this is? | Fine — tools are available to everyone | **Dishonest — presenting AI's work as her own original creation** | Acceptable because AI generated it fast | Allowed if she changes a few words | **b** |
+| 4 | What does "AI as creative collaborator" mean? | AI and student each write half | AI does all work, student approves | **AI generates options; student decides, develops, creates in own voice** | They take turns writing alternate sentences | **c** |
+| 5 | Best use of AI for a school art project (must draw yourself)? | Use AI to generate the final artwork | **Write detailed image prompt, use as reference, create art yourself** | Ask AI to describe art and copy that | Never use AI for art | **b** |
+| 6 | What is text-to-image AI? | AI that reads text aloud | **AI that generates a visual image from a written description** | AI that converts handwriting to text | AI that searches images matching words | **b** |
+| 7 | Akhil performs AI-written song, says "I wrote this" — this is? | Fine — performing is the creative act | **Dishonest — should acknowledge AI or rewrite lyrics himself** | Acceptable because no one will know | Allowed because AI tools are public | **b** |
+| 8 | Who owns copyright for purely AI-generated content under Indian law? | The AI company | The student who typed the prompt | **Legally unclear — Indian copyright requires human authorship; AI-only work is uncertain** | Nobody — automatic public domain | **c** |
+| 9 | Best process to write a short story using AI? | Ask AI to write the full story | **Brainstorm with AI, choose idea from own experience, write in own words, use AI for feedback** | Copy AI's story and add your name | Ask AI to write 10 versions and pick best | **b** |
+| 10 | What makes human creativity different from AI? | Humans are slower so their work is more valuable | **Human creativity from personal experience, emotion, culture — AI recombines training patterns** | Humans can only write in one language | No real difference | **b** |
+
+---
+
+### Lessons 10–12 — Coming Soon
 
 | Lesson | Title | Status |
 |--------|-------|--------|
-| 9 | AI and Creativity | Coming Soon |
-| 9 | AI and Creativity | Coming Soon |
 | 10 | When AI Gets It Wrong | Coming Soon |
 | 11 | AI Careers in India | Coming Soon |
 | 12 | Year Discovery Journal | Coming Soon |
@@ -310,4 +340,4 @@ Hub page: `content/students/class-06/class-06.html`
 
 ---
 
-*Last updated: 08 May 2026 · Lessons 1–8 live · This document grows with each new lesson.*
+*Last updated: 09 May 2026 · Lessons 1–9 live · This document grows with each new lesson.*

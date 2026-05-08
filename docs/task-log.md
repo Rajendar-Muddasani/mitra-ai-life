@@ -121,3 +121,5 @@ _Updated 08 May 2026 — items P1–P5, P7 DONE. Items below are active._
 | 91 | Jun 2025 | — | L2–L10 Telugu video sections embedded on all TE lesson pages (S3 URLs) | scripts/batch_embed_te_videos.py |
 | 92 | Jun 2025 | — | Lang switchers updated on EN track pages: daily-life, spoken-english, small-business, teachers → now point to TE pages | site/ |
 | 93 | Jun 2025 | — | accounts.md created (local only, gitignored) — full service inventory | accounts.md |
+| 94 | 08 May 2026 | 15:00 | Telugu TTS scripts updated to SSML — AI pronunciation fixed (Ay + Eye) across all 10 levels | Patch script: scripts/patch_te_scripts_ai_ssml.py; `<say-as interpret-as="characters">AI</say-as>` replaces plain text in all L1–L10 scripts |
+| 95 | 08 May 2026 | 15:18 | All 10 Telugu intro videos regenerated with SSML-fixed audio and re-uploaded to S3 | L1–L10 complete; commit 7d43212; S3: s3://mitra-ai-life-assets/videos/level-NN-intro-te.mp4 |

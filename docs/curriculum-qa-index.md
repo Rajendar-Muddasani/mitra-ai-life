@@ -417,7 +417,7 @@ Hub page: `content/students/class-06/class-06.html`
 
 | Class | Target Age | Status |
 |-------|-----------|--------|
-| Class 7 | 11–12 | Hub live · Lessons 1–2 live · L3–L12 in progress |
+| Class 7 | 11–12 | Hub live · Lessons 1–3 live · L4–L12 in progress |
 | Class 8 | 12–13 | Planned |
 | Class 9 | 13–14 | Planned |
 | Class 10 | 14–15 | Planned |
@@ -492,4 +492,37 @@ Hub page: `content/students/class-07/class-07.html`
 
 ---
 
-*Last updated: 11 May 2026 · Class 6 complete (12 lessons) · Class 7 Lessons 1–2 live.*
+### Lesson 3 — Build Your Own Revision Kit
+
+**File:** `content/students/class-07/lesson-03.html`  
+**Duration:** 45–60 min · 8 sections · Free  
+**Story character:** Arjun (12yo, Warangal) — night before Science exam
+
+**Section topics:**
+1. What goes into a revision kit (5 parts: summary, key terms, flashcards, self-quiz, exam questions)
+2. AI chapter summary + key terms prompts (10-bullet, numbered list)
+3. Flashcard set — prompt format, front/back demo (villi + salivary amylase), how to use
+4. Self-quiz generation — 4 fill-blank, 3 T/F, 2 short-answer, 1 diagram-label + answer key
+5. Exam-style practice questions — 2-mark, 3-mark, 5-mark format
+6. Revision timetable — 7-day prompt with real numbers
+7. Spaced repetition — D1/D2/D5/D10 review schedule; "explain differently" prompt
+8. Revision kit folder system + teach-it-back test
+
+**Quiz (10 questions) — answers:**
+
+| Q | Question | Correct |
+|---|----------|---------|
+| 1 | What are the five parts of a complete revision kit? | b |
+| 2 | Which flashcard prompt gives the most balanced set? | b |
+| 3 | Why is it risky to use an AI summary without checking your textbook? | b |
+| 4 | When should you do your final revision using the kit? | c |
+| 5 | What is spaced repetition? | c |
+| 6 | You score 4/10 on your self-quiz. What do you do next? | c |
+| 7 | Why is writing on paper better than reading on screen? | b |
+| 8 | Which revision timetable prompt will get the most useful result? | c |
+| 9 | What is the teach-it-back test? | c |
+| 10 | Why practise with 2-mark, 3-mark, 5-mark format questions? | b |
+
+---
+
+*Last updated: 11 May 2026 · Class 6 complete (12 lessons) · Class 7 Lessons 1–3 live.*

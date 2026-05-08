@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 3 — Build Your Own Revision Kit | Class 7 | Mitra AI Life</title>
+<meta name="description" content="Learn to make AI-powered flashcards, self-quizzes, chapter summaries, and revision timetables. A hands-on workshop for Class 7 students in India, age 11–12. Free lesson." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-07/lesson-03.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="../../../site/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../../../site/apple-touch-icon.png" />
+<meta name="theme-color" content="#7c3aed" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 3 — Build Your Own Revision Kit | Class 7 | Mitra AI Life" />
+<meta property="og:description" content="Make AI-powered flashcards, self-quizzes, chapter summaries, and revision timetables. Hands-on workshop for Class 7 students in India." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-07/lesson-03.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: #faf5ff; color: #1e1b4b; line-height: 1.65; }
+a { color: #7c3aed; text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { max-width: 100%; height: auto; border-radius: 10px; }
+
+/* ── Nav ── */
+.topnav {
+  background: #0f172a;
+  padding: 0.75rem 1.5rem;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
+}
+.topnav .brand { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800; text-decoration: none; }
+.topnav .brand span { color: #a78bfa; }
+.topnav .nav-links { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.topnav .nav-links a { color: rgba(255,255,255,0.70); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+.topnav .nav-links a:hover { color: #fff; }
+.topnav .nav-links a.active { color: #a78bfa; }
+
+/* ── Lesson header ── */
+.lesson-header {
+  background: linear-gradient(135deg, #3b0764, #5b21b6, #7c3aed);
+  padding: 3rem 1.5rem 3.5rem;
+  text-align: center;
+  color: #fff;
+}
+.lesson-header .lh-eyebrow {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 0.9rem;
+}
+.lesson-header h1 {
+  font-family: 'Baloo 2', cursive; font-size: clamp(1.6rem, 5vw, 2.6rem);
+  font-weight: 800; line-height: 1.2; margin-bottom: 0.8rem;
+}
+.lesson-header .lh-sub {
+  font-size: 1rem; color: rgba(255,255,255,0.82); max-width: 560px; margin: 0 auto 1.4rem;
+}
+.meta-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+.meta-pill {
+  background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 20px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.9);
+}
+
+/* ── Lesson video ── */
+.lesson-video { background: #1e1b4b; padding: 2.5rem 1rem; }
+.lesson-video .sec-label {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; color: #a78bfa; margin-bottom: 0.5rem; text-align: center;
+}
+.lesson-video h2 { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.4rem; text-align: center; margin-bottom: 1.2rem; }
+.video-caption { color: rgba(255,255,255,0.45); font-size: 0.78rem; text-align: center; margin-top: 0.7rem; }
+.video-coming {
+  width: 100%; max-width: 760px; background: #2d2b69; border-radius: 14px; padding: 3.5rem 1rem;
+  display: flex; flex-direction: column; align-items: center; gap: 0.7rem; margin: 0 auto;
+  border: 2px dashed rgba(167,139,250,0.3);
+}
+.video-coming .vc-icon { font-size: 2.5rem; }
+.video-coming p { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+
+/* ── Main content ── */
+.content-wrap { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+/* ── Story panel ── */
+.story-panel {
+  background: linear-gradient(135deg, #faf5ff, #ede9fe);
+  border-left: 5px solid #7c3aed; border-radius: 14px; padding: 1.8rem;
+  margin-bottom: 2rem;
+}
+.story-panel .story-eyebrow { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #7c3aed; margin-bottom: 0.4rem; }
+.story-panel h2 { font-family: 'Baloo 2', cursive; font-size: 1.4rem; color: #3b0764; margin-bottom: 0.75rem; }
+.story-panel p { color: #374151; font-size: 0.93rem; margin-bottom: 0.8rem; }
+.story-panel p:last-child { margin-bottom: 0; }
+.story-highlight {
+  background: #ede9fe; border-radius: 10px; padding: 0.9rem 1rem;
+  font-size: 0.88rem; font-weight: 700; color: #5b21b6; margin-top: 1rem;
+}
+
+/* ── Lesson sections ── */
+.lesson-section {
+  background: #fff; border-radius: 18px; padding: 1.8rem;
+  margin-bottom: 1.5rem; border: 1px solid #ede9fe;
+  box-shadow: 0 4px 18px rgba(124,58,237,0.07);
+}
+.sec-eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #7c3aed; margin-bottom: 0.4rem; }
+.lesson-section h2 { font-family: 'Baloo 2', cursive; font-size: 1.35rem; color: #3b0764; margin-bottom: 0.9rem; }
+.lesson-section h3 { font-size: 1.05rem; color: #5b21b6; margin: 1.2rem 0 0.5rem; font-weight: 800; }
+.lesson-section p { color: #374151; font-size: 0.93rem; margin-bottom: 0.85rem; }
+.lesson-section p:last-child { margin-bottom: 0; }
+.lesson-section ul, .lesson-section ol { color: #374151; font-size: 0.93rem; padding-left: 1.4rem; margin-bottom: 0.85rem; }
+.lesson-section li { margin-bottom: 0.35rem; }
+
+/* ── Callouts ── */
+.callout { border-radius: 12px; padding: 0.9rem 1.1rem; font-size: 0.88rem; margin: 1rem 0; }
+.callout.purple { background: #ede9fe; border-left: 4px solid #7c3aed; color: #3b0764; }
+.callout.amber { background: #fffbeb; border-left: 4px solid #f59e0b; color: #78350f; }
+.callout.green { background: #f0fdf4; border-left: 4px solid #22c55e; color: #14532d; }
+.callout.red { background: #fef2f2; border-left: 4px solid #ef4444; color: #7f1d1d; }
+
+/* ── Prompt cards ── */
+.prompt-card {
+  background: #1e1b4b; border-radius: 14px; padding: 1.1rem 1.2rem; margin: 0.9rem 0;
+}
+.prompt-card .pc-label { font-size: 0.68rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #a78bfa; margin-bottom: 0.5rem; }
+.prompt-card .pc-text { font-family: monospace; font-size: 0.9rem; color: #e9d5ff; line-height: 1.6; white-space: pre-wrap; }
+.prompt-card .pc-why { font-size: 0.78rem; color: rgba(255,255,255,0.55); margin-top: 0.6rem; font-style: italic; }
+
+/* ── Flashcard demo ── */
+.flashcard-demo { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.2rem 0; }
+@media (max-width: 540px) { .flashcard-demo { grid-template-columns: 1fr; } }
+.flashcard {
+  border-radius: 14px; padding: 1.2rem; text-align: center;
+  border: 2px solid #ddd6fe; min-height: 120px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem;
+}
+.flashcard.front { background: #5b21b6; color: #fff; }
+.flashcard.back { background: #faf5ff; color: #3b0764; border-color: #7c3aed; }
+.flashcard .fc-label { font-size: 0.62rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.7; }
+.flashcard .fc-q { font-size: 0.95rem; font-weight: 800; line-height: 1.35; }
+.flashcard.back .fc-a { font-size: 0.88rem; font-weight: 700; color: #5b21b6; }
+
+/* ── Steps timeline ── */
+.steps-list { list-style: none; padding: 0; margin: 1.2rem 0; }
+.steps-list li {
+  display: flex; gap: 1rem; align-items: flex-start;
+  padding: 0.9rem 0; border-bottom: 1px solid #f3f0ff;
+}
+.steps-list li:last-child { border-bottom: none; }
+.step-num {
+  background: #7c3aed; color: #fff; border-radius: 50%;
+  width: 2rem; height: 2rem; min-width: 2rem;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.85rem; margin-top: 0.1rem;
+}
+.step-body { flex: 1; }
+.step-body strong { display: block; color: #3b0764; font-size: 0.93rem; margin-bottom: 0.2rem; }
+.step-body span { color: #4b5563; font-size: 0.87rem; }
+
+/* ── Quiz ── */
+.quiz-section {
+  background: linear-gradient(135deg, #3b0764, #5b21b6);
+  border-radius: 20px; padding: 2rem 1.5rem; margin: 1.5rem 0;
+}
+.quiz-section h2 { font-family: 'Baloo 2', cursive; color: #fff; font-size: 1.35rem; margin-bottom: 0.4rem; text-align: center; }
+.quiz-intro { color: rgba(255,255,255,0.7); font-size: 0.85rem; text-align: center; margin-bottom: 1.5rem; }
+.quiz-q { background: rgba(255,255,255,0.08); border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 1rem; }
+.quiz-q .qtext { font-size: 0.92rem; font-weight: 700; color: #e9d5ff; margin-bottom: 0.7rem; }
+.quiz-opt {
+  display: block; width: 100%; text-align: left;
+  background: rgba(255,255,255,0.10); border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 10px; color: rgba(255,255,255,0.85); font-family: 'Nunito', sans-serif;
+  font-size: 0.84rem; font-weight: 600; padding: 0.55rem 0.9rem; margin-bottom: 0.4rem;
+  cursor: pointer; transition: background 0.15s;
+}
+.quiz-opt:hover:not(:disabled) { background: rgba(255,255,255,0.18); }
+.quiz-opt.correct { background: #14532d; border-color: #22c55e; color: #fff; }
+.quiz-opt.wrong { background: #7f1d1d; border-color: #ef4444; color: #fff; }
+.q-feedback { font-size: 0.8rem; font-weight: 700; margin-top: 0.3rem; }
+.q-feedback.ok { color: #86efac; }
+.q-feedback.bad { color: #fca5a5; }
+#quiz-submit {
+  display: block; margin: 1.2rem auto 0;
+  background: #7c3aed; color: #fff; border: none; border-radius: 12px;
+  font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800;
+  padding: 0.75rem 2.5rem; cursor: pointer;
+}
+#quiz-submit:hover { background: #6d28d9; }
+#quiz-result { text-align: center; margin-top: 1rem; }
+#quiz-result .score { font-family: 'Baloo 2', cursive; font-size: 2.5rem; color: #fff; font-weight: 800; }
+#quiz-result .score-msg { color: rgba(255,255,255,0.8); font-size: 0.92rem; margin-top: 0.4rem; }
+
+/* ── Worksheet ── */
+.worksheet-box {
+  background: #fff; border-radius: 18px; padding: 1.8rem;
+  border: 2px dashed #7c3aed; margin-bottom: 1.5rem;
+}
+.worksheet-box h3 { font-family: 'Baloo 2', cursive; color: #5b21b6; font-size: 1.2rem; margin-bottom: 0.6rem; }
+.ws-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+.ws-table th { background: #5b21b6; color: #fff; padding: 0.55rem 0.7rem; text-align: left; font-weight: 700; }
+.ws-table td { border: 1px solid #ddd6fe; padding: 0.55rem 0.7rem; min-height: 2rem; vertical-align: top; }
+.ws-table tr:nth-child(even) td { background: #faf5ff; }
+
+/* ── Parent note ── */
+.parent-note {
+  background: #fffbeb; border-radius: 18px; padding: 1.8rem;
+  border: 1.5px solid #fde68a; margin-bottom: 1.5rem;
+}
+.parent-note h3 { font-family: 'Baloo 2', cursive; color: #92400e; font-size: 1.15rem; margin-bottom: 0.6rem; }
+.parent-note p { color: #451a03; font-size: 0.88rem; margin-bottom: 0.65rem; }
+.parent-note ul { color: #451a03; font-size: 0.88rem; padding-left: 1.3rem; }
+.parent-note li { margin-bottom: 0.35rem; }
+
+/* ── Bottom nav ── */
+.bottom-nav {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;
+  padding: 1.5rem; border-top: 1.5px solid #ede9fe; margin-top: 1rem;
+}
+.bottom-nav .prev-btn, .bottom-nav .next-btn {
+  font-size: 0.9rem; font-weight: 800; padding: 0.7rem 1.3rem;
+  border-radius: 12px; border: 2px solid #7c3aed; color: #7c3aed; text-decoration: none;
+}
+.bottom-nav .prev-btn:hover, .bottom-nav .next-btn:hover { background: #7c3aed; color: #fff; }
+
+/* ── Footer ── */
+footer {
+  background: #1e1b4b; color: rgba(255,255,255,0.55);
+  padding: 2rem 1.5rem; text-align: center; font-size: 0.82rem;
+}
+footer a { color: rgba(255,255,255,0.6); }
+footer .footer-brand { font-family: 'Baloo 2', cursive; font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 0.5rem; }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .lesson-header h1 { font-size: 1.45rem; }
+  .content-wrap { padding: 1.25rem 1rem 2rem; }
+  .lesson-section { padding: 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="../../../site/students.html" class="active">AI for Students</a>
+    <a href="../../../site/index.html">Home</a>
+    <a href="../../../site/contact.html">Contact</a>
+  </div>
+</nav>
+
+<!-- ── Lesson header ── -->
+<header class="lesson-header">
+  <div class="lh-eyebrow">AI for Students · Class 7 · Age 11–12 · Lesson 3 of 12</div>
+  <h1>Build Your Own Revision Kit 🃏</h1>
+  <p class="lh-sub">Make AI-powered flashcards, self-quizzes, chapter summaries, and a revision timetable — tools you will actually use before exams.</p>
+  <div class="meta-pills">
+    <span class="meta-pill">📘 Class 7 · Lesson 3</span>
+    <span class="meta-pill">🕐 45–60 min</span>
+    <span class="meta-pill">🚫 No coding needed</span>
+    <span class="meta-pill">🆓 Free lesson</span>
+  </div>
+</header>
+<img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-07/lesson-03-hero.jpg" alt="Illustrated scene: Indian student building colourful flashcards at a study desk with a glowing tablet showing AI chat" loading="lazy" onerror="this.style.display='none'" style="width:100%;height:300px;object-fit:cover;object-position:center 40%;display:block;" />
+
+<!-- ── Video section ── -->
+<section class="lesson-video">
+  <div style="width:90%;max-width:760px;margin:0 auto;">
+    <div class="sec-label">Watch first · 2–3 minutes</div>
+    <h2>Class 7 Lesson 3 — Build Your Revision Kit</h2>
+    <div class="video-coming">
+      <div class="vc-icon">🎬</div>
+      <p>Video coming soon — the written lesson is complete and ready to read now.</p>
+    </div>
+    <p class="video-caption">No sign-in needed · English narration · Safe for all school ages</p>
+  </div>
+</section>
+
+<!-- ── Main content ── -->
+<main class="content-wrap">
+
+  <!-- Story -->
+  <div class="story-panel">
+    <div class="story-eyebrow">Story · Arjun's Exam Week</div>
+    <h2>The Night Before the Science Exam 😰</h2>
+    <p>It was Sunday evening. Arjun's Science unit test was on Monday morning — in less than 14 hours. He had read the chapter three times, but every time he closed the book, the facts seemed to disappear from his head.</p>
+    <p>"I know I read it," he told Diya on the phone. "But I can't remember the order of the digestive system. Everything is mixing up."</p>
+    <p>"Did you try making flashcards?" Diya asked. "Not just reading — <em>active</em> revision?"</p>
+    <p>Arjun had heard of flashcards but never actually made them. "That will take hours," he said.</p>
+    <p>"Not with AI," Diya replied. "I'll show you. Open a chat with any AI tool. We can build your entire revision kit in 30 minutes."</p>
+    <p>Arjun scored 23 out of 25 the next morning.</p>
+    <div class="story-highlight">
+      👉 In this lesson, you will learn Diya's exact technique — how to build a complete revision kit using AI in under an hour.
+    </div>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 1 of 8</div>
+    <h2>📋 What Goes Into a Revision Kit?</h2>
+    <p>A revision kit is a set of personalised study tools made from your specific textbook chapter. It is not the same as re-reading. Active revision — where you test yourself, recall facts, and check your own answers — is much more powerful than passive reading.</p>
+
+    <p>A complete revision kit has five parts:</p>
+    <ol>
+      <li><strong>Chapter summary</strong> — the whole chapter in 10 bullet points</li>
+      <li><strong>Key terms list</strong> — important words and their definitions</li>
+      <li><strong>Flashcard set</strong> — question on front, answer on back</li>
+      <li><strong>Self-quiz</strong> — 10 questions to test yourself</li>
+      <li><strong>Exam-style questions</strong> — 2–3 longer questions like your actual paper</li>
+    </ol>
+
+    <div class="callout purple">
+      <strong>Why this works:</strong> When you create revision tools yourself, you are already revising. The act of writing out key terms, reviewing a summary, and answering quiz questions forces your brain to process the information actively — not just scroll past it.
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 2 of 8</div>
+    <h2>📄 Step 1 — AI Chapter Summary</h2>
+    <p>Start every revision session by asking AI for a clear, structured summary of your chapter. This gives you an overview before you go into the details.</p>
+
+    <div class="prompt-card">
+      <div class="pc-label">✅ Chapter Summary Prompt</div>
+      <div class="pc-text">Summarise Chapter 2 — "Nutrition in Animals" from the NCERT Class 7 Science textbook in exactly 10 bullet points. Each point should be one sentence. Use simple language suitable for a Class 7 student in India.</div>
+      <div class="pc-why">Why it works: specifies the exact chapter, asks for exactly 10 bullet points, and sets the reading level clearly.</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="pc-label">✅ Key Terms Prompt</div>
+      <div class="pc-text">List the 8 most important terms from "Nutrition in Animals" (Class 7 NCERT Science Chapter 2). For each term, give a definition in one simple sentence. Format it as a numbered list.</div>
+    </div>
+
+    <div class="callout amber">
+      <strong>Always check:</strong> After AI gives you a summary, open your textbook and quickly confirm the main facts are correct. AI may occasionally miss a section or merge two concepts. Your textbook is the source of truth for your exam.
+    </div>
+
+    <ul>
+      <li>Take what AI gives you and <em>write it in your own notebook</em> — do not just screenshot it</li>
+      <li>Reading and writing helps you remember far better than just reading on a screen</li>
+      <li>Add your own examples next to each point to make it personal and memorable</li>
+    </ul>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 3 of 8</div>
+    <h2>🃏 Step 2 — Make Flashcards with AI</h2>
+    <p>Flashcards are the most powerful revision tool for facts, definitions, and processes. The front of each card is a question; the back is the answer. You shuffle them, test yourself, and repeat the ones you get wrong.</p>
+
+    <div class="prompt-card">
+      <div class="pc-label">✅ Flashcard Set Prompt</div>
+      <div class="pc-text">Create 10 flashcards for "Nutrition in Animals" (Class 7 NCERT Science). Format each card as:
+Front: [question]
+Back: [short answer]
+Make the questions test understanding, not just memorising. Include 2 cards about processes, 4 about key terms, and 4 about facts.</div>
+      <div class="pc-why">Why it works: tells AI the exact format, the number of cards, and the type of questions — so you get a balanced set, not 10 definition questions in a row.</div>
+    </div>
+
+    <p>Here is an example of what good AI-generated flashcards look like:</p>
+    <div class="flashcard-demo">
+      <div class="flashcard front">
+        <div class="fc-label">Front — Question</div>
+        <div class="fc-q">What is the role of villi in the small intestine?</div>
+      </div>
+      <div class="flashcard back">
+        <div class="fc-label">Back — Answer</div>
+        <div class="fc-a">Villi are tiny finger-like projections that increase the surface area of the small intestine, allowing nutrients from digested food to be absorbed into the blood more efficiently.</div>
+      </div>
+    </div>
+    <div class="flashcard-demo">
+      <div class="flashcard front">
+        <div class="fc-label">Front — Question</div>
+        <div class="fc-q">Name the enzyme in saliva and what it digests.</div>
+      </div>
+      <div class="flashcard back">
+        <div class="fc-label">Back — Answer</div>
+        <div class="fc-a">Salivary amylase. It begins the digestion of starch (carbohydrates) in the mouth.</div>
+      </div>
+    </div>
+
+    <h3>How to actually use flashcards:</h3>
+    <ol>
+      <li>Read the question on the front</li>
+      <li>Try to answer from memory without looking</li>
+      <li>Flip and check — mark it ✅ if correct, ❌ if not</li>
+      <li>Go through all cards once, then repeat only the ❌ cards</li>
+      <li>Repeat until you can answer all cards correctly twice in a row</li>
+    </ol>
+
+    <div class="callout green">
+      <strong>Physical flashcards are better than digital:</strong> Writing the question and answer onto actual paper cards takes more time — but that writing process itself is revision. Cut up old notebooks or use index cards.
+    </div>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 4 of 8</div>
+    <h2>❓ Step 3 — Generate a Self-Quiz</h2>
+    <p>A self-quiz is a set of short questions you answer on paper without looking at your notes. When you check your answers afterwards, you instantly know which topics need more revision.</p>
+
+    <div class="prompt-card">
+      <div class="pc-label">✅ Self-Quiz Prompt</div>
+      <div class="pc-text">Create a 10-question self-quiz on "Nutrition in Animals" (Class 7 NCERT Science). Include:
+- 4 fill-in-the-blank questions
+- 3 true or false questions
+- 2 short-answer questions (1–2 sentences)
+- 1 diagram-label question (describe what to label — I will draw it)
+At the end, add an answer key.</div>
+      <div class="pc-why">Why it works: mixing question types is more effective than 10 identical MCQs. The diagram question is also excellent practice for board exams.</div>
+    </div>
+
+    <div class="callout purple">
+      <strong>How to use a self-quiz properly:</strong>
+      <br/>1. Print or copy the questions — do NOT have the answers visible.
+      <br/>2. Set a 10-minute timer and answer from memory.
+      <br/>3. After time is up, check every answer against the key.
+      <br/>4. Topics where you scored less than 50% → read your textbook again, then ask AI to explain that specific section.
+    </div>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 5 of 8</div>
+    <h2>📝 Step 4 — Exam-Style Practice Questions</h2>
+    <p>Most Indian school exams have 2-mark, 3-mark, and 5-mark answer questions. AI can generate these so you can practise writing full answers in the format your teacher expects.</p>
+
+    <div class="prompt-card">
+      <div class="pc-label">✅ Exam Question Prompt</div>
+      <div class="pc-text">Give me exam-style questions for "Nutrition in Animals" (Class 7 NCERT Science), like a CBSE or APSC paper:
+- 2 questions worth 2 marks each (short answers)
+- 1 question worth 3 marks
+- 1 question worth 5 marks (detailed explanation)
+After each question, add a model answer in the typical exam answer style. I will cover the model answers and write my own first.</div>
+    </div>
+
+    <p>After practising, compare your answer to AI's model answer:</p>
+    <ul>
+      <li>Did you cover all the main points?</li>
+      <li>Did you use the correct technical terms?</li>
+      <li>Was your answer the right length for the marks?</li>
+    </ul>
+
+    <div class="callout amber">
+      <strong>Important:</strong> AI model answers may differ slightly from what your specific teacher or board expects. Always read 2–3 solved examples from your textbook or past papers alongside AI-generated model answers.
+    </div>
+  </div>
+
+  <!-- Section 6 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 6 of 8</div>
+    <h2>🗓️ Step 5 — Build a Revision Timetable</h2>
+    <p>Having all the revision tools in the world is useless if you run out of time. AI can help you build a realistic, manageable timetable for your exam preparation period.</p>
+
+    <div class="prompt-card">
+      <div class="pc-label">✅ Revision Timetable Prompt</div>
+      <div class="pc-text">I have 7 days before my Class 7 half-yearly exams. My subjects are: Science (3 chapters), Maths (2 chapters), History (2 chapters), Geography (1 chapter), English (grammar + essay), and Hindi (vocabulary + grammar). I can study for 2 hours each day. Build me a 7-day revision timetable. Include one full rest day. Format it as a simple table.</div>
+      <div class="pc-why">Why it works: gives AI real numbers — days available, study hours, number of chapters — so it creates a usable plan rather than a generic schedule.</div>
+    </div>
+
+    <h3>Make the timetable work:</h3>
+    <ul>
+      <li>Tell AI your actual constraints — how many hours per day, which subjects are harder for you</li>
+      <li>Ask AI to schedule harder subjects in the morning when your mind is fresh</li>
+      <li>Always include buffer time — exams take longer than expected</li>
+      <li>Stick the timetable on your wall or desk where you can see it every day</li>
+    </ul>
+
+    <div class="callout green">
+      <strong>Arjun's key lesson:</strong> The timetable only works if you actually follow it. Tell a parent or friend about your plan — when someone else knows your schedule, you are much more likely to stick to it.
+    </div>
+  </div>
+
+  <!-- Section 7 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 7 of 8</div>
+    <h2>🔁 The Spaced Repetition Method</h2>
+    <p>Scientists have discovered that the best way to remember something is to review it <em>just as you are about to forget it</em> — not immediately after you learn it. This is called <strong>spaced repetition</strong>.</p>
+
+    <p>Here is a simple version you can use with your AI-generated flashcards:</p>
+
+    <ul class="steps-list">
+      <li>
+        <div class="step-num">D1</div>
+        <div class="step-body">
+          <strong>Day of studying</strong>
+          <span>Go through all flashcards. Mark each one ✅ or ❌.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">D2</div>
+        <div class="step-body">
+          <strong>Next day</strong>
+          <span>Review only the ❌ cards from Day 1. Update marks.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">D5</div>
+        <div class="step-body">
+          <strong>3 days later</strong>
+          <span>Go through all cards again. This is the key review — your brain has started to forget and reviewing now locks it in.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">D10</div>
+        <div class="step-body">
+          <strong>A week later</strong>
+          <span>Final full review. Any card you still get wrong needs more attention — ask AI to explain that concept in a different way.</span>
+        </div>
+      </li>
+    </ul>
+
+    <div class="prompt-card">
+      <div class="pc-label">✅ Explain Differently Prompt</div>
+      <div class="pc-text">I keep forgetting how villi work in the small intestine. Can you explain it to me in a completely different way — maybe using an analogy to something from Indian daily life? Something like a market, a sponge, or a strainer.</div>
+      <div class="pc-why">If one explanation isn't sticking, a different analogy often helps. This prompt asks for a fresh angle.</div>
+    </div>
+  </div>
+
+  <!-- Section 8 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 8 of 8</div>
+    <h2>🗂️ Organise Your Revision Kit</h2>
+    <p>Building tools is only half the job — you also need to organise them so you can find them quickly before an exam. Here is a simple system:</p>
+
+    <div class="callout purple">
+      <strong>The Revision Kit Folder System:</strong>
+      <br/>Use one notebook or folder per subject. Inside each, have four sections:
+      <br/>1. <strong>Summary sheets</strong> — one page per chapter (AI-generated summaries written in your own hand)
+      <br/>2. <strong>Key terms</strong> — vocabulary lists, definitions in your own words
+      <br/>3. <strong>Flashcards</strong> — paper cards clipped together by chapter (not loose!)
+      <br/>4. <strong>Quiz results</strong> — record of each self-quiz: date, score, topics to revise
+    </div>
+
+    <p>One more powerful technique: the <strong>teach-it-back test</strong>.</p>
+    <p>After completing a chapter's revision kit, close everything and explain the chapter out loud to yourself, a family member, or a friend — as if you were teaching them. If you can teach it clearly without notes, you have genuinely understood it. If you get stuck, that tells you exactly which part still needs work.</p>
+
+    <div class="callout green">
+      <strong>Diya's final tip:</strong> "I make my revision kit the <em>week before</em> exams start, not the night before. The night before, I only use the kit I already built. That way I'm calm, and everything is already organised."
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h2>🧠 Quick Quiz — Test Yourself!</h2>
+    <p class="quiz-intro">10 questions · Click your answer · Check your score at the end</p>
+
+    <div class="quiz-q" id="q1">
+      <div class="qtext">1. What are the five parts of a complete revision kit, as taught in this lesson?</div>
+      <button class="quiz-opt" data-q="1" data-val="a">A) Textbook, notebook, YouTube, Wikipedia, and AI chat</button>
+      <button class="quiz-opt" data-q="1" data-val="b">B) Chapter summary, key terms list, flashcard set, self-quiz, and exam-style questions</button>
+      <button class="quiz-opt" data-q="1" data-val="c">C) Mind map, essay, diagram, solved examples, and past papers</button>
+      <button class="quiz-opt" data-q="1" data-val="d">D) Re-reading, highlighting, copying, summarising, and sleeping</button>
+      <div class="q-feedback" id="fb1"></div>
+    </div>
+
+    <div class="quiz-q" id="q2">
+      <div class="qtext">2. Which flashcard prompt will give you the most useful and balanced set of flashcards?</div>
+      <button class="quiz-opt" data-q="2" data-val="a">A) "Make flashcards about Chapter 2"</button>
+      <button class="quiz-opt" data-q="2" data-val="b">B) "Create 10 flashcards. Front: [question], Back: [answer]. Include 2 process cards, 4 term cards, 4 fact cards."</button>
+      <button class="quiz-opt" data-q="2" data-val="c">C) "What are 10 facts from Chapter 2?"</button>
+      <button class="quiz-opt" data-q="2" data-val="d">D) "Give me 10 definitions for Chapter 2"</button>
+      <div class="q-feedback" id="fb2"></div>
+    </div>
+
+    <div class="quiz-q" id="q3">
+      <div class="qtext">3. Arjun receives an AI chapter summary but does not check his textbook. Why is this risky?</div>
+      <button class="quiz-opt" data-q="3" data-val="a">A) The summary will always be too long</button>
+      <button class="quiz-opt" data-q="3" data-val="b">B) AI may miss a section or merge two concepts — the textbook is the accurate source for exams</button>
+      <button class="quiz-opt" data-q="3" data-val="c">C) The AI summary will be in the wrong language</button>
+      <button class="quiz-opt" data-q="3" data-val="d">D) AI summaries are always shorter than the textbook</button>
+      <div class="q-feedback" id="fb3"></div>
+    </div>
+
+    <div class="quiz-q" id="q4">
+      <div class="qtext">4. When should you do your final revision using the kit you built?</div>
+      <button class="quiz-opt" data-q="4" data-val="a">A) The morning of the exam, starting from scratch</button>
+      <button class="quiz-opt" data-q="4" data-val="b">B) Only if you have spare time</button>
+      <button class="quiz-opt" data-q="4" data-val="c">C) The night before — using the kit you already built the week before</button>
+      <button class="quiz-opt" data-q="4" data-val="d">D) After the exam to check what you got wrong</button>
+      <div class="q-feedback" id="fb4"></div>
+    </div>
+
+    <div class="quiz-q" id="q5">
+      <div class="qtext">5. What is spaced repetition?</div>
+      <button class="quiz-opt" data-q="5" data-val="a">A) Reading the same chapter in 3 different textbooks</button>
+      <button class="quiz-opt" data-q="5" data-val="b">B) Spacing out your study sessions evenly across the week</button>
+      <button class="quiz-opt" data-q="5" data-val="c">C) Reviewing information just as you are about to forget it — which locks the memory in more effectively</button>
+      <button class="quiz-opt" data-q="5" data-val="d">D) Taking breaks between reading paragraphs</button>
+      <div class="q-feedback" id="fb5"></div>
+    </div>
+
+    <div class="quiz-q" id="q6">
+      <div class="qtext">6. You score 4/10 on your Science self-quiz. What should you do next?</div>
+      <button class="quiz-opt" data-q="6" data-val="a">A) Ignore it and hope the exam goes better</button>
+      <button class="quiz-opt" data-q="6" data-val="b">B) Ask AI to redo the whole chapter for you</button>
+      <button class="quiz-opt" data-q="6" data-val="c">C) Go back to your textbook, read the low-scoring topics again, then ask AI to explain those specific sections in more detail</button>
+      <button class="quiz-opt" data-q="6" data-val="d">D) Find a different textbook to read</button>
+      <div class="q-feedback" id="fb6"></div>
+    </div>
+
+    <div class="quiz-q" id="q7">
+      <div class="qtext">7. Why is writing revision notes on paper better than just reading them on a screen?</div>
+      <button class="quiz-opt" data-q="7" data-val="a">A) Screens are bad for your health</button>
+      <button class="quiz-opt" data-q="7" data-val="b">B) The act of writing forces your brain to process the information actively, which improves memory</button>
+      <button class="quiz-opt" data-q="7" data-val="c">C) Teachers prefer handwritten notes</button>
+      <button class="quiz-opt" data-q="7" data-val="d">D) Digital screens do not show AI output correctly</button>
+      <div class="q-feedback" id="fb7"></div>
+    </div>
+
+    <div class="quiz-q" id="q8">
+      <div class="qtext">8. Which revision timetable prompt will get the most useful result from AI?</div>
+      <button class="quiz-opt" data-q="8" data-val="a">A) "Make me a study plan"</button>
+      <button class="quiz-opt" data-q="8" data-val="b">B) "I need to study"</button>
+      <button class="quiz-opt" data-q="8" data-val="c">C) "I have 7 days, 2 hours/day, 3 Science chapters, 2 Maths chapters, and a rest day. Build a timetable as a table."</button>
+      <button class="quiz-opt" data-q="8" data-val="d">D) "What is a good study schedule for exams in general?"</button>
+      <div class="q-feedback" id="fb8"></div>
+    </div>
+
+    <div class="quiz-q" id="q9">
+      <div class="qtext">9. What is the "teach-it-back test" described in Section 8?</div>
+      <button class="quiz-opt" data-q="9" data-val="a">A) Teaching AI how to explain a topic better</button>
+      <button class="quiz-opt" data-q="9" data-val="b">B) A test where the teacher asks you to teach the class</button>
+      <button class="quiz-opt" data-q="9" data-val="c">C) Explaining the chapter out loud to yourself or someone else without notes — if you can do this clearly, you have understood it</button>
+      <button class="quiz-opt" data-q="9" data-val="d">D) Recording yourself reading your notes and playing it back</button>
+      <div class="q-feedback" id="fb9"></div>
+    </div>
+
+    <div class="quiz-q" id="q10">
+      <div class="qtext">10. An exam-style practice question prompt asks for 2-mark, 3-mark, and 5-mark questions. Why is this specific format useful?</div>
+      <button class="quiz-opt" data-q="10" data-val="a">A) Because Indian exams always have exactly these three types</button>
+      <button class="quiz-opt" data-q="10" data-val="b">B) Because practising with the actual marks structure helps you know how much to write for each answer in your real exam</button>
+      <button class="quiz-opt" data-q="10" data-val="c">C) Because AI cannot answer any other type of question</button>
+      <button class="quiz-opt" data-q="10" data-val="d">D) Because 5-mark questions are the only ones that matter</button>
+      <div class="q-feedback" id="fb10"></div>
+    </div>
+
+    <button id="quiz-submit">Check My Answers</button>
+    <div id="quiz-result" style="display:none;"></div>
+  </div>
+
+  <!-- Worksheet -->
+  <div class="worksheet-box">
+    <h3>📝 Worksheet — Build One Chapter's Revision Kit</h3>
+    <p style="font-size:0.88rem;margin-bottom:1rem;color:#5b21b6;">Pick one chapter you are currently studying. Use AI to build each of the 5 revision tools. Record your prompts and results below. Copy this table into your notebook.</p>
+    <table class="ws-table">
+      <thead>
+        <tr>
+          <th>Tool</th>
+          <th>Chapter / Subject</th>
+          <th>Prompt you used</th>
+          <th>Quality of AI output? (Good / OK / Poor)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Chapter summary (10 bullets)</td><td></td><td></td><td></td></tr>
+        <tr><td>Key terms list (8 terms)</td><td></td><td></td><td></td></tr>
+        <tr><td>Flashcard set (10 cards)</td><td></td><td></td><td></td></tr>
+        <tr><td>Self-quiz (10 questions)</td><td></td><td></td><td></td></tr>
+        <tr><td>Exam-style questions (2–3)</td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:0.8rem;font-size:0.82rem;color:#7c3aed;">📄 Printable worksheet PDF — coming soon. Copy this table into your notebook today.</p>
+  </div>
+
+  <!-- Parent/teacher note -->
+  <div class="parent-note">
+    <h3>📋 Note for Parents and Teachers</h3>
+    <p><strong>What this lesson teaches:</strong> Students learn to use AI to actively build revision tools — not to passively receive answers. The lesson emphasises that writing by hand, self-testing, and the teach-it-back method are more effective than re-reading. Academic honesty is built in: AI generates the tools, but students do the actual revision and answering themselves.</p>
+    <p><strong>What you can do at home:</strong></p>
+    <ul>
+      <li>Ask your child to show you one completed revision kit (the 5-part folder for one chapter)</li>
+      <li>Ask them to "teach" you one chapter out loud — this is the most powerful test of genuine understanding</li>
+      <li>For upcoming exams: encourage them to build the revision kit at least one week before, not the night before</li>
+    </ul>
+    <p><strong>For teachers:</strong> The chapter summary + key terms + self-quiz prompt set can be used as a structured 30-minute class activity. Students work in pairs, build their kit for a chapter, then swap and test each other with the flashcards.</p>
+  </div>
+
+</main>
+
+<!-- ── Bottom nav ── -->
+<div class="bottom-nav">
+  <a href="lesson-02.html" class="prev-btn">← Lesson 2: AI for Every Subject</a>
+  <a href="lesson-04.html" class="next-btn">Lesson 4 — AI and Creative Writing →</a>
+</div>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:0.5rem;">
+    <a href="../../../site/index.html">Home</a> ·
+    <a href="../../../site/students.html">AI for Students</a> ·
+    <a href="../../../site/privacy.html">Privacy Policy</a> ·
+    <a href="../../../site/contact.html">Contact</a>
+  </p>
+  <p>© 2026 Mitra AI Life Education · Class 6 to JC +2</p>
+</footer>
+
+<!-- ── Quiz JS ── -->
+<script>
+const ANSWERS = { 1:'b', 2:'b', 3:'b', 4:'c', 5:'c', 6:'c', 7:'b', 8:'c', 9:'c', 10:'b' };
+
+document.querySelectorAll('.quiz-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const q = btn.dataset.q;
+    const val = btn.dataset.val;
+    const container = btn.closest('.quiz-q');
+    if (container.classList.contains('answered')) return;
+    container.classList.add('answered');
+    container.querySelectorAll('.quiz-opt').forEach(b => b.disabled = true);
+    const fb = document.getElementById('fb' + q);
+    if (val === ANSWERS[q]) {
+      btn.classList.add('correct');
+      fb.textContent = '✅ Correct!';
+      fb.className = 'q-feedback ok';
+    } else {
+      btn.classList.add('wrong');
+      fb.textContent = '❌ Not quite — the correct answer is highlighted.';
+      fb.className = 'q-feedback bad';
+      container.querySelectorAll('.quiz-opt').forEach(b => {
+        if (b.dataset.val === ANSWERS[q]) b.classList.add('correct');
+      });
+    }
+  });
+});
+
+document.getElementById('quiz-submit').addEventListener('click', () => {
+  let score = 0;
+  const total = Object.keys(ANSWERS).length;
+  for (let q = 1; q <= total; q++) {
+    const container = document.getElementById('q' + q);
+    if (!container.classList.contains('answered')) continue;
+    const chosen = container.querySelector('.quiz-opt.correct');
+    if (chosen) score++;
+  }
+  const msgs = [
+    'Keep going — read the lesson again from the beginning!',
+    'Good start! Review the revision kit building steps.',
+    'Nice effort! The flashcard and self-quiz sections will help you most.',
+    'Good work! You understand most of the revision kit tools.',
+    'Great job! You are ready to build your own revision kit.',
+    'Excellent! Half way there — try the worksheet now.',
+    'Very good! You have got most of the key ideas.',
+    'Great! Just a couple more to nail.',
+    'Excellent work! Almost perfect.',
+    'Outstanding! One more to go — you\'ve got this.',
+    'Perfect score! 🎉 Now build your first revision kit for a real chapter — Arjun scored 23/25 after doing exactly this!'
+  ];
+  const resultDiv = document.getElementById('quiz-result');
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = `<div class="score">${score} / ${total}</div><div class="score-msg">${msgs[score]}</div>`;
+  document.getElementById('quiz-submit').style.display = 'none';
+  if (typeof gtag !== 'undefined') gtag('event', 'quiz_complete', { event_category: 'class7', event_label: 'class07_lesson03_quiz', value: score });
+});
+</script>
+
+<!-- ── JSON-LD ── -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Class 7 Lesson 3 — Build Your Own Revision Kit",
+  "description": "Learn to make AI-powered flashcards, self-quizzes, chapter summaries, and revision timetables. Practical revision workshop using spaced repetition and the teach-it-back method. For Indian school students, Class 7, age 11–12.",
+  "url": "https://mitraailife.com/content/students/class-07/lesson-03.html",
+  "educationalLevel": "Class 7",
+  "typicalAgeRange": "11-12",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "provider": {
+    "@type": "Organization",
+    "name": "Mitra AI Life Education",
+    "url": "https://mitraailife.com"
+  }
+}
+</script>
+
+</body>
+</html>

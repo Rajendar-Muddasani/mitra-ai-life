@@ -51,7 +51,17 @@ body::before {
   font-weight: 800;
   font-size: 1.05rem;
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
   white-space: nowrap;
+}
+.brand::before {
+  content: '';
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  background: url('mitra-ai-logo.svg') center/contain no-repeat;
 }
 .brand span { color: var(--cyan); }
 
@@ -64,21 +74,71 @@ body::before {
   max-width: 100%;
 }
 .track-links a {
-  color: var(--muted);
+  --pill-bg: rgba(255,255,255,0.055);
+  --pill-border: rgba(255,255,255,0.12);
+  --pill-text: var(--muted);
+  --pill-shadow: transparent;
+  color: var(--pill-text);
   text-decoration: none;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.055);
+  border: 1px solid var(--pill-border);
+  background: var(--pill-bg);
   border-radius: 999px;
   padding: 0.4rem 0.72rem;
   font-size: 0.74rem;
   font-weight: 800;
   white-space: nowrap;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 6px 18px var(--pill-shadow);
+  transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.track-links a:nth-child(2) {
+  --pill-bg: linear-gradient(180deg, rgba(139,92,246,0.95), rgba(109,40,217,0.92));
+  --pill-border: rgba(196,181,253,0.65);
+  --pill-text: #f7f3ff;
+  --pill-shadow: rgba(139,92,246,0.32);
+}
+.track-links a:nth-child(3) {
+  --pill-bg: linear-gradient(180deg, rgba(99,102,241,0.95), rgba(67,56,202,0.92));
+  --pill-border: rgba(165,180,252,0.62);
+  --pill-text: #eef2ff;
+  --pill-shadow: rgba(99,102,241,0.28);
+}
+.track-links a:nth-child(4) {
+  --pill-bg: linear-gradient(180deg, rgba(59,130,246,0.95), rgba(29,78,216,0.92));
+  --pill-border: rgba(147,197,253,0.62);
+  --pill-text: #eff6ff;
+  --pill-shadow: rgba(59,130,246,0.28);
+}
+.track-links a:nth-child(5) {
+  --pill-bg: linear-gradient(180deg, rgba(34,197,94,0.95), rgba(22,163,74,0.92));
+  --pill-border: rgba(134,239,172,0.62);
+  --pill-text: #f0fdf4;
+  --pill-shadow: rgba(34,197,94,0.28);
+}
+.track-links a:nth-child(6) {
+  --pill-bg: linear-gradient(180deg, rgba(250,204,21,0.98), rgba(234,179,8,0.95));
+  --pill-border: rgba(254,240,138,0.72);
+  --pill-text: #2f2100;
+  --pill-shadow: rgba(250,204,21,0.28);
+}
+.track-links a:nth-child(7) {
+  --pill-bg: linear-gradient(180deg, rgba(251,146,60,0.98), rgba(234,88,12,0.94));
+  --pill-border: rgba(253,186,116,0.72);
+  --pill-text: #2c1300;
+  --pill-shadow: rgba(249,115,22,0.28);
+}
+.track-links a:nth-child(8) {
+  --pill-bg: linear-gradient(180deg, rgba(248,113,113,0.96), rgba(220,38,38,0.92));
+  --pill-border: rgba(252,165,165,0.65);
+  --pill-text: #fff1f2;
+  --pill-shadow: rgba(248,113,113,0.28);
 }
 .track-links a:hover,
 .track-links a.active {
-  color: var(--text);
-  background: rgba(104,225,255,0.16);
-  border-color: rgba(104,225,255,0.4);
+  color: var(--pill-text);
+  border-color: color-mix(in srgb, var(--pill-border) 70%, white 30%);
+  filter: saturate(1.08) brightness(1.03);
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 10px 24px var(--pill-shadow);
 }
 .track-links::-webkit-scrollbar { display: none; }
 

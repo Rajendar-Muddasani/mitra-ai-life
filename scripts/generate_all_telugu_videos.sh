@@ -12,6 +12,13 @@
 set -e
 cd "$(dirname "$0")/.."
 
+# Load environment variables from .env if not already exported
+if [[ -f ".env" ]]; then
+  set -a
+  source .env
+  set +a
+fi
+
 PYTHON=".venv/bin/python"
 S3_BUCKET="s3://mitra-ai-life-assets/videos"
 AWS_FLAGS="--content-type 'video/mp4' --cache-control 'public, max-age=86400'"

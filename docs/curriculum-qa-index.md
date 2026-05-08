@@ -1191,3 +1191,109 @@ Hub page: `content/students/class-07/class-07.html`
 **Interactive:** 12-item skills checklist + JS progress bar, 4-prompt portfolio builder textareas, printable certificate (name input + JS + @media print CSS), Class 11 6-card preview  
 **Sections:** 12-lesson recap grid with links, wisdom quotes table (12 entries), skills checklist, portfolio builder, printable certificate, Class 11 preview  
 **Quiz (10 capstone questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b', 9:'b', 10:'b'}` · GA4: `class10_lesson12_quiz`
+
+---
+
+## Class 11 — AI at the Frontier
+
+**Theme:** Amber Gold (`#d97706`) · Age 15–16 · 12 lessons · All Free
+
+**Hub:** `content/students/class-11/class-11.html`
+
+---
+
+### Lesson 01 — Advanced Python for AI
+**File:** `content/students/class-11/lesson-01.html`  
+**Story:** Rohan, Pune — 45-minute training loop reduced to 4 minutes with NumPy vectorisation  
+**Sections:** NumPy broadcasting, generators + `yield`, decorators (`@timer`, `@retry`), type hints + dataclasses, `cProfile` profiling, vectorised vs loop benchmark  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class11_lesson01_quiz`
+
+---
+
+### Lesson 02 — Deep Learning Theory
+**File:** `content/students/class-11/lesson-02.html`  
+**Story:** Ananya, Ahmedabad — implements backpropagation and Adam optimiser from scratch  
+**Sections:** Forward pass, chain rule backprop, Adam (`m`, `v`, bias correction), BatchNorm, Dropout, LR schedules (step/cosine/warm restarts)  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'a', 8:'b'}` · GA4: `class11_lesson02_quiz`
+
+---
+
+### Lesson 03 — RL: MDPs and Q-Learning
+**File:** `content/students/class-11/lesson-03.html`  
+**Story:** Vikram, Jaipur — builds tabular Q-learning agent for CartPole  
+**Sections:** MDP (state/action/reward/transition), Bellman equation, Q-table initialisation, epsilon-greedy exploration, Q-learning update rule, CartPole discretisation  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class11_lesson03_quiz`
+
+---
+
+### Lesson 04 — Deep RL: Policy Gradients and PPO
+**File:** `content/students/class-11/lesson-04.html`  
+**Story:** Nisha, Hyderabad — trains PPO agent on LunarLander with Stable Baselines3  
+**Sections:** Policy vs value functions, REINFORCE (log-prob × G), actor-critic, PPO clipped objective, Stable Baselines3 `PPO("MlpPolicy", env)`, evaluation loop  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class11_lesson04_quiz`
+
+---
+
+### Lesson 05 — MLOps: Dockerising Your ML Model
+**File:** `content/students/class-11/lesson-05.html`  
+**Story:** Siddharth, Mumbai — Dockerises FastAPI + DistilBERT sentiment service  
+**Sections:** Dockerfile (multi-stage build), FastAPI `SentimentRequest` + `/predict`, docker-compose with Redis caching, GitHub Actions CI workflow, registry push  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class11_lesson05_quiz`
+
+---
+
+### Lesson 06 — Production ML: Monitoring and Drift
+**File:** `content/students/class-11/lesson-06.html`  
+**Story:** Preethi, Coimbatore — detects 91%→61% accuracy drop in 3 months with Evidently AI  
+**Sections:** Data drift types (covariate/label/concept), PSI formula, KS test, Evidently `DataDriftPreset`, A/B testing framework, retraining triggers  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class11_lesson06_quiz`
+
+---
+
+### Lesson 07 — Multi-modal AI: Vision + Language + Speech
+**File:** `content/students/class-11/lesson-07.html`  
+**Story:** Aryan, Delhi — builds accessibility app for visually impaired grandmother using CLIP + Whisper + GPT-4V  
+**Sections:** Multi-modal grid (vision/language/speech), CLIP `CLIPModel` + `CLIPProcessor` zero-shot classification (400M pairs contrastive), Whisper `transcribe_hindi` + `translate_hindi_to_english` (98 languages), GPT-4V `image_to_base64` visual Q&A with Hindi system prompt, accessibility ethics callout  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class11_lesson07_quiz`
+
+---
+
+### Lesson 08 — AI Agents and Tool Use
+**File:** `content/students/class-11/lesson-08.html`  
+**Story:** Deepika, Lucknow — builds research assistant agent that automates a 3-hour weekly workflow  
+**Sections:** Perceive-plan-act loop, ReAct pattern (numbered loop HTML component), OpenAI function calling (`search_web`, `calculate` with AST whitelist), `TOOL_MAP` + agent loop with `range(10)` safety limit, memory types grid (in-context/external vector/episodic), ChromaDB persistent memory, LangGraph `StateGraph` + `ToolNode` + conditional edges  
+**Security note:** Never pass user input to `eval()` — AST whitelisting is the correct pattern  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class11_lesson08_quiz`
+
+---
+
+### Lesson 09 — Reading and Implementing AI Research Papers
+**File:** `content/students/class-11/lesson-09.html`  
+**Story:** Kunal, Bengaluru — implements "Attention Is All You Need" from scratch in NumPy  
+**Sections:** Finding papers (arXiv URL patterns, Semantic Scholar, Papers With Code), 3-pass reading method (5–10 min / 60 min / 3–5 hr), paper anatomy table, scaled dot-product attention formula `Attention(Q,K,V) = softmax(QKᵀ/√d_k)·V`, NumPy `scaled_dot_product_attention` + numerically stable softmax + `MultiHeadAttention` class with `split_heads`, BibTeX via semanticscholar API  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class11_lesson09_quiz`
+
+---
+
+### Lesson 10 — AI Safety and Alignment
+**File:** `content/students/class-11/lesson-10.html`  
+**Story:** Meghna, Bhopal — school chatbot gives wrong exam advice, learns AI safety  
+**Sections:** Alignment problem (RLHF/Constitutional AI/DPO), red-teaming attack table (direct prompt injection/indirect/jailbreak/hallucination exploitation/privacy extraction), `BLOCKED_PATTERNS` regex + `sanitise_input()` + uncertainty fallback, India DPDPA 2023 (6 rights: purpose limitation/consent for minors/data minimisation/erasure/localisation/security), model card template (8 fields), safe deployment checklist (7 items, green border)  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class11_lesson10_quiz`
+
+---
+
+### Lesson 11 — Building AI Startups in India
+**File:** `content/students/class-11/lesson-11.html`  
+**Story:** Rahul, Chandigarh — agri-advisory AI startup for Punjabi-speaking farmers  
+**Sections:** JTBD canvas (5 fields), unit economics (`calculate_ai_unit_economics` — CAC ₹120, LTV ₹400, LTV:CAC 3.3x, inference ₹0.50/query, 30 queries/month, 70% gross margin), India AI ecosystem grid (iSPIRT/Nasscom AI/Meity Startup Hub/IIIT-H CIE), funding stages (Bootstrap→Angel→Seed→Series A with Indian amounts), 1-page pitch canvas HTML table, IP §3(k) trade secrets vs patents  
+**Quiz (8 questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class11_lesson11_quiz`
+
+---
+
+### Lesson 12 — Capstone: My AI Research Project
+**File:** `content/students/class-11/lesson-12.html`  
+**Story:** All 11 characters referenced — Rohan through Rahul  
+**Interactive:** Animated `heroGrad` gradient header, 12-card recap grid (11 lessons + "You are here"), 12-item skills checklist + JS `accent-color:#d97706` progress bar, 4-prompt portfolio builder textareas, certificate generator (name input + JS reveal), wisdom quotes table (11 entries), Class 12 6-card preview grid  
+**Sections:** Recap grid with links, skills checklist, portfolio builder, wisdom table (L01–L11), certificate generator, Class 12 preview, 10-question capstone quiz  
+**Quiz (10 capstone questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b', 9:'b', 10:'b'}` · GA4: `class11_lesson12_quiz`

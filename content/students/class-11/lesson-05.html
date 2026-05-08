@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 5 — MLOps: Dockerising Your ML Model | Class 11 | Mitra AI Life</title>
+<meta name="description" content="Class 11 Lesson 5: Package your FastAPI ML model into a Docker container, write a Dockerfile, docker-compose for multi-service setups, and automate CI/CD with GitHub Actions." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-11/lesson-05.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#d97706" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 5 — MLOps: Dockerising Your ML Model | Class 11 | Mitra AI Life" />
+<meta property="og:description" content="Package your FastAPI ML model into Docker, write docker-compose for multi-service apps, and build a GitHub Actions CI pipeline." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-11/lesson-05.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#fffbeb;color:#92400e;line-height:1.7}
+a{color:#d97706;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#fbbf24}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#fbbf24}
+.lesson-hero{background:linear-gradient(135deg,#92400e,#b45309,#d97706);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#d97706;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#92400e;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#b45309;margin-bottom:.9rem}
+.lesson-section ul,ol{font-size:.93rem;color:#b45309;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.amber{background:#fffbeb;border-left:4px solid #d97706;color:#92400e}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.red{background:#fff1f2;border-left:4px solid #f43f5e;color:#881337}
+pre{background:#1e293b;color:#e2e8f0;border-radius:12px;padding:1.1rem 1.2rem;overflow-x:auto;font-size:.82rem;line-height:1.6;margin:1rem 0}
+code{font-family:'Courier New',monospace}
+.inline-code{background:#fef3c7;color:#92400e;padding:.1rem .35rem;border-radius:4px;font-family:'Courier New',monospace;font-size:.85em}
+.file-tree{background:#1e293b;color:#94a3b8;border-radius:12px;padding:1rem 1.2rem;font-family:'Courier New',monospace;font-size:.82rem;line-height:1.7;margin:1rem 0}
+.file-tree .dir{color:#fbbf24}
+.file-tree .file{color:#e2e8f0}
+.file-tree .comment{color:#64748b}
+.cmd-table{width:100%;border-collapse:collapse;font-size:.82rem;margin:1rem 0}
+.cmd-table th{background:#fffbeb;color:#92400e;font-weight:800;padding:.45rem .6rem;border:1px solid #fde68a;text-align:left}
+.cmd-table td{padding:.4rem .6rem;border:1px solid #fde68a;color:#b45309;font-family:'Courier New',monospace;font-size:.8rem;vertical-align:top}
+.cmd-table td:last-child{font-family:'Nunito',sans-serif;font-size:.82rem}
+.quiz-section{background:#fff;border:2px solid #d97706;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#92400e;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#92400e;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #fde68a;background:#fffbeb;font-size:.87rem;color:#92400e;transition:border-color .15s;line-height:1.45}
+.quiz-opt:hover{border-color:#d97706}
+.quiz-opt.selected{border-color:#d97706;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#d97706;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#b45309}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #d97706;color:#d97706}
+.lesson-nav .btn-next{background:#d97706;color:#fff}
+.lesson-nav .btn-prev:hover{background:#fffbeb}
+.lesson-nav .btn-next:hover{background:#b45309}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-11.html" class="active">Class 11</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-11.html">Class 11</a> → Lesson 5</div>
+  <h1>MLOps: Dockerising Your ML Model 🐳</h1>
+  <div class="meta">
+    <span>Class 11</span><span>Age 15–16</span><span>Lesson 5 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-11/lesson-05-hero.jpg" alt="Siddharth from Mumbai writing a Dockerfile for a FastAPI ML model — terminal showing docker build and run commands, GitHub Actions CI pipeline diagram" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+
+  <div class="lesson-section">
+    <div class="ls-label">Story</div>
+    <div class="ls-title">Siddharth's "Works on My Machine" Crisis</div>
+    <p>Siddharth, 16, from Mumbai had built a sentiment analysis API using FastAPI and a fine-tuned DistilBERT model. It worked perfectly on his laptop — Python 3.10, transformers 4.36, a specific PyTorch version, and a dozen other libraries he'd installed over months.</p>
+    <p>When he deployed it to a friend's server — a different Ubuntu version, different Python — nothing worked. "ModuleNotFoundError." "CUDA version mismatch." "NumPy incompatible with scikit-learn." Two hours of debugging later, he had learned the most important lesson in software engineering: <em>environment is everything.</em></p>
+    <p>"Docker solves this," his mentor said. "You package the code and everything it needs into a container. Then it runs identically everywhere — your laptop, a cloud VM, or a Kubernetes cluster." <strong>Siddharth dockerised his API in 20 minutes. It's been running in production ever since.</strong></p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 1</div>
+    <div class="ls-title">Why Docker: The Reproducibility Problem</div>
+    <p>A trained ML model is not just a <span class="inline-code">.pkl</span> file. It's a system: a specific Python version, library versions, system libraries, CUDA drivers, and model weights. Docker captures all of this in an <strong>image</strong> — a layered, immutable snapshot of the entire environment.</p>
+    <ul>
+      <li><strong>Image:</strong> Blueprint (like a class in Python). Read-only. Built from a Dockerfile.</li>
+      <li><strong>Container:</strong> Running instance of an image (like an object). Isolated process.</li>
+      <li><strong>Registry:</strong> Storage for images. Docker Hub, GitHub Container Registry, AWS ECR.</li>
+      <li><strong>Layer caching:</strong> Each Dockerfile instruction creates a layer. Unchanged layers are cached — rebuilds are fast.</li>
+    </ul>
+    <div class="callout amber"><strong>Key mental model:</strong> A Docker container is a lightweight VM without the OS kernel overhead. It shares the host kernel but has its own filesystem, network, and processes. You get isolation without the 1GB+ overhead of a full virtual machine.</div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 2</div>
+    <div class="ls-title">Dockerfile for FastAPI + ML Model</div>
+    <p>A Dockerfile is a recipe that builds your image layer by layer. Each instruction creates one layer. Order matters — put things that change rarely (Python install, pip dependencies) before things that change often (your code).</p>
+    <div class="file-tree">
+<span class="dir">sentiment-api/</span>
+├── <span class="file">Dockerfile</span>
+├── <span class="file">docker-compose.yml</span>
+├── <span class="file">.dockerignore</span>
+├── <span class="file">requirements.txt</span>
+├── <span class="dir">app/</span>
+│   ├── <span class="file">main.py</span>          <span class="comment"># FastAPI app</span>
+│   └── <span class="file">predict.py</span>       <span class="comment"># model loading + inference</span>
+└── <span class="dir">model/</span>
+    └── <span class="file">distilbert-sentiment/</span>  <span class="comment"># fine-tuned weights</span>
+    </div>
+    <pre><code># ── Dockerfile ───────────────────────────────────────────────────
+# 1. Base image — use official Python slim (smallest that works)
+FROM python:3.11-slim
+
+# 2. Set working directory inside container
+WORKDIR /app
+
+# 3. Install system dependencies (kept separate for layer caching)
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# 4. Copy requirements FIRST (changes rarely → cached until requirements change)
+COPY requirements.txt .
+
+# 5. Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 6. Copy application code (changes frequently → placed AFTER pip install)
+COPY app/ ./app/
+COPY model/ ./model/
+
+# 7. Expose the port the app listens on
+EXPOSE 8000
+
+# 8. Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV MODEL_PATH=/app/model/distilbert-sentiment
+
+# 9. Run the FastAPI app with uvicorn
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]</code></pre>
+    <pre><code># ── .dockerignore — do NOT copy these into the image ─────────────
+__pycache__/
+*.py[cod]
+.git/
+.github/
+*.ipynb
+*.ipynb_checkpoints/
+venv/
+.env
+.env.*
+tests/
+*.log
+# Never commit secrets — use Docker secrets or env vars at runtime</code></pre>
+    <table class="cmd-table">
+      <thead><tr><th>Command</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td>docker build -t sentiment-api .</td><td>Build image named "sentiment-api" from Dockerfile in current dir</td></tr>
+        <tr><td>docker run -p 8000:8000 sentiment-api</td><td>Run container, map host port 8000 → container port 8000</td></tr>
+        <tr><td>docker run -d --name my-api sentiment-api</td><td>Run detached (background) with a name</td></tr>
+        <tr><td>docker logs my-api</td><td>View container stdout/stderr</td></tr>
+        <tr><td>docker exec -it my-api bash</td><td>Open shell inside running container</td></tr>
+        <tr><td>docker stop my-api && docker rm my-api</td><td>Stop and delete container</td></tr>
+        <tr><td>docker images</td><td>List all local images</td></tr>
+        <tr><td>docker push yourdockerhub/sentiment-api:v1</td><td>Push image to Docker Hub registry</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 3</div>
+    <div class="ls-title">docker-compose: Multi-Service Setup</div>
+    <p>Real ML APIs often need more than one service — the ML API, a Redis cache for storing predictions, maybe a monitoring sidecar. docker-compose orchestrates multiple containers with a single <span class="inline-code">docker compose up</span> command.</p>
+    <pre><code># ── docker-compose.yml ───────────────────────────────────────────
+version: "3.9"
+
+services:
+  api:
+    build: .                         # build from local Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - REDIS_URL=redis://cache:6379 # use service name "cache" as hostname
+      - MODEL_PATH=/app/model/distilbert-sentiment
+    depends_on:
+      - cache                        # wait for Redis before starting
+    volumes:
+      - ./model:/app/model:ro        # mount model weights read-only (no copy in image)
+    restart: unless-stopped
+
+  cache:
+    image: redis:7-alpine            # official Redis image, no custom Dockerfile needed
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data             # persist Redis data across restarts
+    restart: unless-stopped
+
+volumes:
+  redis_data:                        # named volume managed by Docker</code></pre>
+    <pre><code># ── app/predict.py — Redis caching for predictions ───────────────
+import redis, json, hashlib
+from transformers import pipeline
+
+model = pipeline("sentiment-analysis",
+                 model="./model/distilbert-sentiment")
+r = redis.Redis.from_url("redis://cache:6379", decode_responses=True)
+
+def predict_with_cache(text: str) -> dict:
+    # Hash the input text as cache key
+    key = "pred:" + hashlib.sha256(text.encode()).hexdigest()
+
+    # Return cached result if available
+    cached = r.get(key)
+    if cached:
+        return json.loads(cached)
+
+    # Run inference and cache for 1 hour (3600 seconds)
+    result = model(text)[0]
+    r.setex(key, 3600, json.dumps(result))
+    return result</code></pre>
+    <div class="callout green"><strong>Caching inference results</strong> is one of the most impactful performance wins in ML APIs. Repeated identical queries (common in production) return in &lt;1ms from Redis instead of 100–500ms from the model. For high-traffic endpoints, this can reduce GPU costs by 60–80%.</div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 4</div>
+    <div class="ls-title">GitHub Actions CI Pipeline</div>
+    <p>Continuous Integration (CI) automatically runs tests and builds on every push to GitHub. This catches regressions before they reach production. Here's a complete pipeline that tests your API, builds the Docker image, and pushes to Docker Hub.</p>
+    <pre><code># ── .github/workflows/ci.yml ─────────────────────────────────────
+name: ML API CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: ${{ github.repository }}   # yourusername/sentiment-api
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest httpx
+
+      - name: Run tests
+        run: pytest tests/ -v --tb=short
+
+  build-and-push:
+    needs: test           # only runs if test job passes
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'   # only on main branch
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}   # stored as GitHub secret
+
+      - name: Extract Docker metadata (tags, labels)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_NAME }}
+          tags: |
+            type=sha,prefix=sha-         # git SHA for traceability
+            type=raw,value=latest        # "latest" tag on main
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha            # GitHub Actions build cache
+          cache-to: type=gha,mode=max     # fast rebuilds</code></pre>
+    <div class="callout red"><strong>Security rule:</strong> NEVER put passwords, API keys, or Docker Hub tokens in your code or Dockerfile. Use GitHub Secrets (Settings → Secrets and variables → Actions). The CI pipeline references them as <span class="inline-code">${{ secrets.DOCKERHUB_TOKEN }}</span> — they are never exposed in logs.</div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>🐳 Lesson 5 Quiz — MLOps: Docker and CI</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. In a Dockerfile, requirements.txt is copied and pip-installed BEFORE the application code is copied. This ordering:</div>
+        <div class="quiz-opt" data-opt="a">a) Is required by Docker — pip install cannot run if application code is present first</div>
+        <div class="quiz-opt" data-opt="b">b) Exploits Docker's layer caching: the pip install layer is only invalidated when requirements.txt changes. Application code changes frequently but dependencies change rarely — so most rebuilds skip the expensive pip install and reuse the cached layer, making builds much faster.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Prevents the application code from interfering with the Python package namespace</div>
+        <div class="quiz-opt" data-opt="d">d) Makes the final image smaller by allowing Docker to compress dependency layers separately</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. .dockerignore lists files like __pycache__/, .git/, and .env that should NOT be copied into the image. The primary security reason for excluding .env is:</div>
+        <div class="quiz-opt" data-opt="a">a) .env files cause syntax errors in Dockerfile COPY instructions</div>
+        <div class="quiz-opt" data-opt="b">b) .env files contain secrets (API keys, database passwords). If they are copied into the image and the image is pushed to a public registry, those secrets become permanently public. Anyone who pulls your image can extract them with docker inspect or by running the container. Always inject secrets at runtime via environment variables.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Docker cannot parse the KEY=VALUE format used in .env files</div>
+        <div class="quiz-opt" data-opt="d">d) .env files cause the container to fail to start on Linux systems</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. docker run -p 8000:8000 maps host port 8000 to container port 8000. If you use -p 9000:8000 instead:</div>
+        <div class="quiz-opt" data-opt="a">a) The application crashes because it's configured to listen on port 8000</div>
+        <div class="quiz-opt" data-opt="b">b) The container still listens internally on port 8000 (unchanged — this is what EXPOSE declares and what uvicorn is configured for). The host machine maps its port 9000 to the container's 8000. You access the API at localhost:9000 from your host, but inside the container it's still port 8000.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Port 9000 on the host is now blocked by Docker and cannot be used by other services</div>
+        <div class="quiz-opt" data-opt="d">d) Both port 8000 and 9000 on the host will route to the container simultaneously</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. In docker-compose.yml, the api service has depends_on: cache. This means:</div>
+        <div class="quiz-opt" data-opt="a">a) The api service will wait indefinitely until Redis is fully accepting connections</div>
+        <div class="quiz-opt" data-opt="b">b) Docker will start the cache (Redis) container before starting the api container — but only waits for the process to start, not for Redis to be ready to accept connections. For production, you also need a health check and retry logic in the application code to handle the brief startup window.</b></div>
+        <div class="quiz-opt" data-opt="c">c) If the cache container stops, Docker automatically stops the api container too</div>
+        <div class="quiz-opt" data-opt="d">d) The api service shares the same network namespace as the cache service</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. Redis caching in the prediction endpoint uses SHA-256 of the input text as the cache key. Using the full input text directly as the key would be problematic because:</div>
+        <div class="quiz-opt" data-opt="a">a) Redis does not support string keys — only integer keys are allowed</div>
+        <div class="quiz-opt" data-opt="b">b) Long texts (e.g., 10,000 character documents) would create very large cache keys, wasting Redis memory and increasing network overhead. SHA-256 hashes are always exactly 64 characters regardless of input length, are fast to compute, and have negligible collision probability for practical input sizes.</b></div>
+        <div class="quiz-opt" data-opt="c">c) The text might contain special characters that break Redis string encoding</div>
+        <div class="quiz-opt" data-opt="d">d) Direct text keys would expose user data in Redis, violating GDPR regulations</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. The GitHub Actions CI pipeline uses needs: test for the build-and-push job. The purpose is:</div>
+        <div class="quiz-opt" data-opt="a">a) The build job downloads the test artifacts as input for the Docker build</div>
+        <div class="quiz-opt" data-opt="b">b) It creates a dependency: build-and-push only runs if the test job completes successfully. This prevents a broken (failing-tests) image from ever being pushed to Docker Hub and potentially deployed to production — tests act as a quality gate before every image publish.</b></div>
+        <div class="quiz-opt" data-opt="c">c) The test and build jobs must run on the same virtual machine for consistency</div>
+        <div class="quiz-opt" data-opt="d">d) GitHub Actions requires needs: declarations for all jobs running in parallel</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. The CMD instruction in a Dockerfile runs uvicorn with --host 0.0.0.0. Why not --host 127.0.0.1?</div>
+        <div class="quiz-opt" data-opt="a">a) 0.0.0.0 is required by Docker — 127.0.0.1 causes the container to fail</div>
+        <div class="quiz-opt" data-opt="b">b) 127.0.0.1 (localhost) inside the container is the container's own loopback — it's unreachable from outside the container. 0.0.0.0 means "listen on all interfaces" — the Docker bridge network can forward host traffic to it. Using 127.0.0.1 would make your API unreachable even with port mapping.</b></div>
+        <div class="quiz-opt" data-opt="c">c) 127.0.0.1 is a security vulnerability — 0.0.0.0 restricts access to container-internal traffic only</div>
+        <div class="quiz-opt" data-opt="d">d) 0.0.0.0 enables IPv6 support which 127.0.0.1 does not provide</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. Model weights are mounted as a volume (./model:/app/model:ro) rather than copied into the image with COPY. The primary advantage for an ML team is:</div>
+        <div class="quiz-opt" data-opt="a">a) Volumes allow the model to train itself during container runtime</div>
+        <div class="quiz-opt" data-opt="b">b) ML model weights are often several GB. Copying them into the image makes every image that size — slow to push, pull, and rebuild. Mounting as a volume separates model lifecycle from code lifecycle: you can update model weights without rebuilding the Docker image, and the same image can serve different model versions by changing the mount path.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Docker images cannot exceed 2GB, so large models must be mounted externally</div>
+        <div class="quiz-opt" data-opt="d">d) The :ro (read-only) flag is only available for volumes, not for COPY instructions</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Quiz</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-04.html" class="btn-prev">← Lesson 4: Deep RL and PPO</a>
+    <a href="lesson-06.html" class="btn-next">Lesson 6: Production Monitoring →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-11.html">Class 11</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'b',8:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q])o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=80){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — Dockerise a real project this week. Move to Lesson 6!`;}
+  else if(pct>=60){res.className='quiz-result ok';res.textContent=`Good effort! ${score}/${total} (${pct}%) — Revisit the Dockerfile ordering and CI sections.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Install Docker Desktop and run docker build on any small Python script first, then retry.`;}
+  gtag('event','quiz_complete',{event_category:'class11',event_label:'class11_lesson05_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"MLOps: Dockerising Your ML Model — Class 11 Lesson 5",
+  "description":"Dockerfile for FastAPI, layer caching, .dockerignore, docker-compose multi-service, Redis caching, GitHub Actions CI.",
+  "url":"https://mitraailife.com/content/students/class-11/lesson-05.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Junior College +1",
+  "typicalAgeRange":"15-16",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

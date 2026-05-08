@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 8 — AI Agents and Tool Use | Class 11 | Mitra AI Life</title>
+<meta name="description" content="Class 11 Lesson 8: Build autonomous AI agents using the ReAct pattern and LangGraph. Implement tool calling, memory types, and build a research assistant agent from scratch." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-11/lesson-08.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#d97706" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 8 — AI Agents and Tool Use | Class 11 | Mitra AI Life" />
+<meta property="og:description" content="Build autonomous AI agents with ReAct pattern, LangGraph, tool calling (search/calculator/file reader), memory types, and a research assistant agent." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-11/lesson-08.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#fffbeb;color:#92400e;line-height:1.7}
+a{color:#d97706;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#fbbf24}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#fbbf24}
+.lesson-hero{background:linear-gradient(135deg,#92400e,#b45309,#d97706);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#d97706;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#92400e;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#b45309;margin-bottom:.9rem}
+.lesson-section ul,ol{font-size:.93rem;color:#b45309;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.amber{background:#fffbeb;border-left:4px solid #d97706;color:#92400e}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.red{background:#fff1f2;border-left:4px solid #f43f5e;color:#881337}
+pre{background:#1e293b;color:#e2e8f0;border-radius:12px;padding:1.1rem 1.2rem;overflow-x:auto;font-size:.82rem;line-height:1.6;margin:1rem 0}
+code{font-family:'Courier New',monospace}
+.inline-code{background:#fef3c7;color:#92400e;padding:.1rem .35rem;border-radius:4px;font-family:'Courier New',monospace;font-size:.85em}
+.react-loop{background:#fff;border:2px solid #fde68a;border-radius:14px;padding:1.2rem;margin:1rem 0}
+.rl-step{display:flex;align-items:flex-start;gap:.8rem;margin-bottom:.8rem}
+.rl-num{background:#d97706;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.78rem;flex-shrink:0;margin-top:.1rem}
+.rl-text{font-size:.85rem;color:#92400e}
+.rl-text strong{color:#d97706}
+.mem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin:1rem 0}
+.mem-card{background:#fff;border:2px solid #fde68a;border-radius:12px;padding:.8rem}
+.mem-card h4{font-family:'Baloo 2',cursive;font-size:.88rem;color:#d97706;margin-bottom:.4rem}
+.mem-card p{font-size:.77rem;color:#b45309;margin:0}
+.quiz-section{background:#fff;border:2px solid #d97706;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#92400e;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#92400e;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #fde68a;background:#fffbeb;font-size:.87rem;color:#92400e;transition:border-color .15s;line-height:1.45}
+.quiz-opt:hover{border-color:#d97706}
+.quiz-opt.selected{border-color:#d97706;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#d97706;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#b45309}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #d97706;color:#d97706}
+.lesson-nav .btn-next{background:#d97706;color:#fff}
+.lesson-nav .btn-prev:hover{background:#fffbeb}
+.lesson-nav .btn-next:hover{background:#b45309}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.mem-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-11.html" class="active">Class 11</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-11.html">Class 11</a> → Lesson 8</div>
+  <h1>AI Agents and Tool Use 🤖</h1>
+  <div class="meta">
+    <span>Class 11</span><span>Age 15–16</span><span>Lesson 8 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-11/lesson-08-hero.jpg" alt="Deepika from Lucknow building a research agent — LangGraph state machine, tool calling web search and calculator, agent reasoning trace in terminal" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+
+  <div class="lesson-section">
+    <div class="ls-label">Story</div>
+    <div class="ls-title">Deepika's Research Assistant</div>
+    <p>Deepika, 16, from Lucknow spent three hours every day doing research for her school debates — searching Google, reading papers, taking notes, summarising. "Can I automate this?" she wondered after Lesson 7.</p>
+    <p>A regular ChatGPT prompt wouldn't work — it couldn't search the web or read PDFs. She needed an <strong>agent</strong>: a system that could decide what tools to use, use them in sequence, and synthesise the results into an answer.</p>
+    <p>Using LangGraph and OpenAI's tool-calling API, she built a research agent in 150 lines of Python. It searches arXiv, reads abstracts, cross-references sources, and writes a structured summary. What used to take 3 hours now takes 3 minutes. <strong>She now uses those 3 hours to actually understand the papers.</strong></p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 1</div>
+    <div class="ls-title">What is an AI Agent?</div>
+    <p>A chatbot answers one question per turn. An <strong>agent</strong> can take multiple actions autonomously to complete a goal. It has three components:</p>
+    <ul>
+      <li><strong>Perceive:</strong> Read the current state — user request, previous actions, tool outputs</li>
+      <li><strong>Plan:</strong> Decide what to do next — which tool to use, or whether to give a final answer</li>
+      <li><strong>Act:</strong> Execute the tool call or produce the final response</li>
+    </ul>
+    <p>The <strong>ReAct (Reason + Act)</strong> pattern alternates between thinking (generating a reasoning trace) and acting (calling tools), enabling the agent to use tool outputs to inform its next reasoning step.</p>
+    <div class="react-loop">
+      <div class="rl-step">
+        <div class="rl-num">1</div>
+        <div class="rl-text"><strong>Thought:</strong> "The user wants recent papers on RAG. I should search arXiv for retrieval-augmented generation papers from 2024."</div>
+      </div>
+      <div class="rl-step">
+        <div class="rl-num">2</div>
+        <div class="rl-text"><strong>Action:</strong> search_arxiv(query="retrieval-augmented generation 2024", max_results=5)</div>
+      </div>
+      <div class="rl-step">
+        <div class="rl-num">3</div>
+        <div class="rl-text"><strong>Observation:</strong> [5 paper titles and abstracts returned]</div>
+      </div>
+      <div class="rl-step">
+        <div class="rl-num">4</div>
+        <div class="rl-text"><strong>Thought:</strong> "I found relevant papers. The most cited one is about corrective RAG. I should read its full abstract and extract key findings."</div>
+      </div>
+      <div class="rl-step">
+        <div class="rl-num">5</div>
+        <div class="rl-text"><strong>Action:</strong> read_abstract(arxiv_id="2401.15884")</div>
+      </div>
+      <div class="rl-step">
+        <div class="rl-num">6</div>
+        <div class="rl-text"><strong>Final Answer:</strong> "Here are the 3 most important RAG papers from 2024 with summaries: ..."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 2</div>
+    <div class="ls-title">Tool Calling with OpenAI Function Calling</div>
+    <pre><code>import openai, json
+
+client = openai.OpenAI()
+
+# ── Define tools as JSON schemas ──────────────────────────────────
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "search_web",
+            "description": "Search the web and return top 3 relevant results",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "The search query"
+                    }
+                },
+                "required": ["query"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "calculate",
+            "description": "Evaluate a mathematical expression safely",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "expression": {
+                        "type": "string",
+                        "description": "Python math expression e.g. '2**10 + 5*3'"
+                    }
+                },
+                "required": ["expression"]
+            }
+        }
+    }
+]
+
+# ── Implement the actual tools ─────────────────────────────────────
+def search_web(query: str) -> str:
+    """Stub — replace with SerpAPI, Tavily, or DuckDuckGo API."""
+    return f"Search results for '{query}': [3 relevant web snippets]"
+
+def calculate(expression: str) -> str:
+    """Safe math evaluation — no exec/eval of arbitrary code."""
+    import ast, math
+    try:
+        # Only allow safe nodes
+        tree = ast.parse(expression, mode='eval')
+        # Whitelist: numbers, operators, basic math functions
+        allowed_nodes = {
+            ast.Expression, ast.BinOp, ast.UnaryOp, ast.Num,
+            ast.Add, ast.Sub, ast.Mult, ast.Div, ast.Pow,
+            ast.USub, ast.UAdd, ast.Constant
+        }
+        for node in ast.walk(tree):
+            if type(node) not in allowed_nodes:
+                return "Error: unsafe expression"
+        result = eval(compile(tree, "<string>", "eval"))
+        return str(result)
+    except Exception as e:
+        return f"Error: {e}"
+
+TOOL_MAP = {"search_web": search_web, "calculate": calculate}
+
+# ── Agent loop ─────────────────────────────────────────────────────
+def run_agent(user_message: str) -> str:
+    messages = [
+        {"role": "system", "content": "You are a helpful research assistant. Use tools to find accurate information."},
+        {"role": "user", "content": user_message}
+    ]
+
+    for _ in range(10):   # max 10 reasoning steps
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=messages,
+            tools=tools,
+            tool_choice="auto"
+        )
+
+        msg = response.choices[0].message
+
+        # If no tool call: agent has a final answer
+        if not msg.tool_calls:
+            return msg.content
+
+        # Execute each tool call
+        messages.append(msg)
+        for tc in msg.tool_calls:
+            fn_name = tc.function.name
+            fn_args = json.loads(tc.function.arguments)
+            result  = TOOL_MAP[fn_name](**fn_args)
+
+            messages.append({
+                "role": "tool",
+                "tool_call_id": tc.id,
+                "content": result
+            })
+
+    return "Max steps reached"
+
+print(run_agent("What is 2^10 and who wrote the Attention Is All You Need paper?"))</code></pre>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 3</div>
+    <div class="ls-title">Agent Memory Types</div>
+    <div class="mem-grid">
+      <div class="mem-card">
+        <h4>In-Context Memory</h4>
+        <p>The message history in the current conversation. Limited by context window (e.g., 128k tokens for GPT-4o). Lost when conversation ends.</p>
+      </div>
+      <div class="mem-card">
+        <h4>External / Vector Memory</h4>
+        <p>Past facts stored in a vector database (ChromaDB, Pinecone). Retrieved by similarity search. Survives across sessions.</p>
+      </div>
+      <div class="mem-card">
+        <h4>Episodic Memory</h4>
+        <p>Structured log of past agent actions and outcomes. The agent can learn from past mistakes by reviewing its history.</p>
+      </div>
+    </div>
+    <pre><code># External memory with ChromaDB (persistent across sessions)
+# pip install chromadb
+
+import chromadb
+
+chroma = chromadb.PersistentClient(path="./agent_memory")
+collection = chroma.get_or_create_collection("research_notes")
+
+def remember(key: str, text: str):
+    """Store a research note in vector memory."""
+    collection.upsert(
+        documents=[text],
+        ids=[key]
+    )
+
+def recall(query: str, n=3) -> list[str]:
+    """Retrieve most relevant past notes."""
+    results = collection.query(query_texts=[query], n_results=n)
+    return results['documents'][0]
+
+# Usage:
+remember("rag_2024", "RAG 2024: Corrective RAG paper shows 15% improvement over naive RAG...")
+similar_notes = recall("what do I know about RAG?")
+print(similar_notes)</code></pre>
+    <div class="callout red"><strong>Security warning:</strong> Never pass user input directly to <span class="inline-code">eval()</span> or <span class="inline-code">exec()</span> in tool implementations. The calculate() tool above uses AST parsing to whitelist safe node types — this is the correct pattern. An agent that can execute arbitrary Python code would be a critical security vulnerability.</div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 4</div>
+    <div class="ls-title">LangGraph: State Machine for Agents</div>
+    <pre><code># pip install langgraph langchain-openai
+
+from typing import TypedDict, Annotated
+from langgraph.graph import StateGraph, END
+from langgraph.prebuilt import ToolNode
+import operator
+
+# ── Define agent state ─────────────────────────────────────────────
+class AgentState(TypedDict):
+    messages: Annotated[list, operator.add]
+    step_count: int
+
+# ── Nodes ──────────────────────────────────────────────────────────
+from langchain_openai import ChatOpenAI
+from langchain_core.tools import tool
+
+@tool
+def search_arxiv(query: str) -> str:
+    """Search arXiv for papers on a topic."""
+    return f"Papers found for '{query}': [arxiv results]"
+
+@tool
+def summarise_abstract(arxiv_id: str) -> str:
+    """Get and summarise the abstract of an arXiv paper."""
+    return f"Abstract summary for {arxiv_id}: [key findings]"
+
+llm = ChatOpenAI(model="gpt-4o-mini").bind_tools([search_arxiv, summarise_abstract])
+
+def agent_node(state: AgentState) -> AgentState:
+    response = llm.invoke(state["messages"])
+    return {"messages": [response], "step_count": state["step_count"] + 1}
+
+def should_continue(state: AgentState) -> str:
+    last = state["messages"][-1]
+    if last.tool_calls:
+        return "tools"
+    return END
+
+# ── Build graph ───────────────────────────────────────────────────
+tool_node = ToolNode([search_arxiv, summarise_abstract])
+
+graph = StateGraph(AgentState)
+graph.add_node("agent", agent_node)
+graph.add_node("tools", tool_node)
+graph.set_entry_point("agent")
+graph.add_conditional_edges("agent", should_continue)
+graph.add_edge("tools", "agent")   # after tools, return to agent
+
+app = graph.compile()
+
+# ── Run ───────────────────────────────────────────────────────────
+result = app.invoke({
+    "messages": [{"role": "user", "content": "Find 3 key papers on RAG from 2024 and summarise each"}],
+    "step_count": 0
+})
+print(result["messages"][-1].content)</code></pre>
+    <div class="callout amber"><strong>LangGraph vs simple loop:</strong> The simple loop in Section 2 works but has no error handling, no branching, and no way to inspect intermediate state. LangGraph models the agent as an explicit state machine — you can add human-in-the-loop nodes, parallel tool execution, conditional routing, and checkpointing for long-running research tasks.</div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>🤖 Lesson 8 Quiz — AI Agents and Tool Use</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. The ReAct pattern alternates between Thought and Action steps. The key benefit over a single-pass LLM call is:</div>
+        <div class="quiz-opt" data-opt="a">a) ReAct uses fewer API tokens by batching multiple questions into one request</div>
+        <div class="quiz-opt" data-opt="b">b) Each Action returns real-world information (tool output) that updates the agent's context. The next Thought can incorporate this new information to plan the next step. This dynamic update cycle allows the agent to handle multi-step tasks where later steps depend on the results of earlier ones — impossible in a single-pass call.</b></div>
+        <div class="quiz-opt" data-opt="c">c) The Thought steps run in parallel with Action steps for faster execution</div>
+        <div class="quiz-opt" data-opt="d">d) ReAct avoids hallucination entirely by never generating text without tool confirmation</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. The calculate() tool uses AST parsing to whitelist safe nodes instead of eval() directly. The reason is:</div>
+        <div class="quiz-opt" data-opt="a">a) eval() is deprecated in Python 3.11 — AST is the modern replacement</div>
+        <div class="quiz-opt" data-opt="b">b) Direct eval("__import__('os').system('rm -rf /')") would execute arbitrary OS commands. An agent that passes user-controlled input to eval() is a code execution vulnerability — an attacker could prompt the agent to call calculate() with a malicious expression and gain full system access. AST whitelisting restricts execution to only safe mathematical operations.</b></div>
+        <div class="quiz-opt" data-opt="c">c) AST parsing is 10x faster than eval() for mathematical expressions</div>
+        <div class="quiz-opt" data-opt="d">d) eval() cannot handle Python's ** exponentiation operator</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. When the agent loop receives a response with no tool_calls, it should:</div>
+        <div class="quiz-opt" data-opt="a">a) Retry the same request until a tool call is generated</div>
+        <div class="quiz-opt" data-opt="b">b) Return the response as the final answer — the model has determined it has enough information to respond without further tool use. In the LangGraph formulation, this routes to the END node. Continuing to loop would cause unnecessary API calls and potential hallucination from over-thinking.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Prompt the user for clarification before proceeding</div>
+        <div class="quiz-opt" data-opt="d">d) Switch to a different model (like GPT-3.5) for the final synthesis step</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. Vector memory (ChromaDB) retrieves past notes by semantic similarity rather than exact keyword match. This means:</div>
+        <div class="quiz-opt" data-opt="a">a) It can only retrieve notes that contain the exact words in the query</div>
+        <div class="quiz-opt" data-opt="b">b) A query for "what do I know about RAG?" can retrieve notes stored as "retrieval-augmented generation paper summary" — even with no word overlap — because both are mapped to nearby points in embedding space. This makes vector memory far more useful than a traditional key-value store for knowledge retrieval.</b></div>
+        <div class="quiz-opt" data-opt="c">c) The retrieval is probabilistic and may return completely unrelated notes</div>
+        <div class="quiz-opt" data-opt="d">d) Vector similarity search requires the query and stored text to be the same language</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. The agent loop includes for _ in range(10) as a safety limit. Without this limit:</div>
+        <div class="quiz-opt" data-opt="a">a) The agent would crash Python due to stack overflow from recursive tool calls</div>
+        <div class="quiz-opt" data-opt="b">b) A buggy agent (or adversarial input) could create an infinite loop — endlessly calling tools, accumulating API costs, and never returning. The step limit is a safety guardrail. In production, you also want a time-out and a maximum cost budget in addition to a step limit.</b></div>
+        <div class="quiz-opt" data-opt="c">c) OpenAI's API automatically disconnects after 10 sequential calls</div>
+        <div class="quiz-opt" data-opt="d">d) Without the limit, tool results would overflow the context window after 10 calls</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. LangGraph models agents as state machines with explicit nodes and edges. The key advantage over a simple while loop is:</div>
+        <div class="quiz-opt" data-opt="a">a) LangGraph runs each node on a separate CPU thread for faster execution</div>
+        <div class="quiz-opt" data-opt="b">b) The graph structure enables: (1) checkpointing — save/resume long-running agents, (2) human-in-the-loop — pause at any node for human review, (3) parallel branches — fan out to multiple tools simultaneously, (4) observable state — inspect exactly what state the agent is in at any point. None of these are trivial with a simple loop.</b></div>
+        <div class="quiz-opt" data-opt="c">c) LangGraph automatically optimises tool call order for minimum API cost</d>
+        <div class="quiz-opt" data-opt="d">d) LangGraph's type system prevents hallucinated tool names from being called</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. Episodic memory stores a log of past agent actions and outcomes. This enables a capability called:</div>
+        <div class="quiz-opt" data-opt="a">a) Batch processing — the agent can process multiple tasks simultaneously</div>
+        <div class="quiz-opt" data-opt="b">b) Learning from experience: if the agent previously tried a search strategy that failed, it can query its episodic memory at the start of a new task, find the failure pattern, and avoid it. This is a form of in-context learning over the agent's own history — enabling continuous improvement without retraining the underlying LLM.</b></div>
+        <div class="quiz-opt" data-opt="c">c) The agent can predict what tools will be needed before the user asks</div>
+        <div class="quiz-opt" data-opt="d">d) Episodic memory reduces latency by caching tool results from previous sessions</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. A research agent is given the task: "Summarise the 5 most cited papers on transformer attention from 2017–2020." The agent should NOT:</div>
+        <div class="quiz-opt" data-opt="a">a) Use multiple tool calls to search, retrieve, and verify information</div>
+        <div class="quiz-opt" data-opt="b">b) Generate the paper titles and citation counts from memory without using search tools. LLM training data may be incorrect about citation counts, paper existence, or author names. For factual research tasks, the agent must use tools to ground its claims — hallucinating research papers would be worse than admitting uncertainty.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Ask clarifying questions if the task requirements are ambiguous</div>
+        <div class="quiz-opt" data-opt="d">d) Include its uncertainty when it cannot verify a specific claim</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Quiz</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-07.html" class="btn-prev">← Lesson 7: Multi-modal AI</a>
+    <a href="lesson-09.html" class="btn-next">Lesson 9: Reading AI Papers →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-11.html">Class 11</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'b',8:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q])o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=80){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — Build a research agent for a subject you care about. Move to Lesson 9!`;}
+  else if(pct>=60){res.className='quiz-result ok';res.textContent=`Good effort! ${score}/${total} (${pct}%) — Revisit the ReAct loop and AST security sections.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Implement the simple agent loop from Section 2 in Colab, then retry.`;}
+  gtag('event','quiz_complete',{event_category:'class11',event_label:'class11_lesson08_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"AI Agents and Tool Use — Class 11 Lesson 8",
+  "description":"AI agent architecture, ReAct pattern, OpenAI tool calling, memory types (in-context, vector, episodic), LangGraph state machines, building a research assistant.",
+  "url":"https://mitraailife.com/content/students/class-11/lesson-08.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Junior College +1",
+  "typicalAgeRange":"15-16",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

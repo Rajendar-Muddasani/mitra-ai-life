@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 4 — Deep RL: Policy Gradients and PPO | Class 11 | Mitra AI Life</title>
+<meta name="description" content="Class 11 Lesson 4: Go beyond Q-Learning — learn REINFORCE, Actor-Critic (A2C), and Proximal Policy Optimisation (PPO). Train agents with Stable Baselines3 on complex environments." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-11/lesson-04.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#d97706" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 4 — Deep RL: Policy Gradients and PPO | Class 11 | Mitra AI Life" />
+<meta property="og:description" content="Go beyond Q-Learning: REINFORCE, Actor-Critic, PPO clipped objective. Train agents with Stable Baselines3 on MuJoCo and Atari." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-11/lesson-04.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#fffbeb;color:#92400e;line-height:1.7}
+a{color:#d97706;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#fbbf24}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#fbbf24}
+.lesson-hero{background:linear-gradient(135deg,#92400e,#b45309,#d97706);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#d97706;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#92400e;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#b45309;margin-bottom:.9rem}
+.lesson-section ul,ol{font-size:.93rem;color:#b45309;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.amber{background:#fffbeb;border-left:4px solid #d97706;color:#92400e}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+pre{background:#1e293b;color:#e2e8f0;border-radius:12px;padding:1.1rem 1.2rem;overflow-x:auto;font-size:.82rem;line-height:1.6;margin:1rem 0}
+code{font-family:'Courier New',monospace}
+.inline-code{background:#fef3c7;color:#92400e;padding:.1rem .35rem;border-radius:4px;font-family:'Courier New',monospace;font-size:.85em}
+.math-box{background:#fff;border:2px solid #fde68a;border-radius:12px;padding:1rem 1.2rem;margin:1rem 0;font-size:.9rem}
+.math-box h4{font-family:'Baloo 2',cursive;font-size:.95rem;color:#92400e;margin-bottom:.5rem}
+.math-row{font-family:'Courier New',monospace;color:#b45309;background:#fef3c7;border-radius:6px;padding:.3rem .6rem;margin:.3rem 0;display:block;font-size:.85rem}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0}
+.cg-card{background:#fff;border:2px solid #fde68a;border-radius:12px;padding:.9rem 1rem}
+.cg-card h4{font-family:'Baloo 2',cursive;font-size:.9rem;color:#d97706;margin-bottom:.5rem}
+.cg-card ul{font-size:.82rem;color:#b45309;padding-left:1.2rem}
+.cg-card li{margin-bottom:.3rem}
+.algo-table{width:100%;border-collapse:collapse;font-size:.82rem;margin:1rem 0}
+.algo-table th{background:#fffbeb;color:#92400e;font-weight:800;padding:.45rem .6rem;border:1px solid #fde68a;text-align:left}
+.algo-table td{padding:.4rem .6rem;border:1px solid #fde68a;color:#b45309;vertical-align:top}
+.algo-table td:first-child{font-weight:700;color:#d97706}
+.quiz-section{background:#fff;border:2px solid #d97706;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#92400e;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#92400e;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #fde68a;background:#fffbeb;font-size:.87rem;color:#92400e;transition:border-color .15s;line-height:1.45}
+.quiz-opt:hover{border-color:#d97706}
+.quiz-opt.selected{border-color:#d97706;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#d97706;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#b45309}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #d97706;color:#d97706}
+.lesson-nav .btn-next{background:#d97706;color:#fff}
+.lesson-nav .btn-prev:hover{background:#fffbeb}
+.lesson-nav .btn-next:hover{background:#b45309}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.compare-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-11.html" class="active">Class 11</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-11.html">Class 11</a> → Lesson 4</div>
+  <h1>Deep RL: Policy Gradients and PPO 🚀</h1>
+  <div class="meta">
+    <span>Class 11</span><span>Age 15–16</span><span>Lesson 4 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-11/lesson-04-hero.jpg" alt="Nisha from Hyderabad training a PPO agent on LunarLander — reward curves climbing from -200 to +200 over training steps" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+
+  <div class="lesson-section">
+    <div class="ls-label">Story</div>
+    <div class="ls-title">Nisha Takes on LunarLander</div>
+    <p>Nisha, 16, from Hyderabad had beaten Lesson 3. Her CartPole Q-agent could balance for 500 steps. She was proud — until her classmate showed her LunarLander-v2, where a rocket must fire its thrusters to land softly on a pad. The state space was continuous, the actions were continuous, and her Q-table approach was completely useless.</p>
+    <p>"Q-Learning is a value method," her teacher explained. "It learns what states are worth. Policy Gradient methods are different — they directly optimise the probability of taking good actions. That's what PPO does."</p>
+    <p>Three hours after installing <code>stable-baselines3</code>, Nisha's PPO agent was landing the rocket cleanly. <strong>She had moved from hand-crafted Q-tables to production-grade RL in an afternoon.</strong></p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 1</div>
+    <div class="ls-title">Value Methods vs Policy Methods</div>
+    <p>Lesson 3 covered <strong>value-based RL</strong>: learn Q(s,a), then pick the action with highest Q. This works for discrete action spaces but fails for continuous ones — you can't take argmax over infinitely many actions.</p>
+    <div class="compare-grid">
+      <div class="cg-card">
+        <h4>Value-Based (Q-Learning, DQN)</h4>
+        <ul>
+          <li>Learns Q(s,a) — how good is each action</li>
+          <li>Policy is implicit: π(s) = argmax Q(s,a)</li>
+          <li>Works for discrete actions only</li>
+          <li>Off-policy: can learn from old experience</li>
+          <li>Examples: DQN, Rainbow, C51</li>
+        </ul>
+      </div>
+      <div class="cg-card">
+        <h4>Policy-Based (REINFORCE, PPO)</h4>
+        <ul>
+          <li>Learns π(a|s) — probability of each action</li>
+          <li>Policy is explicit: sample from π</li>
+          <li>Works for continuous AND discrete actions</li>
+          <li>On-policy: must use fresh experience</li>
+          <li>Examples: REINFORCE, A2C, PPO, SAC</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout amber"><strong>Actor-Critic methods</strong> combine both: an <strong>Actor</strong> network learns the policy π(a|s), and a <strong>Critic</strong> network learns V(s) (state value). The Critic's value estimates reduce variance in the actor's gradient — better than pure policy gradient and faster than pure value-based.</div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 2</div>
+    <div class="ls-title">REINFORCE: The First Policy Gradient</div>
+    <p>REINFORCE (Williams, 1992) is the simplest policy gradient algorithm. Collect a full episode, compute the return (sum of discounted rewards) at each step, then update the policy to make good actions more probable and bad actions less probable.</p>
+    <div class="math-box">
+      <h4>REINFORCE Policy Gradient Theorem</h4>
+      <span class="math-row">∇J(θ) = E[ Σ_t ∇log π(a_t|s_t; θ) * G_t ]</span>
+      <span class="math-row"></span>
+      <span class="math-row">G_t = Σ_{k=t}^{T} γ^(k-t) * r_k    (return from step t)</span>
+      <span class="math-row">∇log π(...)  = gradient of log probability of action taken</span>
+      <span class="math-row">If G_t > 0: increase probability of action a_t in state s_t</span>
+      <span class="math-row">If G_t < 0: decrease probability of action a_t in state s_t</span>
+    </div>
+    <pre><code>import torch, torch.nn as nn, torch.optim as optim
+import gymnasium as gym, numpy as np
+from torch.distributions import Categorical
+
+class PolicyNet(nn.Module):
+    def __init__(self, state_dim, action_dim):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(state_dim, 128), nn.ReLU(),
+            nn.Linear(128, action_dim), nn.Softmax(dim=-1)
+        )
+    def forward(self, x):
+        return self.net(x)
+
+env    = gym.make("CartPole-v1")
+policy = PolicyNet(4, 2)
+optim  = torch.optim.Adam(policy.parameters(), lr=1e-3)
+GAMMA  = 0.99
+
+for episode in range(2000):
+    states, actions, rewards = [], [], []
+    state, _ = env.reset()
+
+    # ── Collect one episode ──────────────────────────────────
+    done = False
+    while not done:
+        s_tensor = torch.FloatTensor(state)
+        probs    = policy(s_tensor)
+        dist     = Categorical(probs)
+        action   = dist.sample().item()
+
+        next_state, reward, terminated, truncated, _ = env.step(action)
+        states.append(s_tensor)
+        actions.append(action)
+        rewards.append(reward)
+        done = terminated or truncated
+        state = next_state
+
+    # ── Compute discounted returns G_t ───────────────────────
+    G, returns = 0, []
+    for r in reversed(rewards):
+        G = r + GAMMA * G
+        returns.insert(0, G)
+    returns = torch.tensor(returns, dtype=torch.float32)
+    returns = (returns - returns.mean()) / (returns.std() + 1e-8)  # normalise
+
+    # ── Compute policy gradient loss ─────────────────────────
+    loss = 0
+    for s, a, g in zip(states, actions, returns):
+        probs = policy(s)
+        log_prob = Categorical(probs).log_prob(torch.tensor(a))
+        loss += -log_prob * g   # negative because we maximise
+
+    optim.zero_grad()
+    loss.backward()
+    optim.step()</code></pre>
+    <div class="callout amber"><strong>REINFORCE problem: high variance.</strong> Returns G_t can vary wildly between episodes, causing noisy gradient updates. Solutions: (1) subtract a baseline V(s) from G_t — this is Actor-Critic, (2) use advantage estimation — this is A2C/PPO.</div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 3</div>
+    <div class="ls-title">PPO: The Industry-Standard Algorithm</div>
+    <p>PPO (Proximal Policy Optimisation, Schulman et al. 2017) is the most widely used deep RL algorithm. It trains on multiple mini-batches of recent experience while preventing updates that change the policy too drastically — the "proximal" (near/close) constraint.</p>
+    <div class="math-box">
+      <h4>PPO Clipped Objective</h4>
+      <span class="math-row">r_t(θ) = π_θ(a_t|s_t) / π_θ_old(a_t|s_t)   (probability ratio)</span>
+      <span class="math-row"></span>
+      <span class="math-row">L_CLIP(θ) = E[ min(r_t*A_t, clip(r_t, 1-ε, 1+ε)*A_t) ]</span>
+      <span class="math-row"></span>
+      <span class="math-row">A_t = advantage = Q(s,a) - V(s)  (how much better than average?)</span>
+      <span class="math-row">ε (epsilon) = clipping parameter, typically 0.2</span>
+      <span class="math-row"></span>
+      <span class="math-row">clip(r_t, 0.8, 1.2): ratio cannot deviate more than 20% from 1.0</span>
+      <span class="math-row">This prevents catastrophic policy updates that destroy good behaviour</span>
+    </div>
+    <p>The clipping is the key insight: if a gradient update would change the policy too much (ratio outside [0.8, 1.2]), clip it. This makes PPO <em>conservative</em> — it improves reliably without the instability of older policy gradient methods.</p>
+    <pre><code># ── PPO with Stable Baselines 3 (industry library) ──────────────
+# pip install stable-baselines3[extra] gymnasium
+
+from stable_baselines3 import PPO
+from stable_baselines3.common.env_util import make_vec_env
+import gymnasium as gym
+
+# ── CartPole ─────────────────────────────────────────────────────
+env = make_vec_env("CartPole-v1", n_envs=4)  # 4 parallel environments
+model = PPO(
+    "MlpPolicy",       # multi-layer perceptron policy
+    env,
+    verbose=1,
+    learning_rate=3e-4,
+    n_steps=2048,      # steps to collect per rollout per env
+    batch_size=64,
+    n_epochs=10,       # PPO update epochs per rollout
+    gamma=0.99,
+    clip_range=0.2,    # ε — clipping parameter
+    ent_coef=0.0,      # entropy bonus (encourage exploration)
+)
+model.learn(total_timesteps=200_000)
+model.save("ppo_cartpole")
+
+# ── LunarLander (requires continuous action support) ─────────────
+from stable_baselines3 import PPO as PPO_C
+
+lunar_env = make_vec_env("LunarLander-v2", n_envs=8)
+lunar_model = PPO_C("MlpPolicy", lunar_env, verbose=1,
+                     learning_rate=3e-4, n_steps=1024,
+                     batch_size=64, n_epochs=4, gamma=0.999)
+lunar_model.learn(total_timesteps=1_000_000)
+
+# ── Evaluate ─────────────────────────────────────────────────────
+from stable_baselines3.common.evaluation import evaluate_policy
+mean_reward, std_reward = evaluate_policy(lunar_model, lunar_env, n_eval_episodes=10)
+print(f"Mean reward: {mean_reward:.2f} +/- {std_reward:.2f}")
+# Target: mean_reward > 200 for LunarLander-v2 = "solved"</code></pre>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 4</div>
+    <div class="ls-title">Algorithm Comparison: When to Use What</div>
+    <table class="algo-table">
+      <thead><tr><th>Algorithm</th><th>Action Space</th><th>Pros</th><th>Cons</th><th>Use Case</th></tr></thead>
+      <tbody>
+        <tr><td>Q-Learning</td><td>Discrete, small</td><td>Simple, provably convergent, no neural network needed</td><td>Fails on large/continuous spaces</td><td>Tabular problems, teaching</td></tr>
+        <tr><td>DQN</td><td>Discrete</td><td>Scales to complex visual inputs (Atari)</td><td>No continuous actions, experience replay needed</td><td>Atari games, grid worlds</td></tr>
+        <tr><td>REINFORCE</td><td>Both</td><td>Conceptually clean, directly optimises policy</td><td>High variance, slow convergence</td><td>Teaching policy gradients</td></tr>
+        <tr><td>A2C</td><td>Both</td><td>Faster than REINFORCE (baseline reduces variance)</td><td>Less stable than PPO, synchronous updates</td><td>When PPO is overkill</td></tr>
+        <tr><td>PPO</td><td>Both</td><td>Stable, reliable, reuses experience, parallel envs</td><td>On-policy (must discard old experience)</td><td>Almost everything — default choice</td></tr>
+        <tr><td>SAC</td><td>Continuous</td><td>Off-policy, sample-efficient, entropy maximisation</td><td>Harder to tune than PPO</td><td>Robotics, continuous control</td></tr>
+      </tbody>
+    </table>
+    <div class="callout green"><strong>When NOT to use RL:</strong> If you have labelled data, use supervised learning — it's 10x simpler. RL shines when (1) you can simulate the environment cheaply, (2) the reward signal is clear, and (3) there are no labelled examples. Don't use RL to classify images — train a CNN instead.</div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>🚀 Lesson 4 Quiz — Deep RL and PPO</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. Policy gradient methods learn π(a|s) directly rather than Q(s,a). The key advantage over Q-Learning for continuous control (robot joints) is:</div>
+        <div class="quiz-opt" data-opt="a">a) Policy networks train 10x faster than Q-networks on all hardware</div>
+        <div class="quiz-opt" data-opt="b">b) For continuous actions, taking argmax over Q(s,a) is impossible — there are infinitely many possible actions. A policy network outputs action probabilities or a Gaussian distribution, from which you sample. No argmax required, so it scales naturally to continuous action spaces like joint torques.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Policy methods require less memory because they don't store a Q-table</div>
+        <div class="quiz-opt" data-opt="d">d) Policy gradient theorem is mathematically simpler than the Bellman equation</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. REINFORCE has high variance because:</div>
+        <div class="quiz-opt" data-opt="a">a) It uses random initialisation for the policy network</div>
+        <div class="quiz-opt" data-opt="b">b) The return G_t is computed from a single episode's rewards, which vary significantly between episodes due to environment stochasticity and exploration. A single lucky (or unlucky) trajectory can cause a large policy update in the wrong direction. Actor-Critic reduces this by replacing G_t with an advantage estimate A_t = G_t - V(s_t).</b></div>
+        <div class="quiz-opt" data-opt="c">c) The Softmax output layer adds multiplicative noise to gradients</div>
+        <div class="quiz-opt" data-opt="d">d) REINFORCE uses a different optimiser (SGD) that causes high variance by design</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. The PPO clipping parameter ε=0.2 prevents updates where r_t (the ratio new/old policy) exceeds 1.2 or falls below 0.8. This is necessary because:</div>
+        <div class="quiz-opt" data-opt="a">a) Ratios outside [0.8, 1.2] cause numerical overflow in floating point arithmetic</div>
+        <div class="quiz-opt" data-opt="b">b) Large policy updates can catastrophically destroy previously learned behaviour. If the policy changes drastically in one update, the agent enters a bad region and may never recover — because RL uses on-policy data, the next rollout will come from this now-worse policy. The clip constrains each update to a neighbourhood of the current policy.</b></div>
+        <div class="quiz-opt" data-opt="c">c) The gym environment raises an error when policy ratios exceed ±0.2</div>
+        <div class="quiz-opt" data-opt="d">d) Clipping ensures the advantage function A_t is always normalised to [-1, 1]</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. PPO uses n_envs=4 (4 parallel environments) instead of a single environment. The reason is:</div>
+        <div class="quiz-opt" data-opt="a">a) Gymnasium requires exactly 4 environments for correct physics simulation</div>
+        <div class="quiz-opt" data-opt="b">b) Collecting experience from multiple environments simultaneously reduces the correlation between consecutive samples (more diverse rollout batch), allows more transitions per wall-clock second, and stabilises gradient estimates. Each environment independently explores the state space.</b></div>
+        <div class="quiz-opt" data-opt="c">c) 4 environments exactly matches a modern 4-core CPU for maximum efficiency</div>
+        <div class="quiz-opt" data-opt="d">d) Parallel environments allow PPO to be used as an off-policy algorithm</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. In the Actor-Critic architecture, the Advantage A_t = Q(s,a) - V(s) measures:</div>
+        <div class="quiz-opt" data-opt="a">a) The absolute value of the reward received at each step</div>
+        <div class="quiz-opt" data-opt="b">b) How much better (or worse) taking action a in state s is compared to the average action in that state. A_t > 0 means "this action was better than average — increase its probability." A_t < 0 means "this action was worse than average — decrease its probability." This centering reduces gradient variance.</b></div>
+        <div class="quiz-opt" data-opt="c">c) The difference in reward between two parallel environments</div>
+        <div class="quiz-opt" data-opt="d">d) The error in the critic's value estimate compared to the true Q-function</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. SAC (Soft Actor-Critic) is preferred over PPO for robotics with continuous actions because:</div>
+        <div class="quiz-opt" data-opt="a">a) SAC does not require a GPU — it runs entirely on CPU</div>
+        <div class="quiz-opt" data-opt="b">b) SAC is off-policy — it learns from a replay buffer of past experience, making it much more sample-efficient than PPO (which discards experience after each update). Physical robots are expensive to run; you want to extract maximum learning from every second of real-world interaction.</b></div>
+        <div class="quiz-opt" data-opt="c">c) SAC was invented specifically for robotics and cannot be applied to other domains</div>
+        <div class="quiz-opt" data-opt="d">d) PPO's clipping breaks continuous action distributions, so SAC is the only option</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. Stable Baselines3's PPO uses n_epochs=10, meaning it performs 10 gradient update passes on each collected rollout batch. This reuse of data is possible (compared to REINFORCE which uses each sample once) because:</div>
+        <div class="quiz-opt" data-opt="a">a) Stable Baselines3 uses gradient checkpointing to avoid memory overflow during 10 passes</div>
+        <div class="quiz-opt" data-opt="b">b) The PPO clipping constraint limits how much the policy can change per pass, so the data remains "approximately on-policy" even after multiple updates. Without clipping, updating 10 times would make the data stale and lead to divergence — the IS ratio r_t would no longer be close to 1.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Each of the 10 epochs uses a completely different neural network initialisation</div>
+        <div class="quiz-opt" data-opt="d">d) n_epochs=10 refers to 10 full environment training runs, not gradient passes</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. You want to train a trading bot that decides buy/sell/hold every minute based on 50 market features. The reward is daily P&L. The correct algorithm choice is:</div>
+        <div class="quiz-opt" data-opt="a">a) Q-Learning with a Q-table (50 features × 3 actions)</div>
+        <div class="quiz-opt" data-opt="b">b) PPO with an MLP policy — it handles the continuous state space (50 features), discrete action space (3 actions), and delayed sparse rewards (daily P&L). The on-policy constraint means experience collected with old policies is discarded, which is acceptable since the market environment is non-stationary anyway.</b></div>
+        <div class="quiz-opt" data-opt="c">c) REINFORCE — simpler algorithms are always better in finance</div>
+        <div class="quiz-opt" data-opt="d">d) Supervised learning with labelled buy/sell/hold decisions from a profitable human trader</d></div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Quiz</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-03.html" class="btn-prev">← Lesson 3: MDPs and Q-Learning</a>
+    <a href="lesson-05.html" class="btn-next">Lesson 5: MLOps: Docker →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-11.html">Class 11</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'b',8:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q])o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=80){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — You understand why PPO dominates production RL. Move to Lesson 5!`;}
+  else if(pct>=60){res.className='quiz-result ok';res.textContent=`Good effort! ${score}/${total} (${pct}%) — Re-read the PPO clipping and Actor-Critic sections.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Run the Stable Baselines3 LunarLander training in Colab, then retry.`;}
+  gtag('event','quiz_complete',{event_category:'class11',event_label:'class11_lesson04_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"Deep RL: Policy Gradients and PPO — Class 11 Lesson 4",
+  "description":"Value vs policy methods, REINFORCE, Actor-Critic, PPO clipped objective, Stable Baselines3, algorithm selection guide.",
+  "url":"https://mitraailife.com/content/students/class-11/lesson-04.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Junior College +1",
+  "typicalAgeRange":"15-16",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

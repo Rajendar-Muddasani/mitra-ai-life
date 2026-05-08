@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 6 — Production ML: Monitoring and Drift | Class 11 | Mitra AI Life</title>
+<meta name="description" content="Class 11 Lesson 6: Detect data and concept drift in deployed models using Evidently AI. Implement PSI, KS tests, alert pipelines, A/B testing, and model retraining triggers." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-11/lesson-06.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#d97706" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 6 — Production ML: Monitoring and Drift | Class 11 | Mitra AI Life" />
+<meta property="og:description" content="Detect data and concept drift, use Evidently AI, PSI and KS tests, build alert pipelines, and design A/B tests for ML models in production." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-11/lesson-06.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#fffbeb;color:#92400e;line-height:1.7}
+a{color:#d97706;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#fbbf24}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#fbbf24}
+.lesson-hero{background:linear-gradient(135deg,#92400e,#b45309,#d97706);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#d97706;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#92400e;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#b45309;margin-bottom:.9rem}
+.lesson-section ul,ol{font-size:.93rem;color:#b45309;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.amber{background:#fffbeb;border-left:4px solid #d97706;color:#92400e}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.red{background:#fff1f2;border-left:4px solid #f43f5e;color:#881337}
+pre{background:#1e293b;color:#e2e8f0;border-radius:12px;padding:1.1rem 1.2rem;overflow-x:auto;font-size:.82rem;line-height:1.6;margin:1rem 0}
+code{font-family:'Courier New',monospace}
+.inline-code{background:#fef3c7;color:#92400e;padding:.1rem .35rem;border-radius:4px;font-family:'Courier New',monospace;font-size:.85em}
+.math-box{background:#fff;border:2px solid #fde68a;border-radius:12px;padding:1rem 1.2rem;margin:1rem 0;font-size:.9rem}
+.math-box h4{font-family:'Baloo 2',cursive;font-size:.95rem;color:#92400e;margin-bottom:.5rem}
+.math-row{font-family:'Courier New',monospace;color:#b45309;background:#fef3c7;border-radius:6px;padding:.3rem .6rem;margin:.3rem 0;display:block;font-size:.85rem}
+.drift-table{width:100%;border-collapse:collapse;font-size:.82rem;margin:1rem 0}
+.drift-table th{background:#fffbeb;color:#92400e;font-weight:800;padding:.45rem .6rem;border:1px solid #fde68a;text-align:left}
+.drift-table td{padding:.4rem .6rem;border:1px solid #fde68a;color:#b45309;vertical-align:top}
+.drift-table td:first-child{font-weight:700;color:#d97706}
+.quiz-section{background:#fff;border:2px solid #d97706;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#92400e;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#92400e;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #fde68a;background:#fffbeb;font-size:.87rem;color:#92400e;transition:border-color .15s;line-height:1.45}
+.quiz-opt:hover{border-color:#d97706}
+.quiz-opt.selected{border-color:#d97706;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#d97706;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#b45309}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #d97706;color:#d97706}
+.lesson-nav .btn-next{background:#d97706;color:#fff}
+.lesson-nav .btn-prev:hover{background:#fffbeb}
+.lesson-nav .btn-next:hover{background:#b45309}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-11.html" class="active">Class 11</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-11.html">Class 11</a> → Lesson 6</div>
+  <h1>Production ML: Monitoring and Drift 📉</h1>
+  <div class="meta">
+    <span>Class 11</span><span>Age 15–16</span><span>Lesson 6 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-11/lesson-06-hero.jpg" alt="Preethi from Coimbatore monitoring a loan approval model — Evidently AI drift reports, accuracy dropping over time, alert dashboard" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+
+  <div class="lesson-section">
+    <div class="ls-label">Story</div>
+    <div class="ls-title">Preethi's Silent Degradation</div>
+    <p>Preethi, 16, from Coimbatore had built a loan approval model for a class project — a gradient-boosted classifier trained on 2022 credit data, 91% accuracy on the test set. She "deployed" it (as a FastAPI on a free tier cloud service) and thought she was done.</p>
+    <p>Three months later, a friend pointed out the model was approving nearly everyone. Accuracy had quietly dropped to 61% — just above random chance. The problem? India's credit environment had shifted. New income patterns post-COVID, new UPI transaction behaviours, new borrower demographics. The 2022 data no longer reflected 2024 reality.</p>
+    <p>"This is data drift," her teacher explained. "Your model was correct when deployed. The world changed. Every production model needs a monitoring system that alerts you before users notice." <strong>Preethi spent a day setting up Evidently AI. Her next model has never gone stale.</strong></p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 1</div>
+    <div class="ls-title">Why Models Degrade: Types of Drift</div>
+    <table class="drift-table">
+      <thead><tr><th>Drift Type</th><th>What Changes</th><th>Loan Model Example</th><th>Detection Method</th></tr></thead>
+      <tbody>
+        <tr><td>Data Drift</td><td>Input feature distribution P(X) changes</td><td>Borrower income distribution shifts post-COVID — typical applicant income was ₹30k/month in 2022, now ₹45k/month</td><td>PSI, KS test, chi-squared</td></tr>
+        <tr><td>Concept Drift</td><td>Relationship P(Y|X) changes — same features, different correct output</td><td>A UPI score of 750 was "excellent" in 2022 but is now "average" because scoring criteria changed</td><td>Prediction accuracy monitoring</td></tr>
+        <tr><td>Label Drift</td><td>Output label distribution P(Y) changes</td><td>Default rate in the population changed from 8% to 14%</td><td>Monitor prediction distribution</td></tr>
+        <tr><td>Upstream Drift</td><td>A data pipeline changes, altering feature values</td><td>Bureau changed how they calculate CIBIL score</td><td>Feature statistics monitoring</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 2</div>
+    <div class="ls-title">Evidently AI: Automated Drift Reports</div>
+    <pre><code># pip install evidently pandas scikit-learn
+
+import pandas as pd
+from evidently.report import Report
+from evidently.metric_preset import DataDriftPreset, ClassificationPreset
+
+# ── Load reference (training) data and current (production) data ──
+reference = pd.read_csv("train_data_2022.csv")     # 10,000 rows
+current   = pd.read_csv("production_data_2024.csv") # last 30 days
+
+# ── 1. Data Drift Report ──────────────────────────────────────────
+data_drift_report = Report(metrics=[DataDriftPreset()])
+data_drift_report.run(reference_data=reference, current_data=current)
+data_drift_report.save_html("drift_report.html")   # open in browser
+
+# ── 2. Model Performance Report (needs ground truth labels) ───────
+# For loan approvals: labels available after 30-day default window
+perf_report = Report(metrics=[ClassificationPreset()])
+perf_report.run(
+    reference_data=reference.assign(prediction=reference['approved']),
+    current_data=current.assign(prediction=current['model_output'])
+)
+perf_report.save_html("performance_report.html")
+
+# ── 3. Programmatic drift detection for alerting ─────────────────
+from evidently.test_suite import TestSuite
+from evidently.tests import TestNumberOfDriftedColumns
+
+suite = TestSuite(tests=[
+    TestNumberOfDriftedColumns(lt=3),   # alert if more than 3 columns drift
+])
+suite.run(reference_data=reference, current_data=current)
+result = suite.as_dict()
+
+if not result['summary']['all_passed']:
+    print("ALERT: Significant data drift detected!")
+    print(result['summary']['failed'])</code></pre>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 3</div>
+    <div class="ls-title">Statistical Tests for Drift Detection</div>
+    <div class="math-box">
+      <h4>Population Stability Index (PSI) — for continuous features</h4>
+      <span class="math-row">PSI = Σ (P_current - P_reference) * ln(P_current / P_reference)</span>
+      <span class="math-row">PSI < 0.10: No significant drift</span>
+      <span class="math-row">PSI 0.10–0.25: Moderate drift — investigate</span>
+      <span class="math-row">PSI > 0.25: Significant drift — retrain required</span>
+    </div>
+    <pre><code>import numpy as np
+from scipy import stats
+
+def psi(reference, current, n_bins=10):
+    """Population Stability Index for continuous features."""
+    bins = np.percentile(reference, np.linspace(0, 100, n_bins + 1))
+    bins[0] = -np.inf; bins[-1] = np.inf
+
+    ref_counts, _ = np.histogram(reference, bins=bins)
+    cur_counts, _ = np.histogram(current, bins=bins)
+
+    ref_pct = ref_counts / len(reference)
+    cur_pct = cur_counts / len(current)
+
+    # Avoid division by zero / log(0)
+    ref_pct = np.where(ref_pct == 0, 1e-6, ref_pct)
+    cur_pct = np.where(cur_pct == 0, 1e-6, cur_pct)
+
+    return np.sum((cur_pct - ref_pct) * np.log(cur_pct / ref_pct))
+
+# ── Kolmogorov-Smirnov test — for continuous features ────────────
+def ks_drift_test(reference, current, significance=0.05):
+    """KS test: p-value < significance → drift detected."""
+    stat, p_value = stats.ks_2samp(reference, current)
+    drift = p_value < significance
+    return {"ks_statistic": stat, "p_value": p_value, "drift": drift}
+
+# ── Chi-squared test — for categorical features ───────────────────
+def chi2_drift_test(reference_counts, current_counts, significance=0.05):
+    """Chi-squared test for categorical column drift."""
+    stat, p_value = stats.chisquare(current_counts,
+                                     f_exp=reference_counts * sum(current_counts) / sum(reference_counts))
+    return {"chi2_statistic": stat, "p_value": p_value, "drift": p_value < significance}
+
+# Example usage:
+income_ref = reference['monthly_income'].values
+income_cur = current['monthly_income'].values
+
+print(f"PSI (income): {psi(income_ref, income_cur):.4f}")
+print(ks_drift_test(income_ref, income_cur))</code></pre>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 4</div>
+    <div class="ls-title">Retraining Triggers and A/B Testing</div>
+    <p>Two strategies for deciding when to retrain:</p>
+    <ul>
+      <li><strong>Scheduled retraining:</strong> Retrain every N days regardless of drift. Simple but wasteful — you retrain even when the model is fine.</li>
+      <li><strong>Metric-based retraining:</strong> Retrain when PSI &gt; 0.25 OR accuracy drops below threshold. Efficient but requires monitoring infrastructure.</li>
+    </ul>
+    <pre><code># ── A/B test two model versions in production ────────────────────
+import random
+
+def route_request(user_id: str, request_data: dict) -> dict:
+    """Route 10% of traffic to new model v2 for comparison."""
+    # Stable hash ensures same user always gets same version
+    use_v2 = (hash(user_id) % 100) < 10   # 10% to v2
+
+    if use_v2:
+        result = model_v2.predict(request_data)
+        result['model_version'] = 'v2'
+    else:
+        result = model_v1.predict(request_data)
+        result['model_version'] = 'v1'
+
+    # Log everything for later analysis
+    log_prediction(user_id, request_data, result)
+    return result
+
+# After 30 days (once ground truth labels are available):
+# Compare v1 vs v2 accuracy, false positive rate, and PSI of their inputs
+# If v2 wins on all metrics with statistical significance → promote to 100%</code></pre>
+    <pre><code># ── Complete monitoring pipeline (runs daily via cron/Airflow) ───
+def daily_monitoring_check():
+    ref_data = load_training_data()         # stored in your data warehouse
+    prod_data = load_last_7_days_production()
+
+    # 1. Check data drift
+    drift_results = {}
+    for col in MONITORED_FEATURES:
+        drift_results[col] = ks_drift_test(ref_data[col], prod_data[col])
+
+    drifted_cols = [c for c,r in drift_results.items() if r['drift']]
+
+    # 2. Check prediction distribution
+    ref_approval_rate = ref_data['approved'].mean()
+    cur_approval_rate = prod_data['model_prediction'].mean()
+
+    # 3. Alert if necessary
+    if len(drifted_cols) > 3:
+        send_alert(f"DATA DRIFT: {drifted_cols} — consider retraining")
+
+    if abs(cur_approval_rate - ref_approval_rate) > 0.15:
+        send_alert(f"PREDICTION SHIFT: approval rate {cur_approval_rate:.1%} vs baseline {ref_approval_rate:.1%}")
+
+    return {"status": "ok", "drifted_columns": drifted_cols}</code></pre>
+    <div class="callout amber"><strong>The label delay problem:</strong> For loan defaults, you only know if a loan was "correctly approved" 30–90 days later. During this window, you can only monitor data drift and prediction distribution — not accuracy. Design your monitoring to work with delayed labels.</div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>📉 Lesson 6 Quiz — Production ML Monitoring</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. Preethi's model accuracy dropped from 91% to 61% after 3 months without code changes. The most likely cause is:</div>
+        <div class="quiz-opt" data-opt="a">a) The FastAPI server ran out of memory and started returning random predictions</div>
+        <div class="quiz-opt" data-opt="b">b) Data drift or concept drift — the real-world distribution of borrower characteristics and/or the relationship between features and default risk changed after deployment. The model still encodes the 2022 patterns perfectly; the world has moved on. This is one of the most common failures in production ML.</b></div>
+        <div class="quiz-opt" data-opt="c">c) The model overfitted to the test set during training and the effect became visible over time</div>
+        <div class="quiz-opt" data-opt="d">d) Python garbage collection was incorrectly collecting the model weights</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. PSI = 0.32 for the "monthly_income" feature means:</div>
+        <div class="quiz-opt" data-opt="a">a) 32% of the production borrowers have monthly income above the training mean</div>
+        <div class="quiz-opt" data-opt="b">b) Significant drift — the income distribution of current applicants differs substantially from training data. PSI > 0.25 indicates the population has shifted enough that model performance is likely degraded. Retraining should be triggered immediately.</b></div>
+        <div class="quiz-opt" data-opt="c">c) The model has 32% higher false positive rate than at training time</div>
+        <div class="quiz-opt" data-opt="d">d) Moderate drift — investigate but no immediate action needed (PSI 0.10–0.25 threshold)</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. The KS test returns p_value = 0.003 for a feature (significance threshold = 0.05). This means:</div>
+        <div class="quiz-opt" data-opt="a">a) The feature has 0.3% importance in the model — it can be safely dropped</div>
+        <div class="quiz-opt" data-opt="b">b) The two distributions (training vs production) are significantly different — p_value < 0.05 means we reject the null hypothesis that the distributions are the same. Drift is detected. The smaller the p-value, the stronger the evidence of drift.</b></div>
+        <div class="quiz-opt" data-opt="c">c) p_value > 0.003 is our threshold, so no drift is detected</div>
+        <div class="quiz-opt" data-opt="d">d) The feature is not important enough to cause model degradation</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. Concept drift means P(Y|X) has changed while P(X) may be the same. A real-world example is:</div>
+        <div class="quiz-opt" data-opt="a">a) The age distribution of loan applicants shifts from mostly 25–35 to mostly 35–50</div>
+        <div class="quiz-opt" data-opt="b">b) A CIBIL score of 750 was considered "excellent" and strongly predicted repayment in 2022. In 2024, inflation and job market changes mean a 750-score borrower now has 2x higher default probability. The features are the same; the meaning of those features for predicting default has changed.</b></div>
+        <div class="quiz-opt" data-opt="c">c) The model receives more API requests than it was designed to handle</td></tr>
+        <div class="quiz-opt" data-opt="d">d) The model was trained on data with more class imbalance than the production data</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. A/B testing model versions in production uses hash(user_id) % 100 < 10 to route 10% to v2. Using user_id hash instead of random() ensures:</div>
+        <div class="quiz-opt" data-opt="a">a) Users with high credit scores always get the better model version</div>
+        <div class="quiz-opt" data-opt="b">b) The same user always receives the same model version across all their requests. This enables coherent user experience and prevents leakage bias — if a user randomly switched between v1 and v2 on different requests, you couldn't cleanly attribute downstream outcomes (like loan repayment) to one model version.</b></div>
+        <div class="quiz-opt" data-opt="c">c) The split is exactly 10%/90% rather than an approximation from random sampling</div>
+        <div class="quiz-opt" data-opt="d">d) Hashing is faster than random() for high-traffic production APIs</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. For loan default prediction, ground truth labels (did the borrower actually default?) are only available 30–90 days after the prediction was made. During this window, the monitoring system should:</div>
+        <div class="quiz-opt" data-opt="a">a) Stop all monitoring until ground truth labels are available</div>
+        <div class="quiz-opt" data-opt="b">b) Monitor data drift (feature distributions), prediction distribution (approval rate), and upstream data quality — all of which don't require ground truth. These are leading indicators of model degradation. Performance metrics can be computed retrospectively once the label delay has passed.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Use the model's own confidence scores as a proxy for ground truth accuracy</d>
+        <div class="quiz-opt" data-opt="d">d) Retrain the model every 30 days regardless of drift as a safety measure</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. Metric-based retraining (trigger when PSI > 0.25) is generally preferred over scheduled retraining (every 7 days) because:</div>
+        <div class="quiz-opt" data-opt="a">a) Scheduled retraining requires more expensive cloud infrastructure than metric-based</div>
+        <div class="quiz-opt" data-opt="b">b) Scheduled retraining wastes compute retraining a healthy model and may still miss fast-occurring drift if it happens between schedules. Metric-based triggers retrain only when evidence of drift is present, reducing unnecessary compute cost while also catching unexpected sudden shifts.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Regulatory compliance in India mandates metric-based triggers for financial models</div>
+        <div class="quiz-opt" data-opt="d">d) Scheduled retraining causes overfitting because the model sees the same data repeatedly</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. Upstream data drift (a data pipeline change affecting feature values) is the most dangerous drift type because:</div>
+        <div class="quiz-opt" data-opt="a">a) Upstream drift always causes immediate model failure within minutes of occurring</div>
+        <div class="quiz-opt" data-opt="b">b) It's often silent and misdiagnosed as model degradation rather than a data engineering problem. If the CIBIL bureau changes their scoring formula and your ETL pipeline doesn't update the transformation, the feature values delivered to your model are systematically wrong — but this looks identical to concept drift. Root-cause analysis is required to distinguish them.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Upstream drift cannot be detected by statistical tests — only manual inspection finds it</div>
+        <div class="quiz-opt" data-opt="d">d) It causes data drift but never concept drift since the model's logic is unchanged</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Quiz</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-05.html" class="btn-prev">← Lesson 5: MLOps: Docker</a>
+    <a href="lesson-07.html" class="btn-next">Lesson 7: Multi-modal AI →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-11.html">Class 11</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'b',8:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q])o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=80){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — Set up Evidently AI on a real project this week. Move to Lesson 7!`;}
+  else if(pct>=60){res.className='quiz-result ok';res.textContent=`Good effort! ${score}/${total} (${pct}%) — Revisit the PSI/KS test thresholds and drift type definitions.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Generate an Evidently drift report on any Kaggle dataset, then retry.`;}
+  gtag('event','quiz_complete',{event_category:'class11',event_label:'class11_lesson06_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"Production ML: Monitoring and Drift — Class 11 Lesson 6",
+  "description":"Data drift, concept drift, Evidently AI, PSI, KS tests, alert pipelines, A/B testing model versions, retraining triggers.",
+  "url":"https://mitraailife.com/content/students/class-11/lesson-06.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Junior College +1",
+  "typicalAgeRange":"15-16",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

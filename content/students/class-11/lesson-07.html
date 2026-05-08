@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 7 — Multi-modal AI: Vision + Language + Speech | Class 11 | Mitra AI Life</title>
+<meta name="description" content="Class 11 Lesson 7: Build multi-modal AI with CLIP, Whisper, and GPT-4 Vision. Combine image, text, and speech modalities. Build a visual Q&A accessibility app for visually impaired users." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-11/lesson-07.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#d97706" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 7 — Multi-modal AI: Vision + Language + Speech | Class 11 | Mitra AI Life" />
+<meta property="og:description" content="Build multi-modal AI with CLIP, Whisper, and GPT-4 Vision. Combine image, text, and speech. Build a visual Q&A accessibility app." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-11/lesson-07.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#fffbeb;color:#92400e;line-height:1.7}
+a{color:#d97706;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#fbbf24}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#fbbf24}
+.lesson-hero{background:linear-gradient(135deg,#92400e,#b45309,#d97706);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#d97706;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#92400e;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#b45309;margin-bottom:.9rem}
+.lesson-section ul,ol{font-size:.93rem;color:#b45309;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.amber{background:#fffbeb;border-left:4px solid #d97706;color:#92400e}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+pre{background:#1e293b;color:#e2e8f0;border-radius:12px;padding:1.1rem 1.2rem;overflow-x:auto;font-size:.82rem;line-height:1.6;margin:1rem 0}
+code{font-family:'Courier New',monospace}
+.inline-code{background:#fef3c7;color:#92400e;padding:.1rem .35rem;border-radius:4px;font-family:'Courier New',monospace;font-size:.85em}
+.modal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin:1rem 0}
+.modal-card{background:#fff;border:2px solid #fde68a;border-radius:12px;padding:.8rem;text-align:center}
+.modal-card .icon{font-size:1.6rem;display:block;margin-bottom:.3rem}
+.modal-card h4{font-family:'Baloo 2',cursive;font-size:.88rem;color:#d97706;margin-bottom:.3rem}
+.modal-card p{font-size:.76rem;color:#b45309;margin:0}
+.quiz-section{background:#fff;border:2px solid #d97706;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#92400e;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#92400e;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #fde68a;background:#fffbeb;font-size:.87rem;color:#92400e;transition:border-color .15s;line-height:1.45}
+.quiz-opt:hover{border-color:#d97706}
+.quiz-opt.selected{border-color:#d97706;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#d97706;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#b45309}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #d97706;color:#d97706}
+.lesson-nav .btn-next{background:#d97706;color:#fff}
+.lesson-nav .btn-prev:hover{background:#fffbeb}
+.lesson-nav .btn-next:hover{background:#b45309}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.modal-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-11.html" class="active">Class 11</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-11.html">Class 11</a> → Lesson 7</div>
+  <h1>Multi-modal AI: Vision + Language + Speech 👁️🗣️</h1>
+  <div class="meta">
+    <span>Class 11</span><span>Age 15–16</span><span>Lesson 7 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-11/lesson-07-hero.jpg" alt="Aryan from Delhi building an accessibility app — photo of a street, CLIP processing it, Whisper converting speech query, GPT-4V answering in Hindi" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+
+  <div class="lesson-section">
+    <div class="ls-label">Story</div>
+    <div class="ls-title">Aryan's Accessibility App for Delhi</div>
+    <p>Aryan, 16, from Delhi had a grandmother who was losing her sight to cataracts. She could no longer read labels at the market, identify medicine packaging, or read WhatsApp messages her family sent. Aryan decided to build something for her.</p>
+    <p>The app he imagined: point your phone at anything, speak a question in Hindi, and hear a description spoken back. "What medicine is this?" → the app reads the label and answers in Hindi. "What does this sign say?" → it translates and speaks the answer.</p>
+    <p>Three models working together: CLIP to understand what's in the image, Whisper to transcribe the spoken Hindi question, and a vision-language model to answer. <strong>Aryan's grandmother now uses it every day at the market.</strong></p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 1</div>
+    <div class="ls-title">What is Multi-modal AI?</div>
+    <p>Traditional AI models process one modality: a CNN sees images, an LLM reads text, a speech model processes audio. Multi-modal AI combines modalities — it can reason across images, text, and sound simultaneously.</p>
+    <div class="modal-grid">
+      <div class="modal-card">
+        <span class="icon">👁️</span>
+        <h4>Vision</h4>
+        <p>Images, video frames. CLIP, ViT, ResNet encoders.</p>
+      </div>
+      <div class="modal-card">
+        <span class="icon">💬</span>
+        <h4>Language</h4>
+        <p>Text, captions, questions. BERT, GPT, T5 encoders.</p>
+      </div>
+      <div class="modal-card">
+        <span class="icon">🔊</span>
+        <h4>Speech</h4>
+        <p>Audio waveforms. Whisper, wav2vec, mfcc features.</p>
+      </div>
+    </div>
+    <p>The key challenge: how do you put an image and a sentence into the same "space" so you can compare them? OpenAI's CLIP solved this with <strong>contrastive learning</strong> — training a vision encoder and a text encoder to produce embeddings where matching image-text pairs are close together and non-matching pairs are far apart.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 2</div>
+    <div class="ls-title">CLIP: Contrastive Image-Language Pre-training</div>
+    <pre><code># pip install transformers torch pillow
+
+from transformers import CLIPProcessor, CLIPModel
+from PIL import Image
+import torch, requests
+from io import BytesIO
+
+model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
+processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
+
+# ── Zero-shot image classification ───────────────────────────────
+def classify_image(image_path: str, candidate_labels: list[str]) -> dict:
+    image = Image.open(image_path).convert("RGB")
+
+    inputs = processor(
+        text=candidate_labels,
+        images=image,
+        return_tensors="pt",
+        padding=True
+    )
+
+    with torch.no_grad():
+        outputs = model(**inputs)
+
+    # logits_per_image: similarity of image to each text label
+    probs = outputs.logits_per_image.softmax(dim=1).squeeze()
+
+    return {label: float(prob) for label, prob in zip(candidate_labels, probs)}
+
+# Example: identify medicine packaging
+labels = [
+    "a Paracetamol tablet box",
+    "a Metformin medicine bottle",
+    "an Aspirin blister pack",
+    "a vitamin supplement bottle"
+]
+result = classify_image("medicine.jpg", labels)
+for label, prob in sorted(result.items(), key=lambda x: -x[1]):
+    print(f"{prob:.1%}  {label}")
+
+# ── Image-text similarity (for accessibility app) ─────────────────
+def describe_scene(image_path: str, questions: list[str]) -> str:
+    """Find which description best matches the image."""
+    scores = classify_image(image_path, questions)
+    return max(scores, key=scores.get)
+
+scene = describe_scene("street.jpg", [
+    "a busy road with cars and traffic",
+    "a quiet park with trees and benches",
+    "a market with vegetable stalls",
+    "a hospital entrance with people"
+])
+print(f"Scene: {scene}")</code></pre>
+    <div class="callout amber"><strong>How CLIP works:</strong> It was trained on 400 million (image, caption) pairs from the internet. The image encoder (ViT) and text encoder (Transformer) were trained contrastively — the model learned to pull matching pairs together in embedding space and push non-matching pairs apart. Zero-shot classification emerges for free: just compare the image embedding to text embeddings of your labels.</div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 3</div>
+    <div class="ls-title">Whisper: Speech-to-Text in Any Language</div>
+    <pre><code># pip install openai-whisper
+
+import whisper
+
+# Load model (base = fast, large = most accurate)
+# Models: tiny, base, small, medium, large, large-v2, large-v3
+asr_model = whisper.load_model("base")
+
+# ── Transcribe Hindi audio ────────────────────────────────────────
+def transcribe_hindi(audio_path: str) -> dict:
+    result = asr_model.transcribe(
+        audio_path,
+        language="hi",           # force Hindi
+        task="transcribe",       # transcribe in original language
+        fp16=False               # use fp32 on CPU
+    )
+    return {
+        "text": result["text"],
+        "language": result["language"],
+        "segments": result["segments"]  # timestamped segments
+    }
+
+# ── Translate Hindi audio to English ─────────────────────────────
+def translate_hindi_to_english(audio_path: str) -> str:
+    result = asr_model.transcribe(
+        audio_path,
+        language="hi",
+        task="translate"   # translate to English
+    )
+    return result["text"]
+
+# Supported Indian languages: Hindi, Bengali, Tamil, Telugu,
+# Marathi, Kannada, Malayalam, Gujarati, Punjabi, Urdu (98 total)</code></pre>
+    <div class="callout green"><strong>Whisper is genuinely impressive for Indian languages.</strong> It was trained on 680,000 hours of multilingual audio. For Hindi it achieves ~5–7% word error rate (comparable to English commercial APIs). For Tamil and Telugu it's 8–12%. It handles accented English, code-switching (Hinglish), and noisy environments well.</div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 4</div>
+    <div class="ls-title">Building the Visual Q&A Accessibility App</div>
+    <pre><code># Full pipeline: image + spoken Hindi question → Hindi answer
+# pip install transformers openai-whisper pillow openai
+
+import whisper
+import openai
+from PIL import Image
+import base64, io
+
+asr_model = whisper.load_model("base")
+client = openai.OpenAI()  # uses OPENAI_API_KEY env var
+
+def image_to_base64(image_path: str) -> str:
+    with open(image_path, "rb") as f:
+        return base64.b64encode(f.read()).decode("utf-8")
+
+def visual_qa_hindi(image_path: str, audio_question_path: str) -> str:
+    """
+    1. Transcribe spoken Hindi question with Whisper
+    2. Send image + question to GPT-4 Vision
+    3. Get answer in Hindi
+    """
+    # Step 1: Speech → Text
+    question_result = asr_model.transcribe(
+        audio_question_path, language="hi", task="transcribe", fp16=False
+    )
+    hindi_question = question_result["text"]
+    print(f"Question: {hindi_question}")
+
+    # Step 2: Vision-Language model answers
+    image_b64 = image_to_base64(image_path)
+
+    response = client.chat.completions.create(
+        model="gpt-4o",    # supports vision natively
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You are a helpful assistant for visually impaired users. "
+                    "Describe images clearly and answer questions in Hindi. "
+                    "Be concise and practical. Mention important text visible in the image."
+                )
+            },
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": f"data:image/jpeg;base64,{image_b64}",
+                            "detail": "high"   # full resolution analysis
+                        }
+                    },
+                    {
+                        "type": "text",
+                        "text": hindi_question
+                    }
+                ]
+            }
+        ],
+        max_tokens=300
+    )
+
+    hindi_answer = response.choices[0].message.content
+    print(f"Answer: {hindi_answer}")
+    return hindi_answer
+
+# Usage:
+answer = visual_qa_hindi(
+    image_path="medicine_box.jpg",
+    audio_question_path="question_hindi.wav"
+)
+# "यह Paracetamol 500mg की गोलियाँ हैं। इसे बुखार और दर्द के लिए लिया जाता है।"</code></pre>
+    <div class="callout amber"><strong>Accessibility and ethics:</strong> Apps for visually impaired users must be extremely reliable. If the model confidently gives wrong medicine information, it could cause serious harm. Always include a disclaimer, support human verification for medical content, and test extensively with real visually impaired users before deployment. Review India's Rights of Persons with Disabilities Act 2016 for accessibility standards.</div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>👁️ Lesson 7 Quiz — Multi-modal AI</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. CLIP achieves zero-shot image classification without ever being explicitly trained on "classify images into categories." This is possible because:</div>
+        <div class="quiz-opt" data-opt="a">a) CLIP was secretly fine-tuned on ImageNet before being released</div>
+        <div class="quiz-opt" data-opt="b">b) CLIP's contrastive training on 400M (image, caption) pairs created a shared embedding space where image and text representations are comparable. At inference, you compute similarity between the image embedding and text embeddings of candidate labels — no classification head needed. Any text you can write becomes a potential "class."</b></div>
+        <div class="quiz-opt" data-opt="c">c) Zero-shot classification requires no training — CLIP uses rule-based matching</div>
+        <div class="quiz-opt" data-opt="d">d) The softmax over logits_per_image automatically creates categorical predictions from any model</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. Whisper was trained on 680,000 hours of audio from the internet. The key benefit for Indian language users compared to older ASR models is:</div>
+        <div class="quiz-opt" data-opt="a">a) Whisper is faster — it processes audio 10x faster than older speech recognition systems</div>
+        <div class="quiz-opt" data-opt="b">b) The massive multilingual training set means Whisper natively handles 98 languages including Hindi, Tamil, Telugu, and Bengali — with strong robustness to Indian accents, noisy environments, and code-switching (Hinglish). Older ASR models typically had separate, smaller, lower-quality models per language.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Whisper uses a transformer trained only on Indian language audio for maximum accuracy</div>
+        <div class="quiz-opt" data-opt="d">d) Whisper can translate between all Indian languages directly without an English intermediate</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. In the visual Q&A app, "detail: high" is passed to GPT-4V for the image. This parameter:</div>
+        <div class="quiz-opt" data-opt="a">a) Increases the image resolution stored in OpenAI's servers</div>
+        <div class="quiz-opt" data-opt="b">b) Instructs GPT-4V to tile the image into multiple 512×512 patches and process each one separately for fine-grained analysis — important for reading small text (like medicine labels). "low" detail uses a single 512×512 thumbnail, which is cheaper and faster but cannot read small text accurately.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Enables the model to describe colours and textures in higher precision</div>
+        <div class="quiz-opt" data-opt="d">d) Routes the request to a higher tier of API that has access to more recent training data</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. CLIP's logits_per_image is computed by taking the dot product of the image embedding with each text embedding. A high dot product score means:</div>
+        <div class="quiz-opt" data-opt="a">a) The image and text are literally identical in pixel and character representation</div>
+        <div class="quiz-opt" data-opt="b">b) The two embeddings point in similar directions in the shared embedding space — indicating semantic alignment. CLIP learned that images containing Paracetamol tablets produce embeddings that point in the same direction as the text "a Paracetamol tablet box" because training repeatedly paired such images with such captions.</b></div>
+        <div class="quiz-opt" data-opt="c">c) The text label appears as visible text in the image</div>
+        <div class="quiz-opt" data-opt="d">d) The image was explicitly included in CLIP's training dataset</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. For an accessibility app helping visually impaired users identify medicine, the most critical safety requirement is:</div>
+        <div class="quiz-opt" data-opt="a">a) The app must achieve 99.9% accuracy on all medicine labels before any user testing</div>
+        <div class="quiz-opt" data-opt="b">b) Always present uncertainty clearly, include a disclaimer that the AI can make mistakes, provide a way to verify critical medical information through a pharmacist or the manufacturer's helpline, and never present dosage instructions as definitive without human verification. AI errors in medical contexts have serious safety consequences.</b></div>
+        <div class="quiz-opt" data-opt="c">c) The app should only support a list of pre-approved medicines to prevent errors</div>
+        <div class="quiz-opt" data-opt="d">d) Audio output must be louder than 80 decibels to ensure users with hearing impairment can hear it</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. Contrastive learning in CLIP uses a loss that brings matching (image, text) pairs closer and pushes non-matching pairs apart. A batch of 32 (image, text) pairs produces how many negative examples?</div>
+        <div class="quiz-opt" data-opt="a">a) 32 negative examples — one per pair</div>
+        <div class="quiz-opt" data-opt="b">b) 32×31 = 992 negative examples — for each image, all 31 other texts in the batch are negatives; for each text, all 31 other images are negatives. This is why large batch sizes are crucial for contrastive learning — more negatives per step means the model must be more discriminative.</b></div>
+        <div class="quiz-opt" data-opt="c">c) 32² = 1024 negative examples — every possible (image, text) combination including positives</div>
+        <div class="quiz-opt" data-opt="d">d) 1 negative example per positive — contrastive learning uses only pairwise comparisons</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. Whisper's task="translate" option translates speech directly from Hindi to English text without an intermediate Hindi text step. The advantage over a two-step Whisper → translation API pipeline is:</div>
+        <div class="quiz-opt" data-opt="a">a) Direct translation is always more accurate than two-step for all language pairs</div>
+        <div class="quiz-opt" data-opt="b">b) Fewer API calls means lower latency and cost. More importantly, direct translation avoids cascading errors: mistakes in the Hindi transcription step can be corrected during the translation step since the model has access to the raw audio. In the two-step pipeline, transcription errors are frozen and passed on as bad input to the translator.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Two-step pipelines violate OpenAI's terms of service for non-English languages</div>
+        <div class="quiz-opt" data-opt="d">d) Direct translation uses the same model as transcription, so no additional API key is needed</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. The system prompt in the visual Q&A app instructs GPT-4V to "mention important text visible in the image." This is especially important for accessibility because:</div>
+        <div class="quiz-opt" data-opt="a">a) GPT-4V cannot process images without explicit instructions to read text</div>
+        <div class="quiz-opt" data-opt="b">b) Visually impaired users often specifically need to know what text is written on objects (medicine labels, signs, product names) — without this instruction, the model might describe visual features (colour, shape, size) but omit the critical text content. Tailoring the system prompt to the use case substantially improves real-world usefulness.</b></div>
+        <div class="quiz-opt" data-opt="c">c) OCR (reading text in images) requires a special model that only activates with this instruction</div>
+        <div class="quiz-opt" data-opt="d">d) The instruction enables the model to respond in Hindi instead of English</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Quiz</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-06.html" class="btn-prev">← Lesson 6: Production Monitoring</a>
+    <a href="lesson-08.html" class="btn-next">Lesson 8: AI Agents →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-11.html">Class 11</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'b',8:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q])o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=80){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — Build an accessibility app for your own community. Move to Lesson 8!`;}
+  else if(pct>=60){res.className='quiz-result ok';res.textContent=`Good effort! ${score}/${total} (${pct}%) — Revisit the CLIP embedding space and Whisper translation sections.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Run the CLIP zero-shot classification in Colab on a local photo, then retry.`;}
+  gtag('event','quiz_complete',{event_category:'class11',event_label:'class11_lesson07_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"Multi-modal AI: Vision + Language + Speech — Class 11 Lesson 7",
+  "description":"CLIP contrastive learning, zero-shot classification, Whisper multilingual ASR, GPT-4 Vision, building a visual Q&A accessibility app.",
+  "url":"https://mitraailife.com/content/students/class-11/lesson-07.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Junior College +1",
+  "typicalAgeRange":"15-16",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

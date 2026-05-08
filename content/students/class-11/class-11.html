@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Class 11 — AI at the Frontier | Junior College +1 | Mitra AI Life</title>
+<meta name="description" content="Class 11 AI course for JC +1 students (age 15–16). 12 lessons covering Advanced Python, Deep Learning Theory, Reinforcement Learning, MLOps, Multi-modal AI, AI Agents, Research Methods, AI Safety, and Building AI Startups." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-11/class-11.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#d97706" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Class 11 — AI at the Frontier | Junior College +1 | Mitra AI Life" />
+<meta property="og:description" content="12 lessons for JC +1 students on Advanced Python, RL, MLOps, Multi-modal AI, AI Agents, Research Methods, and Building AI Startups in India." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-11/class-11.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#fffbeb;color:#92400e;line-height:1.7}
+a{color:#d97706;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#fbbf24}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#fbbf24}
+.hub-hero{background:linear-gradient(135deg,#92400e,#b45309,#d97706);padding:3rem 1.5rem 4rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.hub-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hub-hero .eyebrow{font-size:.72rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:.6rem;position:relative}
+.hub-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(2rem,5vw,3rem);font-weight:800;line-height:1.15;margin-bottom:.6rem;position:relative}
+.hub-hero .tagline{font-size:clamp(.95rem,2vw,1.1rem);color:rgba(255,255,255,.82);max-width:640px;margin:0 auto 1.4rem;position:relative}
+.hub-hero .meta-pills{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;position:relative}
+.hub-hero .meta-pill{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;color:rgba(255,255,255,.88);font-size:.78rem;font-weight:700;padding:.2rem .85rem}
+.prereq-bar{background:#fef3c7;border-bottom:2px solid #fde68a;padding:.7rem 1.5rem;text-align:center;font-size:.82rem;font-weight:700;color:#92400e}
+.prereq-bar a{color:#b45309;text-decoration:underline}
+.content-wrap{max-width:1000px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.outcomes-section{background:#fff;border:2px solid #fde68a;border-radius:16px;padding:1.4rem 1.6rem;margin-bottom:2rem}
+.outcomes-section h2{font-family:'Baloo 2',cursive;font-size:1.15rem;color:#92400e;margin-bottom:.8rem}
+.outcomes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.6rem}
+.outcome-item{background:#fffbeb;border-radius:8px;padding:.55rem .8rem;font-size:.82rem;font-weight:700;color:#b45309;border-left:3px solid #d97706}
+/* Curriculum grid */
+.curric-section{margin-bottom:2rem}
+.curric-section h2{font-family:'Baloo 2',cursive;font-size:1.25rem;color:#92400e;margin-bottom:1rem;text-align:center}
+.curric-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
+.lesson-card{background:#fff;border:1.5px solid #fde68a;border-radius:14px;padding:1.1rem 1rem;transition:box-shadow .15s,transform .15s;text-decoration:none;display:block}
+.lesson-card:hover{box-shadow:0 6px 20px rgba(217,119,6,.15);transform:translateY(-2px);text-decoration:none}
+.lesson-card .lc-num{font-size:.68rem;font-weight:800;color:#d97706;letter-spacing:.08em;margin-bottom:.25rem}
+.lesson-card .lc-title{font-weight:800;font-size:.9rem;color:#92400e;margin-bottom:.25rem;line-height:1.35}
+.lesson-card .lc-desc{font-size:.78rem;color:#b45309;line-height:1.45;margin-bottom:.5rem}
+.lesson-card .lc-badge{display:inline-block;font-size:.65rem;font-weight:800;padding:1px 8px;border-radius:10px;background:#fef3c7;color:#b45309}
+.lesson-card .lc-badge.live{background:#d1fae5;color:#065f46}
+/* What you need */
+.needs-section{background:#fff;border:2px solid #fde68a;border-radius:16px;padding:1.4rem 1.6rem;margin-bottom:2rem}
+.needs-section h2{font-family:'Baloo 2',cursive;font-size:1.1rem;color:#92400e;margin-bottom:.7rem}
+.needs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.6rem}
+.need-item{background:#fffbeb;border-radius:8px;padding:.5rem .7rem;font-size:.8rem;color:#b45309}
+.need-item strong{display:block;color:#92400e;font-size:.75rem;margin-bottom:.1rem}
+/* Next class preview */
+.next-section{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:16px;padding:1.5rem;margin-bottom:2rem;text-align:center}
+.next-section h2{font-family:'Baloo 2',cursive;font-size:1.1rem;color:#e0e7ff;margin-bottom:.5rem}
+.next-section p{font-size:.85rem;color:rgba(255,255,255,.7);margin-bottom:.8rem}
+.next-section .next-btn{display:inline-block;background:#6366f1;color:#fff;border-radius:10px;padding:.5rem 1.5rem;font-weight:800;font-size:.85rem;text-decoration:none}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.curric-grid{grid-template-columns:1fr 1fr}.content-wrap{padding:2rem 1rem 3rem}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../class-10/class-10.html">← Class 10</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="hub-hero">
+  <div class="eyebrow">Junior College +1 · Age 15–16</div>
+  <h1>AI at the Frontier 🚀</h1>
+  <p class="tagline">Advanced Python, Deep Learning Theory, Reinforcement Learning, MLOps, Multi-modal AI, AI Agents, Research Methods, and Building AI Startups in India.</p>
+  <div class="meta-pills">
+    <span class="meta-pill">12 Lessons</span>
+    <span class="meta-pill">JC +1 / Class 11 / PUC-1</span>
+    <span class="meta-pill">🆓 Free</span>
+    <span class="meta-pill">Requires Class 10 or equivalent</span>
+  </div>
+</header>
+
+<div class="prereq-bar">
+  📚 Prerequisite: <a href="../class-10/class-10.html">Class 10 — Advanced AI Projects</a> (CNNs, Transformers, RAG, FastAPI, Streamlit, Responsible AI)
+</div>
+
+<main class="content-wrap">
+
+  <div class="outcomes-section">
+    <h2>🎯 What You Will Be Able to Do After Class 11</h2>
+    <div class="outcomes-grid">
+      <div class="outcome-item">Profile and optimise Python code for AI</div>
+      <div class="outcome-item">Derive and implement backpropagation from scratch</div>
+      <div class="outcome-item">Train RL agents using Q-learning and PPO</div>
+      <div class="outcome-item">Dockerise and deploy ML models with CI/CD</div>
+      <div class="outcome-item">Detect and handle model drift in production</div>
+      <div class="outcome-item">Build multi-modal apps combining vision and speech</div>
+      <div class="outcome-item">Build ReAct agents with tool use and memory</div>
+      <div class="outcome-item">Read, annotate, and implement AI research papers</div>
+      <div class="outcome-item">Understand RLHF, Constitutional AI, and red-teaming</div>
+      <div class="outcome-item">Write a business plan for an Indian AI startup</div>
+      <div class="outcome-item">Complete a full AI research capstone project</div>
+    </div>
+  </div>
+
+  <div class="curric-section">
+    <h2>📚 12-Lesson Curriculum</h2>
+    <div class="curric-grid">
+      <a class="lesson-card" href="lesson-01.html">
+        <div class="lc-num">LESSON 01</div>
+        <div class="lc-title">Advanced Python for AI</div>
+        <div class="lc-desc">NumPy vectorisation, decorators, generators, profiling with cProfile and memory_profiler.</div>
+        <span class="lc-badge live">🆓 Free</span>
+      </a>
+      <a class="lesson-card" href="lesson-02.html">
+        <div class="lc-num">LESSON 02</div>
+        <div class="lc-title">Deep Learning Theory</div>
+        <div class="lc-desc">Forward pass math, backprop chain rule, optimisers (SGD/Adam), batch norm, dropout.</div>
+        <span class="lc-badge live">🆓 Free</span>
+      </a>
+      <a class="lesson-card" href="lesson-03.html">
+        <div class="lc-num">LESSON 03</div>
+        <div class="lc-title">Reinforcement Learning: MDPs and Q-Learning</div>
+        <div class="lc-desc">Agent/environment/reward, Bellman equation, Q-table, epsilon-greedy, CartPole.</div>
+        <span class="lc-badge live">🆓 Free</span>
+      </a>
+      <a class="lesson-card" href="lesson-04.html">
+        <div class="lc-num">LESSON 04</div>
+        <div class="lc-title">Deep RL: Policy Gradients and PPO</div>
+        <div class="lc-desc">Policy vs value methods, REINFORCE, Actor-Critic, PPO intuition, Stable Baselines3.</div>
+        <span class="lc-badge live">🆓 Free</span>
+      </a>
+      <a class="lesson-card" href="lesson-05.html">
+        <div class="lc-num">LESSON 05</div>
+        <div class="lc-title">MLOps: Dockerising Your ML Model</div>
+        <div class="lc-desc">Why Docker, Dockerfile for FastAPI + model, docker build/run, GitHub Actions CI pipeline.</div>
+        <span class="lc-badge live">🆓 Free</span>
+      </a>
+      <a class="lesson-card" href="lesson-06.html">
+        <div class="lc-num">LESSON 06</div>
+        <div class="lc-title">Production ML: Monitoring and Drift</div>
+        <div class="lc-desc">Concept drift vs data drift, Evidently AI, alert pipelines, model retraining triggers.</div>
+        <span class="lc-badge live">🆓 Free</span>
+      </a>
+      <a class="lesson-card" href="lesson-07.html">
+        <div class="lc-num">LESSON 07</div>
+        <div class="lc-title">Multi-modal AI: Vision + Language + Speech</div>
+        <div class="lc-desc">CLIP image-text matching, Whisper speech-to-text, building a visual Q&amp;A system.</div>
+        <span class="lc-badge live">🆓 Free</span>
+      </a>
+      <a class="lesson-card" href="lesson-08.html">
+        <div class="lc-num">LESSON 08</div>
+        <div class="lc-title">AI Agents and Tool Use</div>
+        <div class="lc-desc">ReAct pattern, LangGraph, tool-calling, memory, building a research agent from scratch.</div>
+        <span class="lc-badge live">🆓 Free</span>
+      </a>
+      <a class="lesson-card" href="lesson-09.html">
+        <div class="lc-num">LESSON 09</div>
+        <div class="lc-title">Reading and Implementing AI Research Papers</div>
+        <div class="lc-desc">arXiv navigation, anatomy of a paper, implementing the Attention mechanism from scratch.</div>
+        <span class="lc-badge live">🆓 Free</span>
+      </a>
+      <a class="lesson-card" href="lesson-10.html">
+        <div class="lc-num">LESSON 10</div>
+        <div class="lc-title">AI Safety and Alignment</div>
+        <div class="lc-desc">RLHF, Constitutional AI, red-teaming, jailbreaks, deployment safety, India DPDPA 2023.</div>
+        <span class="lc-badge live">🆓 Free</span>
+      </a>
+      <a class="lesson-card" href="lesson-11.html">
+        <div class="lc-num">LESSON 11</div>
+        <div class="lc-title">Building AI Startups in India</div>
+        <div class="lc-desc">Problem-solution fit, unit economics, iSPIRT, Meity Startup Hub, funding, AI product IP.</div>
+        <span class="lc-badge live">🆓 Free</span>
+      </a>
+      <a class="lesson-card" href="lesson-12.html" style="border-color:#d97706">
+        <div class="lc-num">LESSON 12</div>
+        <div class="lc-title">Capstone: My AI Research Project</div>
+        <div class="lc-desc">Build a complete, documented AI project: model + MLOps + fairness audit + paper-style writeup.</div>
+        <span class="lc-badge live">🏆 Capstone</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="needs-section">
+    <h2>🛠️ What You Need</h2>
+    <div class="needs-grid">
+      <div class="need-item"><strong>Laptop / Desktop</strong>Chrome or Firefox browser</div>
+      <div class="need-item"><strong>Google Colab</strong>Free GPU — no setup needed</div>
+      <div class="need-item"><strong>GitHub Account</strong>Free — for code and CI/CD</div>
+      <div class="need-item"><strong>Hugging Face Account</strong>Free — for model hosting</div>
+      <div class="need-item"><strong>Docker Desktop</strong>Free — for MLOps lessons</div>
+      <div class="need-item"><strong>Class 10 Skills</strong>CNNs, Transformers, FastAPI, Streamlit</div>
+    </div>
+  </div>
+
+  <div class="next-section">
+    <h2>After Class 11 → Junior College +2</h2>
+    <p>Advanced Generative AI, Agentic Systems, AI Research contributions, and a college-ready AI portfolio.</p>
+    <a href="../class-12/class-12.html" class="next-btn">JC +2 Coming Soon →</a>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../class-10/class-10.html">← Class 10</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Course",
+  "name":"Class 11 — AI at the Frontier",
+  "description":"12-lesson AI course for JC +1 students covering Advanced Python, Deep Learning Theory, Reinforcement Learning, MLOps, Multi-modal AI, AI Agents, Research Methods, AI Safety, and Building AI Startups.",
+  "url":"https://mitraailife.com/content/students/class-11/class-11.html",
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"},
+  "educationalLevel":"Junior College +1",
+  "typicalAgeRange":"15-16",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "numberOfCredits":12,
+  "hasCourseInstance":{"@type":"CourseInstance","courseMode":"online"}
+}
+</script>
+</body>
+</html>

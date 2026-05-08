@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 9 — Reading and Implementing AI Research Papers | Class 11 | Mitra AI Life</title>
+<meta name="description" content="Class 11 Lesson 9: Learn to read AI research papers using the 3-pass method. Navigate arXiv, understand paper anatomy, and implement scaled dot-product attention from 'Attention Is All You Need'." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-11/lesson-09.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#d97706" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 9 — Reading and Implementing AI Research Papers | Class 11 | Mitra AI Life" />
+<meta property="og:description" content="3-pass paper reading method, arXiv navigation, anatomy of an AI paper, implementing multi-head attention in NumPy, citing papers with BibTeX." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-11/lesson-09.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#fffbeb;color:#92400e;line-height:1.7}
+a{color:#d97706;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#fbbf24}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#fbbf24}
+.lesson-hero{background:linear-gradient(135deg,#92400e,#b45309,#d97706);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#d97706;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#92400e;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#b45309;margin-bottom:.9rem}
+.lesson-section ul,ol{font-size:.93rem;color:#b45309;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.amber{background:#fffbeb;border-left:4px solid #d97706;color:#92400e}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+pre{background:#1e293b;color:#e2e8f0;border-radius:12px;padding:1.1rem 1.2rem;overflow-x:auto;font-size:.82rem;line-height:1.6;margin:1rem 0}
+code{font-family:'Courier New',monospace}
+.inline-code{background:#fef3c7;color:#92400e;padding:.1rem .35rem;border-radius:4px;font-family:'Courier New',monospace;font-size:.85em}
+.pass-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin:1rem 0}
+.pass-card{background:#fff;border:2px solid #fde68a;border-radius:12px;padding:.9rem}
+.pass-card .pass-num{font-family:'Baloo 2',cursive;font-size:1.3rem;color:#d97706;font-weight:800}
+.pass-card h4{font-size:.85rem;font-weight:800;color:#92400e;margin-bottom:.4rem}
+.pass-card p{font-size:.77rem;color:#b45309;margin:0}
+.paper-anatomy{border:2px solid #fde68a;border-radius:12px;overflow:hidden;margin:1rem 0}
+.pa-row{display:flex;align-items:stretch;border-bottom:1px solid #fde68a}
+.pa-row:last-child{border-bottom:none}
+.pa-section{background:#d97706;color:#fff;padding:.5rem .75rem;font-weight:800;font-size:.8rem;width:130px;flex-shrink:0;display:flex;align-items:center}
+.pa-desc{padding:.5rem .75rem;font-size:.82rem;color:#92400e;background:#fff}
+.math-box{background:#1e293b;color:#fbbf24;border-radius:10px;padding:1rem 1.2rem;font-family:'Courier New',monospace;font-size:.88rem;text-align:center;margin:1rem 0;line-height:1.8}
+.quiz-section{background:#fff;border:2px solid #d97706;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#92400e;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#92400e;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #fde68a;background:#fffbeb;font-size:.87rem;color:#92400e;transition:border-color .15s;line-height:1.45}
+.quiz-opt:hover{border-color:#d97706}
+.quiz-opt.selected{border-color:#d97706;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#d97706;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#b45309}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #d97706;color:#d97706}
+.lesson-nav .btn-next{background:#d97706;color:#fff}
+.lesson-nav .btn-prev:hover{background:#fffbeb}
+.lesson-nav .btn-next:hover{background:#b45309}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.pass-grid{grid-template-columns:1fr}.pa-section{width:100px}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-11.html" class="active">Class 11</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-11.html">Class 11</a> → Lesson 9</div>
+  <h1>Reading and Implementing AI Research Papers 📄</h1>
+  <div class="meta">
+    <span>Class 11</span><span>Age 15–16</span><span>Lesson 9 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-11/lesson-09-hero.jpg" alt="Kunal from Bengaluru reading the Attention Is All You Need paper on a laptop — arXiv page open, NumPy code on screen, notebook with handwritten math" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+
+  <div class="lesson-section">
+    <div class="ls-label">Story</div>
+    <div class="ls-title">Kunal's Quest to Understand Attention</div>
+    <p>Kunal, 16, from Bengaluru kept hearing about "transformers" and "attention." He found the famous paper: "Attention Is All You Need" (Vaswani et al., 2017). He opened it and immediately felt overwhelmed — 15 pages of dense math, acronyms he didn't know, and figures with no obvious entry point.</p>
+    <p>His computer science teacher said: "Every expert was once confused by their first research paper. The skill is not intuition — it's a reading strategy." She taught him the 3-pass method used by PhD students worldwide.</p>
+    <p>Three days later, Kunal had a working implementation of scaled dot-product attention in NumPy — 30 lines of code that matched the equations in the paper exactly. <strong>He presented it at his school's AI club to standing applause.</strong></p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 1</div>
+    <div class="ls-title">Finding Papers on arXiv</div>
+    <p>arXiv (pronounced "archive") is the free preprint server where most AI researchers publish papers immediately — often before formal peer review. It hosts over 2 million papers in physics, mathematics, CS, and AI.</p>
+    <ul>
+      <li><strong>URL pattern:</strong> <span class="inline-code">arxiv.org/abs/YYMM.NNNNN</span> — e.g., arxiv.org/abs/1706.03762 is "Attention Is All You Need"</li>
+      <li><strong>Search:</strong> <span class="inline-code">arxiv.org/search/</span> — filter by category cs.LG (machine learning), cs.CV (vision), cs.CL (NLP), cs.AI</li>
+      <li><strong>PDF link:</strong> Change <span class="inline-code">/abs/</span> to <span class="inline-code">/pdf/</span> in the URL for direct PDF download</li>
+      <li><strong>Semantic Scholar:</strong> semanticscholar.org — finds related papers and citation counts automatically</li>
+      <li><strong>Papers With Code:</strong> paperswithcode.com — every paper linked to its GitHub implementation</li>
+    </ul>
+    <div class="callout amber"><strong>Start with highly cited papers.</strong> A paper with 10,000+ citations has been read and verified by thousands of researchers worldwide. Starting with influential papers (BERT, GPT-2, ResNet, Attention Is All You Need) builds a foundation for understanding newer work.</div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 2</div>
+    <div class="ls-title">The 3-Pass Reading Method</div>
+    <div class="pass-grid">
+      <div class="pass-card">
+        <div class="pass-num">Pass 1</div>
+        <h4>5–10 minutes: Survey</h4>
+        <p>Read title, abstract, introduction. Skim section headings and figures. Read conclusion. Goal: understand what problem they solve and what the main result is.</p>
+      </div>
+      <div class="pass-card">
+        <div class="pass-num">Pass 2</div>
+        <h4>60 minutes: Read</h4>
+        <p>Read all sections carefully. Write notes for every figure and equation. Skip proofs. Mark terms you don't understand but keep moving. Goal: understand the method at a high level.</p>
+      </div>
+      <div class="pass-card">
+        <div class="pass-num">Pass 3</div>
+        <h4>3–5 hours: Reproduce</h4>
+        <p>Implement the core equations in code. Look up every unknown term. Verify your code produces the same shapes/values as the paper claims. Goal: deep mastery.</p>
+      </div>
+    </div>
+    <div class="paper-anatomy">
+      <div class="pa-row"><div class="pa-section">Abstract</div><div class="pa-desc">1 paragraph summary of the problem, method, and result. Read this FIRST — it tells you whether the paper is relevant to your needs.</div></div>
+      <div class="pa-row"><div class="pa-section">Introduction</div><div class="pa-desc">Motivation and context. Written for a general ML audience. Usually accessible without specialist knowledge.</div></div>
+      <div class="pa-row"><div class="pa-section">Related Work</div><div class="pa-desc">How this paper differs from prior work. Read this LAST (after you understand the method) — it makes more sense in context.</div></div>
+      <div class="pa-row"><div class="pa-section">Method</div><div class="pa-desc">The actual contribution. Often the hardest section. Every equation here corresponds to code you can write.</div></div>
+      <div class="pa-row"><div class="pa-section">Experiments</div><div class="pa-desc">Benchmark results, ablation studies ("what if we remove component X?"). Tells you how much each design choice matters.</div></div>
+      <div class="pa-row"><div class="pa-section">Conclusion</div><div class="pa-desc">Summary and limitations. Authors are often more honest here than in the abstract. Look for "limitation" mentions.</div></div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 3</div>
+    <div class="ls-title">Implementing Scaled Dot-Product Attention</div>
+    <p>From "Attention Is All You Need" (Vaswani et al., 2017), equation 1:</p>
+    <div class="math-box">Attention(Q, K, V) = softmax( QKᵀ / √d_k ) · V</div>
+    <pre><code>import numpy as np
+
+def softmax(x: np.ndarray) -> np.ndarray:
+    """Numerically stable softmax along last axis."""
+    e = np.exp(x - x.max(axis=-1, keepdims=True))
+    return e / e.sum(axis=-1, keepdims=True)
+
+def scaled_dot_product_attention(
+    Q: np.ndarray,   # (seq_len, d_k)
+    K: np.ndarray,   # (seq_len, d_k)
+    V: np.ndarray,   # (seq_len, d_v)
+    mask: np.ndarray = None
+) -> tuple[np.ndarray, np.ndarray]:
+    """
+    Scaled dot-product attention.
+    Returns (output, attention_weights).
+    """
+    d_k = Q.shape[-1]
+
+    # Step 1: Compute similarity scores  (seq_len, seq_len)
+    scores = Q @ K.T / np.sqrt(d_k)   # QKᵀ / √d_k
+
+    # Step 2: Apply mask (optional — for causal/decoder attention)
+    if mask is not None:
+        scores = scores + mask * -1e9   # fill masked positions with -∞
+
+    # Step 3: Softmax → attention weights
+    weights = softmax(scores)           # (seq_len, seq_len)
+
+    # Step 4: Weighted sum of values
+    output = weights @ V               # (seq_len, d_v)
+
+    return output, weights
+
+# ── Test it ──────────────────────────────────────────────────────
+seq_len = 4    # 4 tokens
+d_k = 8        # key/query dimension
+d_v = 8        # value dimension
+
+np.random.seed(42)
+Q = np.random.randn(seq_len, d_k)
+K = np.random.randn(seq_len, d_k)
+V = np.random.randn(seq_len, d_v)
+
+output, attn = scaled_dot_product_attention(Q, K, V)
+print(f"Output shape: {output.shape}")    # (4, 8)
+print(f"Attention weights:\n{attn.round(3)}")
+# Each row sums to 1.0 — verify:
+print(f"Row sums: {attn.sum(axis=1)}")    # [1. 1. 1. 1.]</code></pre>
+
+    <pre><code># ── Multi-head attention ──────────────────────────────────────────
+class MultiHeadAttention:
+    """
+    Implements multi-head attention from Vaswani et al. 2017.
+    Paper uses: h=8 heads, d_model=512, d_k=d_v=64
+    """
+    def __init__(self, d_model: int, h: int):
+        self.h = h
+        self.d_k = d_model // h
+        self.d_v = d_model // h
+
+        # Parameter matrices — randomly initialised
+        self.W_Q = np.random.randn(d_model, d_model) * 0.01
+        self.W_K = np.random.randn(d_model, d_model) * 0.01
+        self.W_V = np.random.randn(d_model, d_model) * 0.01
+        self.W_O = np.random.randn(d_model, d_model) * 0.01
+
+    def forward(self, X: np.ndarray) -> np.ndarray:
+        """X shape: (seq_len, d_model)"""
+        seq_len, d_model = X.shape
+
+        Q = X @ self.W_Q   # (seq_len, d_model)
+        K = X @ self.W_K
+        V = X @ self.W_V
+
+        # Split into h heads
+        def split_heads(M):
+            M = M.reshape(seq_len, self.h, self.d_k)
+            return M.transpose(1, 0, 2)   # (h, seq_len, d_k)
+
+        Q_h = split_heads(Q)   # (h, seq_len, d_k)
+        K_h = split_heads(K)
+        V_h = split_heads(V)
+
+        # Attention for each head
+        head_outputs = []
+        for i in range(self.h):
+            out, _ = scaled_dot_product_attention(Q_h[i], K_h[i], V_h[i])
+            head_outputs.append(out)   # each (seq_len, d_k)
+
+        # Concatenate heads
+        concat = np.concatenate(head_outputs, axis=-1)   # (seq_len, d_model)
+
+        # Final projection
+        return concat @ self.W_O   # (seq_len, d_model)
+
+# Test multi-head attention
+d_model = 32
+h = 4
+mha = MultiHeadAttention(d_model=d_model, h=h)
+X = np.random.randn(6, d_model)   # 6 tokens, d_model=32
+out = mha.forward(X)
+print(f"Multi-head attention output: {out.shape}")   # (6, 32)</code></pre>
+    <div class="callout green"><strong>Each equation = runnable code.</strong> When you see Attention(Q,K,V) = softmax(QKᵀ/√d_k)V in the paper, that is exactly what lines 15–23 of the code above implement. Read the paper with a Colab notebook open — implement each equation as you encounter it. The math becomes intuitive very quickly.</div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 4</div>
+    <div class="ls-title">Citing Papers with BibTeX</div>
+    <pre><code># Get the BibTeX citation for any arXiv paper:
+# 1. Go to the paper's abstract page e.g. arxiv.org/abs/1706.03762
+# 2. Click "Export BibTeX citation" on the right panel
+# 3. Copy the BibTeX into your references.bib file
+
+# For "Attention Is All You Need":
+@misc{vaswani2017attention,
+  title   = {Attention Is All You Need},
+  author  = {Ashish Vaswani and Noam Shazeer and Niki Parmar and
+             Jakob Uszkoreit and Llion Jones and Aidan N. Gomez and
+             Łukasz Kaiser and Illia Polosukhin},
+  year    = {2017},
+  eprint  = {1706.03762},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL}
+}
+
+# In your paper (LaTeX), cite with: \cite{vaswani2017attention}
+
+# Searching citations programmatically with semanticscholar API:
+import requests
+
+def get_paper_info(arxiv_id: str) -> dict:
+    url = f"https://api.semanticscholar.org/graph/v1/paper/arXiv:{arxiv_id}"
+    params = {"fields": "title,authors,year,citationCount"}
+    resp = requests.get(url, params=params, timeout=10)
+    resp.raise_for_status()
+    return resp.json()
+
+info = get_paper_info("1706.03762")
+print(f"{info['title']} — {info['citationCount']:,} citations")</code></pre>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>📄 Lesson 9 Quiz — Reading and Implementing AI Papers</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. In the 3-pass reading method, what is the primary goal of the FIRST pass through a paper?</div>
+        <div class="quiz-opt" data-opt="a">a) Memorise all equations and their derivations</div>
+        <div class="quiz-opt" data-opt="b">b) Survey the paper in 5–10 minutes to understand what problem it solves and what the main result is — title, abstract, intro, section headings, figures, conclusion. This lets you decide whether the paper is worth the 3–5 hours needed for full implementation. Most papers fail this filter and can be safely set aside.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Critique the experimental methodology and identify statistical flaws</div>
+        <div class="quiz-opt" data-opt="d">d) Implement the core equations immediately while the reading is fresh</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. The scaling factor √d_k in Attention(Q,K,V) = softmax(QKᵀ/√d_k)V prevents:</div>
+        <div class="quiz-opt" data-opt="a">a) The attention weights from summing to more than 1.0</div>
+        <div class="quiz-opt" data-opt="b">b) The dot products from growing too large in magnitude when d_k is large. Without scaling, QKᵀ values can become very large, pushing the softmax into a region of near-zero gradients where all the weight collapses onto one token (argmax behaviour). Dividing by √d_k keeps the variance of the scores near 1 regardless of d_k, preserving gradient flow during training.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Matrix multiplication from being computationally expensive on GPUs</div>
+        <div class="quiz-opt" data-opt="d">d) The output from having a different shape than the input sequence</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. Multi-head attention with h=8 heads and d_model=512 uses d_k=64 per head. The key benefit of multiple heads over one large attention layer is:</div>
+        <div class="quiz-opt" data-opt="a">a) Eight heads reduce total computation by 8x compared to single-head attention</div>
+        <div class="quiz-opt" data-opt="b">b) Each head can attend to different types of relationships simultaneously — one head might capture syntactic structure (subject-verb), another might capture coreference (pronoun-noun), another semantic similarity. A single head with the full d_model would be forced to combine all these signals in one representation, losing specificity.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Multiple heads allow the model to process different sentence lengths at the same time</div>
+        <div class="quiz-opt" data-opt="d">d) Each head is trained on a different subset of the training data for ensemble diversity</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. In the numerically stable softmax implementation, why do we subtract x.max(axis=-1, keepdims=True) before taking exp()?</div>
+        <div class="quiz-opt" data-opt="a">a) To normalise the inputs to zero mean before the softmax</div>
+        <div class="quiz-opt" data-opt="b">b) Without the max subtraction, large attention scores cause exp(x) to overflow to infinity (np.inf) on float32. Since softmax is shift-invariant — softmax(x) = softmax(x - c) for any constant c — we can subtract the maximum value to guarantee exp(x - max) ∈ (0, 1], preventing overflow while producing mathematically identical results.</b></div>
+        <div class="quiz-opt" data-opt="c">c) The subtraction ensures all softmax outputs are positive values</div>
+        <div class="quiz-opt" data-opt="d">d) This is a normalisation step required by the paper's equations</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. The mask in scaled_dot_product_attention fills masked positions with -1e9 (large negative value) before softmax. The purpose is:</div>
+        <div class="quiz-opt" data-opt="a">a) To prevent the model from learning from those positions by zeroing their gradients</div>
+        <div class="quiz-opt" data-opt="b">b) Adding -1e9 makes exp(-1e9) ≈ 0, so masked positions get effectively zero attention weight after softmax. This implements causal (autoregressive) masking in decoder attention — token i cannot attend to tokens j>i during training. The model must predict each token without "seeing the future."</b></div>
+        <div class="quiz-opt" data-opt="c">c) The large negative value acts as a regulariser to encourage sparser attention</div>
+        <div class="quiz-opt" data-opt="d">d) It prevents division by zero in the subsequent matrix multiplication with V</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. Papers With Code (paperswithcode.com) is particularly useful because it:</div>
+        <div class="quiz-opt" data-opt="a">a) Only shows papers that have been peer-reviewed and accepted at top venues</div>
+        <div class="quiz-opt" data-opt="b">b) Links each paper to its official GitHub implementation and tracks benchmark leaderboards. When you want to understand and extend a paper, having the reference implementation lets you verify your own implementation against ground truth, run the official experiments on your own data, and see how the authors handled edge cases the paper doesn't describe.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Automatically translates papers into Python pseudocode using AI</div>
+        <div class="quiz-opt" data-opt="d">d) Provides a summary of each paper written by the original authors for beginners</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. The Related Work section of a paper is recommended for reading LAST (after understanding the method). The reason is:</div>
+        <div class="quiz-opt" data-opt="a">a) Related work contains the least important information in a research paper</div>
+        <div class="quiz-opt" data-opt="b">b) Related work compares the paper's contribution to prior approaches — but without understanding the method first, the comparisons are abstract and meaningless. After you understand the method deeply, the related work section becomes highly informative: you can precisely understand in what way this paper improves on each prior approach rather than just reading generic comparison claims.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Authors often include incorrect citations in the related work section</div>
+        <div class="quiz-opt" data-opt="d">d) Related work is written in a more technical style that requires reading the method first to understand the vocabulary</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. Ablation studies in the Experiments section (e.g., "removing positional encodings drops BLEU by 6 points") are important because they:</div>
+        <div class="quiz-opt" data-opt="a">a) Show that the paper's authors tested all possible model configurations exhaustively</div>
+        <div class="quiz-opt" data-opt="b">b) Isolate the contribution of each design choice by removing it and measuring the performance drop. This tells you which components are essential to the model's success. If you are implementing the model for a new task, ablation results guide which components to include and which can be safely removed without major performance loss.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Provide confidence intervals that prove the results are statistically significant</div>
+        <div class="quiz-opt" data-opt="d">d) Show that the model works across many different types of data beyond the original benchmark</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Quiz</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-08.html" class="btn-prev">← Lesson 8: AI Agents</a>
+    <a href="lesson-10.html" class="btn-next">Lesson 10: AI Safety →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-11.html">Class 11</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'b',8:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q])o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=80){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — Pick any paper from arXiv and start Pass 1 today. Move to Lesson 10!`;}
+  else if(pct>=60){res.className='quiz-result ok';res.textContent=`Good effort! ${score}/${total} (${pct}%) — Revisit the 3-pass method and the √d_k scaling rationale.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Implement scaled_dot_product_attention() in Colab and verify the shapes, then retry.`;}
+  gtag('event','quiz_complete',{event_category:'class11',event_label:'class11_lesson09_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"Reading and Implementing AI Research Papers — Class 11 Lesson 9",
+  "description":"3-pass paper reading method, arXiv navigation, anatomy of AI papers, scaled dot-product attention implementation in NumPy, multi-head attention, BibTeX citations.",
+  "url":"https://mitraailife.com/content/students/class-11/lesson-09.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Junior College +1",
+  "typicalAgeRange":"15-16",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

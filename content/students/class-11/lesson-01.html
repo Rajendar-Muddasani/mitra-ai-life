@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 1 — Advanced Python for AI | Class 11 | Mitra AI Life</title>
+<meta name="description" content="Class 11 Lesson 1: Master NumPy vectorisation, Python decorators, generators, and profiling with cProfile and memory_profiler to write fast, production-ready AI code." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-11/lesson-01.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#d97706" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 1 — Advanced Python for AI | Class 11 | Mitra AI Life" />
+<meta property="og:description" content="Master NumPy vectorisation, Python decorators, generators, and profiling with cProfile and memory_profiler to write fast, production-ready AI code." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-11/lesson-01.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#fffbeb;color:#92400e;line-height:1.7}
+a{color:#d97706;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#fbbf24}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#fbbf24}
+.lesson-hero{background:linear-gradient(135deg,#92400e,#b45309,#d97706);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#d97706;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#92400e;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#b45309;margin-bottom:.9rem}
+.lesson-section ul,ol{font-size:.93rem;color:#b45309;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.amber{background:#fffbeb;border-left:4px solid #d97706;color:#92400e}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.blue{background:#eff6ff;border-left:4px solid #3b82f6;color:#1e3a8a}
+pre{background:#1e293b;color:#e2e8f0;border-radius:12px;padding:1.1rem 1.2rem;overflow-x:auto;font-size:.82rem;line-height:1.6;margin:1rem 0}
+code{font-family:'Courier New',monospace}
+.inline-code{background:#fef3c7;color:#92400e;padding:.1rem .35rem;border-radius:4px;font-family:'Courier New',monospace;font-size:.85em}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0}
+.compare-box{border-radius:10px;padding:.8rem 1rem;font-size:.82rem}
+.compare-box.slow{background:#fff1f2;border:1.5px solid #f43f5e}
+.compare-box.fast{background:#ecfdf5;border:1.5px solid #22c55e}
+.compare-box h4{font-size:.78rem;font-weight:800;margin-bottom:.5rem}
+.compare-box.slow h4{color:#881337}
+.compare-box.fast h4{color:#14532d}
+.perf-table{width:100%;border-collapse:collapse;font-size:.82rem;margin:1rem 0}
+.perf-table th{background:#fffbeb;color:#92400e;font-weight:800;padding:.45rem .6rem;border:1px solid #fde68a;text-align:left}
+.perf-table td{padding:.4rem .6rem;border:1px solid #fde68a;color:#b45309;vertical-align:top}
+.perf-table td:first-child{font-weight:700;color:#d97706}
+.quiz-section{background:#fff;border:2px solid #d97706;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#92400e;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#92400e;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #fde68a;background:#fffbeb;font-size:.87rem;color:#92400e;transition:border-color .15s;line-height:1.45}
+.quiz-opt:hover{border-color:#d97706}
+.quiz-opt.selected{border-color:#d97706;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#d97706;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#b45309}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #d97706;color:#d97706}
+.lesson-nav .btn-next{background:#d97706;color:#fff}
+.lesson-nav .btn-prev:hover{background:#fffbeb}
+.lesson-nav .btn-next:hover{background:#b45309}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.compare-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-11.html" class="active">Class 11</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-11.html">Class 11</a> → Lesson 1</div>
+  <h1>Advanced Python for AI ⚡</h1>
+  <div class="meta">
+    <span>Class 11</span><span>Age 15–16</span><span>Lesson 1 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-11/lesson-01-hero.jpg" alt="Rohan from Pune profiling Python code on his laptop — flame graphs, NumPy vectorisation, and performance charts" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+
+  <div class="lesson-section">
+    <div class="ls-label">Story</div>
+    <div class="ls-title">Rohan's Slow Training Loop</div>
+    <p>Rohan, 16, from Pune had just finished Class 10. His plant disease classifier took 45 minutes to train on Google Colab's free tier. He asked his older cousin Priya, who works at a Pune AI startup, why it was so slow.</p>
+    <p>Priya looked at his code and laughed — not unkindly. "Rohan, you're using Python loops inside your data pipeline. NumPy vectorisation would make this 200x faster. And your model function re-loads the tokeniser every call — that's why your inference is slow too."</p>
+    <p>Rohan spent one week learning advanced Python for AI. His training loop went from 45 minutes to 4 minutes. His inference API went from 800ms per request to 12ms. <strong>The model didn't change. The Python did.</strong></p>
+    <div class="callout amber"><strong>The lesson:</strong> In AI, the bottleneck is rarely the algorithm. It's almost always the code around the algorithm. Fast Python is a superpower.</div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 1</div>
+    <div class="ls-title">NumPy Vectorisation: Stop Writing Python Loops</div>
+    <p>Python loops are slow because Python is interpreted and every operation has overhead. NumPy operations run in compiled C — they process entire arrays at once. The difference is dramatic:</p>
+    <div class="compare-grid">
+      <div class="compare-box slow">
+        <h4>❌ SLOW — Python Loop</h4>
+        <pre><code># Process 1 million pixels
+result = []
+for pixel in image_data:
+    result.append(pixel / 255.0)
+# Time: ~2.1 seconds</code></pre>
+      </div>
+      <div class="compare-box fast">
+        <h4>✅ FAST — NumPy Vectorised</h4>
+        <pre><code>import numpy as np
+result = image_data / 255.0
+# Time: ~0.003 seconds
+# 700x faster!</code></pre>
+      </div>
+    </div>
+    <p>The rule: <strong>Never loop over NumPy arrays element-by-element.</strong> Use broadcasting, universal functions (ufuncs), and vectorised operations instead.</p>
+    <pre><code>import numpy as np
+import time
+
+# Generate 1 million random values
+data = np.random.randn(1_000_000).astype(np.float32)
+
+# SLOW: Python loop
+start = time.time()
+result_slow = [x**2 + 2*x + 1 for x in data]
+print(f"Loop: {time.time()-start:.3f}s")
+
+# FAST: NumPy vectorised (broadcasted polynomial)
+start = time.time()
+result_fast = data**2 + 2*data + 1
+print(f"NumPy: {time.time()-start:.4f}s")
+
+# ADVANCED: numpy.polynomial for even faster
+# result = np.polyval([1, 2, 1], data)
+
+# Broadcasting example: normalise a (1000, 224, 224, 3) image batch
+images = np.random.randint(0, 256, (1000, 224, 224, 3), dtype=np.uint8)
+mean = np.array([0.485, 0.456, 0.406])   # ImageNet mean
+std  = np.array([0.229, 0.224, 0.225])   # ImageNet std
+
+# Broadcasting: (1000,224,224,3) - (3,) = works! NumPy broadcasts automatically
+normalised = (images / 255.0 - mean) / std
+print(f"normalised shape: {normalised.shape}")  # (1000, 224, 224, 3)</code></pre>
+
+    <p><strong>Key NumPy operations every AI developer must know:</strong></p>
+    <ul>
+      <li><span class="inline-code">np.einsum('ij,jk->ik', A, B)</span> — fast matrix multiply with Einstein notation</li>
+      <li><span class="inline-code">np.where(condition, x, y)</span> — vectorised if-else</li>
+      <li><span class="inline-code">np.argsort, np.argmax, np.argmin</span> — indices of sorted/extreme values</li>
+      <li><span class="inline-code">np.clip(arr, 0, 1)</span> — clamp values (used in normalisation)</li>
+      <li><span class="inline-code">np.concatenate, np.stack, np.vstack</span> — combining arrays without loops</li>
+    </ul>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 2</div>
+    <div class="ls-title">Python Decorators for AI Code</div>
+    <p>Decorators let you add functionality to functions without modifying their code. They're used everywhere in AI: caching model outputs, timing functions, validating inputs, logging predictions.</p>
+    <pre><code>import time
+import functools
+
+# ── Decorator 1: Timer ──────────────────────────────────────────
+def timer(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.perf_counter()
+        result = func(*args, **kwargs)
+        elapsed = time.perf_counter() - start
+        print(f"{func.__name__} took {elapsed:.4f}s")
+        return result
+    return wrapper
+
+@timer
+def run_inference(model, image_batch):
+    return model.predict(image_batch)
+
+# ── Decorator 2: Cache with TTL ─────────────────────────────────
+import hashlib, json, time as _time
+
+def cache_result(ttl_seconds=300):
+    """Cache function results for ttl_seconds."""
+    cache = {}
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            key = hashlib.md5(
+                json.dumps((args, sorted(kwargs.items())),
+                default=str).encode()
+            ).hexdigest()
+            if key in cache:
+                result, ts = cache[key]
+                if _time.time() - ts < ttl_seconds:
+                    return result
+            result = func(*args, **kwargs)
+            cache[key] = (result, _time.time())
+            return result
+        return wrapper
+    return decorator
+
+@cache_result(ttl_seconds=600)
+def embed_text(text: str) -> list[float]:
+    """Embed text — expensive API call, cached for 10 min."""
+    # calls Gemini / OpenAI embedding API
+    return [0.1, 0.3, ...]  # placeholder
+
+# ── Decorator 3: Input validator ────────────────────────────────
+def validate_image(func):
+    @functools.wraps(func)
+    def wrapper(image_array, *args, **kwargs):
+        import numpy as np
+        if not isinstance(image_array, np.ndarray):
+            raise TypeError(f"Expected np.ndarray, got {type(image_array)}")
+        if image_array.ndim not in (3, 4):
+            raise ValueError(f"Expected (H,W,C) or (N,H,W,C), got {image_array.shape}")
+        if image_array.max() > 1.0:
+            image_array = image_array / 255.0  # auto-normalise
+        return func(image_array, *args, **kwargs)
+    return wrapper
+
+@validate_image
+def classify_image(image_array, model):
+    return model.predict(image_array[np.newaxis, ...])</code></pre>
+    <div class="callout amber"><strong>Pattern to remember:</strong> <span class="inline-code">@functools.wraps(func)</span> inside your decorator preserves the original function's <span class="inline-code">__name__</span> and <span class="inline-code">__doc__</span>. Always include it — FastAPI uses those for its Swagger docs.</div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 3</div>
+    <div class="ls-title">Generators for Memory-Efficient Data Pipelines</div>
+    <p>When your dataset is 50GB of images, you cannot load it all into RAM. Generators produce data <em>one item at a time</em>, keeping memory usage flat regardless of dataset size.</p>
+    <pre><code>from pathlib import Path
+from PIL import Image
+import numpy as np
+
+# ── Generator-based image loader ───────────────────────────────
+def image_batch_generator(image_dir: str, batch_size: int = 32):
+    """Yields (images, labels) batches without loading full dataset."""
+    paths = list(Path(image_dir).rglob("*.jpg"))
+    # Extract labels from folder names: dataset/roses/img1.jpg → "roses"
+    labels = [p.parent.name for p in paths]
+
+    for i in range(0, len(paths), batch_size):
+        batch_paths = paths[i:i+batch_size]
+        batch_labels = labels[i:i+batch_size]
+
+        images = []
+        for p in batch_paths:
+            img = Image.open(p).resize((224, 224))
+            images.append(np.array(img) / 255.0)
+
+        yield np.array(images, dtype=np.float32), batch_labels
+
+# Usage — memory stays flat even for 100k images:
+for images, labels in image_batch_generator("dataset/", batch_size=32):
+    predictions = model.predict(images)   # process one batch, discard
+    # images goes out of scope → GC collects it
+
+# ── Generator expression (even simpler) ────────────────────────
+squares = (x**2 for x in range(1_000_000))  # uses ~56 bytes
+# vs list comprehension: [x**2 for x in range(1_000_000)] uses ~8MB
+
+# ── yield from — delegate to sub-generators ────────────────────
+def multi_dir_loader(*dirs):
+    for d in dirs:
+        yield from image_batch_generator(d)
+</code></pre>
+    <p>Keras and PyTorch DataLoaders are built on the same generator pattern. When you subclass <span class="inline-code">tf.keras.utils.Sequence</span> or <span class="inline-code">torch.utils.data.Dataset</span>, you're implementing a generator interface.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 4</div>
+    <div class="ls-title">Profiling: Finding the Bottleneck</div>
+    <p>Before optimising, <em>measure</em>. Premature optimisation wastes time. Profiling tells you exactly which lines are slow.</p>
+    <pre><code># ── Method 1: cProfile (function-level) ────────────────────────
+import cProfile, pstats
+
+profiler = cProfile.Profile()
+profiler.enable()
+
+# --- code to profile ---
+run_training_loop(model, dataset, epochs=1)
+# -----------------------
+
+profiler.disable()
+stats = pstats.Stats(profiler)
+stats.sort_stats('cumulative')
+stats.print_stats(10)  # top 10 slowest functions
+# Output example:
+#   ncalls  tottime  percall  cumtime  percall  filename:lineno(function)
+#    1000    5.231    0.005    5.231    0.005    data_utils.py:42(load_image)
+# → load_image is called 1000 times taking 5s total → vectorise it!
+
+# ── Method 2: line_profiler (line-by-line) ──────────────────────
+# pip install line_profiler
+# Add @profile decorator, run: kernprof -l -v your_script.py
+
+# ── Method 3: memory_profiler ──────────────────────────────────
+# pip install memory_profiler
+from memory_profiler import profile
+
+@profile
+def prepare_dataset(path):
+    images = load_all_images(path)   # line 1: +2.4 GB
+    features = extract_features(images)  # line 2: +800 MB
+    del images                           # line 3: -2.4 GB  ← important!
+    return features
+
+# ── Method 4: timeit for micro-benchmarks ──────────────────────
+import timeit
+loop_time  = timeit.timeit('[x**2 for x in range(1000)]', number=10000)
+numpy_time = timeit.timeit('import numpy as np; np.arange(1000)**2', number=10000)
+print(f"Loop: {loop_time:.3f}s | NumPy: {numpy_time:.3f}s")</code></pre>
+    <table class="perf-table">
+      <thead><tr><th>Tool</th><th>Best for</th><th>Output</th></tr></thead>
+      <tbody>
+        <tr><td>cProfile</td><td>Finding slowest functions</td><td>Cumulative time per function</td></tr>
+        <tr><td>line_profiler</td><td>Finding slowest lines inside a function</td><td>Time per line</td></tr>
+        <tr><td>memory_profiler</td><td>Tracking RAM growth</td><td>MB increment per line</td></tr>
+        <tr><td>timeit</td><td>Comparing two implementations</td><td>Seconds for N repetitions</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 5</div>
+    <div class="ls-title">Type Hints and Dataclasses for AI Config</div>
+    <p>Type hints make your AI code self-documenting and enable IDE autocomplete. Dataclasses give you structured configuration objects — much better than passing 15 arguments to a function.</p>
+    <pre><code>from dataclasses import dataclass, field
+from typing import Optional
+
+@dataclass
+class TrainingConfig:
+    """All hyperparameters for a training run."""
+    model_name: str = "MobileNetV2"
+    num_classes: int = 10
+    image_size: int = 224
+    batch_size: int = 32
+    epochs: int = 20
+    learning_rate: float = 1e-4
+    dropout_rate: float = 0.3
+    weight_decay: float = 1e-5
+    augment: bool = True
+    checkpoint_dir: str = "checkpoints/"
+    tags: list[str] = field(default_factory=list)
+    notes: Optional[str] = None
+
+    def __post_init__(self):
+        if self.learning_rate <= 0:
+            raise ValueError("learning_rate must be positive")
+        if self.batch_size not in [8, 16, 32, 64, 128]:
+            raise ValueError("batch_size must be a power of 2 between 8–128")
+
+# Clean function signatures with type hints
+def train(
+    config: TrainingConfig,
+    train_dir: str,
+    val_dir: str,
+) -> dict[str, float]:
+    """Returns {val_accuracy, val_loss, best_epoch}."""
+    ...
+
+# Usage — clear, self-documenting:
+cfg = TrainingConfig(
+    model_name="EfficientNetB0",
+    num_classes=38,
+    learning_rate=3e-4,
+    tags=["plantvillage", "class10-demo"],
+    notes="First run with augmentation"
+)
+results = train(cfg, "data/train", "data/val")
+print(results["val_accuracy"])  # IDE knows this is float</code></pre>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 6</div>
+    <div class="ls-title">Context Managers: Safe Resource Handling</div>
+    <p>AI code regularly deals with resources that must be cleaned up: GPU memory, file handles, database connections, MLflow runs. Context managers guarantee cleanup even when exceptions occur.</p>
+    <pre><code>import contextlib
+import mlflow
+
+# ── Custom context manager using contextlib.contextmanager ──────
+@contextlib.contextmanager
+def gpu_memory_guard(name: str):
+    """Clears GPU cache before and after a block."""
+    import gc
+    try:
+        import torch
+        torch.cuda.empty_cache()
+    except ImportError:
+        pass
+    print(f"[GPU] Starting: {name}")
+    try:
+        yield
+    finally:
+        try:
+            import torch
+            torch.cuda.empty_cache()
+            gc.collect()
+        except ImportError:
+            pass
+        print(f"[GPU] Done: {name}")
+
+# Usage:
+with gpu_memory_guard("inference_batch_100"):
+    predictions = model(large_batch)
+    # Even if model() raises an exception, GPU cache is cleared
+
+# ── MLflow run as context manager ──────────────────────────────
+with mlflow.start_run(run_name="experiment_v3"):
+    mlflow.log_param("lr", 3e-4)
+    history = model.fit(train_ds, validation_data=val_ds, epochs=20)
+    mlflow.log_metric("val_accuracy", max(history.history["val_accuracy"]))
+    mlflow.keras.log_model(model, "model")
+# Run ends automatically — even on exception
+
+# ── File management with context manager ───────────────────────
+with open("predictions.jsonl", "w") as f:
+    for batch in data_loader:
+        preds = model.predict(batch)
+        for p in preds:
+            f.write(json.dumps(p.tolist()) + "\n")
+# File is closed automatically
+</code></pre>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>⚡ Lesson 1 Quiz — Advanced Python for AI</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. Rohan's Python loop took 2.1 seconds for 1 million pixels. The equivalent NumPy operation took 0.003 seconds. This speedup happens because:</div>
+        <div class="quiz-opt" data-opt="a">a) NumPy uses multiple CPU cores by default while Python loops are single-threaded</div>
+        <div class="quiz-opt" data-opt="b">b) NumPy operations execute compiled C code on contiguous memory blocks in one call — the interpreter overhead of Python's per-object dispatch is eliminated for the entire array at once</div>
+        <div class="quiz-opt" data-opt="c">c) NumPy uses the GPU automatically when it detects large arrays</div>
+        <div class="quiz-opt" data-opt="d">d) Python loops allocate new memory for each element, while NumPy reuses a single pointer</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. The @functools.wraps(func) line inside a decorator is important because:</div>
+        <div class="quiz-opt" data-opt="a">a) It prevents the decorator from running more than once on the same function</div>
+        <div class="quiz-opt" data-opt="b">b) It copies the original function's __name__, __doc__, and other metadata to the wrapper — without it, FastAPI would generate incorrect Swagger docs and debugging tracebacks would show "wrapper" instead of the real function name</div>
+        <div class="quiz-opt" data-opt="c">c) It makes the decorator thread-safe by acquiring a lock</div>
+        <div class="quiz-opt" data-opt="d">d) It ensures the return type of the wrapper matches the original function</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. A generator function using `yield` is preferable to a list comprehension for loading a 50GB image dataset because:</div>
+        <div class="quiz-opt" data-opt="a">a) Generators are faster because they use compiled C internally</div>
+        <div class="quiz-opt" data-opt="b">b) A generator produces items one at a time on demand — memory usage stays flat (one batch in RAM) regardless of dataset size. A list comprehension materialises all items at once, requiring the full 50GB in RAM simultaneously.</div>
+        <div class="quiz-opt" data-opt="c">c) Generators automatically handle multi-threading so batches load in parallel</div>
+        <div class="quiz-opt" data-opt="d">d) List comprehensions do not support file I/O operations</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. You run cProfile on a training loop and see that load_image() is called 50,000 times and accounts for 78% of total runtime. The correct optimisation strategy is:</div>
+        <div class="quiz-opt" data-opt="a">a) Rewrite the model architecture to use fewer parameters</div>
+        <div class="quiz-opt" data-opt="b">b) Focus exclusively on vectorising load_image() — profile first, then optimise the proven bottleneck. Optimising anything else first would reduce total runtime by at most 22%.</div>
+        <div class="quiz-opt" data-opt="c">c) Switch from Python 3.11 to PyPy for a general interpreter speedup</div>
+        <div class="quiz-opt" data-opt="d">d) Reduce the batch size so load_image() is called fewer times</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. A @dataclass with __post_init__ validation is better than passing 15 keyword arguments directly to a training function because:</div>
+        <div class="quiz-opt" data-opt="a">a) Dataclasses run faster than function keyword arguments</div>
+        <div class="quiz-opt" data-opt="b">b) The config object is a single, versioned, shareable entity — you can log it to MLflow with one line, validate it in __post_init__, reuse it across functions, and type-check it statically. Function arguments cannot provide these guarantees.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Python functions cannot accept more than 10 keyword arguments</div>
+        <div class="quiz-opt" data-opt="d">d) Dataclasses automatically generate YAML config files for reproducibility</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. When broadcasting `images / 255.0 - mean` where images is (1000, 224, 224, 3) and mean is (3,), NumPy:</div>
+        <div class="quiz-opt" data-opt="a">a) Raises a shape mismatch error because the arrays have different numbers of dimensions</div>
+        <div class="quiz-opt" data-opt="b">b) Automatically aligns (3,) to (1, 1, 1, 3) and subtracts element-wise across all 1000 images — no explicit reshaping or loops needed</b></div>
+        <div class="quiz-opt" data-opt="c">c) Computes a dot product instead of element-wise subtraction</div>
+        <div class="quiz-opt" data-opt="d">d) Repeats the subtraction 1000×224×224 times using Python's iteration protocol</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. A context manager created with @contextlib.contextmanager guarantees cleanup code in the `finally` block will run:</div>
+        <div class="quiz-opt" data-opt="a">a) Only when the with block exits normally without any exceptions</div>
+        <div class="quiz-opt" data-opt="b">b) Both on normal exit AND when an exception is raised inside the with block — this is the critical safety guarantee that makes context managers the correct pattern for GPU memory, file handles, and MLflow runs</b></div>
+        <div class="quiz-opt" data-opt="c">c) Only when explicitly called with context_manager.close()</div>
+        <div class="quiz-opt" data-opt="d">d) After a garbage collection cycle, not immediately on block exit</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. `np.einsum('ij,jk->ik', A, B)` is equivalent to matrix multiplication A @ B. The main practical advantage of einsum for AI code is:</div>
+        <div class="quiz-opt" data-opt="a">a) einsum is always faster than @ on all hardware</div>
+        <div class="quiz-opt" data-opt="b">b) einsum handles arbitrary tensor contractions expressible in one line — you can compute batch outer products, batched matrix multiplies, trace operations, and multi-dimensional dot products without reshaping, making complex attention operations readable</b></div>
+        <div class="quiz-opt" data-opt="c">c) einsum automatically distributes computation across multiple GPUs</div>
+        <div class="quiz-opt" data-opt="d">d) einsum supports complex numbers while @ does not</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Quiz</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="class-11.html" class="btn-prev">← Class 11 Hub</a>
+    <a href="lesson-02.html" class="btn-next">Lesson 2: Deep Learning Theory →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-11.html">Class 11</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'b',8:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q])o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=80){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — Your Python is now production-ready. Move to Lesson 2!`;}
+  else if(pct>=60){res.className='quiz-result ok';res.textContent=`Good effort! ${score}/${total} (${pct}%) — Review the profiling and vectorisation sections, then retry.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Revisit NumPy broadcasting and decorators before moving on.`;}
+  gtag('event','quiz_complete',{event_category:'class11',event_label:'class11_lesson01_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"Advanced Python for AI — Class 11 Lesson 1",
+  "description":"Master NumPy vectorisation, decorators, generators, profiling, and type hints for fast, production-ready AI code.",
+  "url":"https://mitraailife.com/content/students/class-11/lesson-01.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Junior College +1",
+  "typicalAgeRange":"15-16",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

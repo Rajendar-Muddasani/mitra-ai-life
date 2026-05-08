@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 2 — Deep Learning Theory | Class 11 | Mitra AI Life</title>
+<meta name="description" content="Class 11 Lesson 2: Understand forward pass math, derive backpropagation using the chain rule, compare optimisers (SGD, Adam, RMSprop), and implement batch normalisation and dropout from scratch." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-11/lesson-02.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#d97706" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 2 — Deep Learning Theory | Class 11 | Mitra AI Life" />
+<meta property="og:description" content="Derive backpropagation, understand optimisers (SGD/Adam/RMSprop), implement batch normalisation and dropout from scratch." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-11/lesson-02.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#fffbeb;color:#92400e;line-height:1.7}
+a{color:#d97706;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#fbbf24}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#fbbf24}
+.lesson-hero{background:linear-gradient(135deg,#92400e,#b45309,#d97706);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#d97706;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#92400e;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#b45309;margin-bottom:.9rem}
+.lesson-section ul,ol{font-size:.93rem;color:#b45309;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.amber{background:#fffbeb;border-left:4px solid #d97706;color:#92400e}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.blue{background:#eff6ff;border-left:4px solid #3b82f6;color:#1e3a8a}
+pre{background:#1e293b;color:#e2e8f0;border-radius:12px;padding:1.1rem 1.2rem;overflow-x:auto;font-size:.82rem;line-height:1.6;margin:1rem 0}
+code{font-family:'Courier New',monospace}
+.inline-code{background:#fef3c7;color:#92400e;padding:.1rem .35rem;border-radius:4px;font-family:'Courier New',monospace;font-size:.85em}
+.math-box{background:#fff;border:2px solid #fde68a;border-radius:12px;padding:1rem 1.2rem;margin:1rem 0;font-size:.9rem}
+.math-box h4{font-family:'Baloo 2',cursive;font-size:.95rem;color:#92400e;margin-bottom:.5rem}
+.math-row{font-family:'Courier New',monospace;color:#b45309;background:#fef3c7;border-radius:6px;padding:.3rem .6rem;margin:.3rem 0;display:block;font-size:.85rem}
+.optim-table{width:100%;border-collapse:collapse;font-size:.82rem;margin:1rem 0}
+.optim-table th{background:#fffbeb;color:#92400e;font-weight:800;padding:.45rem .6rem;border:1px solid #fde68a;text-align:left}
+.optim-table td{padding:.4rem .6rem;border:1px solid #fde68a;color:#b45309;vertical-align:top}
+.optim-table td:first-child{font-weight:700;color:#d97706}
+.nn-diagram{background:#fff;border:2px solid #fde68a;border-radius:14px;padding:1.2rem;margin:1rem 0;text-align:center;overflow-x:auto}
+.nn-row{display:flex;justify-content:center;align-items:center;gap:.5rem;flex-wrap:nowrap;margin:.3rem 0;font-size:.78rem}
+.nn-node{background:#fde68a;border:2px solid #d97706;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#92400e;font-size:.65rem;flex-shrink:0}
+.nn-arrow{color:#d97706;font-size:1rem}
+.nn-label{font-size:.7rem;color:#b45309;margin-top:.2rem}
+.quiz-section{background:#fff;border:2px solid #d97706;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#92400e;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#92400e;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #fde68a;background:#fffbeb;font-size:.87rem;color:#92400e;transition:border-color .15s;line-height:1.45}
+.quiz-opt:hover{border-color:#d97706}
+.quiz-opt.selected{border-color:#d97706;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#d97706;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#b45309}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #d97706;color:#d97706}
+.lesson-nav .btn-next{background:#d97706;color:#fff}
+.lesson-nav .btn-prev:hover{background:#fffbeb}
+.lesson-nav .btn-next:hover{background:#b45309}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-11.html" class="active">Class 11</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-11.html">Class 11</a> → Lesson 2</div>
+  <h1>Deep Learning Theory 🧮</h1>
+  <div class="meta">
+    <span>Class 11</span><span>Age 15–16</span><span>Lesson 2 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-11/lesson-02-hero.jpg" alt="Ananya from Ahmedabad deriving backpropagation on a whiteboard — loss curves, gradient flow diagrams, and optimiser comparison charts" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+
+  <div class="lesson-section">
+    <div class="ls-label">Story</div>
+    <div class="ls-title">Ananya Wants to Understand Why</div>
+    <p>Ananya, 15, from Ahmedabad had been using Keras for six months. She could write a CNN. She could fine-tune MobileNetV2. But when her model's loss exploded during training, she had no idea why. When her validation accuracy plateaued at 72%, she didn't know if changing the optimiser would help.</p>
+    <p>"You're using a machine you don't understand," her maths teacher said. "Let's open it up."</p>
+    <p>Ananya spent two weeks working through the maths underneath Keras. She derived backpropagation with pen and paper. She implemented a two-layer neural network in pure NumPy — without Keras — and watched the gradient flow. After that, when her loss exploded, she knew exactly why (learning rate too high). When it plateaued, she switched from SGD to Adam and broke through. <strong>Theory turned debugging from guessing into diagnosing.</strong></p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 1</div>
+    <div class="ls-title">Forward Pass: From Input to Loss</div>
+    <p>A neural network forward pass is just matrix multiplication + a non-linearity + a loss function. Let's make that concrete:</p>
+    <div class="math-box">
+      <h4>Forward Pass — 2-layer network</h4>
+      <span class="math-row">Layer 1: z1 = W1 @ X + b1       # linear transform</span>
+      <span class="math-row">Layer 1: a1 = ReLU(z1)           # activation: max(0, z1)</span>
+      <span class="math-row">Layer 2: z2 = W2 @ a1 + b2      # output logits</span>
+      <span class="math-row">Output:  ŷ  = softmax(z2)        # class probabilities</span>
+      <span class="math-row">Loss:    L  = -Σ y * log(ŷ)     # cross-entropy</span>
+    </div>
+    <pre><code>import numpy as np
+
+# ── Pure NumPy 2-layer neural network ──────────────────────────
+class TinyNN:
+    def __init__(self, input_dim, hidden_dim, output_dim):
+        # Xavier / Glorot initialisation: variance = 2/(fan_in + fan_out)
+        scale1 = np.sqrt(2.0 / (input_dim + hidden_dim))
+        scale2 = np.sqrt(2.0 / (hidden_dim + output_dim))
+        self.W1 = np.random.randn(hidden_dim, input_dim) * scale1
+        self.b1 = np.zeros((hidden_dim, 1))
+        self.W2 = np.random.randn(output_dim, hidden_dim) * scale2
+        self.b2 = np.zeros((output_dim, 1))
+
+    def relu(self, z):
+        return np.maximum(0, z)
+
+    def softmax(self, z):
+        # Numerically stable: subtract max before exp
+        e = np.exp(z - z.max(axis=0, keepdims=True))
+        return e / e.sum(axis=0, keepdims=True)
+
+    def forward(self, X):
+        """X: (input_dim, batch_size)"""
+        self.X  = X
+        self.z1 = self.W1 @ X + self.b1
+        self.a1 = self.relu(self.z1)
+        self.z2 = self.W2 @ self.a1 + self.b2
+        self.yhat = self.softmax(self.z2)
+        return self.yhat
+
+    def cross_entropy_loss(self, yhat, y_onehot):
+        """y_onehot: (num_classes, batch_size)"""
+        m = y_onehot.shape[1]
+        return -np.sum(y_onehot * np.log(yhat + 1e-8)) / m</code></pre>
+    <div class="callout amber"><strong>Xavier initialisation</strong> is critical. If weights start too large, activations saturate and gradients vanish. If too small, the network never learns. Xavier initialises weights with variance = 2/(fan_in + fan_out) — keeping signal magnitude consistent across layers.</div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 2</div>
+    <div class="ls-title">Backpropagation: The Chain Rule in Action</div>
+    <p>Backpropagation is just the chain rule from calculus applied to a computation graph. We want to find ∂L/∂W for every weight so we can move it in the direction that reduces loss.</p>
+    <div class="math-box">
+      <h4>Chain Rule — backward pass</h4>
+      <span class="math-row">∂L/∂z2  = ŷ - y          # softmax + cross-entropy gradient (simplifies beautifully)</span>
+      <span class="math-row">∂L/∂W2  = (1/m) * (∂L/∂z2) @ a1.T</span>
+      <span class="math-row">∂L/∂b2  = (1/m) * sum(∂L/∂z2, axis=1)</span>
+      <span class="math-row">∂L/∂a1  = W2.T @ (∂L/∂z2)</span>
+      <span class="math-row">∂L/∂z1  = ∂L/∂a1 * ReLU'(z1)   # ReLU'(z) = 1 if z>0 else 0</span>
+      <span class="math-row">∂L/∂W1  = (1/m) * (∂L/∂z1) @ X.T</span>
+      <span class="math-row">∂L/∂b1  = (1/m) * sum(∂L/∂z1, axis=1)</span>
+    </div>
+    <pre><code>    def backward(self, y_onehot, lr=0.01):
+        """Compute gradients and update weights."""
+        m = y_onehot.shape[1]
+
+        # Output layer gradient (softmax + cross-entropy combined)
+        dz2 = self.yhat - y_onehot           # (output_dim, m)
+
+        dW2 = (dz2 @ self.a1.T) / m
+        db2 = dz2.sum(axis=1, keepdims=True) / m
+
+        # Backprop through layer 2 to layer 1
+        da1 = self.W2.T @ dz2                # (hidden_dim, m)
+        dz1 = da1 * (self.z1 > 0)           # ReLU derivative: 1 where z1 > 0
+
+        dW1 = (dz1 @ self.X.T) / m
+        db1 = dz1.sum(axis=1, keepdims=True) / m
+
+        # Gradient descent update
+        self.W2 -= lr * dW2
+        self.b2 -= lr * db2
+        self.W1 -= lr * dW1
+        self.b1 -= lr * db1
+
+# Training loop
+nn = TinyNN(input_dim=784, hidden_dim=128, output_dim=10)
+for epoch in range(100):
+    yhat = nn.forward(X_train)             # X_train: (784, m)
+    loss = nn.cross_entropy_loss(yhat, Y_train)
+    nn.backward(Y_train, lr=0.01)
+    if epoch % 10 == 0:
+        print(f"Epoch {epoch}: loss = {loss:.4f}")</code></pre>
+    <div class="callout amber"><strong>Why does ∂L/∂z2 = ŷ - y simplify so cleanly?</strong> The softmax and cross-entropy gradient perfectly cancel each other's complexity. This is one of the beautiful coincidences of deep learning math — the combined gradient is just the prediction error. This is why we almost always pair softmax with cross-entropy loss.</div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 3</div>
+    <div class="ls-title">Optimisers: SGD vs Adam vs RMSprop</div>
+    <p>Vanilla SGD updates every weight by the same learning rate: <span class="inline-code">W = W - lr * dW</span>. The problem: some weights need large updates, others need tiny ones. Adaptive optimisers solve this.</p>
+    <table class="optim-table">
+      <thead><tr><th>Optimiser</th><th>Key Idea</th><th>When to Use</th><th>Keras Code</th></tr></thead>
+      <tbody>
+        <tr><td>SGD</td><td>Fixed learning rate for all weights. Add momentum to escape local minima.</td><td>CNNs with careful LR tuning, research reproducibility</td><td><span class="inline-code">SGD(lr=0.01, momentum=0.9)</span></td></tr>
+        <tr><td>RMSprop</td><td>Divides gradient by running RMS of past gradients. Adapts per-weight.</td><td>RNNs, noisy gradients</td><td><span class="inline-code">RMSprop(lr=1e-3)</span></td></tr>
+        <tr><td>Adam</td><td>RMSprop + momentum. Maintains moving average of gradients AND squared gradients. Most robust.</td><td>Almost everything — default choice</td><td><span class="inline-code">Adam(lr=1e-3)</span></td></tr>
+        <tr><td>AdamW</td><td>Adam + weight decay decoupled from gradient. Better generalisation.</td><td>Fine-tuning LLMs, Transformers</td><td><span class="inline-code">AdamW(lr=3e-4, weight_decay=0.01)</span></td></tr>
+      </tbody>
+    </table>
+    <pre><code># Adam update equations (implement it once to understand it forever)
+import numpy as np
+
+class Adam:
+    def __init__(self, lr=1e-3, beta1=0.9, beta2=0.999, eps=1e-8):
+        self.lr = lr
+        self.beta1, self.beta2, self.eps = beta1, beta2, eps
+        self.m, self.v, self.t = {}, {}, 0
+
+    def update(self, params, grads):
+        self.t += 1
+        for key in params:
+            if key not in self.m:
+                self.m[key] = np.zeros_like(params[key])
+                self.v[key] = np.zeros_like(params[key])
+
+            # Momentum: exponential moving average of gradients
+            self.m[key] = self.beta1 * self.m[key] + (1 - self.beta1) * grads[key]
+            # RMS: exponential moving average of squared gradients
+            self.v[key] = self.beta2 * self.v[key] + (1 - self.beta2) * grads[key]**2
+
+            # Bias correction (important early in training when m, v ≈ 0)
+            m_hat = self.m[key] / (1 - self.beta1**self.t)
+            v_hat = self.v[key] / (1 - self.beta2**self.t)
+
+            # Update: normalise by sqrt(v_hat) → adaptive learning rate per weight
+            params[key] -= self.lr * m_hat / (np.sqrt(v_hat) + self.eps)
+        return params</code></pre>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 4</div>
+    <div class="ls-title">Batch Normalisation and Dropout</div>
+    <p><strong>Batch Normalisation</strong> (2015, Ioffe & Szegedy) normalises activations within each mini-batch to have zero mean and unit variance, then scales and shifts with learned parameters γ and β. This:</p>
+    <ul>
+      <li>Allows 10× higher learning rates</li>
+      <li>Makes training less sensitive to weight initialisation</li>
+      <li>Acts as a mild regulariser (reduces need for dropout)</li>
+    </ul>
+    <pre><code># Batch Norm: what Keras does under the hood
+def batch_norm_forward(z, gamma, beta, eps=1e-8):
+    """
+    z: (batch_size, features) activations BEFORE the activation function
+    gamma, beta: learned scale and shift (trainable parameters)
+    """
+    mu    = z.mean(axis=0)                   # mean per feature
+    sigma = z.var(axis=0)                    # variance per feature
+    z_hat = (z - mu) / np.sqrt(sigma + eps)  # normalise
+    out   = gamma * z_hat + beta             # scale and shift
+    return out
+
+# In Keras — always place BEFORE the activation:
+model = tf.keras.Sequential([
+    tf.keras.layers.Dense(256),
+    tf.keras.layers.BatchNormalization(),    # ← before activation
+    tf.keras.layers.Activation('relu'),
+    tf.keras.layers.Dense(10, activation='softmax')
+])
+
+# ── Dropout: random neuron deactivation during training ─────────
+# During TRAINING: randomly zero out p fraction of neurons → forces redundancy
+# During INFERENCE: all neurons active, outputs scaled by (1-p)
+
+# In Keras — Dropout goes AFTER the activation:
+model = tf.keras.Sequential([
+    tf.keras.layers.Dense(256, activation='relu'),
+    tf.keras.layers.Dropout(0.4),   # ← after activation, p=0.4
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dropout(0.3),
+    tf.keras.layers.Dense(10, activation='softmax')
+])</code></pre>
+    <div class="callout amber"><strong>BatchNorm placement rule:</strong> Dense → BatchNorm → Activation. NOT Dense → Activation → BatchNorm. The reason: BatchNorm normalises the raw pre-activation values, which have a more stable distribution than post-activation outputs.</div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Section 5</div>
+    <div class="ls-title">Learning Rate Schedules</div>
+    <p>A fixed learning rate is rarely optimal. Start large to explore, then decay to fine-tune around a minimum. The most important schedules:</p>
+    <pre><code>import tensorflow as tf
+
+# ── 1. Cosine Annealing (most popular for transformers) ─────────
+lr_schedule = tf.keras.optimizers.schedules.CosineDecay(
+    initial_learning_rate=1e-3,
+    decay_steps=10_000,   # steps to decay to min_lr
+    alpha=1e-6            # minimum lr
+)
+
+# ── 2. ReduceLROnPlateau (automatic, metric-based) ──────────────
+reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(
+    monitor='val_loss',
+    factor=0.5,           # multiply lr by 0.5 when plateau detected
+    patience=5,           # wait 5 epochs before reducing
+    min_lr=1e-7
+)
+
+# ── 3. Warmup + Decay (transformers standard) ───────────────────
+class WarmupCosineSchedule(
+    tf.keras.optimizers.schedules.LearningRateSchedule):
+
+    def __init__(self, peak_lr, warmup_steps, total_steps):
+        self.peak_lr = peak_lr
+        self.warmup_steps = warmup_steps
+        self.total_steps = total_steps
+
+    def __call__(self, step):
+        warmup = self.peak_lr * (step / self.warmup_steps)
+        cosine = self.peak_lr * 0.5 * (
+            1 + tf.cos(np.pi * (step - self.warmup_steps)
+                       / (self.total_steps - self.warmup_steps))
+        )
+        return tf.where(step < self.warmup_steps, warmup, cosine)
+
+# Usage:
+schedule = WarmupCosineSchedule(peak_lr=3e-4, warmup_steps=1000, total_steps=10000)
+optimizer = tf.keras.optimizers.Adam(learning_rate=schedule)</code></pre>
+    <div class="callout green"><strong>Rule of thumb:</strong> Use warmup when fine-tuning pretrained models. The first 1000–2000 steps with a tiny lr let the new head initialise safely before the larger model weights start updating.</div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>🧮 Lesson 2 Quiz — Deep Learning Theory</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. In Xavier/Glorot initialisation, weights are sampled with variance = 2/(fan_in + fan_out). This specific formula is important because:</div>
+        <div class="quiz-opt" data-opt="a">a) It ensures all weights start at zero to avoid breaking symmetry</div>
+        <div class="quiz-opt" data-opt="b">b) It keeps the variance of activations and gradients approximately equal across every layer — too large causes saturation and vanishing gradients, too small means the signal decays to zero. The formula is derived from keeping variance(output) = variance(input) for a linear layer.</b></div>
+        <div class="quiz-opt" data-opt="c">c) It guarantees the network will converge in a fixed number of epochs</div>
+        <div class="quiz-opt" data-opt="d">d) It makes the weight matrix orthogonal, which prevents gradient explosion</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. The backpropagation gradient at the output layer simplifies to ∂L/∂z2 = ŷ - y (prediction minus truth). This clean result occurs because:</div>
+        <div class="quiz-opt" data-opt="a">a) The output layer always uses ReLU, which has a derivative of exactly 1</div>
+        <div class="quiz-opt" data-opt="b">b) The softmax and cross-entropy loss are mathematical conjugates — when you multiply their individual Jacobians together via the chain rule, nearly all terms cancel, leaving just the prediction error. This is why they are almost always paired together.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Cross-entropy loss is linear, so its gradient is always 1</div>
+        <div class="quiz-opt" data-opt="d">d) The simplification only applies when the network achieves 100% accuracy</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. Adam optimiser maintains two moving averages m (gradient) and v (squared gradient). The bias correction step divides by (1 - β^t) because:</div>
+        <div class="quiz-opt" data-opt="a">a) It compensates for floating point rounding errors in the gradient accumulation</div>
+        <div class="quiz-opt" data-opt="b">b) At the start of training (t=1, 2...), both m and v are initialised at zero — they are biased towards zero. Dividing by (1-β^t) corrects this bias and prevents artificially tiny effective learning rates in early steps where the estimates haven't yet accumulated enough history.</b></div>
+        <div class="quiz-opt" data-opt="c">c) It normalises the learning rate to be between 0 and 1 at all times</div>
+        <div class="quiz-opt" data-opt="d">d) It prevents the learning rate from ever exceeding the initial value</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. Batch Normalisation should be placed BEFORE the activation function (Dense → BN → ReLU) rather than after. The correct reason is:</div>
+        <div class="quiz-opt" data-opt="a">a) BatchNorm cannot process negative values, so it must run before ReLU eliminates them</div>
+        <div class="quiz-opt" data-opt="b">b) BatchNorm normalises the raw pre-activation distribution (which is approximately Gaussian and well-defined) to zero mean and unit variance — this produces the most stable normalisation. Post-activation values after ReLU are half-rectified and no longer Gaussian, making normalisation less effective.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Keras raises an error if BatchNorm is placed after Activation</div>
+        <div class="quiz-opt" data-opt="d">d) Placing BN before activation makes the model train exactly 2x faster</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. Dropout with p=0.4 means 40% of neurons are zeroed during training. During inference, the correct behaviour is:</div>
+        <div class="quiz-opt" data-opt="a">a) 40% of neurons are still randomly zeroed to maintain consistency with training</div>
+        <div class="quiz-opt" data-opt="b">b) All neurons are active and outputs are scaled by (1-p)=0.6 — OR equivalently (the modern approach), outputs are scaled by 1/(1-p) during training so no scaling is needed at inference. This ensures expected activations match between training and inference.</b></div>
+        <div class="quiz-opt" data-opt="c">c) The dropout layer is removed entirely and replaced with a BatchNorm layer</div>
+        <div class="quiz-opt" data-opt="d">d) Dropout is applied only to bias terms, not weight outputs, during inference</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. When fine-tuning a pretrained BERT model, you should use a warmup LR schedule (tiny LR for first 1000 steps, then larger). This is because:</div>
+        <div class="quiz-opt" data-opt="a">a) BERT's tokeniser requires 1000 warmup steps to load completely</div>
+        <div class="quiz-opt" data-opt="b">b) The pretrained weights encode valuable representations. Large updates in the first steps can catastrophically overwrite them before the new task-specific head is properly initialised. Warmup lets the head converge slightly first, then both head and body fine-tune together.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Google's BERT paper required warmup as a legal condition of use</div>
+        <div class="quiz-opt" data-opt="d">d) Warmup steps prevent the Adam optimiser from computing gradients before the model has seen at least 1000 samples</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. The ReLU derivative used in backprop is: dz1 = da1 * (z1 > 0). The (z1 > 0) mask means:</div>
+        <div class="quiz-opt" data-opt="a">a) Neurons that were positive during the forward pass receive full gradient; neurons that were negative receive zero gradient. Dead neurons (always negative) never learn — this is the "dying ReLU" problem.</b></div>
+        <div class="quiz-opt" data-opt="b">b) Only the largest 50% of activations are allowed to propagate gradients</div>
+        <div class="quiz-opt" data-opt="c">c) Negative activations receive a gradient of -1, not 0</div>
+        <div class="quiz-opt" data-opt="d">d) The mask ensures gradient values are always between 0 and 1</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. AdamW is preferred over Adam for fine-tuning Transformers because it decouples weight decay from the gradient update. The problem with standard Adam + L2 regularisation is:</div>
+        <div class="quiz-opt" data-opt="a">a) Adam cannot process L2 regularisation terms mathematically</div>
+        <div class="quiz-opt" data-opt="b">b) In standard Adam, L2 gradient is divided by √v̂ (the adaptive term), making effective weight decay weaker for frequently-updated weights and stronger for rarely-updated ones — the opposite of desired. AdamW applies weight decay directly to the weights, independent of the gradient history.</b></div>
+        <div class="quiz-opt" data-opt="c">c) L2 regularisation increases the required warmup steps by 10x</div>
+        <div class="quiz-opt" data-opt="d">d) Standard Adam + L2 is identical to AdamW — they are equivalent implementations</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Quiz</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-01.html" class="btn-prev">← Lesson 1: Advanced Python</a>
+    <a href="lesson-03.html" class="btn-next">Lesson 3: RL and Q-Learning →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-11.html">Class 11</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'a',8:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q])o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=80){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — You understand what Keras does under the hood. Move to Lesson 3!`;}
+  else if(pct>=60){res.className='quiz-result ok';res.textContent=`Good effort! ${score}/${total} (${pct}%) — Revisit the backprop and optimiser sections.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Implement the TinyNN from scratch in a notebook, then retry.`;}
+  gtag('event','quiz_complete',{event_category:'class11',event_label:'class11_lesson02_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"Deep Learning Theory — Class 11 Lesson 2",
+  "description":"Forward pass math, backpropagation chain rule, optimisers (SGD/Adam/RMSprop), batch normalisation, dropout, and learning rate schedules.",
+  "url":"https://mitraailife.com/content/students/class-11/lesson-02.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Junior College +1",
+  "typicalAgeRange":"15-16",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

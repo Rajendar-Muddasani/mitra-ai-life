@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 12 — Capstone: My AI Research Project | Class 11 | Mitra AI Life</title>
+<meta name="description" content="Class 11 Capstone Lesson 12: Consolidate all 11 Class 11 lessons — Advanced Python to AI Startups. Complete your AI portfolio, earn your certificate, and preview Class 12." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-11/lesson-12.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#d97706" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 12 — Capstone: My AI Research Project | Class 11 | Mitra AI Life" />
+<meta property="og:description" content="Class 11 Capstone. Consolidate all 11 lessons from Advanced Python to AI Startups. Build your AI portfolio, earn your certificate, and preview JC +2." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-11/lesson-12.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#fffbeb;color:#92400e;line-height:1.7}
+a{color:#d97706;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#fbbf24}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#fbbf24}
+.lesson-hero{background:linear-gradient(135deg,#78350f,#92400e,#b45309,#d97706,#f59e0b);background-size:200%;animation:heroGrad 8s ease infinite;padding:3rem 1.5rem 4rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+@keyframes heroGrad{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.9rem,5vw,3rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#d97706;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#92400e;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#b45309;margin-bottom:.9rem}
+.lesson-section ul,ol{font-size:.93rem;color:#b45309;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.amber{background:#fffbeb;border-left:4px solid #d97706;color:#92400e}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+/* Recap grid */
+.recap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin:1rem 0}
+.recap-card{background:#fff;border:2px solid #fde68a;border-radius:10px;padding:.7rem .8rem;transition:border-color .15s}
+.recap-card:hover{border-color:#d97706}
+.recap-card .rc-num{font-size:.68rem;font-weight:800;color:#d97706;text-transform:uppercase;letter-spacing:.1em}
+.recap-card h4{font-size:.8rem;font-weight:800;color:#92400e;margin:.15rem 0 .2rem;line-height:1.3}
+.recap-card .rc-who{font-size:.73rem;color:#b45309}
+/* Skills checklist */
+.skills-bar-wrap{margin:1rem 0}
+.skills-progress{background:#fde68a;border-radius:10px;height:10px;margin-bottom:1rem;overflow:hidden}
+.skills-progress-inner{background:#d97706;height:100%;border-radius:10px;transition:width .6s ease;width:0}
+.skills-list{display:grid;grid-template-columns:repeat(2,1fr);gap:.4rem}
+.skill-item{display:flex;align-items:center;gap:.5rem;font-size:.83rem;color:#92400e;cursor:pointer}
+.skill-item input{accent-color:#d97706;width:14px;height:14px;flex-shrink:0}
+/* Portfolio builder */
+.portfolio-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0}
+.portfolio-card{background:#fff;border:2px solid #fde68a;border-radius:12px;padding:.9rem}
+.portfolio-card h4{font-family:'Baloo 2',cursive;font-size:.85rem;color:#d97706;margin-bottom:.4rem}
+.portfolio-card textarea{width:100%;border:1.5px solid #fde68a;border-radius:8px;padding:.5rem;font-family:'Nunito',sans-serif;font-size:.82rem;color:#92400e;background:#fffbeb;resize:vertical;min-height:70px;outline:none}
+.portfolio-card textarea:focus{border-color:#d97706}
+/* Certificate */
+.cert-wrap{background:linear-gradient(135deg,#92400e,#d97706);border-radius:18px;padding:2rem;text-align:center;margin:1.5rem 0;color:#fff;position:relative}
+.cert-wrap h3{font-family:'Baloo 2',cursive;font-size:1.4rem;margin-bottom:.3rem}
+.cert-wrap .cert-sub{font-size:.8rem;color:rgba(255,255,255,.8);margin-bottom:1rem}
+.cert-name-input{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.4);border-radius:8px;padding:.5rem 1rem;color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:700;text-align:center;width:300px;max-width:100%;outline:none}
+.cert-name-input::placeholder{color:rgba(255,255,255,.5)}
+.cert-btn{background:#fff;color:#d97706;border:none;border-radius:10px;padding:.6rem 1.5rem;font-weight:800;font-size:.9rem;cursor:pointer;margin-top:.8rem;font-family:'Nunito',sans-serif}
+.cert-output{display:none;margin-top:1rem;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.3);border-radius:12px;padding:1.2rem}
+.cert-output .co-title{font-family:'Baloo 2',cursive;font-size:1rem;margin-bottom:.3rem}
+.cert-output .co-name{font-family:'Baloo 2',cursive;font-size:1.6rem;font-weight:800;margin-bottom:.3rem}
+.cert-output .co-body{font-size:.8rem;color:rgba(255,255,255,.85)}
+/* Wisdom table */
+.wisdom-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.82rem}
+.wisdom-table th{background:#d97706;color:#fff;padding:.45rem .6rem;text-align:left}
+.wisdom-table td{padding:.45rem .6rem;border-bottom:1px solid #fde68a;color:#92400e;vertical-align:top}
+.wisdom-table tr:last-child td{border-bottom:none}
+.wisdom-table tr:nth-child(even) td{background:#fffbeb}
+/* Preview grid */
+.preview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin:1rem 0}
+.preview-card{background:#fff;border:2px solid #fde68a;border-radius:12px;padding:.9rem;text-align:center}
+.preview-card .icon{font-size:1.5rem;display:block;margin-bottom:.3rem}
+.preview-card h4{font-family:'Baloo 2',cursive;font-size:.85rem;color:#d97706;margin-bottom:.3rem}
+.preview-card p{font-size:.76rem;color:#b45309;margin:0}
+/* Quiz */
+.quiz-section{background:#fff;border:2px solid #d97706;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#92400e;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#92400e;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #fde68a;background:#fffbeb;font-size:.87rem;color:#92400e;transition:border-color .15s;line-height:1.45}
+.quiz-opt:hover{border-color:#d97706}
+.quiz-opt.selected{border-color:#d97706;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#d97706;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#b45309}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+/* Nav */
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #d97706;color:#d97706}
+.lesson-nav .btn-hub{background:#d97706;color:#fff}
+.lesson-nav .btn-prev:hover{background:#fffbeb}
+.lesson-nav .btn-hub:hover{background:#b45309}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.recap-grid{grid-template-columns:1fr 1fr}.skills-list{grid-template-columns:1fr}.portfolio-wrap{grid-template-columns:1fr}.preview-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-11.html" class="active">Class 11</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-11.html">Class 11</a> → Lesson 12</div>
+  <h1>Capstone: My AI Research Project 🎓</h1>
+  <div class="meta">
+    <span>Class 11</span><span>Age 15–16</span><span>Lesson 12 of 12</span><span>🆓 Free</span><span>⭐ Capstone</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-11/lesson-12-hero.jpg" alt="Class 11 capstone — all 11 characters: Rohan, Ananya, Vikram, Nisha, Siddharth, Preethi, Aryan, Deepika, Kunal, Meghna, Rahul — presenting their AI projects" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+
+  <div class="lesson-section">
+    <div class="ls-label">Recap</div>
+    <div class="ls-title">All 12 Lessons — What You Built</div>
+    <p>Twelve lessons. Eleven characters. One year of frontier AI knowledge. Here's everything you covered — click any card to revisit it.</p>
+    <div class="recap-grid">
+      <a href="lesson-01.html" class="recap-card">
+        <div class="rc-num">L01</div>
+        <h4>Advanced Python for AI</h4>
+        <div class="rc-who">Rohan, Pune 🏙️</div>
+      </a>
+      <a href="lesson-02.html" class="recap-card">
+        <div class="rc-num">L02</div>
+        <h4>Deep Learning Theory</h4>
+        <div class="rc-who">Ananya, Ahmedabad 🔧</div>
+      </a>
+      <a href="lesson-03.html" class="recap-card">
+        <div class="rc-num">L03</div>
+        <h4>RL: MDPs &amp; Q-Learning</h4>
+        <div class="rc-who">Vikram, Jaipur ♟️</div>
+      </a>
+      <a href="lesson-04.html" class="recap-card">
+        <div class="rc-num">L04</div>
+        <h4>Deep RL: PPO</h4>
+        <div class="rc-who">Nisha, Hyderabad 🚀</div>
+      </a>
+      <a href="lesson-05.html" class="recap-card">
+        <div class="rc-num">L05</div>
+        <h4>MLOps: Docker</h4>
+        <div class="rc-who">Siddharth, Mumbai 🐳</div>
+      </a>
+      <a href="lesson-06.html" class="recap-card">
+        <div class="rc-num">L06</div>
+        <h4>Production Monitoring</h4>
+        <div class="rc-who">Preethi, Coimbatore 📊</div>
+      </a>
+      <a href="lesson-07.html" class="recap-card">
+        <div class="rc-num">L07</div>
+        <h4>Multi-modal AI</h4>
+        <div class="rc-who">Aryan, Delhi 👁️</div>
+      </a>
+      <a href="lesson-08.html" class="recap-card">
+        <div class="rc-num">L08</div>
+        <h4>AI Agents &amp; Tool Use</h4>
+        <div class="rc-who">Deepika, Lucknow 🤖</div>
+      </a>
+      <a href="lesson-09.html" class="recap-card">
+        <div class="rc-num">L09</div>
+        <h4>Reading AI Papers</h4>
+        <div class="rc-who">Kunal, Bengaluru 📄</div>
+      </a>
+      <a href="lesson-10.html" class="recap-card">
+        <div class="rc-num">L10</div>
+        <h4>AI Safety &amp; Alignment</h4>
+        <div class="rc-who">Meghna, Bhopal 🛡️</div>
+      </a>
+      <a href="lesson-11.html" class="recap-card">
+        <div class="rc-num">L11</div>
+        <h4>AI Startups India</h4>
+        <div class="rc-who">Rahul, Chandigarh 🌾</div>
+      </a>
+      <div class="recap-card" style="border-color:#d97706;background:#fffbeb">
+        <div class="rc-num" style="color:#b45309">L12</div>
+        <h4>Capstone</h4>
+        <div class="rc-who" style="color:#d97706;font-weight:700">You are here ⭐</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Skills Checklist</div>
+    <div class="ls-title">What Can You Do Now?</div>
+    <div class="skills-bar-wrap">
+      <div style="display:flex;justify-content:space-between;font-size:.78rem;color:#b45309;margin-bottom:.3rem">
+        <span>Skills Completed</span><span id="skills-count">0 / 12</span>
+      </div>
+      <div class="skills-progress"><div class="skills-progress-inner" id="skills-bar"></div></div>
+    </div>
+    <div class="skills-list" id="skills-list">
+      <label class="skill-item"><input type="checkbox" data-skill="1" /> Optimise Python code with NumPy, generators, and decorators</label>
+      <label class="skill-item"><input type="checkbox" data-skill="2" /> Implement backpropagation and Adam optimiser from scratch in NumPy</label>
+      <label class="skill-item"><input type="checkbox" data-skill="3" /> Build a tabular Q-learning agent for CartPole</label>
+      <label class="skill-item"><input type="checkbox" data-skill="4" /> Train a PPO agent with Stable Baselines3 on LunarLander</label>
+      <label class="skill-item"><input type="checkbox" data-skill="5" /> Dockerise a FastAPI ML model and push to a registry</label>
+      <label class="skill-item"><input type="checkbox" data-skill="6" /> Detect data drift with Evidently AI, PSI, and KS test</label>
+      <label class="skill-item"><input type="checkbox" data-skill="7" /> Use CLIP for zero-shot image classification and Whisper for Hindi ASR</label>
+      <label class="skill-item"><input type="checkbox" data-skill="8" /> Build a ReAct agent with tool calling and a safety-hardened calculate() tool</label>
+      <label class="skill-item"><input type="checkbox" data-skill="9" /> Implement scaled dot-product attention and multi-head attention in NumPy</label>
+      <label class="skill-item"><input type="checkbox" data-skill="10" /> Red-team an AI system and write a model card</label>
+      <label class="skill-item"><input type="checkbox" data-skill="11" /> Calculate CAC, LTV, and inference cost per query for an AI product</label>
+      <label class="skill-item"><input type="checkbox" data-skill="12" /> Write a 1-page AI startup pitch canvas</label>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Portfolio Builder</div>
+    <div class="ls-title">Document Your Best Work</div>
+    <p>Fill in these four sections to create your AI portfolio summary. Save this page or copy the text to your own document.</p>
+    <div class="portfolio-wrap">
+      <div class="portfolio-card">
+        <h4>🏆 My Best Project</h4>
+        <textarea id="pf-project" placeholder="Describe the project you are most proud of from Class 11. What did you build, what problem did it solve, what did you learn?"></textarea>
+      </div>
+      <div class="portfolio-card">
+        <h4>💡 My Original Idea</h4>
+        <textarea id="pf-idea" placeholder="Describe one original AI application idea you want to build. Who would use it? What job does it do? What technology from Class 11 would you use?"></textarea>
+      </div>
+      <div class="portfolio-card">
+        <h4>📚 Paper I Read (3-Pass)</h4>
+        <textarea id="pf-paper" placeholder="Name the paper you read using the 3-pass method from Lesson 9. What was the key contribution? What did you implement from it?"></textarea>
+      </div>
+      <div class="portfolio-card">
+        <h4>🛡️ Safety Commitment</h4>
+        <textarea id="pf-safety" placeholder="Describe one specific safety measure you will include in every AI application you deploy. Why is it important? (Refer to Lesson 10 for inspiration.)"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Wisdom</div>
+    <div class="ls-title">One Insight from Each Lesson</div>
+    <table class="wisdom-table">
+      <thead><tr><th>Lesson</th><th>Character</th><th>Key Insight</th></tr></thead>
+      <tbody>
+        <tr><td>L01</td><td>Rohan, Pune</td><td>A 45-minute training loop becomes 4 minutes with NumPy vectorisation. Profile before optimising — find the real bottleneck.</td></tr>
+        <tr><td>L02</td><td>Ananya, Ahmedabad</td><td>When loss explodes, check your learning rate and weight initialisation first. Derive backprop by hand once — you will never fear it again.</td></tr>
+        <tr><td>L03</td><td>Vikram, Jaipur</td><td>The Bellman equation is just: the value of a state = immediate reward + discounted future value. Everything else in RL is building on this one idea.</td></tr>
+        <tr><td>L04</td><td>Nisha, Hyderabad</td><td>The clip in PPO prevents catastrophic policy updates. Stable updates matter more than fast updates in reinforcement learning.</td></tr>
+        <tr><td>L05</td><td>Siddharth, Mumbai</td><td>"Works on my machine" is not a product. Docker eliminates environment mismatch — the most common ML deployment failure.</td></tr>
+        <tr><td>L06</td><td>Preethi, Coimbatore</td><td>A 91% → 61% accuracy drop in 3 months is silent without monitoring. Deploy your model with a drift detector, not just an endpoint.</td></tr>
+        <tr><td>L07</td><td>Aryan, Delhi</td><td>Multi-modal AI = multiple encoders + a shared embedding space. Contrastive training on 400M pairs creates zero-shot capabilities for free.</td></tr>
+        <tr><td>L08</td><td>Deepika, Lucknow</td><td>An agent's tool is only as safe as its implementation. Never pass user input to eval() — AST-whitelist all computed expressions.</td></tr>
+        <tr><td>L09</td><td>Kunal, Bengaluru</td><td>Every equation in a paper is runnable code. The 3-pass method turns a 15-page paper from intimidating to implementable in one weekend.</td></tr>
+        <tr><td>L10</td><td>Meghna, Bhopal</td><td>A chatbot that gives wrong exam advice with high confidence is worse than no chatbot. Red-team before deploying, write a model card, add uncertainty disclaimers.</td></tr>
+        <tr><td>L11</td><td>Rahul, Chandigarh</td><td>The job is not "get agricultural information" — it is "make a high-stakes decision with confidence in 5 minutes." JTBD changes what you build.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Certificate</div>
+    <div class="ls-title">Class 11 Completion Certificate</div>
+    <div class="cert-wrap">
+      <h3>🎓 Certificate of Completion</h3>
+      <div class="cert-sub">Enter your name and click Generate</div>
+      <input class="cert-name-input" id="cert-name" type="text" placeholder="Your Full Name" maxlength="60" />
+      <br/>
+      <button class="cert-btn" id="cert-btn">Generate Certificate</button>
+      <div class="cert-output" id="cert-output">
+        <div class="co-title">This certifies that</div>
+        <div class="co-name" id="cert-display-name"></div>
+        <div class="co-body">has successfully completed<br/><strong>Class 11 — AI at the Frontier</strong><br/>12 lessons · 96 quiz questions · Mitra AI Life Education<br/><br/>
+        Skills: Advanced Python · Deep Learning · RL &amp; PPO · MLOps · Production Monitoring · Multi-modal AI · AI Agents · Research Papers · AI Safety · AI Startups<br/><br/>
+        🌟 Ready for JC +2 — Applied AI Systems</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">What's Next</div>
+    <div class="ls-title">Preview: JC +2 — Applied AI Systems</div>
+    <div class="preview-grid">
+      <div class="preview-card">
+        <span class="icon">🔬</span>
+        <h4>L01: LLM Fine-tuning</h4>
+        <p>LoRA, QLoRA, instruction tuning on your own dataset.</p>
+      </div>
+      <div class="preview-card">
+        <span class="icon">🗄️</span>
+        <h4>L02: Vector Databases</h4>
+        <p>Pinecone, Weaviate, HNSW indexing, full RAG pipeline.</p>
+      </div>
+      <div class="preview-card">
+        <span class="icon">⚡</span>
+        <h4>L03: Distributed Training</h4>
+        <p>Data parallelism, model parallelism, PyTorch DDP.</p>
+      </div>
+      <div class="preview-card">
+        <span class="icon">🌐</span>
+        <h4>L04: Graph Neural Networks</h4>
+        <p>GCN, GraphSAGE, social network analysis.</p>
+      </div>
+      <div class="preview-card">
+        <span class="icon">🎨</span>
+        <h4>L05: Diffusion Models</h4>
+        <p>DDPM, DDIM, ControlNet, Stable Diffusion internals.</p>
+      </div>
+      <div class="preview-card">
+        <span class="icon">🏭</span>
+        <h4>L06: AI at Scale</h4>
+        <p>Kubernetes inference, cost optimisation, vLLM.</p>
+      </div>
+    </div>
+    <div class="callout green"><strong>You are ready for JC +2.</strong> Class 11 built your AI engineering foundation — you can implement models from scratch, deploy them safely, monitor them in production, and reason about building AI products. Class 12 applies all of this at scale, with real research-level techniques.</div>
+  </div>
+
+  <!-- Capstone Quiz — 10 questions -->
+  <div class="quiz-section">
+    <h3>⭐ Capstone Quiz — Cross-Lesson Mastery (10 Questions)</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. Rohan (L01) optimised a training loop with NumPy vectorisation. Preethi (L06) monitored a model in production with PSI. Siddharth (L05) deployed the model with Docker. The correct order of these activities in an ML project lifecycle is:</div>
+        <div class="quiz-opt" data-opt="a">a) Deploy → Monitor → Optimise</div>
+        <div class="quiz-opt" data-opt="b">b) Optimise (build efficiently) → Deploy (containerise and ship) → Monitor (detect drift in production) — the pipeline flows from local development to serving to continuous maintenance. Skipping any stage creates technical debt: skipping optimisation creates slow serving, skipping deployment creates "works on my machine" failures, skipping monitoring creates silent degradation.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Monitor → Optimise → Deploy</div>
+        <div class="quiz-opt" data-opt="d">d) The order depends on team size and project methodology</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. Ananya (L02) implemented backpropagation. Kunal (L09) implemented multi-head attention. Both used NumPy. The common principle they applied was:</div>
+        <div class="quiz-opt" data-opt="a">a) Avoid matrix multiplication when possible — it is the bottleneck in all neural network computations</div>
+        <div class="quiz-opt" data-opt="b">b) Every equation in a paper or textbook is directly implementable as NumPy code — dz = (ŷ - y) maps to an assignment, Attention(Q,K,V) = softmax(QKᵀ/√d_k)V maps to four lines. Math and code are the same language. This principle transforms research papers from intimidating documents into executable programs.</b></div>
+        <div class="quiz-opt" data-opt="c">c) NumPy's automatic differentiation eliminates the need to derive gradients manually</div>
+        <div class="quiz-opt" data-opt="d">d) GPU-based NumPy arrays can run backpropagation 1000x faster than CPU</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. Deepika (L08) built a research agent. Meghna (L10) red-teamed her school chatbot. Both encountered the same fundamental security principle. What is it?</div>
+        <div class="quiz-opt" data-opt="a">a) All AI systems require a rate limiter to prevent API abuse</div>
+        <div class="quiz-opt" data-opt="b">b) Never trust user-controlled input for code execution or instruction override. Deepika found that passing user input to eval() is a critical vulnerability — an attacker can execute OS commands. Meghna found that user messages can override system instructions via prompt injection. Both are instances of "user input should never gain the authority of system instructions."</b></div>
+        <div class="quiz-opt" data-opt="c">c) Logging all user interactions is required for both security and legal compliance</div>
+        <div class="quiz-opt" data-opt="d">d) AI systems should be restarted daily to clear accumulated malicious inputs</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. Vikram (L03) trained Q-learning on CartPole. Nisha (L04) extended it to LunarLander with PPO. The key reason LunarLander required PPO instead of tabular Q-learning is:</div>
+        <div class="quiz-opt" data-opt="a">a) PPO is always better than Q-learning — it should be used for all RL problems</div>
+        <div class="quiz-opt" data-opt="b">b) LunarLander has an 8-dimensional continuous state space — tabular Q-learning requires a discrete, enumerable state space. The number of possible states in a continuous space is infinite, making a Q-table impossible. DQN/PPO approximate the Q-function with a neural network, enabling generalisation across the continuous state space that tabular methods cannot handle.</b></div>
+        <div class="quiz-opt" data-opt="c">c) CartPole is a simpler game — harder games always require policy gradient methods</div>
+        <div class="quiz-opt" data-opt="d">d) PPO trains faster on multi-core CPUs, making it the practical choice for games with complex graphics</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. Aryan (L07) used CLIP + Whisper + GPT-4V for an accessibility app. Deepika (L08) used OpenAI tool calling + LangGraph for a research agent. The difference in architecture is:</div>
+        <div class="quiz-opt" data-opt="a">a) Aryan's app is multi-modal; Deepika's app is text-only</div>
+        <div class="quiz-opt" data-opt="b">b) Aryan's app is a fixed pipeline (audio → text → image+text → text) where each step is predetermined. Deepika's agent is an autonomous loop — the model decides at runtime which tools to call, in what order, and when to stop. Fixed pipelines are more predictable and easier to audit; agents are more flexible but introduce emergent behaviour that requires careful safety design.</b></div>
+        <div class="quiz-opt" data-opt="c">c) LangGraph supports multi-modal inputs; OpenAI tool calling is text-only</div>
+        <div class="quiz-opt" data-opt="d">d) Aryan's app uses open-source models; Deepika's app is locked to OpenAI's API</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. Preethi (L06) detected data drift in a loan model. Meghna (L10) found a DPDPA compliance issue. Rahul (L11) calculated unit economics. All three were doing what type of activity?</div>
+        <div class="quiz-opt" data-opt="a">a) Technical debugging — finding and fixing errors in model code</div>
+        <div class="quiz-opt" data-opt="b">b) Risk management — systematically identifying threats to the safe and sustainable operation of an AI system. Data drift threatens model accuracy; legal non-compliance threatens the organisation; poor unit economics threaten viability. Building AI products requires constant risk identification and mitigation across technical, legal, and business dimensions simultaneously.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Data science — analysing datasets to extract actionable insights</div>
+        <div class="quiz-opt" data-opt="d">d) Research — applying academic methods to real-world AI deployment problems</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. Ananya (L02) implemented batch normalisation. Rohan (L01) used type hints and dataclasses. Siddharth (L05) used docker-compose with Redis caching. The shared engineering principle is:</div>
+        <div class="quiz-opt" data-opt="a">a) Performance optimisation — always prioritise speed over code clarity</div>
+        <div class="quiz-opt" data-opt="b">b) Defensive engineering — write code that fails loudly and predictably rather than silently. BatchNorm prevents training instability before it can cause silent divergence; type hints + dataclasses surface bugs at definition time rather than at runtime; Redis caching fails predictably with a cache miss (not a system crash). Good engineering is designing your system to reveal problems early and clearly.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Abstraction — hiding implementation details behind clean interfaces</div>
+        <div class="quiz-opt" data-opt="d">d) Modularity — splitting large functions into smaller single-purpose units</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. Rahul (L11) found that direct-to-farmer CAC of ₹120 yielded LTV:CAC of 3.3x, but the B2B2C model through FPOs could reduce CAC to ₹5–10. This illustrates which startup economics principle?</div>
+        <div class="quiz-opt" data-opt="a">a) Gross margin improvement — reducing per-unit cost to increase profit on each sale</div>
+        <div class="quiz-opt" data-opt="b">b) Distribution leverage — using an existing trusted intermediary (FPO) that already has the relationship with target customers dramatically reduces acquisition cost without changing the product or its price. This is why B2B2C distribution structures dominate in markets where the end customer (farmer) is expensive to reach individually. Unit economics improve by 10–20x with no technical changes.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Retention optimisation — FPOs create lock-in that increases average subscription duration</div>
+        <div class="quiz-opt" data-opt="d">d) Pricing power — FPOs allow higher subscription prices due to institutional trust</div>
+      </div>
+      <div class="q-block" data-q="9">
+        <div class="q-text">9. Aryan (L07) built for accessibility. Meghna (L10) ensured DPDPA compliance for minors. Rahul (L11) validated with farmers before building. All three are examples of:</div>
+        <div class="quiz-opt" data-opt="a">a) Government compliance — following mandatory regulations before product launch</div>
+        <div class="quiz-opt" data-opt="b">b) Human-centred AI — designing AI systems that serve real human needs with dignity and safety, rather than deploying technology for its own sake. Aryan started with his grandmother's real need; Meghna started with student safety; Rahul started with farmer pain. The most impactful AI applications emerge from deeply understanding the humans they serve before writing a single line of code.</b></div>
+        <div class="quiz-opt" data-opt="c">c) User research methodology — applying ethnographic techniques to product development</div>
+        <div class="quiz-opt" data-opt="d">d) Social entrepreneurship — choosing mission-driven applications over commercially viable ones</div>
+      </div>
+      <div class="q-block" data-q="10">
+        <div class="q-text">10. You have completed Class 11 — AI at the Frontier. Looking at all 11 lesson characters from Rohan to Rahul, the one skill they all shared that determined their success was:</div>
+        <div class="quiz-opt" data-opt="a">a) Access to expensive hardware — all successful AI builders need powerful GPUs from the start</div>
+        <div class="quiz-opt" data-opt="b">b) The discipline to implement, not just read. Rohan ran the profiler. Ananya derived the gradients by hand. Vikram trained the CartPole agent. Every character moved from "I understand this concept" to "I have running code that proves I understand it." Implementation reveals the gaps in your understanding that reading never can. This is the skill that separates engineers from enthusiasts.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Strong mathematical background — linear algebra and calculus are prerequisites for all AI work</div>
+        <div class="quiz-opt" data-opt="d">d) Connections to established AI researchers and access to research labs</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Capstone Quiz</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-11.html" class="btn-prev">← Lesson 11: AI Startups</a>
+    <a href="class-11.html" class="btn-hub">← Back to Class 11 Hub</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-11.html">Class 11</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+// Skills progress bar
+const checkboxes = document.querySelectorAll('#skills-list input[type="checkbox"]');
+function updateSkillsBar(){
+  const checked = [...checkboxes].filter(c=>c.checked).length;
+  const total = checkboxes.length;
+  document.getElementById('skills-count').textContent = `${checked} / ${total}`;
+  document.getElementById('skills-bar').style.width = `${(checked/total)*100}%`;
+}
+checkboxes.forEach(cb=>{
+  cb.addEventListener('change', updateSkillsBar);
+});
+updateSkillsBar();
+
+// Certificate
+document.getElementById('cert-btn').addEventListener('click',()=>{
+  const name = document.getElementById('cert-name').value.trim();
+  if(!name){alert('Please enter your name first.');return;}
+  document.getElementById('cert-display-name').textContent = name;
+  document.getElementById('cert-output').style.display='block';
+});
+
+// Capstone quiz
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'b',8:'b',9:'b',10:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q])o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=80){res.className='quiz-result good';res.textContent=`Capstone complete! ${score}/${total} (${pct}%) — You've mastered Class 11. Enter your name above to generate your certificate!`;}
+  else if(pct>=60){res.className='quiz-result ok';res.textContent=`${score}/${total} (${pct}%) — Good work! Review the lessons for any questions you missed, then retry for a perfect score.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Revisit the lessons indicated above, then come back and complete the capstone.`;}
+  gtag('event','quiz_complete',{event_category:'class11',event_label:'class11_lesson12_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"Capstone: My AI Research Project — Class 11 Lesson 12",
+  "description":"Class 11 capstone: recap all 12 lessons, skills checklist, portfolio builder, printable certificate, Class 12 preview, and 10-question cross-lesson capstone quiz.",
+  "url":"https://mitraailife.com/content/students/class-11/lesson-12.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Junior College +1",
+  "typicalAgeRange":"15-16",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

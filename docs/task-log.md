@@ -126,3 +126,6 @@ _Updated 08 May 2026 — items P1–P5, P7 DONE. Items below are active._
 | 96 | 08 May 2026 | — | students.html fully redesigned — class grid (Class 6–12), hero, safety strip, video placeholder, bands, chatbot section, notebooks strip, parents note, FAQ, bottom CTA | commit 6b777ca |
 | 97 | 08 May 2026 | — | Class 6 lesson page created — content/students/class-06/class-06.html — 5 sections, quiz, worksheet, parent/teacher note | Anu story, Indian examples, safety rules, 5-question quiz with JS scoring |
 | 98 | 08 May 2026 | — | Renamed Class 11 → Junior College +1, Class 12 → Junior College +2 across students.html — 14 instances total; new FAQ added explaining +1/+2 mapping to Inter/PUC/CBSE | commit c9fdb34 |
+| 99 | 08 May 2026 | — | Class 6 DALL-E 3 images generated (3 scenes) + uploaded to S3 + embedded in class-06.html; class-06 intro video generated (111s) + uploaded to S3 + embedded | commit 28c180a |
+| 100 | 08 May 2026 | — | index.html Students card updated to "Live · Class 6 Free"; mitraaistudent-master-plan.md updated for JC +1/+2 naming | commit 28c180a |
+| 101 | 08 May 2026 | — | Class 7 lesson page created — content/students/class-07/class-07.html — 5 sections (prompting, formula, study use, weak answers, honesty), quiz, worksheet, parent note; Class 7 card on students.html now live + linked | commit 3244757 |

@@ -97,21 +97,22 @@ Format: `#` | Date | Time | Task / Decision / Note | Remarks
 
 ## Pending / Next items
 
+_Updated 08 May 2026 — items P1–P5, P7 DONE. Items below are active._
+
 | # | Item | Priority | Notes |
 |---|------|----------|-------|
-| P1 | Set up Formspree account and replace `YOUR_FORMSPREE_ID` in contact.html and contact-te.html | High | Go to formspree.io → create form with mitraailife@gmail.com → copy ID |
-| P2 | Level 2 Telugu intro video (generate + S3 + embed) | High | Levels 3–10 TE videos also needed |
-| P3 | Levels 3–10 Telugu intro videos | Medium | Same pipeline as EN videos |
-| P4 | Daily Life track — standalone Telugu page (daily-life-te.html) | Medium | Currently lang switcher links back to index-te.html |
-| P5 | Spoken English, Small Business, Teachers — Telugu versions of track pages | Medium | — |
-| P6 | Students, Tuition, Projects track pages — lang switcher (when Telugu versions ready) | Low | Deferred by design |
-| P7 | Sitemap.xml — add contact-te.html and other new pages | Medium | — |
-| P8 | Level images S3 deployment for Levels 8–10 (verify all images uploaded) | Medium | — |
-| P9 | Hindi as third language — planning only, no build yet | Low | Decision logged above |
+| P8 | Verify L8–L10 DALL-E 3 images uploaded to S3 (`scenes/img-l8/9/10-*`) | Medium | Run `aws s3 ls s3://mitra-ai-life-assets/scenes/ \| grep img-l8` |
+| P9 | Hindi as third language — planning only, no build yet | Low | Deferred |
 | P10 | Disqus comments on Levels 3–10 (currently only L1 and L2 have it) | Low | — |
 | P11 | WhatsApp channel or support number — add to contact page when ready | Low | — |
 | P12 | Payment gateway integration for paid levels when early access ends | Future | — |
-| P13 | Company registration | Future | Wait for real traction per business rules |
+| P13 | Company registration | Future | Wait for real traction |
+| P14 | Bigger / more colorful nav track buttons on lesson pages (VIBGYOR style) | Medium | User showed reference image — more prominent CTAs needed |
+| P15 | AI for Students track — content plan + Level 1 lesson | Medium | School-safe AI literacy, Class 8–12, CBSE/SSC patterns |
+| P16 | index.html hero video — replace placeholder with real Mitra intro video | Medium | Placeholder already in place |
+| P17 | Track page videos — generate + embed for each service page | Medium | All 7 track pages have "VIDEO COMING SOON" placeholder |
+| P18 | Consider moving GitHub repo from personal → org account | Low | Steps documented in task log; do when org is ready |
+| P19 | index-te.html — Telugu home page full content review | Medium | Partial — verify all sections translated |
 | 86 | Jun 2025 | — | Telugu intro videos L1–L10 confirmed generated + uploaded to S3 (15–28 MB each) | content/assets/videos/level-NN-intro-te.mp4 |
 | 87 | Jun 2025 | — | Video player size fixed to width:90%; max-width:1280px on all 21 lesson pages (EN + TE) | scripts/batch_embed_te_videos.py |
 | 88 | Jun 2025 | — | Home + Language button color fixed (navy #1e3a5f) on all 10 EN lesson pages — was invisible white | content/english/**/level-NN-comic.html |

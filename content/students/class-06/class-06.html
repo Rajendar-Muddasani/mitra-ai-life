@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Class 6 — AI Awareness and Safe Curiosity | Mitra AI Life</title>
+<meta name="description" content="Class 6 AI lesson for students age 10–11. Discover what AI is, where it helps in daily life, and how to use it safely and honestly. No coding needed." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-06/class-06.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="../../../site/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../../../site/apple-touch-icon.png" />
+<meta name="theme-color" content="#0ea5e9" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Class 6 — AI Awareness and Safe Curiosity | Mitra AI Life" />
+<meta property="og:description" content="Discover what AI is, where it helps in daily life, and how to use it safely. Made for Indian school students, age 10–11." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-06/class-06.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+/* ── Reset and base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.65; }
+a { color: #0ea5e9; text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { max-width: 100%; height: auto; border-radius: 10px; }
+
+/* ── Nav ── */
+.topnav {
+  background: #0f172a;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.topnav .brand { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800; text-decoration: none; }
+.topnav .brand span { color: #0ea5e9; }
+.topnav .nav-links { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.topnav .nav-links a { color: rgba(255,255,255,0.70); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+.topnav .nav-links a:hover { color: #fff; }
+.topnav .nav-links a.active { color: #38bdf8; }
+
+/* ── Lesson header ── */
+.lesson-header {
+  background: linear-gradient(135deg, #0c4a6e, #0369a1, #0ea5e9);
+  padding: 3rem 1.5rem 3.5rem;
+  text-align: center;
+}
+.lesson-header .lh-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 20px;
+  color: #bae6fd;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  margin-bottom: 0.9rem;
+}
+.lesson-header h1 {
+  font-family: 'Baloo 2', cursive;
+  font-size: clamp(1.6rem, 5vw, 2.8rem);
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 0.6rem;
+  line-height: 1.2;
+}
+.lesson-header .lh-sub {
+  color: rgba(255,255,255,0.80);
+  font-size: clamp(0.9rem, 2vw, 1.05rem);
+  max-width: 600px;
+  margin: 0 auto 1.2rem;
+}
+.lesson-header .lh-meta {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.lh-meta span {
+  background: rgba(255,255,255,0.12);
+  color: #e0f2fe;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+/* ── Video section ── */
+.lesson-video {
+  background: #0f172a;
+  padding: 2.5rem 1.5rem 3rem;
+  text-align: center;
+}
+.lesson-video .sec-label {
+  color: rgba(255,255,255,0.40);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.lesson-video h2 { color: #fff; font-size: clamp(1rem, 2vw, 1.4rem); font-weight: 800; margin: 0 0 1.2rem; }
+.video-box {
+  position: relative;
+  width: 90%;
+  max-width: 820px;
+  margin: 0 auto;
+  padding-top: 56.25%;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #1e293b;
+  border: 2px dashed rgba(56,189,248,0.3);
+}
+.video-box-inner {
+  position: absolute; top:0; left:0; width:100%; height:100%;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.6rem;
+}
+.video-box-inner .vi { font-size:2.8rem; }
+.video-box-inner .vl { color:rgba(255,255,255,0.75); font-size:0.95rem; font-weight:700; }
+.video-box-inner .vb {
+  padding:4px 16px; background:rgba(56,189,248,0.10); border:1px solid rgba(56,189,248,0.25);
+  border-radius:20px; color:rgba(255,255,255,0.45); font-size:0.72rem; font-weight:700; letter-spacing:0.1em;
+}
+.video-caption { color:rgba(255,255,255,0.28); font-size:0.76rem; margin-top:0.7rem; }
+
+/* ── Content wrapper ── */
+.content-wrap {
+  width: 90%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2.5rem 0 4rem;
+}
+
+/* ── Story panel ── */
+.story-panel {
+  background: #fff;
+  border-radius: 16px;
+  border-left: 5px solid #0ea5e9;
+  padding: 1.6rem 1.8rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.story-panel .story-eyebrow {
+  color: #0369a1;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.story-panel h2 { color: #1e293b; font-family:'Baloo 2',cursive; font-size:1.25rem; font-weight:800; margin:0 0 0.75rem; }
+.story-panel p { color:#334155; font-size:0.92rem; line-height:1.7; margin-bottom:0.75rem; }
+.story-panel p:last-child { margin-bottom:0; }
+.story-highlight {
+  background:#f0f9ff;
+  border-radius:10px;
+  padding:0.8rem 1rem;
+  color:#0369a1;
+  font-size:0.88rem;
+  font-weight:700;
+  margin-top:0.5rem;
+  border:1px solid #bae6fd;
+}
+
+/* ── Section card ── */
+.lesson-section {
+  background:#fff;
+  border-radius:16px;
+  padding:1.6rem 1.8rem;
+  margin-bottom:1.5rem;
+  box-shadow:0 2px 12px rgba(0,0,0,0.06);
+}
+.lesson-section .sec-eyebrow {
+  color:#0ea5e9;
+  font-size:0.7rem;
+  font-weight:800;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  margin-bottom:0.4rem;
+}
+.lesson-section h2 {
+  font-family:'Baloo 2',cursive;
+  font-size:clamp(1.1rem,2.5vw,1.45rem);
+  font-weight:800;
+  color:#1e1b4b;
+  margin:0 0 0.9rem;
+}
+.lesson-section p { color:#334155; font-size:0.92rem; line-height:1.7; margin-bottom:0.75rem; }
+.lesson-section p:last-child { margin-bottom:0; }
+
+/* ── Image placeholder ── */
+.img-placeholder {
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+  border-radius:12px;
+  padding:2rem;
+  text-align:center;
+  margin:1rem 0;
+  border:2px dashed #7dd3fc;
+}
+.img-placeholder .ip-icon { font-size:2.5rem; margin-bottom:0.4rem; }
+.img-placeholder .ip-label { color:#0369a1; font-size:0.82rem; font-weight:700; }
+.img-placeholder .ip-sub { color:#7ea8c4; font-size:0.74rem; margin-top:0.2rem; }
+
+/* ── Comparison table ── */
+.compare-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0.75rem;
+  margin:1rem 0;
+}
+@media(max-width:500px){ .compare-grid { grid-template-columns:1fr; } }
+.compare-card { border-radius:10px; padding:1rem 1.1rem; }
+.compare-card h4 { font-size:0.82rem; font-weight:800; margin-bottom:0.5rem; }
+.compare-card ul { list-style:none; padding:0; display:flex; flex-direction:column; gap:0.3rem; }
+.compare-card ul li { font-size:0.83rem; display:flex; align-items:flex-start; gap:0.4rem; color:#334155; }
+.compare-card.good { background:#f0fdf4; border:1px solid #bbf7d0; }
+.compare-card.good h4 { color:#065f46; }
+.compare-card.good ul li::before { content:"✅"; font-size:0.8rem; flex-shrink:0; }
+.compare-card.careful { background:#fef3c7; border:1px solid #fde68a; }
+.compare-card.careful h4 { color:#92400e; }
+.compare-card.careful ul li::before { content:"⚠️"; font-size:0.8rem; flex-shrink:0; }
+
+/* ── Callout ── */
+.callout {
+  border-radius:12px;
+  padding:1rem 1.2rem;
+  margin:1rem 0;
+  font-size:0.88rem;
+  line-height:1.6;
+}
+.callout.sky { background:#f0f9ff; border-left:4px solid #38bdf8; color:#0c4a6e; }
+.callout.green { background:#f0fdf4; border-left:4px solid #34d399; color:#064e3b; }
+.callout.amber { background:#fffbeb; border-left:4px solid #fbbf24; color:#78350f; }
+.callout.red { background:#fff1f2; border-left:4px solid #f87171; color:#881337; }
+.callout strong { font-weight:800; }
+
+/* ── AI examples grid ── */
+.examples-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:0.75rem;
+  margin:1rem 0;
+}
+.eg-card {
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  border-radius:10px;
+  padding:0.9rem 0.85rem;
+  text-align:center;
+}
+.eg-card .eg-icon { font-size:1.8rem; margin-bottom:0.35rem; }
+.eg-card .eg-title { color:#1e293b; font-size:0.82rem; font-weight:800; margin-bottom:0.2rem; }
+.eg-card .eg-desc { color:#64748b; font-size:0.76rem; line-height:1.4; }
+
+/* ── Quiz section ── */
+.quiz-section {
+  background:#1e1b4b;
+  border-radius:16px;
+  padding:1.8rem 1.8rem;
+  margin-bottom:1.5rem;
+}
+.quiz-section h2 {
+  font-family:'Baloo 2',cursive;
+  font-size:1.3rem;
+  font-weight:800;
+  color:#e0e7ff;
+  margin-bottom:1.2rem;
+}
+.quiz-q { margin-bottom:1.2rem; }
+.quiz-q .q-text { color:#c7d2fe; font-size:0.9rem; font-weight:700; margin-bottom:0.55rem; }
+.quiz-options { display:flex; flex-direction:column; gap:0.4rem; }
+.quiz-opt {
+  display:block;
+  width:100%;
+  text-align:left;
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:8px;
+  padding:0.55rem 0.9rem;
+  color:rgba(255,255,255,0.75);
+  font-family:'Nunito',sans-serif;
+  font-size:0.85rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:background 0.15s, border-color 0.15s;
+}
+.quiz-opt:hover { background:rgba(99,102,241,0.20); border-color:rgba(99,102,241,0.5); color:#fff; }
+.quiz-opt.correct { background:rgba(52,211,153,0.18); border-color:#34d399; color:#d1fae5; }
+.quiz-opt.wrong { background:rgba(248,113,113,0.15); border-color:#f87171; color:#fee2e2; }
+.quiz-feedback { font-size:0.82rem; margin-top:0.4rem; padding:0.4rem 0.7rem; border-radius:6px; display:none; }
+.quiz-feedback.show { display:block; }
+.quiz-feedback.ok { background:rgba(52,211,153,0.12); color:#6ee7b7; }
+.quiz-feedback.no { background:rgba(248,113,113,0.12); color:#fca5a5; }
+.quiz-score-box { display:none; background:rgba(255,255,255,0.08); border-radius:12px; padding:1.2rem; text-align:center; margin-top:1rem; }
+.quiz-score-box.show { display:block; }
+.quiz-score-box .qs-num { font-size:2.5rem; font-weight:900; color:#a5b4fc; }
+.quiz-score-box .qs-label { color:rgba(255,255,255,0.60); font-size:0.85rem; margin-top:0.2rem; }
+.quiz-score-box .qs-msg { color:#c7d2fe; font-size:0.9rem; font-weight:700; margin-top:0.7rem; }
+.quiz-submit {
+  margin-top:1rem;
+  background:#6366f1;
+  color:#fff;
+  font-family:'Nunito',sans-serif;
+  font-size:0.95rem;
+  font-weight:800;
+  padding:0.6rem 1.6rem;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+  transition:background 0.18s;
+}
+.quiz-submit:hover { background:#4f46e5; }
+
+/* ── Safety rules ── */
+.safety-rules-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:0.75rem;
+  margin:1rem 0;
+}
+.sr-card {
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  border-radius:10px;
+  padding:1rem 0.9rem;
+}
+.sr-card .sr-icon { font-size:1.6rem; margin-bottom:0.35rem; }
+.sr-card .sr-rule { color:#1e293b; font-size:0.82rem; font-weight:800; margin-bottom:0.2rem; }
+.sr-card .sr-desc { color:#64748b; font-size:0.78rem; line-height:1.45; }
+
+/* ── Worksheet section ── */
+.worksheet-section {
+  background:#fff;
+  border-radius:16px;
+  padding:1.6rem 1.8rem;
+  margin-bottom:1.5rem;
+  box-shadow:0 2px 12px rgba(0,0,0,0.06);
+  border-top:4px solid #f59e0b;
+}
+.worksheet-section h2 { font-family:'Baloo 2',cursive; font-size:1.2rem; font-weight:800; color:#1e1b4b; margin-bottom:0.9rem; }
+.worksheet-section p { color:#334155; font-size:0.88rem; line-height:1.7; margin-bottom:0.75rem; }
+.ws-table { width:100%; border-collapse:collapse; margin:0.8rem 0; }
+.ws-table th { background:#fef3c7; color:#78350f; font-size:0.8rem; font-weight:800; padding:0.5rem 0.8rem; text-align:left; }
+.ws-table td { border:1px solid #e2e8f0; font-size:0.83rem; padding:0.55rem 0.8rem; color:#334155; }
+.ws-table tr:nth-child(even) td { background:#fafafa; }
+.ws-download-note { color:#0369a1; font-size:0.8rem; font-weight:700; margin-top:0.75rem; font-style:italic; }
+
+/* ── Parent / teacher note ── */
+.parent-note {
+  background:#f0fdf4;
+  border:1px solid #86efac;
+  border-radius:14px;
+  padding:1.4rem 1.6rem;
+  margin-bottom:1.5rem;
+}
+.parent-note .pn-header {
+  display:flex; align-items:center; gap:0.6rem;
+  color:#065f46; font-weight:800; font-size:0.88rem; margin-bottom:0.75rem;
+}
+.parent-note p { color:#14532d; font-size:0.86rem; line-height:1.65; margin-bottom:0.6rem; }
+.parent-note p:last-child { margin-bottom:0; }
+.parent-note ul { padding-left:1.1rem; display:flex; flex-direction:column; gap:0.3rem; }
+.parent-note ul li { color:#14532d; font-size:0.85rem; line-height:1.5; }
+
+/* ── Nav bottom ── */
+.bottom-nav { background:#0f172a; padding:2rem 1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+.bottom-nav a {
+  color:#e0e7ff;
+  font-size:0.88rem;
+  font-weight:700;
+  padding:0.55rem 1.2rem;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.15);
+  text-decoration:none;
+}
+.bottom-nav a:hover { background:rgba(255,255,255,0.08); }
+.bottom-nav a.next-btn { background:#0ea5e9; border-color:#0ea5e9; color:#fff; }
+
+/* ── Footer ── */
+footer { background:#0f172a; border-top:1px solid rgba(255,255,255,0.06); padding:1.2rem 1.5rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; }
+footer span { color:rgba(255,255,255,0.35); font-size:0.78rem; }
+footer .fl { display:flex; gap:1rem; }
+footer .fl a { color:rgba(255,255,255,0.40); font-size:0.75rem; }
+footer .fl a:hover { color:rgba(255,255,255,0.70); }
+
+@media(max-width:600px){
+  .content-wrap { width:95%; padding:2rem 0 3rem; }
+  .lesson-section { padding:1.2rem 1.1rem; }
+  .quiz-section { padding:1.2rem 1.1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<nav class="topnav">
+  <a class="brand" href="../../../site/index.html">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="../../../site/index.html">Home</a>
+    <a href="../../../site/students.html">AI for Students</a>
+    <a class="active" href="class-06.html">Class 6</a>
+  </div>
+</nav>
+
+<!-- ── Lesson Header ── -->
+<header class="lesson-header">
+  <div class="lh-badge">Class 6 · Age 10–11 · AI for Students</div>
+  <h1>AI Awareness and Safe Curiosity</h1>
+  <p class="lh-sub">Discover what AI really is, where it lives around you every day, and how to use it safely and honestly for your studies.</p>
+  <div class="lh-meta">
+    <span>📘 Class 6</span>
+    <span>🕐 30–45 min</span>
+    <span>🚫 No coding needed</span>
+    <span>🆓 Free lesson</span>
+  </div>
+</header>
+
+<!-- ── Lesson Video ── -->
+<section class="lesson-video">
+  <div style="width:90%;max-width:860px;margin:0 auto;">
+    <div class="sec-label">Watch first · 2–3 minutes</div>
+    <h2>Class 6 — AI Awareness Introduction</h2>
+    <div class="video-box">
+      <div class="video-box-inner">
+        <div class="vi">🎬</div>
+        <div class="vl">Class 6 intro video — coming soon</div>
+        <div class="vb">VIDEO COMING SOON</div>
+      </div>
+    </div>
+    <p class="video-caption">No sign-in needed · English narration · Safe for all school ages</p>
+  </div>
+</section>
+
+<!-- ── Main content ── -->
+<main class="content-wrap">
+
+  <!-- Story -->
+  <div class="story-panel">
+    <div class="story-eyebrow">Story · Meet Anu</div>
+    <h2>Anu's Big Question 🤔</h2>
+    <p>Anu is 11 years old and lives in Vijayawada. One evening she was watching her favourite cartoon on her phone. A new cartoon appeared on the screen — one she had never searched for, but she liked it instantly.</p>
+    <p>"How did my phone know I would like this?" she asked her older brother Ravi.</p>
+    <p>Ravi smiled. "That's AI, Anu. Artificial Intelligence."</p>
+    <p>"But what <em>is</em> AI? Is it magic? Is it a robot? Is it alive?"</p>
+    <p>Ravi sat down with her. "None of those things," he said. "Let me show you what it really is."</p>
+    <div class="story-highlight">
+      👉 By the end of this lesson, you will be able to answer Anu's question yourself — and explain AI to your own family!
+    </div>
+  </div>
+
+  <!-- Section 1: What is AI -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 1 of 5</div>
+    <h2>🤖 What is AI? — In Very Simple Words</h2>
+    <p>AI stands for <strong>Artificial Intelligence</strong>. Let's break those two words down:</p>
+    <div class="compare-grid">
+      <div class="compare-card good">
+        <h4>Artificial</h4>
+        <ul>
+          <li>Made by humans</li>
+          <li>Not natural or alive</li>
+          <li>Built using computers</li>
+        </ul>
+      </div>
+      <div class="compare-card" style="background:#f0f9ff;border:1px solid #bae6fd;">
+        <h4 style="color:#0369a1;">Intelligence</h4>
+        <ul>
+          <li>Ability to understand things</li>
+          <li>Ability to remember patterns</li>
+          <li>Ability to give useful answers</li>
+        </ul>
+      </div>
+    </div>
+    <p>Put them together: <strong>AI is a computer program that can understand information and give useful answers — like a very smart helper that never gets tired.</strong></p>
+    <div class="callout sky">
+      <strong>Simple rule:</strong> AI is not magic. It is not alive. It is a program made by engineers who taught a computer to recognize patterns from lots and lots of examples.
+    </div>
+    <div class="img-placeholder">
+      <div class="ip-icon">🖼</div>
+      <div class="ip-label">Image: A simple cartoon showing a computer "learning" from many examples</div>
+      <div class="ip-sub">Image coming soon — generating with DALL-E 3</div>
+    </div>
+  </div>
+
+  <!-- Section 2: AI around us -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 2 of 5</div>
+    <h2>🌍 AI Around You Every Single Day</h2>
+    <p>You might think AI is only in science fiction movies. But it is already in things you use every day — and you may not even notice it!</p>
+    <div class="examples-grid">
+      <div class="eg-card">
+        <div class="eg-icon">📱</div>
+        <div class="eg-title">YouTube and Reels</div>
+        <div class="eg-desc">AI decides which video to show you next based on what you already watched.</div>
+      </div>
+      <div class="eg-card">
+        <div class="eg-icon">🔍</div>
+        <div class="eg-title">Google Search</div>
+        <div class="eg-desc">When you type something wrong, AI fixes the spelling and finds the best result.</div>
+      </div>
+      <div class="eg-card">
+        <div class="eg-icon">📷</div>
+        <div class="eg-title">Phone Camera</div>
+        <div class="eg-desc">AI recognises faces and automatically makes your photos look brighter and sharper.</div>
+      </div>
+      <div class="eg-card">
+        <div class="eg-icon">🎵</div>
+        <div class="eg-title">Spotify / Wynk</div>
+        <div class="eg-desc">AI creates a playlist of songs you will probably enjoy, based on what you listened to before.</div>
+      </div>
+      <div class="eg-card">
+        <div class="eg-icon">🛒</div>
+        <div class="eg-title">Online Shopping</div>
+        <div class="eg-desc">AI suggests "you might also like this" products when you browse on Flipkart or Amazon.</div>
+      </div>
+      <div class="eg-card">
+        <div class="eg-icon">🗺</div>
+        <div class="eg-title">Google Maps</div>
+        <div class="eg-desc">AI checks live traffic and finds the fastest route to school or the market.</div>
+      </div>
+    </div>
+    <div class="callout green">
+      <strong>Think about it:</strong> Can you name one more thing in your home or school that might be using AI? Write it down — we will use it in the worksheet at the end!
+    </div>
+  </div>
+
+  <!-- Section 3: AI is a helper, not magic -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 3 of 5</div>
+    <h2>💡 AI is a Helper — Not Magic, Not Perfect</h2>
+    <p>Many people think AI knows everything. That is not true. AI makes mistakes — sometimes big ones. Here is what you need to understand:</p>
+    <div class="compare-grid">
+      <div class="compare-card good">
+        <h4>What AI is good at</h4>
+        <ul>
+          <li>Finding patterns in large amounts of information</li>
+          <li>Giving quick answers and explanations</li>
+          <li>Translating language and fixing spelling</li>
+          <li>Summarising long text into short points</li>
+          <li>Creating ideas to start with</li>
+        </ul>
+      </div>
+      <div class="compare-card careful">
+        <h4>Where AI can go wrong</h4>
+        <ul>
+          <li>It can make up facts that are completely false</li>
+          <li>It does not always know what year it is</li>
+          <li>It can misunderstand your question</li>
+          <li>It does not know your personal life</li>
+          <li>It cannot replace your teacher or doctor</li>
+        </ul>
+      </div>
+    </div>
+    <div class="img-placeholder">
+      <div class="ip-icon">🖼</div>
+      <div class="ip-label">Image: Student comparing AI answer to textbook — checking for accuracy</div>
+      <div class="ip-sub">Image coming soon — generating with DALL-E 3</div>
+    </div>
+    <div class="callout amber">
+      <strong>Golden rule:</strong> Always check what AI says against your textbook, your teacher, or a trusted website. AI is a helper — you are still the one who must think.
+    </div>
+  </div>
+
+  <!-- Section 4: Safe questions -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 4 of 5</div>
+    <h2>🛡️ How to Use AI Safely at Your Age</h2>
+    <p>Now that you know what AI is, let's talk about how to use it safely. These rules will protect you and keep you out of trouble.</p>
+    <div class="safety-rules-grid">
+      <div class="sr-card">
+        <div class="sr-icon">🔏</div>
+        <div class="sr-rule">Never share private information</div>
+        <div class="sr-desc">Do not tell AI your home address, phone number, school name, or your parents' details.</div>
+      </div>
+      <div class="sr-card">
+        <div class="sr-icon">✍️</div>
+        <div class="sr-rule">Always write in your own words</div>
+        <div class="sr-desc">Use AI to understand and get ideas — then write your answer yourself. Copying is not learning.</div>
+      </div>
+      <div class="sr-card">
+        <div class="sr-icon">🔍</div>
+        <div class="sr-rule">Check AI answers</div>
+        <div class="sr-desc">AI can be wrong. Always check important facts with your textbook or teacher before believing them.</div>
+      </div>
+      <div class="sr-card">
+        <div class="sr-icon">📢</div>
+        <div class="sr-rule">Tell an adult if something feels wrong</div>
+        <div class="sr-desc">If AI says something that makes you feel uncomfortable or confused, tell your parent or teacher right away.</div>
+      </div>
+      <div class="sr-card">
+        <div class="sr-icon">⏰</div>
+        <div class="sr-rule">Use AI as a helper, not a replacement</div>
+        <div class="sr-desc">AI can help you study faster — but doing the work yourself is what makes you smarter.</div>
+      </div>
+      <div class="sr-card">
+        <div class="sr-icon">🤝</div>
+        <div class="sr-rule">Be honest with your teacher</div>
+        <div class="sr-desc">If you used AI for help on a project, let your teacher know how you used it.</div>
+      </div>
+    </div>
+    <div class="callout green">
+      <strong>Good news:</strong> Using AI to understand something is perfectly fine and smart! The key is to always understand it yourself before you write your answer.
+    </div>
+  </div>
+
+  <!-- Section 5: Using AI for study -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 5 of 5</div>
+    <h2>📖 How Can AI Help You Study — Right Now?</h2>
+    <p>Even as a Class 6 student with no coding knowledge, you can use AI tools like Mitra Study Helper to make studying easier. Here are some honest ways to use AI:</p>
+    <div class="compare-grid">
+      <div class="compare-card good">
+        <h4>Good ways to use AI for study</h4>
+        <ul>
+          <li>Ask it to explain a chapter in simpler words</li>
+          <li>Ask for 5 practice questions on a topic</li>
+          <li>Ask it to give examples from daily life</li>
+          <li>Ask it to help you make a revision plan</li>
+          <li>Ask it to quiz you before an exam</li>
+        </ul>
+      </div>
+      <div class="compare-card careful">
+        <h4>What you should never do</h4>
+        <ul>
+          <li>Copy AI answers directly into your notebook</li>
+          <li>Submit AI-written essays as your own work</li>
+          <li>Trust AI exam answers without checking</li>
+          <li>Use AI to cheat in class tests</li>
+        </ul>
+      </div>
+    </div>
+    <div class="img-placeholder">
+      <div class="ip-icon">🖼</div>
+      <div class="ip-label">Image: Student using AI on a tablet to prepare for a science test — notes open beside them</div>
+      <div class="ip-sub">Image coming soon — generating with DALL-E 3</div>
+    </div>
+    <div class="callout sky">
+      <strong>Remember Anu?</strong> At the end of her lesson with Ravi, she used AI to ask: <em>"Can you explain photosynthesis in really simple words?"</em> She read the answer, understood it, and then wrote it in her own words in her notebook. That is the right way!
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section" id="quiz">
+    <h2>🎯 Quick Quiz — Check What You Learned</h2>
+
+    <div class="quiz-q" id="q1">
+      <div class="q-text">Q1. What does "AI" stand for?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="1" data-val="a">A) Android Intelligence</button>
+        <button class="quiz-opt" data-q="1" data-val="b">B) Artificial Intelligence</button>
+        <button class="quiz-opt" data-q="1" data-val="c">C) Automatic Internet</button>
+        <button class="quiz-opt" data-q="1" data-val="d">D) Advanced Internet</button>
+      </div>
+      <div class="quiz-feedback" id="fb1"></div>
+    </div>
+
+    <div class="quiz-q" id="q2">
+      <div class="q-text">Q2. Which of these is an example of AI in daily life?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="2" data-val="a">A) A wall clock showing the time</button>
+        <button class="quiz-opt" data-q="2" data-val="b">B) A fan switching on when you press a button</button>
+        <button class="quiz-opt" data-q="2" data-val="c">C) YouTube recommending a video you might like</button>
+        <button class="quiz-opt" data-q="2" data-val="d">D) A book on a shelf</button>
+      </div>
+      <div class="quiz-feedback" id="fb2"></div>
+    </div>
+
+    <div class="quiz-q" id="q3">
+      <div class="q-text">Q3. What should you always do with information that AI gives you?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="3" data-val="a">A) Copy it directly into your notebook right away</button>
+        <button class="quiz-opt" data-q="3" data-val="b">B) Share it on social media immediately</button>
+        <button class="quiz-opt" data-q="3" data-val="c">C) Check it with your textbook or teacher before trusting it</button>
+        <button class="quiz-opt" data-q="3" data-val="d">D) Believe it is always 100% correct</button>
+      </div>
+      <div class="quiz-feedback" id="fb3"></div>
+    </div>
+
+    <div class="quiz-q" id="q4">
+      <div class="q-text">Q4. Which of these is the WRONG way to use AI for homework?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="4" data-val="a">A) Ask AI to explain a difficult concept in simple words</button>
+        <button class="quiz-opt" data-q="4" data-val="b">B) Ask AI to write your whole assignment and submit it as your own</button>
+        <button class="quiz-opt" data-q="4" data-val="c">C) Ask AI to give you 5 practice questions to test yourself</button>
+        <button class="quiz-opt" data-q="4" data-val="d">D) Ask AI to help you make a revision plan</button>
+      </div>
+      <div class="quiz-feedback" id="fb4"></div>
+    </div>
+
+    <div class="quiz-q" id="q5">
+      <div class="q-text">Q5. Which private detail should you NEVER share with any AI tool?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="5" data-val="a">A) Your favourite subject</button>
+        <button class="quiz-opt" data-q="5" data-val="b">B) A chapter topic you want explained</button>
+        <button class="quiz-opt" data-q="5" data-val="c">C) Your home address and phone number</button>
+        <button class="quiz-opt" data-q="5" data-val="d">D) The name of the topic you are studying</button>
+      </div>
+      <div class="quiz-feedback" id="fb5"></div>
+    </div>
+
+    <button class="quiz-submit" id="quizSubmit">Check My Answers</button>
+    <div class="quiz-score-box" id="scoreBox">
+      <div class="qs-num" id="scoreNum">0/5</div>
+      <div class="qs-label">questions correct</div>
+      <div class="qs-msg" id="scoreMsg"></div>
+    </div>
+  </div>
+
+  <!-- Worksheet -->
+  <div class="worksheet-section">
+    <h2>📝 Activity — 5 AI Tools Around Me</h2>
+    <p>Use this table to find 5 things in your life that might use AI. You can write this in your notebook or print this page.</p>
+    <table class="ws-table">
+      <tr>
+        <th>#</th>
+        <th>Tool or App Name</th>
+        <th>Where I use it</th>
+        <th>How I think AI helps here</th>
+      </tr>
+      <tr><td>1</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr><td>2</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr><td>3</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr><td>4</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      <tr><td>5</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    </table>
+    <p><strong>Bonus challenge:</strong> Draw a "My AI Safety Promise" poster on a blank sheet of paper. Write 3 promises you will keep about using AI safely. Stick it near your study table!</p>
+    <p class="ws-download-note">📄 Printable worksheet PDF — coming soon. You can copy this table into your notebook today.</p>
+  </div>
+
+  <!-- Parent / Teacher note -->
+  <div class="parent-note">
+    <div class="pn-header">
+      <span>👨‍👩‍👧</span> For Parents and Teachers
+    </div>
+    <p><strong>What this lesson covers:</strong> This Class 6 lesson introduces AI awareness in the simplest possible terms. No coding, no technical jargon. Students learn what AI is, where it appears in everyday Indian life, and how to use it safely and honestly.</p>
+    <p><strong>Learning time:</strong> Around 30–45 minutes in one sitting, or split across two short sessions.</p>
+    <p><strong>Safety by design:</strong></p>
+    <ul>
+      <li>No personal data is collected from students on this page.</li>
+      <li>No comments, chat, or social features are enabled on this page.</li>
+      <li>AI safety rules are taught throughout — not just mentioned once.</li>
+      <li>Students are actively told not to copy AI answers.</li>
+    </ul>
+    <p><strong>How to use this at home:</strong> Sit with your child for the first 10 minutes. Read the Anu story together. Ask them: "Can you name one AI thing we use at home?" That one question will start a great conversation.</p>
+    <p><strong>How to use this in class:</strong> This lesson works as a 45-minute classroom activity. The quiz can be done on paper. The worksheet table can be given as homework.</p>
+  </div>
+
+</main>
+
+<!-- ── Bottom nav ── -->
+<div class="bottom-nav">
+  <a href="../../../site/students.html">← Back to AI for Students</a>
+  <a href="../../../site/students.html#class-grid" class="next-btn">Next: Class 7 (Coming Soon) →</a>
+</div>
+
+<!-- ── Footer ── -->
+<footer>
+  <span>Mitra AI Life · Class 6 · AI Awareness and Safe Curiosity · Free</span>
+  <div class="fl">
+    <a href="../../../site/index.html">Home</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/privacy.html">Privacy</a>
+    <a href="../../../site/contact.html">Contact</a>
+  </div>
+</footer>
+
+<script>
+// ── Quiz logic ──
+const correct = { "1":"b", "2":"c", "3":"c", "4":"b", "5":"c" };
+const feedback = {
+  "1": { b:"✓ Correct! AI stands for Artificial Intelligence.", wrong:"Not quite. AI stands for Artificial Intelligence — a computer program that can understand information and give useful answers." },
+  "2": { c:"✓ Correct! YouTube uses AI to recommend videos it thinks you will enjoy, based on your watch history.", wrong:"Not this one. YouTube recommending videos is the classic everyday AI example — it learns your preferences from what you have watched before." },
+  "3": { c:"✓ Correct! Always check AI answers with your textbook or teacher. AI can be wrong.", wrong:"That is not safe. AI can make mistakes and even invent false facts. Always check important information with your textbook or teacher." },
+  "4": { b:"✓ Correct! Submitting AI-written work as your own is cheating. It is also bad for your own learning.", wrong:"Actually, option B is the wrong way — submitting AI-written work as your own is cheating and stops you from actually learning." },
+  "5": { c:"✓ Correct! Never share your home address, phone number, or any private personal details with any AI tool.", wrong:"Option C is the dangerous one — your home address and phone number are private and should never be shared with any AI tool or app." }
+};
+const msgs = ["Keep going — every question you get wrong is something you now know to study!", "Good start! Re-read the sections on the questions you missed.", "Not bad! Review the safety and AI basics sections.", "Well done! You understand most of the lesson.", "5/5 — Excellent! You are ready to teach AI safety to your classmates! 🎉"];
+
+let answered = {};
+let submitted = false;
+
+document.querySelectorAll('.quiz-opt').forEach(btn => {
+  btn.addEventListener('click', function() {
+    if (submitted) return;
+    const q = this.dataset.q;
+    answered[q] = this.dataset.val;
+    document.querySelectorAll(`.quiz-opt[data-q="${q}"]`).forEach(b => { b.classList.remove('correct','wrong'); });
+    this.classList.add(this.dataset.val === correct[q] ? 'correct' : 'wrong');
+  });
+});
+
+document.getElementById('quizSubmit').addEventListener('click', function() {
+  if (submitted) return;
+  submitted = true;
+  let score = 0;
+  for (let q = 1; q <= 5; q++) {
+    const ans = answered[String(q)];
+    const fb = document.getElementById('fb' + q);
+    if (ans) {
+      const isRight = ans === correct[String(q)];
+      if (isRight) score++;
+      fb.textContent = isRight ? feedback[String(q)][ans] : feedback[String(q)]['wrong'];
+      fb.className = 'quiz-feedback show ' + (isRight ? 'ok' : 'no');
+    } else {
+      fb.textContent = "You did not answer this question. The correct answer was: " + correct[String(q)].toUpperCase();
+      fb.className = 'quiz-feedback show no';
+    }
+    document.querySelectorAll(`.quiz-opt[data-q="${q}"]`).forEach(b => {
+      if (b.dataset.val === correct[String(q)]) b.classList.add('correct');
+    });
+  }
+  const sb = document.getElementById('scoreBox');
+  sb.classList.add('show');
+  document.getElementById('scoreNum').textContent = score + '/5';
+  document.getElementById('scoreMsg').textContent = msgs[score];
+  this.textContent = 'Done! Scroll up to review.';
+  this.disabled = true;
+  gtag('event', 'quiz_complete', { event_category: 'class6', event_label: 'class06_quiz', value: score });
+});
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Class 6 — AI Awareness and Safe Curiosity",
+  "description": "School-safe AI literacy lesson for students age 10–11. Learn what AI is, where it appears in daily life, and how to use it safely.",
+  "educationalLevel": "Class 6",
+  "audience": {"@type":"EducationalAudience","educationalRole":"student"},
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "provider": {"@type":"Organization","name":"Mitra AI Life","url":"https://mitraailife.com"}
+}
+</script>
+
+</body>
+</html>

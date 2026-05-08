@@ -24,13 +24,14 @@ const SITE_DIR = path.resolve(__dirname, '..', 'site');
 const SITEMAP = path.join(SITE_DIR, 'sitemap.xml');
 
 // Pages excluded from SEO checks (utility / non-public-index pages)
-const SEO_EXCLUDE = new Set(['404.html', 'logo-options.html']);
+const SEO_EXCLUDE = new Set(['404.html', 'logo-options.html', 'contact-te.html']);
 
 // Pages excluded from sitemap coverage check
 const SITEMAP_EXCLUDE = new Set([
   '404.html',
   'pitch-deck.html',
   'index-te.html',
+  'contact-te.html',
   'logo-options.html',
 ]);
 

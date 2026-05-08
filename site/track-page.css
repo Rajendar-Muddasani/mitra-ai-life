@@ -36,7 +36,7 @@ body::before {
   top: 0;
   z-index: 20;
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 1rem;
   padding: 0.8rem 5vw;
@@ -141,6 +141,46 @@ body::before {
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 10px 24px var(--pill-shadow);
 }
 .track-links::-webkit-scrollbar { display: none; }
+
+/* ─── language switcher ──────────────────────────────────────────────────── */
+.lang-switcher { position: relative; display: inline-block; flex-shrink: 0; }
+.lang-switcher-btn {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px;
+  color: var(--text);
+  cursor: pointer;
+  font: 600 0.8rem 'Nunito', sans-serif;
+  padding: 6px 14px;
+  white-space: nowrap;
+}
+.lang-switcher-btn:hover { background: rgba(255,255,255,0.12); }
+.lang-switcher-menu {
+  display: none;
+  position: absolute;
+  right: 0; top: calc(100% + 6px);
+  min-width: 170px;
+  background: #0d1b2e;
+  border: 1px solid rgba(83,166,255,0.22);
+  border-radius: 12px;
+  padding: 6px;
+  z-index: 300;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+.lang-switcher:hover .lang-switcher-menu,
+.lang-switcher:focus-within .lang-switcher-menu { display: block; }
+.lang-option {
+  display: block;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: var(--text);
+  text-decoration: none;
+  cursor: default;
+}
+.lang-option:hover { background: rgba(83,166,255,0.12); color: var(--text); }
+.lang-option.active { color: var(--cyan,#68e1ff); font-weight: 800; }
+.lang-option small { display: block; font-size: 0.72rem; color: rgba(159,179,218,0.5); font-weight: 400; margin-top: 1px; }
 
 .hero {
   position: relative;

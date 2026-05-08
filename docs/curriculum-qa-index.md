@@ -417,7 +417,7 @@ Hub page: `content/students/class-06/class-06.html`
 
 | Class | Target Age | Status |
 |-------|-----------|--------|
-| Class 7 | 11–12 | Hub live · Lessons 1–3 live · L4–L12 in progress |
+| Class 7 | 11–12 | Hub live · Lessons 1–4 live · L5–L12 in progress |
 | Class 8 | 12–13 | Planned |
 | Class 9 | 13–14 | Planned |
 | Class 10 | 14–15 | Planned |
@@ -525,4 +525,39 @@ Hub page: `content/students/class-07/class-07.html`
 
 ---
 
-*Last updated: 11 May 2026 · Class 6 complete (12 lessons) · Class 7 Lessons 1–3 live.*
+---
+
+### Lesson 4 — AI and Creative Writing
+
+**File:** `content/students/class-07/lesson-04.html`  
+**Duration:** 45–60 min · 8 sections · Free  
+**Story character:** Priya (12yo, Hyderabad) — school magazine deadline
+
+**Section topics:**
+1. AI as partner vs ghostwriter — comparison table, honesty rule
+2. Story brainstorming — 5-idea prompt, character building, 3-act plot structure
+3. Poem writing — rhyme toolbox prompt, haiku explainer, voice-first rule
+4. Essay planning — 4-stage process (brainstorm → outline → write → AI feedback)
+5. AI as feedback tool — paragraph feedback + stronger opening prompts, explain-don't-fix rule
+6. Academic honesty rules — rule box (5 dos, 3 don'ts), simple self-test
+7. Finding your own voice — first draft without AI, use personal details, word naturalness
+8. 5-day writing sprint — day-by-day table with AI role at each stage
+
+**Quiz (10 questions) — answers:**
+
+| Q | Question | Correct |
+|---|----------|---------|
+| 1 | Priya used AI to plan + check grammar, wrote every sentence herself | b |
+| 2 | Best story brainstorming prompt for Indian school magazine | b |
+| 3 | Submitting AI-written poem as your own homework | c |
+| 4 | What does "explain, don't fix" mean for feedback? | c |
+| 5 | What is Stage 3 in the 4-stage essay process? | c |
+| 6 | Using AI rhyme list then writing own poem — honest? | b |
+| 7 | Why does AI writing sound flat? | c |
+| 8 | When to use AI first in the 5-day sprint? | b |
+| 9 | Two sentences sound like AI wrote them — what to do? | c |
+| 10 | Purpose of the voice check prompt | c |
+
+---
+
+*Last updated: 8 May 2026 · Class 6 complete (12 lessons) · Class 7 Lessons 1–4 live.*

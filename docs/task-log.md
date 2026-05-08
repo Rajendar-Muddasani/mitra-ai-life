@@ -112,3 +112,11 @@ Format: `#` | Date | Time | Task / Decision / Note | Remarks
 | P11 | WhatsApp channel or support number — add to contact page when ready | Low | — |
 | P12 | Payment gateway integration for paid levels when early access ends | Future | — |
 | P13 | Company registration | Future | Wait for real traction per business rules |
+| 86 | Jun 2025 | — | Telugu intro videos L1–L10 confirmed generated + uploaded to S3 (15–28 MB each) | content/assets/videos/level-NN-intro-te.mp4 |
+| 87 | Jun 2025 | — | Video player size fixed to width:90%; max-width:1280px on all 21 lesson pages (EN + TE) | scripts/batch_embed_te_videos.py |
+| 88 | Jun 2025 | — | Home + Language button color fixed (navy #1e3a5f) on all 10 EN lesson pages — was invisible white | content/english/**/level-NN-comic.html |
+| 89 | Jun 2025 | — | Video placeholders added to all 7 track pages + index.html landing page | site/daily-life.html, students.html, tuition.html, spoken-english.html, projects.html, small-business.html, teachers.html, index.html |
+| 90 | Jun 2025 | — | Telugu track pages created: daily-life-te.html, spoken-english-te.html, small-business-te.html, teachers-te.html | site/ |
+| 91 | Jun 2025 | — | L2–L10 Telugu video sections embedded on all TE lesson pages (S3 URLs) | scripts/batch_embed_te_videos.py |
+| 92 | Jun 2025 | — | Lang switchers updated on EN track pages: daily-life, spoken-english, small-business, teachers → now point to TE pages | site/ |
+| 93 | Jun 2025 | — | accounts.md created (local only, gitignored) — full service inventory | accounts.md |

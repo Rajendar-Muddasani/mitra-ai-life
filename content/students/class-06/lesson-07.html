@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Class 6 Lesson 7 — AI for Study Help: Practical | Mitra AI Life</title>
+<meta name="description" content="Class 6 Lesson 7 — Turn AI into your personal study partner. Practical techniques for understanding concepts, making notes, practice tests, maths help, writing improvement, and building a study plan." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-06/lesson-07.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="../../../site/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../../../site/apple-touch-icon.png" />
+<meta name="theme-color" content="#0ea5e9" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Class 6 Lesson 7 — AI for Study Help: Practical | Mitra AI Life" />
+<meta property="og:description" content="Practical AI study techniques for Class 6 students — concept explanations, practice quizzes, note-making, maths help, writing improvement, oral prep, and study plans." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-06/lesson-07.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#f8fafc;color:#1e293b;line-height:1.65}
+a{color:#0ea5e9;text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Nav */
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#0ea5e9}
+.topnav .nav-links{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.70);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}
+.topnav .nav-links a.active{color:#38bdf8}
+
+/* Lesson header */
+.lesson-header{background:linear-gradient(135deg,#0c4a6e,#0369a1,#0ea5e9);padding:3rem 1.5rem 3.5rem;text-align:center}
+.lh-badge{display:inline-block;background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .9rem;border-radius:20px;margin-bottom:1rem}
+.lesson-header h1{color:#fff;font-family:'Baloo 2',cursive;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:800;margin-bottom:.7rem;line-height:1.2}
+.lh-sub{color:rgba(255,255,255,.8);font-size:clamp(.9rem,2vw,1.05rem);max-width:640px;margin:0 auto 1.4rem}
+.lh-meta{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+.lh-meta span{background:rgba(255,255,255,.12);color:rgba(255,255,255,.85);font-size:.8rem;font-weight:700;padding:.3rem .8rem;border-radius:20px}
+
+/* Video */
+.lesson-video{background:linear-gradient(135deg,#1e1b4b,#0c4a6e);padding:2.5rem 0;text-align:center}
+.sec-label{display:inline-block;background:rgba(56,189,248,.15);color:#38bdf8;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:.25rem .75rem;border-radius:12px;margin-bottom:.6rem}
+.lesson-video h2{color:#fff;font-size:clamp(1rem,2vw,1.4rem);font-weight:800;margin:0 0 1.2rem}
+.video-box{position:relative;width:90%;max-width:820px;margin:0 auto;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#1e293b;border:2px dashed rgba(56,189,248,.3)}
+.video-box-inner{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem}
+.video-box-inner .vi{font-size:2.8rem}
+.video-box-inner .vl{color:rgba(255,255,255,.75);font-size:.95rem;font-weight:700}
+.video-box-inner .vb{padding:4px 16px;background:rgba(56,189,248,.10);border:1px solid rgba(56,189,248,.25);border-radius:20px;color:rgba(255,255,255,.45);font-size:.72rem;font-weight:700;letter-spacing:.1em}
+.video-caption{color:rgba(255,255,255,.28);font-size:.76rem;margin-top:.7rem}
+
+/* Content */
+.content-wrap{width:90%;max-width:860px;margin:0 auto;padding:2.5rem 0 4rem}
+
+/* Story */
+.story-panel{background:#fff;border-radius:16px;border-left:5px solid #0ea5e9;padding:1.8rem;margin-bottom:2rem;box-shadow:0 2px 12px rgba(14,165,233,.08)}
+.story-eyebrow{font-size:.72rem;font-weight:800;color:#0ea5e9;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem}
+.story-panel h2{color:#0c4a6e;font-size:1.3rem;font-weight:800;margin-bottom:.8rem}
+.story-panel p{color:#374151;font-size:.95rem;margin-bottom:.75rem}
+.story-highlight{background:#f0f9ff;border-radius:10px;padding:.9rem 1.1rem;font-size:.9rem;color:#0369a1;font-weight:700;margin-top:.75rem}
+
+/* Section cards */
+.section-card{background:#fff;border-radius:16px;padding:1.6rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.05);border:1px solid #e2e8f0}
+.sc-eyebrow{font-size:.7rem;font-weight:800;color:#0ea5e9;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.5rem}
+.section-card h2{color:#0c4a6e;font-size:1.25rem;font-weight:800;margin-bottom:.8rem}
+.section-card p{color:#374151;font-size:.93rem;margin-bottom:.8rem}
+.section-card ul,.section-card ol{color:#374151;font-size:.93rem;padding-left:1.3rem;margin-bottom:.8rem}
+.section-card li{margin-bottom:.4rem}
+.section-card strong{color:#0c4a6e}
+.section-card table{width:100%;border-collapse:collapse;font-size:.87rem;margin:1rem 0}
+.section-card th{background:#0ea5e9;color:#fff;padding:.5rem .75rem;text-align:left;font-weight:700}
+.section-card td{padding:.55rem .75rem;border:1px solid #e0f2fe;vertical-align:top}
+.section-card tr:nth-child(even) td{background:#f0f9ff}
+
+/* Prompt box */
+.prompt-box{background:#0f172a;border-radius:12px;padding:1.1rem 1.3rem;margin:1rem 0;border-left:4px solid #0ea5e9}
+.pb-label{font-size:.68rem;font-weight:800;color:#38bdf8;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.5rem}
+.pb-text{font-family:'Courier New',monospace;font-size:.85rem;color:#e2e8f0;line-height:1.6}
+.pb-result{font-size:.8rem;color:#64748b;font-style:italic;margin-top:.6rem;padding-top:.6rem;border-top:1px solid rgba(255,255,255,.08)}
+
+/* Subject grid */
+.subject-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.9rem;margin:1.1rem 0}
+.subj-card{background:#f0f9ff;border-radius:12px;padding:1rem;border:1.5px solid #bae6fd;text-align:center}
+.subj-icon{font-size:1.8rem;margin-bottom:.4rem}
+.subj-name{font-size:.88rem;font-weight:800;color:#0c4a6e;margin-bottom:.3rem}
+.subj-tip{font-size:.78rem;color:#475569;line-height:1.4}
+
+/* Technique cards */
+.technique-list{display:flex;flex-direction:column;gap:.8rem;margin:1rem 0}
+.tech-item{display:flex;gap:.9rem;align-items:flex-start;background:#f8fafc;border-radius:12px;padding:.9rem 1rem;border:1px solid #e2e8f0}
+.tech-num{width:34px;height:34px;border-radius:50%;background:#0ea5e9;color:#fff;font-weight:900;font-size:.85rem;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:.05rem}
+.tech-body h4{color:#0c4a6e;font-size:.92rem;font-weight:800;margin-bottom:.25rem}
+.tech-body p{color:#475569;font-size:.83rem;margin:0}
+
+/* Plan grid */
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin:1.1rem 0}
+@media(max-width:540px){.plan-grid{grid-template-columns:1fr}}
+.plan-day{border-radius:12px;overflow:hidden;border:1.5px solid #bae6fd}
+.plan-day-header{background:#0ea5e9;color:#fff;font-size:.82rem;font-weight:800;padding:.45rem .75rem;text-align:center}
+.plan-day-body{background:#f0f9ff;padding:.75rem;font-size:.8rem;color:#374151}
+.plan-day-body p{margin-bottom:.35rem}
+.plan-day-body strong{color:#0369a1;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em}
+
+/* Callouts */
+.callout{border-radius:12px;padding:1rem 1.2rem;font-size:.9rem;margin:1rem 0}
+.callout.sky{background:#f0f9ff;border-left:4px solid #0ea5e9;color:#0369a1}
+.callout.amber{background:#fffbeb;border-left:4px solid #f59e0b;color:#92400e}
+.callout.green{background:#f0fdf4;border-left:4px solid #22c55e;color:#15803d}
+.callout.red{background:#fef2f2;border-left:4px solid #ef4444;color:#991b1b}
+.callout.purple{background:#faf5ff;border-left:4px solid #a855f7;color:#6b21a8}
+.callout.indigo{background:#eef2ff;border-left:4px solid #6366f1;color:#3730a3}
+
+/* Comparison */
+.compare-row{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin:.9rem 0}
+@media(max-width:520px){.compare-row{grid-template-columns:1fr}}
+.cr-card{border-radius:12px;padding:1rem}
+.cr-card.wrong{background:#fef2f2;border:1.5px solid #fecaca}
+.cr-card.right{background:#f0fdf4;border:1.5px solid #bbf7d0}
+.cr-label{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}
+.cr-card.wrong .cr-label{color:#991b1b}
+.cr-card.right .cr-label{color:#15803d}
+.cr-body{font-family:'Courier New',monospace;font-size:.82rem;color:#1e293b;line-height:1.5}
+
+/* Quiz */
+.quiz-section{background:linear-gradient(135deg,#0c4a6e,#0369a1);border-radius:20px;padding:2rem;margin-bottom:2rem;color:#fff}
+.quiz-section h2{font-size:1.3rem;font-weight:800;margin-bottom:1.5rem}
+.quiz-q{margin-bottom:1.4rem}
+.q-text{font-size:.92rem;font-weight:700;margin-bottom:.6rem;color:#e0f2fe}
+.quiz-options{display:flex;flex-direction:column;gap:.4rem}
+.quiz-opt{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:.5rem .85rem;color:rgba(255,255,255,.85);font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:600;text-align:left;cursor:pointer;transition:background .15s}
+.quiz-opt:hover{background:rgba(255,255,255,.14)}
+.quiz-opt.correct{background:rgba(34,197,94,.25);border-color:#4ade80;color:#fff}
+.quiz-opt.wrong{background:rgba(239,68,68,.20);border-color:#f87171;color:rgba(255,255,255,.75)}
+.quiz-feedback{display:none;font-size:.83rem;padding:.55rem .75rem;border-radius:8px;margin-top:.4rem;font-weight:700}
+.quiz-feedback.show{display:block}
+.quiz-feedback.ok{background:rgba(34,197,94,.15);color:#86efac}
+.quiz-feedback.no{background:rgba(239,68,68,.15);color:#fca5a5}
+.quiz-submit{width:100%;padding:.75rem;background:#0ea5e9;border:none;border-radius:10px;color:#fff;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;cursor:pointer;margin-top:.5rem}
+.quiz-submit:hover{background:#38bdf8}
+.quiz-submit:disabled{opacity:.55;cursor:not-allowed}
+.quiz-score-box{display:none;background:rgba(255,255,255,.08);border-radius:12px;padding:1.2rem;text-align:center;margin-top:1rem}
+.quiz-score-box.show{display:block}
+.quiz-score-box .qs-num{font-size:2.5rem;font-weight:900;color:#a5b4fc}
+.quiz-score-box .qs-label{color:rgba(255,255,255,.60);font-size:.85rem;margin-top:.2rem}
+.quiz-score-box .qs-msg{color:#c7d2fe;font-size:.9rem;font-weight:700;margin-top:.7rem}
+
+/* Worksheet */
+.worksheet-section{background:#fff;border-radius:16px;padding:1.6rem;margin-bottom:1.5rem;border:2px dashed #bae6fd}
+.worksheet-section h2{color:#0c4a6e;font-size:1.15rem;font-weight:800;margin-bottom:.8rem}
+.worksheet-section p{color:#374151;font-size:.92rem;margin-bottom:.8rem}
+.ws-table{width:100%;border-collapse:collapse;font-size:.85rem;margin:1rem 0}
+.ws-table th{background:#0ea5e9;color:#fff;padding:.5rem .75rem;text-align:left;font-weight:700}
+.ws-table td{padding:.6rem .75rem;border:1px solid #e0f2fe;vertical-align:top;min-height:36px}
+.ws-download-note{color:#94a3b8;font-size:.78rem;font-style:italic}
+
+/* Parent note */
+.parent-note{background:#fafaf9;border-radius:16px;padding:1.6rem;margin-bottom:1.5rem;border:1px solid #e7e5e4}
+.pn-header{display:flex;align-items:center;gap:.5rem;font-size:1rem;font-weight:800;color:#44403c;margin-bottom:1rem}
+.parent-note p{color:#57534e;font-size:.9rem;margin-bottom:.6rem}
+.parent-note ul{color:#57534e;font-size:.9rem;padding-left:1.2rem;margin-bottom:.6rem}
+.parent-note li{margin-bottom:.3rem}
+.parent-note strong{color:#292524}
+
+/* Bottom nav */
+.bottom-nav{background:#0f172a;padding:2rem 1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.bottom-nav a{color:rgba(255,255,255,.75);font-size:.88rem;font-weight:700;padding:.5rem 1rem;border-radius:8px;border:1px solid rgba(255,255,255,.15);text-decoration:none}
+.bottom-nav a:hover{background:rgba(255,255,255,.08)}
+.bottom-nav a.next-btn{background:#0ea5e9;border-color:#0ea5e9;color:#fff}
+
+/* Footer */
+footer{background:#0f172a;border-top:1px solid rgba(255,255,255,.06);padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+footer span{color:rgba(255,255,255,.35);font-size:.78rem}
+footer .fl{display:flex;gap:1rem}
+footer .fl a{color:rgba(255,255,255,.40);font-size:.75rem}
+footer .fl a:hover{color:rgba(255,255,255,.70)}
+
+@media(max-width:600px){
+  .content-wrap{width:95%;padding:2rem 0 3rem}
+  .section-card{padding:1.2rem 1.1rem}
+  .quiz-section{padding:1.2rem 1.1rem}
+  .prompt-box{padding:.9rem 1rem}
+  .pb-text{font-size:.78rem}
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a class="brand" href="../../../site/index.html">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="../../../site/index.html">Home</a>
+    <a href="../../../site/students.html">AI for Students</a>
+    <a href="class-06.html">Class 6 Hub</a>
+    <a class="active" href="lesson-07.html">Lesson 7</a>
+  </div>
+</nav>
+
+<header class="lesson-header">
+  <div class="lh-badge">Class 6 · Age 10–11 · AI for Students · Lesson 7 of 12</div>
+  <h1>AI for Study Help — Practical</h1>
+  <p class="lh-sub">Turn AI into your personal tutor. Understand faster, practise smarter, and walk into every exam more confident.</p>
+  <div class="lh-meta">
+    <span>⏱ 60–90 min</span>
+    <span>● Free</span>
+    <span>💬 English</span>
+    <span>📖 8 Sections</span>
+    <span>✅ 10-Question Quiz</span>
+  </div>
+</header>
+
+<section class="lesson-video">
+  <div class="sec-label">Watch First</div>
+  <h2>Lesson 7 — Video Introduction (Coming Soon)</h2>
+  <div class="video-box">
+    <div class="video-box-inner">
+      <div class="vi">🎬</div>
+      <div class="vl">Lesson 7 Video — Coming Soon</div>
+      <div class="vb">VIDEO COMING SOON</div>
+    </div>
+  </div>
+  <p class="video-caption">Read all 8 sections below while we prepare the video.</p>
+</section>
+
+<div class="content-wrap">
+
+  <!-- Story -->
+  <div class="story-panel">
+    <div class="story-eyebrow">📖 Meet Priya</div>
+    <h2>Three Days, Four Subjects, One Secret Weapon</h2>
+    <p>Priya is 11 years old and lives in Visakhapatnam (Vizag), Andhra Pradesh. Her half-yearly exams start in three days. She has four subjects to revise: Science, Maths, Social Studies, and English. Her class teacher has given them all the chapters. But Priya has a problem — Chapter 6 of Science (Changes Around Us) makes no sense to her. And Maths word problems always trip her up. And she is not confident about her essay writing either.</p>
+    <p>Her older brother is studying engineering in Hyderabad. He calls her and says: <em>"Priya, do you know you have a personal tutor available 24 hours a day, seven days a week, that never gets tired and never judges you for asking the same question five times?"</em></p>
+    <p>"What? A tutor? We can't afford that!" she says.</p>
+    <p>He laughs. "No money needed. It's called AI. Let me show you exactly how to use it for each subject."</p>
+    <p>Over the next three days, Priya uses AI as a study partner — not to copy answers, but to <strong>understand, practise, and improve</strong>. By exam day, she feels ready. Not because AI did her studying. Because AI helped her study <em>smarter</em>.</p>
+    <div class="story-highlight">🧠 This lesson is a practical toolkit — 8 techniques you can use starting today, for any subject, at any time.</div>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="section-card">
+    <div class="sc-eyebrow">Section 1 of 8</div>
+    <h2>🤝 The Study Partner You Always Wanted</h2>
+    <p>Think about the ideal study partner. What would they be like? They would:</p>
+    <ul>
+      <li>Explain anything you didn't understand — in simple words</li>
+      <li>Never make you feel embarrassed for not knowing something</li>
+      <li>Be available at 10 PM before an exam, with no complaints</li>
+      <li>Quiz you on exactly the topics you need practice on</li>
+      <li>Give you instant feedback on your answers</li>
+      <li>Adjust to your level — not too easy, not too hard</li>
+      <li>Know a little bit about every subject</li>
+    </ul>
+    <p>That is exactly what an AI tool like ChatGPT, Google Gemini, or Microsoft Copilot can be for you — <strong>if you use it the right way</strong>.</p>
+
+    <div class="callout amber">
+      <strong>The important difference:</strong> A study partner <em>helps you learn</em>. They do not do your work for you. If you ask AI to write your entire essay and you submit it, you have cheated — and you also learned nothing. The techniques in this lesson are all about using AI to <em>understand and practise</em>, not to copy.
+    </div>
+
+    <p>Here is what AI can help you with, and what it cannot replace:</p>
+    <table>
+      <tr><th>AI CAN help you</th><th>AI CANNOT replace</th></tr>
+      <tr><td>Explain a confusing concept in simpler words</td><td>Your own effort to understand and remember</td></tr>
+      <tr><td>Generate practice questions for you to answer</td><td>Actually sitting down and answering them yourself</td></tr>
+      <tr><td>Give feedback on your written answers</td><td>Your teacher's personal knowledge of you and your class</td></tr>
+      <tr><td>Translate or simplify textbook language</td><td>Your textbook — always keep it as the source of truth</td></tr>
+      <tr><td>Create a study schedule</td><td>Your discipline to actually follow it</td></tr>
+    </table>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section-card">
+    <div class="sc-eyebrow">Section 2 of 8</div>
+    <h2>💡 Technique 1 — Understanding Difficult Concepts</h2>
+    <p>The most common student problem: <em>the teacher explained it, the textbook explains it, but you still don't understand it.</em> This is where AI shines.</p>
+    <p>The key is to ask AI to explain in a way that makes sense <strong>to you specifically</strong>. Tell it your class, your subject, and ask for an Indian example.</p>
+
+    <div class="prompt-box">
+      <div class="pb-label">✅ Concept explanation prompt</div>
+      <div class="pb-text">I am a Class 6 student. I don't understand the concept of "evaporation" from Chapter 6 of my Science book. Explain it to me in very simple language using an example I would see in my daily life in India — like drying clothes or a wet road after rain.</div>
+      <div class="pb-result">You get: A clear, simple explanation using an Indian example you've actually experienced. Much easier to remember than a textbook definition.</div>
+    </div>
+
+    <div class="prompt-box">
+      <div class="pb-label">✅ "Explain it differently" prompt</div>
+      <div class="pb-text">That explanation was still too complicated. Can you explain evaporation using only 3 sentences, like you're talking to a 10-year-old child? Use the example of a wet floor drying after mopping.</div>
+      <div class="pb-result">You get: An even simpler version. You keep asking until it clicks. AI never gets frustrated.</div>
+    </div>
+
+    <div class="prompt-box">
+      <div class="pb-label">✅ "Check my understanding" prompt</div>
+      <div class="pb-text">I think I understand evaporation now. I'm going to explain it back to you. Can you tell me if I've got it right? Here's my explanation: [type your own explanation in your words]</div>
+      <div class="pb-result">You get: Confirmation or gentle correction. Explaining something in your own words is the #1 way to lock knowledge into memory.</div>
+    </div>
+
+    <div class="callout sky">
+      <strong>The "Teach It Back" trick:</strong> After AI explains a concept, close the chat. Try to explain it to yourself out loud or write it in your notebook. Then go back and check. If you can explain it, you own it.
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section-card">
+    <div class="sc-eyebrow">Section 3 of 8</div>
+    <h2>📝 Technique 2 — Creating Your Own Practice Tests</h2>
+    <p>Testing yourself is the single most effective study technique. Not reading notes. Not highlighting. <strong>Testing yourself.</strong> Research consistently shows that students who test themselves before an exam score significantly higher than those who only re-read.</p>
+    <p>AI can generate unlimited practice questions for you — on exactly the topics you need — in minutes.</p>
+
+    <div class="prompt-box">
+      <div class="pb-label">✅ Basic quiz prompt</div>
+      <div class="pb-text">Quiz me on Chapter 3: Fibre to Fabric from Class 6 Science. Ask me 5 questions one at a time. After I answer each one, tell me if I'm right, and explain the correct answer. Start with the first question now.</div>
+      <div class="pb-result">You get: An interactive quiz session. You must actually type your answer — don't just read the question and move on.</div>
+    </div>
+
+    <div class="prompt-box">
+      <div class="pb-label">✅ Difficulty-graded quiz prompt</div>
+      <div class="pb-text">Give me 10 practice questions on Chapter 5: Separation of Substances from Class 6 Science. Start with 3 easy questions, then 4 medium, then 3 hard. Give them all at once so I can write my answers in my notebook, then show the answers after.</div>
+      <div class="pb-result">You get: A full practice test you can print or copy into your notebook. Answer in writing — don't just think the answer.</div>
+    </div>
+
+    <div class="prompt-box">
+      <div class="pb-label">✅ Fill-in-the-blanks prompt</div>
+      <div class="pb-text">Create 10 fill-in-the-blank sentences from Chapter 2: Components of Food (Class 6 Science). Leave the key scientific terms blank. This is for exam revision.</div>
+      <div class="pb-result">You get: A fill-in-the-blank worksheet you can practice on. Perfect for memorising key terms.</div>
+    </div>
+
+    <div class="callout green">
+      <strong>Tip:</strong> Do NOT look at the answers until you've genuinely tried each question. The struggle of trying to remember — even if you get it wrong — is what builds memory. Getting it wrong is not failure. It's how your brain learns.
+    </div>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="section-card">
+    <div class="sc-eyebrow">Section 4 of 8</div>
+    <h2>📒 Technique 3 — Building Study Notes and Summaries</h2>
+    <p>Sometimes textbook chapters are long, dense, and full of information. AI can help you create a focused summary — a cheat sheet of the most important points for your exam. But remember: reading a summary is just the start. You still need to understand and remember those points.</p>
+
+    <div class="prompt-box">
+      <div class="pb-label">✅ Chapter summary prompt</div>
+      <div class="pb-text">Summarise Chapter 4: Sorting Materials into Groups (Class 6 Science) in 8 bullet points. Focus on the key concepts and definitions that are most likely to come in an exam. Use simple English.</div>
+      <div class="pb-result">You get: A compact, exam-focused summary. Write it in your own notebook after reading — don't just screenshot it.</div>
+    </div>
+
+    <div class="prompt-box">
+      <div class="pb-label">✅ Key terms glossary prompt</div>
+      <div class="pb-text">List all the important scientific terms and their simple definitions from Chapter 7: Getting to Know Plants (Class 6 Science). Format it as a two-column table: Term | Simple Definition.</div>
+      <div class="pb-result">You get: A ready-to-use glossary for revision. Copy it into your notebook or print it.</div>
+    </div>
+
+    <div class="prompt-box">
+      <div class="pb-label">✅ Memory trick prompt</div>
+      <div class="pb-text">Give me a fun memory trick (mnemonic) to remember the 7 nutrients in food from Class 6 Science Chapter 2: Components of Food. Make it easy for an Indian student to remember.</div>
+      <div class="pb-result">You get: A mnemonic that sticks better than reading the list ten times. Your brain loves patterns and funny phrases.</div>
+    </div>
+
+    <div class="callout indigo">
+      <strong>Important:</strong> AI summaries may not perfectly match your specific textbook edition or state board curriculum. Always compare with your actual textbook. Use AI summaries as a <em>starting point</em>, not a <em>replacement</em> for your book.
+    </div>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="section-card">
+    <div class="sc-eyebrow">Section 5 of 8</div>
+    <h2>🔢 Technique 4 — Maths Word Problems</h2>
+    <p>Maths word problems are tricky not just because of the maths — but because of the <em>reading</em>. You have to understand what the question is actually asking before you can solve it. AI can be a brilliant maths tutor here — but only if you use it as a <strong>learning tool, not an answer machine</strong>.</p>
+
+    <div class="compare-row">
+      <div class="cr-card wrong">
+        <div class="cr-label">❌ Wrong way</div>
+        <div class="cr-body">A train travels 360 km in 4 hours. What is its speed?<br><br>→ [copy answer and move on]</div>
+      </div>
+      <div class="cr-card right">
+        <div class="cr-label">✅ Right way</div>
+        <div class="cr-body">I'm trying to solve this word problem but I don't know where to start:<br>"A train travels 360 km in 4 hours. What is its speed?"<br><br>Can you show me the STEPS to solve it, explain WHY each step works, then give me a similar problem to try myself?</div>
+      </div>
+    </div>
+
+    <div class="prompt-box">
+      <div class="pb-label">✅ Maths understanding prompt</div>
+      <div class="pb-text">I'm a Class 6 student. I don't understand how to solve ratio problems. Can you:
+1. Explain what ratio means using an example with rice and dal (like a recipe)
+2. Show me how to solve a simple ratio problem step by step
+3. Give me 3 practice problems to try on my own</div>
+      <div class="pb-result">You get: A concept explanation + worked example + practice problems. You solve the 3 practice problems yourself before looking at answers.</div>
+    </div>
+
+    <div class="prompt-box">
+      <div class="pb-label">✅ "I tried but I'm stuck" prompt</div>
+      <div class="pb-text">Here is a maths problem I tried to solve. I got the answer 45 but I think I'm wrong. Can you tell me which step I made a mistake in?
+
+Problem: A farmer has 3/4 of his field planted with rice. If the total field is 80 square meters, how much is planted with rice?
+My working: I did 80 ÷ 3 = 26.66, then 26.66 × 4 = 45. But the answer doesn't feel right.</div>
+      <div class="pb-result">You get: AI finds your specific mistake and explains it. Much more useful than just getting the right answer.</div>
+    </div>
+
+    <div class="callout amber">
+      <strong>Never copy a maths solution without understanding it.</strong> In the exam, AI won't be there. Only your understanding will be there. If you understand the method, you can solve any similar problem. If you just copied the answer, you will be stuck on the next one.
+    </div>
+  </div>
+
+  <!-- Section 6 -->
+  <div class="section-card">
+    <div class="sc-eyebrow">Section 6 of 8</div>
+    <h2>✍️ Technique 5 — Improving Your Writing</h2>
+    <p>Many students struggle with essay writing and long-answer questions. They have the ideas but cannot express them clearly. AI can help you write better — without writing your essay for you.</p>
+
+    <div class="prompt-box">
+      <div class="pb-label">✅ "Improve my answer" prompt</div>
+      <div class="pb-text">I wrote this answer to a question in my Class 6 Social Studies test. Please tell me:
+1. What I got right
+2. What I missed or could have added
+3. How I can make it clearer
+
+Question: "What are the main features of the Indian climate?"
+My answer: India has different climates. It is hot in summer. It rains in monsoon. Winters are cold in north India. Some places have snow.</div>
+      <div class="pb-result">You get: Honest feedback about your own writing — what is good and what to improve. You then rewrite it yourself incorporating the suggestions.</div>
+    </div>
+
+    <div class="prompt-box">
+      <div class="pb-label">✅ Structure help prompt</div>
+      <div class="pb-text">I need to write a 150-word paragraph answer for the question: "Explain why rivers are important for India's agriculture."
+Can you give me a structure outline — an opening sentence, 3 main points to cover, and a closing sentence? I will write the full answer myself using your structure.</div>
+      <div class="pb-result">You get: A scaffold or skeleton to write around. The actual words and sentences are yours — this is honest and educational.</div>
+    </div>
+
+    <div class="prompt-box">
+      <div class="pb-label">✅ Grammar check prompt</div>
+      <div class="pb-text">Check the grammar in this paragraph I wrote and list the mistakes. Don't rewrite it — just tell me what each mistake is so I can fix it myself:
+
+[paste your paragraph]</div>
+      <div class="pb-result">You get: A list of grammar issues. You then fix them yourself. This builds your grammar skills over time — just getting a corrected version does not.</div>
+    </div>
+
+    <div class="callout sky">
+      <strong>The writing rule:</strong> You write first, AI gives feedback, you rewrite. In that order. If AI writes it and you copy it, you miss the entire learning. Your writing will improve exam after exam only if you do the writing.
+    </div>
+  </div>
+
+  <!-- Section 7 -->
+  <div class="section-card">
+    <div class="sc-eyebrow">Section 7 of 8</div>
+    <h2>🎤 Technique 6 — Preparing for Oral Exams and Discussions</h2>
+    <p>Many schools have oral exams, class presentations, or group discussions. These are harder to prepare for because you cannot just re-read notes — you have to <em>speak</em>. AI can act as your practice audience.</p>
+
+    <div class="prompt-box">
+      <div class="pb-label">✅ Oral exam preparation prompt</div>
+      <div class="pb-text">I have a 5-minute oral presentation on "Water Conservation in India" for my Class 6 Social Studies class. Help me prepare by giving me:
+- A strong opening line to grab attention
+- 3 main points with one real Indian example each
+- A clear closing sentence with a call to action
+Keep the language simple and suitable for an 11-year-old student.</div>
+      <div class="pb-result">You get: A structured speaking plan. Practise saying it out loud — don't just read it. Record yourself on your phone and listen back.</div>
+    </div>
+
+    <div class="prompt-box">
+      <div class="pb-label">✅ Debate practice prompt</div>
+      <div class="pb-text">I need to argue FOR the topic: "Using AI in schools helps students learn better." Can you:
+1. Give me 4 strong arguments for this position
+2. Then give me 3 likely counter-arguments from the opposite side
+3. For each counter-argument, suggest how I can respond
+
+I want to win a class debate on this topic.</div>
+      <div class="pb-result">You get: A complete debate prep package — your arguments, their likely objections, and your rebuttals. Practise the debate with a sibling or friend.</div>
+    </div>
+
+    <div class="prompt-box">
+      <div class="pb-label">✅ "Ask me questions" prompt</div>
+      <div class="pb-text">I have an oral exam on Indian History: The Mughal Empire (Class 6 History). Ask me 5 questions a teacher might ask in the oral exam. I will speak my answers out loud and type a short version. Give me feedback on whether my answers are complete.</div>
+      <div class="pb-result">You get: A simulated oral exam. This is much more useful than just reading notes because it forces you to recall and express under pressure — just like the real exam.</div>
+    </div>
+  </div>
+
+  <!-- Section 8 -->
+  <div class="section-card">
+    <div class="sc-eyebrow">Section 8 of 8</div>
+    <h2>📅 Technique 7 — Building a Study Plan with AI</h2>
+    <p>Many students fail not because they don't know the material — but because they run out of time. They study the first two chapters deeply and then panic-read the last three the night before. A good study plan prevents this.</p>
+    <p>AI can build a customised study schedule for you in under a minute. But YOU have to follow it.</p>
+
+    <div class="prompt-box">
+      <div class="pb-label">✅ Exam revision plan prompt</div>
+      <div class="pb-text">I have a Class 6 Science exam in 3 days. I need to revise Chapters 1, 2, 3, 4, and 5. I can study for 1 hour in the morning and 45 minutes in the evening each day. Create a 3-day revision plan that:
+- Covers all 5 chapters without rushing
+- Includes short breaks
+- Dedicates the last session to revision and practice questions
+- Marks which chapter I should prioritise if I am short on time</div>
+      <div class="pb-result">You get: A concrete, personalised 3-day schedule. Print it, stick it on the wall, and follow it.</div>
+    </div>
+
+    <p>Here is what a 3-day plan generated by AI might look like for Priya:</p>
+
+    <div class="plan-grid">
+      <div class="plan-day">
+        <div class="plan-day-header">Day 1</div>
+        <div class="plan-day-body">
+          <p><strong>Morning (1 hr)</strong></p>
+          <p>Ch 1: Food — Where Does It Come From? (30 min read + 10 questions)</p>
+          <p>Ch 2: Components of Food (20 min read)</p>
+          <p><strong>Evening (45 min)</strong></p>
+          <p>Ch 2 quiz + fill-in-the-blanks. Write a summary of both chapters in own words.</p>
+        </div>
+      </div>
+      <div class="plan-day">
+        <div class="plan-day-header">Day 2</div>
+        <div class="plan-day-body">
+          <p><strong>Morning (1 hr)</strong></p>
+          <p>Ch 3: Fibre to Fabric (30 min read + 10 questions)</p>
+          <p>Ch 4: Sorting Materials into Groups (30 min read)</p>
+          <p><strong>Evening (45 min)</strong></p>
+          <p>Ch 3 + Ch 4 quiz. Flash-card revision of key terms.</p>
+        </div>
+      </div>
+      <div class="plan-day">
+        <div class="plan-day-header">Day 3</div>
+        <div class="plan-day-body">
+          <p><strong>Morning (1 hr)</strong></p>
+          <p>Ch 5: Separation of Substances (30 min read + quiz)</p>
+          <p>Review all 5 chapter summaries (30 min)</p>
+          <p><strong>Evening (45 min)</strong></p>
+          <p>Full mock test across all 5 chapters. Rest well. Sleep early.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout green">
+      <strong>Priya's result:</strong> She followed this plan. On exam day she was nervous but prepared. After the exam she told her brother: <em>"The AI didn't study for me. It helped me study better. That feels really different."</em> That is exactly the point.
+    </div>
+
+    <div class="callout red">
+      <strong>One final rule:</strong> Don't spend the whole study session asking AI things. A good session looks like: 10 min of AI explanation → 30 min of your own reading and practice → 5 min of AI quiz → 10 min of writing your summary in your own words. AI is a <em>tool</em> in your study session, not the session itself.
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h2>🧠 Lesson 7 Quiz — 10 Questions</h2>
+
+    <div class="quiz-q" id="q1">
+      <div class="q-text">1. What is the BEST way to use AI when you don't understand a concept from class?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="1" data-v="a">A) Ask AI to give you the full textbook answer to copy into your notes</button>
+        <button class="quiz-opt" data-q="1" data-v="b">B) Ask AI to explain it in simpler words with an Indian example, then try to explain it back to yourself in your own words</button>
+        <button class="quiz-opt" data-q="1" data-v="c">C) Skip the concept and hope it doesn't come in the exam</button>
+        <button class="quiz-opt" data-q="1" data-v="d">D) Ask your friend who also doesn't understand it</button>
+      </div>
+      <div class="quiz-feedback" id="fb1"></div>
+    </div>
+
+    <div class="quiz-q" id="q2">
+      <div class="q-text">2. Priya wants AI to quiz her on Chapter 4. Which prompt will give her the most useful session?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="2" data-v="a">A) "Chapter 4 questions"</button>
+        <button class="quiz-opt" data-q="2" data-v="b">B) "Give me all the questions from Chapter 4"</button>
+        <button class="quiz-opt" data-q="2" data-v="c">C) "Quiz me on Chapter 4: Motion and Measurement. Ask one question at a time, wait for my answer, then tell me if I'm right and explain."</button>
+        <button class="quiz-opt" data-q="2" data-v="d">D) "What chapters does Class 6 science have?"</button>
+      </div>
+      <div class="quiz-feedback" id="fb2"></div>
+    </div>
+
+    <div class="quiz-q" id="q3">
+      <div class="q-text">3. Which is the BEST way to use AI for a maths word problem you are stuck on?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="3" data-v="a">A) Type the problem and copy the final answer directly into your homework</button>
+        <button class="quiz-opt" data-q="3" data-v="b">B) Ask AI to show the steps with explanation, understand each step, then solve a similar problem yourself</button>
+        <button class="quiz-opt" data-q="3" data-v="c">C) Ask AI for only the final answer without any explanation</button>
+        <button class="quiz-opt" data-q="3" data-v="d">D) Ask AI to generate 100 similar problems so you can avoid the hard one</button>
+      </div>
+      <div class="quiz-feedback" id="fb3"></div>
+    </div>
+
+    <div class="quiz-q" id="q4">
+      <div class="q-text">4. You want AI to help you write a better essay. What is the correct approach?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="4" data-v="a">A) Ask AI to write the entire essay and submit it as your work</button>
+        <button class="quiz-opt" data-q="4" data-v="b">B) Write your own essay first, then ask AI to tell you what's good and what could be improved — then rewrite it yourself</button>
+        <button class="quiz-opt" data-q="4" data-v="c">C) Ask AI for the essay topic so you don't have to read the question</button>
+        <button class="quiz-opt" data-q="4" data-v="d">D) Copy the AI essay and change a few words to make it look like yours</button>
+      </div>
+      <div class="quiz-feedback" id="fb4"></div>
+    </div>
+
+    <div class="quiz-q" id="q5">
+      <div class="q-text">5. Ravi asks AI: "Summarise Chapter 5 for my exam." The AI gives a very long response. What should he do next?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="5" data-v="a">A) Print the entire summary and read it all before the exam</button>
+        <button class="quiz-opt" data-q="5" data-v="b">B) Send a follow-up: "That's too long. Give me the 5 most important points I need to know for a Class 6 exam."</button>
+        <button class="quiz-opt" data-q="5" data-v="c">C) Close the app and try a different AI tool</button>
+        <button class="quiz-opt" data-q="5" data-v="d">D) Stop studying and watch TV instead</button>
+      </div>
+      <div class="quiz-feedback" id="fb5"></div>
+    </div>
+
+    <div class="quiz-q" id="q6">
+      <div class="q-text">6. What is the "Teach It Back" study technique?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="6" data-v="a">A) You program the AI with information it doesn't know yet</button>
+        <button class="quiz-opt" data-q="6" data-v="b">B) After AI explains a topic, you explain it BACK in your own words — either out loud or in writing. If you can explain it, you truly understand it.</button>
+        <button class="quiz-opt" data-q="6" data-v="c">C) You correct every mistake the AI makes while teaching</button>
+        <button class="quiz-opt" data-q="6" data-v="d">D) You compete with AI to see who knows more about the topic</button>
+      </div>
+      <div class="quiz-feedback" id="fb6"></div>
+    </div>
+
+    <div class="quiz-q" id="q7">
+      <div class="q-text">7. Which prompt is most effective for building a study plan before exams?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="7" data-v="a">A) "Help me study"</button>
+        <button class="quiz-opt" data-q="7" data-v="b">B) "Revision plan"</button>
+        <button class="quiz-opt" data-q="7" data-v="c">C) "I have a Class 6 Science exam in 3 days covering Chapters 3, 4, and 5. Create a 3-day revision plan with morning sessions of 1 hour and evening sessions of 45 minutes."</button>
+        <button class="quiz-opt" data-q="7" data-v="d">D) "When is my exam?"</button>
+      </div>
+      <div class="quiz-feedback" id="fb7"></div>
+    </div>
+
+    <div class="quiz-q" id="q8">
+      <div class="q-text">8. Divya used AI to explain the digestive system. The AI used a term she had never heard before. What should she do?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="8" data-v="a">A) Skip it — if it's too hard, it probably won't come in the exam</button>
+        <button class="quiz-opt" data-q="8" data-v="b">B) Send a follow-up: "What does [that term] mean? Explain it simply with a food example from India."</button>
+        <button class="quiz-opt" data-q="8" data-v="c">C) Stop using AI because it uses too many difficult words</button>
+        <button class="quiz-opt" data-q="8" data-v="d">D) Copy the entire explanation including the unknown term without understanding it</button>
+      </div>
+      <div class="quiz-feedback" id="fb8"></div>
+    </div>
+
+    <div class="quiz-q" id="q9">
+      <div class="q-text">9. You have a 5-minute oral presentation on "Pollution in Indian Rivers." Which prompt is BEST?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="9" data-v="a">A) "Tell me about pollution"</button>
+        <button class="quiz-opt" data-q="9" data-v="b">B) "Pollution rivers India"</button>
+        <button class="quiz-opt" data-q="9" data-v="c">C) "Help me prepare a 5-minute oral presentation on pollution in Indian rivers for Class 6. Give me: an opening line, 3 main points with Indian examples, and a strong closing sentence."</button>
+        <button class="quiz-opt" data-q="9" data-v="d">D) "What is a river?"</button>
+      </div>
+      <div class="quiz-feedback" id="fb9"></div>
+    </div>
+
+    <div class="quiz-q" id="q10">
+      <div class="q-text">10. Which statement BEST describes the smart way to use AI for studying?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="10" data-v="a">A) Use AI to do all your studying so you can spend less time on books</button>
+        <button class="quiz-opt" data-q="10" data-v="b">B) Use AI to completely replace your teacher</button>
+        <button class="quiz-opt" data-q="10" data-v="c">C) Use AI as a personal tutor — to explain, quiz, and give feedback — while YOU do the actual understanding, practising, and thinking</button>
+        <button class="quiz-opt" data-q="10" data-v="d">D) Never use AI for studying because it always gives incorrect information</button>
+      </div>
+      <div class="quiz-feedback" id="fb10"></div>
+    </div>
+
+    <button class="quiz-submit" id="quizSubmit">Submit Answers</button>
+    <div class="quiz-score-box" id="scoreBox">
+      <div class="qs-num" id="scoreNum">0/10</div>
+      <div class="qs-label">Your Score</div>
+      <div class="qs-msg" id="scoreMsg"></div>
+    </div>
+  </div>
+
+  <!-- Worksheet -->
+  <div class="worksheet-section">
+    <h2>📝 Worksheet — My AI Study Session Planner</h2>
+    <p>Pick <strong>one subject</strong> you are finding difficult right now. Use the prompts from this lesson to create your own AI-powered study session. Fill in the table as you go.</p>
+
+    <table class="ws-table">
+      <tr>
+        <th>Step</th>
+        <th>What to Do</th>
+        <th>Your Notes (write here)</th>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td><strong>Pick the topic:</strong> Which chapter or concept are you struggling with?</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td><strong>Understand it:</strong> Write the prompt you used to ask AI to explain the concept simply.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td><strong>Teach it back:</strong> In your own words (2–3 sentences), explain the concept as if talking to a younger child.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td><strong>Practice questions:</strong> How many practice questions did you ask AI to give you? How many did you get right?</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td><strong>What was hard:</strong> Which question or part was most difficult? Write it here.</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td><strong>How AI helped:</strong> Write one sentence about how the AI helped you — and one thing you still need to do yourself.</td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+
+    <p><strong>Bonus challenge:</strong> Create a 3-day study plan using AI for your next upcoming test. Follow it for real and see if your marks improve.</p>
+    <p class="ws-download-note">Copy this table into your notebook. Share your experience with your classmates — what worked, what didn't.</p>
+  </div>
+
+  <!-- Parent Note -->
+  <div class="parent-note">
+    <div class="pn-header">👨‍👩‍👧 Note for Parents and Teachers</div>
+    <p>This lesson gives Class 6 students a practical toolkit for using AI as a study partner — with a strong emphasis on <strong>learning, not shortcuts</strong>.</p>
+    <p>What your child learned today:</p>
+    <ul>
+      <li>7 practical AI study techniques: concept explanation, self-quizzing, note-making, maths help, writing improvement, oral exam prep, and study planning</li>
+      <li>The "Teach It Back" technique — the most effective method for cementing knowledge</li>
+      <li>Why copying AI answers does not build understanding for the actual exam</li>
+      <li>How to use follow-up prompts to improve AI responses that are too long, too technical, or off-topic</li>
+      <li>The rule: AI is a tool in your study session, not the session itself</li>
+    </ul>
+    <p><strong>How to support at home:</strong></p>
+    <ul>
+      <li>Ask your child to show you their AI study session — what prompt they used and what they learned from it</li>
+      <li>Encourage them to use the "Teach It Back" technique — ask them to explain a lesson topic to you in simple words</li>
+      <li>Before the next exam, help them create a 3-day revision plan using AI as shown in Section 8</li>
+      <li>Check that they are genuinely answering practice questions themselves — not just reading the questions and looking at answers</li>
+    </ul>
+    <p><strong>For teachers:</strong> The worksheet in this lesson can be assigned as a structured homework activity — students pick one difficult chapter and document their AI-assisted study session. This creates accountability and shifts the culture from "AI did it for me" to "AI helped me understand."</p>
+  </div>
+
+</div><!-- end content-wrap -->
+
+<nav class="bottom-nav">
+  <a href="lesson-06.html">← Lesson 6: Asking Good Questions with AI</a>
+  <a class="next-btn" href="lesson-08.html">Lesson 8: Being a Responsible Digital Citizen →</a>
+</nav>
+
+<footer>
+  <span>© 2026 Mitra AI Life Education. Class 6 · Lesson 7 · Free</span>
+  <div class="fl">
+    <a href="../../../site/privacy.html">Privacy</a>
+    <a href="../../../site/payment-policy.html">Policies</a>
+    <a href="../../../site/contact.html">Contact</a>
+  </div>
+</footer>
+
+<script>
+const correct = {"1":"b","2":"c","3":"b","4":"b","5":"b","6":"b","7":"c","8":"b","9":"c","10":"c"};
+const feedback = {
+  "1":{"b":"Correct! Ask for a simple explanation with an Indian example, then teach it back in your own words. That's how real understanding happens.","_":"Not quite. The best approach is to ask for a simple explanation and then try to explain it back yourself — that's how you know you've truly learned it."},
+  "2":{"c":"Correct! This prompt creates an interactive quiz session where you answer one question at a time and get instant feedback. Far more useful than a list of questions.","_":"Not quite. Option C is best because it creates a true interactive session — one question at a time with feedback after each answer."},
+  "3":{"b":"Correct! Understanding the steps is the only way to solve similar problems in the actual exam. Copying the answer teaches you nothing.","_":"Not quite. You need to understand the method, not just get the answer. Only understanding will help you in the exam when AI is not available."},
+  "4":{"b":"Correct! Write first, get feedback, then rewrite. Your writing improves only through your own effort. AI is the editor, not the author.","_":"Not quite. The right process is: you write → AI gives feedback → you improve. If AI writes it, you learn nothing."},
+  "5":{"b":"Correct! A follow-up prompt narrows the response to exactly what you need — the top 5 exam-important points, not a long essay.","_":"Not quite. The best move is a follow-up prompt asking for only the most important points for a Class 6 exam."},
+  "6":{"b":"Correct! Explaining something in your own words is the most powerful memory technique. If you can explain it simply, you own it.","_":"Not quite. 'Teach It Back' means explaining the topic in your own words after reading — this forces real understanding, not just recognition."},
+  "7":{"c":"Correct! This prompt is specific: exact exam timeline, exact chapters, exact study hours. AI can build a practical daily schedule from this information.","_":"Not quite. Option C is best because it gives AI everything it needs — time available, chapters to cover, and session length."},
+  "8":{"b":"Correct! Following up on unknown terms is exactly what good students do. Never leave a confusing word unexplained.","_":"Not quite. The right approach is a follow-up prompt asking for a simple explanation of the unknown term — with an example you can relate to."},
+  "9":{"c":"Correct! This prompt gives a complete brief — topic, time limit, class level, and the 3 things needed: opening, main points with examples, closing.","_":"Not quite. Option C is best because it specifies everything: format, time, audience level, structure. Vague prompts give vague answers."},
+  "10":{"c":"Correct! AI as a personal tutor — explaining, quizzing, giving feedback — while YOU do the actual learning. That's the smart, ethical, and effective way.","_":"Not quite. Option C is correct. AI supports your learning; it cannot replace your thinking, your memory, or your effort."}
+};
+
+let answered = {};
+document.querySelectorAll('.quiz-opt').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    const q=this.dataset.q, v=this.dataset.v;
+    if(answered[q]) return;
+    answered[q]=v;
+    document.querySelectorAll(`[data-q="${q}"]`).forEach(o=>{
+      o.disabled=true;
+      if(o.dataset.v===correct[q]) o.classList.add('correct');
+      else if(o.dataset.v===v) o.classList.add('wrong');
+    });
+    const fb=document.getElementById(`fb${q}`);
+    const isOk=(v===correct[q]);
+    fb.textContent=isOk?(feedback[q][v]||feedback[q]['_']):(feedback[q]['_']);
+    fb.className='quiz-feedback show '+(isOk?'ok':'no');
+  });
+});
+
+document.getElementById('quizSubmit').addEventListener('click',function(){
+  let score=0;
+  for(let q=1;q<=10;q++){if(answered[q]===correct[q]) score++;}
+  document.getElementById('scoreNum').textContent=score+'/10';
+  let msg='';
+  if(score===10) msg='Perfect! You are ready to be anyone\'s study partner!';
+  else if(score>=8) msg='Excellent! Strong grasp of AI study techniques.';
+  else if(score>=6) msg='Good work! Review the sections on quizzing and writing help.';
+  else if(score>=4) msg='Keep practising! Re-read Sections 2 and 3 on understanding and self-testing.';
+  else msg='No worries! Revisit the whole lesson — and try the worksheet to see the techniques in action.';
+  document.getElementById('scoreMsg').textContent=msg;
+  document.getElementById('scoreBox').classList.add('show');
+  this.disabled=true;
+  gtag('event','quiz_complete',{event_category:'class6',event_label:'class06_lesson07_quiz',value:score});
+});
+</script>
+</body>
+</html>

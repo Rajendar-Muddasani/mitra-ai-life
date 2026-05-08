@@ -15,7 +15,7 @@ Target age group: 10–17 · School students · India · English · CBSE/SSC com
 ## Class 6 — AI Literacy for Beginners (Age 10–11)
 
 Theme colour: Sky blue `#0ea5e9`  
-Full year: 12 lessons · Lessons 1–6 Live · Lessons 7–12 Coming Soon  
+Full year: 12 lessons · Lessons 1–7 Live · Lessons 8–12 Coming Soon  
 Hub page: `content/students/class-06/class-06.html`
 
 ---
@@ -217,11 +217,44 @@ Hub page: `content/students/class-06/class-06.html`
 
 ---
 
-### Lessons 7–12 — Coming Soon
+### Lesson 7 — AI for Study Help: Practical
+
+**File:** `content/students/class-06/lesson-07.html`  
+**Duration:** 60–90 min · 8 sections · Free
+
+**Section topics:**
+1. The study partner you always wanted — what AI can and cannot replace
+2. Technique 1 — Understanding difficult concepts (explain simply + teach it back)
+3. Technique 2 — Creating practice tests (quiz me, difficulty-graded, fill-in-the-blanks)
+4. Technique 3 — Building study notes and summaries (chapter summary, glossary, mnemonics)
+5. Technique 4 — Maths word problems (steps + explanation + similar problem to solve)
+6. Technique 5 — Improving writing (get feedback on YOUR draft, structure scaffolding, grammar check)
+7. Technique 6 — Oral exam and discussion prep (presentation structure, debate arguments, simulated oral exam)
+8. Technique 7 — Building a study plan (3-day revision plan example with morning/evening sessions)
+
+**Story:** Priya (11yo, Vizag, AP) has 3 days before exams across 4 subjects; her brother shows her how to use AI as a personal tutor — not to copy, but to understand and practise.
+
+**Quiz Q&A — Lesson 7**
+
+| Q# | Question (short) | A | B | C | D | ✓ |
+|----|-----------------|---|---|---|---|---|
+| 1 | Best way to use AI when confused about a concept? | Copy textbook answer into notes | **Explain simply + Indian example, then teach it back in own words** | Skip the concept | Ask a friend who also doesn't know | **b** |
+| 2 | Most useful quiz prompt for Priya? | "Chapter 4 questions" | "Give me all questions from Chapter 4" | **"Quiz me on Chapter 4 — one question at a time, wait for answer, then explain"** | "What chapters does Class 6 science have?" | **c** |
+| 3 | Best use of AI for a maths word problem? | Copy the final answer | **Ask for steps + explanation, then solve a similar problem yourself** | Ask for answer only, no explanation | Generate 100 similar problems | **b** |
+| 4 | Best AI approach for improving essay writing? | AI writes the whole essay | **Write your own → AI gives feedback → you rewrite** | Ask AI for the essay topic | Copy and change a few words | **b** |
+| 5 | Ravi gets a too-long summary. Best next step? | Print and read all of it | **Follow-up: "Give me only the 5 most important points for Class 6 exam"** | Try a different AI tool | Stop studying | **b** |
+| 6 | What is the "Teach It Back" technique? | You program AI with new info | **After AI explains, you explain it back in your own words to verify understanding** | You correct AI's mistakes | You compete with AI on knowledge | **b** |
+| 7 | Most effective study plan prompt? | "Help me study" | "Revision plan" | **"Class 6 Science exam in 3 days, Chapters 3–5, 1 hr morning + 45 min evening — create a 3-day plan"** | "When is my exam?" | **c** |
+| 8 | AI uses an unknown term. What should Divya do? | Skip it | **Follow-up: "What does [term] mean? Explain simply with a food example from India"** | Stop using AI | Copy without understanding | **b** |
+| 9 | Best prompt for a 5-min oral on pollution in Indian rivers? | "Tell me about pollution" | "Pollution rivers India" | **"5-min Class 6 presentation on Indian river pollution — opening line, 3 main points with Indian examples, strong closing sentence"** | "What is a river?" | **c** |
+| 10 | Best description of smart AI study use? | AI does all studying | AI replaces teacher | **AI as personal tutor — explains, quizzes, gives feedback — while YOU do the actual understanding and thinking** | Never use AI for studying | **c** |
+
+---
+
+### Lessons 8–12 — Coming Soon
 
 | Lesson | Title | Status |
 |--------|-------|--------|
-| 7 | AI for Study Help — Practical | Coming Soon |
 | 8 | Digital Citizenship and AI | Coming Soon |
 | 9 | AI and Creativity | Coming Soon |
 | 10 | When AI Gets It Wrong | Coming Soon |
@@ -243,4 +276,4 @@ Hub page: `content/students/class-06/class-06.html`
 
 ---
 
-*Last updated: 08 May 2026 · Lessons 1–6 live · This document grows with each new lesson.*
+*Last updated: 08 May 2026 · Lessons 1–7 live · This document grows with each new lesson.*

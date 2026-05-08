@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 11 — Python Basics: Your First AI-Ready Code | Class 8 | Mitra AI Life</title>
+<meta name="description" content="Write your first Python in Google Colab — no installation needed. Variables, strings, lists, if/else, for loops, and a working study plan generator. Class 8, age 12–13, free." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-08/lesson-11.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="../../../site/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../../../site/apple-touch-icon.png" />
+<meta name="theme-color" content="#0d9488" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 11 — Python Basics: Your First AI-Ready Code | Class 8 | Mitra AI Life" />
+<meta property="og:description" content="First Python code in Google Colab — variables, print, strings, lists, if/else, for loops, a working study plan generator. No installation. Age 12–13, free." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-08/lesson-11.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: #f0fdfa; color: #134e4a; line-height: 1.65; }
+a { color: #0d9488; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topnav { background: #0f172a; padding: 0.75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+.topnav .brand { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800; text-decoration: none; }
+.topnav .brand span { color: #5eead4; }
+.topnav .nav-links { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.topnav .nav-links a { color: rgba(255,255,255,0.70); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+.topnav .nav-links a:hover { color: #fff; }
+.topnav .nav-links a.active { color: #5eead4; }
+.lesson-header { background: linear-gradient(135deg, #134e4a, #0f766e, #0d9488); padding: 3rem 1.5rem 3.5rem; text-align: center; color: #fff; }
+.lesson-header .lh-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 0.9rem; }
+.lesson-header h1 { font-family: 'Baloo 2', cursive; font-size: clamp(1.6rem, 5vw, 2.6rem); font-weight: 800; line-height: 1.2; margin-bottom: 0.8rem; }
+.lesson-header .lh-sub { font-size: 1rem; color: rgba(255,255,255,0.82); max-width: 580px; margin: 0 auto 1.4rem; }
+.meta-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+.meta-pill { background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.9); }
+.lesson-video { background: #134e4a; padding: 2.5rem 1rem; }
+.lesson-video .sec-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #5eead4; margin-bottom: 0.5rem; text-align: center; }
+.lesson-video h2 { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.4rem; text-align: center; margin-bottom: 1.2rem; }
+.video-caption { color: rgba(255,255,255,0.45); font-size: 0.78rem; text-align: center; margin-top: 0.7rem; }
+.video-coming { width: 100%; max-width: 760px; background: #0f766e; border-radius: 14px; padding: 3.5rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.7rem; margin: 0 auto; border: 2px dashed rgba(94,234,212,0.3); }
+.video-coming .vc-icon { font-size: 2.5rem; }
+.video-coming p { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+.content-wrap { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+.story-panel { background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border-left: 5px solid #0d9488; border-radius: 14px; padding: 1.8rem; margin-bottom: 2rem; }
+.story-panel .story-eyebrow { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.4rem; }
+.story-panel h2 { font-family: 'Baloo 2', cursive; font-size: 1.4rem; color: #134e4a; margin-bottom: 0.75rem; }
+.story-panel p { color: #374151; font-size: 0.93rem; margin-bottom: 0.8rem; }
+.story-panel p:last-child { margin-bottom: 0; }
+.story-highlight { background: #ccfbf1; border-radius: 10px; padding: 0.9rem 1rem; font-size: 0.88rem; font-weight: 700; color: #0f766e; margin-top: 1rem; }
+.lesson-section { background: #fff; border-radius: 18px; padding: 1.8rem; margin-bottom: 1.5rem; border: 1px solid #ccfbf1; box-shadow: 0 4px 18px rgba(13,148,136,0.07); }
+.sec-eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.4rem; }
+.lesson-section h2 { font-family: 'Baloo 2', cursive; font-size: 1.35rem; color: #134e4a; margin-bottom: 0.9rem; }
+.lesson-section h3 { font-size: 1.05rem; color: #0f766e; margin: 1.4rem 0 0.5rem; font-weight: 800; }
+.lesson-section p { color: #374151; font-size: 0.93rem; margin-bottom: 0.85rem; }
+.lesson-section p:last-child { margin-bottom: 0; }
+.lesson-section ul, .lesson-section ol { color: #374151; font-size: 0.93rem; padding-left: 1.4rem; margin-bottom: 0.85rem; }
+.lesson-section li { margin-bottom: 0.4rem; }
+.callout { border-radius: 12px; padding: 0.9rem 1.1rem; font-size: 0.88rem; margin: 1rem 0; }
+.callout.teal { background: #ccfbf1; border-left: 4px solid #0d9488; color: #134e4a; }
+.callout.amber { background: #fffbeb; border-left: 4px solid #f59e0b; color: #78350f; }
+.callout.green { background: #f0fdf4; border-left: 4px solid #22c55e; color: #14532d; }
+.code-block { background: #0f172a; border-radius: 12px; padding: 1rem 1.25rem; margin: 0.9rem 0; overflow-x: auto; }
+.code-block pre { font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.82rem; color: #e2e8f0; line-height: 1.7; white-space: pre; }
+.code-block .comment { color: #64748b; }
+.code-block .string { color: #86efac; }
+.code-block .keyword { color: #93c5fd; }
+.code-block .number { color: #fda4af; }
+.code-block .output { color: #fde68a; }
+.code-label { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.25rem; }
+.output-block { background: #134e4a; border-radius: 8px; padding: 0.65rem 1rem; margin: 0.4rem 0 0.9rem; }
+.output-block pre { font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.82rem; color: #ccfbf1; line-height: 1.7; white-space: pre; }
+.colab-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: #f9a825; color: #000; border-radius: 8px; padding: 0.4rem 0.9rem; font-weight: 800; font-size: 0.82rem; text-decoration: none; margin: 0.5rem 0; }
+.concept-row { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0.8rem 0; }
+.concept-chip { background: #f0fdfa; border: 1.5px solid #0d9488; border-radius: 20px; padding: 0.3rem 0.85rem; font-size: 0.82rem; font-weight: 700; color: #0f766e; }
+.quiz-section { background: linear-gradient(135deg, #134e4a, #0f766e); border-radius: 20px; padding: 2rem 1.5rem; margin: 1.5rem 0; }
+.quiz-section h2 { font-family: 'Baloo 2', cursive; color: #fff; font-size: 1.35rem; margin-bottom: 0.4rem; text-align: center; }
+.quiz-intro { color: rgba(255,255,255,0.7); font-size: 0.85rem; text-align: center; margin-bottom: 1.5rem; }
+.quiz-q { background: rgba(255,255,255,0.08); border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 1rem; }
+.quiz-q .qtext { font-size: 0.92rem; font-weight: 700; color: #ccfbf1; margin-bottom: 0.7rem; }
+.quiz-opt { display: block; width: 100%; text-align: left; background: rgba(255,255,255,0.10); border: 1.5px solid rgba(255,255,255,0.15); border-radius: 10px; color: rgba(255,255,255,0.85); font-family: 'Nunito', sans-serif; font-size: 0.84rem; font-weight: 600; padding: 0.55rem 0.9rem; margin-bottom: 0.4rem; cursor: pointer; }
+.quiz-opt:hover:not(:disabled) { background: rgba(255,255,255,0.18); }
+.quiz-opt.correct { background: #14532d; border-color: #22c55e; color: #fff; }
+.quiz-opt.wrong { background: #7f1d1d; border-color: #ef4444; color: #fff; }
+.q-feedback { font-size: 0.8rem; font-weight: 700; margin-top: 0.3rem; }
+.q-feedback.ok { color: #86efac; }
+.q-feedback.bad { color: #fca5a5; }
+#quiz-submit { display: block; margin: 1.2rem auto 0; background: #0d9488; color: #fff; border: none; border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; padding: 0.75rem 2.5rem; cursor: pointer; }
+#quiz-submit:hover { background: #0f766e; }
+#quiz-result { text-align: center; margin-top: 1rem; }
+#quiz-result .score { font-family: 'Baloo 2', cursive; font-size: 2.5rem; color: #fff; font-weight: 800; }
+#quiz-result .score-msg { color: rgba(255,255,255,0.8); font-size: 0.92rem; margin-top: 0.4rem; }
+.worksheet-box { background: #fff; border-radius: 18px; padding: 1.8rem; border: 2px dashed #0d9488; margin-bottom: 1.5rem; }
+.worksheet-box h3 { font-family: 'Baloo 2', cursive; color: #0f766e; font-size: 1.2rem; margin-bottom: 0.6rem; }
+.parent-note { background: #fffbeb; border-radius: 18px; padding: 1.8rem; border: 1.5px solid #fde68a; margin-bottom: 1.5rem; }
+.parent-note h3 { font-family: 'Baloo 2', cursive; color: #92400e; font-size: 1.15rem; margin-bottom: 0.6rem; }
+.parent-note p { color: #451a03; font-size: 0.88rem; margin-bottom: 0.65rem; }
+.parent-note ul { color: #451a03; font-size: 0.88rem; padding-left: 1.3rem; }
+.parent-note li { margin-bottom: 0.35rem; }
+.bottom-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; padding: 1.5rem; border-top: 1.5px solid #ccfbf1; margin-top: 1rem; }
+.bottom-nav .prev-btn, .bottom-nav .next-btn { font-size: 0.9rem; font-weight: 800; padding: 0.7rem 1.3rem; border-radius: 12px; border: 2px solid #0d9488; color: #0d9488; text-decoration: none; }
+.bottom-nav .prev-btn:hover, .bottom-nav .next-btn:hover { background: #0d9488; color: #fff; }
+footer { background: #0f172a; color: rgba(255,255,255,0.55); padding: 2rem 1.5rem; text-align: center; font-size: 0.82rem; }
+footer a { color: rgba(255,255,255,0.6); }
+footer .footer-brand { font-family: 'Baloo 2', cursive; font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 0.5rem; }
+@media (max-width: 600px) { .lesson-header h1 { font-size: 1.45rem; } .content-wrap { padding: 1.25rem 1rem 2rem; } .lesson-section { padding: 1.25rem; } }
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="../../../site/students.html" class="active">AI for Students</a>
+    <a href="../../../site/index.html">Home</a>
+    <a href="../../../site/contact.html">Contact</a>
+  </div>
+</nav>
+<header class="lesson-header">
+  <div class="lh-eyebrow">AI for Students · Class 8 · Age 12–13 · Lesson 11 of 12</div>
+  <h1>Python Basics: Your First AI-Ready Code 🐍</h1>
+  <p class="lh-sub">You have understood how AI works for 10 lessons. Now write your first lines of Python — in the browser, no installation, and by the end you will have a working program that builds a personalised study plan.</p>
+  <div class="meta-pills">
+    <span class="meta-pill">📘 Class 8 · Lesson 11</span>
+    <span class="meta-pill">🕐 60–75 min</span>
+    <span class="meta-pill">💻 Hands-on coding</span>
+    <span class="meta-pill">🆓 Free lesson</span>
+  </div>
+</header>
+<img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-08/lesson-11-hero.jpg" alt="Illustrated scene: Indian student at a laptop with Python code on screen, a Colab notebook open, looking excited at their first output" loading="lazy" onerror="this.style.display='none'" style="width:100%;height:300px;object-fit:cover;object-position:center 40%;display:block;" />
+
+<section class="lesson-video">
+  <div style="width:90%;max-width:760px;margin:0 auto;">
+    <div class="sec-label">Watch first · 2–3 minutes</div>
+    <h2>Class 8 Lesson 11 — Python Basics</h2>
+    <div class="video-coming">
+      <div class="vc-icon">🎬</div>
+      <p>Video coming soon — the written lesson is complete and ready to use now.</p>
+    </div>
+    <p class="video-caption">No sign-in needed · English narration · Safe for all school ages</p>
+  </div>
+</section>
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="story-eyebrow">Story · Priya Writes Her First Program</div>
+    <h2>From "How Does AI Work?" to Writing Code 💻</h2>
+    <p>Priya, 13, from Visakhapatnam — the same student from Lesson 1 — had spent the whole Class 8 year understanding how AI works. She understood neural networks, training data, language models, bias, and ethics.</p>
+    <p>But she had never written a line of code. "Is programming difficult?" she asked her teacher. "The first program is the hardest part," her teacher said. "After that, it gets easier every time."</p>
+    <p>In her first session with Google Colab — a free Python environment that runs in the browser — Priya wrote six lines of code that printed a personalised study plan. It was small. But it was hers. She had told the computer exactly what to do, and it did it.</p>
+    <div class="story-highlight">
+      👉 In this lesson, you will follow the same path as Priya — from zero to a working Python program that builds a study plan from a list of your subjects. No installation. Just a browser.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 1 of 7</div>
+    <h2>🐍 Why Python?</h2>
+    <p>Python is the most widely used programming language for AI, data science, and automation. Here is why it matters:</p>
+    <ul>
+      <li><strong>Readable syntax:</strong> Python code looks almost like English. <code style="background:#f0fdfa;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.88rem;">print("Hello")</code> does exactly what it says.</li>
+      <li><strong>Free and open-source:</strong> Python itself is free. The AI libraries built on it (TensorFlow, PyTorch, scikit-learn, Hugging Face) are also free.</li>
+      <li><strong>Used by every major AI lab:</strong> Google, DeepMind, OpenAI, Anthropic, and Indian AI researchers all use Python as their primary programming language.</li>
+      <li><strong>Massive learning community:</strong> More tutorials, examples, and help resources than any other language.</li>
+    </ul>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 2 of 7</div>
+    <h2>🌐 Google Colab: Python in Your Browser</h2>
+    <p>Google Colab is a free tool that lets you write and run Python in your browser — no installation, no setup, just a Google account.</p>
+    <div class="callout teal">
+      <strong>How to open Colab:</strong><br/>
+      1. Go to <strong>colab.research.google.com</strong><br/>
+      2. Sign in with your Google account<br/>
+      3. Click "New Notebook"<br/>
+      4. You will see a cell where you can type Python code<br/>
+      5. Press <strong>Shift+Enter</strong> (or click the ▶ button) to run the code
+    </div>
+    <p>Each "cell" in Colab is a small box where you type code. You run it, see the output, then type in the next cell. This is called a "notebook" — it is like an interactive textbook that runs code.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 3 of 7</div>
+    <h2>📝 Variables and Print</h2>
+    <p>A <strong>variable</strong> is a named box that stores a value. You can put text, numbers, or lists into variables. The <strong>print()</strong> function displays a value on screen.</p>
+
+    <h3>Your first Python code</h3>
+    <div class="code-label">Type this in Colab and press Shift+Enter:</div>
+    <div class="code-block"><pre><span class="comment"># This is a comment — Python ignores lines starting with #</span>
+<span class="comment"># Comments are notes for humans reading the code</span>
+
+name = <span class="string">"Priya"</span>
+standard = <span class="number">8</span>
+city = <span class="string">"Visakhapatnam"</span>
+
+print(<span class="string">"Hello, my name is"</span>, name)
+print(<span class="string">"I am in Class"</span>, standard)
+print(<span class="string">"I live in"</span>, city)</pre></div>
+    <div class="code-label">Output:</div>
+    <div class="output-block"><pre>Hello, my name is Priya
+I am in Class 8
+I live in Visakhapatnam</pre></div>
+    <p>Change the values of <code style="background:#f0fdfa;padding:0.1rem 0.3rem;border-radius:4px;">name</code>, <code style="background:#f0fdfa;padding:0.1rem 0.3rem;border-radius:4px;">standard</code>, and <code style="background:#f0fdfa;padding:0.1rem 0.3rem;border-radius:4px;">city</code> to your own information and run it again.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 4 of 7</div>
+    <h2>📋 Lists</h2>
+    <p>A <strong>list</strong> stores multiple values in one variable. You write lists with square brackets, and separate items with commas.</p>
+
+    <div class="code-label">Example:</div>
+    <div class="code-block"><pre>subjects = [<span class="string">"Mathematics"</span>, <span class="string">"Science"</span>, <span class="string">"Social Studies"</span>, <span class="string">"English"</span>, <span class="string">"Telugu"</span>]
+
+print(<span class="string">"I am studying:"</span>, subjects)
+print(<span class="string">"My first subject is:"</span>, subjects[<span class="number">0</span>])
+print(<span class="string">"I have"</span>, len(subjects), <span class="string">"subjects"</span>)</pre></div>
+    <div class="output-block"><pre>I am studying: ['Mathematics', 'Science', 'Social Studies', 'English', 'Telugu']
+My first subject is: Mathematics
+I have 5 subjects</pre></div>
+    <div class="callout teal">
+      <strong>Index counting:</strong> Python counts from 0. So the first item in the list is at index 0, the second is at index 1, and so on. <code style="background:#ccfbf1;padding:0.1rem 0.3rem;border-radius:4px;">subjects[0]</code> = Mathematics, <code style="background:#ccfbf1;padding:0.1rem 0.3rem;border-radius:4px;">subjects[1]</code> = Science.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 5 of 7</div>
+    <h2>🔀 If/Else — Making Decisions</h2>
+    <p>An <strong>if/else</strong> statement lets your program make decisions. If a condition is true, do one thing; if not, do something else.</p>
+
+    <div class="code-label">Example — check if a subject needs extra time:</div>
+    <div class="code-block"><pre>difficult_subject = <span class="string">"Mathematics"</span>
+easy_subject = <span class="string">"English"</span>
+
+<span class="keyword">if</span> difficult_subject == <span class="string">"Mathematics"</span>:
+    print(<span class="string">"Mathematics needs 2 hours of practice today."</span>)
+<span class="keyword">else</span>:
+    print(<span class="string">"This subject needs 1 hour today."</span>)
+
+<span class="keyword">if</span> easy_subject == <span class="string">"Mathematics"</span>:
+    print(<span class="string">"Mathematics needs 2 hours of practice today."</span>)
+<span class="keyword">else</span>:
+    print(easy_subject, <span class="string">"needs 1 hour today."</span>)</pre></div>
+    <div class="output-block"><pre>Mathematics needs 2 hours of practice today.
+English needs 1 hour today.</pre></div>
+    <div class="callout amber">
+      <strong>Indentation matters in Python:</strong> The code inside an if block MUST be indented — use 4 spaces or one Tab. If you forget the indentation, Python will give an error. This is Python's way of showing which lines belong to which block.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 6 of 7</div>
+    <h2>🔁 For Loops — Doing Things Repeatedly</h2>
+    <p>A <strong>for loop</strong> repeats a block of code for every item in a list. Instead of writing the same code five times for five subjects, you write it once and let the loop handle the repetition.</p>
+
+    <div class="code-label">Example — print a task for every subject:</div>
+    <div class="code-block"><pre>subjects = [<span class="string">"Mathematics"</span>, <span class="string">"Science"</span>, <span class="string">"Social Studies"</span>, <span class="string">"English"</span>, <span class="string">"Telugu"</span>]
+
+<span class="keyword">for</span> subject <span class="keyword">in</span> subjects:
+    print(<span class="string">"Study"</span>, subject, <span class="string">"for 45 minutes"</span>)</pre></div>
+    <div class="output-block"><pre>Study Mathematics for 45 minutes
+Study Science for 45 minutes
+Study Social Studies for 45 minutes
+Study English for 45 minutes
+Study Telugu for 45 minutes</pre></div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 7 of 7</div>
+    <h2>🚀 Your Working Program: The Study Plan Generator</h2>
+    <p>Now put it all together. This program takes your list of subjects, determines how much time each needs (using if/else), and prints a complete study plan for the day.</p>
+
+    <div class="callout green">
+      <strong>Type this entire program in a single Colab cell and run it:</strong>
+    </div>
+    <div class="code-block"><pre><span class="comment"># Study Plan Generator — Class 8 Python Project</span>
+<span class="comment"># Replace the subjects list and hard_subjects with your own!</span>
+
+<span class="comment"># Step 1: Your information</span>
+student_name = <span class="string">"Priya"</span>
+day = <span class="string">"Tuesday"</span>
+
+<span class="comment"># Step 2: Your subjects</span>
+subjects = [<span class="string">"Mathematics"</span>, <span class="string">"Science"</span>, <span class="string">"Social Studies"</span>, <span class="string">"English"</span>, <span class="string">"Telugu"</span>]
+
+<span class="comment"># Step 3: Subjects that need extra time (change to YOUR difficult subjects)</span>
+hard_subjects = [<span class="string">"Mathematics"</span>, <span class="string">"Science"</span>]
+
+<span class="comment"># Step 4: Print the header</span>
+print(<span class="string">"==============================="</span>)
+print(<span class="string">"Study Plan for"</span>, student_name)
+print(<span class="string">"Day:"</span>, day)
+print(<span class="string">"==============================="</span>)
+print()
+
+<span class="comment"># Step 5: Loop through subjects and assign time</span>
+total_minutes = <span class="number">0</span>
+
+<span class="keyword">for</span> subject <span class="keyword">in</span> subjects:
+    <span class="keyword">if</span> subject <span class="keyword">in</span> hard_subjects:
+        minutes = <span class="number">60</span>
+        note = <span class="string">"(needs extra practice)"</span>
+    <span class="keyword">else</span>:
+        minutes = <span class="number">30</span>
+        note = <span class="string">""</span>
+    
+    total_minutes = total_minutes + minutes
+    print(<span class="string">"📘"</span>, subject, <span class="string">":"</span>, minutes, <span class="string">"minutes"</span>, note)
+
+<span class="comment"># Step 6: Print the total</span>
+print()
+print(<span class="string">"==============================="</span>)
+print(<span class="string">"Total study time:"</span>, total_minutes, <span class="string">"minutes"</span>)
+print(<span class="string">"Remember to take a 10-minute break every 45 minutes!"</span>)
+print(<span class="string">"==============================="</span>)</pre></div>
+    <div class="code-label">Output:</div>
+    <div class="output-block"><pre>=================================
+Study Plan for Priya
+Day: Tuesday
+=================================
+
+📘 Mathematics : 60 minutes (needs extra practice)
+📘 Science : 60 minutes (needs extra practice)
+📘 Social Studies : 30 minutes
+📘 English : 30 minutes
+📘 Telugu : 30 minutes
+
+=================================
+Total study time: 210 minutes
+Remember to take a 10-minute break every 45 minutes!
+=================================</pre></div>
+    <div class="callout teal">
+      <strong>Now personalise it:</strong>
+      <ul style="margin-top:0.5rem;padding-left:1.2rem;">
+        <li>Change <code style="background:#ccfbf1;padding:0.1rem 0.3rem;border-radius:4px;">student_name</code> to your name</li>
+        <li>Change <code style="background:#ccfbf1;padding:0.1rem 0.3rem;border-radius:4px;">subjects</code> to your actual subject list</li>
+        <li>Change <code style="background:#ccfbf1;padding:0.1rem 0.3rem;border-radius:4px;">hard_subjects</code> to the subjects you find most challenging</li>
+        <li>Can you add a section for "exam subjects" that get 90 minutes? Try it!</li>
+      </ul>
+    </div>
+    <div class="concept-row">
+      <div class="concept-chip">Variable ✅</div>
+      <div class="concept-chip">List ✅</div>
+      <div class="concept-chip">if/else ✅</div>
+      <div class="concept-chip">for loop ✅</div>
+      <div class="concept-chip">print() ✅</div>
+      <div class="concept-chip">Working program ✅</div>
+    </div>
+  </div>
+
+  <div class="quiz-section">
+    <h2>🐍 Quiz — Lesson 11</h2>
+    <p class="quiz-intro">8 questions · Click your answer · Submit for your score</p>
+    <div class="quiz-q" id="q1">
+      <div class="qtext">1. Why is Python the most common language used for AI and machine learning?</div>
+      <button class="quiz-opt" data-q="1" data-val="a">A) Because it was invented by an AI company specifically for AI use</button>
+      <button class="quiz-opt" data-q="1" data-val="b">B) Because it has readable syntax close to English, a huge free library ecosystem (TensorFlow, PyTorch, etc.), and a massive global learning community</button>
+      <button class="quiz-opt" data-q="1" data-val="c">C) Because it is the fastest programming language available</button>
+      <button class="quiz-opt" data-q="1" data-val="d">D) Because it is the only language that can process images and text</button>
+      <div class="q-feedback" id="fb1"></div>
+    </div>
+    <div class="quiz-q" id="q2">
+      <div class="qtext">2. In Python, what does a variable do?</div>
+      <button class="quiz-opt" data-q="2" data-val="a">A) It runs a loop automatically</button>
+      <button class="quiz-opt" data-q="2" data-val="b">B) It stores a value (text, number, list, etc.) under a name so you can use it later in your program</button>
+      <button class="quiz-opt" data-q="2" data-val="c">C) It connects Python to the internet</button>
+      <button class="quiz-opt" data-q="2" data-val="d">D) It displays text on screen</button>
+      <div class="q-feedback" id="fb2"></div>
+    </div>
+    <div class="quiz-q" id="q3">
+      <div class="qtext">3. In Python, if <code style="background:rgba(255,255,255,0.1);padding:0.1rem 0.3rem;border-radius:4px;">subjects = ["Maths", "Science", "English"]</code>, what does <code style="background:rgba(255,255,255,0.1);padding:0.1rem 0.3rem;border-radius:4px;">subjects[0]</code> return?</div>
+      <button class="quiz-opt" data-q="3" data-val="a">A) Science (the middle item)</button>
+      <button class="quiz-opt" data-q="3" data-val="b">B) English (the last item)</button>
+      <button class="quiz-opt" data-q="3" data-val="c">C) Maths (Python counts from 0, so index 0 is the first item)</button>
+      <button class="quiz-opt" data-q="3" data-val="d">D) 3 (the length of the list)</button>
+      <div class="q-feedback" id="fb3"></div>
+    </div>
+    <div class="quiz-q" id="q4">
+      <div class="qtext">4. What does a <strong>for loop</strong> do in Python?</div>
+      <button class="quiz-opt" data-q="4" data-val="a">A) It checks a condition and runs once if it is true</button>
+      <button class="quiz-opt" data-q="4" data-val="b">B) It repeats a block of code for every item in a list — so you write the code once instead of repeating it manually for each item</button>
+      <button class="quiz-opt" data-q="4" data-val="c">C) It connects to a database and retrieves records</button>
+      <button class="quiz-opt" data-q="4" data-val="d">D) It runs code indefinitely until stopped</button>
+      <div class="q-feedback" id="fb4"></div>
+    </div>
+    <div class="quiz-q" id="q5">
+      <div class="qtext">5. In the study plan program, what is the purpose of the <code style="background:rgba(255,255,255,0.1);padding:0.1rem 0.3rem;border-radius:4px;">hard_subjects</code> list?</div>
+      <button class="quiz-opt" data-q="5" data-val="a">A) It stores the subjects that the computer finds difficult to process</button>
+      <button class="quiz-opt" data-q="5" data-val="b">B) It marks the subjects the student finds challenging — so the if/else logic can assign 60 minutes instead of 30 minutes for those subjects</button>
+      <button class="quiz-opt" data-q="5" data-val="c">C) It prevents the for loop from running on those subjects</button>
+      <button class="quiz-opt" data-q="5" data-val="d">D) It stores subjects that should be studied first</button>
+      <div class="q-feedback" id="fb5"></div>
+    </div>
+    <div class="quiz-q" id="q6">
+      <div class="qtext">6. Why is indentation (spacing) especially important in Python?</div>
+      <button class="quiz-opt" data-q="6" data-val="a">A) It makes the code look visually neat, but has no effect on whether it runs</button>
+      <button class="quiz-opt" data-q="6" data-val="b">B) It is required by Google Colab but not by regular Python</button>
+      <button class="quiz-opt" data-q="6" data-val="c">C) Python uses indentation to determine which lines belong to which block (if, for, etc.) — missing indentation causes errors</button>
+      <button class="quiz-opt" data-q="6" data-val="d">D) Indented lines run faster than non-indented lines</button>
+      <div class="q-feedback" id="fb6"></div>
+    </div>
+    <div class="quiz-q" id="q7">
+      <div class="qtext">7. What does Google Colab allow you to do that makes it ideal for beginners?</div>
+      <button class="quiz-opt" data-q="7" data-val="a">A) Run Python code in a browser without installing anything on your computer — just need a Google account</button>
+      <button class="quiz-opt" data-q="7" data-val="b">B) Generate AI images directly from Python code</button>
+      <button class="quiz-opt" data-q="7" data-val="c">C) Write code in Telugu and have it automatically translated to English</button>
+      <button class="quiz-opt" data-q="7" data-val="d">D) Access all ChatGPT features for free</button>
+      <div class="q-feedback" id="fb7"></div>
+    </div>
+    <div class="quiz-q" id="q8">
+      <div class="qtext">8. In the study plan program, what does the line <code style="background:rgba(255,255,255,0.1);padding:0.1rem 0.3rem;border-radius:4px;">total_minutes = total_minutes + minutes</code> do?</div>
+      <button class="quiz-opt" data-q="8" data-val="a">A) It compares two numbers to see which is larger</button>
+      <button class="quiz-opt" data-q="8" data-val="b">B) It multiplies the total by the number of minutes</button>
+      <button class="quiz-opt" data-q="8" data-val="c">C) It adds the current subject's minutes to the running total, so by the end of the loop, total_minutes contains the sum of all subjects' time</button>
+      <button class="quiz-opt" data-q="8" data-val="d">D) It checks if the total is less than the minutes for the current subject</button>
+      <div class="q-feedback" id="fb8"></div>
+    </div>
+    <button id="quiz-submit">Check My Score</button>
+    <div id="quiz-result" style="display:none;"></div>
+  </div>
+
+  <div class="worksheet-box">
+    <h3>💻 Hands-On Challenge — Extend the Program</h3>
+    <p style="font-size:0.88rem;margin-bottom:1rem;color:#0f766e;">Open Google Colab and complete at least one of these challenges:</p>
+    <ol style="font-size:0.88rem;color:#374151;padding-left:1.3rem;line-height:2;">
+      <li><strong>Personalise it:</strong> Replace the example subjects and hard_subjects with your actual Class 8 subjects. Run it and verify the output is correct.</li>
+      <li><strong>Add exam subjects:</strong> Create a third list called <code style="background:#f0fdfa;padding:0.1rem 0.3rem;border-radius:4px;">exam_subjects</code>. Modify the if/else to assign 90 minutes if the subject is in exam_subjects, 60 minutes if it is in hard_subjects, and 30 minutes otherwise. Tip: use <code style="background:#f0fdfa;padding:0.1rem 0.3rem;border-radius:4px;">elif</code> for the middle condition.</li>
+      <li><strong>Add a break reminder:</strong> After every 2 subjects in the loop, print "Take a 10-minute break!" Hint: use a counter variable and check if it equals 2 or 4 using <code style="background:#f0fdfa;padding:0.1rem 0.3rem;border-radius:4px;">if counter == 2</code>.</li>
+    </ol>
+  </div>
+
+  <div class="parent-note">
+    <h3>📋 Note for Parents and Teachers</h3>
+    <p><strong>What this lesson covers:</strong> Why Python matters for AI, Google Colab setup (browser-based, no installation), variables, print(), strings and numbers, lists and indexing, if/else statements, for loops, and a complete working study plan generator program. This is a genuine first coding lesson with a real, runnable output.</p>
+    <p><strong>Technical requirements:</strong> A device (phone, tablet, or computer) with a Google account and internet access is sufficient. Google Colab runs entirely in the browser — no Python installation, no special software. If students cannot access Colab, the code can also be typed at <a href="https://replit.com" target="_blank" rel="noopener">replit.com</a> (also free and browser-based).</p>
+  </div>
+</main>
+
+<div class="bottom-nav">
+  <a href="lesson-10.html" class="prev-btn">← Lesson 10: AI Projects</a>
+  <a href="lesson-12.html" class="next-btn">Lesson 12: My Portfolio →</a>
+</div>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:0.5rem;"><a href="../../../site/index.html">Home</a> · <a href="../../../site/students.html">AI for Students</a> · <a href="../../../site/privacy.html">Privacy Policy</a> · <a href="../../../site/contact.html">Contact</a></p>
+  <p>© 2026 Mitra AI Life Education · Class 6 to JC +2</p>
+</footer>
+
+<script>
+const ANSWERS = { 1:'b', 2:'b', 3:'c', 4:'b', 5:'b', 6:'c', 7:'a', 8:'c' };
+document.querySelectorAll('.quiz-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const q = btn.dataset.q; const container = btn.closest('.quiz-q');
+    if (container.classList.contains('answered')) return;
+    container.classList.add('answered');
+    container.querySelectorAll('.quiz-opt').forEach(b => b.disabled = true);
+    const fb = document.getElementById('fb' + q);
+    if (btn.dataset.val === ANSWERS[q]) { btn.classList.add('correct'); fb.textContent = '✅ Correct!'; fb.className = 'q-feedback ok'; }
+    else { btn.classList.add('wrong'); fb.textContent = '❌ Not quite — correct answer highlighted.'; fb.className = 'q-feedback bad'; container.querySelectorAll('.quiz-opt').forEach(b => { if (b.dataset.val === ANSWERS[q]) b.classList.add('correct'); }); }
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click', () => {
+  let score = 0;
+  for (let q = 1; q <= 8; q++) { const c = document.getElementById('q' + q); if (c.classList.contains('answered') && c.querySelector('.correct')) score++; }
+  const msgs = ['Keep going!','Review sections 3–4.','Getting there!','Half way.','Good progress!','Very close!','Very good!','Excellent!','Perfect!'];
+  const rd = document.getElementById('quiz-result');
+  rd.style.display = 'block';
+  rd.innerHTML = `<div class="score">${score} / 8</div><div class="score-msg">${msgs[score]}</div>`;
+  document.getElementById('quiz-submit').style.display = 'none';
+  if (typeof gtag !== 'undefined') gtag('event', 'quiz_complete', { event_category: 'class8', event_label: 'class08_lesson11_quiz', value: score });
+});
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Class 8 Lesson 11 — Python Basics: Your First AI-Ready Code",
+  "description": "First Python code in Google Colab: variables, lists, if/else, for loops, working study plan generator. No installation needed. Age 12–13, free.",
+  "url": "https://mitraailife.com/content/students/class-08/lesson-11.html",
+  "educationalLevel": "Class 8",
+  "typicalAgeRange": "12-13",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "provider": { "@type": "Organization", "name": "Mitra AI Life Education", "url": "https://mitraailife.com" }
+}
+</script>
+</body>
+</html>

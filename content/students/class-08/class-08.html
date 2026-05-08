@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Class 8 — Understanding AI Deeply | Mitra AI Life</title>
+<meta name="description" content="Class 8 AI lessons for students age 12–13. Learn how AI really works, what data and machine learning are, how language models think, AI ethics, and write your first Python code. 12 lessons, all free." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-08/class-08.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="../../../site/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../../../site/apple-touch-icon.png" />
+<meta name="theme-color" content="#0d9488" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Class 8 — Understanding AI Deeply | Mitra AI Life" />
+<meta property="og:description" content="Go deeper into AI: learn how models learn, what data really is, how language AI works, ethics, fairness, and write your first Python. Age 12–13, free." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-08/class-08.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: #f0fdfa; color: #134e4a; line-height: 1.65; }
+a { color: #0d9488; text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { max-width: 100%; height: auto; border-radius: 10px; }
+
+.topnav { background: #0f172a; padding: 0.75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+.topnav .brand { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800; text-decoration: none; }
+.topnav .brand span { color: #5eead4; }
+.topnav .nav-links { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.topnav .nav-links a { color: rgba(255,255,255,0.70); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+.topnav .nav-links a:hover { color: #fff; }
+.topnav .nav-links a.active { color: #5eead4; }
+
+.page-header { background: linear-gradient(135deg, #134e4a, #0f766e, #0d9488); padding: 3rem 1.5rem 3.5rem; text-align: center; color: #fff; }
+.page-header .ph-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 0.9rem; }
+.page-header h1 { font-family: 'Baloo 2', cursive; font-size: clamp(1.7rem, 5vw, 2.8rem); font-weight: 800; line-height: 1.2; margin-bottom: 0.8rem; }
+.page-header .ph-sub { font-size: 1rem; color: rgba(255,255,255,0.82); max-width: 580px; margin: 0 auto 1.4rem; }
+.meta-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+.meta-pill { background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.9); }
+
+.content-wrap { max-width: 920px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+/* Curriculum grid */
+.curric-section { background: #fff; border-radius: 20px; padding: 1.8rem; margin-bottom: 1.5rem; border: 1px solid #ccfbf1; box-shadow: 0 4px 18px rgba(13,148,136,0.07); }
+.curric-section h2 { font-family: 'Baloo 2', cursive; color: #134e4a; font-size: 1.3rem; margin-bottom: 0.35rem; }
+.curric-section .cs-sub { font-size: 0.85rem; color: #6b7280; margin-bottom: 1.2rem; }
+.curric-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 0.6rem; }
+.curric-card { background: #f0fdfa; border-radius: 10px; padding: 0.65rem 0.75rem; border: 1.5px solid #ccfbf1; }
+.curric-card.active { border-color: #0d9488; background: #f0fdfa; }
+.curric-card .cc-num { font-size: 0.68rem; font-weight: 800; color: #0d9488; }
+.curric-card.soon .cc-num { color: #94a3b8; }
+.curric-card .cc-title { font-size: 0.82rem; font-weight: 700; color: #134e4a; line-height: 1.3; margin: 0.1rem 0 0.25rem; }
+.curric-card.soon .cc-title { color: #94a3b8; }
+.curric-card .cc-badge { font-size: 0.62rem; font-weight: 700; background: #0d9488; color: #fff; border-radius: 8px; padding: 1px 7px; display: inline-block; }
+.curric-card.soon .cc-badge { background: #e2e8f0; color: #94a3b8; }
+
+/* Highlights */
+.highlight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+.highlight-card { background: #fff; border-radius: 16px; padding: 1.3rem; border: 1.5px solid #ccfbf1; }
+.highlight-card .hc-icon { font-size: 1.8rem; margin-bottom: 0.4rem; }
+.highlight-card .hc-title { font-weight: 800; color: #134e4a; font-size: 0.95rem; margin-bottom: 0.3rem; }
+.highlight-card .hc-desc { font-size: 0.83rem; color: #374151; }
+
+/* Callout */
+.callout { border-radius: 12px; padding: 0.9rem 1.1rem; font-size: 0.88rem; margin: 1rem 0; }
+.callout.teal { background: #ccfbf1; border-left: 4px solid #0d9488; color: #134e4a; }
+.callout.amber { background: #fffbeb; border-left: 4px solid #f59e0b; color: #78350f; }
+
+/* Class nav */
+.class-nav { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.class-nav a { background: #fff; border: 1.5px solid #ccfbf1; border-radius: 12px; padding: 0.55rem 1rem; font-size: 0.85rem; font-weight: 700; color: #0f766e; text-decoration: none; }
+.class-nav a:hover { background: #0d9488; color: #fff; border-color: #0d9488; }
+.class-nav a.current { background: #0d9488; color: #fff; border-color: #0d9488; }
+
+footer { background: #0f172a; color: rgba(255,255,255,0.55); padding: 2rem 1.5rem; text-align: center; font-size: 0.82rem; }
+footer a { color: rgba(255,255,255,0.6); }
+footer .footer-brand { font-family: 'Baloo 2', cursive; font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 0.5rem; }
+
+@media (max-width: 600px) {
+  .page-header h1 { font-size: 1.5rem; }
+  .content-wrap { padding: 1.25rem 1rem 2rem; }
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="../../../site/students.html" class="active">AI for Students</a>
+    <a href="../../../site/index.html">Home</a>
+    <a href="../../../site/contact.html">Contact</a>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="ph-eyebrow">AI for Students · Class 8 · Age 12–13 · 12 Lessons · All Free</div>
+  <h1>Class 8 — Understanding AI Deeply 🔍</h1>
+  <p class="ph-sub">You used AI in Class 7. Now it is time to understand what is happening inside it — how it learns, where it goes wrong, and how to build your first AI-powered ideas.</p>
+  <div class="meta-pills">
+    <span class="meta-pill">📘 Class 8</span>
+    <span class="meta-pill">🎓 Age 12–13</span>
+    <span class="meta-pill">🕐 45–60 min per lesson</span>
+    <span class="meta-pill">🐍 First Python included</span>
+    <span class="meta-pill">🆓 All lessons free</span>
+  </div>
+</header>
+<img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-08/class-08-hero.jpg" alt="Illustrated scene: Indian students age 12–13 looking inside an AI brain diagram, teal and green colour theme" loading="lazy" onerror="this.style.display='none'" style="width:100%;height:300px;object-fit:cover;object-position:center 40%;display:block;" />
+
+<main class="content-wrap">
+
+  <!-- Class navigation -->
+  <div class="class-nav">
+    <a href="../class-06/class-06.html">← Class 6</a>
+    <a href="../class-07/class-07.html">← Class 7</a>
+    <a href="class-08.html" class="current">Class 8 (you are here)</a>
+    <a href="../../../site/students.html">All Classes →</a>
+  </div>
+
+  <!-- What this class is about -->
+  <div style="background:#fff;border-radius:20px;padding:1.8rem;margin-bottom:1.5rem;border:1px solid #ccfbf1;">
+    <h2 style="font-family:'Baloo 2',cursive;color:#134e4a;font-size:1.3rem;margin-bottom:0.75rem;">What You Will Learn in Class 8</h2>
+    <p style="font-size:0.92rem;color:#374151;margin-bottom:1rem;">Class 7 taught you to use AI tools well. Class 8 takes you one level deeper — you will understand why AI works the way it does, what its limits are, and how the same thinking skills can help you build your own ideas using AI.</p>
+
+    <div class="highlight-grid">
+      <div class="highlight-card">
+        <div class="hc-icon">🤖</div>
+        <div class="hc-title">How AI Actually Learns</div>
+        <div class="hc-desc">AI vs ML vs Deep Learning. What training data is. Why AI gets things wrong — at a deeper level.</div>
+      </div>
+      <div class="highlight-card">
+        <div class="hc-icon">📊</div>
+        <div class="hc-title">Data — The Fuel of AI</div>
+        <div class="hc-desc">What a dataset looks like. Clean vs messy data. Patterns, labels, and how AI finds meaning.</div>
+      </div>
+      <div class="highlight-card">
+        <div class="hc-icon">💬</div>
+        <div class="hc-title">How Language Models Think</div>
+        <div class="hc-desc">What tokens are. Why GPT and similar models predict the next word. Why they can sound confident but be wrong.</div>
+      </div>
+      <div class="highlight-card">
+        <div class="hc-icon">⚖️</div>
+        <div class="hc-title">AI Ethics and Fairness</div>
+        <div class="hc-desc">Where bias comes from in AI. What fairness means in practice. Big questions: jobs, privacy, deepfakes, who decides.</div>
+      </div>
+      <div class="highlight-card">
+        <div class="hc-icon">🇮🇳</div>
+        <div class="hc-title">AI Innovation in India</div>
+        <div class="hc-desc">Real Indian AI projects in healthcare, farming, education, language, and space research.</div>
+      </div>
+      <div class="highlight-card">
+        <div class="hc-icon">🐍</div>
+        <div class="hc-title">Your First Python Code</div>
+        <div class="hc-desc">Variables, print, lists, simple if — your very first steps in the language used to build most of today's AI.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Curriculum map -->
+  <div class="curric-section">
+    <h2>📅 Class 8 — Full Year Learning Map</h2>
+    <p class="cs-sub">12 lessons · One lesson every 2–3 weeks · Each lesson ≈ 45–60 minutes · All free</p>
+    <div class="curric-grid">
+      <div class="curric-card active">
+        <div class="cc-num">Lesson 1</div>
+        <div class="cc-title"><a href="lesson-01.html" style="color:inherit;text-decoration:underline;">How Does AI Really Work?</a></div>
+        <span class="cc-badge" style="background:#0d9488;color:#fff;">● Live · Free</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 2</div>
+        <div class="cc-title"><a href="lesson-02.html" style="color:inherit;text-decoration:underline;">Data: The Ingredient AI Needs</a></div>
+        <span class="cc-badge" style="background:#0d9488;color:#fff;">● Live · Free</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 3</div>
+        <div class="cc-title"><a href="lesson-03.html" style="color:inherit;text-decoration:underline;">How AI Learns: Classification and Prediction</a></div>
+        <span class="cc-badge" style="background:#0d9488;color:#fff;">● Live · Free</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 4</div>
+        <div class="cc-title"><a href="lesson-04.html" style="color:inherit;text-decoration:underline;">Building AI Workflows</a></div>
+        <span class="cc-badge" style="background:#0d9488;color:#fff;">● Live · Free</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 5</div>
+        <div class="cc-title"><a href="lesson-05.html" style="color:inherit;text-decoration:underline;">How Language Models Work</a></div>
+        <span class="cc-badge" style="background:#0d9488;color:#fff;">● Live · Free</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 6</div>
+        <div class="cc-title"><a href="lesson-06.html" style="color:inherit;text-decoration:underline;">Computer Vision: How AI Sees</a></div>
+        <span class="cc-badge" style="background:#0d9488;color:#fff;">● Live · Free</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 7</div>
+        <div class="cc-title"><a href="lesson-07.html" style="color:inherit;text-decoration:underline;">AI Bias and Fairness</a></div>
+        <span class="cc-badge" style="background:#0d9488;color:#fff;">● Live · Free</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 8</div>
+        <div class="cc-title"><a href="lesson-08.html" style="color:inherit;text-decoration:underline;">AI Ethics and Society</a></div>
+        <span class="cc-badge" style="background:#0d9488;color:#fff;">● Live · Free</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 9</div>
+        <div class="cc-title"><a href="lesson-09.html" style="color:inherit;text-decoration:underline;">AI in India: Real Innovation</a></div>
+        <span class="cc-badge" style="background:#0d9488;color:#fff;">● Live · Free</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 10</div>
+        <div class="cc-title"><a href="lesson-10.html" style="color:inherit;text-decoration:underline;">AI for Your Own Projects</a></div>
+        <span class="cc-badge" style="background:#0d9488;color:#fff;">● Live · Free</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 11</div>
+        <div class="cc-title"><a href="lesson-11.html" style="color:inherit;text-decoration:underline;">Python Basics: Your First AI-Ready Code</a></div>
+        <span class="cc-badge" style="background:#0d9488;color:#fff;">● Live · Free</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 12</div>
+        <div class="cc-title"><a href="lesson-12.html" style="color:inherit;text-decoration:underline;">My Class 8 AI Portfolio</a></div>
+        <span class="cc-badge" style="background:#0d9488;color:#fff;">● Live · Free</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- What you need -->
+  <div style="background:#fff;border-radius:20px;padding:1.8rem;margin-bottom:1.5rem;border:1px solid #ccfbf1;">
+    <h2 style="font-family:'Baloo 2',cursive;color:#134e4a;font-size:1.25rem;margin-bottom:0.75rem;">What You Need to Start</h2>
+    <div class="callout teal">
+      <strong>Recommended:</strong> Complete Class 7 AI Daily Life Academy (or have equivalent experience using AI tools for school work). Class 8 builds directly on the prompting, critical thinking, and safety skills from Class 7.
+    </div>
+    <ul style="font-size:0.9rem;color:#374151;padding-left:1.3rem;margin-top:0.75rem;line-height:2;">
+      <li>A device with internet access (phone or computer)</li>
+      <li>A free AI tool account (ChatGPT, Google Gemini, or similar)</li>
+      <li>A notebook for writing down prompts and observations</li>
+      <li>For Lesson 11 (Python): free access to Google Colab or Replit — no installation needed</li>
+      <li>Curiosity and willingness to ask "but WHY does AI do that?"</li>
+    </ul>
+  </div>
+
+  <div class="callout amber">
+    <strong>Start here:</strong> <a href="lesson-01.html">Lesson 1 — How Does AI Really Work? →</a>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:0.5rem;">
+    <a href="../../../site/index.html">Home</a> ·
+    <a href="../../../site/students.html">AI for Students</a> ·
+    <a href="../../../site/privacy.html">Privacy Policy</a> ·
+    <a href="../../../site/contact.html">Contact</a>
+  </p>
+  <p>© 2026 Mitra AI Life Education · Class 6 to JC +2</p>
+</footer>
+
+</body>
+</html>

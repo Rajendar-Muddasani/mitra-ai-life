@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 6 — Computer Vision: How AI Sees | Class 8 | Mitra AI Life</title>
+<meta name="description" content="How does AI see a photo? Pixels, convolution, feature maps, Indian applications like Plantix and retinopathy screening. Class 8, age 12–13, free." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-08/lesson-06.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="../../../site/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../../../site/apple-touch-icon.png" />
+<meta name="theme-color" content="#0d9488" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 6 — Computer Vision: How AI Sees | Class 8 | Mitra AI Life" />
+<meta property="og:description" content="Pixels to predictions: how convolutional neural networks read images. Indian applications — crop disease AI, eye screening, satellite imaging. Age 12–13, free." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-08/lesson-06.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: #f0fdfa; color: #134e4a; line-height: 1.65; }
+a { color: #0d9488; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topnav { background: #0f172a; padding: 0.75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+.topnav .brand { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800; text-decoration: none; }
+.topnav .brand span { color: #5eead4; }
+.topnav .nav-links { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.topnav .nav-links a { color: rgba(255,255,255,0.70); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+.topnav .nav-links a:hover { color: #fff; }
+.topnav .nav-links a.active { color: #5eead4; }
+.lesson-header { background: linear-gradient(135deg, #134e4a, #0f766e, #0d9488); padding: 3rem 1.5rem 3.5rem; text-align: center; color: #fff; }
+.lesson-header .lh-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 0.9rem; }
+.lesson-header h1 { font-family: 'Baloo 2', cursive; font-size: clamp(1.6rem, 5vw, 2.6rem); font-weight: 800; line-height: 1.2; margin-bottom: 0.8rem; }
+.lesson-header .lh-sub { font-size: 1rem; color: rgba(255,255,255,0.82); max-width: 580px; margin: 0 auto 1.4rem; }
+.meta-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+.meta-pill { background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.9); }
+.lesson-video { background: #134e4a; padding: 2.5rem 1rem; }
+.lesson-video .sec-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #5eead4; margin-bottom: 0.5rem; text-align: center; }
+.lesson-video h2 { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.4rem; text-align: center; margin-bottom: 1.2rem; }
+.video-caption { color: rgba(255,255,255,0.45); font-size: 0.78rem; text-align: center; margin-top: 0.7rem; }
+.video-coming { width: 100%; max-width: 760px; background: #0f766e; border-radius: 14px; padding: 3.5rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.7rem; margin: 0 auto; border: 2px dashed rgba(94,234,212,0.3); }
+.video-coming .vc-icon { font-size: 2.5rem; }
+.video-coming p { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+.content-wrap { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+.story-panel { background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border-left: 5px solid #0d9488; border-radius: 14px; padding: 1.8rem; margin-bottom: 2rem; }
+.story-panel .story-eyebrow { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.4rem; }
+.story-panel h2 { font-family: 'Baloo 2', cursive; font-size: 1.4rem; color: #134e4a; margin-bottom: 0.75rem; }
+.story-panel p { color: #374151; font-size: 0.93rem; margin-bottom: 0.8rem; }
+.story-panel p:last-child { margin-bottom: 0; }
+.story-highlight { background: #ccfbf1; border-radius: 10px; padding: 0.9rem 1rem; font-size: 0.88rem; font-weight: 700; color: #0f766e; margin-top: 1rem; }
+.lesson-section { background: #fff; border-radius: 18px; padding: 1.8rem; margin-bottom: 1.5rem; border: 1px solid #ccfbf1; box-shadow: 0 4px 18px rgba(13,148,136,0.07); }
+.sec-eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.4rem; }
+.lesson-section h2 { font-family: 'Baloo 2', cursive; font-size: 1.35rem; color: #134e4a; margin-bottom: 0.9rem; }
+.lesson-section h3 { font-size: 1.05rem; color: #0f766e; margin: 1.2rem 0 0.5rem; font-weight: 800; }
+.lesson-section p { color: #374151; font-size: 0.93rem; margin-bottom: 0.85rem; }
+.lesson-section p:last-child { margin-bottom: 0; }
+.lesson-section ul, .lesson-section ol { color: #374151; font-size: 0.93rem; padding-left: 1.4rem; margin-bottom: 0.85rem; }
+.lesson-section li { margin-bottom: 0.35rem; }
+.callout { border-radius: 12px; padding: 0.9rem 1.1rem; font-size: 0.88rem; margin: 1rem 0; }
+.callout.teal { background: #ccfbf1; border-left: 4px solid #0d9488; color: #134e4a; }
+.callout.amber { background: #fffbeb; border-left: 4px solid #f59e0b; color: #78350f; }
+.callout.green { background: #f0fdf4; border-left: 4px solid #22c55e; color: #14532d; }
+.callout.red { background: #fef2f2; border-left: 4px solid #ef4444; color: #7f1d1d; }
+/* Pixel grid demo */
+.pixel-demo { display: inline-grid; grid-template-columns: repeat(8, 28px); gap: 2px; margin: 1rem 0; }
+.px { width: 28px; height: 28px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; color: rgba(0,0,0,0.5); }
+/* Layer pipeline */
+.layer-pipe { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin: 1rem 0; }
+.layer-box { background: #f0fdfa; border: 1.5px solid #0d9488; border-radius: 10px; padding: 0.55rem 0.9rem; font-size: 0.8rem; font-weight: 700; color: #0f766e; text-align: center; }
+.layer-arrow { font-size: 1.1rem; color: #0d9488; }
+.india-cv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.85rem; margin: 1rem 0; }
+.icv-card { background: #f0fdfa; border-radius: 12px; padding: 1rem; border: 1.5px solid #ccfbf1; }
+.icv-card .icv-app { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.25rem; }
+.icv-card .icv-desc { font-size: 0.83rem; color: #374151; }
+.ws-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+.ws-table th { background: #0f766e; color: #fff; padding: 0.55rem 0.7rem; text-align: left; font-weight: 700; }
+.ws-table td { border: 1px solid #ccfbf1; padding: 0.55rem 0.7rem; vertical-align: top; }
+.ws-table tr:nth-child(even) td { background: #f0fdfa; }
+.quiz-section { background: linear-gradient(135deg, #134e4a, #0f766e); border-radius: 20px; padding: 2rem 1.5rem; margin: 1.5rem 0; }
+.quiz-section h2 { font-family: 'Baloo 2', cursive; color: #fff; font-size: 1.35rem; margin-bottom: 0.4rem; text-align: center; }
+.quiz-intro { color: rgba(255,255,255,0.7); font-size: 0.85rem; text-align: center; margin-bottom: 1.5rem; }
+.quiz-q { background: rgba(255,255,255,0.08); border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 1rem; }
+.quiz-q .qtext { font-size: 0.92rem; font-weight: 700; color: #ccfbf1; margin-bottom: 0.7rem; }
+.quiz-opt { display: block; width: 100%; text-align: left; background: rgba(255,255,255,0.10); border: 1.5px solid rgba(255,255,255,0.15); border-radius: 10px; color: rgba(255,255,255,0.85); font-family: 'Nunito', sans-serif; font-size: 0.84rem; font-weight: 600; padding: 0.55rem 0.9rem; margin-bottom: 0.4rem; cursor: pointer; }
+.quiz-opt:hover:not(:disabled) { background: rgba(255,255,255,0.18); }
+.quiz-opt.correct { background: #14532d; border-color: #22c55e; color: #fff; }
+.quiz-opt.wrong { background: #7f1d1d; border-color: #ef4444; color: #fff; }
+.q-feedback { font-size: 0.8rem; font-weight: 700; margin-top: 0.3rem; }
+.q-feedback.ok { color: #86efac; }
+.q-feedback.bad { color: #fca5a5; }
+#quiz-submit { display: block; margin: 1.2rem auto 0; background: #0d9488; color: #fff; border: none; border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; padding: 0.75rem 2.5rem; cursor: pointer; }
+#quiz-submit:hover { background: #0f766e; }
+#quiz-result { text-align: center; margin-top: 1rem; }
+#quiz-result .score { font-family: 'Baloo 2', cursive; font-size: 2.5rem; color: #fff; font-weight: 800; }
+#quiz-result .score-msg { color: rgba(255,255,255,0.8); font-size: 0.92rem; margin-top: 0.4rem; }
+.worksheet-box { background: #fff; border-radius: 18px; padding: 1.8rem; border: 2px dashed #0d9488; margin-bottom: 1.5rem; }
+.worksheet-box h3 { font-family: 'Baloo 2', cursive; color: #0f766e; font-size: 1.2rem; margin-bottom: 0.6rem; }
+.parent-note { background: #fffbeb; border-radius: 18px; padding: 1.8rem; border: 1.5px solid #fde68a; margin-bottom: 1.5rem; }
+.parent-note h3 { font-family: 'Baloo 2', cursive; color: #92400e; font-size: 1.15rem; margin-bottom: 0.6rem; }
+.parent-note p { color: #451a03; font-size: 0.88rem; margin-bottom: 0.65rem; }
+.parent-note ul { color: #451a03; font-size: 0.88rem; padding-left: 1.3rem; }
+.parent-note li { margin-bottom: 0.35rem; }
+.bottom-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; padding: 1.5rem; border-top: 1.5px solid #ccfbf1; margin-top: 1rem; }
+.bottom-nav .prev-btn, .bottom-nav .next-btn { font-size: 0.9rem; font-weight: 800; padding: 0.7rem 1.3rem; border-radius: 12px; border: 2px solid #0d9488; color: #0d9488; text-decoration: none; }
+.bottom-nav .prev-btn:hover, .bottom-nav .next-btn:hover { background: #0d9488; color: #fff; }
+footer { background: #0f172a; color: rgba(255,255,255,0.55); padding: 2rem 1.5rem; text-align: center; font-size: 0.82rem; }
+footer a { color: rgba(255,255,255,0.6); }
+footer .footer-brand { font-family: 'Baloo 2', cursive; font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 0.5rem; }
+@media (max-width: 600px) { .layer-pipe { flex-direction: column; align-items: flex-start; } .lesson-header h1 { font-size: 1.45rem; } .content-wrap { padding: 1.25rem 1rem 2rem; } .lesson-section { padding: 1.25rem; } }
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="../../../site/students.html" class="active">AI for Students</a>
+    <a href="../../../site/index.html">Home</a>
+    <a href="../../../site/contact.html">Contact</a>
+  </div>
+</nav>
+<header class="lesson-header">
+  <div class="lh-eyebrow">AI for Students · Class 8 · Age 12–13 · Lesson 6 of 12</div>
+  <h1>Computer Vision: How AI Sees 👁️</h1>
+  <p class="lh-sub">You can glance at a photo and instantly know what is in it. How does a machine do the same thing? This lesson goes inside computer vision — from pixels and numbers to crop disease AI and eye health screening in India.</p>
+  <div class="meta-pills">
+    <span class="meta-pill">📘 Class 8 · Lesson 6</span>
+    <span class="meta-pill">🕐 45–55 min</span>
+    <span class="meta-pill">🚫 No coding needed</span>
+    <span class="meta-pill">🆓 Free lesson</span>
+  </div>
+</header>
+<img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-08/lesson-06-hero.jpg" alt="Illustrated scene: Indian student holding a smartphone pointed at a plant leaf, with colourful grid overlays representing pixel detection and AI vision" loading="lazy" onerror="this.style.display='none'" style="width:100%;height:300px;object-fit:cover;object-position:center 40%;display:block;" />
+
+<section class="lesson-video">
+  <div style="width:90%;max-width:760px;margin:0 auto;">
+    <div class="sec-label">Watch first · 2–3 minutes</div>
+    <h2>Class 8 Lesson 6 — Computer Vision: How AI Sees</h2>
+    <div class="video-coming">
+      <div class="vc-icon">🎬</div>
+      <p>Video coming soon — the written lesson is complete and ready to use now.</p>
+    </div>
+    <p class="video-caption">No sign-in needed · English narration · Safe for all school ages</p>
+  </div>
+</section>
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="story-eyebrow">Story · Riya and the Diseased Tomato Plant</div>
+    <h2>The App Identified It in 3 Seconds. But How? 🍅</h2>
+    <p>Riya, 13, from Pune, was visiting her uncle's tomato farm on the outskirts of the city when she noticed some plants had brown spots on their leaves. Her uncle, who had been farming for 20 years, said it looked like early blight — but he was not certain.</p>
+    <p>Riya opened the Plantix app, took a photo of the affected leaf, and within 3 seconds the app identified it as early blight caused by <em>Alternaria solani</em>. It also showed the confidence level (91%) and recommended a treatment.</p>
+    <p>"How does it see this in a photo?" Riya asked. "A photo is just colours, right?"</p>
+    <p>Her uncle smiled. "It is all numbers. And the AI has seen millions of photos of diseased plants. It has learned which patterns of numbers go with which diseases."</p>
+    <div class="story-highlight">
+      👉 This lesson explains exactly how a computer reads an image, how AI learns to recognise patterns in images, and how this technology is being used across India right now.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 1 of 6</div>
+    <h2>🔢 How a Computer Reads an Image</h2>
+    <p>Every digital image is a grid of tiny squares called <strong>pixels</strong>. Each pixel has a colour, which is stored as three numbers (0–255) representing the amount of red, green, and blue light. A colour image that is 1,000 × 1,000 pixels contains 3 million numbers.</p>
+    <p>Here is a tiny 8×8 demonstration. Each cell is one pixel. The lighter cells have higher values; darker cells are lower:</p>
+    <div class="pixel-demo" id="pxDemo"></div>
+    <p>When AI processes an image, it is literally reading a large table of numbers. Your eye and brain do something similar at incredible speed — you just never think about it at the pixel level.</p>
+    <div class="callout teal">
+      <strong>Scale note:</strong> A typical phone camera photo is about 12 megapixels (12 million pixels). As a colour image, that is 36 million numbers. A modern computer vision model can process this in milliseconds.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 2 of 6</div>
+    <h2>🔍 How AI Learns to Recognise Images: Convolution</h2>
+    <p>If you showed someone a crop disease photo and said "this is blight", they would learn by looking at patterns — the shape of the spots, their colour, their distribution on the leaf. AI does something similar using a technique called <strong>convolution</strong>.</p>
+    <h3>What convolution does — simple explanation</h3>
+    <p>A convolutional neural network (CNN) scans the image with a small sliding filter — like looking at the image through a tiny window. The filter is trained to detect a specific low-level feature: an edge, a colour patch, a texture.</p>
+    <ul>
+      <li>Early layers detect: <strong>edges, corners, and colour patches</strong></li>
+      <li>Middle layers combine those into: <strong>shapes and textures</strong> (a curved edge + brown = spot-like feature)</li>
+      <li>Deeper layers combine those into: <strong>object parts</strong> (spots on leaf surface)</li>
+      <li>Final layers make the: <strong>classification decision</strong> (early blight vs late blight vs healthy)</li>
+    </ul>
+    <h3>The layer pipeline</h3>
+    <div class="layer-pipe">
+      <div class="layer-box">Raw pixels</div>
+      <div class="layer-arrow">→</div>
+      <div class="layer-box">Edge detection</div>
+      <div class="layer-arrow">→</div>
+      <div class="layer-box">Shape features</div>
+      <div class="layer-arrow">→</div>
+      <div class="layer-box">Object parts</div>
+      <div class="layer-arrow">→</div>
+      <div class="layer-box">Classification</div>
+    </div>
+    <div class="callout teal">
+      <strong>Analogy:</strong> Imagine learning to identify birds. First you notice beaks, feathers, wing shapes. Then you combine: long curved beak + small body = sunbird. Then you classify: sunbird vs sparrow. CNN layers do exactly the same thing — building up from simple features to complex objects.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 3 of 6</div>
+    <h2>🇮🇳 Computer Vision in India: Real Applications Right Now</h2>
+    <div class="india-cv-grid">
+      <div class="icv-card">
+        <div class="icv-app">Plantix — Crop Disease AI</div>
+        <div class="icv-desc">Developed with support from German research institute Leibniz. Farmers photograph their affected plants; the AI identifies the disease and recommends treatment. Over 10 million downloads across India. Trains on user-submitted photos, improving continuously.</div>
+      </div>
+      <div class="icv-card">
+        <div class="icv-app">Diabetic Retinopathy Screening</div>
+        <div class="icv-desc">Aravind Eye Hospital (Madurai) and startups like Remidio and NetrAI use AI to analyse retinal photographs for signs of diabetic retinopathy — a leading cause of blindness. The AI was trained on over 100,000 retinal images. Enables screening in rural areas without a specialist ophthalmologist on site.</div>
+      </div>
+      <div class="icv-card">
+        <div class="icv-app">ISRO Satellite Image Analysis</div>
+        <div class="icv-desc">ISRO uses computer vision on satellite images to monitor crop health across states, detect deforestation, track flood extent, and identify urban growth. What would take surveyors months can be done in hours with AI-powered image analysis.</div>
+      </div>
+      <div class="icv-card">
+        <div class="icv-app">Road Safety and Traffic AI</div>
+        <div class="icv-desc">Several Indian cities (Hyderabad, Bengaluru) use camera-based AI to monitor traffic density, detect signal violations, and identify accident-prone road conditions. The system reads license plates and analyses vehicle flow patterns in real time.</div>
+      </div>
+      <div class="icv-card">
+        <div class="icv-app">Heritage and Document Preservation</div>
+        <div class="icv-desc">AI vision tools are being used to digitise and transcribe handwritten Indian manuscripts — in Sanskrit, Telugu, Tamil, and other scripts — helping preserve irreplaceable historical documents by converting images of handwriting into searchable digital text.</div>
+      </div>
+      <div class="icv-card">
+        <div class="icv-app">Aadhaar Face Authentication</div>
+        <div class="icv-desc">India's Aadhaar biometric system uses face recognition AI to verify identity at various service points. This is one of the world's largest deployments of face recognition — affecting over a billion citizens.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 4 of 6</div>
+    <h2>🔒 Privacy and Face Recognition: Important Concerns</h2>
+    <p>Computer vision is powerful — but face recognition in public spaces raises serious ethical and privacy questions that India and the world are still working through.</p>
+    <ul>
+      <li><strong>Mass surveillance risk:</strong> If cameras in public spaces can identify every face, every movement of every citizen can potentially be tracked without their knowledge or consent.</li>
+      <li><strong>Accuracy varies across groups:</strong> Multiple studies have found face recognition systems perform worse on women and people with darker skin tones — meaning higher false identification rates for groups that were underrepresented in training data.</li>
+      <li><strong>Risk of misidentification:</strong> If a face recognition system falsely identifies an innocent person as a suspect, the consequences can be severe. Several wrongful arrests linked to facial recognition errors have been documented in other countries.</li>
+      <li><strong>Lack of regulation:</strong> India does not yet have a comprehensive law specifically governing facial recognition use by government or law enforcement. The debate about appropriate limits is ongoing.</li>
+    </ul>
+    <div class="callout amber">
+      <strong>Discussion question:</strong> Should facial recognition be used in Indian schools for attendance tracking? What are the benefits? What are the risks? Who should decide?
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 5 of 6</div>
+    <h2>🏆 What Computer Vision Is Still Bad At</h2>
+    <p>Computer vision has achieved superhuman accuracy on many image classification benchmarks. But it still has real limitations:</p>
+    <table class="ws-table">
+      <thead><tr><th>Limitation</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Adversarial examples</td><td>A tiny change to a few pixel values — invisible to humans — can completely fool a vision model (e.g. a stop sign with a few stickers that the AI reads as a speed limit sign)</td></tr>
+        <tr><td>Out-of-distribution failure</td><td>A crop disease model trained in one region may fail on the same disease in different lighting, soil colour, or leaf variety</td></tr>
+        <tr><td>Common sense understanding</td><td>A model can classify "a dog on a table" but has no understanding of why that is unusual</td></tr>
+        <tr><td>3D understanding</td><td>A photo is 2D — inferring depth and 3D structure from flat images is still challenging, especially in uncontrolled environments</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 6 of 6</div>
+    <h2>🗺️ Key Vocabulary Summary</h2>
+    <table class="ws-table">
+      <thead><tr><th>Term</th><th>Simple meaning</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Pixel</strong></td><td>The smallest unit of a digital image — each pixel is stored as 3 numbers (R, G, B)</td></tr>
+        <tr><td><strong>Computer vision</strong></td><td>The field of AI that enables machines to interpret and classify visual information from images or video</td></tr>
+        <tr><td><strong>Convolution</strong></td><td>Scanning an image with a small filter to detect specific features at each location</td></tr>
+        <tr><td><strong>CNN</strong></td><td>Convolutional Neural Network — the type of model most commonly used for image recognition tasks</td></tr>
+        <tr><td><strong>Feature map</strong></td><td>The output of a convolution layer — showing where specific features appear in an image</td></tr>
+        <tr><td><strong>Face recognition</strong></td><td>Using AI to identify a person by their facial features — raises significant privacy concerns</td></tr>
+        <tr><td><strong>Adversarial example</strong></td><td>An image modified in a tiny way that humans cannot notice, but that fools a vision model into a wrong classification</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="quiz-section">
+    <h2>👁️ Quiz — Lesson 6</h2>
+    <p class="quiz-intro">8 questions · Click your answer · Submit for your score</p>
+    <div class="quiz-q" id="q1">
+      <div class="qtext">1. What is a pixel?</div>
+      <button class="quiz-opt" data-q="1" data-val="a">A) A unit of computing power used by vision models</button>
+      <button class="quiz-opt" data-q="1" data-val="b">B) A small square in a digital image — stored as three numbers representing red, green, and blue light values</button>
+      <button class="quiz-opt" data-q="1" data-val="c">C) A type of filter used in convolution</button>
+      <button class="quiz-opt" data-q="1" data-val="d">D) The name for a labelled training image</button>
+      <div class="q-feedback" id="fb1"></div>
+    </div>
+    <div class="quiz-q" id="q2">
+      <div class="qtext">2. In a Convolutional Neural Network, what do the earliest layers typically detect?</div>
+      <button class="quiz-opt" data-q="2" data-val="a">A) Complete objects like cats and dogs</button>
+      <button class="quiz-opt" data-q="2" data-val="b">B) Disease names and medical labels</button>
+      <button class="quiz-opt" data-q="2" data-val="c">C) Simple low-level features like edges, corners, and colour patches</button>
+      <button class="quiz-opt" data-q="2" data-val="d">D) The final classification decision</button>
+      <div class="q-feedback" id="fb2"></div>
+    </div>
+    <div class="quiz-q" id="q3">
+      <div class="qtext">3. How does the Plantix app identify crop diseases?</div>
+      <button class="quiz-opt" data-q="3" data-val="a">A) It has a database of all plants typed in by scientists, which it searches</button>
+      <button class="quiz-opt" data-q="3" data-val="b">B) It connects the farmer to a remote agronomist who views the photo</button>
+      <button class="quiz-opt" data-q="3" data-val="c">C) A trained computer vision model analyses pixel patterns in a photo of the affected plant and compares them to patterns from millions of labelled disease images</button>
+      <button class="quiz-opt" data-q="3" data-val="d">D) It uses GPS location to look up common diseases in that region</button>
+      <div class="q-feedback" id="fb3"></div>
+    </div>
+    <div class="quiz-q" id="q4">
+      <div class="qtext">4. Why is diabetic retinopathy AI screening particularly important for rural India?</div>
+      <button class="quiz-opt" data-q="4" data-val="a">A) It is free for all Indian citizens, unlike other health checks</button>
+      <button class="quiz-opt" data-q="4" data-val="b">B) It can identify retinal damage from a photograph, enabling screening in areas where no specialist ophthalmologist is available</button>
+      <button class="quiz-opt" data-q="4" data-val="c">C) It has 100% accuracy and does not require any follow-up by a doctor</button>
+      <button class="quiz-opt" data-q="4" data-val="d">D) It only works on retinal photos taken in hospital labs, not in the field</button>
+      <div class="q-feedback" id="fb4"></div>
+    </div>
+    <div class="quiz-q" id="q5">
+      <div class="qtext">5. What is an "adversarial example" in computer vision?</div>
+      <button class="quiz-opt" data-q="5" data-val="a">A) A training image that was incorrectly labelled</button>
+      <button class="quiz-opt" data-q="5" data-val="b">B) An image modified by tiny pixel changes, invisible to humans, that cause a vision model to misclassify it</button>
+      <button class="quiz-opt" data-q="5" data-val="c">C) An image taken by a competitor company's camera</button>
+      <button class="quiz-opt" data-q="5" data-val="d">D) A very low-quality photo that the model cannot process</button>
+      <div class="q-feedback" id="fb5"></div>
+    </div>
+    <div class="quiz-q" id="q6">
+      <div class="qtext">6. Face recognition AI has been shown to perform worse on darker skin tones. The most likely cause is:</div>
+      <button class="quiz-opt" data-q="6" data-val="a">A) The cameras used produce worse photos for darker skin tones</button>
+      <button class="quiz-opt" data-q="6" data-val="b">B) People with darker skin tones do not allow their faces to be photographed</button>
+      <button class="quiz-opt" data-q="6" data-val="c">C) Training datasets were less representative — containing fewer labelled images of darker-skinned individuals, so the model learned less about those faces</button>
+      <button class="quiz-opt" data-q="6" data-val="d">D) Darker skin reflects less light, making recognition technically impossible</button>
+      <div class="q-feedback" id="fb6"></div>
+    </div>
+    <div class="quiz-q" id="q7">
+      <div class="qtext">7. ISRO uses computer vision on satellite images to:</div>
+      <button class="quiz-opt" data-q="7" data-val="a">A) Identify the names of stars and galaxies in telescope photos</button>
+      <button class="quiz-opt" data-q="7" data-val="b">B) Monitor crop health, detect deforestation, track flood extent, and identify urban growth across India</button>
+      <button class="quiz-opt" data-q="7" data-val="c">C) Track the movement of individual citizens across the country</button>
+      <button class="quiz-opt" data-q="7" data-val="d">D) Read license plates on Indian roads from orbit</button>
+      <div class="q-feedback" id="fb7"></div>
+    </div>
+    <div class="quiz-q" id="q8">
+      <div class="qtext">8. What does convolution do in a CNN?</div>
+      <button class="quiz-opt" data-q="8" data-val="a">A) Converts text descriptions into images</button>
+      <button class="quiz-opt" data-q="8" data-val="b">B) Stores the entire training dataset in memory</button>
+      <button class="quiz-opt" data-q="8" data-val="c">C) Scans an image with a small sliding filter to detect specific features at each location</button>
+      <button class="quiz-opt" data-q="8" data-val="d">D) Converts the final classification into a human-readable label</button>
+      <div class="q-feedback" id="fb8"></div>
+    </div>
+    <button id="quiz-submit">Check My Score</button>
+    <div id="quiz-result" style="display:none;"></div>
+  </div>
+
+  <div class="worksheet-box">
+    <h3>📝 Worksheet — Computer Vision in Your Daily Life</h3>
+    <p style="font-size:0.88rem;margin-bottom:1rem;color:#0f766e;">In your notebook, answer these questions:</p>
+    <ol style="font-size:0.88rem;color:#374151;padding-left:1.3rem;line-height:2;">
+      <li>List 3 apps or services you have used personally that use computer vision (e.g. photo search, face unlock, camera filters, QR code scanning). For each one, describe what input it takes and what output it produces.</li>
+      <li>If you were designing a computer vision system to detect potholes in Indian roads using dashcam footage, what challenges would you face? Think about: what would you need in the training data? What could go wrong? Who could be harmed by errors?</li>
+      <li>The section on face recognition raised privacy concerns. In your notebook: list one benefit and one risk of using face recognition for school attendance in India. Write one rule you would recommend if such a system were used.</li>
+    </ol>
+  </div>
+
+  <div class="parent-note">
+    <h3>📋 Note for Parents and Teachers</h3>
+    <p><strong>What this lesson covers:</strong> Pixels as numbers, convolutional neural networks (layers, features, classification), six real Indian applications of computer vision, privacy concerns around face recognition (including demographic accuracy gaps and mass surveillance), and limitations of vision AI. The lesson is designed to build both technical understanding and responsible-use thinking.</p>
+    <p><strong>Discussion prompts:</strong></p>
+    <ul>
+      <li>"The lesson mentions that face recognition performs worse for darker skin tones. What should be done before deploying such systems in India? Who should be responsible?"</li>
+      <li>"Plantix can help a farmer identify crop disease in 3 seconds on a phone. What are the conditions under which this is genuinely useful — and conditions where it could mislead?"</li>
+    </ul>
+  </div>
+</main>
+
+<div class="bottom-nav">
+  <a href="lesson-05.html" class="prev-btn">← Lesson 5: Language Models</a>
+  <a href="lesson-07.html" class="next-btn">Lesson 7: AI Bias →</a>
+</div>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:0.5rem;"><a href="../../../site/index.html">Home</a> · <a href="../../../site/students.html">AI for Students</a> · <a href="../../../site/privacy.html">Privacy Policy</a> · <a href="../../../site/contact.html">Contact</a></p>
+  <p>© 2026 Mitra AI Life Education · Class 6 to JC +2</p>
+</footer>
+
+<script>
+const ANSWERS = { 1:'b', 2:'c', 3:'c', 4:'b', 5:'b', 6:'c', 7:'b', 8:'c' };
+document.querySelectorAll('.quiz-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const q = btn.dataset.q; const container = btn.closest('.quiz-q');
+    if (container.classList.contains('answered')) return;
+    container.classList.add('answered');
+    container.querySelectorAll('.quiz-opt').forEach(b => b.disabled = true);
+    const fb = document.getElementById('fb' + q);
+    if (btn.dataset.val === ANSWERS[q]) { btn.classList.add('correct'); fb.textContent = '✅ Correct!'; fb.className = 'q-feedback ok'; }
+    else { btn.classList.add('wrong'); fb.textContent = '❌ Not quite — correct answer highlighted.'; fb.className = 'q-feedback bad'; container.querySelectorAll('.quiz-opt').forEach(b => { if (b.dataset.val === ANSWERS[q]) b.classList.add('correct'); }); }
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click', () => {
+  let score = 0;
+  for (let q = 1; q <= 8; q++) { const c = document.getElementById('q' + q); if (c.classList.contains('answered') && c.querySelector('.correct')) score++; }
+  const msgs = ['Keep going!','Review sections 1–2.','Getting there!','Half way.','Good progress!','Very close!','Very good!','Excellent!','Perfect!'];
+  const rd = document.getElementById('quiz-result');
+  rd.style.display = 'block';
+  rd.innerHTML = `<div class="score">${score} / 8</div><div class="score-msg">${msgs[score]}</div>`;
+  document.getElementById('quiz-submit').style.display = 'none';
+  if (typeof gtag !== 'undefined') gtag('event', 'quiz_complete', { event_category: 'class8', event_label: 'class08_lesson06_quiz', value: score });
+});
+// Pixel demo
+const demo = document.getElementById('pxDemo');
+const vals = [200,180,160,120,80,100,160,200,180,150,140,90,60,80,140,180,160,130,110,70,50,65,120,160,120,100,80,55,40,50,100,130,80,70,60,45,35,40,80,100,100,85,70,55,40,48,85,110,130,110,90,70,55,65,105,140,170,150,120,90,70,85,130,170];
+vals.forEach(v => { const d = document.createElement('div'); d.className = 'px'; const g = Math.round(v); d.style.background = `rgb(${g},${g+20},${g+30})`; d.textContent = v; demo.appendChild(d); });
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Class 8 Lesson 6 — Computer Vision: How AI Sees",
+  "description": "Pixels, convolution, CNNs, and Indian applications of computer vision — crop disease AI, retinopathy screening, ISRO satellite imaging. Age 12–13, free.",
+  "url": "https://mitraailife.com/content/students/class-08/lesson-06.html",
+  "educationalLevel": "Class 8",
+  "typicalAgeRange": "12-13",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "provider": { "@type": "Organization", "name": "Mitra AI Life Education", "url": "https://mitraailife.com" }
+}
+</script>
+</body>
+</html>

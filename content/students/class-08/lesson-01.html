@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 1 — How Does AI Really Work? | Class 8 | Mitra AI Life</title>
+<meta name="description" content="What is the difference between AI, machine learning, and deep learning? How does an AI model get trained? Class 8 lesson for Indian students age 12–13 — explained simply, no jargon." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-08/lesson-01.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="../../../site/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../../../site/apple-touch-icon.png" />
+<meta name="theme-color" content="#0d9488" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 1 — How Does AI Really Work? | Class 8 | Mitra AI Life" />
+<meta property="og:description" content="Understand the difference between AI, ML, and deep learning. Learn how training works, why AI needs data, and what a neural network really is — in plain language for Class 8 students." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-08/lesson-01.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: #f0fdfa; color: #134e4a; line-height: 1.65; }
+a { color: #0d9488; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.topnav { background: #0f172a; padding: 0.75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+.topnav .brand { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800; text-decoration: none; }
+.topnav .brand span { color: #5eead4; }
+.topnav .nav-links { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.topnav .nav-links a { color: rgba(255,255,255,0.70); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+.topnav .nav-links a:hover { color: #fff; }
+.topnav .nav-links a.active { color: #5eead4; }
+
+.lesson-header { background: linear-gradient(135deg, #134e4a, #0f766e, #0d9488); padding: 3rem 1.5rem 3.5rem; text-align: center; color: #fff; }
+.lesson-header .lh-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 0.9rem; }
+.lesson-header h1 { font-family: 'Baloo 2', cursive; font-size: clamp(1.6rem, 5vw, 2.6rem); font-weight: 800; line-height: 1.2; margin-bottom: 0.8rem; }
+.lesson-header .lh-sub { font-size: 1rem; color: rgba(255,255,255,0.82); max-width: 580px; margin: 0 auto 1.4rem; }
+.meta-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+.meta-pill { background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.9); }
+
+.lesson-video { background: #134e4a; padding: 2.5rem 1rem; }
+.lesson-video .sec-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #5eead4; margin-bottom: 0.5rem; text-align: center; }
+.lesson-video h2 { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.4rem; text-align: center; margin-bottom: 1.2rem; }
+.video-caption { color: rgba(255,255,255,0.45); font-size: 0.78rem; text-align: center; margin-top: 0.7rem; }
+.video-coming { width: 100%; max-width: 760px; background: #0f766e; border-radius: 14px; padding: 3.5rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.7rem; margin: 0 auto; border: 2px dashed rgba(94,234,212,0.3); }
+.video-coming .vc-icon { font-size: 2.5rem; }
+.video-coming p { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+
+.content-wrap { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+.story-panel { background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border-left: 5px solid #0d9488; border-radius: 14px; padding: 1.8rem; margin-bottom: 2rem; }
+.story-panel .story-eyebrow { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.4rem; }
+.story-panel h2 { font-family: 'Baloo 2', cursive; font-size: 1.4rem; color: #134e4a; margin-bottom: 0.75rem; }
+.story-panel p { color: #374151; font-size: 0.93rem; margin-bottom: 0.8rem; }
+.story-panel p:last-child { margin-bottom: 0; }
+.story-highlight { background: #ccfbf1; border-radius: 10px; padding: 0.9rem 1rem; font-size: 0.88rem; font-weight: 700; color: #0f766e; margin-top: 1rem; }
+
+.lesson-section { background: #fff; border-radius: 18px; padding: 1.8rem; margin-bottom: 1.5rem; border: 1px solid #ccfbf1; box-shadow: 0 4px 18px rgba(13,148,136,0.07); }
+.sec-eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.4rem; }
+.lesson-section h2 { font-family: 'Baloo 2', cursive; font-size: 1.35rem; color: #134e4a; margin-bottom: 0.9rem; }
+.lesson-section h3 { font-size: 1.05rem; color: #0f766e; margin: 1.2rem 0 0.5rem; font-weight: 800; }
+.lesson-section p { color: #374151; font-size: 0.93rem; margin-bottom: 0.85rem; }
+.lesson-section p:last-child { margin-bottom: 0; }
+.lesson-section ul, .lesson-section ol { color: #374151; font-size: 0.93rem; padding-left: 1.4rem; margin-bottom: 0.85rem; }
+.lesson-section li { margin-bottom: 0.35rem; }
+
+.callout { border-radius: 12px; padding: 0.9rem 1.1rem; font-size: 0.88rem; margin: 1rem 0; }
+.callout.teal { background: #ccfbf1; border-left: 4px solid #0d9488; color: #134e4a; }
+.callout.amber { background: #fffbeb; border-left: 4px solid #f59e0b; color: #78350f; }
+.callout.green { background: #f0fdf4; border-left: 4px solid #22c55e; color: #14532d; }
+.callout.blue { background: #eff6ff; border-left: 4px solid #3b82f6; color: #1e3a5f; }
+
+/* Comparison boxes */
+.compare-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin: 1rem 0; }
+.compare-box { border-radius: 12px; padding: 1rem; }
+.compare-box.ai { background: #f0fdfa; border: 1.5px solid #0d9488; }
+.compare-box.ml { background: #eff6ff; border: 1.5px solid #3b82f6; }
+.compare-box.dl { background: #faf5ff; border: 1.5px solid #7c3aed; }
+.compare-box h4 { font-size: 0.88rem; font-weight: 800; margin-bottom: 0.4rem; }
+.compare-box.ai h4 { color: #0d9488; }
+.compare-box.ml h4 { color: #3b82f6; }
+.compare-box.dl h4 { color: #7c3aed; }
+.compare-box p { font-size: 0.82rem; color: #374151; margin: 0; }
+
+/* Layers diagram */
+.layers-diagram { display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0; }
+.layer-row { display: flex; align-items: center; gap: 0.75rem; }
+.layer-box { border-radius: 10px; padding: 0.6rem 1rem; font-weight: 800; font-size: 0.85rem; flex: 1; text-align: center; }
+.layer-box.outer { background: #f0fdfa; border: 2px solid #0d9488; color: #0d9488; }
+.layer-box.middle { background: #eff6ff; border: 2px solid #3b82f6; color: #3b82f6; }
+.layer-box.inner { background: #faf5ff; border: 2px solid #7c3aed; color: #7c3aed; }
+.layer-label { font-size: 0.8rem; color: #6b7280; width: 140px; flex-shrink: 0; }
+
+/* Training steps */
+.steps-list { display: flex; flex-direction: column; gap: 0.6rem; margin: 1rem 0; }
+.step-row { display: flex; gap: 0.9rem; align-items: flex-start; }
+.step-num { width: 28px; height: 28px; border-radius: 50%; background: #0d9488; color: #fff; font-weight: 800; font-size: 0.78rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.1rem; }
+.step-content { font-size: 0.9rem; color: #374151; }
+.step-content strong { color: #134e4a; }
+
+/* Analogy cards */
+.analogy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.9rem; margin: 1rem 0; }
+.analogy-card { background: #f0fdfa; border-radius: 12px; padding: 1rem; border: 1.5px solid #ccfbf1; }
+.analogy-card .ac-concept { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.25rem; }
+.analogy-card .ac-analogy { font-size: 0.88rem; font-weight: 700; color: #134e4a; margin-bottom: 0.3rem; }
+.analogy-card .ac-explain { font-size: 0.8rem; color: #374151; }
+
+/* Table */
+.ws-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+.ws-table th { background: #0f766e; color: #fff; padding: 0.55rem 0.7rem; text-align: left; font-weight: 700; }
+.ws-table td { border: 1px solid #ccfbf1; padding: 0.55rem 0.7rem; vertical-align: top; }
+.ws-table tr:nth-child(even) td { background: #f0fdfa; }
+
+/* Quiz */
+.quiz-section { background: linear-gradient(135deg, #134e4a, #0f766e); border-radius: 20px; padding: 2rem 1.5rem; margin: 1.5rem 0; }
+.quiz-section h2 { font-family: 'Baloo 2', cursive; color: #fff; font-size: 1.35rem; margin-bottom: 0.4rem; text-align: center; }
+.quiz-intro { color: rgba(255,255,255,0.7); font-size: 0.85rem; text-align: center; margin-bottom: 1.5rem; }
+.quiz-q { background: rgba(255,255,255,0.08); border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 1rem; }
+.quiz-q .qtext { font-size: 0.92rem; font-weight: 700; color: #ccfbf1; margin-bottom: 0.7rem; }
+.quiz-opt { display: block; width: 100%; text-align: left; background: rgba(255,255,255,0.10); border: 1.5px solid rgba(255,255,255,0.15); border-radius: 10px; color: rgba(255,255,255,0.85); font-family: 'Nunito', sans-serif; font-size: 0.84rem; font-weight: 600; padding: 0.55rem 0.9rem; margin-bottom: 0.4rem; cursor: pointer; transition: background 0.15s; }
+.quiz-opt:hover:not(:disabled) { background: rgba(255,255,255,0.18); }
+.quiz-opt.correct { background: #14532d; border-color: #22c55e; color: #fff; }
+.quiz-opt.wrong { background: #7f1d1d; border-color: #ef4444; color: #fff; }
+.q-feedback { font-size: 0.8rem; font-weight: 700; margin-top: 0.3rem; }
+.q-feedback.ok { color: #86efac; }
+.q-feedback.bad { color: #fca5a5; }
+#quiz-submit { display: block; margin: 1.2rem auto 0; background: #0d9488; color: #fff; border: none; border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; padding: 0.75rem 2.5rem; cursor: pointer; }
+#quiz-submit:hover { background: #0f766e; }
+#quiz-result { text-align: center; margin-top: 1rem; }
+#quiz-result .score { font-family: 'Baloo 2', cursive; font-size: 2.5rem; color: #fff; font-weight: 800; }
+#quiz-result .score-msg { color: rgba(255,255,255,0.8); font-size: 0.92rem; margin-top: 0.4rem; }
+
+.worksheet-box { background: #fff; border-radius: 18px; padding: 1.8rem; border: 2px dashed #0d9488; margin-bottom: 1.5rem; }
+.worksheet-box h3 { font-family: 'Baloo 2', cursive; color: #0f766e; font-size: 1.2rem; margin-bottom: 0.6rem; }
+
+.parent-note { background: #fffbeb; border-radius: 18px; padding: 1.8rem; border: 1.5px solid #fde68a; margin-bottom: 1.5rem; }
+.parent-note h3 { font-family: 'Baloo 2', cursive; color: #92400e; font-size: 1.15rem; margin-bottom: 0.6rem; }
+.parent-note p { color: #451a03; font-size: 0.88rem; margin-bottom: 0.65rem; }
+.parent-note ul { color: #451a03; font-size: 0.88rem; padding-left: 1.3rem; }
+.parent-note li { margin-bottom: 0.35rem; }
+
+.bottom-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; padding: 1.5rem; border-top: 1.5px solid #ccfbf1; margin-top: 1rem; }
+.bottom-nav .prev-btn, .bottom-nav .next-btn { font-size: 0.9rem; font-weight: 800; padding: 0.7rem 1.3rem; border-radius: 12px; border: 2px solid #0d9488; color: #0d9488; text-decoration: none; }
+.bottom-nav .prev-btn:hover, .bottom-nav .next-btn:hover { background: #0d9488; color: #fff; }
+
+footer { background: #0f172a; color: rgba(255,255,255,0.55); padding: 2rem 1.5rem; text-align: center; font-size: 0.82rem; }
+footer a { color: rgba(255,255,255,0.6); }
+footer .footer-brand { font-family: 'Baloo 2', cursive; font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 0.5rem; }
+
+@media (max-width: 680px) {
+  .compare-row { grid-template-columns: 1fr; }
+  .lesson-header h1 { font-size: 1.45rem; }
+  .content-wrap { padding: 1.25rem 1rem 2rem; }
+  .lesson-section { padding: 1.25rem; }
+  .layer-label { width: 80px; font-size: 0.72rem; }
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="../../../site/students.html" class="active">AI for Students</a>
+    <a href="../../../site/index.html">Home</a>
+    <a href="../../../site/contact.html">Contact</a>
+  </div>
+</nav>
+
+<header class="lesson-header">
+  <div class="lh-eyebrow">AI for Students · Class 8 · Age 12–13 · Lesson 1 of 12</div>
+  <h1>How Does AI Really Work? 🤖</h1>
+  <p class="lh-sub">You have been using AI tools for a year. Now let us open the lid and understand what is actually happening inside — AI, machine learning, deep learning, and why it all matters.</p>
+  <div class="meta-pills">
+    <span class="meta-pill">📘 Class 8 · Lesson 1</span>
+    <span class="meta-pill">🕐 45–55 min</span>
+    <span class="meta-pill">🚫 No coding needed</span>
+    <span class="meta-pill">🆓 Free lesson</span>
+  </div>
+</header>
+<img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-08/lesson-01-hero.jpg" alt="Illustrated scene: Indian student age 13 looking into a glowing AI brain diagram with layers labelled AI, ML, DL — teal colour theme" loading="lazy" onerror="this.style.display='none'" style="width:100%;height:300px;object-fit:cover;object-position:center 40%;display:block;" />
+
+<section class="lesson-video">
+  <div style="width:90%;max-width:760px;margin:0 auto;">
+    <div class="sec-label">Watch first · 2–3 minutes</div>
+    <h2>Class 8 Lesson 1 — How AI Really Works</h2>
+    <div class="video-coming">
+      <div class="vc-icon">🎬</div>
+      <p>Video coming soon — the written lesson is complete and ready to use now.</p>
+    </div>
+    <p class="video-caption">No sign-in needed · English narration · Safe for all school ages</p>
+  </div>
+</section>
+
+<main class="content-wrap">
+
+  <!-- Story -->
+  <div class="story-panel">
+    <div class="story-eyebrow">Story · Priya's Science Fair Question</div>
+    <h2>Why Couldn't She Answer? 🤔</h2>
+    <p>Priya, 13, from Visakhapatnam, had been using ChatGPT for a full year of Class 7. She had used it to revise, to write stories, to understand maths problems, and to check her arguments in debates. She was good at it.</p>
+    <p>Then her Science teacher, Mr Krishnaswamy, asked the class a simple question: "You all use AI every day. Can anyone tell me — how does it actually work? Not what it does. How it works."</p>
+    <p>Priya opened her mouth — and then closed it. She had used AI dozens of times. But she had no idea what was happening behind the chat window. Was it searching Google? Was it a person typing? Was it memorising answers from a textbook?</p>
+    <p>She realised she had been using a tool she did not understand at all. She felt the same way she would feel if someone asked her how a mobile phone makes calls — she knew how to use it, but not how it worked.</p>
+    <p>"That is perfectly normal," said Mr Krishnaswamy, smiling. "Most adults who use AI every day do not know either. But if you want to build with AI one day — or even just use it more wisely — this understanding is important. So let us find out together."</p>
+    <div class="story-highlight">
+      👉 This lesson answers the question Priya could not answer. By the end, you will be able to explain — simply but accurately — what AI actually is and how it learns to do what it does.
+    </div>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 1 of 8</div>
+    <h2>🏗️ Three Nested Ideas: AI, ML, and Deep Learning</h2>
+    <p>People use these three words — AI, machine learning, and deep learning — as if they all mean the same thing. They do not. They are three different ideas, but they are nested inside each other like Russian dolls.</p>
+
+    <div class="compare-row">
+      <div class="compare-box ai">
+        <h4>🤖 AI (Artificial Intelligence)</h4>
+        <p>The big umbrella idea: any computer system that can do something that seems intelligent — like recognising speech, recommending videos, playing chess, or translating language.</p>
+      </div>
+      <div class="compare-box ml">
+        <h4>📊 ML (Machine Learning)</h4>
+        <p>A type of AI where the system learns from examples instead of following fixed rules. Most modern AI is machine learning.</p>
+      </div>
+      <div class="compare-box dl">
+        <h4>🧠 DL (Deep Learning)</h4>
+        <p>A type of machine learning that uses neural networks with many layers. Used in image recognition, language models, and voice assistants.</p>
+      </div>
+    </div>
+
+    <div class="layers-diagram">
+      <div class="layer-row">
+        <div class="layer-label">Broadest idea →</div>
+        <div class="layer-box outer">Artificial Intelligence (AI)</div>
+      </div>
+      <div class="layer-row">
+        <div class="layer-label">Subset of AI →</div>
+        <div class="layer-box middle">Machine Learning (ML)</div>
+      </div>
+      <div class="layer-row">
+        <div class="layer-label">Subset of ML →</div>
+        <div class="layer-box inner">Deep Learning (DL)</div>
+      </div>
+    </div>
+
+    <div class="callout teal">
+      <strong>The quick rule:</strong> All deep learning is machine learning. All machine learning is AI. But not all AI is machine learning, and not all machine learning is deep learning.
+    </div>
+
+    <h3>A simple example from daily life</h3>
+    <p>Think of a mango sorting machine at a fruit market in Vijayawada. A simple rule-based AI might sort: "if weight is above 200g, label as large." That is AI — but it is not machine learning. It is just a fixed rule.</p>
+    <p>Now imagine the machine looks at photos of thousands of mangoes, learns which ones are ripe by the colour and texture, and figures out the rule itself. That is machine learning.</p>
+    <p>Now imagine it looks at thousands of photos and automatically discovers patterns in shapes, edges, colours — using many layers of analysis, like the human visual system. That is deep learning.</p>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 2 of 8</div>
+    <h2>📚 How Does Machine Learning Actually Learn?</h2>
+    <p>This is the key question. The answer is simpler than most people think — but it is also surprising.</p>
+    <p>A machine learning system does not get taught rules. It learns by looking at examples. Thousands or millions of them. Over and over.</p>
+
+    <div class="steps-list">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-content"><strong>Collect training data.</strong> You give the system examples: many photos of cats, many photos of dogs — each with a label ("this is a cat", "this is a dog").</div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-content"><strong>Make a guess.</strong> The system looks at a new photo and makes a guess: "Is this a cat or a dog?" It is often wrong at first.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-content"><strong>Check how wrong the guess was.</strong> The system checks its guess against the correct label. The "error" between its guess and the right answer is measured.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div class="step-content"><strong>Adjust slightly.</strong> The system adjusts the numbers inside it — called weights — by a tiny amount in the direction that would have made the guess closer to correct.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">5</div>
+        <div class="step-content"><strong>Repeat millions of times.</strong> After enough repetitions, the weights settle into values that make the system good at the task. This is training.</div>
+      </div>
+    </div>
+
+    <div class="callout amber">
+      <strong>Key insight:</strong> The system is never told "look for ears" or "look for fur." It discovers what to look for by itself, by seeing enough examples and adjusting its internal numbers until it gets better at the task. This is what makes ML different from a simple computer program.
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 3 of 8</div>
+    <h2>🧠 What Is a Neural Network? (Simplified)</h2>
+    <p>Deep learning uses something called a neural network. The name sounds intimidating. The idea is not.</p>
+    <p>A neural network is a set of connected math calculations arranged in layers. Each layer takes the output of the layer before it and produces a new, more refined output.</p>
+
+    <div class="callout teal">
+      <strong>Analogy:</strong> Imagine recognising your friend's face in a crowd. Your brain does not check every pixel individually. Instead: first it notices brightness and edges → then basic shapes like oval, circles → then facial features like eyes, nose → then puts them together to recognise the person. Each step is a different "layer" of processing. A neural network does the same thing with numbers.
+    </div>
+
+    <h3>The three types of layers</h3>
+    <ul>
+      <li><strong>Input layer:</strong> receives the raw data (e.g. pixel values of an image, or words in a sentence)</li>
+      <li><strong>Hidden layers:</strong> do the actual processing — finding patterns, features, abstractions. A "deep" network has many hidden layers.</li>
+      <li><strong>Output layer:</strong> produces the result (e.g. "cat" or "dog", or the next word in a sentence)</li>
+    </ul>
+
+    <h3>What are weights?</h3>
+    <p>Every connection between neurons has a number called a weight. Weights determine how strongly one neuron influences the next. During training, these weights are adjusted — this is the "learning" part.</p>
+    <p>A large language model like GPT has billions of weights. Training it means adjusting all those billions of numbers — using billions of text examples — until it becomes good at predicting language.</p>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 4 of 8</div>
+    <h2>🔄 The Training-Testing Split</h2>
+    <p>Here is something important that you will hear again and again in Class 8 and beyond: AI systems are trained on one set of data, but tested on a different set.</p>
+
+    <table class="ws-table">
+      <thead>
+        <tr><th>Set</th><th>What it is</th><th>Purpose</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Training data</strong></td>
+          <td>The examples the AI learns from — like the textbook it studies</td>
+          <td>The model adjusts its weights based on these examples</td>
+        </tr>
+        <tr>
+          <td><strong>Validation data</strong></td>
+          <td>A set held back during training — used to check progress</td>
+          <td>Helps decide when to stop training (before the model over-learns the training examples)</td>
+        </tr>
+        <tr>
+          <td><strong>Test data</strong></td>
+          <td>Fresh examples the model has never seen — like a surprise exam</td>
+          <td>Checks whether the model truly learned or just memorised</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout teal">
+      <strong>Why does this matter to you?</strong> When you see an AI tool advertised as "95% accurate" — that percentage comes from a test set. How good or representative that test set was matters enormously. A model that is 95% accurate on a US test dataset might perform much worse on Indian names, accents, or contexts.
+    </div>
+
+    <h3>Overfitting — the "rote-learning" problem</h3>
+    <p>If a student memorises every answer in the previous year's exam papers but has not truly understood the concepts, they will fail on a new exam. This exact problem exists in AI — it is called <strong>overfitting</strong>.</p>
+    <p>An overfit model performs very well on training data but poorly on new data it has never seen. This is why the training-testing split is important — it is how we catch overfitting before deployment.</p>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 5 of 8</div>
+    <h2>🌐 Three Types of Learning</h2>
+    <p>Not all machine learning is the same. There are three main types — and understanding which type a system uses helps you understand its strengths and limits.</p>
+
+    <div class="analogy-grid">
+      <div class="analogy-card">
+        <div class="ac-concept">Supervised Learning</div>
+        <div class="ac-analogy">Learning with labelled examples</div>
+        <div class="ac-explain">Given photos + their labels ("mango", "banana"). Learns to predict labels for new photos. Most common type. Used in: spam filters, disease diagnosis, image recognition.</div>
+      </div>
+      <div class="analogy-card">
+        <div class="ac-concept">Unsupervised Learning</div>
+        <div class="ac-analogy">Finding patterns without labels</div>
+        <div class="ac-explain">Given raw data with no labels. Finds groups and patterns on its own. Used in: customer grouping, anomaly detection, recommendation systems.</div>
+      </div>
+      <div class="analogy-card">
+        <div class="ac-concept">Reinforcement Learning</div>
+        <div class="ac-analogy">Learning by reward and penalty</div>
+        <div class="ac-explain">Like training a pet with treats. Takes actions, gets rewarded for good actions, penalised for bad. Used in: game AI (AlphaGo), robot movement, route optimisation.</div>
+      </div>
+    </div>
+
+    <div class="callout teal">
+      <strong>Where does ChatGPT fit?</strong> Large language models like GPT use a combination of supervised learning and reinforcement learning from human feedback (RLHF) — where humans rate the model's responses and the model learns to produce more highly-rated outputs.
+    </div>
+  </div>
+
+  <!-- Section 6 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 6 of 8</div>
+    <h2>📐 Why Does AI Need So Much Data?</h2>
+    <p>A common question: why can't AI learn from just a few examples, the way humans do?</p>
+    <p>A 5-year-old can see two or three cats and recognise every cat they see after that. An AI system typically needs thousands of examples. Why?</p>
+    <ul>
+      <li><strong>No prior knowledge.</strong> A human child has a brain already wired for pattern recognition through evolution. An AI starts with randomly set weights — essentially nothing useful.</li>
+      <li><strong>Must cover variation.</strong> A cat photo dataset needs cats in different lighting, angles, sizes, breeds, backgrounds, and image qualities — otherwise the system only learns to recognise cats in ideal conditions.</li>
+      <li><strong>Statistical confidence.</strong> The model needs enough examples to find patterns that are genuinely about cats — not just coincidences in a small sample (like "all photos in bright light are cats").</li>
+    </ul>
+
+    <div class="callout amber">
+      <strong>The implication:</strong> AI systems work well when they have seen many examples similar to the situation at hand. They often struggle with unusual cases, new contexts, or underrepresented groups — because those were rare in the training data. This is one reason AI can be less reliable for Indian languages, names, and contexts that were not well-represented in global training datasets.
+    </div>
+  </div>
+
+  <!-- Section 7 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 7 of 8</div>
+    <h2>🏷️ Putting It All Together: The AI Vocabulary Map</h2>
+    <p>Here is the key vocabulary from this lesson, organised clearly:</p>
+
+    <table class="ws-table">
+      <thead>
+        <tr><th>Term</th><th>Simple definition</th><th>Real example</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Artificial Intelligence (AI)</strong></td><td>A computer system that does something appearing intelligent</td><td>YouTube recommending your next video</td></tr>
+        <tr><td><strong>Machine Learning (ML)</strong></td><td>AI that learns from examples instead of fixed rules</td><td>Spam filter that learns what spam looks like</td></tr>
+        <tr><td><strong>Deep Learning (DL)</strong></td><td>ML using neural networks with many layers</td><td>Google Translate, face recognition</td></tr>
+        <tr><td><strong>Neural network</strong></td><td>Layers of math calculations inspired by the brain</td><td>The structure inside image recognition systems</td></tr>
+        <tr><td><strong>Training data</strong></td><td>The examples used to teach the model</td><td>Millions of labelled photos used to train an image classifier</td></tr>
+        <tr><td><strong>Weights</strong></td><td>Numbers inside the network that get adjusted during learning</td><td>GPT has billions of weights</td></tr>
+        <tr><td><strong>Overfitting</strong></td><td>When a model memorises training data instead of learning general patterns</td><td>A student who rote-learns previous exam answers</td></tr>
+        <tr><td><strong>Supervised learning</strong></td><td>Learning from labelled examples</td><td>Cat-vs-dog classifier</td></tr>
+        <tr><td><strong>Reinforcement learning</strong></td><td>Learning by reward and penalty</td><td>AlphaGo playing chess</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 8 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 8 of 8</div>
+    <h2>💡 What This Means When You Use AI</h2>
+    <p>Understanding how AI learns changes how you use it. Here is what this lesson means in practice:</p>
+    <ul>
+      <li><strong>AI is not magical</strong> — it is patterns from data. If it behaves oddly, there is usually a data or training reason.</li>
+      <li><strong>AI is only as good as its training data</strong> — if the training data was wrong, biased, or incomplete, the model will be too.</li>
+      <li><strong>AI confidence ≠ accuracy</strong> — a model that speaks confidently has high-confidence predictions, not necessarily correct ones. Adjust weights that sound authoritative but have not been verified.</li>
+      <li><strong>New or rare situations are harder for AI</strong> — if your context was rarely in the training data (small Indian town, regional language, unusual topic), AI is more likely to be wrong.</li>
+      <li><strong>AI systems are improving constantly</strong> — because they are retrained on new data. Something that was wrong last year may be better now — but also, new errors can appear.</li>
+    </ul>
+
+    <div class="callout green">
+      <strong>Priya's answer, after this lesson:</strong> "AI is a system that learns patterns from millions of examples. During training, it adjusts billions of internal numbers called weights until it gets better at a task — like predicting the next word or recognising an image. The more representative the training data, the better the model. That is why AI sometimes struggles with Indian languages or unusual contexts — it was trained mostly on other kinds of data."
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h2>🧠 Quiz — Lesson 1</h2>
+    <p class="quiz-intro">8 questions · Click your answer · Submit for your score</p>
+
+    <div class="quiz-q" id="q1">
+      <div class="qtext">1. Which of the following best describes the relationship between AI, ML, and Deep Learning?</div>
+      <button class="quiz-opt" data-q="1" data-val="a">A) They are three completely different and unrelated fields</button>
+      <button class="quiz-opt" data-q="1" data-val="b">B) ML and DL are the same thing; AI is different</button>
+      <button class="quiz-opt" data-q="1" data-val="c">C) DL is a type of ML, and ML is a type of AI — each is nested inside the next</button>
+      <button class="quiz-opt" data-q="1" data-val="d">D) AI is a subset of both ML and DL</button>
+      <div class="q-feedback" id="fb1"></div>
+    </div>
+
+    <div class="quiz-q" id="q2">
+      <div class="qtext">2. What does a machine learning system learn from?</div>
+      <button class="quiz-opt" data-q="2" data-val="a">A) Rules programmed by the developer for every possible situation</button>
+      <button class="quiz-opt" data-q="2" data-val="b">B) A digital textbook stored in its memory</button>
+      <button class="quiz-opt" data-q="2" data-val="c">C) Examples — by seeing many labelled inputs and adjusting to get better at the task</button>
+      <button class="quiz-opt" data-q="2" data-val="d">D) Internet searches at the time you ask a question</button>
+      <div class="q-feedback" id="fb2"></div>
+    </div>
+
+    <div class="quiz-q" id="q3">
+      <div class="qtext">3. What are "weights" in a neural network?</div>
+      <button class="quiz-opt" data-q="3" data-val="a">A) The size of the training dataset</button>
+      <button class="quiz-opt" data-q="3" data-val="b">B) Numbers on connections between neurons that get adjusted during training</button>
+      <button class="quiz-opt" data-q="3" data-val="c">C) The importance score of different training examples</button>
+      <button class="quiz-opt" data-q="3" data-val="d">D) How long the model takes to generate a response</button>
+      <div class="q-feedback" id="fb3"></div>
+    </div>
+
+    <div class="quiz-q" id="q4">
+      <div class="qtext">4. What is "overfitting"?</div>
+      <button class="quiz-opt" data-q="4" data-val="a">A) When an AI model processes too much data at once and crashes</button>
+      <button class="quiz-opt" data-q="4" data-val="b">B) When a model has too many layers and becomes too large to run</button>
+      <button class="quiz-opt" data-q="4" data-val="c">C) When a model memorises training examples instead of learning general patterns — and fails on new data</button>
+      <button class="quiz-opt" data-q="4" data-val="d">D) When a model gives the same answer to every question</button>
+      <div class="q-feedback" id="fb4"></div>
+    </div>
+
+    <div class="quiz-q" id="q5">
+      <div class="qtext">5. Which type of machine learning is most like "learning by reward and penalty"?</div>
+      <button class="quiz-opt" data-q="5" data-val="a">A) Supervised learning</button>
+      <button class="quiz-opt" data-q="5" data-val="b">B) Unsupervised learning</button>
+      <button class="quiz-opt" data-q="5" data-val="c">C) Reinforcement learning</button>
+      <button class="quiz-opt" data-q="5" data-val="d">D) Deep learning</button>
+      <div class="q-feedback" id="fb5"></div>
+    </div>
+
+    <div class="quiz-q" id="q6">
+      <div class="qtext">6. Why does AI sometimes perform less accurately on Indian languages and names?</div>
+      <button class="quiz-opt" data-q="6" data-val="a">A) Indian languages are too complex for AI to handle</button>
+      <button class="quiz-opt" data-q="6" data-val="b">B) Indian users are not allowed to use AI tools</button>
+      <button class="quiz-opt" data-q="6" data-val="c">C) Most large AI models were trained primarily on English and Western data — Indian contexts were underrepresented</button>
+      <button class="quiz-opt" data-q="6" data-val="d">D) AI always performs equally well for all languages and regions</button>
+      <div class="q-feedback" id="fb6"></div>
+    </div>
+
+    <div class="quiz-q" id="q7">
+      <div class="qtext">7. What is the purpose of "test data" in machine learning?</div>
+      <button class="quiz-opt" data-q="7" data-val="a">A) Data that the model uses to update its weights during training</button>
+      <button class="quiz-opt" data-q="7" data-val="b">B) Fresh, unseen examples used to check if the model truly learned — like a surprise exam</button>
+      <button class="quiz-opt" data-q="7" data-val="c">C) Data that the user provides when asking the model a question</button>
+      <button class="quiz-opt" data-q="7" data-val="d">D) The error rate measured during training</button>
+      <div class="q-feedback" id="fb7"></div>
+    </div>
+
+    <div class="quiz-q" id="q8">
+      <div class="qtext">8. An AI model that speaks very confidently about a topic is:</div>
+      <button class="quiz-opt" data-q="8" data-val="a">A) Always correct — confidence comes from certainty</button>
+      <button class="quiz-opt" data-q="8" data-val="b">B) Definitely wrong — AI should never be confident</button>
+      <button class="quiz-opt" data-q="8" data-val="c">C) Not necessarily correct — confidence reflects the model's internal probability, not actual accuracy</button>
+      <button class="quiz-opt" data-q="8" data-val="d">D) Using real-time internet data to verify its answer</button>
+      <div class="q-feedback" id="fb8"></div>
+    </div>
+
+    <button id="quiz-submit">Check My Score</button>
+    <div id="quiz-result" style="display:none;"></div>
+  </div>
+
+  <!-- Worksheet -->
+  <div class="worksheet-box">
+    <h3>📝 Worksheet — AI, ML, DL in My World</h3>
+    <p style="font-size:0.88rem;margin-bottom:1rem;color:#0f766e;">Write your answers in your notebook. Use what you have learned in this lesson.</p>
+    <table class="ws-table">
+      <thead>
+        <tr><th>Question</th><th>My answer</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Name one AI tool you used in Class 7. Is it based on ML, DL, or a simpler rule-based system?</td><td></td></tr>
+        <tr><td>Describe the 5-step training process in your own words</td><td></td></tr>
+        <tr><td>What is the difference between a model that overfits and one that generalises well?</td><td></td></tr>
+        <tr><td>Name one place where AI is used in your daily life. What type of learning does it likely use?</td><td></td></tr>
+        <tr><td>Why might an AI tool perform worse for a student from a small town in Andhra Pradesh compared to a student from London?</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Parent note -->
+  <div class="parent-note">
+    <h3>📋 Note for Parents and Teachers</h3>
+    <p><strong>What this lesson covers:</strong> The foundational concepts of how AI actually learns — AI vs ML vs DL, the training process, neural networks, supervised/unsupervised/reinforcement learning, and the training-testing split. No mathematical notation is used — all concepts are explained through analogies and Indian daily-life examples.</p>
+    <p><strong>Discussion prompts:</strong></p>
+    <ul>
+      <li>"Can you explain to me, in simple words, what machine learning is and how it is different from a regular computer program?"</li>
+      <li>"Why might an AI model that seems very confident still be wrong?"</li>
+      <li>"If you were building an AI to recognise mango varieties — what training data would you need?"</li>
+    </ul>
+    <p><strong>What comes next:</strong> Lesson 2 goes deeper into data — the fuel that makes AI work. Students will learn what a dataset actually looks like, what clean vs messy data is, and why the quality of training data matters more than the sophistication of the model.</p>
+  </div>
+
+</main>
+
+<div class="bottom-nav">
+  <a href="class-08.html" class="prev-btn">← Class 8 Hub</a>
+  <a href="lesson-02.html" class="next-btn">Lesson 2: Data — The Ingredient AI Needs →</a>
+</div>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:0.5rem;">
+    <a href="../../../site/index.html">Home</a> ·
+    <a href="../../../site/students.html">AI for Students</a> ·
+    <a href="../../../site/privacy.html">Privacy Policy</a> ·
+    <a href="../../../site/contact.html">Contact</a>
+  </p>
+  <p>© 2026 Mitra AI Life Education · Class 6 to JC +2</p>
+</footer>
+
+<script>
+const ANSWERS = { 1:'c', 2:'c', 3:'b', 4:'c', 5:'c', 6:'c', 7:'b', 8:'c' };
+
+document.querySelectorAll('.quiz-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const q = btn.dataset.q;
+    const container = btn.closest('.quiz-q');
+    if (container.classList.contains('answered')) return;
+    container.classList.add('answered');
+    container.querySelectorAll('.quiz-opt').forEach(b => b.disabled = true);
+    const fb = document.getElementById('fb' + q);
+    if (btn.dataset.val === ANSWERS[q]) {
+      btn.classList.add('correct');
+      fb.textContent = '✅ Correct!'; fb.className = 'q-feedback ok';
+    } else {
+      btn.classList.add('wrong');
+      fb.textContent = '❌ Not quite — the correct answer is highlighted.';
+      fb.className = 'q-feedback bad';
+      container.querySelectorAll('.quiz-opt').forEach(b => { if (b.dataset.val === ANSWERS[q]) b.classList.add('correct'); });
+    }
+  });
+});
+
+document.getElementById('quiz-submit').addEventListener('click', () => {
+  let score = 0;
+  for (let q = 1; q <= 8; q++) {
+    const c = document.getElementById('q' + q);
+    if (c.classList.contains('answered') && c.querySelector('.correct')) score++;
+  }
+  const msgs = ['Keep going — review the lesson and try again!','Getting there — a few more reads and you will have it.','Good start — revisit sections 1, 2, and 3.','Half way — you have the basics. Review the harder sections.','Good progress! A couple of gaps to fill.','Good work — nearly there. Check what you missed.','Very good! Just one or two points to revisit.','Excellent — strong understanding of all the key concepts.','Perfect score! Ready for Lesson 2.'];
+  const rd = document.getElementById('quiz-result');
+  rd.style.display = 'block';
+  rd.innerHTML = `<div class="score">${score} / 8</div><div class="score-msg">${msgs[score]}</div>`;
+  document.getElementById('quiz-submit').style.display = 'none';
+  if (typeof gtag !== 'undefined') gtag('event', 'quiz_complete', { event_category: 'class8', event_label: 'class08_lesson01_quiz', value: score });
+});
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Class 8 Lesson 1 — How Does AI Really Work?",
+  "description": "Understand the difference between AI, ML, and deep learning. Learn how training works, what neural networks are, and why AI needs so much data. Class 8, age 12–13, free.",
+  "url": "https://mitraailife.com/content/students/class-08/lesson-01.html",
+  "educationalLevel": "Class 8",
+  "typicalAgeRange": "12-13",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "provider": { "@type": "Organization", "name": "Mitra AI Life Education", "url": "https://mitraailife.com" }
+}
+</script>
+
+</body>
+</html>

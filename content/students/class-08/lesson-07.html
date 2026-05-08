@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 7 — AI Bias and Fairness | Class 8 | Mitra AI Life</title>
+<meta name="description" content="What is AI bias? Where does it come from? How do we detect and fix it? Real examples and a fairness checklist. Class 8, age 12–13, free." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-08/lesson-07.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="../../../site/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../../../site/apple-touch-icon.png" />
+<meta name="theme-color" content="#0d9488" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 7 — AI Bias and Fairness | Class 8 | Mitra AI Life" />
+<meta property="og:description" content="Types of AI bias, where bias enters the ML pipeline, real published examples, a fairness checklist, and what individuals can do. Age 12–13, free." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-08/lesson-07.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: #f0fdfa; color: #134e4a; line-height: 1.65; }
+a { color: #0d9488; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topnav { background: #0f172a; padding: 0.75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+.topnav .brand { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800; text-decoration: none; }
+.topnav .brand span { color: #5eead4; }
+.topnav .nav-links { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.topnav .nav-links a { color: rgba(255,255,255,0.70); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+.topnav .nav-links a:hover { color: #fff; }
+.topnav .nav-links a.active { color: #5eead4; }
+.lesson-header { background: linear-gradient(135deg, #134e4a, #0f766e, #0d9488); padding: 3rem 1.5rem 3.5rem; text-align: center; color: #fff; }
+.lesson-header .lh-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 0.9rem; }
+.lesson-header h1 { font-family: 'Baloo 2', cursive; font-size: clamp(1.6rem, 5vw, 2.6rem); font-weight: 800; line-height: 1.2; margin-bottom: 0.8rem; }
+.lesson-header .lh-sub { font-size: 1rem; color: rgba(255,255,255,0.82); max-width: 580px; margin: 0 auto 1.4rem; }
+.meta-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+.meta-pill { background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.9); }
+.lesson-video { background: #134e4a; padding: 2.5rem 1rem; }
+.lesson-video .sec-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #5eead4; margin-bottom: 0.5rem; text-align: center; }
+.lesson-video h2 { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.4rem; text-align: center; margin-bottom: 1.2rem; }
+.video-caption { color: rgba(255,255,255,0.45); font-size: 0.78rem; text-align: center; margin-top: 0.7rem; }
+.video-coming { width: 100%; max-width: 760px; background: #0f766e; border-radius: 14px; padding: 3.5rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.7rem; margin: 0 auto; border: 2px dashed rgba(94,234,212,0.3); }
+.video-coming .vc-icon { font-size: 2.5rem; }
+.video-coming p { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+.content-wrap { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+.story-panel { background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border-left: 5px solid #0d9488; border-radius: 14px; padding: 1.8rem; margin-bottom: 2rem; }
+.story-panel .story-eyebrow { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.4rem; }
+.story-panel h2 { font-family: 'Baloo 2', cursive; font-size: 1.4rem; color: #134e4a; margin-bottom: 0.75rem; }
+.story-panel p { color: #374151; font-size: 0.93rem; margin-bottom: 0.8rem; }
+.story-panel p:last-child { margin-bottom: 0; }
+.story-highlight { background: #ccfbf1; border-radius: 10px; padding: 0.9rem 1rem; font-size: 0.88rem; font-weight: 700; color: #0f766e; margin-top: 1rem; }
+.lesson-section { background: #fff; border-radius: 18px; padding: 1.8rem; margin-bottom: 1.5rem; border: 1px solid #ccfbf1; box-shadow: 0 4px 18px rgba(13,148,136,0.07); }
+.sec-eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.4rem; }
+.lesson-section h2 { font-family: 'Baloo 2', cursive; font-size: 1.35rem; color: #134e4a; margin-bottom: 0.9rem; }
+.lesson-section h3 { font-size: 1.05rem; color: #0f766e; margin: 1.2rem 0 0.5rem; font-weight: 800; }
+.lesson-section p { color: #374151; font-size: 0.93rem; margin-bottom: 0.85rem; }
+.lesson-section p:last-child { margin-bottom: 0; }
+.lesson-section ul, .lesson-section ol { color: #374151; font-size: 0.93rem; padding-left: 1.4rem; margin-bottom: 0.85rem; }
+.lesson-section li { margin-bottom: 0.35rem; }
+.callout { border-radius: 12px; padding: 0.9rem 1.1rem; font-size: 0.88rem; margin: 1rem 0; }
+.callout.teal { background: #ccfbf1; border-left: 4px solid #0d9488; color: #134e4a; }
+.callout.amber { background: #fffbeb; border-left: 4px solid #f59e0b; color: #78350f; }
+.callout.green { background: #f0fdf4; border-left: 4px solid #22c55e; color: #14532d; }
+.callout.red { background: #fef2f2; border-left: 4px solid #ef4444; color: #7f1d1d; }
+.bias-type-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.85rem; margin: 1rem 0; }
+.bt-card { border-radius: 12px; padding: 1rem; border: 1.5px solid #fde68a; background: #fffbeb; }
+.bt-card .bt-name { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #92400e; margin-bottom: 0.25rem; }
+.bt-card .bt-def { font-size: 0.83rem; color: #78350f; }
+.pipeline-list { display: flex; flex-direction: column; gap: 0.6rem; margin: 1rem 0; }
+.pl-row { display: flex; gap: 0.9rem; align-items: flex-start; }
+.pl-num { background: #0d9488; color: #fff; border-radius: 8px; font-weight: 800; font-size: 0.78rem; padding: 0.2rem 0.55rem; flex-shrink: 0; margin-top: 0.15rem; }
+.pl-content { font-size: 0.9rem; color: #374151; }
+.pl-content strong { color: #134e4a; }
+.checklist { display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0; }
+.chk-item { display: flex; gap: 0.8rem; align-items: center; background: #f0fdfa; border-radius: 10px; padding: 0.65rem 0.9rem; border: 1.5px solid #ccfbf1; }
+.chk-box { width: 22px; height: 22px; border-radius: 5px; border: 2px solid #0d9488; background: #fff; flex-shrink: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+.chk-box.checked { background: #0d9488; border-color: #0d9488; color: #fff; }
+.chk-text { font-size: 0.87rem; color: #0f766e; font-weight: 600; }
+.ws-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+.ws-table th { background: #0f766e; color: #fff; padding: 0.55rem 0.7rem; text-align: left; font-weight: 700; }
+.ws-table td { border: 1px solid #ccfbf1; padding: 0.55rem 0.7rem; vertical-align: top; }
+.ws-table tr:nth-child(even) td { background: #f0fdfa; }
+.quiz-section { background: linear-gradient(135deg, #134e4a, #0f766e); border-radius: 20px; padding: 2rem 1.5rem; margin: 1.5rem 0; }
+.quiz-section h2 { font-family: 'Baloo 2', cursive; color: #fff; font-size: 1.35rem; margin-bottom: 0.4rem; text-align: center; }
+.quiz-intro { color: rgba(255,255,255,0.7); font-size: 0.85rem; text-align: center; margin-bottom: 1.5rem; }
+.quiz-q { background: rgba(255,255,255,0.08); border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 1rem; }
+.quiz-q .qtext { font-size: 0.92rem; font-weight: 700; color: #ccfbf1; margin-bottom: 0.7rem; }
+.quiz-opt { display: block; width: 100%; text-align: left; background: rgba(255,255,255,0.10); border: 1.5px solid rgba(255,255,255,0.15); border-radius: 10px; color: rgba(255,255,255,0.85); font-family: 'Nunito', sans-serif; font-size: 0.84rem; font-weight: 600; padding: 0.55rem 0.9rem; margin-bottom: 0.4rem; cursor: pointer; }
+.quiz-opt:hover:not(:disabled) { background: rgba(255,255,255,0.18); }
+.quiz-opt.correct { background: #14532d; border-color: #22c55e; color: #fff; }
+.quiz-opt.wrong { background: #7f1d1d; border-color: #ef4444; color: #fff; }
+.q-feedback { font-size: 0.8rem; font-weight: 700; margin-top: 0.3rem; }
+.q-feedback.ok { color: #86efac; }
+.q-feedback.bad { color: #fca5a5; }
+#quiz-submit { display: block; margin: 1.2rem auto 0; background: #0d9488; color: #fff; border: none; border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; padding: 0.75rem 2.5rem; cursor: pointer; }
+#quiz-submit:hover { background: #0f766e; }
+#quiz-result { text-align: center; margin-top: 1rem; }
+#quiz-result .score { font-family: 'Baloo 2', cursive; font-size: 2.5rem; color: #fff; font-weight: 800; }
+#quiz-result .score-msg { color: rgba(255,255,255,0.8); font-size: 0.92rem; margin-top: 0.4rem; }
+.worksheet-box { background: #fff; border-radius: 18px; padding: 1.8rem; border: 2px dashed #0d9488; margin-bottom: 1.5rem; }
+.worksheet-box h3 { font-family: 'Baloo 2', cursive; color: #0f766e; font-size: 1.2rem; margin-bottom: 0.6rem; }
+.parent-note { background: #fffbeb; border-radius: 18px; padding: 1.8rem; border: 1.5px solid #fde68a; margin-bottom: 1.5rem; }
+.parent-note h3 { font-family: 'Baloo 2', cursive; color: #92400e; font-size: 1.15rem; margin-bottom: 0.6rem; }
+.parent-note p { color: #451a03; font-size: 0.88rem; margin-bottom: 0.65rem; }
+.parent-note ul { color: #451a03; font-size: 0.88rem; padding-left: 1.3rem; }
+.parent-note li { margin-bottom: 0.35rem; }
+.bottom-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; padding: 1.5rem; border-top: 1.5px solid #ccfbf1; margin-top: 1rem; }
+.bottom-nav .prev-btn, .bottom-nav .next-btn { font-size: 0.9rem; font-weight: 800; padding: 0.7rem 1.3rem; border-radius: 12px; border: 2px solid #0d9488; color: #0d9488; text-decoration: none; }
+.bottom-nav .prev-btn:hover, .bottom-nav .next-btn:hover { background: #0d9488; color: #fff; }
+footer { background: #0f172a; color: rgba(255,255,255,0.55); padding: 2rem 1.5rem; text-align: center; font-size: 0.82rem; }
+footer a { color: rgba(255,255,255,0.6); }
+footer .footer-brand { font-family: 'Baloo 2', cursive; font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 0.5rem; }
+@media (max-width: 600px) { .lesson-header h1 { font-size: 1.45rem; } .content-wrap { padding: 1.25rem 1rem 2rem; } .lesson-section { padding: 1.25rem; } }
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="../../../site/students.html" class="active">AI for Students</a>
+    <a href="../../../site/index.html">Home</a>
+    <a href="../../../site/contact.html">Contact</a>
+  </div>
+</nav>
+<header class="lesson-header">
+  <div class="lh-eyebrow">AI for Students · Class 8 · Age 12–13 · Lesson 7 of 12</div>
+  <h1>AI Bias and Fairness ⚖️</h1>
+  <p class="lh-sub">AI does not treat everyone equally — even when it seems objective. This lesson explains the different types of bias, where they come from, and what can be done about them.</p>
+  <div class="meta-pills">
+    <span class="meta-pill">📘 Class 8 · Lesson 7</span>
+    <span class="meta-pill">🕐 45–55 min</span>
+    <span class="meta-pill">🚫 No coding needed</span>
+    <span class="meta-pill">🆓 Free lesson</span>
+  </div>
+</header>
+<img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-08/lesson-07-hero.jpg" alt="Illustrated scene: Indian student holding a fairness scale, with AI system outputs on one side and diverse group of people on the other" loading="lazy" onerror="this.style.display='none'" style="width:100%;height:300px;object-fit:cover;object-position:center 40%;display:block;" />
+
+<section class="lesson-video">
+  <div style="width:90%;max-width:760px;margin:0 auto;">
+    <div class="sec-label">Watch first · 2–3 minutes</div>
+    <h2>Class 8 Lesson 7 — AI Bias and Fairness</h2>
+    <div class="video-coming">
+      <div class="vc-icon">🎬</div>
+      <p>Video coming soon — the written lesson is complete and ready to use now.</p>
+    </div>
+    <p class="video-caption">No sign-in needed · English narration · Safe for all school ages</p>
+  </div>
+</section>
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="story-eyebrow">Story · The AI Screener That Scored Names</div>
+    <h2>The Score Depended on What Your Name Looked Like 😮</h2>
+    <p>Arjun, 13, from Kolkata, was reading an article about a large company that used AI to screen job applications. The AI had been trained on successful applications from the past 10 years and learned to give lower scores to applicants from certain communities — based on signals in the text like where they went to school, their names, and the words they used.</p>
+    <p>The AI was not programmed to discriminate. It had learned from data that reflected past discrimination. The historical pattern was: candidates from certain backgrounds had been hired less often. The AI learned that pattern and repeated it — at scale, and with a veneer of objectivity.</p>
+    <p>"But the data was just reflecting reality," Arjun said. His teacher replied: "It was reflecting a biased reality. When AI learns from biased history and applies it to the future, it does not fix the bias — it amplifies it and makes it harder to challenge because people trust the machine."</p>
+    <div class="story-highlight">
+      👉 This lesson explains the different types of AI bias, where they enter the pipeline, and what individuals, developers, and society can do about them.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 1 of 6</div>
+    <h2>🔬 Four Types of AI Bias</h2>
+    <div class="bias-type-grid">
+      <div class="bt-card">
+        <div class="bt-name">Historical Bias</div>
+        <div class="bt-def">The training data reflects past inequalities. The AI learns those inequalities and projects them into the future. Example: hiring data that under-represents women in leadership becomes a model that scores women lower for leadership roles.</div>
+      </div>
+      <div class="bt-card">
+        <div class="bt-name">Representation Bias</div>
+        <div class="bt-def">Some groups are underrepresented in the training data, so the model performs worse for them. Example: face recognition trained mostly on lighter-skinned faces performs worse on darker skin tones.</div>
+      </div>
+      <div class="bt-card">
+        <div class="bt-name">Measurement Bias</div>
+        <div class="bt-def">The feature measured as a proxy is not equally valid across groups. Example: using zip code as a proxy for creditworthiness, when zip codes correlate with caste and class backgrounds due to historical housing segregation.</div>
+      </div>
+      <div class="bt-card">
+        <div class="bt-name">Aggregation Bias</div>
+        <div class="bt-def">A model trained on one population is applied to a different population without adjustment. Example: medical diagnostic AI trained mostly on data from Western patients applied to Indian patients with different genetic and lifestyle profiles.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 2 of 6</div>
+    <h2>📍 Where Bias Enters the ML Pipeline</h2>
+    <p>Bias can enter at any stage of building an AI system — not just in the data:</p>
+    <div class="pipeline-list">
+      <div class="pl-row"><div class="pl-num">1</div><div class="pl-content"><strong>Data collection:</strong> If you survey only urban smartphone users, your data will not represent rural users, elderly users, or those without smartphones.</div></div>
+      <div class="pl-row"><div class="pl-num">2</div><div class="pl-content"><strong>Labelling:</strong> Human labellers bring their own assumptions. A labeller from one culture might classify an image as "professional" or "unprofessional" differently than one from another culture.</div></div>
+      <div class="pl-row"><div class="pl-num">3</div><div class="pl-content"><strong>Feature selection:</strong> Choosing which features to include is a human decision. Choosing to include zip code or surname as a feature can introduce proxy discrimination even if caste or class is not explicitly in the data.</div></div>
+      <div class="pl-row"><div class="pl-num">4</div><div class="pl-content"><strong>Model training:</strong> If the training objective optimises only for overall accuracy, the model may sacrifice accuracy for minority groups to improve the majority average.</div></div>
+      <div class="pl-row"><div class="pl-num">5</div><div class="pl-content"><strong>Deployment:</strong> A model trained and tested in one context (urban India) may be deployed in a different context (rural India) where its performance is much worse — but no one checks.</div></div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 3 of 6</div>
+    <h2>📰 Real Published Examples of AI Bias</h2>
+    <table class="ws-table">
+      <thead><tr><th>System</th><th>Observed bias</th><th>Likely cause</th></tr></thead>
+      <tbody>
+        <tr><td>Amazon's AI hiring tool (2018)</td><td>Down-scored résumés that contained the word "women's" (e.g. women's chess club). The company scrapped the tool.</td><td>Trained on 10 years of hiring data from a male-dominated tech industry — learned to replicate that male preference.</td></tr>
+        <tr><td>COMPAS (US recidivism prediction)</td><td>Black defendants falsely flagged as high-risk at nearly twice the rate of white defendants.</td><td>Trained on historical arrest data that reflected policing disparities, not actual re-offending rates.</td></tr>
+        <tr><td>Commercial face recognition systems</td><td>Error rates for darker-skinned women up to 35% higher than for lighter-skinned men (MIT Media Lab study, 2018).</td><td>Training datasets were 77–87% male, predominantly lighter-skinned — poor representation of other groups.</td></tr>
+        <tr><td>Medical AI (pulse oximetry models)</td><td>Oxygen saturation readings less accurate for patients with darker skin — leading to under-diagnosis of hypoxia.</td><td>Calibration data used to train models came mostly from lighter-skinned patients.</td></tr>
+      </tbody>
+    </table>
+    <div class="callout amber">
+      <strong>India-specific concern:</strong> Most major AI systems are built and calibrated using data from the US, UK, or China. When these systems are deployed in India, their performance may differ significantly — across regions, languages, skin tones, names, and cultural contexts — in ways that the original developers never tested for.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 4 of 6</div>
+    <h2>✅ Fairness Checklist for AI Users and Developers</h2>
+    <p>Use this checklist when evaluating or building any AI system. Click each item to tick it off:</p>
+    <div class="checklist" id="fairness-checklist">
+      <div class="chk-item"><div class="chk-box" onclick="toggleChk(this)">□</div><div class="chk-text">Who was included in the training data — and who was left out?</div></div>
+      <div class="chk-item"><div class="chk-box" onclick="toggleChk(this)">□</div><div class="chk-text">Does the model perform equally well for all groups it will be used on?</div></div>
+      <div class="chk-item"><div class="chk-box" onclick="toggleChk(this)">□</div><div class="chk-text">What proxy features are being used, and could they introduce indirect discrimination?</div></div>
+      <div class="chk-item"><div class="chk-box" onclick="toggleChk(this)">□</div><div class="chk-text">Are the errors equally distributed — or are some groups getting worse error rates?</div></div>
+      <div class="chk-item"><div class="chk-box" onclick="toggleChk(this)">□</div><div class="chk-text">Is the training context the same as the deployment context? If not, has performance been re-tested?</div></div>
+      <div class="chk-item"><div class="chk-box" onclick="toggleChk(this)">□</div><div class="chk-text">Is there a clear process for flagging and reviewing decisions the AI gets wrong?</div></div>
+      <div class="chk-item"><div class="chk-box" onclick="toggleChk(this)">□</div><div class="chk-text">For high-stakes decisions (jobs, credit, health, justice): is a human also involved in the final decision?</div></div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 5 of 6</div>
+    <h2>🧑‍🤝‍🧑 What Can Individuals Do?</h2>
+    <p>You are not an AI developer — yet. But you already have agency as a user and citizen:</p>
+    <ul>
+      <li><strong>Notice the pattern:</strong> When an AI system seems to treat you or people you know differently — ask why. Is the training data representative? Is the model being applied in the right context?</li>
+      <li><strong>Question "objective" AI decisions:</strong> If someone tells you "the AI said so" as if that settles the matter — push back. Ask what the model was trained on, and how its accuracy compares across groups.</li>
+      <li><strong>Support diverse tech teams:</strong> The people who build AI shape what it learns. Teams that include more diverse perspectives are more likely to notice and correct bias. This is one reason why more diverse engineering teams produce fairer AI.</li>
+      <li><strong>Participate in AI literacy conversations:</strong> Schools, community groups, and policymakers need to understand AI bias. Share what you learn — the more people understand how bias enters AI, the more pressure there is to fix it.</li>
+    </ul>
+    <div class="callout green">
+      <strong>Looking ahead:</strong> India is building one of the world's largest AI infrastructure programmes (India AI Mission). The choices made now — about what data to use, how to audit for bias, and what legal protections to create — will shape who benefits from AI in India and who does not. This is a conversation that everyone, including students, should be part of.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 6 of 6</div>
+    <h2>🗺️ Key Vocabulary Summary</h2>
+    <table class="ws-table">
+      <thead><tr><th>Term</th><th>Simple meaning</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Bias (in AI)</strong></td><td>Systematic unfair treatment of certain groups, built into an AI system through data, design, or deployment choices</td></tr>
+        <tr><td><strong>Historical bias</strong></td><td>Bias inherited from past patterns of discrimination in the training data</td></tr>
+        <tr><td><strong>Representation bias</strong></td><td>Bias from underrepresenting some groups in the training dataset</td></tr>
+        <tr><td><strong>Proxy discrimination</strong></td><td>Using a feature that correlates with a protected characteristic (e.g. zip code, name) as an indirect form of discrimination</td></tr>
+        <tr><td><strong>Fairness metric</strong></td><td>A measure of whether a model performs equally across groups — e.g. equalised error rates or equal false positive rates</td></tr>
+        <tr><td><strong>Aggregation bias</strong></td><td>Applying a model trained on one population to a different population without checking whether the model is still valid</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="quiz-section">
+    <h2>⚖️ Quiz — Lesson 7</h2>
+    <p class="quiz-intro">8 questions · Click your answer · Submit for your score</p>
+    <div class="quiz-q" id="q1">
+      <div class="qtext">1. An AI hiring tool trained on historical hiring records that reflected gender discrimination will most likely:</div>
+      <button class="quiz-opt" data-q="1" data-val="a">A) Automatically correct the historical bias because AI is objective</button>
+      <button class="quiz-opt" data-q="1" data-val="b">B) Learn and perpetuate the historical bias — scoring candidates in a way that mirrors past discrimination</button>
+      <button class="quiz-opt" data-q="1" data-val="c">C) Refuse to process applications where gender can be inferred</button>
+      <button class="quiz-opt" data-q="1" data-val="d">D) Produce random scores that are unrelated to historical patterns</button>
+      <div class="q-feedback" id="fb1"></div>
+    </div>
+    <div class="quiz-q" id="q2">
+      <div class="qtext">2. "Representation bias" in an AI system means:</div>
+      <button class="quiz-opt" data-q="2" data-val="a">A) The AI developers were not diverse enough</button>
+      <button class="quiz-opt" data-q="2" data-val="b">B) Some groups are underrepresented in the training data, causing the model to perform worse for those groups</button>
+      <button class="quiz-opt" data-q="2" data-val="c">C) The AI represents a biased political viewpoint</button>
+      <button class="quiz-opt" data-q="2" data-val="d">D) The model was trained in a different language than the one used for deployment</button>
+      <div class="q-feedback" id="fb2"></div>
+    </div>
+    <div class="quiz-q" id="q3">
+      <div class="qtext">3. An AI credit scoring model uses a person's home neighbourhood (zip/PIN code) as a feature. This could introduce bias because:</div>
+      <button class="quiz-opt" data-q="3" data-val="a">A) Zip codes are too long to process accurately</button>
+      <button class="quiz-opt" data-q="3" data-val="b">B) Neighbourhood location correlates with caste and class backgrounds due to historical housing segregation — creating indirect discrimination</button>
+      <button class="quiz-opt" data-q="3" data-val="c">C) Credit models should only use income data</button>
+      <button class="quiz-opt" data-q="3" data-val="d">D) Zip codes are not correlated with any other variable</button>
+      <div class="q-feedback" id="fb3"></div>
+    </div>
+    <div class="quiz-q" id="q4">
+      <div class="qtext">4. At which stage of the ML pipeline can bias be introduced?</div>
+      <button class="quiz-opt" data-q="4" data-val="a">A) Only at the data collection stage</button>
+      <button class="quiz-opt" data-q="4" data-val="b">B) Only when the model makes a wrong prediction</button>
+      <button class="quiz-opt" data-q="4" data-val="c">C) At any stage: data collection, labelling, feature selection, model training, or deployment</button>
+      <button class="quiz-opt" data-q="4" data-val="d">D) Only in poorly designed AI systems — good systems are always unbiased</button>
+      <div class="q-feedback" id="fb4"></div>
+    </div>
+    <div class="quiz-q" id="q5">
+      <div class="qtext">5. The MIT Media Lab study (2018) found that some commercial face recognition systems had error rates up to 35% higher for darker-skinned women than for lighter-skinned men. The most likely reason is:</div>
+      <button class="quiz-opt" data-q="5" data-val="a">A) The cameras used produced poorer quality images of darker skin</button>
+      <button class="quiz-opt" data-q="5" data-val="b">B) Face recognition is technically impossible for darker skin tones</button>
+      <button class="quiz-opt" data-q="5" data-val="c">C) Training datasets were heavily skewed toward lighter-skinned males — underrepresenting darker-skinned and female faces</button>
+      <button class="quiz-opt" data-q="5" data-val="d">D) The researchers made an error in their methodology</button>
+      <div class="q-feedback" id="fb5"></div>
+    </div>
+    <div class="quiz-q" id="q6">
+      <div class="qtext">6. Why is it a problem when "the AI said so" is used to justify a high-stakes decision without further review?</div>
+      <button class="quiz-opt" data-q="6" data-val="a">A) AI decisions are always less accurate than human decisions</button>
+      <button class="quiz-opt" data-q="6" data-val="b">B) AI decisions can embed and amplify bias while appearing objective — removing human accountability and making bias harder to challenge</button>
+      <button class="quiz-opt" data-q="6" data-val="c">C) Using AI for decisions is illegal in India</button>
+      <button class="quiz-opt" data-q="6" data-val="d">D) It is only a problem if the decision is about money</button>
+      <div class="q-feedback" id="fb6"></div>
+    </div>
+    <div class="quiz-q" id="q7">
+      <div class="qtext">7. "Aggregation bias" occurs when:</div>
+      <button class="quiz-opt" data-q="7" data-val="a">A) A model is trained on too much data</button>
+      <button class="quiz-opt" data-q="7" data-val="b">B) A model trained on one population is applied to a different population without checking whether it is still accurate for the new group</button>
+      <button class="quiz-opt" data-q="7" data-val="c">C) The training labels are incorrect</button>
+      <button class="quiz-opt" data-q="7" data-val="d">D) The model adds up numbers incorrectly</button>
+      <div class="q-feedback" id="fb7"></div>
+    </div>
+    <div class="quiz-q" id="q8">
+      <div class="qtext">8. Which of these is something a 13-year-old student can meaningfully do to address AI bias?</div>
+      <button class="quiz-opt" data-q="8" data-val="a">A) Nothing — only AI engineers can address bias</button>
+      <button class="quiz-opt" data-q="8" data-val="b">B) Avoid using any AI tools entirely</button>
+      <button class="quiz-opt" data-q="8" data-val="c">C) Question "objective" AI decisions, ask about training data, participate in AI literacy conversations, and understand the issue to demand better from systems and policymakers</button>
+      <button class="quiz-opt" data-q="8" data-val="d">D) Report AI companies to the police for being biased</button>
+      <div class="q-feedback" id="fb8"></div>
+    </div>
+    <button id="quiz-submit">Check My Score</button>
+    <div id="quiz-result" style="display:none;"></div>
+  </div>
+
+  <div class="worksheet-box">
+    <h3>📝 Worksheet — Bias Audit</h3>
+    <p style="font-size:0.88rem;margin-bottom:1rem;color:#0f766e;">In your notebook, complete this exercise:</p>
+    <ol style="font-size:0.88rem;color:#374151;padding-left:1.3rem;line-height:2;">
+      <li>Choose one AI system you have read about or used (e.g. a recommendation system, face unlock, chatbot, image search).</li>
+      <li>Using the 4 bias types from Section 1, identify which type(s) are most likely to affect this system. Give a reason for each.</li>
+      <li>Using the fairness checklist from Section 4, go through each question for your chosen system. For each question, rate: ✅ Known to be OK / ❌ Known issue / ❓ Not publicly known.</li>
+      <li>Write 2 sentences: What would you want the company building this AI to do to make it more fair for users in India?</li>
+    </ol>
+  </div>
+
+  <div class="parent-note">
+    <h3>📋 Note for Parents and Teachers</h3>
+    <p><strong>What this lesson covers:</strong> Four types of AI bias (historical, representation, measurement, aggregation), where bias enters the ML pipeline, real published examples of harmful AI bias, a practical fairness checklist, and what individuals can do as users and citizens. This lesson is designed to build critical thinking about AI systems, not to create fear of AI.</p>
+    <p><strong>Discussion prompts:</strong></p>
+    <ul>
+      <li>"If an AI system appears to make fair, consistent decisions — does that mean it is not biased? What more would you need to know?"</li>
+      <li>"AI in India will affect hundreds of millions of people. What responsibilities do Indian AI engineers, policymakers, and citizens have?"</li>
+    </ul>
+  </div>
+</main>
+
+<div class="bottom-nav">
+  <a href="lesson-06.html" class="prev-btn">← Lesson 6: Computer Vision</a>
+  <a href="lesson-08.html" class="next-btn">Lesson 8: AI Ethics →</a>
+</div>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:0.5rem;"><a href="../../../site/index.html">Home</a> · <a href="../../../site/students.html">AI for Students</a> · <a href="../../../site/privacy.html">Privacy Policy</a> · <a href="../../../site/contact.html">Contact</a></p>
+  <p>© 2026 Mitra AI Life Education · Class 6 to JC +2</p>
+</footer>
+
+<script>
+function toggleChk(el) { el.classList.toggle('checked'); el.textContent = el.classList.contains('checked') ? '✓' : '□'; }
+const ANSWERS = { 1:'b', 2:'b', 3:'b', 4:'c', 5:'c', 6:'b', 7:'b', 8:'c' };
+document.querySelectorAll('.quiz-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const q = btn.dataset.q; const container = btn.closest('.quiz-q');
+    if (container.classList.contains('answered')) return;
+    container.classList.add('answered');
+    container.querySelectorAll('.quiz-opt').forEach(b => b.disabled = true);
+    const fb = document.getElementById('fb' + q);
+    if (btn.dataset.val === ANSWERS[q]) { btn.classList.add('correct'); fb.textContent = '✅ Correct!'; fb.className = 'q-feedback ok'; }
+    else { btn.classList.add('wrong'); fb.textContent = '❌ Not quite — correct answer highlighted.'; fb.className = 'q-feedback bad'; container.querySelectorAll('.quiz-opt').forEach(b => { if (b.dataset.val === ANSWERS[q]) b.classList.add('correct'); }); }
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click', () => {
+  let score = 0;
+  for (let q = 1; q <= 8; q++) { const c = document.getElementById('q' + q); if (c.classList.contains('answered') && c.querySelector('.correct')) score++; }
+  const msgs = ['Keep going!','Review sections 1–2.','Getting there!','Half way.','Good progress!','Very close!','Very good!','Excellent!','Perfect!'];
+  const rd = document.getElementById('quiz-result');
+  rd.style.display = 'block';
+  rd.innerHTML = `<div class="score">${score} / 8</div><div class="score-msg">${msgs[score]}</div>`;
+  document.getElementById('quiz-submit').style.display = 'none';
+  if (typeof gtag !== 'undefined') gtag('event', 'quiz_complete', { event_category: 'class8', event_label: 'class08_lesson07_quiz', value: score });
+});
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Class 8 Lesson 7 — AI Bias and Fairness",
+  "description": "Four types of AI bias, where they enter the ML pipeline, real examples, fairness checklist, and what individuals can do. Age 12–13, free.",
+  "url": "https://mitraailife.com/content/students/class-08/lesson-07.html",
+  "educationalLevel": "Class 8",
+  "typicalAgeRange": "12-13",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "provider": { "@type": "Organization", "name": "Mitra AI Life Education", "url": "https://mitraailife.com" }
+}
+</script>
+</body>
+</html>

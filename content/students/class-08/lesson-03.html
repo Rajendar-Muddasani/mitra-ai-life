@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 3 — How AI Learns: Classification and Prediction | Class 8 | Mitra AI Life</title>
+<meta name="description" content="What is classification? What is prediction? How does a model learn to tell cats from dogs, or predict exam results? Class 8 lesson for Indian students age 12–13." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-08/lesson-03.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="../../../site/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../../../site/apple-touch-icon.png" />
+<meta name="theme-color" content="#0d9488" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 3 — How AI Learns: Classification and Prediction | Class 8 | Mitra AI Life" />
+<meta property="og:description" content="Understand classification, regression, how a model decides, decision boundaries, accuracy vs fairness, and a simple worked example. Age 12–13, free." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-08/lesson-03.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: #f0fdfa; color: #134e4a; line-height: 1.65; }
+a { color: #0d9488; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topnav { background: #0f172a; padding: 0.75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+.topnav .brand { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800; text-decoration: none; }
+.topnav .brand span { color: #5eead4; }
+.topnav .nav-links { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.topnav .nav-links a { color: rgba(255,255,255,0.70); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+.topnav .nav-links a:hover { color: #fff; }
+.topnav .nav-links a.active { color: #5eead4; }
+.lesson-header { background: linear-gradient(135deg, #134e4a, #0f766e, #0d9488); padding: 3rem 1.5rem 3.5rem; text-align: center; color: #fff; }
+.lesson-header .lh-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 0.9rem; }
+.lesson-header h1 { font-family: 'Baloo 2', cursive; font-size: clamp(1.6rem, 5vw, 2.6rem); font-weight: 800; line-height: 1.2; margin-bottom: 0.8rem; }
+.lesson-header .lh-sub { font-size: 1rem; color: rgba(255,255,255,0.82); max-width: 580px; margin: 0 auto 1.4rem; }
+.meta-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+.meta-pill { background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.9); }
+.lesson-video { background: #134e4a; padding: 2.5rem 1rem; }
+.lesson-video .sec-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #5eead4; margin-bottom: 0.5rem; text-align: center; }
+.lesson-video h2 { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.4rem; text-align: center; margin-bottom: 1.2rem; }
+.video-caption { color: rgba(255,255,255,0.45); font-size: 0.78rem; text-align: center; margin-top: 0.7rem; }
+.video-coming { width: 100%; max-width: 760px; background: #0f766e; border-radius: 14px; padding: 3.5rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.7rem; margin: 0 auto; border: 2px dashed rgba(94,234,212,0.3); }
+.video-coming .vc-icon { font-size: 2.5rem; }
+.video-coming p { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+.content-wrap { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+.story-panel { background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border-left: 5px solid #0d9488; border-radius: 14px; padding: 1.8rem; margin-bottom: 2rem; }
+.story-panel .story-eyebrow { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.4rem; }
+.story-panel h2 { font-family: 'Baloo 2', cursive; font-size: 1.4rem; color: #134e4a; margin-bottom: 0.75rem; }
+.story-panel p { color: #374151; font-size: 0.93rem; margin-bottom: 0.8rem; }
+.story-panel p:last-child { margin-bottom: 0; }
+.story-highlight { background: #ccfbf1; border-radius: 10px; padding: 0.9rem 1rem; font-size: 0.88rem; font-weight: 700; color: #0f766e; margin-top: 1rem; }
+.lesson-section { background: #fff; border-radius: 18px; padding: 1.8rem; margin-bottom: 1.5rem; border: 1px solid #ccfbf1; box-shadow: 0 4px 18px rgba(13,148,136,0.07); }
+.sec-eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.4rem; }
+.lesson-section h2 { font-family: 'Baloo 2', cursive; font-size: 1.35rem; color: #134e4a; margin-bottom: 0.9rem; }
+.lesson-section h3 { font-size: 1.05rem; color: #0f766e; margin: 1.2rem 0 0.5rem; font-weight: 800; }
+.lesson-section p { color: #374151; font-size: 0.93rem; margin-bottom: 0.85rem; }
+.lesson-section p:last-child { margin-bottom: 0; }
+.lesson-section ul, .lesson-section ol { color: #374151; font-size: 0.93rem; padding-left: 1.4rem; margin-bottom: 0.85rem; }
+.lesson-section li { margin-bottom: 0.35rem; }
+.callout { border-radius: 12px; padding: 0.9rem 1.1rem; font-size: 0.88rem; margin: 1rem 0; }
+.callout.teal { background: #ccfbf1; border-left: 4px solid #0d9488; color: #134e4a; }
+.callout.amber { background: #fffbeb; border-left: 4px solid #f59e0b; color: #78350f; }
+.callout.green { background: #f0fdf4; border-left: 4px solid #22c55e; color: #14532d; }
+.callout.blue { background: #eff6ff; border-left: 4px solid #3b82f6; color: #1e3a5f; }
+.compare-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+.c2-box { border-radius: 12px; padding: 1.1rem; }
+.c2-box.teal { background: #f0fdfa; border: 1.5px solid #0d9488; }
+.c2-box.blue { background: #eff6ff; border: 1.5px solid #3b82f6; }
+.c2-box h4 { font-size: 0.9rem; font-weight: 800; margin-bottom: 0.5rem; }
+.c2-box.teal h4 { color: #0d9488; }
+.c2-box.blue h4 { color: #3b82f6; }
+.c2-box p { font-size: 0.83rem; color: #374151; margin: 0; }
+.steps-list { display: flex; flex-direction: column; gap: 0.6rem; margin: 1rem 0; }
+.step-row { display: flex; gap: 0.9rem; align-items: flex-start; }
+.step-num { width: 28px; height: 28px; border-radius: 50%; background: #0d9488; color: #fff; font-weight: 800; font-size: 0.78rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.1rem; }
+.step-content { font-size: 0.9rem; color: #374151; }
+.step-content strong { color: #134e4a; }
+.ws-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+.ws-table th { background: #0f766e; color: #fff; padding: 0.55rem 0.7rem; text-align: left; font-weight: 700; }
+.ws-table td { border: 1px solid #ccfbf1; padding: 0.55rem 0.7rem; vertical-align: top; }
+.ws-table tr:nth-child(even) td { background: #f0fdfa; }
+.quiz-section { background: linear-gradient(135deg, #134e4a, #0f766e); border-radius: 20px; padding: 2rem 1.5rem; margin: 1.5rem 0; }
+.quiz-section h2 { font-family: 'Baloo 2', cursive; color: #fff; font-size: 1.35rem; margin-bottom: 0.4rem; text-align: center; }
+.quiz-intro { color: rgba(255,255,255,0.7); font-size: 0.85rem; text-align: center; margin-bottom: 1.5rem; }
+.quiz-q { background: rgba(255,255,255,0.08); border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 1rem; }
+.quiz-q .qtext { font-size: 0.92rem; font-weight: 700; color: #ccfbf1; margin-bottom: 0.7rem; }
+.quiz-opt { display: block; width: 100%; text-align: left; background: rgba(255,255,255,0.10); border: 1.5px solid rgba(255,255,255,0.15); border-radius: 10px; color: rgba(255,255,255,0.85); font-family: 'Nunito', sans-serif; font-size: 0.84rem; font-weight: 600; padding: 0.55rem 0.9rem; margin-bottom: 0.4rem; cursor: pointer; }
+.quiz-opt:hover:not(:disabled) { background: rgba(255,255,255,0.18); }
+.quiz-opt.correct { background: #14532d; border-color: #22c55e; color: #fff; }
+.quiz-opt.wrong { background: #7f1d1d; border-color: #ef4444; color: #fff; }
+.q-feedback { font-size: 0.8rem; font-weight: 700; margin-top: 0.3rem; }
+.q-feedback.ok { color: #86efac; }
+.q-feedback.bad { color: #fca5a5; }
+#quiz-submit { display: block; margin: 1.2rem auto 0; background: #0d9488; color: #fff; border: none; border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; padding: 0.75rem 2.5rem; cursor: pointer; }
+#quiz-submit:hover { background: #0f766e; }
+#quiz-result { text-align: center; margin-top: 1rem; }
+#quiz-result .score { font-family: 'Baloo 2', cursive; font-size: 2.5rem; color: #fff; font-weight: 800; }
+#quiz-result .score-msg { color: rgba(255,255,255,0.8); font-size: 0.92rem; margin-top: 0.4rem; }
+.worksheet-box { background: #fff; border-radius: 18px; padding: 1.8rem; border: 2px dashed #0d9488; margin-bottom: 1.5rem; }
+.worksheet-box h3 { font-family: 'Baloo 2', cursive; color: #0f766e; font-size: 1.2rem; margin-bottom: 0.6rem; }
+.parent-note { background: #fffbeb; border-radius: 18px; padding: 1.8rem; border: 1.5px solid #fde68a; margin-bottom: 1.5rem; }
+.parent-note h3 { font-family: 'Baloo 2', cursive; color: #92400e; font-size: 1.15rem; margin-bottom: 0.6rem; }
+.parent-note p { color: #451a03; font-size: 0.88rem; margin-bottom: 0.65rem; }
+.parent-note ul { color: #451a03; font-size: 0.88rem; padding-left: 1.3rem; }
+.parent-note li { margin-bottom: 0.35rem; }
+.bottom-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; padding: 1.5rem; border-top: 1.5px solid #ccfbf1; margin-top: 1rem; }
+.bottom-nav .prev-btn, .bottom-nav .next-btn { font-size: 0.9rem; font-weight: 800; padding: 0.7rem 1.3rem; border-radius: 12px; border: 2px solid #0d9488; color: #0d9488; text-decoration: none; }
+.bottom-nav .prev-btn:hover, .bottom-nav .next-btn:hover { background: #0d9488; color: #fff; }
+footer { background: #0f172a; color: rgba(255,255,255,0.55); padding: 2rem 1.5rem; text-align: center; font-size: 0.82rem; }
+footer a { color: rgba(255,255,255,0.6); }
+footer .footer-brand { font-family: 'Baloo 2', cursive; font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 0.5rem; }
+@media (max-width: 600px) { .compare-2 { grid-template-columns: 1fr; } .lesson-header h1 { font-size: 1.45rem; } .content-wrap { padding: 1.25rem 1rem 2rem; } .lesson-section { padding: 1.25rem; } }
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="../../../site/students.html" class="active">AI for Students</a>
+    <a href="../../../site/index.html">Home</a>
+    <a href="../../../site/contact.html">Contact</a>
+  </div>
+</nav>
+<header class="lesson-header">
+  <div class="lh-eyebrow">AI for Students · Class 8 · Age 12–13 · Lesson 3 of 12</div>
+  <h1>How AI Learns: Classification and Prediction 🎯</h1>
+  <p class="lh-sub">From sorting mangoes to predicting exam results — this lesson explains how AI learns to put things in categories and make predictions, the two tasks it does most often.</p>
+  <div class="meta-pills">
+    <span class="meta-pill">📘 Class 8 · Lesson 3</span>
+    <span class="meta-pill">🕐 45–55 min</span>
+    <span class="meta-pill">🚫 No coding needed</span>
+    <span class="meta-pill">🆓 Free lesson</span>
+  </div>
+</header>
+<img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-08/lesson-03-hero.jpg" alt="Illustrated scene: Indian student sorting cards into two bins labelled 'pass' and 'fail', representing AI classification" loading="lazy" onerror="this.style.display='none'" style="width:100%;height:300px;object-fit:cover;object-position:center 40%;display:block;" />
+
+<section class="lesson-video">
+  <div style="width:90%;max-width:760px;margin:0 auto;">
+    <div class="sec-label">Watch first · 2–3 minutes</div>
+    <h2>Class 8 Lesson 3 — Classification and Prediction</h2>
+    <div class="video-coming">
+      <div class="vc-icon">🎬</div>
+      <p>Video coming soon — the written lesson is complete and ready to use now.</p>
+    </div>
+    <p class="video-caption">No sign-in needed · English narration · Safe for all school ages</p>
+  </div>
+</section>
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="story-eyebrow">Story · Asha's Mango Sorting Machine</div>
+    <h2>How Does a Machine Know Which Mango Is Ripe? 🥭</h2>
+    <p>Asha, 13, from Rajahmundry, visited her aunt's mango orchard. Workers were sorting mangoes — ripe, unripe, or too ripe — by looking at colour, feeling firmness, and smelling the fruit.</p>
+    <p>A company had recently installed an automated sorting machine that used a camera and AI to sort mangoes automatically. Asha was curious: "Does the machine smell them too?"</p>
+    <p>The engineer laughed. "Not smell — but it analyses colour and shape with 98% accuracy. We showed it 50,000 photos of mangoes with labels: ripe, unripe, overripe. After training, it sorts better than a tired worker at 4am."</p>
+    <p>Asha asked the important question: "What happens if it sees a mango variety it has never been trained on?" The engineer nodded. "Good question. It will probably make mistakes. That is why we keep adding new training data when we expand to new varieties."</p>
+    <div class="story-highlight">
+      👉 Asha has just seen classification in action. This lesson explains how it works — and its sibling task, prediction — in simple terms.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 1 of 7</div>
+    <h2>📂 Classification vs Prediction — The Two Big Tasks</h2>
+    <p>Almost everything an AI model does falls into one of two categories:</p>
+    <div class="compare-2">
+      <div class="c2-box teal">
+        <h4>🏷️ Classification</h4>
+        <p>Assign an input to one of a fixed set of categories. The output is a label.</p>
+        <p style="margin-top:0.5rem;font-size:0.8rem;"><strong>Examples:</strong> spam/not spam · ripe/unripe/overripe · cat/dog/bird · disease/no disease · pass/fail</p>
+      </div>
+      <div class="c2-box blue">
+        <h4>📈 Prediction (Regression)</h4>
+        <p>Predict a number on a continuous scale. The output is a value.</p>
+        <p style="margin-top:0.5rem;font-size:0.8rem;"><strong>Examples:</strong> predict exam score · predict tomorrow's rainfall · predict house price · predict energy consumption</p>
+      </div>
+    </div>
+    <div class="callout teal">
+      <strong>Rule of thumb:</strong> If the output is a category (yes/no, type A/B/C), it is classification. If the output is a number on a scale, it is regression (prediction).
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 2 of 7</div>
+    <h2>🔢 How Classification Works: A Simple Walk-Through</h2>
+    <p>Let us use a simple example: predicting whether a student will pass or fail, based on two features: hours studied per day and attendance percentage.</p>
+    <div class="steps-list">
+      <div class="step-row"><div class="step-num">1</div><div class="step-content"><strong>Collect labelled data.</strong> You gather records of 1,000 past students — each with study hours, attendance, and whether they passed or failed.</div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-content"><strong>The model looks for a boundary.</strong> Imagine plotting students on a graph: x-axis = study hours, y-axis = attendance. Passing students cluster in one region; failing students in another. The model tries to find a line (or curve) that separates them.</div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-content"><strong>That line is the decision boundary.</strong> For a new student, the model checks which side of the boundary their data falls on — and predicts accordingly.</div></div>
+      <div class="step-row"><div class="step-num">4</div><div class="step-content"><strong>Confidence scores.</strong> Most models do not just say "pass" — they say "72% chance of passing." The probability is called a confidence score. Decisions made with low confidence (e.g. 51% vs 49%) should be treated with more caution.</div></div>
+      <div class="step-row"><div class="step-num">5</div><div class="step-content"><strong>Test the boundary.</strong> The model is tested on students it has never seen to check whether the boundary generalises or is overfit to the training data.</div></div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 3 of 7</div>
+    <h2>📊 Measuring How Good a Classifier Is</h2>
+    <p>Saying a model is "95% accurate" sounds impressive. But accuracy alone can be misleading. Here is why.</p>
+    <p>Imagine 1,000 emails: 950 are not spam, 50 are spam. A model that simply labels everything as "not spam" would be 95% accurate — but useless at actually catching spam.</p>
+    <h3>The confusion matrix</h3>
+    <table class="ws-table">
+      <thead><tr><th></th><th>Predicted: Spam</th><th>Predicted: Not Spam</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Actually: Spam</strong></td><td>True Positive (TP) ✅</td><td>False Negative (FN) ❌ — missed spam</td></tr>
+        <tr><td><strong>Actually: Not Spam</strong></td><td>False Positive (FP) ❌ — wrongly blocked</td><td>True Negative (TN) ✅</td></tr>
+      </tbody>
+    </table>
+    <h3>Key metrics from the confusion matrix</h3>
+    <ul>
+      <li><strong>Accuracy:</strong> (TP + TN) / total — proportion of all predictions that were correct</li>
+      <li><strong>Precision:</strong> TP / (TP + FP) — of all items predicted as spam, how many actually were?</li>
+      <li><strong>Recall:</strong> TP / (TP + FN) — of all actual spam, how many did the model catch?</li>
+    </ul>
+    <div class="callout amber">
+      <strong>Why this matters:</strong> In medical diagnosis, high recall is critical — missing a real disease (false negative) is dangerous. In fraud detection, high precision matters — wrongly blocking a legitimate transaction (false positive) hurts trust. The right metric depends on the real-world consequences of each type of error.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 4 of 7</div>
+    <h2>🌳 Decision Trees: AI You Can Read</h2>
+    <p>One of the most intuitive ML models is the <strong>decision tree</strong>. It asks a series of yes/no questions about the features of an input and follows a branch for each answer until it reaches a conclusion.</p>
+    <div class="callout teal">
+      <strong>Example decision tree for mango classification:</strong>
+      <ul style="margin-top:0.5rem;">
+        <li>Is the mango yellow? → If YES → Is it firm? → If YES → RIPE; If NO → OVERRIPE</li>
+        <li>Is the mango yellow? → If NO → Is it mostly green? → If YES → UNRIPE; If NO → OVERRIPE</li>
+      </ul>
+    </div>
+    <p>Decision trees are easy to understand and explain. A farmer or doctor can look at the tree and verify whether the rules make sense. This is called <strong>interpretability</strong> — and it is an important property for AI systems used in high-stakes decisions.</p>
+    <p>More complex models (like neural networks with millions of weights) produce better results but are much harder to explain — they are often called "black boxes".</p>
+    <div class="callout amber">
+      <strong>Important trade-off:</strong> Better accuracy often comes with less explainability. Choosing the right balance depends on the application — a slightly less accurate model that you can explain may be far more trustworthy and safe to deploy than a highly accurate black box.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 5 of 7</div>
+    <h2>📈 Prediction (Regression) — Estimating Values</h2>
+    <p>When the output is a number, the task is called regression. The model tries to find a mathematical relationship between the input features and the output value.</p>
+    <div class="callout teal">
+      <strong>Simple example:</strong> Predicting exam score from study hours.<br />
+      If you studied 3 hours → model predicts 65 marks<br />
+      If you studied 5 hours → model predicts 78 marks<br />
+      The model finds the best-fitting line (or curve) through the training data points.
+    </div>
+    <h3>Real Indian examples of prediction (regression)</h3>
+    <table class="ws-table">
+      <thead><tr><th>Prediction task</th><th>Input features</th><th>Predicted output</th></tr></thead>
+      <tbody>
+        <tr><td>Crop yield prediction</td><td>Rainfall, temperature, soil type, fertiliser</td><td>Expected harvest in tonnes/hectare</td></tr>
+        <tr><td>Electricity demand forecasting</td><td>Time of day, day of week, season, temperature</td><td>Expected demand in MW</td></tr>
+        <tr><td>Flood risk estimation</td><td>Rainfall over 48 hours, river level, soil moisture</td><td>Probability of flooding (0–100%)</td></tr>
+        <tr><td>Hospital readmission risk</td><td>Age, diagnosis, treatment, previous admissions</td><td>Probability of readmission within 30 days</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 6 of 7</div>
+    <h2>⚠️ When AI Gets It Wrong: Error Analysis</h2>
+    <p>Every AI classifier makes mistakes. Understanding the pattern of mistakes is more important than knowing the overall accuracy score.</p>
+    <ul>
+      <li><strong>Where does the model fail most?</strong> Certain categories, regions, or user groups may have higher error rates — often because they were underrepresented in training data.</li>
+      <li><strong>What are the consequences of errors?</strong> A wrong recommendation on a video platform is annoying. A wrong medical diagnosis is dangerous. Error analysis should always consider real-world consequences.</li>
+      <li><strong>Does accuracy differ across groups?</strong> If a model is 95% accurate for one group and 78% accurate for another — that is unfair, even if the average accuracy is high.</li>
+    </ul>
+    <div class="callout green">
+      <strong>Asha's question, answered:</strong> When the mango sorting machine sees a new variety it was not trained on, it may confidently classify it incorrectly — because the patterns it learned do not apply to the new variety. This is why engineers keep expanding the training data and regularly test models on new situations.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 7 of 7</div>
+    <h2>🗺️ Key Vocabulary Summary</h2>
+    <table class="ws-table">
+      <thead><tr><th>Term</th><th>Simple meaning</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Classification</strong></td><td>Sorting input into a fixed set of categories (pass/fail, ripe/unripe)</td></tr>
+        <tr><td><strong>Regression (prediction)</strong></td><td>Predicting a number on a continuous scale (exam score, rainfall)</td></tr>
+        <tr><td><strong>Decision boundary</strong></td><td>The line (or surface) that separates different categories in the model's learned space</td></tr>
+        <tr><td><strong>Confidence score</strong></td><td>The probability the model assigns to its prediction (e.g. 73% confident this is spam)</td></tr>
+        <tr><td><strong>Confusion matrix</strong></td><td>A table showing correct and incorrect predictions broken down by category</td></tr>
+        <tr><td><strong>False positive</strong></td><td>Predicted positive but actually negative (wrongly blocked email)</td></tr>
+        <tr><td><strong>False negative</strong></td><td>Predicted negative but actually positive (missed real spam)</td></tr>
+        <tr><td><strong>Decision tree</strong></td><td>A model that makes predictions using a series of yes/no questions — interpretable and explainable</td></tr>
+        <tr><td><strong>Interpretability</strong></td><td>How well humans can understand why a model made a particular prediction</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="quiz-section">
+    <h2>🎯 Quiz — Lesson 3</h2>
+    <p class="quiz-intro">8 questions · Click your answer · Submit for your score</p>
+    <div class="quiz-q" id="q1">
+      <div class="qtext">1. Which of these is a classification task?</div>
+      <button class="quiz-opt" data-q="1" data-val="a">A) Predicting tomorrow's rainfall in mm</button>
+      <button class="quiz-opt" data-q="1" data-val="b">B) Estimating crop yield in tonnes/hectare</button>
+      <button class="quiz-opt" data-q="1" data-val="c">C) Sorting an email as spam or not spam</button>
+      <button class="quiz-opt" data-q="1" data-val="d">D) Predicting a student's final score out of 100</button>
+      <div class="q-feedback" id="fb1"></div>
+    </div>
+    <div class="quiz-q" id="q2">
+      <div class="qtext">2. What is a "decision boundary" in a classification model?</div>
+      <button class="quiz-opt" data-q="2" data-val="a">A) The list of features used as inputs</button>
+      <button class="quiz-opt" data-q="2" data-val="b">B) The line or surface the model uses to separate different categories in its learned space</button>
+      <button class="quiz-opt" data-q="2" data-val="c">C) The accuracy threshold below which a model is retrained</button>
+      <button class="quiz-opt" data-q="2" data-val="d">D) The maximum number of training examples allowed</button>
+      <div class="q-feedback" id="fb2"></div>
+    </div>
+    <div class="quiz-q" id="q3">
+      <div class="qtext">3. A spam filter that simply labels every email as "not spam" achieves 95% accuracy on a dataset where 95% of emails are legitimate. This shows:</div>
+      <button class="quiz-opt" data-q="3" data-val="a">A) The filter is working well</button>
+      <button class="quiz-opt" data-q="3" data-val="b">B) A 95% accurate model is always very good</button>
+      <button class="quiz-opt" data-q="3" data-val="c">C) Accuracy alone can be misleading — the filter catches no spam at all, yet scores 95%</button>
+      <button class="quiz-opt" data-q="3" data-val="d">D) The dataset has too many examples and should be smaller</button>
+      <div class="q-feedback" id="fb3"></div>
+    </div>
+    <div class="quiz-q" id="q4">
+      <div class="qtext">4. In medical diagnosis AI, which metric is MOST important to maximise?</div>
+      <button class="quiz-opt" data-q="4" data-val="a">A) Accuracy — being right most of the time overall</button>
+      <button class="quiz-opt" data-q="4" data-val="b">B) Precision — avoiding false positives (unnecessary treatment)</button>
+      <button class="quiz-opt" data-q="4" data-val="c">C) Recall — catching as many real cases as possible, to avoid missing a disease</button>
+      <button class="quiz-opt" data-q="4" data-val="d">D) Speed — faster predictions are always better</button>
+      <div class="q-feedback" id="fb4"></div>
+    </div>
+    <div class="quiz-q" id="q5">
+      <div class="qtext">5. Why are decision trees valued for high-stakes AI applications (medical, legal, financial)?</div>
+      <button class="quiz-opt" data-q="5" data-val="a">A) They always produce more accurate predictions than neural networks</button>
+      <button class="quiz-opt" data-q="5" data-val="b">B) They require no training data</button>
+      <button class="quiz-opt" data-q="5" data-val="c">C) They are interpretable — a human can trace exactly why the model made each prediction</button>
+      <button class="quiz-opt" data-q="5" data-val="d">D) They run faster than other models</button>
+      <div class="q-feedback" id="fb5"></div>
+    </div>
+    <div class="quiz-q" id="q6">
+      <div class="qtext">6. A model predicts the probability of rain tomorrow as 58%. This 58% is called:</div>
+      <button class="quiz-opt" data-q="6" data-val="a">A) The error rate</button>
+      <button class="quiz-opt" data-q="6" data-val="b">B) The training accuracy</button>
+      <button class="quiz-opt" data-q="6" data-val="c">C) The confidence score</button>
+      <button class="quiz-opt" data-q="6" data-val="d">D) The false negative rate</button>
+      <div class="q-feedback" id="fb6"></div>
+    </div>
+    <div class="quiz-q" id="q7">
+      <div class="qtext">7. A model is 96% accurate for urban users but only 72% accurate for rural users. This difference is:</div>
+      <button class="quiz-opt" data-q="7" data-val="a">A) Normal and acceptable — rural data is always harder</button>
+      <button class="quiz-opt" data-q="7" data-val="b">B) A sign that the model needs to be retrained completely from scratch</button>
+      <button class="quiz-opt" data-q="7" data-val="c">C) A fairness problem — the model treats different groups unequally, likely because rural users were underrepresented in training</td>
+      <button class="quiz-opt" data-q="7" data-val="d">D) Impossible — AI models always perform equally across groups</button>
+      <div class="q-feedback" id="fb7"></div>
+    </div>
+    <div class="quiz-q" id="q8">
+      <div class="qtext">8. Which of these is a regression (prediction) task?</div>
+      <button class="quiz-opt" data-q="8" data-val="a">A) Classifying a mango as ripe, unripe, or overripe</button>
+      <button class="quiz-opt" data-q="8" data-val="b">B) Predicting the number of tourists expected to visit a national park next month</button>
+      <button class="quiz-opt" data-q="8" data-val="c">C) Detecting whether an X-ray shows pneumonia or not</button>
+      <button class="quiz-opt" data-q="8" data-val="d">D) Sorting students into "needs help" or "on track" categories</button>
+      <div class="q-feedback" id="fb8"></div>
+    </div>
+    <button id="quiz-submit">Check My Score</button>
+    <div id="quiz-result" style="display:none;"></div>
+  </div>
+
+  <div class="worksheet-box">
+    <h3>📝 Worksheet — Classify Your World</h3>
+    <p style="font-size:0.88rem;margin-bottom:1rem;color:#0f766e;">In your notebook, answer these questions:</p>
+    <ol style="font-size:0.88rem;color:#374151;padding-left:1.3rem;line-height:2;">
+      <li>Think of 3 AI systems you have used or read about. For each one, say whether it is mainly a classification task, a regression task, or both.</li>
+      <li>Describe a real-world situation in India where a false negative from an AI classifier would be dangerous. What would you recommend the engineers prioritise — recall or precision?</li>
+      <li>Design a simple decision tree (3–5 yes/no questions) to classify whether a given day is good for flying a kite (consider wind, rain, and time of year).</li>
+    </ol>
+  </div>
+
+  <div class="parent-note">
+    <h3>📋 Note for Parents and Teachers</h3>
+    <p><strong>What this lesson covers:</strong> Classification vs regression, the training process for classifiers, the confusion matrix and evaluation metrics, decision trees and interpretability, and real Indian examples of both tasks. No mathematics beyond percentages is required.</p>
+    <p><strong>Discussion prompts:</strong></p>
+    <ul>
+      <li>"If an AI was deciding whether you were allowed into an exam hall and made an error — would you prefer a false positive (letting cheaters in) or a false negative (blocking honest students)? Why?"</li>
+      <li>"Why is it important that a doctor can understand WHY an AI made a diagnosis — not just that it made a correct one?"</li>
+    </ul>
+  </div>
+</main>
+
+<div class="bottom-nav">
+  <a href="lesson-02.html" class="prev-btn">← Lesson 2: Data</a>
+  <a href="lesson-04.html" class="next-btn">Lesson 4: AI Workflows →</a>
+</div>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:0.5rem;"><a href="../../../site/index.html">Home</a> · <a href="../../../site/students.html">AI for Students</a> · <a href="../../../site/privacy.html">Privacy Policy</a> · <a href="../../../site/contact.html">Contact</a></p>
+  <p>© 2026 Mitra AI Life Education · Class 6 to JC +2</p>
+</footer>
+
+<script>
+const ANSWERS = { 1:'c', 2:'b', 3:'c', 4:'c', 5:'c', 6:'c', 7:'c', 8:'b' };
+document.querySelectorAll('.quiz-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const q = btn.dataset.q; const container = btn.closest('.quiz-q');
+    if (container.classList.contains('answered')) return;
+    container.classList.add('answered');
+    container.querySelectorAll('.quiz-opt').forEach(b => b.disabled = true);
+    const fb = document.getElementById('fb' + q);
+    if (btn.dataset.val === ANSWERS[q]) { btn.classList.add('correct'); fb.textContent = '✅ Correct!'; fb.className = 'q-feedback ok'; }
+    else { btn.classList.add('wrong'); fb.textContent = '❌ Not quite — correct answer highlighted.'; fb.className = 'q-feedback bad'; container.querySelectorAll('.quiz-opt').forEach(b => { if (b.dataset.val === ANSWERS[q]) b.classList.add('correct'); }); }
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click', () => {
+  let score = 0;
+  for (let q = 1; q <= 8; q++) { const c = document.getElementById('q' + q); if (c.classList.contains('answered') && c.querySelector('.correct')) score++; }
+  const msgs = ['Keep going!','Review sections 1–3.','Getting there!','Half way.','Good progress!','Very close!','Very good!','Excellent!','Perfect!'];
+  const rd = document.getElementById('quiz-result');
+  rd.style.display = 'block';
+  rd.innerHTML = `<div class="score">${score} / 8</div><div class="score-msg">${msgs[score]}</div>`;
+  document.getElementById('quiz-submit').style.display = 'none';
+  if (typeof gtag !== 'undefined') gtag('event', 'quiz_complete', { event_category: 'class8', event_label: 'class08_lesson03_quiz', value: score });
+});
+</script>
+</body>
+</html>

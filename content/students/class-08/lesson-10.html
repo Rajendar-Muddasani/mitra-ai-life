@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 10 — AI for Your Own Projects | Class 8 | Mitra AI Life</title>
+<meta name="description" content="How to plan and build your first AI project. Problem definition, tool selection, 5 school-friendly templates with step-by-step prompts. Class 8, age 12–13, free." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-08/lesson-10.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="../../../site/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../../../site/apple-touch-icon.png" />
+<meta name="theme-color" content="#0d9488" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 10 — AI for Your Own Projects | Class 8 | Mitra AI Life" />
+<meta property="og:description" content="Plan and build your first AI project: problem definition, tool selection, 5 project templates with step-by-step prompts, common mistakes to avoid. Age 12–13, free." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-08/lesson-10.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: #f0fdfa; color: #134e4a; line-height: 1.65; }
+a { color: #0d9488; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topnav { background: #0f172a; padding: 0.75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+.topnav .brand { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800; text-decoration: none; }
+.topnav .brand span { color: #5eead4; }
+.topnav .nav-links { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.topnav .nav-links a { color: rgba(255,255,255,0.70); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+.topnav .nav-links a:hover { color: #fff; }
+.topnav .nav-links a.active { color: #5eead4; }
+.lesson-header { background: linear-gradient(135deg, #134e4a, #0f766e, #0d9488); padding: 3rem 1.5rem 3.5rem; text-align: center; color: #fff; }
+.lesson-header .lh-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 0.9rem; }
+.lesson-header h1 { font-family: 'Baloo 2', cursive; font-size: clamp(1.6rem, 5vw, 2.6rem); font-weight: 800; line-height: 1.2; margin-bottom: 0.8rem; }
+.lesson-header .lh-sub { font-size: 1rem; color: rgba(255,255,255,0.82); max-width: 580px; margin: 0 auto 1.4rem; }
+.meta-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+.meta-pill { background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.9); }
+.lesson-video { background: #134e4a; padding: 2.5rem 1rem; }
+.lesson-video .sec-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #5eead4; margin-bottom: 0.5rem; text-align: center; }
+.lesson-video h2 { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.4rem; text-align: center; margin-bottom: 1.2rem; }
+.video-caption { color: rgba(255,255,255,0.45); font-size: 0.78rem; text-align: center; margin-top: 0.7rem; }
+.video-coming { width: 100%; max-width: 760px; background: #0f766e; border-radius: 14px; padding: 3.5rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.7rem; margin: 0 auto; border: 2px dashed rgba(94,234,212,0.3); }
+.video-coming .vc-icon { font-size: 2.5rem; }
+.video-coming p { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+.content-wrap { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+.story-panel { background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border-left: 5px solid #0d9488; border-radius: 14px; padding: 1.8rem; margin-bottom: 2rem; }
+.story-panel .story-eyebrow { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.4rem; }
+.story-panel h2 { font-family: 'Baloo 2', cursive; font-size: 1.4rem; color: #134e4a; margin-bottom: 0.75rem; }
+.story-panel p { color: #374151; font-size: 0.93rem; margin-bottom: 0.8rem; }
+.story-panel p:last-child { margin-bottom: 0; }
+.story-highlight { background: #ccfbf1; border-radius: 10px; padding: 0.9rem 1rem; font-size: 0.88rem; font-weight: 700; color: #0f766e; margin-top: 1rem; }
+.lesson-section { background: #fff; border-radius: 18px; padding: 1.8rem; margin-bottom: 1.5rem; border: 1px solid #ccfbf1; box-shadow: 0 4px 18px rgba(13,148,136,0.07); }
+.sec-eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.4rem; }
+.lesson-section h2 { font-family: 'Baloo 2', cursive; font-size: 1.35rem; color: #134e4a; margin-bottom: 0.9rem; }
+.lesson-section h3 { font-size: 1.05rem; color: #0f766e; margin: 1.2rem 0 0.5rem; font-weight: 800; }
+.lesson-section p { color: #374151; font-size: 0.93rem; margin-bottom: 0.85rem; }
+.lesson-section p:last-child { margin-bottom: 0; }
+.lesson-section ul, .lesson-section ol { color: #374151; font-size: 0.93rem; padding-left: 1.4rem; margin-bottom: 0.85rem; }
+.lesson-section li { margin-bottom: 0.45rem; }
+.callout { border-radius: 12px; padding: 0.9rem 1.1rem; font-size: 0.88rem; margin: 1rem 0; }
+.callout.teal { background: #ccfbf1; border-left: 4px solid #0d9488; color: #134e4a; }
+.callout.amber { background: #fffbeb; border-left: 4px solid #f59e0b; color: #78350f; }
+.callout.green { background: #f0fdf4; border-left: 4px solid #22c55e; color: #14532d; }
+.framework-steps { display: flex; flex-direction: column; gap: 0.75rem; margin: 1rem 0; }
+.fs-row { display: flex; gap: 1rem; align-items: flex-start; background: #f0fdfa; border-radius: 12px; padding: 0.9rem 1rem; border: 1.5px solid #ccfbf1; }
+.fs-num { background: #0d9488; color: #fff; border-radius: 50%; font-weight: 800; font-size: 0.9rem; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.fs-content { font-size: 0.88rem; color: #374151; }
+.fs-content strong { color: #134e4a; font-size: 0.92rem; }
+.project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1rem 0; }
+.proj-card { border-radius: 14px; padding: 1.1rem; border: 1.5px solid #ccfbf1; background: #f0fdfa; }
+.proj-card .pc-num { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.2rem; }
+.proj-card .pc-title { font-family: 'Baloo 2', cursive; font-size: 1.05rem; color: #134e4a; margin-bottom: 0.5rem; }
+.proj-card .pc-goal { font-size: 0.8rem; color: #0f766e; font-weight: 700; margin-bottom: 0.5rem; }
+.proj-card .pc-steps { font-size: 0.8rem; color: #374151; line-height: 1.65; }
+.tools-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+.tools-table th { background: #0f766e; color: #fff; padding: 0.55rem 0.7rem; text-align: left; font-weight: 700; }
+.tools-table td { border: 1px solid #ccfbf1; padding: 0.55rem 0.7rem; vertical-align: top; }
+.tools-table tr:nth-child(even) td { background: #f0fdfa; }
+.mistakes-list { display: flex; flex-direction: column; gap: 0.6rem; margin: 1rem 0; }
+.mk-row { display: flex; gap: 0.85rem; align-items: flex-start; background: #fff7ed; border-radius: 10px; padding: 0.7rem 0.9rem; border-left: 3px solid #f59e0b; }
+.mk-icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.15rem; }
+.mk-text { font-size: 0.86rem; color: #374151; }
+.mk-text strong { color: #92400e; }
+.quiz-section { background: linear-gradient(135deg, #134e4a, #0f766e); border-radius: 20px; padding: 2rem 1.5rem; margin: 1.5rem 0; }
+.quiz-section h2 { font-family: 'Baloo 2', cursive; color: #fff; font-size: 1.35rem; margin-bottom: 0.4rem; text-align: center; }
+.quiz-intro { color: rgba(255,255,255,0.7); font-size: 0.85rem; text-align: center; margin-bottom: 1.5rem; }
+.quiz-q { background: rgba(255,255,255,0.08); border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 1rem; }
+.quiz-q .qtext { font-size: 0.92rem; font-weight: 700; color: #ccfbf1; margin-bottom: 0.7rem; }
+.quiz-opt { display: block; width: 100%; text-align: left; background: rgba(255,255,255,0.10); border: 1.5px solid rgba(255,255,255,0.15); border-radius: 10px; color: rgba(255,255,255,0.85); font-family: 'Nunito', sans-serif; font-size: 0.84rem; font-weight: 600; padding: 0.55rem 0.9rem; margin-bottom: 0.4rem; cursor: pointer; }
+.quiz-opt:hover:not(:disabled) { background: rgba(255,255,255,0.18); }
+.quiz-opt.correct { background: #14532d; border-color: #22c55e; color: #fff; }
+.quiz-opt.wrong { background: #7f1d1d; border-color: #ef4444; color: #fff; }
+.q-feedback { font-size: 0.8rem; font-weight: 700; margin-top: 0.3rem; }
+.q-feedback.ok { color: #86efac; }
+.q-feedback.bad { color: #fca5a5; }
+#quiz-submit { display: block; margin: 1.2rem auto 0; background: #0d9488; color: #fff; border: none; border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; padding: 0.75rem 2.5rem; cursor: pointer; }
+#quiz-submit:hover { background: #0f766e; }
+#quiz-result { text-align: center; margin-top: 1rem; }
+#quiz-result .score { font-family: 'Baloo 2', cursive; font-size: 2.5rem; color: #fff; font-weight: 800; }
+#quiz-result .score-msg { color: rgba(255,255,255,0.8); font-size: 0.92rem; margin-top: 0.4rem; }
+.worksheet-box { background: #fff; border-radius: 18px; padding: 1.8rem; border: 2px dashed #0d9488; margin-bottom: 1.5rem; }
+.worksheet-box h3 { font-family: 'Baloo 2', cursive; color: #0f766e; font-size: 1.2rem; margin-bottom: 0.6rem; }
+.parent-note { background: #fffbeb; border-radius: 18px; padding: 1.8rem; border: 1.5px solid #fde68a; margin-bottom: 1.5rem; }
+.parent-note h3 { font-family: 'Baloo 2', cursive; color: #92400e; font-size: 1.15rem; margin-bottom: 0.6rem; }
+.parent-note p { color: #451a03; font-size: 0.88rem; margin-bottom: 0.65rem; }
+.parent-note ul { color: #451a03; font-size: 0.88rem; padding-left: 1.3rem; }
+.parent-note li { margin-bottom: 0.35rem; }
+.bottom-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; padding: 1.5rem; border-top: 1.5px solid #ccfbf1; margin-top: 1rem; }
+.bottom-nav .prev-btn, .bottom-nav .next-btn { font-size: 0.9rem; font-weight: 800; padding: 0.7rem 1.3rem; border-radius: 12px; border: 2px solid #0d9488; color: #0d9488; text-decoration: none; }
+.bottom-nav .prev-btn:hover, .bottom-nav .next-btn:hover { background: #0d9488; color: #fff; }
+footer { background: #0f172a; color: rgba(255,255,255,0.55); padding: 2rem 1.5rem; text-align: center; font-size: 0.82rem; }
+footer a { color: rgba(255,255,255,0.6); }
+footer .footer-brand { font-family: 'Baloo 2', cursive; font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 0.5rem; }
+@media (max-width: 600px) { .lesson-header h1 { font-size: 1.45rem; } .content-wrap { padding: 1.25rem 1rem 2rem; } .lesson-section { padding: 1.25rem; } }
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="../../../site/students.html" class="active">AI for Students</a>
+    <a href="../../../site/index.html">Home</a>
+    <a href="../../../site/contact.html">Contact</a>
+  </div>
+</nav>
+<header class="lesson-header">
+  <div class="lh-eyebrow">AI for Students · Class 8 · Age 12–13 · Lesson 10 of 12</div>
+  <h1>AI for Your Own Projects 🛠️</h1>
+  <p class="lh-sub">Now you understand how AI works, where it can go wrong, and how India is using it. Time to use it yourself — with a clear process, the right tools, and five ready-to-use project templates.</p>
+  <div class="meta-pills">
+    <span class="meta-pill">📘 Class 8 · Lesson 10</span>
+    <span class="meta-pill">🕐 50–60 min</span>
+    <span class="meta-pill">💻 AI tools used</span>
+    <span class="meta-pill">🆓 Free lesson</span>
+  </div>
+</header>
+<img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-08/lesson-10-hero.jpg" alt="Illustrated scene: Indian student at a desk with laptop, notebook, and a project plan on the wall — building an AI-powered tool" loading="lazy" onerror="this.style.display='none'" style="width:100%;height:300px;object-fit:cover;object-position:center 40%;display:block;" />
+
+<section class="lesson-video">
+  <div style="width:90%;max-width:760px;margin:0 auto;">
+    <div class="sec-label">Watch first · 2–3 minutes</div>
+    <h2>Class 8 Lesson 10 — AI for Your Own Projects</h2>
+    <div class="video-coming">
+      <div class="vc-icon">🎬</div>
+      <p>Video coming soon — the written lesson is complete and ready to use now.</p>
+    </div>
+    <p class="video-caption">No sign-in needed · English narration · Safe for all school ages</p>
+  </div>
+</section>
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="story-eyebrow">Story · The Electricity Bill Tracker</div>
+    <h2>Rahul Built a Tool That Actually Got Used 💡</h2>
+    <p>Rahul, 13, from Pune, lived in a housing society where every month there was confusion about the electricity bills — some flats were charged differently, and no one could easily see who had paid or how much was outstanding.</p>
+    <p>His mother mentioned it once, and Rahul decided to build a solution. He spent two afternoons working with ChatGPT: asking it to help him design a spreadsheet formula, write a summary email template, and explain the bill in simple language. He created a Google Sheets template with auto-calculations and a short monthly report that his mother's committee started using within two weeks.</p>
+    <p>"Did you code it?" a friend asked. "Not really," Rahul said. "I told the AI what I needed, it helped me build each piece, I checked everything, and I connected the parts myself." His friend said that sounded like engineering. Rahul thought about that and agreed.</p>
+    <div class="story-highlight">
+      👉 This lesson gives you the framework Rahul used — and five project templates you can start building today.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 1 of 5</div>
+    <h2>🗺️ The AI Project Planning Framework</h2>
+    <div class="framework-steps">
+      <div class="fs-row"><div class="fs-num">1</div><div class="fs-content"><strong>Define the problem.</strong> Write one sentence: "I want to help [who] do [what] better." The clearer this sentence, the better every step will be. Rahul's: "I want to help our housing society committee track and communicate electricity bills more clearly."</div></div>
+      <div class="fs-row"><div class="fs-num">2</div><div class="fs-content"><strong>Identify the data or inputs.</strong> What information does this project need? Where will it come from? Is it available? Is any of it sensitive (names, money, health)? If it is sensitive, what extra care is needed?</div></div>
+      <div class="fs-row"><div class="fs-num">3</div><div class="fs-content"><strong>Choose your tools.</strong> What AI tools are available and appropriate? Do you need no-code tools (Google Docs + ChatGPT prompts) or something more programmable (Python)? Match the tool to your skill level and the problem scale.</div></div>
+      <div class="fs-row"><div class="fs-num">4</div><div class="fs-content"><strong>Build a small version first.</strong> Do not try to build the complete solution immediately. Build the smallest thing that tests whether your idea works. For Rahul: a single flat's bill calculation first, before the full society template.</div></div>
+      <div class="fs-row"><div class="fs-num">5</div><div class="fs-content"><strong>Test and evaluate.</strong> Try it with real data. What works? What breaks? What does it get wrong? Be honest about failures — this is how every professional builds software.</div></div>
+      <div class="fs-row"><div class="fs-num">6</div><div class="fs-content"><strong>Iterate.</strong> Improve based on what you learned from testing. Repeat steps 4–6 until the solution works well enough for real use.</div></div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 2 of 5</div>
+    <h2>🎯 What Makes a Good Problem to Solve with AI?</h2>
+    <p>Not every problem benefits from AI. Use this checklist when evaluating an idea:</p>
+    <ul>
+      <li><strong>Does it involve repetitive text, data, or analysis?</strong> AI is strong at summarising, generating, classifying, and analysing text and structured data.</li>
+      <li><strong>Is the output something you can check?</strong> A good project produces output you can verify — you are not blindly trusting the AI.</li>
+      <li><strong>Would someone actually use the result?</strong> Build for a real person with a real need, even if it is just yourself or a family member.</li>
+      <li><strong>Is it achievable in 2–5 working sessions?</strong> A project that takes more than a week to get a first working version is probably too ambitious for your first project.</li>
+    </ul>
+    <div class="callout amber">
+      <strong>Common mistake — solving a problem no one has:</strong> Students sometimes build technically impressive projects that no one actually needs. The question "would someone actually use this?" is the most important test. Start with a problem you have personally experienced or seen someone close to you struggle with.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 3 of 5</div>
+    <h2>🔧 Tool Selection Guide</h2>
+    <table class="tools-table">
+      <thead><tr><th>Tool type</th><th>Best for</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td>AI chatbot (no-code)</td><td>Drafting, explaining, summarising, brainstorming, creating templates</td><td>ChatGPT, Google Gemini, Claude</td></tr>
+        <tr><td>AI + spreadsheet</td><td>Data calculations, formulas, auto-generated summaries, mail merge</td><td>Google Sheets + ChatGPT prompts</td></tr>
+        <tr><td>AI + document</td><td>Report writing, email templates, structured summaries</td><td>Google Docs with Gemini, Word Copilot</td></tr>
+        <tr><td>AI image generation</td><td>Illustrations, posters, project visuals, infographics (starting point)</td><td>Canva AI, Google Imagen (via Gemini)</td></tr>
+        <tr><td>Python + AI libraries</td><td>Custom automation, data analysis, building classifiers or chatbots</td><td>Google Colab + Python (next lesson)</td></tr>
+      </tbody>
+    </table>
+    <div class="callout teal">
+      <strong>Start no-code first:</strong> Before writing a single line of Python, ask yourself: can I do this with a chatbot and a spreadsheet? Many genuinely useful projects can be built with no code at all. Code becomes necessary when you need automation, scale, or precision that chatbot prompts cannot deliver.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 4 of 5</div>
+    <h2>💡 Five School-Friendly Project Templates</h2>
+    <div class="project-grid">
+      <div class="proj-card">
+        <div class="pc-num">Project 1</div>
+        <div class="pc-title">📚 Subject Summary Bot</div>
+        <div class="pc-goal">Goal: Create a 1-page plain-English summary of any textbook chapter</div>
+        <div class="pc-steps">
+          <strong>Step 1:</strong> Pick a chapter you are currently studying.<br/>
+          <strong>Step 2:</strong> Prompt: "I am a Class 8 student. Summarise this chapter for me in bullet points. Use simple language. Highlight the 5 most important concepts."<br/>
+          <strong>Step 3:</strong> Paste the chapter text (or key sections).<br/>
+          <strong>Step 4:</strong> Review the output. Correct any errors.<br/>
+          <strong>Step 5:</strong> Format as a study card. Save and share with classmates.
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="pc-num">Project 2</div>
+        <div class="pc-title">📝 Exam Question Generator</div>
+        <div class="pc-goal">Goal: Generate 10 practice questions with answers for any topic</div>
+        <div class="pc-steps">
+          <strong>Step 1:</strong> Choose a topic from your current syllabus.<br/>
+          <strong>Step 2:</strong> Prompt: "Generate 10 multiple-choice questions about [topic] at Class 8 level. Include the correct answer and a 1-sentence explanation for each."<br/>
+          <strong>Step 3:</strong> Review all questions and answers for accuracy.<br/>
+          <strong>Step 4:</strong> Use as a self-test or swap with a classmate.<br/>
+          <strong>Step 5:</strong> Iterate — ask for harder questions on topics you got wrong.
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="pc-num">Project 3</div>
+        <div class="pc-title">📊 Class Survey Analyser</div>
+        <div class="pc-goal">Goal: Analyse your class's survey responses and write a summary report</div>
+        <div class="pc-steps">
+          <strong>Step 1:</strong> Conduct a simple 5-question survey in your class (favourite subject, most challenging topic, etc.).<br/>
+          <strong>Step 2:</strong> Enter the results in a Google Sheet.<br/>
+          <strong>Step 3:</strong> Prompt ChatGPT: "Here are the results of a class survey. Write a 200-word summary report of the key findings."<br/>
+          <strong>Step 4:</strong> Paste the data.<br/>
+          <strong>Step 5:</strong> Review and present to the class.
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="pc-num">Project 4</div>
+        <div class="pc-title">🌱 Community Problem Reporter</div>
+        <div class="pc-goal">Goal: Document a local community issue clearly enough to share with decision-makers</div>
+        <div class="pc-steps">
+          <strong>Step 1:</strong> Identify a real local issue (broken road, water supply, school facility).<br/>
+          <strong>Step 2:</strong> Collect your own observations — photos (with parent permission), notes, dates.<br/>
+          <strong>Step 3:</strong> Prompt: "Help me write a clear 1-page report describing this problem, its impact, and a suggested solution, for a school principal / local councillor."<br/>
+          <strong>Step 4:</strong> Review, personalise, and share appropriately.
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="pc-num">Project 5</div>
+        <div class="pc-title">🌐 Bilingual Explainer Creator</div>
+        <div class="pc-goal">Goal: Turn an English lesson into a Telugu (or your language) explainer for a younger student</div>
+        <div class="pc-steps">
+          <strong>Step 1:</strong> Choose one concept from any lesson you understand well.<br/>
+          <strong>Step 2:</strong> Write a short English explanation in your own words (50–100 words).<br/>
+          <strong>Step 3:</strong> Prompt: "Translate this into simple Telugu (or Hindi, Tamil, Kannada) for a Class 5 student. Keep the meaning clear."<br/>
+          <strong>Step 4:</strong> Have a Telugu/Hindi speaker review the translation for accuracy.<br/>
+          <strong>Step 5:</strong> Share with a younger sibling or cousin.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 5 of 5</div>
+    <h2>🚫 Common Beginner Mistakes</h2>
+    <div class="mistakes-list">
+      <div class="mk-row"><div class="mk-icon">⚠️</div><div class="mk-text"><strong>Trusting AI output without checking:</strong> AI makes factual errors. For any project that will be used or shared, verify the key facts with a textbook, a trusted website, or a teacher.</div></div>
+      <div class="mk-row"><div class="mk-icon">⚠️</div><div class="mk-text"><strong>Overly ambitious first version:</strong> "I want to build a full school management system" is not a first project. "I want to create a weekly homework tracker for my class" is. Start small, finish something, then expand.</div></div>
+      <div class="mk-row"><div class="mk-icon">⚠️</div><div class="mk-text"><strong>Using AI to do all the thinking:</strong> The best projects combine your judgment with AI assistance. If you just paste a question and submit the first answer, you have not learned anything — and the quality is usually lower than if you engage critically with the output.</div></div>
+      <div class="mk-row"><div class="mk-icon">⚠️</div><div class="mk-text"><strong>Skipping the "who is this for" question:</strong> Without a clear user and need, you may build something technically interesting that solves nothing. Define your user in the first step, not as an afterthought.</div></div>
+      <div class="mk-row"><div class="mk-icon">⚠️</div><div class="mk-text"><strong>Giving up after the first failure:</strong> Every real AI project fails in the first version. Failure is information — it tells you what to fix. The only way to build is to iterate. Rahul's first spreadsheet had wrong formulas. He fixed them. That is engineering.</div></div>
+    </div>
+  </div>
+
+  <div class="quiz-section">
+    <h2>🛠️ Quiz — Lesson 10</h2>
+    <p class="quiz-intro">8 questions · Click your answer · Submit for your score</p>
+    <div class="quiz-q" id="q1">
+      <div class="qtext">1. The first step in the AI project planning framework is to:</div>
+      <button class="quiz-opt" data-q="1" data-val="a">A) Choose the most advanced AI tool available</button>
+      <button class="quiz-opt" data-q="1" data-val="b">B) Define the problem clearly — write one sentence stating who you want to help and what you want to improve</button>
+      <button class="quiz-opt" data-q="1" data-val="c">C) Install Python and set up a coding environment</button>
+      <button class="quiz-opt" data-q="1" data-val="d">D) Collect as much data as possible about everything related to your topic</button>
+      <div class="q-feedback" id="fb1"></div>
+    </div>
+    <div class="quiz-q" id="q2">
+      <div class="qtext">2. When should you use Python for a project rather than a no-code chatbot approach?</div>
+      <button class="quiz-opt" data-q="2" data-val="a">A) Always — Python is always better for AI projects</button>
+      <button class="quiz-opt" data-q="2" data-val="b">B) Never — chatbots can do everything Python can do</button>
+      <button class="quiz-opt" data-q="2" data-val="c">C) When you need automation, scale, or precision that chatbot prompts cannot deliver — and after checking whether a no-code solution would be sufficient</button>
+      <button class="quiz-opt" data-q="2" data-val="d">D) When you want to impress your teacher with technical complexity</button>
+      <div class="q-feedback" id="fb2"></div>
+    </div>
+    <div class="quiz-q" id="q3">
+      <div class="qtext">3. Rahul's electricity bill tracker project was successful primarily because:</div>
+      <button class="quiz-opt" data-q="3" data-val="a">A) He wrote the most advanced Python code in his class</button>
+      <button class="quiz-opt" data-q="3" data-val="b">B) He used the most expensive AI tools available</button>
+      <button class="quiz-opt" data-q="3" data-val="c">C) He identified a real problem, built a practical solution with AI assistance, checked everything himself, and created something a real user actually adopted</button>
+      <button class="quiz-opt" data-q="3" data-val="d">D) He copied a solution from the internet and adapted it</button>
+      <div class="q-feedback" id="fb3"></div>
+    </div>
+    <div class="quiz-q" id="q4">
+      <div class="qtext">4. Why is "build a small version first" (Step 4 of the framework) important?</div>
+      <button class="quiz-opt" data-q="4" data-val="a">A) Because AI tools cannot handle large projects</button>
+      <button class="quiz-opt" data-q="4" data-val="b">B) It tests whether the core idea works before investing time in a complete solution — reducing wasted effort if the approach is wrong</button>
+      <button class="quiz-opt" data-q="4" data-val="c">C) Because small projects are always more useful than large ones</button>
+      <button class="quiz-opt" data-q="4" data-val="d">D) Because teachers only assess project size</button>
+      <div class="q-feedback" id="fb4"></div>
+    </div>
+    <div class="quiz-q" id="q5">
+      <div class="qtext">5. The most important test for whether an AI project idea is good is:</div>
+      <button class="quiz-opt" data-q="5" data-val="a">A) Whether it uses the most advanced AI techniques</button>
+      <button class="quiz-opt" data-q="5" data-val="b">B) Whether it requires coding</button>
+      <button class="quiz-opt" data-q="5" data-val="c">C) Whether a real person with a real need would actually use the result</button>
+      <button class="quiz-opt" data-q="5" data-val="d">D) Whether it will win a school science fair</button>
+      <div class="q-feedback" id="fb5"></div>
+    </div>
+    <div class="quiz-q" id="q6">
+      <div class="qtext">6. If you use AI to generate practice exam questions, the most important additional step is:</div>
+      <button class="quiz-opt" data-q="6" data-val="a">A) Print the questions immediately without reading them</button>
+      <button class="quiz-opt" data-q="6" data-val="b">B) Review all questions and answers for factual accuracy before using or sharing them</button>
+      <button class="quiz-opt" data-q="6" data-val="c">C) Submit the AI output directly to your teacher as your own work</button>
+      <button class="quiz-opt" data-q="6" data-val="d">D) Generate at least 100 questions to improve accuracy</button>
+      <div class="q-feedback" id="fb6"></div>
+    </div>
+    <div class="quiz-q" id="q7">
+      <div class="qtext">7. "Using AI to do all the thinking" is a mistake because:</div>
+      <button class="quiz-opt" data-q="7" data-val="a">A) AI charges extra if you ask it to think</button>
+      <button class="quiz-opt" data-q="7" data-val="b">B) If you just paste a question and submit the first answer, you learn nothing — and quality is usually lower than when you critically engage with the output</button>
+      <button class="quiz-opt" data-q="7" data-val="c">C) AI cannot process questions — it can only process commands</button>
+      <button class="quiz-opt" data-q="7" data-val="d">D) AI always produces better output than human thinking</button>
+      <div class="q-feedback" id="fb7"></div>
+    </div>
+    <div class="quiz-q" id="q8">
+      <div class="qtext">8. The Bilingual Explainer Creator project (Template 5) requires one important human step after AI translation. That step is:</div>
+      <button class="quiz-opt" data-q="8" data-val="a">A) Back-translating the output to English to verify it</button>
+      <button class="quiz-opt" data-q="8" data-val="b">B) Having a native speaker of the target language review the translation for accuracy and naturalness</button>
+      <button class="quiz-opt" data-q="8" data-val="c">C) Removing all technical words from the translated text</button>
+      <button class="quiz-opt" data-q="8" data-val="d">D) Running the translation through a second AI tool to double-check</button>
+      <div class="q-feedback" id="fb8"></div>
+    </div>
+    <button id="quiz-submit">Check My Score</button>
+    <div id="quiz-result" style="display:none;"></div>
+  </div>
+
+  <div class="worksheet-box">
+    <h3>📝 Worksheet — Plan Your Project</h3>
+    <p style="font-size:0.88rem;margin-bottom:1rem;color:#0f766e;">In your notebook, design your own AI project using the framework from Section 1:</p>
+    <ol style="font-size:0.88rem;color:#374151;padding-left:1.3rem;line-height:2;">
+      <li><strong>Problem statement:</strong> "I want to help [who] do [what] better." Write your one sentence.</li>
+      <li><strong>Data/inputs:</strong> What information will your project need? Where will it come from? Is any of it sensitive?</li>
+      <li><strong>Tool choice:</strong> Which tool from the tool guide will you use, and why?</li>
+      <li><strong>Minimum version:</strong> What is the smallest thing you could build to test if your idea works? Describe it in 2–3 sentences.</li>
+      <li><strong>Success measure:</strong> How will you know if your project works? What would a real user say when it is useful vs when it is not?</li>
+    </ol>
+  </div>
+
+  <div class="parent-note">
+    <h3>📋 Note for Parents and Teachers</h3>
+    <p><strong>What this lesson covers:</strong> A 6-step AI project planning framework, how to define a good problem, a tool selection guide, five school-friendly project templates with step-by-step prompts, and common beginner mistakes. Designed to give students a structured way to apply their learning from Lessons 1–9 to a real project.</p>
+    <p><strong>Practical note:</strong> The five project templates can all be completed without any paid tools. ChatGPT (free tier), Google Gemini (free), and Google Docs/Sheets (free) are sufficient for all five. Encourage students to start with Template 1 or 2 — they are the simplest and produce immediately useful outputs.</p>
+  </div>
+</main>
+
+<div class="bottom-nav">
+  <a href="lesson-09.html" class="prev-btn">← Lesson 9: AI in India</a>
+  <a href="lesson-11.html" class="next-btn">Lesson 11: Python Basics →</a>
+</div>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:0.5rem;"><a href="../../../site/index.html">Home</a> · <a href="../../../site/students.html">AI for Students</a> · <a href="../../../site/privacy.html">Privacy Policy</a> · <a href="../../../site/contact.html">Contact</a></p>
+  <p>© 2026 Mitra AI Life Education · Class 6 to JC +2</p>
+</footer>
+
+<script>
+const ANSWERS = { 1:'b', 2:'c', 3:'c', 4:'b', 5:'c', 6:'b', 7:'b', 8:'b' };
+document.querySelectorAll('.quiz-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const q = btn.dataset.q; const container = btn.closest('.quiz-q');
+    if (container.classList.contains('answered')) return;
+    container.classList.add('answered');
+    container.querySelectorAll('.quiz-opt').forEach(b => b.disabled = true);
+    const fb = document.getElementById('fb' + q);
+    if (btn.dataset.val === ANSWERS[q]) { btn.classList.add('correct'); fb.textContent = '✅ Correct!'; fb.className = 'q-feedback ok'; }
+    else { btn.classList.add('wrong'); fb.textContent = '❌ Not quite — correct answer highlighted.'; fb.className = 'q-feedback bad'; container.querySelectorAll('.quiz-opt').forEach(b => { if (b.dataset.val === ANSWERS[q]) b.classList.add('correct'); }); }
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click', () => {
+  let score = 0;
+  for (let q = 1; q <= 8; q++) { const c = document.getElementById('q' + q); if (c.classList.contains('answered') && c.querySelector('.correct')) score++; }
+  const msgs = ['Keep going!','Review sections 1–2.','Getting there!','Half way.','Good progress!','Very close!','Very good!','Excellent!','Perfect!'];
+  const rd = document.getElementById('quiz-result');
+  rd.style.display = 'block';
+  rd.innerHTML = `<div class="score">${score} / 8</div><div class="score-msg">${msgs[score]}</div>`;
+  document.getElementById('quiz-submit').style.display = 'none';
+  if (typeof gtag !== 'undefined') gtag('event', 'quiz_complete', { event_category: 'class8', event_label: 'class08_lesson10_quiz', value: score });
+});
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Class 8 Lesson 10 — AI for Your Own Projects",
+  "description": "Plan and build your first AI project: 6-step framework, problem definition, tool selection, 5 templates with prompts, common mistakes. Age 12–13, free.",
+  "url": "https://mitraailife.com/content/students/class-08/lesson-10.html",
+  "educationalLevel": "Class 8",
+  "typicalAgeRange": "12-13",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "provider": { "@type": "Organization", "name": "Mitra AI Life Education", "url": "https://mitraailife.com" }
+}
+</script>
+</body>
+</html>

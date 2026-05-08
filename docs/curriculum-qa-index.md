@@ -841,3 +841,112 @@ Hub page: `content/students/class-07/class-07.html`
 ---
 
 *Last updated: 8 May 2026 · Class 6 complete (12 lessons) · **Class 7 ALL 12 lessons COMPLETE AND LIVE** · Class 8 in planning.*
+
+---
+
+## Class 8 — Understanding AI Deeply (Age 12–13)
+
+**Theme:** Teal — `#0d9488` · Hub: `content/students/class-08/class-08.html`  
+**Status:** ALL 12 LESSONS COMPLETE AND LIVE
+
+---
+
+### Lesson 1 — How Does AI Really Work?
+
+**File:** `content/students/class-08/lesson-01.html`  
+**Story:** Priya (13, Visakhapatnam)  
+**Quiz answers:** `{1:'c', 2:'c', 3:'b', 4:'c', 5:'c', 6:'c', 7:'b', 8:'c'}` · GA4: `class08_lesson01_quiz`
+
+---
+
+### Lesson 2 — Data: The Ingredient AI Needs
+
+**File:** `content/students/class-08/lesson-02.html`  
+**Story:** Rahul (13, Guntur)  
+**Quiz answers:** `{1:'b', 2:'b', 3:'c', 4:'b', 5:'b', 6:'c', 7:'b', 8:'c'}` · GA4: `class08_lesson02_quiz`
+
+---
+
+### Lesson 3 — How AI Learns: Classification and Prediction
+
+**File:** `content/students/class-08/lesson-03.html`  
+**Story:** Asha (13, Rajahmundry) — mango sorting machine  
+**Quiz answers:** `{1:'c', 2:'b', 3:'c', 4:'c', 5:'c', 6:'c', 7:'c', 8:'b'}` · GA4: `class08_lesson03_quiz`
+
+---
+
+### Lesson 4 — Building AI Workflows
+
+**File:** `content/students/class-08/lesson-04.html`  
+**Story:** Aman (13, Jaipur) — 7-step process  
+**Quiz answers:** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'c', 6:'c', 7:'b', 8:'b'}` · GA4: `class08_lesson04_quiz`
+
+---
+
+### Lesson 5 — How Language Models Work
+
+**File:** `content/students/class-08/lesson-05.html`  
+**Story:** Divya (13, Coimbatore) — AI hallucination  
+**Quiz answers:** `{1:'b', 2:'c', 3:'c', 4:'b', 5:'c', 6:'b', 7:'c', 8:'c'}` · GA4: `class08_lesson05_quiz`
+
+---
+
+### Lesson 6 — Computer Vision: How AI Sees
+
+**File:** `content/students/class-08/lesson-06.html`  
+**Story:** Riya (13, Pune) — Plantix app  
+**Interactive:** 8×8 pixel demo (JS-generated grid)  
+**Quiz answers:** `{1:'b', 2:'c', 3:'c', 4:'b', 5:'b', 6:'c', 7:'b', 8:'c'}` · GA4: `class08_lesson06_quiz`
+
+---
+
+### Lesson 7 — AI Bias and Fairness
+
+**File:** `content/students/class-08/lesson-07.html`  
+**Story:** Arjun (13, Kolkata) — AI job screening  
+**Interactive:** 7-item fairness checklist with JS toggle  
+**Quiz answers:** `{1:'b', 2:'b', 3:'b', 4:'c', 5:'c', 6:'b', 7:'b', 8:'c'}` · GA4: `class08_lesson07_quiz`
+
+---
+
+### Lesson 8 — AI Ethics and Society
+
+**File:** `content/students/class-08/lesson-08.html`  
+**Story:** Sneha (13, Nagpur) — AI exam grader debate  
+**Quiz answers:** `{1:'b', 2:'c', 3:'c', 4:'b', 5:'c', 6:'b', 7:'b', 8:'c'}` · GA4: `class08_lesson08_quiz`
+
+---
+
+### Lesson 9 — AI in India: Real Innovation
+
+**File:** `content/students/class-08/lesson-09.html`  
+**Story:** Meera (13, Hyderabad) — retinal AI screening  
+**Quiz answers:** `{1:'b', 2:'b', 3:'c', 4:'b', 5:'c', 6:'b', 7:'b', 8:'b'}` · GA4: `class08_lesson09_quiz`
+
+---
+
+### Lesson 10 — AI for Your Own Projects
+
+**File:** `content/students/class-08/lesson-10.html`  
+**Story:** Rahul (13, Pune) — electricity bill tracker  
+**Quiz answers:** `{1:'b', 2:'c', 3:'c', 4:'b', 5:'c', 6:'b', 7:'b', 8:'b'}` · GA4: `class08_lesson10_quiz`
+
+---
+
+### Lesson 11 — Python Basics: Your First AI-Ready Code
+
+**File:** `content/students/class-08/lesson-11.html`  
+**Story:** Priya (13, Visakhapatnam) — first Google Colab program  
+**Sections:** Why Python, Google Colab setup, variables+print, lists, if/else, for loops, study plan generator  
+**Quiz answers:** `{1:'b', 2:'b', 3:'c', 4:'b', 5:'b', 6:'c', 7:'a', 8:'c'}` · GA4: `class08_lesson11_quiz`
+
+---
+
+### Lesson 12 — My Class 8 AI Portfolio (Capstone)
+
+**File:** `content/students/class-08/lesson-12.html`  
+**Story:** Priya — end-of-year reflection  
+**Interactive:** 12-item skills checklist (JS toggle + counter), printable certificate with name input + print CSS  
+**Sections:** 12-lesson recap grid, skills checklist, portfolio builder (5 sections), 3-min presentation guide, Class 9 preview (6 cards), wisdom table  
+**Quiz (10 capstone questions):** `{1:'b', 2:'b', 3:'c', 4:'c', 5:'b', 6:'b', 7:'c', 8:'b', 9:'c', 10:'c'}` · GA4: `class08_lesson12_quiz`
+

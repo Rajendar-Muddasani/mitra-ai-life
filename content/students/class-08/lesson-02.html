@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 2 — Data: The Ingredient AI Needs | Class 8 | Mitra AI Life</title>
+<meta name="description" content="What is a dataset? What makes data clean or messy? Why does data quality matter more than model complexity? Class 8 lesson for Indian students age 12–13." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-08/lesson-02.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="../../../site/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../../../site/apple-touch-icon.png" />
+<meta name="theme-color" content="#0d9488" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 2 — Data: The Ingredient AI Needs | Class 8 | Mitra AI Life" />
+<meta property="og:description" content="Understand what training data really is, what makes it clean or messy, how datasets are structured, and why data quality shapes AI quality. Age 12–13, free." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-08/lesson-02.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: #f0fdfa; color: #134e4a; line-height: 1.65; }
+a { color: #0d9488; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topnav { background: #0f172a; padding: 0.75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+.topnav .brand { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800; text-decoration: none; }
+.topnav .brand span { color: #5eead4; }
+.topnav .nav-links { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.topnav .nav-links a { color: rgba(255,255,255,0.70); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+.topnav .nav-links a:hover { color: #fff; }
+.topnav .nav-links a.active { color: #5eead4; }
+.lesson-header { background: linear-gradient(135deg, #134e4a, #0f766e, #0d9488); padding: 3rem 1.5rem 3.5rem; text-align: center; color: #fff; }
+.lesson-header .lh-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 0.9rem; }
+.lesson-header h1 { font-family: 'Baloo 2', cursive; font-size: clamp(1.6rem, 5vw, 2.6rem); font-weight: 800; line-height: 1.2; margin-bottom: 0.8rem; }
+.lesson-header .lh-sub { font-size: 1rem; color: rgba(255,255,255,0.82); max-width: 580px; margin: 0 auto 1.4rem; }
+.meta-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+.meta-pill { background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.9); }
+.lesson-video { background: #134e4a; padding: 2.5rem 1rem; }
+.lesson-video .sec-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #5eead4; margin-bottom: 0.5rem; text-align: center; }
+.lesson-video h2 { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.4rem; text-align: center; margin-bottom: 1.2rem; }
+.video-caption { color: rgba(255,255,255,0.45); font-size: 0.78rem; text-align: center; margin-top: 0.7rem; }
+.video-coming { width: 100%; max-width: 760px; background: #0f766e; border-radius: 14px; padding: 3.5rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.7rem; margin: 0 auto; border: 2px dashed rgba(94,234,212,0.3); }
+.video-coming .vc-icon { font-size: 2.5rem; }
+.video-coming p { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+.content-wrap { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+.story-panel { background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border-left: 5px solid #0d9488; border-radius: 14px; padding: 1.8rem; margin-bottom: 2rem; }
+.story-panel .story-eyebrow { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.4rem; }
+.story-panel h2 { font-family: 'Baloo 2', cursive; font-size: 1.4rem; color: #134e4a; margin-bottom: 0.75rem; }
+.story-panel p { color: #374151; font-size: 0.93rem; margin-bottom: 0.8rem; }
+.story-panel p:last-child { margin-bottom: 0; }
+.story-highlight { background: #ccfbf1; border-radius: 10px; padding: 0.9rem 1rem; font-size: 0.88rem; font-weight: 700; color: #0f766e; margin-top: 1rem; }
+.lesson-section { background: #fff; border-radius: 18px; padding: 1.8rem; margin-bottom: 1.5rem; border: 1px solid #ccfbf1; box-shadow: 0 4px 18px rgba(13,148,136,0.07); }
+.sec-eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.4rem; }
+.lesson-section h2 { font-family: 'Baloo 2', cursive; font-size: 1.35rem; color: #134e4a; margin-bottom: 0.9rem; }
+.lesson-section h3 { font-size: 1.05rem; color: #0f766e; margin: 1.2rem 0 0.5rem; font-weight: 800; }
+.lesson-section p { color: #374151; font-size: 0.93rem; margin-bottom: 0.85rem; }
+.lesson-section p:last-child { margin-bottom: 0; }
+.lesson-section ul, .lesson-section ol { color: #374151; font-size: 0.93rem; padding-left: 1.4rem; margin-bottom: 0.85rem; }
+.lesson-section li { margin-bottom: 0.35rem; }
+.callout { border-radius: 12px; padding: 0.9rem 1.1rem; font-size: 0.88rem; margin: 1rem 0; }
+.callout.teal { background: #ccfbf1; border-left: 4px solid #0d9488; color: #134e4a; }
+.callout.amber { background: #fffbeb; border-left: 4px solid #f59e0b; color: #78350f; }
+.callout.green { background: #f0fdf4; border-left: 4px solid #22c55e; color: #14532d; }
+.callout.red { background: #fef2f2; border-left: 4px solid #ef4444; color: #7f1d1d; }
+
+/* Dataset table visual */
+.dataset-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin: 1rem 0; }
+.dataset-table th { background: #0f766e; color: #fff; padding: 0.5rem 0.7rem; text-align: left; }
+.dataset-table td { border: 1px solid #ccfbf1; padding: 0.5rem 0.7rem; }
+.dataset-table tr:nth-child(even) td { background: #f0fdfa; }
+.dataset-table .cell-bad { background: #fef2f2; color: #ef4444; font-weight: 700; }
+.dataset-table .cell-missing { background: #fffbeb; color: #f59e0b; font-style: italic; }
+
+/* Data types grid */
+.data-type-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.8rem; margin: 1rem 0; }
+.data-type-card { background: #f0fdfa; border-radius: 12px; padding: 0.9rem; border: 1.5px solid #ccfbf1; }
+.data-type-card .dt-type { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.25rem; }
+.data-type-card .dt-examples { font-size: 0.83rem; color: #374151; }
+
+/* Clean vs messy */
+.clean-messy { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+.cm-col { border-radius: 12px; padding: 1rem; }
+.cm-col.clean { background: #f0fdf4; border: 1.5px solid #22c55e; }
+.cm-col.messy { background: #fef2f2; border: 1.5px solid #ef4444; }
+.cm-col h4 { font-size: 0.88rem; font-weight: 800; margin-bottom: 0.5rem; }
+.cm-col.clean h4 { color: #14532d; }
+.cm-col.messy h4 { color: #7f1d1d; }
+.cm-col ul { font-size: 0.82rem; color: #374151; padding-left: 1.2rem; }
+.cm-col li { margin-bottom: 0.3rem; }
+
+/* Table */
+.ws-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+.ws-table th { background: #0f766e; color: #fff; padding: 0.55rem 0.7rem; text-align: left; font-weight: 700; }
+.ws-table td { border: 1px solid #ccfbf1; padding: 0.55rem 0.7rem; vertical-align: top; }
+.ws-table tr:nth-child(even) td { background: #f0fdfa; }
+
+/* Quiz */
+.quiz-section { background: linear-gradient(135deg, #134e4a, #0f766e); border-radius: 20px; padding: 2rem 1.5rem; margin: 1.5rem 0; }
+.quiz-section h2 { font-family: 'Baloo 2', cursive; color: #fff; font-size: 1.35rem; margin-bottom: 0.4rem; text-align: center; }
+.quiz-intro { color: rgba(255,255,255,0.7); font-size: 0.85rem; text-align: center; margin-bottom: 1.5rem; }
+.quiz-q { background: rgba(255,255,255,0.08); border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 1rem; }
+.quiz-q .qtext { font-size: 0.92rem; font-weight: 700; color: #ccfbf1; margin-bottom: 0.7rem; }
+.quiz-opt { display: block; width: 100%; text-align: left; background: rgba(255,255,255,0.10); border: 1.5px solid rgba(255,255,255,0.15); border-radius: 10px; color: rgba(255,255,255,0.85); font-family: 'Nunito', sans-serif; font-size: 0.84rem; font-weight: 600; padding: 0.55rem 0.9rem; margin-bottom: 0.4rem; cursor: pointer; transition: background 0.15s; }
+.quiz-opt:hover:not(:disabled) { background: rgba(255,255,255,0.18); }
+.quiz-opt.correct { background: #14532d; border-color: #22c55e; color: #fff; }
+.quiz-opt.wrong { background: #7f1d1d; border-color: #ef4444; color: #fff; }
+.q-feedback { font-size: 0.8rem; font-weight: 700; margin-top: 0.3rem; }
+.q-feedback.ok { color: #86efac; }
+.q-feedback.bad { color: #fca5a5; }
+#quiz-submit { display: block; margin: 1.2rem auto 0; background: #0d9488; color: #fff; border: none; border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; padding: 0.75rem 2.5rem; cursor: pointer; }
+#quiz-submit:hover { background: #0f766e; }
+#quiz-result { text-align: center; margin-top: 1rem; }
+#quiz-result .score { font-family: 'Baloo 2', cursive; font-size: 2.5rem; color: #fff; font-weight: 800; }
+#quiz-result .score-msg { color: rgba(255,255,255,0.8); font-size: 0.92rem; margin-top: 0.4rem; }
+.worksheet-box { background: #fff; border-radius: 18px; padding: 1.8rem; border: 2px dashed #0d9488; margin-bottom: 1.5rem; }
+.worksheet-box h3 { font-family: 'Baloo 2', cursive; color: #0f766e; font-size: 1.2rem; margin-bottom: 0.6rem; }
+.parent-note { background: #fffbeb; border-radius: 18px; padding: 1.8rem; border: 1.5px solid #fde68a; margin-bottom: 1.5rem; }
+.parent-note h3 { font-family: 'Baloo 2', cursive; color: #92400e; font-size: 1.15rem; margin-bottom: 0.6rem; }
+.parent-note p { color: #451a03; font-size: 0.88rem; margin-bottom: 0.65rem; }
+.parent-note ul { color: #451a03; font-size: 0.88rem; padding-left: 1.3rem; }
+.parent-note li { margin-bottom: 0.35rem; }
+.bottom-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; padding: 1.5rem; border-top: 1.5px solid #ccfbf1; margin-top: 1rem; }
+.bottom-nav .prev-btn, .bottom-nav .next-btn { font-size: 0.9rem; font-weight: 800; padding: 0.7rem 1.3rem; border-radius: 12px; border: 2px solid #0d9488; color: #0d9488; text-decoration: none; }
+.bottom-nav .prev-btn:hover, .bottom-nav .next-btn:hover { background: #0d9488; color: #fff; }
+footer { background: #0f172a; color: rgba(255,255,255,0.55); padding: 2rem 1.5rem; text-align: center; font-size: 0.82rem; }
+footer a { color: rgba(255,255,255,0.6); }
+footer .footer-brand { font-family: 'Baloo 2', cursive; font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 0.5rem; }
+@media (max-width: 600px) {
+  .clean-messy { grid-template-columns: 1fr; }
+  .lesson-header h1 { font-size: 1.45rem; }
+  .content-wrap { padding: 1.25rem 1rem 2rem; }
+  .lesson-section { padding: 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="../../../site/students.html" class="active">AI for Students</a>
+    <a href="../../../site/index.html">Home</a>
+    <a href="../../../site/contact.html">Contact</a>
+  </div>
+</nav>
+
+<header class="lesson-header">
+  <div class="lh-eyebrow">AI for Students · Class 8 · Age 12–13 · Lesson 2 of 12</div>
+  <h1>Data: The Ingredient AI Needs 📊</h1>
+  <p class="lh-sub">AI is only as good as the data it learns from. This lesson explores what data really is, what makes it clean or messy, and why the quality of your data matters more than the sophistication of your model.</p>
+  <div class="meta-pills">
+    <span class="meta-pill">📘 Class 8 · Lesson 2</span>
+    <span class="meta-pill">🕐 45–55 min</span>
+    <span class="meta-pill">🚫 No coding needed</span>
+    <span class="meta-pill">🆓 Free lesson</span>
+  </div>
+</header>
+<img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-08/lesson-02-hero.jpg" alt="Illustrated scene: Indian student sorting colourful data cards into neat and messy piles, representing clean vs messy data" loading="lazy" onerror="this.style.display='none'" style="width:100%;height:300px;object-fit:cover;object-position:center 40%;display:block;" />
+
+<section class="lesson-video">
+  <div style="width:90%;max-width:760px;margin:0 auto;">
+    <div class="sec-label">Watch first · 2–3 minutes</div>
+    <h2>Class 8 Lesson 2 — Data: The Ingredient AI Needs</h2>
+    <div class="video-coming">
+      <div class="vc-icon">🎬</div>
+      <p>Video coming soon — the written lesson is complete and ready to use now.</p>
+    </div>
+    <p class="video-caption">No sign-in needed · English narration · Safe for all school ages</p>
+  </div>
+</section>
+
+<main class="content-wrap">
+
+  <!-- Story -->
+  <div class="story-panel">
+    <div class="story-eyebrow">Story · Rahul's School Survey Problem</div>
+    <h2>The Data Was There — But Was It Useful? 🗂️</h2>
+    <p>Rahul, 13, from Guntur, was doing a school project: "Find out which subject Class 8 students find most difficult and why." He surveyed 50 students and collected their answers in a notebook.</p>
+    <p>Then he tried to make sense of it. Some students had written "Maths" — others had written "math", "MATHS", "mathematics", and "maths (hate it!)". Some had left the column blank. One had written "all of them." A few had given two answers. And three forms had been filled in by the same person using different names.</p>
+    <p>Rahul had data — but the data was messy. Before he could find any patterns, he had to clean it: standardise the spelling, handle blanks, remove duplicates, and decide what to do with unusual entries.</p>
+    <p>His teacher nodded. "Rahul has just discovered the most important lesson in data science: collecting data is easy. Having clean, usable data is hard. And AI has the same problem — at a much larger scale."</p>
+    <div class="story-highlight">
+      👉 This lesson explains what data really is, how it is structured, what makes it clean or messy, and why the phrase "garbage in, garbage out" is the most important warning in all of AI.
+    </div>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 1 of 7</div>
+    <h2>🗃️ What Is a Dataset?</h2>
+    <p>A <strong>dataset</strong> is a organised collection of related information. It is the raw material that an AI model learns from.</p>
+    <p>Think of a dataset like a very large table. Each row is one example — called a <strong>record</strong> or <strong>instance</strong>. Each column is one property — called a <strong>feature</strong> or <strong>attribute</strong>. If the data is for supervised learning, one column is the <strong>label</strong> — the answer the model is trying to learn to predict.</p>
+
+    <p>Here is a small example — a toy dataset for predicting whether a student will pass or fail:</p>
+
+    <table class="dataset-table">
+      <thead>
+        <tr><th>Student ID</th><th>Study hours/day</th><th>Attendance %</th><th>Previous score</th><th>Label (pass/fail)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>S001</td><td>3.5</td><td>92</td><td>72</td><td>Pass</td></tr>
+        <tr><td>S002</td><td>1.0</td><td>65</td><td>44</td><td>Fail</td></tr>
+        <tr><td>S003</td><td>4.0</td><td>88</td><td>81</td><td>Pass</td></tr>
+        <tr><td>S004 <span class="cell-bad">?</span></td><td class="cell-missing">(missing)</td><td>74</td><td>58</td><td>Pass</td></tr>
+        <tr><td>S005</td><td>2.5</td><td>80</td><td class="cell-bad">-99</td><td>Fail</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-size:0.82rem;color:#6b7280;">⚠️ Two data quality issues are highlighted above: a missing value (S004 study hours) and a suspicious value (S005 previous score of -99 — probably an error).</p>
+
+    <div class="callout teal">
+      <strong>Key vocabulary:</strong> Record (row = one example), Feature (column = one property), Label (the answer the model learns to predict), Dataset (the whole table).
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 2 of 7</div>
+    <h2>🎨 Types of Data</h2>
+    <p>Data can take many forms. Understanding the type of data helps you understand what kind of AI model can work with it.</p>
+
+    <div class="data-type-grid">
+      <div class="data-type-card">
+        <div class="dt-type">Numerical</div>
+        <div class="dt-examples">Numbers: temperature, exam score, age, rainfall in mm, distance in km.<br/><strong>Can be compared and calculated with.</strong></div>
+      </div>
+      <div class="data-type-card">
+        <div class="dt-type">Categorical</div>
+        <div class="dt-examples">Fixed categories: subject name (Maths, Science), city, grade (A/B/C), type of crop.<br/><strong>Has a limited set of possible values.</strong></div>
+      </div>
+      <div class="data-type-card">
+        <div class="dt-type">Text</div>
+        <div class="dt-examples">Free-form written language: product reviews, WhatsApp messages, news articles, student essays.<br/><strong>Needs special processing to use in AI.</strong></div>
+      </div>
+      <div class="data-type-card">
+        <div class="dt-type">Image</div>
+        <div class="dt-examples">Pixels in a grid: photos of crops, X-rays, satellite images, handwritten digits.<br/><strong>Each image = thousands or millions of numbers.</strong></div>
+      </div>
+      <div class="data-type-card">
+        <div class="dt-type">Audio</div>
+        <div class="dt-examples">Sound waves sampled over time: speech recordings, music, bird calls.<br/><strong>Used in voice AI and language translation.</strong></div>
+      </div>
+      <div class="data-type-card">
+        <div class="dt-type">Time-series</div>
+        <div class="dt-examples">Values measured over time: daily rainfall, stock price, heartbeat, electricity usage.<br/><strong>Order matters — sequence has meaning.</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 3 of 7</div>
+    <h2>🧹 Clean Data vs Messy Data</h2>
+    <p>Real-world data is almost never perfectly clean when it is first collected. Data cleaning — fixing problems before training — is one of the most important and time-consuming parts of building any AI system.</p>
+
+    <div class="clean-messy">
+      <div class="cm-col clean">
+        <h4>✅ Clean data has...</h4>
+        <ul>
+          <li>Consistent formatting (dates, spellings, units)</li>
+          <li>No missing values (or clearly handled ones)</li>
+          <li>No duplicates</li>
+          <li>Sensible ranges (no age = -5, no temperature = 9999)</li>
+          <li>Labels that are correct and consistent</li>
+          <li>Representative coverage (not missing whole groups)</li>
+        </ul>
+      </div>
+      <div class="cm-col messy">
+        <h4>❌ Messy data has...</h4>
+        <ul>
+          <li>Inconsistent spelling: "Maths", "maths", "MATH"</li>
+          <li>Missing values: blank cells, "N/A", "-99"</li>
+          <li>Duplicates: same record entered twice</li>
+          <li>Outliers: age = 200, income = -1</li>
+          <li>Wrong labels: a photo of a cat labelled "dog"</li>
+          <li>Gaps: no data from rural areas, no data from women</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Common data cleaning steps</h3>
+    <ol>
+      <li><strong>Standardise format:</strong> make all city names, dates, and spellings consistent</li>
+      <li><strong>Handle missing values:</strong> remove the row, fill with average, or note as unknown</li>
+      <li><strong>Remove duplicates:</strong> check for and delete repeated entries</li>
+      <li><strong>Fix outliers:</strong> values that are impossible or extreme — investigate and correct or remove</li>
+      <li><strong>Check labels:</strong> spot-check that categories are correctly assigned</li>
+    </ol>
+
+    <div class="callout amber">
+      <strong>"Garbage in, garbage out"</strong> — this is the most important rule in AI and data science. A brilliant algorithm trained on dirty data will produce worse results than a simple algorithm trained on clean data. Data quality always beats model complexity.
+    </div>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 4 of 7</div>
+    <h2>⚖️ Representative Data — The Coverage Problem</h2>
+    <p>Even clean data can be problematic if it does not represent the full picture. A dataset that works perfectly for some users might fail for others — because those users were not well-represented in the training data.</p>
+
+    <h3>Three common coverage problems</h3>
+    <ul>
+      <li><strong>Geographic bias:</strong> A crop disease detection AI trained only on photos from Maharashtra might not recognise diseases common in Tamil Nadu or Assam — because those regions were not in the training set.</li>
+      <li><strong>Demographic gaps:</strong> A face recognition system trained mostly on light-skinned faces will perform worse on darker skin tones — as has been shown in multiple published studies.</li>
+      <li><strong>Language gaps:</strong> AI language tools trained mostly on English and European languages perform worse on Telugu, Tamil, Kannada, and other Indian languages — because far less text data existed for them during training.</li>
+    </ul>
+
+    <div class="callout teal">
+      <strong>Why this matters for India:</strong> Most of the world's largest AI datasets were built in the US, UK, and China. Indian contexts — local names, addresses, regional accents, seasonal patterns, crop varieties, medical conditions common in India — are often underrepresented. This means AI tools can be less accurate for Indian users, even when they seem very capable in general.
+    </div>
+
+    <h3>What is being done</h3>
+    <p>Projects like <strong>Bhashini</strong> (a government initiative for Indian language AI), <strong>AI4Bharat</strong> (IIT Madras) and several Indian startups are actively building large, diverse datasets specifically for Indian languages, voices, and contexts. This is essential work for making AI fair and useful in India.</p>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 5 of 7</div>
+    <h2>🔢 How Much Data Is Enough?</h2>
+    <p>A question students always ask: how many examples does an AI really need?</p>
+    <p>The answer depends on the task, but here is a rough guide:</p>
+
+    <table class="ws-table">
+      <thead>
+        <tr><th>Type of task</th><th>Rough data size needed</th><th>Example</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Simple classification (2–3 categories)</td><td>Hundreds to a few thousand examples</td><td>Spam filter with 2 categories</td></tr>
+        <tr><td>Image recognition (many categories)</td><td>Thousands to millions per category</td><td>ImageNet: 14 million labelled images</td></tr>
+        <tr><td>Language model (like GPT)</td><td>Hundreds of billions of text tokens</td><td>GPT-3 trained on ~500 billion tokens</td></tr>
+        <tr><td>Medical diagnosis AI</td><td>Tens of thousands of verified cases</td><td>Diabetic retinopathy detection: 128,000 images</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout teal">
+      <strong>The good news:</strong> You do not always need to start from scratch. <em>Transfer learning</em> lets you take a model already trained on huge data (like an image recognition model) and fine-tune it for your specific task with a much smaller dataset. This is how Indian language tools are often built — start from a large multilingual model, then fine-tune with Indian language data.
+    </div>
+  </div>
+
+  <!-- Section 6 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 6 of 7</div>
+    <h2>🔏 Data Ethics — Who Owns It and What Happens to It?</h2>
+    <p>Every AI system was built using data collected from somewhere — and from someone. Before finishing this lesson, it is important to think about the ethics of data.</p>
+
+    <h3>Three important questions about any dataset</h3>
+    <ul>
+      <li><strong>Consent:</strong> Did the people whose data was used agree to it being used to train AI? Many early datasets scraped public websites without asking anyone.</li>
+      <li><strong>Privacy:</strong> Does the dataset contain personal information? Even "anonymised" data can sometimes be re-identified by combining it with other data sources.</li>
+      <li><strong>Purpose:</strong> Was the data collected for one purpose (e.g. hospital records) but now being used for something else (e.g. insurance risk scoring)? This is called "repurposing" and raises ethical questions.</li>
+    </ul>
+
+    <div class="callout amber">
+      <strong>India's data law:</strong> India's Digital Personal Data Protection Act (DPDPA) 2023 gives Indian citizens rights over their personal data — including the right to know how it is being used. As AI users, students should understand that their activity data (searches, messages, app usage) can be collected and used to train or improve AI systems.
+    </div>
+  </div>
+
+  <!-- Section 7 -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 7 of 7</div>
+    <h2>🗺️ Data in Your Own Life</h2>
+    <p>You generate data every day. Understanding what data you produce — and where it goes — makes you a more informed digital citizen.</p>
+
+    <table class="ws-table">
+      <thead>
+        <tr><th>Action you take</th><th>Data generated</th><th>Who might use it</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Search something on Google</td><td>Search query, time, location, device</td><td>Google — to train search ranking and ad models</td></tr>
+        <tr><td>Watch a YouTube video</td><td>Video ID, watch time, skip points, device</td><td>YouTube — to train recommendation models</td></tr>
+        <tr><td>Use a voice assistant</td><td>Audio recording of your voice and command</td><td>Platform (Google/Amazon/Apple) — to improve speech recognition</td></tr>
+        <tr><td>Use an AI chatbot</td><td>Your questions and feedback</td><td>Platform — to improve the language model</td></tr>
+        <tr><td>Use navigation/maps app</td><td>GPS route, speed, time</td><td>Maps service — to improve traffic prediction</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout green">
+      <strong>The key insight:</strong> AI is not separate from your life — it is built from data that people like you generated. Every time you use an AI tool and rate its response, click a recommended video, or speak to a voice assistant, you may be contributing to its training data. Understanding this helps you be a more conscious and empowered AI user.
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h2>📊 Quiz — Lesson 2</h2>
+    <p class="quiz-intro">8 questions · Click your answer · Submit for your score</p>
+
+    <div class="quiz-q" id="q1">
+      <div class="qtext">1. What is a "feature" in a dataset?</div>
+      <button class="quiz-opt" data-q="1" data-val="a">A) A useful or impressive capability of an AI model</button>
+      <button class="quiz-opt" data-q="1" data-val="b">B) A column in a dataset — one measured property or attribute of each record</button>
+      <button class="quiz-opt" data-q="1" data-val="c">C) The answer column that the model learns to predict</button>
+      <button class="quiz-opt" data-q="1" data-val="d">D) A type of messy data problem</button>
+      <div class="q-feedback" id="fb1"></div>
+    </div>
+
+    <div class="quiz-q" id="q2">
+      <div class="qtext">2. "Garbage in, garbage out" means:</div>
+      <button class="quiz-opt" data-q="2" data-val="a">A) AI tools should only be used for important tasks, not trivial ones</button>
+      <button class="quiz-opt" data-q="2" data-val="b">B) If your training data is poor quality, your AI model will produce poor quality results — no matter how good the algorithm</button>
+      <button class="quiz-opt" data-q="2" data-val="c">C) Old AI models produce worse output than new ones</button>
+      <button class="quiz-opt" data-q="2" data-val="d">D) AI generates waste data that needs to be deleted after training</button>
+      <div class="q-feedback" id="fb2"></div>
+    </div>
+
+    <div class="quiz-q" id="q3">
+      <div class="qtext">3. Which is an example of a "label" in a supervised learning dataset?</div>
+      <button class="quiz-opt" data-q="3" data-val="a">A) The student's name in a dataset of exam results</button>
+      <button class="quiz-opt" data-q="3" data-val="b">B) The number of hours studied (used to predict outcome)</button>
+      <button class="quiz-opt" data-q="3" data-val="c">C) The "pass" or "fail" column the model is trained to predict</button>
+      <button class="quiz-opt" data-q="3" data-val="d">D) The column that lists data sources</button>
+      <div class="q-feedback" id="fb3"></div>
+    </div>
+
+    <div class="quiz-q" id="q4">
+      <div class="qtext">4. A crop disease detection AI trained only on photos from one region may fail in other regions because:</div>
+      <button class="quiz-opt" data-q="4" data-val="a">A) AI tools require a different internet connection in each region</button>
+      <button class="quiz-opt" data-q="4" data-val="b">B) The training data did not represent the variation in diseases, crops, and conditions found in other regions</button>
+      <button class="quiz-opt" data-q="4" data-val="c">C) Crop photos are always too low quality to use as training data</button>
+      <button class="quiz-opt" data-q="4" data-val="d">D) AI cannot process images of living plants</button>
+      <div class="q-feedback" id="fb4"></div>
+    </div>
+
+    <div class="quiz-q" id="q5">
+      <div class="qtext">5. What is "transfer learning"?</div>
+      <button class="quiz-opt" data-q="5" data-val="a">A) Moving a trained model from one computer to another</button>
+      <button class="quiz-opt" data-q="5" data-val="b">B) Taking a model already trained on large data and fine-tuning it for a new task with much smaller data</button>
+      <button class="quiz-opt" data-q="5" data-val="c">C) Transferring your personal data to an AI company</button>
+      <button class="quiz-opt" data-q="5" data-val="d">D) Copying a dataset from one country to another</button>
+      <div class="q-feedback" id="fb5"></div>
+    </div>
+
+    <div class="quiz-q" id="q6">
+      <div class="qtext">6. Rahul's survey has some students who wrote "Maths", "math", "MATHS", and "mathematics" all meaning the same subject. This is an example of:</div>
+      <button class="quiz-opt" data-q="6" data-val="a">A) Representative data gap</button>
+      <button class="quiz-opt" data-q="6" data-val="b">B) An outlier value</button>
+      <button class="quiz-opt" data-q="6" data-val="c">C) Inconsistent formatting — a common messy data problem</button>
+      <button class="quiz-opt" data-q="6" data-val="d">D) Missing data</button>
+      <div class="q-feedback" id="fb6"></div>
+    </div>
+
+    <div class="quiz-q" id="q7">
+      <div class="qtext">7. The Bhashini project is important because:</div>
+      <button class="quiz-opt" data-q="7" data-val="a">A) It builds AI tools that only work in Hindi</button>
+      <button class="quiz-opt" data-q="7" data-val="b">B) It creates Indian language AI datasets — helping reduce the underrepresentation of Indian languages in global AI training data</button>
+      <button class="quiz-opt" data-q="7" data-val="c">C) It trains students to become AI engineers</button>
+      <button class="quiz-opt" data-q="7" data-val="d">D) It provides free internet access to rural India</button>
+      <div class="q-feedback" id="fb7"></div>
+    </div>
+
+    <div class="quiz-q" id="q8">
+      <div class="qtext">8. When you click on a YouTube video recommendation, which of the following is MOST likely happening?</div>
+      <button class="quiz-opt" data-q="8" data-val="a">A) A human editor notes what you watched and improves recommendations manually</button>
+      <button class="quiz-opt" data-q="8" data-val="b">B) Nothing — clicks have no effect on the recommendation system</button>
+      <button class="quiz-opt" data-q="8" data-val="c">C) Your click becomes data that helps train or improve the recommendation model</button>
+      <button class="quiz-opt" data-q="8" data-val="d">D) Your click data is immediately deleted for privacy</button>
+      <div class="q-feedback" id="fb8"></div>
+    </div>
+
+    <button id="quiz-submit">Check My Score</button>
+    <div id="quiz-result" style="display:none;"></div>
+  </div>
+
+  <!-- Worksheet -->
+  <div class="worksheet-box">
+    <h3>📝 Worksheet — The Mini Dataset Challenge</h3>
+    <p style="font-size:0.88rem;margin-bottom:1rem;color:#0f766e;">Complete this in your notebook. This is a hands-on data exercise.</p>
+    <ol style="font-size:0.88rem;color:#374151;padding-left:1.3rem;line-height:2;">
+      <li>Ask 10 classmates: "Which subject do you find hardest and why?" — record their answers in a simple table (name, subject, reason).</li>
+      <li>Look at your collected data. Find at least 2 data quality problems: inconsistent spelling, missing answers, unclear reasons.</li>
+      <li>Clean the data: standardise spelling, decide how to handle missing values, group similar reasons together.</li>
+      <li>Answer: Which subject appears most? What are the top 2 reasons given? Would you trust an AI trained on this raw (uncleaned) data?</li>
+      <li>Reflect: What would you do differently if you were designing this survey to produce cleaner data from the start?</li>
+    </ol>
+  </div>
+
+  <!-- Parent note -->
+  <div class="parent-note">
+    <h3>📋 Note for Parents and Teachers</h3>
+    <p><strong>What this lesson covers:</strong> What a dataset is (records, features, labels), types of data, the difference between clean and messy data, the representative data problem with a focus on Indian contexts, data ethics and India's data protection law, and how students' daily actions generate AI training data.</p>
+    <p><strong>Practical exercise:</strong> The worksheet mini-dataset challenge can be done as a classroom exercise. It gives students direct experience of why data cleaning is both necessary and time-consuming — building empathy for the challenges in real AI development.</p>
+    <p><strong>Discussion prompts:</strong></p>
+    <ul>
+      <li>"What data do you generate every day? Who might be using it?"</li>
+      <li>"If you were building an AI to diagnose crop diseases in Telangana, what would make a good training dataset?"</li>
+    </ul>
+  </div>
+
+</main>
+
+<div class="bottom-nav">
+  <a href="lesson-01.html" class="prev-btn">← Lesson 1: How AI Really Works</a>
+  <a href="lesson-03.html" class="next-btn">Lesson 3: How AI Learns →</a>
+</div>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:0.5rem;">
+    <a href="../../../site/index.html">Home</a> ·
+    <a href="../../../site/students.html">AI for Students</a> ·
+    <a href="../../../site/privacy.html">Privacy Policy</a> ·
+    <a href="../../../site/contact.html">Contact</a>
+  </p>
+  <p>© 2026 Mitra AI Life Education · Class 6 to JC +2</p>
+</footer>
+
+<script>
+const ANSWERS = { 1:'b', 2:'b', 3:'c', 4:'b', 5:'b', 6:'c', 7:'b', 8:'c' };
+document.querySelectorAll('.quiz-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const q = btn.dataset.q;
+    const container = btn.closest('.quiz-q');
+    if (container.classList.contains('answered')) return;
+    container.classList.add('answered');
+    container.querySelectorAll('.quiz-opt').forEach(b => b.disabled = true);
+    const fb = document.getElementById('fb' + q);
+    if (btn.dataset.val === ANSWERS[q]) {
+      btn.classList.add('correct'); fb.textContent = '✅ Correct!'; fb.className = 'q-feedback ok';
+    } else {
+      btn.classList.add('wrong'); fb.textContent = '❌ Not quite — the correct answer is highlighted.'; fb.className = 'q-feedback bad';
+      container.querySelectorAll('.quiz-opt').forEach(b => { if (b.dataset.val === ANSWERS[q]) b.classList.add('correct'); });
+    }
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click', () => {
+  let score = 0;
+  for (let q = 1; q <= 8; q++) { const c = document.getElementById('q' + q); if (c.classList.contains('answered') && c.querySelector('.correct')) score++; }
+  const msgs = ['Keep going!','Almost — review sections 3 and 4.','Good start!','Half way there.','Good progress!','Very close!','Very good!','Excellent!','Perfect score!'];
+  const rd = document.getElementById('quiz-result');
+  rd.style.display = 'block';
+  rd.innerHTML = `<div class="score">${score} / 8</div><div class="score-msg">${msgs[score]}</div>`;
+  document.getElementById('quiz-submit').style.display = 'none';
+  if (typeof gtag !== 'undefined') gtag('event', 'quiz_complete', { event_category: 'class8', event_label: 'class08_lesson02_quiz', value: score });
+});
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Class 8 Lesson 2 — Data: The Ingredient AI Needs",
+  "description": "Understand datasets, data types, clean vs messy data, representative coverage gaps, and data ethics — with a focus on Indian contexts. Class 8, age 12–13, free.",
+  "url": "https://mitraailife.com/content/students/class-08/lesson-02.html",
+  "educationalLevel": "Class 8",
+  "typicalAgeRange": "12-13",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "provider": { "@type": "Organization", "name": "Mitra AI Life Education", "url": "https://mitraailife.com" }
+}
+</script>
+
+</body>
+</html>

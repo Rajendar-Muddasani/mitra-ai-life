@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 5 — How Language Models Work | Class 8 | Mitra AI Life</title>
+<meta name="description" content="What is a token? How does a language model predict the next word? What is a context window? Why do LLMs hallucinate? Class 8 lesson, age 12–13, free." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-08/lesson-05.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="../../../site/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../../../site/apple-touch-icon.png" />
+<meta name="theme-color" content="#0d9488" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 5 — How Language Models Work | Class 8 | Mitra AI Life" />
+<meta property="og:description" content="Tokens, next-word prediction, context windows, temperature, fine-tuning, and why AI hallucinates — explained simply. Class 8, age 12–13, free." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-08/lesson-05.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: #f0fdfa; color: #134e4a; line-height: 1.65; }
+a { color: #0d9488; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topnav { background: #0f172a; padding: 0.75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+.topnav .brand { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800; text-decoration: none; }
+.topnav .brand span { color: #5eead4; }
+.topnav .nav-links { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.topnav .nav-links a { color: rgba(255,255,255,0.70); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+.topnav .nav-links a:hover { color: #fff; }
+.topnav .nav-links a.active { color: #5eead4; }
+.lesson-header { background: linear-gradient(135deg, #134e4a, #0f766e, #0d9488); padding: 3rem 1.5rem 3.5rem; text-align: center; color: #fff; }
+.lesson-header .lh-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 0.9rem; }
+.lesson-header h1 { font-family: 'Baloo 2', cursive; font-size: clamp(1.6rem, 5vw, 2.6rem); font-weight: 800; line-height: 1.2; margin-bottom: 0.8rem; }
+.lesson-header .lh-sub { font-size: 1rem; color: rgba(255,255,255,0.82); max-width: 580px; margin: 0 auto 1.4rem; }
+.meta-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+.meta-pill { background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.9); }
+.lesson-video { background: #134e4a; padding: 2.5rem 1rem; }
+.lesson-video .sec-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #5eead4; margin-bottom: 0.5rem; text-align: center; }
+.lesson-video h2 { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.4rem; text-align: center; margin-bottom: 1.2rem; }
+.video-caption { color: rgba(255,255,255,0.45); font-size: 0.78rem; text-align: center; margin-top: 0.7rem; }
+.video-coming { width: 100%; max-width: 760px; background: #0f766e; border-radius: 14px; padding: 3.5rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.7rem; margin: 0 auto; border: 2px dashed rgba(94,234,212,0.3); }
+.video-coming .vc-icon { font-size: 2.5rem; }
+.video-coming p { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+.content-wrap { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+.story-panel { background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border-left: 5px solid #0d9488; border-radius: 14px; padding: 1.8rem; margin-bottom: 2rem; }
+.story-panel .story-eyebrow { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.4rem; }
+.story-panel h2 { font-family: 'Baloo 2', cursive; font-size: 1.4rem; color: #134e4a; margin-bottom: 0.75rem; }
+.story-panel p { color: #374151; font-size: 0.93rem; margin-bottom: 0.8rem; }
+.story-panel p:last-child { margin-bottom: 0; }
+.story-highlight { background: #ccfbf1; border-radius: 10px; padding: 0.9rem 1rem; font-size: 0.88rem; font-weight: 700; color: #0f766e; margin-top: 1rem; }
+.lesson-section { background: #fff; border-radius: 18px; padding: 1.8rem; margin-bottom: 1.5rem; border: 1px solid #ccfbf1; box-shadow: 0 4px 18px rgba(13,148,136,0.07); }
+.sec-eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.4rem; }
+.lesson-section h2 { font-family: 'Baloo 2', cursive; font-size: 1.35rem; color: #134e4a; margin-bottom: 0.9rem; }
+.lesson-section h3 { font-size: 1.05rem; color: #0f766e; margin: 1.2rem 0 0.5rem; font-weight: 800; }
+.lesson-section p { color: #374151; font-size: 0.93rem; margin-bottom: 0.85rem; }
+.lesson-section p:last-child { margin-bottom: 0; }
+.lesson-section ul, .lesson-section ol { color: #374151; font-size: 0.93rem; padding-left: 1.4rem; margin-bottom: 0.85rem; }
+.lesson-section li { margin-bottom: 0.35rem; }
+.callout { border-radius: 12px; padding: 0.9rem 1.1rem; font-size: 0.88rem; margin: 1rem 0; }
+.callout.teal { background: #ccfbf1; border-left: 4px solid #0d9488; color: #134e4a; }
+.callout.amber { background: #fffbeb; border-left: 4px solid #f59e0b; color: #78350f; }
+.callout.green { background: #f0fdf4; border-left: 4px solid #22c55e; color: #14532d; }
+.callout.red { background: #fef2f2; border-left: 4px solid #ef4444; color: #7f1d1d; }
+/* Token visual */
+.token-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 1rem 0; }
+.token-chip { background: #ccfbf1; border: 1.5px solid #0d9488; border-radius: 6px; padding: 0.25rem 0.6rem; font-size: 0.82rem; font-weight: 700; color: #0f766e; }
+.token-chip.space { background: #ffe4e6; border-color: #f43f5e; color: #be123c; }
+/* Prob table */
+.prob-row { display: flex; gap: 0.5rem; margin-bottom: 0.4rem; align-items: center; }
+.prob-label { font-size: 0.82rem; font-weight: 700; color: #134e4a; width: 110px; }
+.prob-bar-wrap { flex: 1; background: #f0fdfa; border-radius: 6px; height: 20px; overflow: hidden; }
+.prob-bar { height: 100%; background: #0d9488; border-radius: 6px; }
+.prob-val { font-size: 0.78rem; font-weight: 700; color: #0f766e; width: 40px; text-align: right; }
+.context-window { background: #134e4a; border-radius: 12px; padding: 1.2rem; margin: 1rem 0; }
+.context-window p { color: rgba(255,255,255,0.85); font-size: 0.83rem; margin: 0; }
+.context-window .cw-bracket { font-weight: 800; color: #5eead4; }
+.ws-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+.ws-table th { background: #0f766e; color: #fff; padding: 0.55rem 0.7rem; text-align: left; font-weight: 700; }
+.ws-table td { border: 1px solid #ccfbf1; padding: 0.55rem 0.7rem; vertical-align: top; }
+.ws-table tr:nth-child(even) td { background: #f0fdfa; }
+.quiz-section { background: linear-gradient(135deg, #134e4a, #0f766e); border-radius: 20px; padding: 2rem 1.5rem; margin: 1.5rem 0; }
+.quiz-section h2 { font-family: 'Baloo 2', cursive; color: #fff; font-size: 1.35rem; margin-bottom: 0.4rem; text-align: center; }
+.quiz-intro { color: rgba(255,255,255,0.7); font-size: 0.85rem; text-align: center; margin-bottom: 1.5rem; }
+.quiz-q { background: rgba(255,255,255,0.08); border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 1rem; }
+.quiz-q .qtext { font-size: 0.92rem; font-weight: 700; color: #ccfbf1; margin-bottom: 0.7rem; }
+.quiz-opt { display: block; width: 100%; text-align: left; background: rgba(255,255,255,0.10); border: 1.5px solid rgba(255,255,255,0.15); border-radius: 10px; color: rgba(255,255,255,0.85); font-family: 'Nunito', sans-serif; font-size: 0.84rem; font-weight: 600; padding: 0.55rem 0.9rem; margin-bottom: 0.4rem; cursor: pointer; }
+.quiz-opt:hover:not(:disabled) { background: rgba(255,255,255,0.18); }
+.quiz-opt.correct { background: #14532d; border-color: #22c55e; color: #fff; }
+.quiz-opt.wrong { background: #7f1d1d; border-color: #ef4444; color: #fff; }
+.q-feedback { font-size: 0.8rem; font-weight: 700; margin-top: 0.3rem; }
+.q-feedback.ok { color: #86efac; }
+.q-feedback.bad { color: #fca5a5; }
+#quiz-submit { display: block; margin: 1.2rem auto 0; background: #0d9488; color: #fff; border: none; border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; padding: 0.75rem 2.5rem; cursor: pointer; }
+#quiz-submit:hover { background: #0f766e; }
+#quiz-result { text-align: center; margin-top: 1rem; }
+#quiz-result .score { font-family: 'Baloo 2', cursive; font-size: 2.5rem; color: #fff; font-weight: 800; }
+#quiz-result .score-msg { color: rgba(255,255,255,0.8); font-size: 0.92rem; margin-top: 0.4rem; }
+.worksheet-box { background: #fff; border-radius: 18px; padding: 1.8rem; border: 2px dashed #0d9488; margin-bottom: 1.5rem; }
+.worksheet-box h3 { font-family: 'Baloo 2', cursive; color: #0f766e; font-size: 1.2rem; margin-bottom: 0.6rem; }
+.parent-note { background: #fffbeb; border-radius: 18px; padding: 1.8rem; border: 1.5px solid #fde68a; margin-bottom: 1.5rem; }
+.parent-note h3 { font-family: 'Baloo 2', cursive; color: #92400e; font-size: 1.15rem; margin-bottom: 0.6rem; }
+.parent-note p { color: #451a03; font-size: 0.88rem; margin-bottom: 0.65rem; }
+.parent-note ul { color: #451a03; font-size: 0.88rem; padding-left: 1.3rem; }
+.parent-note li { margin-bottom: 0.35rem; }
+.bottom-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; padding: 1.5rem; border-top: 1.5px solid #ccfbf1; margin-top: 1rem; }
+.bottom-nav .prev-btn, .bottom-nav .next-btn { font-size: 0.9rem; font-weight: 800; padding: 0.7rem 1.3rem; border-radius: 12px; border: 2px solid #0d9488; color: #0d9488; text-decoration: none; }
+.bottom-nav .prev-btn:hover, .bottom-nav .next-btn:hover { background: #0d9488; color: #fff; }
+footer { background: #0f172a; color: rgba(255,255,255,0.55); padding: 2rem 1.5rem; text-align: center; font-size: 0.82rem; }
+footer a { color: rgba(255,255,255,0.6); }
+footer .footer-brand { font-family: 'Baloo 2', cursive; font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 0.5rem; }
+@media (max-width: 600px) { .lesson-header h1 { font-size: 1.45rem; } .content-wrap { padding: 1.25rem 1rem 2rem; } .lesson-section { padding: 1.25rem; } }
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="../../../site/students.html" class="active">AI for Students</a>
+    <a href="../../../site/index.html">Home</a>
+    <a href="../../../site/contact.html">Contact</a>
+  </div>
+</nav>
+<header class="lesson-header">
+  <div class="lh-eyebrow">AI for Students · Class 8 · Age 12–13 · Lesson 5 of 12</div>
+  <h1>How Language Models Work 🧠</h1>
+  <p class="lh-sub">Why does the AI write so fluently — but sometimes get facts completely wrong? This lesson goes inside a language model to understand tokens, predictions, context, and why hallucination happens.</p>
+  <div class="meta-pills">
+    <span class="meta-pill">📘 Class 8 · Lesson 5</span>
+    <span class="meta-pill">🕐 45–55 min</span>
+    <span class="meta-pill">🚫 No coding needed</span>
+    <span class="meta-pill">🆓 Free lesson</span>
+  </div>
+</header>
+<img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-08/lesson-05-hero.jpg" alt="Illustrated scene: Indian student surrounded by colourful word tokens floating in the air, with a probability dial, representing language model prediction" loading="lazy" onerror="this.style.display='none'" style="width:100%;height:300px;object-fit:cover;object-position:center 40%;display:block;" />
+
+<section class="lesson-video">
+  <div style="width:90%;max-width:760px;margin:0 auto;">
+    <div class="sec-label">Watch first · 2–3 minutes</div>
+    <h2>Class 8 Lesson 5 — How Language Models Work</h2>
+    <div class="video-coming">
+      <div class="vc-icon">🎬</div>
+      <p>Video coming soon — the written lesson is complete and ready to use now.</p>
+    </div>
+    <p class="video-caption">No sign-in needed · English narration · Safe for all school ages</p>
+  </div>
+</section>
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="story-eyebrow">Story · Divya's Poem and the Wrong Word</div>
+    <h2>The AI Was Confident — And Completely Wrong 📜</h2>
+    <p>Divya, 13, from Coimbatore, was writing a poem about the Kaveri river for her Tamil literature class. She asked an AI tool to suggest the next line after: "The Kaveri flows through ancient stone..."</p>
+    <p>The AI suggested: "...where emperors of the Maurya Empire once held their throne." It sounded beautiful and confident. But Divya's teacher pointed out immediately: the Maurya Empire was from the Ganga plain in the north — not from the Kaveri region in Tamil Nadu. The AI had chosen historically accurate-sounding words that were simply factually wrong for this geography.</p>
+    <p>"Why does it say something so confidently if it is wrong?" Divya asked. Her teacher explained: "The AI does not understand history the way you do. It has learned which words tend to follow other words in texts it has read. 'Ancient stone + emperors + throne' was a pattern it found plausible — but plausible is not the same as accurate."</p>
+    <div class="story-highlight">
+      👉 This lesson explains exactly how a language model generates text — and why that process produces fluent, confident language that can still be factually wrong.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 1 of 7</div>
+    <h2>🧩 What Is a Token?</h2>
+    <p>Language models do not read text word by word. They read it in pieces called <strong>tokens</strong>. A token is roughly a short word, part of a word, or a punctuation mark. The model learns patterns across tokens.</p>
+    <p>The sentence <em>"The Kaveri flows"</em> might be tokenised as:</p>
+    <div class="token-row">
+      <span class="token-chip">The</span>
+      <span class="token-chip"> K</span>
+      <span class="token-chip">aver</span>
+      <span class="token-chip">i</span>
+      <span class="token-chip"> flows</span>
+    </div>
+    <p>Notice: common words like "The" and "flows" are single tokens. Less common words like "Kaveri" are split into parts. This is why the model handles common words well but can struggle more with rare names, technical terms, and regional language words.</p>
+    <div class="callout teal">
+      <strong>Roughly:</strong> 1 token ≈ 0.75 words in English. A 100-word paragraph is about 130–140 tokens. GPT-4 can process up to about 128,000 tokens in one conversation — that is roughly a full novel.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 2 of 7</div>
+    <h2>🔮 Next-Word Prediction: What the Model Actually Does</h2>
+    <p>At its core, a language model does one thing: given the tokens it has seen so far, it calculates the probability of every possible next token — and picks from the most likely ones.</p>
+    <p>After seeing "The Kaveri flows through ancient", the model assigns probabilities to every possible next token:</p>
+    <div style="margin: 1rem 0;">
+      <div class="prob-row"><div class="prob-label">"stone"</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:82%"></div></div><div class="prob-val">82%</div></div>
+      <div class="prob-row"><div class="prob-label">"temples"</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:44%"></div></div><div class="prob-val">44%</div></div>
+      <div class="prob-row"><div class="prob-label">"cities"</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:28%"></div></div><div class="prob-val">28%</div></div>
+      <div class="prob-row"><div class="prob-label">"rivers"</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:12%"></div></div><div class="prob-val">12%</div></div>
+      <div class="prob-row"><div class="prob-label">"elephant"</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:3%"></div></div><div class="prob-val">3%</div></div>
+    </div>
+    <p>The model repeats this for every token in the output — hundreds or thousands of times per response. The result reads like fluent, thoughtful writing — but it is generated one probabilistic step at a time.</p>
+    <div class="callout amber">
+      <strong>Key insight:</strong> The model is not "thinking" about whether its output is true. It is asking: "What token is most likely to follow what I have seen so far, based on patterns in text I was trained on?" Fluency and factual accuracy are two separate things.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 3 of 7</div>
+    <h2>📏 The Context Window</h2>
+    <p>A language model can only "see" a limited amount of text at once — called the <strong>context window</strong>. Anything outside the window is invisible to the model when it is generating its response.</p>
+    <div class="context-window">
+      <p><span class="cw-bracket">[</span> Everything in this window is visible to the model right now: your conversation history, your current prompt, and the model's own previous output. <span class="cw-bracket">]</span></p>
+      <p style="margin-top:0.6rem;">↑ Anything <strong>before</strong> the window start → model cannot see it. Anything <strong>after</strong> the window end → not yet generated.</p>
+    </div>
+    <h3>Why the context window matters</h3>
+    <ul>
+      <li>In a very long conversation, the AI may "forget" what you said at the start because it has passed out of the context window.</li>
+      <li>If your prompt is very long, it leaves less room for the model's response.</li>
+      <li>Large context windows (like 128K tokens) allow the model to use entire documents as context — much more useful than small windows.</li>
+    </ul>
+    <div class="callout teal">
+      <strong>Analogy:</strong> Imagine reading a book but you can only see 10 pages at a time through a sliding window. You can answer questions about what is in the window perfectly — but you cannot remember what was on page 3 when you are now on page 40.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 4 of 7</div>
+    <h2>🌡️ The Temperature Parameter</h2>
+    <p>When a model picks the next token, it does not always pick the highest-probability one. A setting called <strong>temperature</strong> controls how much randomness is used in the selection.</p>
+    <table class="ws-table">
+      <thead><tr><th>Temperature setting</th><th>Behaviour</th><th>Good for</th></tr></thead>
+      <tbody>
+        <tr><td>Low (0.0–0.3)</td><td>Always picks the most likely token — outputs are predictable and consistent</td><td>Code generation, fact-based Q&amp;A, translations</td></tr>
+        <tr><td>Medium (0.5–0.8)</td><td>Balanced — mostly likely tokens with some variation</td><td>Essay writing, explanations, study guides</td></tr>
+        <tr><td>High (1.0–2.0)</td><td>More surprising token choices — outputs are more creative but less reliable</td><td>Poetry, brainstorming, story generation</td></tr>
+      </tbody>
+    </table>
+    <div class="callout teal">
+      <strong>This is why</strong> the same question asked to an AI twice may produce slightly different answers — especially at higher temperature settings.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 5 of 7</div>
+    <h2>👻 Why AI Hallucinates — A Deeper Explanation</h2>
+    <p>You learned in Class 7 that AI "hallucination" means the model produces confident-sounding but false information. Now that you understand next-word prediction, you can understand <em>why</em> it happens.</p>
+    <ol>
+      <li><strong>The model does not "know" facts — it knows patterns.</strong> If a combination of tokens was common in its training data, it will seem plausible to the model — even if it is false.</li>
+      <li><strong>It cannot say "I don't know" reliably.</strong> When asked about something it was not trained on, it does not stop and say "I don't know." It generates the most plausible-sounding continuation — which may be entirely fabricated.</li>
+      <li><strong>It is rewarded for sounding helpful.</strong> The training process rewards responses that humans rate as helpful and coherent. A confident-sounding wrong answer may have been rated better than an honest "I'm not sure" during training.</li>
+    </ol>
+    <div class="callout red">
+      <strong>Real consequence:</strong> Divya's AI suggested a historically wrong line because "ancient stone + emperors + throne" was a common pattern in historical poetry across many cultures in its training data. The model had no mechanism to check whether the Maurya Empire was actually relevant to the Kaveri region. It was producing the most statistically plausible continuation — not the most historically accurate one.
+    </div>
+    <div class="callout amber">
+      <strong>What to do:</strong> Always verify specific facts, names, dates, places, and statistics from AI output against a reliable source. The more specific and unusual a claim, the higher the risk that it is a hallucination.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 6 of 7</div>
+    <h2>🔧 What Is Fine-Tuning?</h2>
+    <p>A <strong>base language model</strong> is trained on vast amounts of general text — books, websites, Wikipedia, etc. But to make it useful for a specific task or domain, it is often <strong>fine-tuned</strong>.</p>
+    <p>Fine-tuning means continuing the training process with a much smaller, more focused dataset — teaching the model to behave differently for a particular context.</p>
+    <div class="callout teal">
+      <strong>Examples of fine-tuning:</strong>
+      <ul style="margin-top:0.5rem;">
+        <li>A general language model fine-tuned on medical text → becomes better at answering health questions in appropriate clinical language</li>
+        <li>A general model fine-tuned on customer service conversations → becomes better at handling support queries politely and efficiently</li>
+        <li>A general model fine-tuned on Indian legal documents → becomes better at understanding Indian law and regulatory language</li>
+      </ul>
+    </div>
+    <p>Fine-tuning is also how models are taught to be "helpful assistants" — by training on examples of good assistant behaviour, evaluated by human raters. This process is called <strong>RLHF (Reinforcement Learning from Human Feedback)</strong>.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 7 of 7</div>
+    <h2>🗺️ Key Vocabulary Map</h2>
+    <table class="ws-table">
+      <thead><tr><th>Term</th><th>Simple meaning</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Token</strong></td><td>The basic unit of text a language model reads — roughly a short word or word fragment</td></tr>
+        <tr><td><strong>Next-word prediction</strong></td><td>The core task: given previous tokens, pick the most likely next token. Repeated many times to produce a response.</td></tr>
+        <tr><td><strong>Context window</strong></td><td>How much text the model can see at once. Anything outside the window is invisible.</td></tr>
+        <tr><td><strong>Temperature</strong></td><td>A setting that controls how random or creative the model's token choices are (low = predictable, high = creative)</td></tr>
+        <tr><td><strong>Hallucination</strong></td><td>When the model generates confident-sounding but false information — because it follows statistical patterns, not facts</td></tr>
+        <tr><td><strong>Fine-tuning</strong></td><td>Continued training on a smaller, focused dataset to specialise the model for a particular task or domain</td></tr>
+        <tr><td><strong>RLHF</strong></td><td>Reinforcement Learning from Human Feedback — the process used to train models to behave as helpful assistants</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="quiz-section">
+    <h2>🧠 Quiz — Lesson 5</h2>
+    <p class="quiz-intro">8 questions · Click your answer · Submit for your score</p>
+    <div class="quiz-q" id="q1">
+      <div class="qtext">1. What is a "token" in a language model?</div>
+      <button class="quiz-opt" data-q="1" data-val="a">A) A security code used to access the AI tool</button>
+      <button class="quiz-opt" data-q="1" data-val="b">B) A basic unit of text — roughly a short word or word fragment — that the model reads and predicts</button>
+      <button class="quiz-opt" data-q="1" data-val="c">C) A type of reward given to the model when it gives a correct answer</button>
+      <button class="quiz-opt" data-q="1" data-val="d">D) A mistake made by the language model</button>
+      <div class="q-feedback" id="fb1"></div>
+    </div>
+    <div class="quiz-q" id="q2">
+      <div class="qtext">2. What is the core task that a language model performs?</div>
+      <button class="quiz-opt" data-q="2" data-val="a">A) Searching the internet for accurate answers</button>
+      <button class="quiz-opt" data-q="2" data-val="b">B) Thinking about what the user really means</button>
+      <button class="quiz-opt" data-q="2" data-val="c">C) Predicting the most probable next token given the tokens it has seen so far</button>
+      <button class="quiz-opt" data-q="2" data-val="d">D) Memorising and retrieving exact text from its training data</button>
+      <div class="q-feedback" id="fb2"></div>
+    </div>
+    <div class="quiz-q" id="q3">
+      <div class="qtext">3. The "context window" of a language model refers to:</div>
+      <button class="quiz-opt" data-q="3" data-val="a">A) How visually attractive the AI's interface is</button>
+      <button class="quiz-opt" data-q="3" data-val="b">B) The background knowledge the model has about your country</button>
+      <button class="quiz-opt" data-q="3" data-val="c">C) The maximum amount of text the model can see and use at one time when generating a response</button>
+      <button class="quiz-opt" data-q="3" data-val="d">D) The number of languages the model has been trained on</button>
+      <div class="q-feedback" id="fb3"></div>
+    </div>
+    <div class="quiz-q" id="q4">
+      <div class="qtext">4. Which temperature setting would you use for generating code that must work correctly every time?</div>
+      <button class="quiz-opt" data-q="4" data-val="a">A) High temperature (1.5–2.0) — more creative output</button>
+      <button class="quiz-opt" data-q="4" data-val="b">B) Low temperature (0.0–0.3) — predictable and consistent output</button>
+      <button class="quiz-opt" data-q="4" data-val="c">C) Temperature does not affect code generation at all</button>
+      <button class="quiz-opt" data-q="4" data-val="d">D) The highest possible temperature always produces the best code</button>
+      <div class="q-feedback" id="fb4"></div>
+    </div>
+    <div class="quiz-q" id="q5">
+      <div class="qtext">5. Why does AI hallucination happen? Choose the BEST explanation.</div>
+      <button class="quiz-opt" data-q="5" data-val="a">A) The AI's internet connection dropped during the answer</button>
+      <button class="quiz-opt" data-q="5" data-val="b">B) The AI is deliberately trying to mislead users</button>
+      <button class="quiz-opt" data-q="5" data-val="c">C) The model follows statistical patterns rather than facts — so it can generate plausible-sounding but false continuations</button>
+      <button class="quiz-opt" data-q="5" data-val="d">D) Hallucination only happens with low-quality AI tools</button>
+      <div class="q-feedback" id="fb5"></div>
+    </div>
+    <div class="quiz-q" id="q6">
+      <div class="qtext">6. Divya's AI suggested that Maurya Empire emperors used the Kaveri region as their base. This is an example of:</div>
+      <button class="quiz-opt" data-q="6" data-val="a">A) Correct historical information presented in poetic language</button>
+      <button class="quiz-opt" data-q="6" data-val="b">B) A hallucination — the AI generated a historically plausible-sounding but factually wrong claim</button>
+      <button class="quiz-opt" data-q="6" data-val="c">C) A context window error caused by too many tokens</button>
+      <button class="quiz-opt" data-q="6" data-val="d">D) High temperature causing an unusually creative response</button>
+      <div class="q-feedback" id="fb6"></div>
+    </div>
+    <div class="quiz-q" id="q7">
+      <div class="qtext">7. What is "fine-tuning" a language model?</div>
+      <button class="quiz-opt" data-q="7" data-val="a">A) Reducing the temperature setting to make it more accurate</button>
+      <button class="quiz-opt" data-q="7" data-val="b">B) Giving the model extra computing power to run faster</button>
+      <button class="quiz-opt" data-q="7" data-val="c">C) Continuing training on a smaller focused dataset to specialise the model for a particular domain or task</button>
+      <button class="quiz-opt" data-q="7" data-val="d">D) Removing hallucinations from the model's output after generation</button>
+      <div class="q-feedback" id="fb7"></div>
+    </div>
+    <div class="quiz-q" id="q8">
+      <div class="qtext">8. You ask an AI the same factual question twice and get slightly different answers. The most likely explanation is:</div>
+      <button class="quiz-opt" data-q="8" data-val="a">A) The AI is inconsistent and unreliable for all tasks</button>
+      <button class="quiz-opt" data-q="8" data-val="b">B) The AI forgot the first answer because of the context window</button>
+      <button class="quiz-opt" data-q="8" data-val="c">C) Temperature-based randomness in token selection means responses are not deterministic at medium or high temperature</button>
+      <button class="quiz-opt" data-q="8" data-val="d">D) The AI was trained on different data for each question</button>
+      <div class="q-feedback" id="fb8"></div>
+    </div>
+    <button id="quiz-submit">Check My Score</button>
+    <div id="quiz-result" style="display:none;"></div>
+  </div>
+
+  <div class="worksheet-box">
+    <h3>📝 Worksheet — Spot the Hallucination</h3>
+    <p style="font-size:0.88rem;margin-bottom:1rem;color:#0f766e;">In your notebook, complete these exercises:</p>
+    <ol style="font-size:0.88rem;color:#374151;padding-left:1.3rem;line-height:2;">
+      <li>Ask an AI chatbot a specific question about a place or event in Andhra Pradesh, Telangana, or your own state. Copy the answer.</li>
+      <li>Verify 3 specific claims from the answer using NCERT textbooks, government websites, or an encyclopaedia. Mark each as: ✅ Verified / ❌ Wrong / ❓ Cannot verify.</li>
+      <li>If you found an error: explain in 2 sentences WHY the AI might have generated that wrong information based on what you learned in this lesson about next-word prediction and hallucination.</li>
+      <li>Write one tip you would give a younger student about how to use AI for research safely, based on what you now know.</li>
+    </ol>
+  </div>
+
+  <div class="parent-note">
+    <h3>📋 Note for Parents and Teachers</h3>
+    <p><strong>What this lesson covers:</strong> Tokens and tokenisation, next-word prediction as the core mechanism, the context window, temperature settings, a deeper mechanistic explanation of hallucination, and the concept of fine-tuning including RLHF. No mathematics is required — the concepts are explained through analogy and visual description.</p>
+    <p><strong>Discussion prompts:</strong></p>
+    <ul>
+      <li>"If a language model does not know facts, only patterns — what does that mean for using it as a study reference? What safeguards should you use?"</li>
+      <li>"Think of a subject where hallucination would be dangerous (medicine, law, history) and one where it might be fine (brainstorming creative ideas). Why the difference?"</li>
+    </ul>
+  </div>
+</main>
+
+<div class="bottom-nav">
+  <a href="lesson-04.html" class="prev-btn">← Lesson 4: AI Workflows</a>
+  <a href="lesson-06.html" class="next-btn">Lesson 6: Computer Vision →</a>
+</div>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:0.5rem;"><a href="../../../site/index.html">Home</a> · <a href="../../../site/students.html">AI for Students</a> · <a href="../../../site/privacy.html">Privacy Policy</a> · <a href="../../../site/contact.html">Contact</a></p>
+  <p>© 2026 Mitra AI Life Education · Class 6 to JC +2</p>
+</footer>
+
+<script>
+const ANSWERS = { 1:'b', 2:'c', 3:'c', 4:'b', 5:'c', 6:'b', 7:'c', 8:'c' };
+document.querySelectorAll('.quiz-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const q = btn.dataset.q; const container = btn.closest('.quiz-q');
+    if (container.classList.contains('answered')) return;
+    container.classList.add('answered');
+    container.querySelectorAll('.quiz-opt').forEach(b => b.disabled = true);
+    const fb = document.getElementById('fb' + q);
+    if (btn.dataset.val === ANSWERS[q]) { btn.classList.add('correct'); fb.textContent = '✅ Correct!'; fb.className = 'q-feedback ok'; }
+    else { btn.classList.add('wrong'); fb.textContent = '❌ Not quite — correct answer highlighted.'; fb.className = 'q-feedback bad'; container.querySelectorAll('.quiz-opt').forEach(b => { if (b.dataset.val === ANSWERS[q]) b.classList.add('correct'); }); }
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click', () => {
+  let score = 0;
+  for (let q = 1; q <= 8; q++) { const c = document.getElementById('q' + q); if (c.classList.contains('answered') && c.querySelector('.correct')) score++; }
+  const msgs = ['Keep going!','Review sections 1–2.','Getting there!','Half way.','Good progress!','Very close!','Very good!','Excellent!','Perfect!'];
+  const rd = document.getElementById('quiz-result');
+  rd.style.display = 'block';
+  rd.innerHTML = `<div class="score">${score} / 8</div><div class="score-msg">${msgs[score]}</div>`;
+  document.getElementById('quiz-submit').style.display = 'none';
+  if (typeof gtag !== 'undefined') gtag('event', 'quiz_complete', { event_category: 'class8', event_label: 'class08_lesson05_quiz', value: score });
+});
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Class 8 Lesson 5 — How Language Models Work",
+  "description": "Tokens, next-word prediction, context windows, temperature, hallucination, and fine-tuning — explained for Class 8 students age 12–13. Free.",
+  "url": "https://mitraailife.com/content/students/class-08/lesson-05.html",
+  "educationalLevel": "Class 8",
+  "typicalAgeRange": "12-13",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "provider": { "@type": "Organization", "name": "Mitra AI Life Education", "url": "https://mitraailife.com" }
+}
+</script>
+</body>
+</html>

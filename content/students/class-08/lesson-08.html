@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 8 — AI Ethics and Society | Class 8 | Mitra AI Life</title>
+<meta name="description" content="Five big ethical questions raised by AI — jobs, privacy, surveillance, deepfakes, autonomy. A reasoning framework for ethical decisions. Class 8, age 12–13, free." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-08/lesson-08.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="../../../site/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../../../site/apple-touch-icon.png" />
+<meta name="theme-color" content="#0d9488" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 8 — AI Ethics and Society | Class 8 | Mitra AI Life" />
+<meta property="og:description" content="Five big ethical questions raised by AI: jobs, privacy, surveillance, deepfakes, autonomy. India AI Mission context and a 4-step ethical reasoning framework. Age 12–13, free." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-08/lesson-08.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: #f0fdfa; color: #134e4a; line-height: 1.65; }
+a { color: #0d9488; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topnav { background: #0f172a; padding: 0.75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+.topnav .brand { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800; text-decoration: none; }
+.topnav .brand span { color: #5eead4; }
+.topnav .nav-links { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.topnav .nav-links a { color: rgba(255,255,255,0.70); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+.topnav .nav-links a:hover { color: #fff; }
+.topnav .nav-links a.active { color: #5eead4; }
+.lesson-header { background: linear-gradient(135deg, #134e4a, #0f766e, #0d9488); padding: 3rem 1.5rem 3.5rem; text-align: center; color: #fff; }
+.lesson-header .lh-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 0.9rem; }
+.lesson-header h1 { font-family: 'Baloo 2', cursive; font-size: clamp(1.6rem, 5vw, 2.6rem); font-weight: 800; line-height: 1.2; margin-bottom: 0.8rem; }
+.lesson-header .lh-sub { font-size: 1rem; color: rgba(255,255,255,0.82); max-width: 580px; margin: 0 auto 1.4rem; }
+.meta-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+.meta-pill { background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.9); }
+.lesson-video { background: #134e4a; padding: 2.5rem 1rem; }
+.lesson-video .sec-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #5eead4; margin-bottom: 0.5rem; text-align: center; }
+.lesson-video h2 { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.4rem; text-align: center; margin-bottom: 1.2rem; }
+.video-caption { color: rgba(255,255,255,0.45); font-size: 0.78rem; text-align: center; margin-top: 0.7rem; }
+.video-coming { width: 100%; max-width: 760px; background: #0f766e; border-radius: 14px; padding: 3.5rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.7rem; margin: 0 auto; border: 2px dashed rgba(94,234,212,0.3); }
+.video-coming .vc-icon { font-size: 2.5rem; }
+.video-coming p { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+.content-wrap { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+.story-panel { background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border-left: 5px solid #0d9488; border-radius: 14px; padding: 1.8rem; margin-bottom: 2rem; }
+.story-panel .story-eyebrow { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.4rem; }
+.story-panel h2 { font-family: 'Baloo 2', cursive; font-size: 1.4rem; color: #134e4a; margin-bottom: 0.75rem; }
+.story-panel p { color: #374151; font-size: 0.93rem; margin-bottom: 0.8rem; }
+.story-panel p:last-child { margin-bottom: 0; }
+.story-highlight { background: #ccfbf1; border-radius: 10px; padding: 0.9rem 1rem; font-size: 0.88rem; font-weight: 700; color: #0f766e; margin-top: 1rem; }
+.lesson-section { background: #fff; border-radius: 18px; padding: 1.8rem; margin-bottom: 1.5rem; border: 1px solid #ccfbf1; box-shadow: 0 4px 18px rgba(13,148,136,0.07); }
+.sec-eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.4rem; }
+.lesson-section h2 { font-family: 'Baloo 2', cursive; font-size: 1.35rem; color: #134e4a; margin-bottom: 0.9rem; }
+.lesson-section h3 { font-size: 1.05rem; color: #0f766e; margin: 1.2rem 0 0.5rem; font-weight: 800; }
+.lesson-section p { color: #374151; font-size: 0.93rem; margin-bottom: 0.85rem; }
+.lesson-section p:last-child { margin-bottom: 0; }
+.lesson-section ul, .lesson-section ol { color: #374151; font-size: 0.93rem; padding-left: 1.4rem; margin-bottom: 0.85rem; }
+.lesson-section li { margin-bottom: 0.35rem; }
+.callout { border-radius: 12px; padding: 0.9rem 1.1rem; font-size: 0.88rem; margin: 1rem 0; }
+.callout.teal { background: #ccfbf1; border-left: 4px solid #0d9488; color: #134e4a; }
+.callout.amber { background: #fffbeb; border-left: 4px solid #f59e0b; color: #78350f; }
+.callout.green { background: #f0fdf4; border-left: 4px solid #22c55e; color: #14532d; }
+.callout.red { background: #fef2f2; border-left: 4px solid #ef4444; color: #7f1d1d; }
+.ethics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.85rem; margin: 1rem 0; }
+.eq-card { border-radius: 12px; padding: 1rem; background: #f0fdfa; border: 1.5px solid #ccfbf1; }
+.eq-card .eq-icon { font-size: 1.5rem; margin-bottom: 0.4rem; }
+.eq-card .eq-title { font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #0f766e; margin-bottom: 0.35rem; }
+.eq-card .eq-desc { font-size: 0.83rem; color: #374151; }
+.framework-steps { display: flex; flex-direction: column; gap: 0.75rem; margin: 1rem 0; }
+.fs-row { display: flex; gap: 1rem; align-items: flex-start; background: #f0fdfa; border-radius: 12px; padding: 0.9rem 1rem; border: 1.5px solid #ccfbf1; }
+.fs-num { background: #0d9488; color: #fff; border-radius: 50%; font-weight: 800; font-size: 0.9rem; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.fs-content { font-size: 0.88rem; color: #374151; }
+.fs-content strong { color: #134e4a; font-size: 0.92rem; }
+.ws-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+.ws-table th { background: #0f766e; color: #fff; padding: 0.55rem 0.7rem; text-align: left; font-weight: 700; }
+.ws-table td { border: 1px solid #ccfbf1; padding: 0.55rem 0.7rem; vertical-align: top; }
+.ws-table tr:nth-child(even) td { background: #f0fdfa; }
+.quiz-section { background: linear-gradient(135deg, #134e4a, #0f766e); border-radius: 20px; padding: 2rem 1.5rem; margin: 1.5rem 0; }
+.quiz-section h2 { font-family: 'Baloo 2', cursive; color: #fff; font-size: 1.35rem; margin-bottom: 0.4rem; text-align: center; }
+.quiz-intro { color: rgba(255,255,255,0.7); font-size: 0.85rem; text-align: center; margin-bottom: 1.5rem; }
+.quiz-q { background: rgba(255,255,255,0.08); border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 1rem; }
+.quiz-q .qtext { font-size: 0.92rem; font-weight: 700; color: #ccfbf1; margin-bottom: 0.7rem; }
+.quiz-opt { display: block; width: 100%; text-align: left; background: rgba(255,255,255,0.10); border: 1.5px solid rgba(255,255,255,0.15); border-radius: 10px; color: rgba(255,255,255,0.85); font-family: 'Nunito', sans-serif; font-size: 0.84rem; font-weight: 600; padding: 0.55rem 0.9rem; margin-bottom: 0.4rem; cursor: pointer; }
+.quiz-opt:hover:not(:disabled) { background: rgba(255,255,255,0.18); }
+.quiz-opt.correct { background: #14532d; border-color: #22c55e; color: #fff; }
+.quiz-opt.wrong { background: #7f1d1d; border-color: #ef4444; color: #fff; }
+.q-feedback { font-size: 0.8rem; font-weight: 700; margin-top: 0.3rem; }
+.q-feedback.ok { color: #86efac; }
+.q-feedback.bad { color: #fca5a5; }
+#quiz-submit { display: block; margin: 1.2rem auto 0; background: #0d9488; color: #fff; border: none; border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; padding: 0.75rem 2.5rem; cursor: pointer; }
+#quiz-submit:hover { background: #0f766e; }
+#quiz-result { text-align: center; margin-top: 1rem; }
+#quiz-result .score { font-family: 'Baloo 2', cursive; font-size: 2.5rem; color: #fff; font-weight: 800; }
+#quiz-result .score-msg { color: rgba(255,255,255,0.8); font-size: 0.92rem; margin-top: 0.4rem; }
+.worksheet-box { background: #fff; border-radius: 18px; padding: 1.8rem; border: 2px dashed #0d9488; margin-bottom: 1.5rem; }
+.worksheet-box h3 { font-family: 'Baloo 2', cursive; color: #0f766e; font-size: 1.2rem; margin-bottom: 0.6rem; }
+.parent-note { background: #fffbeb; border-radius: 18px; padding: 1.8rem; border: 1.5px solid #fde68a; margin-bottom: 1.5rem; }
+.parent-note h3 { font-family: 'Baloo 2', cursive; color: #92400e; font-size: 1.15rem; margin-bottom: 0.6rem; }
+.parent-note p { color: #451a03; font-size: 0.88rem; margin-bottom: 0.65rem; }
+.parent-note ul { color: #451a03; font-size: 0.88rem; padding-left: 1.3rem; }
+.parent-note li { margin-bottom: 0.35rem; }
+.bottom-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; padding: 1.5rem; border-top: 1.5px solid #ccfbf1; margin-top: 1rem; }
+.bottom-nav .prev-btn, .bottom-nav .next-btn { font-size: 0.9rem; font-weight: 800; padding: 0.7rem 1.3rem; border-radius: 12px; border: 2px solid #0d9488; color: #0d9488; text-decoration: none; }
+.bottom-nav .prev-btn:hover, .bottom-nav .next-btn:hover { background: #0d9488; color: #fff; }
+footer { background: #0f172a; color: rgba(255,255,255,0.55); padding: 2rem 1.5rem; text-align: center; font-size: 0.82rem; }
+footer a { color: rgba(255,255,255,0.6); }
+footer .footer-brand { font-family: 'Baloo 2', cursive; font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 0.5rem; }
+@media (max-width: 600px) { .lesson-header h1 { font-size: 1.45rem; } .content-wrap { padding: 1.25rem 1rem 2rem; } .lesson-section { padding: 1.25rem; } }
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="../../../site/students.html" class="active">AI for Students</a>
+    <a href="../../../site/index.html">Home</a>
+    <a href="../../../site/contact.html">Contact</a>
+  </div>
+</nav>
+<header class="lesson-header">
+  <div class="lh-eyebrow">AI for Students · Class 8 · Age 12–13 · Lesson 8 of 12</div>
+  <h1>AI Ethics and Society 🌐</h1>
+  <p class="lh-sub">AI raises hard questions about jobs, privacy, power, truth, and who decides. This lesson gives you a clear way to think through ethical dilemmas involving AI.</p>
+  <div class="meta-pills">
+    <span class="meta-pill">📘 Class 8 · Lesson 8</span>
+    <span class="meta-pill">🕐 50–60 min</span>
+    <span class="meta-pill">🚫 No coding needed</span>
+    <span class="meta-pill">🆓 Free lesson</span>
+  </div>
+</header>
+<img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-08/lesson-08-hero.jpg" alt="Illustrated scene: diverse group of Indian students in a classroom debate, with AI icons and ethical question marks around them" loading="lazy" onerror="this.style.display='none'" style="width:100%;height:300px;object-fit:cover;object-position:center 40%;display:block;" />
+
+<section class="lesson-video">
+  <div style="width:90%;max-width:760px;margin:0 auto;">
+    <div class="sec-label">Watch first · 2–3 minutes</div>
+    <h2>Class 8 Lesson 8 — AI Ethics and Society</h2>
+    <div class="video-coming">
+      <div class="vc-icon">🎬</div>
+      <p>Video coming soon — the written lesson is complete and ready to use now.</p>
+    </div>
+    <p class="video-caption">No sign-in needed · English narration · Safe for all school ages</p>
+  </div>
+</section>
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="story-eyebrow">Story · The AI Exam Grader Debate</div>
+    <h2>Should AI Grade Our Exams? 📝</h2>
+    <p>Sneha, 13, from Nagpur, heard that a private school in another city was piloting an AI system to grade Class 10 essay questions. The school said it was more consistent and faster than human teachers. Students would get results within minutes rather than weeks.</p>
+    <p>Her class got into a debate. "It would be faster and fairer — no teacher's mood affects your mark," said one student. Another disagreed: "How does an AI understand a creative answer? It probably penalises anything unusual." A third said: "If I fail, who do I appeal to?"</p>
+    <p>Sneha's teacher listened and then asked: "You have all raised important points. Let's make this more systematic. What values are in tension here — and which should we prioritise?"</p>
+    <div class="story-highlight">
+      👉 This lesson gives you exactly the tools Sneha's teacher was pointing to: a framework for identifying the ethical tensions in any AI decision and thinking through them clearly.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 1 of 5</div>
+    <h2>🔥 Five Big Ethical Questions Raised by AI</h2>
+    <div class="ethics-grid">
+      <div class="eq-card">
+        <div class="eq-icon">💼</div>
+        <div class="eq-title">Jobs and Automation</div>
+        <div class="eq-desc">AI can automate tasks done by humans — data entry, basic writing, image sorting, customer service, some legal and medical diagnosis tasks. Who benefits when productivity rises? Who loses when jobs disappear? How fast is change happening? What support exists for people displaced?</div>
+      </div>
+      <div class="eq-card">
+        <div class="eq-icon">🔒</div>
+        <div class="eq-title">Privacy</div>
+        <div class="eq-desc">AI systems need large amounts of personal data to work well. Every time you use a health app, a smart speaker, or a navigation system, data about you is collected and analysed. Who owns this data? How is it stored? Who can access it? Can you have it deleted?</div>
+      </div>
+      <div class="eq-card">
+        <div class="eq-icon">📹</div>
+        <div class="eq-title">Surveillance</div>
+        <div class="eq-desc">AI enables surveillance at scales previously impossible — face recognition across millions of cameras, predictive policing, tracking of social media for dissent. Even if each camera is legal, the combined system can enable a kind of social control that fundamentally changes how people behave in public spaces.</div>
+      </div>
+      <div class="eq-card">
+        <div class="eq-icon">🎭</div>
+        <div class="eq-title">Deepfakes and Misinformation</div>
+        <div class="eq-desc">AI can now generate convincing fake videos, voices, and images of real people. A political leader can appear to say something they never said. A private individual's face can be placed in a video without consent. This creates new threats to truth, reputation, and democratic processes.</div>
+      </div>
+      <div class="eq-card">
+        <div class="eq-icon">🤖</div>
+        <div class="eq-title">Autonomy and Human Oversight</div>
+        <div class="eq-desc">When AI makes decisions — about credit, medical diagnosis, criminal sentencing, or hiring — how much control should humans retain? If AI is more accurate, is human oversight still valuable? Or does removing human oversight remove the ability to question, appeal, and hold systems accountable?</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 2 of 5</div>
+    <h2>🚃 The Trolley Problem and AI Decisions</h2>
+    <p>Philosophers use the "trolley problem" to explore how we make decisions when values conflict. Here is an AI version:</p>
+    <div class="callout amber">
+      <strong>Scenario:</strong> A self-driving car's brakes fail on a hill. It can either swerve into a wall (killing the passenger) or continue straight (hitting a group of 5 pedestrians). The AI must decide in milliseconds. <br/><br/>
+      <strong>The questions this raises:</strong>
+      <ul style="margin-top:0.5rem;padding-left:1.2rem;">
+        <li>Should the car always protect the passenger, the majority, or random chance?</li>
+        <li>Who should programme the ethics of the car — the manufacturer, the government, or the buyer?</li>
+        <li>If the car is programmed to minimise total casualties, it might be programmed to sacrifice its own passenger. Would you buy that car?</li>
+        <li>Should different countries have different ethical rules programmed into the same car?</li>
+      </ul>
+    </div>
+    <p>There are no universally agreed answers to these questions. But working through them is important — because these decisions are being made right now, by AI companies and governments, often without public consultation.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 3 of 5</div>
+    <h2>🇮🇳 India AI Mission 2024: Context and Stakes</h2>
+    <p>India announced the India AI Mission in March 2024 with a budget of ₹10,372 crore (approximately $1.25 billion). This is one of the world's largest national AI infrastructure programmes. It includes:</p>
+    <ul>
+      <li><strong>AI compute infrastructure:</strong> 10,000+ GPUs to be made available to startups, researchers, and government through a centralised compute platform</li>
+      <li><strong>IndiaAI Dataset Platform:</strong> Large curated datasets in Indian languages and domains (agriculture, health, education) to train India-specific AI models</li>
+      <li><strong>AI safety and ethics framework:</strong> Development of standards for responsible AI deployment in Indian context</li>
+      <li><strong>FutureSkills Prime expansion:</strong> Upskilling millions of workers in AI-adjacent skills</li>
+    </ul>
+    <div class="callout teal">
+      <strong>Why this matters for you:</strong> India's AI policy choices will directly shape your future — what jobs exist, how your health data is used, whether AI systems serving you are fair and explainable. These decisions are shaped by public discourse. The more citizens — including students — understand AI, the better the policy will be.
+    </div>
+    <h3>AI Regulation: Global context</h3>
+    <table class="ws-table">
+      <thead><tr><th>Region</th><th>Key AI regulation development</th></tr></thead>
+      <tbody>
+        <tr><td>European Union</td><td>EU AI Act (2024) — world's first comprehensive AI law. Bans certain uses (social scoring, real-time biometrics in public), regulates high-risk AI (hiring, credit, medical)</td></tr>
+        <tr><td>United States</td><td>Executive Order on AI Safety (2023) — guidelines for federal AI use, safety testing for frontier models</td></tr>
+        <tr><td>India</td><td>No standalone AI law yet. Digital Personal Data Protection Act 2023 governs data. India AI Mission 2024 includes ethics framework development. Voluntary guidelines for AI intermediaries.</td></tr>
+        <tr><td>China</td><td>Rules on algorithmic recommendation (2022), generative AI regulation (2023) — requires labelling of AI-generated content</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 4 of 5</div>
+    <h2>🧭 A 4-Step Ethical Reasoning Framework</h2>
+    <p>When faced with an ethical question about AI — in a debate, an assignment, or real life — use these four steps:</p>
+    <div class="framework-steps">
+      <div class="fs-row"><div class="fs-num">1</div><div class="fs-content"><strong>Identify the stakeholders.</strong> Who is affected by this AI decision? List all of them — not just the obvious ones. For AI exam grading: students, teachers, parents, school management, universities reviewing results, future employers. Each group may have different interests.</div></div>
+      <div class="fs-row"><div class="fs-num">2</div><div class="fs-content"><strong>Name the competing values.</strong> What values are in tension? Common tensions in AI ethics: efficiency vs fairness, privacy vs security, innovation vs caution, individual benefit vs collective risk, transparency vs commercial secrecy. Name both sides.</div></div>
+      <div class="fs-row"><div class="fs-num">3</div><div class="fs-content"><strong>Identify who bears the risks vs who gets the benefits.</strong> AI benefits and harms are often distributed unequally. Does this system benefit one group while creating risks for another? If so, who has less power to protect themselves?</div></div>
+      <div class="fs-row"><div class="fs-num">4</div><div class="fs-content"><strong>Propose a safeguard, not just a verdict.</strong> Rather than just saying "AI grading is good" or "AI grading is bad," propose a condition: "AI grading could be used IF there is a clear human appeal process, IF the model is audited for bias across groups, and IF its confidence score is reported alongside the grade."</div></div>
+    </div>
+    <div class="callout green">
+      <strong>Apply the framework:</strong> Try it on the AI exam grader scenario from the story. Work through all 4 steps in your notebook. Compare with a classmate — do you arrive at the same safeguards?
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 5 of 5</div>
+    <h2>🗺️ Key Vocabulary Summary</h2>
+    <table class="ws-table">
+      <thead><tr><th>Term</th><th>Simple meaning</th></tr></thead>
+      <tbody>
+        <tr><td><strong>AI ethics</strong></td><td>The study of the moral principles that should guide the design, deployment, and use of AI systems</td></tr>
+        <tr><td><strong>Deepfake</strong></td><td>AI-generated media — video, audio, or image — that convincingly shows someone doing or saying something they did not actually do or say</td></tr>
+        <tr><td><strong>Surveillance</strong></td><td>Monitoring of individuals' behaviour, location, or communications — AI enables surveillance at unprecedented scale</td></tr>
+        <tr><td><strong>Human oversight</strong></td><td>The presence of humans in the decision loop — able to review, question, and override AI system decisions</td></tr>
+        <tr><td><strong>Stakeholder</strong></td><td>Any person or group affected by a decision or system</td></tr>
+        <tr><td><strong>Safeguard</strong></td><td>A condition, rule, or process that limits harm while allowing a system to operate — e.g. "AI can be used for X, but only IF these conditions are met"</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="quiz-section">
+    <h2>🌐 Quiz — Lesson 8</h2>
+    <p class="quiz-intro">8 questions · Click your answer · Submit for your score</p>
+    <div class="quiz-q" id="q1">
+      <div class="qtext">1. The debate in the story about AI grading exams involves which two competing values?</div>
+      <button class="quiz-opt" data-q="1" data-val="a">A) Speed vs cost</button>
+      <button class="quiz-opt" data-q="1" data-val="b">B) Consistency and efficiency vs human judgment, creativity assessment, and the right to appeal</button>
+      <button class="quiz-opt" data-q="1" data-val="c">C) Privacy vs transparency</button>
+      <button class="quiz-opt" data-q="1" data-val="d">D) Indian language support vs English-only output</button>
+      <div class="q-feedback" id="fb1"></div>
+    </div>
+    <div class="quiz-q" id="q2">
+      <div class="qtext">2. A deepfake is:</div>
+      <button class="quiz-opt" data-q="2" data-val="a">A) A false news article written by a human with bad intentions</button>
+      <button class="quiz-opt" data-q="2" data-val="b">B) A very deep neural network that makes mistakes</button>
+      <button class="quiz-opt" data-q="2" data-val="c">C) AI-generated media that convincingly shows someone doing or saying something they did not actually do or say</button>
+      <button class="quiz-opt" data-q="2" data-val="d">D) A type of data augmentation used in computer vision training</button>
+      <div class="q-feedback" id="fb2"></div>
+    </div>
+    <div class="quiz-q" id="q3">
+      <div class="qtext">3. Why is mass surveillance through AI cameras an ethical concern, even if each individual camera is legal?</div>
+      <button class="quiz-opt" data-q="3" data-val="a">A) Cameras are expensive and waste government money</button>
+      <button class="quiz-opt" data-q="3" data-val="b">B) AI cameras do not work accurately enough to be useful</button>
+      <button class="quiz-opt" data-q="3" data-val="c">C) The combined system can enable social control at a scale that changes how people behave in public — chilling free expression and assembly — even if no single camera is problematic</button>
+      <button class="quiz-opt" data-q="3" data-val="d">D) Camera footage is always deleted after 24 hours, making surveillance ineffective</button>
+      <div class="q-feedback" id="fb3"></div>
+    </div>
+    <div class="quiz-q" id="q4">
+      <div class="qtext">4. In the 4-step ethical reasoning framework, Step 3 asks you to:</div>
+      <button class="quiz-opt" data-q="4" data-val="a">A) Look up what the law says about this AI use case</button>
+      <button class="quiz-opt" data-q="4" data-val="b">B) Identify who bears the risks and who gets the benefits — especially when those groups have different levels of power</button>
+      <button class="quiz-opt" data-q="4" data-val="c">C) Decide whether the AI should be banned or allowed</button>
+      <button class="quiz-opt" data-q="4" data-val="d">D) Calculate the financial cost of the AI system</button>
+      <div class="q-feedback" id="fb4"></div>
+    </div>
+    <div class="quiz-q" id="q5">
+      <div class="qtext">5. The EU AI Act (2024) is significant because it:</div>
+      <button class="quiz-opt" data-q="5" data-val="a">A) Bans all use of AI in the European Union</button>
+      <button class="quiz-opt" data-q="5" data-val="b">B) Requires all AI systems to be open source</button>
+      <button class="quiz-opt" data-q="5" data-val="c">C) Is the world's first comprehensive AI law, banning certain uses and placing conditions on high-risk AI in areas like hiring, credit, and medical diagnosis</button>
+      <button class="quiz-opt" data-q="5" data-val="d">D) Requires all AI models to be trained in Europe</button>
+      <div class="q-feedback" id="fb5"></div>
+    </div>
+    <div class="quiz-q" id="q6">
+      <div class="qtext">6. The ethical framework says you should "propose a safeguard, not just a verdict." This means:</div>
+      <button class="quiz-opt" data-q="6" data-val="a">A) Never take a position on whether an AI system is good or bad</button>
+      <button class="quiz-opt" data-q="6" data-val="b">B) Instead of only saying "allow" or "ban," identify conditions under which the AI can operate responsibly — what protections must be in place</button>
+      <button class="quiz-opt" data-q="6" data-val="c">C) Hire a security guard to protect AI data centres</button>
+      <button class="quiz-opt" data-q="6" data-val="d">D) Ask the government to approve every individual AI decision</button>
+      <div class="q-feedback" id="fb6"></div>
+    </div>
+    <div class="quiz-q" id="q7">
+      <div class="qtext">7. The India AI Mission (2024) includes which of the following?</div>
+      <button class="quiz-opt" data-q="7" data-val="a">A) A law banning private companies from using AI</button>
+      <button class="quiz-opt" data-q="7" data-val="b">B) A budget of ₹10,372 crore including compute infrastructure, Indian-language datasets, and an AI ethics framework</button>
+      <button class="quiz-opt" data-q="7" data-val="c">C) Mandatory AI exams for all Indian school students from Class 6</button>
+      <button class="quiz-opt" data-q="7" data-val="d">D) A partnership with the EU to share all Indian citizen data</button>
+      <div class="q-feedback" id="fb7"></div>
+    </div>
+    <div class="quiz-q" id="q8">
+      <div class="qtext">8. When an AI system replaces a human decision-maker, one key thing that is often lost is:</div>
+      <button class="quiz-opt" data-q="8" data-val="a">A) Speed — AI decisions always take longer</button>
+      <button class="quiz-opt" data-q="8" data-val="b">B) Accuracy — human decisions are always more accurate</button>
+      <button class="quiz-opt" data-q="8" data-val="c">C) Accountability — it becomes harder to understand, question, or appeal a decision when no human is responsible for it</button>
+      <button class="quiz-opt" data-q="8" data-val="d">D) Cost — AI decisions are more expensive than human decisions</button>
+      <div class="q-feedback" id="fb8"></div>
+    </div>
+    <button id="quiz-submit">Check My Score</button>
+    <div id="quiz-result" style="display:none;"></div>
+  </div>
+
+  <div class="worksheet-box">
+    <h3>📝 Worksheet — Apply the Ethics Framework</h3>
+    <p style="font-size:0.88rem;margin-bottom:1rem;color:#0f766e;">Choose one of the two scenarios below. Apply the 4-step framework in your notebook:</p>
+    <p style="font-size:0.88rem;color:#374151;margin-bottom:0.75rem;"><strong>Scenario A:</strong> A bank wants to use an AI system to decide whether to approve loans for small businesses. The system was trained on past loan performance data and considers factors including the business location and the owner's previous banking history.</p>
+    <p style="font-size:0.88rem;color:#374151;margin-bottom:0.75rem;"><strong>Scenario B:</strong> A city government wants to use AI to predict which students are at risk of dropping out of school so that counsellors can intervene early. The system would use attendance records, grades, and data from the national student database.</p>
+    <ol style="font-size:0.88rem;color:#374151;padding-left:1.3rem;line-height:2;">
+      <li>List all stakeholders (people affected by the system).</li>
+      <li>Name the two main competing values in this scenario.</li>
+      <li>Identify who bears the most risk and who gets the most benefit. Are these the same people?</li>
+      <li>Propose two specific safeguards that would make this system more ethical. Use "the AI can be used IF…" format.</li>
+    </ol>
+  </div>
+
+  <div class="parent-note">
+    <h3>📋 Note for Parents and Teachers</h3>
+    <p><strong>What this lesson covers:</strong> Five major ethical questions raised by AI (jobs, privacy, surveillance, deepfakes, autonomy); the trolley problem applied to AI decision-making; India AI Mission 2024 context and global regulatory landscape; a 4-step ethical reasoning framework (stakeholders → competing values → risk/benefit distribution → safeguard proposal). This lesson builds structured reasoning skills alongside AI knowledge.</p>
+    <p><strong>Discussion prompts:</strong></p>
+    <ul>
+      <li>"Sneha's classmates had different views on AI exam grading. Which view do you find most convincing? What would change your mind?"</li>
+      <li>"India does not yet have a comprehensive AI law. Do you think it needs one? What should it cover?"</li>
+    </ul>
+  </div>
+</main>
+
+<div class="bottom-nav">
+  <a href="lesson-07.html" class="prev-btn">← Lesson 7: AI Bias</a>
+  <a href="lesson-09.html" class="next-btn">Lesson 9: AI in India →</a>
+</div>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:0.5rem;"><a href="../../../site/index.html">Home</a> · <a href="../../../site/students.html">AI for Students</a> · <a href="../../../site/privacy.html">Privacy Policy</a> · <a href="../../../site/contact.html">Contact</a></p>
+  <p>© 2026 Mitra AI Life Education · Class 6 to JC +2</p>
+</footer>
+
+<script>
+const ANSWERS = { 1:'b', 2:'c', 3:'c', 4:'b', 5:'c', 6:'b', 7:'b', 8:'c' };
+document.querySelectorAll('.quiz-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const q = btn.dataset.q; const container = btn.closest('.quiz-q');
+    if (container.classList.contains('answered')) return;
+    container.classList.add('answered');
+    container.querySelectorAll('.quiz-opt').forEach(b => b.disabled = true);
+    const fb = document.getElementById('fb' + q);
+    if (btn.dataset.val === ANSWERS[q]) { btn.classList.add('correct'); fb.textContent = '✅ Correct!'; fb.className = 'q-feedback ok'; }
+    else { btn.classList.add('wrong'); fb.textContent = '❌ Not quite — correct answer highlighted.'; fb.className = 'q-feedback bad'; container.querySelectorAll('.quiz-opt').forEach(b => { if (b.dataset.val === ANSWERS[q]) b.classList.add('correct'); }); }
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click', () => {
+  let score = 0;
+  for (let q = 1; q <= 8; q++) { const c = document.getElementById('q' + q); if (c.classList.contains('answered') && c.querySelector('.correct')) score++; }
+  const msgs = ['Keep going!','Review sections 1–2.','Getting there!','Half way.','Good progress!','Very close!','Very good!','Excellent!','Perfect!'];
+  const rd = document.getElementById('quiz-result');
+  rd.style.display = 'block';
+  rd.innerHTML = `<div class="score">${score} / 8</div><div class="score-msg">${msgs[score]}</div>`;
+  document.getElementById('quiz-submit').style.display = 'none';
+  if (typeof gtag !== 'undefined') gtag('event', 'quiz_complete', { event_category: 'class8', event_label: 'class08_lesson08_quiz', value: score });
+});
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Class 8 Lesson 8 — AI Ethics and Society",
+  "description": "Five big ethical questions raised by AI, India AI Mission context, global regulation, and a 4-step ethical reasoning framework. Age 12–13, free.",
+  "url": "https://mitraailife.com/content/students/class-08/lesson-08.html",
+  "educationalLevel": "Class 8",
+  "typicalAgeRange": "12-13",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "provider": { "@type": "Organization", "name": "Mitra AI Life Education", "url": "https://mitraailife.com" }
+}
+</script>
+</body>
+</html>

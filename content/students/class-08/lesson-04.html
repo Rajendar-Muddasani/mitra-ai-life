@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 4 — Building AI Workflows | Class 8 | Mitra AI Life</title>
+<meta name="description" content="What is an AI workflow? How do you chain prompts for a multi-step task? Five practical school workflows with reusable prompt templates. Class 8, age 12–13, free." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-08/lesson-04.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="../../../site/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../../../site/apple-touch-icon.png" />
+<meta name="theme-color" content="#0d9488" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 4 — Building AI Workflows | Class 8 | Mitra AI Life" />
+<meta property="og:description" content="Learn to chain AI prompts into reliable multi-step workflows. Five school-friendly templates for research, study plans, creative projects, and more. Age 12–13, free." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-08/lesson-04.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: #f0fdfa; color: #134e4a; line-height: 1.65; }
+a { color: #0d9488; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topnav { background: #0f172a; padding: 0.75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+.topnav .brand { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800; text-decoration: none; }
+.topnav .brand span { color: #5eead4; }
+.topnav .nav-links { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.topnav .nav-links a { color: rgba(255,255,255,0.70); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+.topnav .nav-links a:hover { color: #fff; }
+.topnav .nav-links a.active { color: #5eead4; }
+.lesson-header { background: linear-gradient(135deg, #134e4a, #0f766e, #0d9488); padding: 3rem 1.5rem 3.5rem; text-align: center; color: #fff; }
+.lesson-header .lh-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 0.9rem; }
+.lesson-header h1 { font-family: 'Baloo 2', cursive; font-size: clamp(1.6rem, 5vw, 2.6rem); font-weight: 800; line-height: 1.2; margin-bottom: 0.8rem; }
+.lesson-header .lh-sub { font-size: 1rem; color: rgba(255,255,255,0.82); max-width: 580px; margin: 0 auto 1.4rem; }
+.meta-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+.meta-pill { background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.9); }
+.lesson-video { background: #134e4a; padding: 2.5rem 1rem; }
+.lesson-video .sec-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #5eead4; margin-bottom: 0.5rem; text-align: center; }
+.lesson-video h2 { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.4rem; text-align: center; margin-bottom: 1.2rem; }
+.video-caption { color: rgba(255,255,255,0.45); font-size: 0.78rem; text-align: center; margin-top: 0.7rem; }
+.video-coming { width: 100%; max-width: 760px; background: #0f766e; border-radius: 14px; padding: 3.5rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.7rem; margin: 0 auto; border: 2px dashed rgba(94,234,212,0.3); }
+.video-coming .vc-icon { font-size: 2.5rem; }
+.video-coming p { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+.content-wrap { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+.story-panel { background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border-left: 5px solid #0d9488; border-radius: 14px; padding: 1.8rem; margin-bottom: 2rem; }
+.story-panel .story-eyebrow { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.4rem; }
+.story-panel h2 { font-family: 'Baloo 2', cursive; font-size: 1.4rem; color: #134e4a; margin-bottom: 0.75rem; }
+.story-panel p { color: #374151; font-size: 0.93rem; margin-bottom: 0.8rem; }
+.story-panel p:last-child { margin-bottom: 0; }
+.story-highlight { background: #ccfbf1; border-radius: 10px; padding: 0.9rem 1rem; font-size: 0.88rem; font-weight: 700; color: #0f766e; margin-top: 1rem; }
+.lesson-section { background: #fff; border-radius: 18px; padding: 1.8rem; margin-bottom: 1.5rem; border: 1px solid #ccfbf1; box-shadow: 0 4px 18px rgba(13,148,136,0.07); }
+.sec-eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #0d9488; margin-bottom: 0.4rem; }
+.lesson-section h2 { font-family: 'Baloo 2', cursive; font-size: 1.35rem; color: #134e4a; margin-bottom: 0.9rem; }
+.lesson-section h3 { font-size: 1.05rem; color: #0f766e; margin: 1.2rem 0 0.5rem; font-weight: 800; }
+.lesson-section p { color: #374151; font-size: 0.93rem; margin-bottom: 0.85rem; }
+.lesson-section p:last-child { margin-bottom: 0; }
+.lesson-section ul, .lesson-section ol { color: #374151; font-size: 0.93rem; padding-left: 1.4rem; margin-bottom: 0.85rem; }
+.lesson-section li { margin-bottom: 0.35rem; }
+.callout { border-radius: 12px; padding: 0.9rem 1.1rem; font-size: 0.88rem; margin: 1rem 0; }
+.callout.teal { background: #ccfbf1; border-left: 4px solid #0d9488; color: #134e4a; }
+.callout.amber { background: #fffbeb; border-left: 4px solid #f59e0b; color: #78350f; }
+.callout.green { background: #f0fdf4; border-left: 4px solid #22c55e; color: #14532d; }
+.flow-chain { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin: 1rem 0; }
+.flow-step { background: #f0fdfa; border: 1.5px solid #0d9488; border-radius: 10px; padding: 0.6rem 0.9rem; font-size: 0.82rem; font-weight: 700; color: #0f766e; }
+.flow-arrow { font-size: 1.2rem; color: #0d9488; font-weight: 800; }
+.workflow-card { background: #f0fdfa; border: 1.5px solid #0d9488; border-radius: 14px; padding: 1.2rem; margin-bottom: 1rem; }
+.workflow-card .wc-title { font-family: 'Baloo 2', cursive; color: #0f766e; font-size: 1.05rem; margin-bottom: 0.6rem; }
+.workflow-card .wc-step { font-size: 0.83rem; color: #374151; padding: 0.4rem 0.5rem; background: rgba(13,148,136,0.06); border-radius: 7px; margin-bottom: 0.35rem; }
+.workflow-card .wc-step span { font-weight: 800; color: #0d9488; margin-right: 0.4rem; }
+.prompt-box { background: #134e4a; border-radius: 12px; padding: 1rem 1.2rem; font-family: 'Courier New', monospace; font-size: 0.82rem; color: #ccfbf1; margin: 0.75rem 0; white-space: pre-wrap; line-height: 1.55; }
+.ws-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+.ws-table th { background: #0f766e; color: #fff; padding: 0.55rem 0.7rem; text-align: left; font-weight: 700; }
+.ws-table td { border: 1px solid #ccfbf1; padding: 0.55rem 0.7rem; vertical-align: top; }
+.ws-table tr:nth-child(even) td { background: #f0fdfa; }
+.quiz-section { background: linear-gradient(135deg, #134e4a, #0f766e); border-radius: 20px; padding: 2rem 1.5rem; margin: 1.5rem 0; }
+.quiz-section h2 { font-family: 'Baloo 2', cursive; color: #fff; font-size: 1.35rem; margin-bottom: 0.4rem; text-align: center; }
+.quiz-intro { color: rgba(255,255,255,0.7); font-size: 0.85rem; text-align: center; margin-bottom: 1.5rem; }
+.quiz-q { background: rgba(255,255,255,0.08); border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 1rem; }
+.quiz-q .qtext { font-size: 0.92rem; font-weight: 700; color: #ccfbf1; margin-bottom: 0.7rem; }
+.quiz-opt { display: block; width: 100%; text-align: left; background: rgba(255,255,255,0.10); border: 1.5px solid rgba(255,255,255,0.15); border-radius: 10px; color: rgba(255,255,255,0.85); font-family: 'Nunito', sans-serif; font-size: 0.84rem; font-weight: 600; padding: 0.55rem 0.9rem; margin-bottom: 0.4rem; cursor: pointer; }
+.quiz-opt:hover:not(:disabled) { background: rgba(255,255,255,0.18); }
+.quiz-opt.correct { background: #14532d; border-color: #22c55e; color: #fff; }
+.quiz-opt.wrong { background: #7f1d1d; border-color: #ef4444; color: #fff; }
+.q-feedback { font-size: 0.8rem; font-weight: 700; margin-top: 0.3rem; }
+.q-feedback.ok { color: #86efac; }
+.q-feedback.bad { color: #fca5a5; }
+#quiz-submit { display: block; margin: 1.2rem auto 0; background: #0d9488; color: #fff; border: none; border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; padding: 0.75rem 2.5rem; cursor: pointer; }
+#quiz-submit:hover { background: #0f766e; }
+#quiz-result { text-align: center; margin-top: 1rem; }
+#quiz-result .score { font-family: 'Baloo 2', cursive; font-size: 2.5rem; color: #fff; font-weight: 800; }
+#quiz-result .score-msg { color: rgba(255,255,255,0.8); font-size: 0.92rem; margin-top: 0.4rem; }
+.worksheet-box { background: #fff; border-radius: 18px; padding: 1.8rem; border: 2px dashed #0d9488; margin-bottom: 1.5rem; }
+.worksheet-box h3 { font-family: 'Baloo 2', cursive; color: #0f766e; font-size: 1.2rem; margin-bottom: 0.6rem; }
+.parent-note { background: #fffbeb; border-radius: 18px; padding: 1.8rem; border: 1.5px solid #fde68a; margin-bottom: 1.5rem; }
+.parent-note h3 { font-family: 'Baloo 2', cursive; color: #92400e; font-size: 1.15rem; margin-bottom: 0.6rem; }
+.parent-note p { color: #451a03; font-size: 0.88rem; margin-bottom: 0.65rem; }
+.parent-note ul { color: #451a03; font-size: 0.88rem; padding-left: 1.3rem; }
+.parent-note li { margin-bottom: 0.35rem; }
+.bottom-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; padding: 1.5rem; border-top: 1.5px solid #ccfbf1; margin-top: 1rem; }
+.bottom-nav .prev-btn, .bottom-nav .next-btn { font-size: 0.9rem; font-weight: 800; padding: 0.7rem 1.3rem; border-radius: 12px; border: 2px solid #0d9488; color: #0d9488; text-decoration: none; }
+.bottom-nav .prev-btn:hover, .bottom-nav .next-btn:hover { background: #0d9488; color: #fff; }
+footer { background: #0f172a; color: rgba(255,255,255,0.55); padding: 2rem 1.5rem; text-align: center; font-size: 0.82rem; }
+footer a { color: rgba(255,255,255,0.6); }
+footer .footer-brand { font-family: 'Baloo 2', cursive; font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 0.5rem; }
+@media (max-width: 600px) { .flow-chain { flex-direction: column; align-items: flex-start; } .lesson-header h1 { font-size: 1.45rem; } .content-wrap { padding: 1.25rem 1rem 2rem; } .lesson-section { padding: 1.25rem; } }
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="../../../site/students.html" class="active">AI for Students</a>
+    <a href="../../../site/index.html">Home</a>
+    <a href="../../../site/contact.html">Contact</a>
+  </div>
+</nav>
+<header class="lesson-header">
+  <div class="lh-eyebrow">AI for Students · Class 8 · Age 12–13 · Lesson 4 of 12</div>
+  <h1>Building AI Workflows 🔗</h1>
+  <p class="lh-sub">One good prompt is useful. A well-designed chain of prompts is powerful. This lesson teaches you how to build reliable, reusable workflows that turn AI into a genuine productivity tool.</p>
+  <div class="meta-pills">
+    <span class="meta-pill">📘 Class 8 · Lesson 4</span>
+    <span class="meta-pill">🕐 45–55 min</span>
+    <span class="meta-pill">✍️ Practice included</span>
+    <span class="meta-pill">🆓 Free lesson</span>
+  </div>
+</header>
+<img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-08/lesson-04-hero.jpg" alt="Illustrated scene: Indian student connecting colourful prompt cards in a chain, representing a multi-step AI workflow" loading="lazy" onerror="this.style.display='none'" style="width:100%;height:300px;object-fit:cover;object-position:center 40%;display:block;" />
+
+<section class="lesson-video">
+  <div style="width:90%;max-width:760px;margin:0 auto;">
+    <div class="sec-label">Watch first · 2–3 minutes</div>
+    <h2>Class 8 Lesson 4 — Building AI Workflows</h2>
+    <div class="video-coming">
+      <div class="vc-icon">🎬</div>
+      <p>Video coming soon — the written lesson is complete and ready to use now.</p>
+    </div>
+    <p class="video-caption">No sign-in needed · English narration · Safe for all school ages</p>
+  </div>
+</section>
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="story-eyebrow">Story · Aman's Repetitive Research Problem</div>
+    <h2>He Did the Same 7 Steps Every Single Day 📋</h2>
+    <p>Aman, 13, from Jaipur, had figured out how to use AI for his school projects. Every time he got a new project topic, he would: (1) ask the AI to summarise what the topic was about, (2) ask for 5 key facts, (3) ask for a simple analogy to explain it to a younger student, (4) ask for 3 questions his teacher might ask, (5) ask for a simple mind map outline, (6) ask for any Indian examples, and (7) ask for a short 150-word summary he could use as a starting point.</p>
+    <p>This took him about 20 minutes of copy-pasting and rephrasing each time. His older sister watched him and said: "Aman, you are doing the same 7 steps every time. Write them down as a template with blank spaces for the topic. Then you can just fill in the topic and run the whole thing in one go."</p>
+    <p>Aman wrote his first AI workflow. His 20-minute task took 3 minutes. And more importantly — the quality was consistent every time because the steps were always the same.</p>
+    <div class="story-highlight">
+      👉 This lesson explains what workflows are, how to build them, and provides 5 ready-to-use templates for common school tasks.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 1 of 6</div>
+    <h2>🔗 What Is an AI Workflow?</h2>
+    <p>An <strong>AI workflow</strong> is a repeatable, structured sequence of steps that uses AI to accomplish a larger task reliably. Instead of starting from scratch each time, you follow the same process — like a recipe.</p>
+    <p>A good workflow has three properties:</p>
+    <ol>
+      <li><strong>Repeatability:</strong> You can run it again tomorrow on a different topic and get a similar quality of output.</li>
+      <li><strong>Reusability:</strong> You can share the template with a classmate and they can use it with their own topic.</li>
+      <li><strong>Quality control:</strong> Because the steps are defined, the output is consistent and easier to review and verify.</li>
+    </ol>
+    <div class="callout teal">
+      <strong>Key insight:</strong> Most beginners use AI in a conversational, unstructured way — asking one question at a time and hoping for the best. Advanced users build workflows — structured sequences that reliably produce the output they need.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 2 of 6</div>
+    <h2>⛓️ What Is Prompt Chaining?</h2>
+    <p><strong>Prompt chaining</strong> is when the output of one prompt becomes the input to the next. Each step builds on the previous one, producing increasingly refined or complete output.</p>
+    <div class="flow-chain">
+      <div class="flow-step">Step 1: Understand the topic</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">Step 2: Extract key points</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">Step 3: Find Indian examples</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">Step 4: Generate quiz questions</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">Final output</div>
+    </div>
+    <h3>Why chain instead of ask everything at once?</h3>
+    <ul>
+      <li>Asking too many things in one prompt leads to shallow, rushed answers on each part.</li>
+      <li>Chaining lets you check and verify each step before using the output in the next step.</li>
+      <li>You can stop a chain if an earlier step produces something inaccurate, and fix it before it propagates.</li>
+    </ul>
+    <div class="callout amber">
+      <strong>Always check each step:</strong> If Step 2 produces a factual error and you feed it directly into Step 3, the error gets built into your final output. Always glance at the output of each step before using it as input to the next.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 3 of 6</div>
+    <h2>🔧 How to Design a Workflow</h2>
+    <p>Use this 4-step process to design any AI workflow:</p>
+    <ol>
+      <li><strong>Define your goal:</strong> What does the final output look like? (e.g. "A 1-page study guide on any science topic I choose")</li>
+      <li><strong>Break the task into steps:</strong> What has to happen, in what order, to produce that output?</li>
+      <li><strong>Write a prompt template for each step:</strong> Include a placeholder (like [TOPIC]) for the variable that changes each time.</li>
+      <li><strong>Add review checkpoints:</strong> After each step that produces a claim or fact, add a brief human check before moving on.</li>
+    </ol>
+    <div class="callout green">
+      <strong>Template placeholder tip:</strong> Use square brackets for variables: [TOPIC], [SUBJECT], [AUDIENCE], [WORD COUNT]. This makes it easy to spot exactly what needs to be filled in when you reuse the template.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 4 of 6</div>
+    <h2>📚 5 Ready-to-Use School Workflows</h2>
+
+    <div class="workflow-card">
+      <div class="wc-title">🔬 Workflow 1: Topic Deep Dive (any subject)</div>
+      <div class="wc-step"><span>Step 1</span> "Explain [TOPIC] in simple English for a Class 8 student. Use one real Indian daily-life example."</div>
+      <div class="wc-step"><span>Step 2</span> "Now list the 5 most important facts about [TOPIC] that a student would be tested on."</div>
+      <div class="wc-step"><span>Step 3</span> "For each fact, write a simple analogy that a 12-year-old would understand."</div>
+      <div class="wc-step"><span>Step 4</span> "Write 3 practice exam questions about [TOPIC] at Class 8 difficulty level, with answers."</div>
+      <div class="wc-step"><span>Step 5</span> "Summarise the whole topic in exactly 100 words."</div>
+    </div>
+
+    <div class="workflow-card">
+      <div class="wc-title">📝 Workflow 2: Essay Planner (Hindi, English, Social Studies)</div>
+      <div class="wc-step"><span>Step 1</span> "I need to write a [WORD COUNT]-word essay titled '[ESSAY TITLE]'. Give me an outline with 4 sections and 2–3 bullet points per section."</div>
+      <div class="wc-step"><span>Step 2</span> "Expand section 1 into a full paragraph. Include one real example."</div>
+      <div class="wc-step"><span>Step 3</span> "Expand section 2 into a full paragraph." (Repeat for sections 3 and 4)</div>
+      <div class="wc-step"><span>Step 4</span> "Write a conclusion paragraph that ties together the main argument."</div>
+      <div class="wc-step"><span>Step 5</span> ✅ Review and edit each paragraph — do not paste AI output directly. Add your own voice and knowledge.</div>
+    </div>
+
+    <div class="workflow-card">
+      <div class="wc-title">📅 Workflow 3: Personalised Study Plan</div>
+      <div class="wc-step"><span>Step 1</span> "My exam is on [DATE]. I need to prepare [SUBJECTS]. I have [HOURS] free per day. Create a day-by-day study plan."</div>
+      <div class="wc-step"><span>Step 2</span> "For [WEAKEST SUBJECT], what are the top 5 topics Class 8 students most often make mistakes on?"</div>
+      <div class="wc-step"><span>Step 3</span> "Create a revision checklist for [WEAKEST SUBJECT] — each item should take 10–15 minutes to revise."</div>
+      <div class="wc-step"><span>Step 4</span> "Suggest 3 active recall exercises I can use to self-test on [WEAKEST SUBJECT] without any apps."</div>
+    </div>
+
+    <div class="workflow-card">
+      <div class="wc-title">🎨 Workflow 4: Creative Project (story, speech, poster concept)</div>
+      <div class="wc-step"><span>Step 1</span> "I am creating a [TYPE: story / speech / poster] about [THEME] for [AUDIENCE]. Give me 3 different creative concepts with a one-sentence description of each."</div>
+      <div class="wc-step"><span>Step 2</span> "I like concept [NUMBER]. Expand it into a full outline with a beginning, middle, and end."</div>
+      <div class="wc-step"><span>Step 3</span> "Write the opening paragraph. It should grab the reader's attention in the first sentence."</div>
+      <div class="wc-step"><span>Step 4</span> ✅ Continue the rest yourself using the AI outline as your guide — your own writing must be present.</div>
+    </div>
+
+    <div class="workflow-card">
+      <div class="wc-title">🔍 Workflow 5: Research Fact Checker</div>
+      <div class="wc-step"><span>Step 1</span> "I am researching [CLAIM]. Explain what is known about this claim based on reliable scientific consensus."</div>
+      <div class="wc-step"><span>Step 2</span> "What would be a good source to verify this? (Give me the type of source, not a made-up URL)"</div>
+      <div class="wc-step"><span>Step 3</span> "What is the strongest counter-argument to [CLAIM]? Explain in simple terms."</div>
+      <div class="wc-step"><span>Step 4</span> ✅ Search one reliable Indian source (NCERT, PIB, ISRO, ICMR) yourself to verify the key claim before including it in your project.</div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 5 of 6</div>
+    <h2>⚠️ Common Workflow Mistakes</h2>
+    <table class="ws-table">
+      <thead><tr><th>Mistake</th><th>Why it's a problem</th><th>Fix</th></tr></thead>
+      <tbody>
+        <tr><td>Asking all steps at once in one mega-prompt</td><td>AI tries to do everything at once; answers are shallow and difficult to verify</td><td>Break into separate steps; review between each</td></tr>
+        <tr><td>Not reading the output of each step</td><td>Errors or hallucinations in Step 2 get silently built into Step 3, 4, and 5</td><td>Always read and check each output before the next step</td></tr>
+        <tr><td>Never changing the template after it fails</td><td>If a template consistently produces vague output, the template is broken</td><td>Iterate — adjust the prompt until the quality improves</td></tr>
+        <tr><td>Submitting AI output directly</td><td>Academic dishonesty; your own thinking and understanding is not developed</td><td>Use AI to get started; always add your own voice, examples, and verification</td></tr>
+        <tr><td>Treating the workflow as the final answer</td><td>Workflows are a starting point — they produce drafts, not finished work</td><td>Every AI output needs human review, editing, and verification</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 6 of 6</div>
+    <h2>🧠 Automation Thinking: When Should a Task Be a Workflow?</h2>
+    <p>Not every AI task needs a formal workflow. Here is a simple decision rule:</p>
+    <ul>
+      <li><strong>Build a workflow if:</strong> You do the same multi-step task more than once, the task has a quality bar (accuracy, format, completeness), or other people need to do the same task consistently.</li>
+      <li><strong>Use a one-off prompt if:</strong> You are exploring a topic for the first time, you need a quick answer, or the task is not likely to repeat.</li>
+    </ul>
+    <div class="callout teal">
+      <strong>Think like a systems designer:</strong> Every time you find yourself repeating the same sequence of prompts, that sequence is a candidate for a reusable workflow template. Save it — it is getting more valuable each time you use it.
+    </div>
+  </div>
+
+  <div class="quiz-section">
+    <h2>🔗 Quiz — Lesson 4</h2>
+    <p class="quiz-intro">8 questions · Click your answer · Submit for your score</p>
+    <div class="quiz-q" id="q1">
+      <div class="qtext">1. What is the main advantage of a reusable AI workflow template?</div>
+      <button class="quiz-opt" data-q="1" data-val="a">A) It removes the need for human review entirely</button>
+      <button class="quiz-opt" data-q="1" data-val="b">B) It produces consistent quality output and saves time on repetitive multi-step tasks</button>
+      <button class="quiz-opt" data-q="1" data-val="c">C) It makes AI work without internet access</button>
+      <button class="quiz-opt" data-q="1" data-val="d">D) It guarantees 100% accurate output every time</button>
+      <div class="q-feedback" id="fb1"></div>
+    </div>
+    <div class="quiz-q" id="q2">
+      <div class="qtext">2. In prompt chaining, what happens if Step 2 contains a factual error?</div>
+      <button class="quiz-opt" data-q="2" data-val="a">A) The AI automatically detects and corrects it in Step 3</button>
+      <button class="quiz-opt" data-q="2" data-val="b">B) The error may be built into all subsequent steps if not caught by human review</button>
+      <button class="quiz-opt" data-q="2" data-val="c">C) The workflow stops and asks the user to correct it</button>
+      <button class="quiz-opt" data-q="2" data-val="d">D) Only the final step is affected</button>
+      <div class="q-feedback" id="fb2"></div>
+    </div>
+    <div class="quiz-q" id="q3">
+      <div class="qtext">3. In a workflow template, what does [TOPIC] represent?</div>
+      <button class="quiz-opt" data-q="3" data-val="a">A) A keyword the AI must always include in its answer</button>
+      <button class="quiz-opt" data-q="3" data-val="b">B) A variable placeholder — the specific topic filled in each time the template is reused</button>
+      <button class="quiz-opt" data-q="3" data-val="c">C) A special command that improves output quality</button>
+      <button class="quiz-opt" data-q="3" data-val="d">D) A link to a web search the AI should perform</button>
+      <div class="q-feedback" id="fb3"></div>
+    </div>
+    <div class="quiz-q" id="q4">
+      <div class="qtext">4. Why is it generally better to chain prompts one at a time rather than asking everything in one mega-prompt?</div>
+      <button class="quiz-opt" data-q="4" data-val="a">A) AI tools have a rule that limits to one question per session</button>
+      <button class="quiz-opt" data-q="4" data-val="b">B) Chaining lets you review and verify each step, catching errors before they affect the rest of the workflow</button>
+      <button class="quiz-opt" data-q="4" data-val="c">C) Mega-prompts cost more tokens and slow down the internet</button>
+      <button class="quiz-opt" data-q="4" data-val="d">D) AI gives longer responses to shorter prompts</button>
+      <div class="q-feedback" id="fb4"></div>
+    </div>
+    <div class="quiz-q" id="q5">
+      <div class="qtext">5. Which of these tasks is BEST suited to a reusable workflow template?</div>
+      <button class="quiz-opt" data-q="5" data-val="a">A) Looking up what time a movie starts today</button>
+      <button class="quiz-opt" data-q="5" data-val="b">B) Asking AI what a cloud looks like</button>
+      <button class="quiz-opt" data-q="5" data-val="c">C) Preparing a study guide for each new topic in your science textbook, every 2 weeks</button>
+      <button class="quiz-opt" data-q="5" data-val="d">D) Checking whether you spelled a word correctly</button>
+      <div class="q-feedback" id="fb5"></div>
+    </div>
+    <div class="quiz-q" id="q6">
+      <div class="qtext">6. Aman used AI to produce a project draft in 3 minutes instead of 20. What should he ALWAYS do before submitting it?</div>
+      <button class="quiz-opt" data-q="6" data-val="a">A) Nothing — if the AI wrote it, it must be correct</button>
+      <button class="quiz-opt" data-q="6" data-val="b">B) Run it through another AI to check it</button>
+      <button class="quiz-opt" data-q="6" data-val="c">C) Read it, verify facts against a reliable source, and add his own voice and knowledge</button>
+      <button class="quiz-opt" data-q="6" data-val="d">D) Change all the words so the teacher cannot tell it was AI-generated</button>
+      <div class="q-feedback" id="fb6"></div>
+    </div>
+    <div class="quiz-q" id="q7">
+      <div class="qtext">7. In the Research Fact Checker workflow (Workflow 5), why does Step 4 say "search a reliable Indian source yourself" rather than asking the AI to do it?</div>
+      <button class="quiz-opt" data-q="7" data-val="a">A) AI cannot read websites</button>
+      <button class="quiz-opt" data-q="7" data-val="b">B) AI-generated URLs and source citations are often fabricated or wrong — human verification against real sources is essential for facts</button>
+      <button class="quiz-opt" data-q="7" data-val="c">C) Indian sources are not included in AI training data</button>
+      <button class="quiz-opt" data-q="7" data-val="d">D) AI tools are blocked from accessing government websites</button>
+      <div class="q-feedback" id="fb7"></div>
+    </div>
+    <div class="quiz-q" id="q8">
+      <div class="qtext">8. What is "automation thinking" in the context of AI workflows?</div>
+      <button class="quiz-opt" data-q="8" data-val="a">A) Thinking about how to make AI replace all human work</button>
+      <button class="quiz-opt" data-q="8" data-val="b">B) Identifying repetitive multi-step tasks and turning them into reusable structured workflows</button>
+      <button class="quiz-opt" data-q="8" data-val="c">C) Designing robots to do physical tasks</button>
+      <button class="quiz-opt" data-q="8" data-val="d">D) Thinking about how computers process data automatically</button>
+      <div class="q-feedback" id="fb8"></div>
+    </div>
+    <button id="quiz-submit">Check My Score</button>
+    <div id="quiz-result" style="display:none;"></div>
+  </div>
+
+  <div class="worksheet-box">
+    <h3>📝 Worksheet — Build Your Own Workflow</h3>
+    <p style="font-size:0.88rem;margin-bottom:1rem;color:#0f766e;">In your notebook, complete this activity:</p>
+    <ol style="font-size:0.88rem;color:#374151;padding-left:1.3rem;line-height:2;">
+      <li>Think of a task you do repeatedly for school — preparing for a test, writing a report, preparing for a debate.</li>
+      <li>List the steps you currently do, one by one (without AI).</li>
+      <li>For each step where AI could help, write a prompt template with a placeholder for the variable part.</li>
+      <li>Label each step: "AI draft" or "Human review" — be honest about where you need to verify output.</li>
+      <li>Test your workflow on one real task. Note: did the output quality improve compared to your usual approach? What would you change?</li>
+    </ol>
+  </div>
+
+  <div class="parent-note">
+    <h3>📋 Note for Parents and Teachers</h3>
+    <p><strong>What this lesson covers:</strong> The concept of AI workflows and prompt chaining, 5 ready-to-use school workflow templates, common mistakes (including academic dishonesty risks), and automation thinking as a skill. This lesson emphasises responsible AI use — always reviewing, verifying, and contributing your own understanding.</p>
+    <p><strong>Discussion prompts:</strong></p>
+    <ul>
+      <li>"What is the difference between using AI as a tool and submitting AI output as your own work? Where is the line?"</li>
+      <li>"If you build a workflow that reliably produces good study guides in 3 minutes, are you learning less? How do you make sure you are still building knowledge?"</li>
+    </ul>
+  </div>
+</main>
+
+<div class="bottom-nav">
+  <a href="lesson-03.html" class="prev-btn">← Lesson 3: Classification</a>
+  <a href="lesson-05.html" class="next-btn">Lesson 5: Language Models →</a>
+</div>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:0.5rem;"><a href="../../../site/index.html">Home</a> · <a href="../../../site/students.html">AI for Students</a> · <a href="../../../site/privacy.html">Privacy Policy</a> · <a href="../../../site/contact.html">Contact</a></p>
+  <p>© 2026 Mitra AI Life Education · Class 6 to JC +2</p>
+</footer>
+
+<script>
+const ANSWERS = { 1:'b', 2:'b', 3:'b', 4:'b', 5:'c', 6:'c', 7:'b', 8:'b' };
+document.querySelectorAll('.quiz-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const q = btn.dataset.q; const container = btn.closest('.quiz-q');
+    if (container.classList.contains('answered')) return;
+    container.classList.add('answered');
+    container.querySelectorAll('.quiz-opt').forEach(b => b.disabled = true);
+    const fb = document.getElementById('fb' + q);
+    if (btn.dataset.val === ANSWERS[q]) { btn.classList.add('correct'); fb.textContent = '✅ Correct!'; fb.className = 'q-feedback ok'; }
+    else { btn.classList.add('wrong'); fb.textContent = '❌ Not quite — correct answer highlighted.'; fb.className = 'q-feedback bad'; container.querySelectorAll('.quiz-opt').forEach(b => { if (b.dataset.val === ANSWERS[q]) b.classList.add('correct'); }); }
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click', () => {
+  let score = 0;
+  for (let q = 1; q <= 8; q++) { const c = document.getElementById('q' + q); if (c.classList.contains('answered') && c.querySelector('.correct')) score++; }
+  const msgs = ['Keep going!','Review sections 1–2.','Getting there!','Half way.','Good progress!','Very close!','Very good!','Excellent!','Perfect!'];
+  const rd = document.getElementById('quiz-result');
+  rd.style.display = 'block';
+  rd.innerHTML = `<div class="score">${score} / 8</div><div class="score-msg">${msgs[score]}</div>`;
+  document.getElementById('quiz-submit').style.display = 'none';
+  if (typeof gtag !== 'undefined') gtag('event', 'quiz_complete', { event_category: 'class8', event_label: 'class08_lesson04_quiz', value: score });
+});
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Class 8 Lesson 4 — Building AI Workflows",
+  "description": "Learn to chain AI prompts into reliable multi-step workflows with 5 ready-to-use school templates. Age 12–13, free.",
+  "url": "https://mitraailife.com/content/students/class-08/lesson-04.html",
+  "educationalLevel": "Class 8",
+  "typicalAgeRange": "12-13",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "provider": { "@type": "Organization", "name": "Mitra AI Life Education", "url": "https://mitraailife.com" }
+}
+</script>
+</body>
+</html>

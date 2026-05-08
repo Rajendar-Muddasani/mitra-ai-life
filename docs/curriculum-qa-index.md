@@ -417,7 +417,7 @@ Hub page: `content/students/class-06/class-06.html`
 
 | Class | Target Age | Status |
 |-------|-----------|--------|
-| Class 7 | 11–12 | Hub live · Lessons 1–5 live · L6–L12 in progress |
+| Class 7 | 11–12 | Hub live · Lessons 1–6 live · L7–L12 in progress |
 | Class 8 | 12–13 | Planned |
 | Class 9 | 13–14 | Planned |
 | Class 10 | 14–15 | Planned |
@@ -595,4 +595,39 @@ Hub page: `content/students/class-07/class-07.html`
 
 ---
 
-*Last updated: 8 May 2026 · Class 6 complete (12 lessons) · Class 7 Lessons 1–5 live.*
+---
+
+### Lesson 6 — Research and Reading with AI
+
+**File:** `content/students/class-07/lesson-06.html`  
+**Duration:** 45–60 min · 8 sections · Free  
+**Story character:** Kavya (12yo, Chennai) — science project where AI gave one incorrect fact
+
+**Section topics:**
+1. AI is a starting point, not the answer — why AI can be wrong about facts
+2. Get a topic overview — overview prompt, identify gaps prompt
+3. Judging sources — trust grid: high (NCERT, govt sites), medium (AI, Wikipedia), low (blogs, social media)
+4. Reading long texts faster — 3-pass method, article summary + difficult word prompts
+5. Cross-checking facts — 5-step verification workflow
+6. Writing in own words — outline prompt, own-words check prompt, 4 writing rules
+7. Citing sources — simple format for textbook / website / AI; bibliography prompt
+8. Full 6-step research workflow table
+
+**Quiz (10 questions) — answers:**
+
+| Q | Question | Correct |
+|---|----------|---------|
+| 1 | AI contradicts NCERT textbook — correct action? | b |
+| 2 | Best way to use AI at the very start of research | b |
+| 3 | Most reliable source for Class 7 Geography project | c |
+| 4 | Want to verify a statistic AI gave — first step? | c |
+| 5 | 3-pass method — purpose of third pass? | c |
+| 6 | Should you mention AI in bibliography? | b |
+| 7 | Why not paste entire textbook into AI for summary? | c |
+| 8 | Correct approach to writing the project | b |
+| 9 | AI fact ≠ textbook fact — what does this tell you? | c |
+| 10 | What happens in Step 5 of the research workflow? | c |
+
+---
+
+*Last updated: 8 May 2026 · Class 6 complete (12 lessons) · Class 7 Lessons 1–6 live.*

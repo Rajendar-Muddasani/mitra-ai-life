@@ -202,6 +202,19 @@ footer .footer-brand { font-family: 'Baloo 2', cursive; font-size: 0.9rem; color
   .content-wrap { padding: 1.25rem 1rem 2rem; }
   .lesson-section { padding: 1.25rem; }
 }
+/* ── Curriculum map ── */
+.curric-map { background:linear-gradient(135deg,#faf5ff,#ede9fe); border-radius:18px; border:2px solid #ddd6fe; padding:1.8rem; margin-bottom:2rem; }
+.curric-map h3 { color:#5b21b6; font-size:1.1rem; font-weight:800; margin:0 0 0.25rem; }
+.curric-map .cm-sub { color:#6d28d9; font-size:0.81rem; font-weight:600; margin-bottom:1.1rem; }
+.curric-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:0.65rem; }
+.curric-card { background:#fff; border-radius:10px; padding:0.6rem 0.75rem; border:1.5px solid #ede9fe; }
+.curric-card.active { border-color:#7c3aed; background:#faf5ff; }
+.curric-card .cc-num { font-size:0.68rem; font-weight:800; color:#7c3aed; }
+.curric-card.soon .cc-num { color:#94a3b8; }
+.curric-card .cc-title { font-size:0.82rem; font-weight:700; color:#3b0764; line-height:1.3; margin:0.1rem 0 0.25rem; }
+.curric-card.soon .cc-title { color:#94a3b8; }
+.curric-card .cc-badge { font-size:0.62rem; font-weight:700; background:#7c3aed; color:#fff; border-radius:8px; padding:1px 7px; display:inline-block; }
+.curric-card.soon .cc-badge { background:#e2e8f0; color:#94a3b8; }
 </style>
 </head>
 <body>
@@ -219,7 +232,7 @@ footer .footer-brand { font-family: 'Baloo 2', cursive; font-size: 0.9rem; color
 
 <!-- ── Lesson header ── -->
 <header class="lesson-header">
-  <div class="lh-eyebrow">AI for Students · Class 7 · Prompting and Study Help</div>
+  <div class="lh-eyebrow">AI for Students · Class 7 · Age 11–12 · Lesson 1 of 12</div>
   <h1>Ask Better Questions.<br>Get Better Answers. 🎯</h1>
   <p class="lh-sub">Learn how to write prompts that actually work — and use AI to understand lessons, make revision tools, and check your own work.</p>
   <div class="meta-pills">
@@ -230,6 +243,7 @@ footer .footer-brand { font-family: 'Baloo 2', cursive; font-size: 0.9rem; color
     <span class="meta-pill">🆓 Free lesson</span>
   </div>
 </header>
+<img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-07/lesson-01-hero.jpg" alt="Illustrated scene: Indian student writing strong prompts on tablet, AI chat bubbles floating around" loading="lazy" onerror="this.style.display='none'" style="width:100%;height:300px;object-fit:cover;object-position:center 40%;display:block;" />
 
 <!-- ── Video section ── -->
 <section class="lesson-video">
@@ -258,6 +272,74 @@ footer .footer-brand { font-family: 'Baloo 2', cursive; font-size: 0.9rem; color
     <p>She typed: <em>"Explain photosynthesis to a Class 7 student in 5 simple sentences with one example from daily life."</em></p>
     <p>This time, the answer was clear, short, and perfect for Arjun's revision. Same AI. Different question. Very different result.</p>
     <p><strong>That skill — writing a good question for AI — is called prompting. And this whole lesson teaches you how to do it.</strong></p>
+  </div>
+
+  <!-- Curriculum Map ─── -->
+  <div class="curric-map">
+    <h3>📅 Class 7 — Full Year Learning Map</h3>
+    <p class="cm-sub">12 lessons · One lesson every 2–3 weeks · Each lesson ≈ 45–60 minutes · All free</p>
+    <div class="curric-grid">
+      <div class="curric-card active">
+        <div class="cc-num">Lesson 1</div>
+        <div class="cc-title">Ask Better Questions — What is Prompting?</div>
+        <span class="cc-badge">● You are here</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 2</div>
+        <div class="cc-title"><a href="lesson-02.html" style="color:inherit;text-decoration:underline;">AI for Every Subject</a></div>
+        <span class="cc-badge" style="background:#7c3aed;color:#fff;">● Live · Free</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 3</div>
+        <div class="cc-title">Build Your Own Revision Kit</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 4</div>
+        <div class="cc-title">AI and Creative Writing</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 5</div>
+        <div class="cc-title">AI and Maths — Step by Step</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 6</div>
+        <div class="cc-title">Research and Reading with AI</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 7</div>
+        <div class="cc-title">Why Does AI Sometimes Forget?</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 8</div>
+        <div class="cc-title">AI Images and Creative Tools</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 9</div>
+        <div class="cc-title">AI in Indian Schools</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 10</div>
+        <div class="cc-title">Critical Thinking with AI</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 11</div>
+        <div class="cc-title">AI Safety for Teenagers</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 12</div>
+        <div class="cc-title">My Class 7 AI Portfolio</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
+    </div>
   </div>
 
   <!-- Section 1: What is a prompt -->
@@ -552,7 +634,7 @@ footer .footer-brand { font-family: 'Baloo 2', cursive; font-size: 0.9rem; color
 <!-- ── Bottom nav ── -->
 <div class="bottom-nav">
   <a href="../class-06/class-06.html" class="prev-btn">← Class 6: AI Awareness</a>
-  <a href="../../../site/students.html#class-grid" class="next-btn">Next: Class 8 (Coming Soon) →</a>
+  <a href="lesson-02.html" class="next-btn">Lesson 2 — AI for Every Subject →</a>
 </div>
 
 <!-- ── Footer ── -->

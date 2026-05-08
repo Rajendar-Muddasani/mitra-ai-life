@@ -417,7 +417,7 @@ Hub page: `content/students/class-06/class-06.html`
 
 | Class | Target Age | Status |
 |-------|-----------|--------|
-| Class 7 | 11–12 | Hub page live · Lesson content in progress |
+| Class 7 | 11–12 | Hub live · Lessons 1–2 live · L3–L12 in progress |
 | Class 8 | 12–13 | Planned |
 | Class 9 | 13–14 | Planned |
 | Class 10 | 14–15 | Planned |
@@ -426,4 +426,70 @@ Hub page: `content/students/class-06/class-06.html`
 
 ---
 
-*Last updated: 10 May 2026 · All 12 lessons live · Class 6 AI for Students course complete.*
+## Class 7 — AI for Study (Age 11–12)
+
+Theme colour: Purple `#7c3aed`  
+Full year: 12 lessons · Lessons 1–2 Live · Free  
+Hub page: `content/students/class-07/class-07.html`
+
+---
+
+### Lesson 1 — Ask Better Questions. What is Prompting?
+
+**File:** `content/students/class-07/class-07.html`  
+**Duration:** 45–60 min · 5 sections · Free  
+**Story character:** Arjun (12yo, Warangal) + Diya
+
+**Section topics:**
+1. What is a prompt? (question vs instruction to AI)
+2. The Simple Prompt Formula: [What you want] + [Topic] + [Class level] + [Format]
+3. 5 Ways to Use AI for Study (explain, summarise, quiz, compare, plan)
+4. Spotting Weak AI Answers (3 red flags)
+5. Academic Honesty — what honest use looks like
+
+**Quiz (5 questions) — answers:**
+
+| Q | Question | Correct |
+|---|----------|---------|
+| 1 | Which prompt will give the BEST explanation for your Class 7 history chapter? | b |
+| 2 | Which of these is NOT one of the 5 study uses taught in this lesson? | c |
+| 3 | Arjun types "Explain the water cycle." The AI reply is very basic and misses important details. What went wrong? | b |
+| 4 | Diya reads an AI answer about the Delhi Sultanate and copies it word-for-word into her notebook. Is this honest use? | b |
+| 5 | Arjun asked AI: "Explain science." The answer was long but did not cover what he needed. What was the real problem? | c |
+
+---
+
+### Lesson 2 — AI for Every Subject
+
+**File:** `content/students/class-07/lesson-02.html`  
+**Duration:** 45–60 min · 8 sections · Free  
+**Story character:** Diya (12yo, Bengaluru) — Saturday AI study experiment
+
+**Section topics:**
+1. Why each subject needs a different approach — 6-subject overview cards
+2. AI for Science — explain, Indian examples, cause-and-effect prompts
+3. AI for Maths — concept-not-answer rule, strong vs weak Maths prompts
+4. AI for English — grammar help, essay outline (not AI-written paragraphs), writing feedback
+5. AI for History and SST — timelines, cause-and-effect, comparison tables
+6. AI for Geography — climate explanations, region comparisons, maps limitation
+7. AI for Languages (Hindi, Telugu, regional) — word meanings, grammar, translation caution
+8. Your 6-step weekly AI study routine + the triple-check habit
+
+**Quiz (10 questions) — answers:**
+
+| Q | Question | Correct |
+|---|----------|---------|
+| 1 | Which is the BEST way to use AI for Maths homework? | c |
+| 2 | You are studying photosynthesis. Which prompt will get the best AI answer? | b |
+| 3 | Priya copies an AI-written paragraph about the Mughal Empire into her homework. What is wrong? | b |
+| 4 | Which subject requires MOST caution because AI makes more mistakes? | c |
+| 5 | AI gives a year that differs from your NCERT textbook. What do you do? | b |
+| 6 | Diya uses AI to plan an English essay. What is the HONEST next step? | c |
+| 7 | Which Geography prompt will get the most useful answer? | b |
+| 8 | For which task is AI LEAST reliable? | b |
+| 9 | What is the "triple-check habit"? | c |
+| 10 | Why should you read your textbook FIRST before using AI? | b |
+
+---
+
+*Last updated: 11 May 2026 · Class 6 complete (12 lessons) · Class 7 Lessons 1–2 live.*

@@ -3,6 +3,9 @@
 .env.*
 *.env
 !.env.example
+# Google Cloud service account key — never commit
+*-key.json
+*-credentials.json
 
 # python virtual environment
 .venv/

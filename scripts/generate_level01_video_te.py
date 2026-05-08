@@ -4,9 +4,12 @@ Produces: content/assets/videos/level-01-intro-te.mp4
 Runtime: ~100 seconds, 1280×720, narrated slideshow in Telugu
 
 Uses:
-- OpenAI TTS (tts-1, voice=nova) for Telugu narration
+- Google Cloud TTS (te-IN-Standard-A) for genuine Telugu voice narration
 - moviepy + imageio_ffmpeg (no system ffmpeg needed)
 - Same L1 scene images from content/assets/scenes/
+
+Requires in .env:
+  GOOGLE_APPLICATION_CREDENTIALS=/path/to/mitra-tts-key.json
 
 Run: .venv/bin/python scripts/generate_level01_video_te.py
 """
@@ -26,8 +29,7 @@ if env_path.exists():
             k, v = line.split("=", 1)
             os.environ.setdefault(k.strip(), v.strip())
 
-from openai import OpenAI
-client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+from google.cloud import texttospeech as gtts
 
 # ── Paths ────────────────────────────────────────────────────────────────────
 ROOT       = Path(__file__).parent.parent
@@ -35,10 +37,20 @@ SCENES_DIR = ROOT / "content" / "assets" / "scenes"
 AUDIO_DIR  = ROOT / "content" / "assets" / "videos" / "audio_tmp_te"
 VIDEO_OUT  = ROOT / "content" / "assets" / "videos" / "level-01-intro-te.mp4"
 
-TTS_MODEL = "tts-1"
-TTS_VOICE = "nova"
-TTS_SPEED = 0.86
-AUDIO_GAIN = 1.15
+# Google Cloud TTS — genuine Telugu female voice
+GTTS_LANGUAGE  = "te-IN"
+GTTS_VOICE     = "te-IN-Standard-A"   # female; use te-IN-Standard-B for male
+GTTS_SPEED     = 0.90                 # 1.0 = normal; 0.90 = slightly slower, clearer
+AUDIO_GAIN     = 1.15
+
+# Validate credentials
+cred_path = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", "")
+if not cred_path or not Path(cred_path).exists():
+    print("ERROR: GOOGLE_APPLICATION_CREDENTIALS not set or file not found.")
+    print("  Add to .env:  GOOGLE_APPLICATION_CREDENTIALS=/path/to/mitra-tts-key.json")
+    sys.exit(1)
+
+google_tts_client = gtts.TextToSpeechClient()
 
 AUDIO_DIR.mkdir(parents=True, exist_ok=True)
 VIDEO_OUT.parent.mkdir(parents=True, exist_ok=True)
@@ -121,12 +133,13 @@ SCENES = [
 
 def scene_audio_path(scene_idx, text):
     cache_key = hashlib.sha1(
-        f"{TTS_MODEL}|{TTS_VOICE}|{TTS_SPEED}|{text}".encode("utf-8")
+        f"{GTTS_VOICE}|{GTTS_SPEED}|{text}".encode("utf-8")
     ).hexdigest()[:10]
     return AUDIO_DIR / f"scene-{scene_idx:02d}-{cache_key}.mp3"
 
 # ── Step 1: Generate TTS audio for each scene ────────────────────────────────
-print("Step 1: Telugu TTS narration audio generate అవుతోంది...")
+print("Step 1: Telugu TTS narration audio generate అవుతోంది (Google Cloud TTS)...")
+print(f"  Voice: {GTTS_VOICE} ({GTTS_LANGUAGE}) — genuine Telugu Indian voice")
 audio_files = []
 
 for i, (img, text, _) in enumerate(SCENES, start=1):
@@ -135,16 +148,24 @@ for i, (img, text, _) in enumerate(SCENES, start=1):
         print(f"  [SKIP] Scene {i} audio already exists")
     else:
         print(f"  [{i}/{len(SCENES)}] TTS: {text[:50]}...")
-        response = client.audio.speech.create(
-            model=TTS_MODEL,
-            voice=TTS_VOICE,      # nova handles Telugu text well
-            input=text,
-            speed=TTS_SPEED,      # slower for clearer Telugu delivery
+        synthesis_input = gtts.SynthesisInput(text=text)
+        voice_params = gtts.VoiceSelectionParams(
+            language_code=GTTS_LANGUAGE,
+            name=GTTS_VOICE,
         )
-        response.stream_to_file(str(audio_path))
+        audio_config = gtts.AudioConfig(
+            audio_encoding=gtts.AudioEncoding.MP3,
+            speaking_rate=GTTS_SPEED,
+        )
+        response = google_tts_client.synthesize_speech(
+            input=synthesis_input,
+            voice=voice_params,
+            audio_config=audio_config,
+        )
+        audio_path.write_bytes(response.audio_content)
         print(f"    Saved: {audio_path.name}")
         if i < len(SCENES):
-            time.sleep(1)
+            time.sleep(0.3)
 
     audio_files.append(audio_path)
 

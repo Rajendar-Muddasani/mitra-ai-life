@@ -369,6 +369,19 @@
 .bottom-cta .cta-row { display:flex; gap:0.9rem; justify-content:center; flex-wrap:wrap; }
 .bottom-cta .btn-primary { background:#6366f1; color:#fff; font-family:'Nunito',sans-serif; font-size:1rem; font-weight:800; padding:0.7rem 1.8rem; border-radius:10px; text-decoration:none; }
 .bottom-cta .btn-secondary { background:rgba(255,255,255,0.10); color:#e0e7ff; font-family:'Nunito',sans-serif; font-size:1rem; font-weight:700; padding:0.7rem 1.8rem; border-radius:10px; text-decoration:none; border:1px solid rgba(255,255,255,0.20); }
+/* ── Suggest Topic ── */
+.suggest-section { background:#f8faff; border-top:1px solid #e0e7ff; border-bottom:1px solid #e0e7ff; padding:3rem 0; }
+.suggest-inner { width:90%; max-width:700px; margin:0 auto; text-align:center; }
+.suggest-inner h2 { font-size:clamp(1.2rem,2.5vw,1.7rem); font-weight:800; color:#1e1b4b; margin:0 0 0.5rem; }
+.suggest-inner p { color:#4b5563; font-size:0.95rem; margin:0 0 1.8rem; }
+.suggest-form { text-align:left; background:#fff; border-radius:16px; border:1.5px solid #c7d2fe; padding:1.6rem; box-shadow:0 4px 16px rgba(99,102,241,0.07); }
+.sf-row { margin-bottom:1rem; }
+.sf-row label { display:block; font-size:0.8rem; font-weight:700; color:#374151; margin-bottom:0.3rem; }
+.sf-row input, .sf-row textarea, .sf-row select { width:100%; box-sizing:border-box; border:1.5px solid #e0e7ff; border-radius:9px; padding:0.55rem 0.75rem; font-size:0.9rem; font-family:inherit; color:#1e1b4b; background:#f8faff; outline:none; }
+.sf-row input:focus, .sf-row textarea:focus, .sf-row select:focus { border-color:#6366f1; background:#fff; }
+.sf-row textarea { resize:vertical; min-height:80px; }
+.suggest-submit { display:inline-block; background:#6366f1; color:#fff; font-family:'Nunito',sans-serif; font-size:0.95rem; font-weight:800; padding:0.6rem 1.6rem; border-radius:10px; text-decoration:none; border:none; cursor:pointer; margin-top:0.5rem; }
+.suggest-submit:hover { background:#4f46e5; }
 </style>
 </head>
 <body class="theme-students">
@@ -764,6 +777,40 @@
         <p>We use +1 and +2 because they are understood across all Indian states. <strong>+1</strong> = Class 11 / Intermediate 1st Year (AP, Telangana) / PUC-1 (Karnataka) / HSC Year 1. <strong>+2</strong> = Class 12 / Intermediate 2nd Year / PUC-2 / HSC Year 2. Whatever your state calls it, if you are 15–17 years old preparing for college, you are in the right place.</p>
       </details>
     </div>
+  </div>
+</section>
+
+<!-- ── Suggest a Topic ── -->
+<section class="suggest-section">
+  <div class="suggest-inner">
+    <h2>💡 Want to Learn Something We Haven't Covered?</h2>
+    <p>Tell us what topic you want — students, teachers, and parents all welcome. We read every message and build the most-requested lessons first.</p>
+    <form class="suggest-form" action="https://formspree.io/f/YOUR_FORMSPREE_FORM_ID" method="POST">
+      <input type="hidden" name="_subject" value="Topic Suggestion — Students page" />
+      <div class="sf-row">
+        <label for="st-who">Who are you?</label>
+        <select id="st-who" name="who" required>
+          <option value="">— Select —</option>
+          <option value="student">Student</option>
+          <option value="teacher">Teacher</option>
+          <option value="parent">Parent</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="sf-row">
+        <label for="st-class">Which class are you in (or teaching)?</label>
+        <input type="text" id="st-class" name="class_level" placeholder="e.g. Class 8, JC +1, Teacher for Class 10" />
+      </div>
+      <div class="sf-row">
+        <label for="st-topic">What topic do you want us to cover? *</label>
+        <input type="text" id="st-topic" name="topic" placeholder="e.g. How to use AI for Telugu essay writing" required />
+      </div>
+      <div class="sf-row">
+        <label for="st-why">Why would this topic help you? (optional)</label>
+        <textarea id="st-why" name="why" placeholder="Tell us a little about why this matters to you..."></textarea>
+      </div>
+      <button type="submit" class="suggest-submit">Send My Idea →</button>
+    </form>
   </div>
 </section>
 

@@ -390,6 +390,37 @@ footer .fl { display:flex; gap:1rem; }
 footer .fl a { color:rgba(255,255,255,0.40); font-size:0.75rem; }
 footer .fl a:hover { color:rgba(255,255,255,0.70); }
 
+/* ── Curriculum Map ── */
+.curric-map { background:linear-gradient(135deg,#f0f9ff,#e0f2fe); border-radius:18px; border:2px solid #bae6fd; padding:1.8rem; margin-bottom:2rem; }
+.curric-map h3 { color:#0369a1; font-size:1.1rem; font-weight:800; margin:0 0 0.25rem; }
+.curric-map .cm-sub { color:#0284c7; font-size:0.81rem; font-weight:600; margin-bottom:1.1rem; }
+.curric-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:0.65rem; }
+.curric-card { background:#fff; border-radius:10px; padding:0.6rem 0.75rem; border:1.5px solid #e0f2fe; }
+.curric-card.active { border-color:#0ea5e9; background:#f0f9ff; }
+.curric-card .cc-num { font-size:0.68rem; font-weight:800; color:#0ea5e9; }
+.curric-card.soon .cc-num { color:#94a3b8; }
+.curric-card .cc-title { font-size:0.82rem; font-weight:700; color:#0c4a6e; line-height:1.3; margin:0.1rem 0 0.25rem; }
+.curric-card.soon .cc-title { color:#94a3b8; }
+.curric-card .cc-badge { font-size:0.62rem; font-weight:700; background:#0ea5e9; color:#fff; border-radius:8px; padding:1px 7px; display:inline-block; }
+.curric-card.soon .cc-badge { background:#e2e8f0; color:#94a3b8; }
+/* ── Learn steps grid ── */
+.learn-steps { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:0.9rem; margin:1.2rem 0; }
+.ls-card { background:#f8fafc; border-radius:12px; padding:1rem; border:1.5px solid #e2e8f0; text-align:center; }
+.ls-card .ls-icon { font-size:2rem; margin-bottom:0.35rem; }
+.ls-card h4 { color:#0c4a6e; margin:0 0 0.25rem; font-size:0.88rem; font-weight:800; }
+.ls-card p { color:#475569; font-size:0.8rem; margin:0; }
+/* ── AI Types table ── */
+.ai-types-table { width:100%; border-collapse:collapse; font-size:0.85rem; margin:1.2rem 0; border-radius:10px; overflow:hidden; }
+.ai-types-table th { background:#0ea5e9; color:#fff; padding:0.5rem 0.75rem; text-align:left; font-weight:700; }
+.ai-types-table td { padding:0.45rem 0.75rem; border-bottom:1px solid #e0f2fe; vertical-align:top; }
+.ai-types-table tr:nth-child(even) td { background:#f0f9ff; }
+.ai-types-table tr:last-child td { border-bottom:none; }
+/* ── India AI examples cards ── */
+.india-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:0.9rem; margin:1.2rem 0; }
+.india-card { background:#fff; border-radius:12px; padding:1rem; border-left:4px solid #0ea5e9; box-shadow:0 2px 6px rgba(14,165,233,0.08); }
+.india-card .ic-sector { font-size:0.68rem; font-weight:800; color:#0ea5e9; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.25rem; }
+.india-card h4 { color:#0c4a6e; font-size:0.88rem; font-weight:800; margin:0 0 0.3rem; }
+.india-card p { color:#475569; font-size:0.8rem; margin:0; line-height:1.45; }
 @media(max-width:600px){
   .content-wrap { width:95%; padding:2rem 0 3rem; }
   .lesson-section { padding:1.2rem 1.1rem; }
@@ -411,12 +442,12 @@ footer .fl a:hover { color:rgba(255,255,255,0.70); }
 
 <!-- ── Lesson Header ── -->
 <header class="lesson-header">
-  <div class="lh-badge">Class 6 · Age 10–11 · AI for Students</div>
+  <div class="lh-badge">Class 6 · Age 10–11 · AI for Students · Lesson 1 of 12</div>
   <h1>AI Awareness and Safe Curiosity</h1>
-  <p class="lh-sub">Discover what AI really is, where it lives around you every day, and how to use it safely and honestly for your studies.</p>
+  <p class="lh-sub">Discover what AI really is, where it lives around you every day, how AI learns from data, and how to use it safely and honestly for your studies.</p>
   <div class="lh-meta">
-    <span>📘 Class 6</span>
-    <span>🕐 30–45 min</span>
+    <span>📘 Class 6 · Lesson 1</span>
+    <span>🕐 60–90 min</span>
     <span>🚫 No coding needed</span>
     <span>🆓 Free lesson</span>
   </div>
@@ -429,7 +460,7 @@ footer .fl a:hover { color:rgba(255,255,255,0.70); }
     <h2>Class 6 — AI Awareness Introduction</h2>
     <div class="video-box">
       <video controls preload="metadata"
-             style="width:100%;border-radius:12px;display:block;background:#0f172a;"
+             style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:14px;background:#0f172a;"
              poster="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/scenes/img-c6-01-computer-learning.jpg">
         <source src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/videos/class-06-intro.mp4" type="video/mp4" />
         Your browser does not support the video tag.
@@ -453,6 +484,74 @@ footer .fl a:hover { color:rgba(255,255,255,0.70); }
     <p>Ravi sat down with her. "None of those things," he said. "Let me show you what it really is."</p>
     <div class="story-highlight">
       👉 By the end of this lesson, you will be able to answer Anu's question yourself — and explain AI to your own family!
+    </div>
+  </div>
+
+  <!-- Full Year Curriculum Map -->
+  <div class="curric-map">
+    <h3>📅 Class 6 — Full Year Learning Map</h3>
+    <p class="cm-sub">12 lessons · One lesson every 2–3 weeks · Each lesson ≈ 45–60 minutes · All free</p>
+    <div class="curric-grid">
+      <div class="curric-card active">
+        <div class="cc-num">Lesson 1</div>
+        <div class="cc-title">What is AI? — Introduction</div>
+        <span class="cc-badge">● You are here</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 2</div>
+        <div class="cc-title">AI Around You — Going Deeper</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 3</div>
+        <div class="cc-title">How AI Learns from Data</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 4</div>
+        <div class="cc-title">Types of AI Tools</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 5</div>
+        <div class="cc-title">AI in India — Real Stories</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 6</div>
+        <div class="cc-title">Asking Good Questions with AI</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 7</div>
+        <div class="cc-title">AI for Study Help — Practical</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 8</div>
+        <div class="cc-title">Being a Responsible Digital Citizen</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 9</div>
+        <div class="cc-title">AI and Creativity — Art and Stories</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 10</div>
+        <div class="cc-title">When AI Gets It Wrong</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 11</div>
+        <div class="cc-title">AI Careers — What Jobs Exist?</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
+      <div class="curric-card soon">
+        <div class="cc-num">Lesson 12</div>
+        <div class="cc-title">My AI Discovery Journal — Year Project</div>
+        <span class="cc-badge">Coming Soon</span>
+      </div>
     </div>
   </div>
 
@@ -641,9 +740,139 @@ footer .fl a:hover { color:rgba(255,255,255,0.70); }
     </div>
   </div>
 
+  <!-- Section 6: How AI Learns -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 6 of 8</div>
+    <h2>🧠 How Does AI Actually Learn? — Patterns and Data</h2>
+    <p>Here is a question: <em>How did you learn to recognise a mango?</em> Someone showed you one, said "mango", and over time you saw many mangoes in many shapes and sizes. Your brain noticed the patterns — the yellow-orange colour, the shape, the smell — and built a rule: <strong>mango = these features</strong>.</p>
+    <p><strong>AI learns exactly the same way.</strong> But instead of years, it learns in hours. And instead of dozens of examples, it needs millions.</p>
+    <div class="learn-steps">
+      <div class="ls-card">
+        <div class="ls-icon">🖼️</div>
+        <h4>Step 1 — Collect Data</h4>
+        <p>Engineers gather millions of photos, sentences, or sounds. This is called <strong>training data</strong>.</p>
+      </div>
+      <div class="ls-card">
+        <div class="ls-icon">🏷️</div>
+        <h4>Step 2 — Label the Data</h4>
+        <p>Humans label each example: "this photo is a dog", "this email is spam", "this review is positive".</p>
+      </div>
+      <div class="ls-card">
+        <div class="ls-icon">🔁</div>
+        <h4>Step 3 — Find Patterns</h4>
+        <p>The AI program studies all the labelled examples again and again until it finds hidden patterns that tell them apart.</p>
+      </div>
+      <div class="ls-card">
+        <div class="ls-icon">✅</div>
+        <h4>Step 4 — Test and Improve</h4>
+        <p>New, unseen examples are shown to the AI to check accuracy. Engineers fix mistakes and repeat until it works well.</p>
+      </div>
+    </div>
+    <div class="callout sky">
+      <strong>Real example:</strong> Google Photos can recognise your grandmother's face. It learned this by being shown thousands of photos labelled with people's names — until it could spot patterns in faces it had never seen before.
+    </div>
+    <p><strong>Think about this:</strong> If you wanted to teach an AI to tell the difference between <em>idli</em> and <em>dosa</em>, what would you need to give it? (Answer: thousands of labelled photos of both dishes, from different angles, in different lighting, taken in different kitchens.)</p>
+    <div class="callout sky">
+      <strong>Key word to remember:</strong> This type of AI learning — where humans give labelled examples — is called <strong>Supervised Learning</strong>. It is the most common type used in apps you use every day.
+    </div>
+  </div>
+
+  <!-- Section 7: Types of AI Tools -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 7 of 8</div>
+    <h2>🛠️ Types of AI Tools You Already Use</h2>
+    <p>Not all AI does the same thing. Just like there are different types of books (textbooks, storybooks, dictionaries), there are different types of AI. Here are the main types and examples you can try today:</p>
+    <table class="ai-types-table">
+      <thead>
+        <tr>
+          <th>Type of AI</th>
+          <th>What it does</th>
+          <th>Indian / daily examples</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Text AI</strong> (Chatbot)</td>
+          <td>You type a question, it types an answer. Can explain, summarise, write, and translate.</td>
+          <td>ChatGPT, Google Gemini, Microsoft Copilot</td>
+        </tr>
+        <tr>
+          <td><strong>Image AI</strong></td>
+          <td>Recognises objects in photos or creates new images from a description.</td>
+          <td>Google Lens (point at plant to identify), phone camera beauty mode</td>
+        </tr>
+        <tr>
+          <td><strong>Voice AI</strong></td>
+          <td>Understands what you say and speaks back. Can set reminders, answer questions, play music.</td>
+          <td>Google Assistant (works in Telugu/Hindi), Siri, Alexa</td>
+        </tr>
+        <tr>
+          <td><strong>Recommendation AI</strong></td>
+          <td>Watches what you like and suggests more of the same.</td>
+          <td>YouTube ("Up next"), Flipkart ("You might also like"), Hotstar</td>
+        </tr>
+        <tr>
+          <td><strong>Translation AI</strong></td>
+          <td>Converts text or speech from one language to another instantly.</td>
+          <td>Google Translate — try Hindi ↔ Telugu in seconds</td>
+        </tr>
+        <tr>
+          <td><strong>Prediction AI</strong></td>
+          <td>Uses past data to predict what will happen next.</td>
+          <td>Google Maps traffic prediction, IRCTC waitlist probability, weather apps</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout sky">
+      <strong>Try it now (with a parent):</strong> Open Google Translate on a phone. Type any sentence in English and translate it to Telugu. Then press the speaker button to hear it spoken aloud. That entire process — reading, understanding, translating, and speaking — is done by AI in less than one second.
+    </div>
+  </div>
+
+  <!-- Section 8: AI in India -->
+  <div class="lesson-section">
+    <div class="sec-eyebrow">Section 8 of 8</div>
+    <h2>🇮🇳 AI in India — Helping Real People Right Now</h2>
+    <p>AI is not just in phones and apps. In India, AI is being used to solve serious problems that affect millions of people. Here are real examples — not made up stories.</p>
+    <div class="india-grid">
+      <div class="india-card">
+        <div class="ic-sector">🌾 Agriculture</div>
+        <h4>Plantix — The Farming Doctor</h4>
+        <p>A farmer in Andhra Pradesh takes a photo of a sick plant with their phone. The <strong>Plantix app</strong> uses AI to identify the disease within seconds and suggests the right treatment. Over 5 million farmers in India use it.</p>
+      </div>
+      <div class="india-card">
+        <div class="ic-sector">👁️ Healthcare</div>
+        <h4>Eye Disease Detection</h4>
+        <p><strong>Aravind Eye Hospitals</strong> (Tamil Nadu) uses AI to scan retina photos and detect diabetic eye disease in rural patients — often catching problems before the patient even feels symptoms. It has screened millions of patients.</p>
+      </div>
+      <div class="india-card">
+        <div class="ic-sector">🚂 Transport</div>
+        <h4>IRCTC Waitlist Prediction</h4>
+        <p>When you book a train ticket on a waitlist, the IRCTC website shows a probability — "WL 8 — Likely to confirm". That prediction is made by AI studying millions of past booking patterns.</p>
+      </div>
+      <div class="india-card">
+        <div class="ic-sector">📚 Education</div>
+        <h4>DIKSHA — Free AI Learning</h4>
+        <p>India's government-built <strong>DIKSHA platform</strong> serves over 200 million students. It uses AI to personalise content — showing each student materials at their exact level in their local language.</p>
+      </div>
+      <div class="india-card">
+        <div class="ic-sector">🗣️ Language</div>
+        <h4>Bhashini — AI for Indian Languages</h4>
+        <p><strong>Bhashini</strong> is India's own AI translation project, built to work in 22 Indian languages including Telugu, Tamil, Kannada, and Odia — so that AI is useful for every Indian, not just English speakers.</p>
+      </div>
+      <div class="india-card">
+        <div class="ic-sector">🌤️ Climate</div>
+        <h4>Better Weather for Farmers</h4>
+        <p>The India Meteorological Department now uses AI to predict district-level rainfall. A farmer in Telangana can get an AI-generated forecast for their specific village — not just for the whole state.</p>
+      </div>
+    </div>
+    <div class="callout sky">
+      <strong>Important thought:</strong> In every example above, AI did not replace the human — it helped the human do more. The doctor still reviews the eye scan. The farmer still decides when to water. The student still does the work. <strong>AI is a tool, not a replacement for thinking.</strong>
+    </div>
+  </div>
+
   <!-- Quiz -->
   <div class="quiz-section" id="quiz">
-    <h2>🎯 Quick Quiz — Check What You Learned</h2>
+    <h2>🎯 Quick Quiz — 10 Questions to Check What You Learned</h2>
 
     <div class="quiz-q" id="q1">
       <div class="q-text">Q1. What does "AI" stand for?</div>
@@ -700,6 +929,61 @@ footer .fl a:hover { color:rgba(255,255,255,0.70); }
       <div class="quiz-feedback" id="fb5"></div>
     </div>
 
+    <div class="quiz-q" id="q6">
+      <div class="q-text">Q6. How does an AI learn to recognise different animals in photos?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="6" data-val="a">A) A programmer manually labels each new photo every time</button>
+        <button class="quiz-opt" data-q="6" data-val="b">B) It studies millions of labelled photos and finds patterns</button>
+        <button class="quiz-opt" data-q="6" data-val="c">C) It searches the internet for the animal name each time</button>
+        <button class="quiz-opt" data-q="6" data-val="d">D) It memorises a dictionary of animal descriptions</button>
+      </div>
+      <div class="quiz-feedback" id="fb6"></div>
+    </div>
+
+    <div class="quiz-q" id="q7">
+      <div class="q-text">Q7. Meena uses Hotstar and it keeps suggesting new shows she enjoys. What type of AI is doing this?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="7" data-val="a">A) Image AI</button>
+        <button class="quiz-opt" data-q="7" data-val="b">B) Voice AI</button>
+        <button class="quiz-opt" data-q="7" data-val="c">C) Translation AI</button>
+        <button class="quiz-opt" data-q="7" data-val="d">D) Recommendation AI</button>
+      </div>
+      <div class="quiz-feedback" id="fb7"></div>
+    </div>
+
+    <div class="quiz-q" id="q8">
+      <div class="q-text">Q8. A farmer uses an app to photograph a sick crop and gets an instant diagnosis. Which Indian AI app does this?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="8" data-val="a">A) DIKSHA</button>
+        <button class="quiz-opt" data-q="8" data-val="b">B) Bhashini</button>
+        <button class="quiz-opt" data-q="8" data-val="c">C) Plantix</button>
+        <button class="quiz-opt" data-q="8" data-val="d">D) IRCTC</button>
+      </div>
+      <div class="quiz-feedback" id="fb8"></div>
+    </div>
+
+    <div class="quiz-q" id="q9">
+      <div class="q-text">Q9. An AI chatbot says India became independent in 1949. Your textbook says 1947. What should you do?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="9" data-val="a">A) Trust AI — it is more modern and always updated</button>
+        <button class="quiz-opt" data-q="9" data-val="b">B) Trust the textbook for your exam and tell your teacher about the AI error</button>
+        <button class="quiz-opt" data-q="9" data-val="c">C) Search social media for a third opinion</button>
+        <button class="quiz-opt" data-q="9" data-val="d">D) Use whichever answer is shorter to write</button>
+      </div>
+      <div class="quiz-feedback" id="fb9"></div>
+    </div>
+
+    <div class="quiz-q" id="q10">
+      <div class="q-text">Q10. What is the biggest difference between AI and a simple calculator?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-q="10" data-val="a">A) A calculator uses electricity; AI does not</button>
+        <button class="quiz-opt" data-q="10" data-val="b">B) AI is always faster than a calculator</button>
+        <button class="quiz-opt" data-q="10" data-val="c">C) A calculator follows exact fixed rules; AI learns from data and handles new situations</button>
+        <button class="quiz-opt" data-q="10" data-val="d">D) AI can only do maths, just like a calculator</button>
+      </div>
+      <div class="quiz-feedback" id="fb10"></div>
+    </div>
+
     <button class="quiz-submit" id="quizSubmit">Check My Answers</button>
     <div class="quiz-score-box" id="scoreBox">
       <div class="qs-num" id="scoreNum">0/5</div>
@@ -734,8 +1018,8 @@ footer .fl a:hover { color:rgba(255,255,255,0.70); }
     <div class="pn-header">
       <span>👨‍👩‍👧</span> For Parents and Teachers
     </div>
-    <p><strong>What this lesson covers:</strong> This Class 6 lesson introduces AI awareness in the simplest possible terms. No coding, no technical jargon. Students learn what AI is, where it appears in everyday Indian life, and how to use it safely and honestly.</p>
-    <p><strong>Learning time:</strong> Around 30–45 minutes in one sitting, or split across two short sessions.</p>
+    <p><strong>What this lesson covers:</strong> This is <strong>Lesson 1 of 12</strong> in the Class 6 full-year AI curriculum. It introduces AI awareness in the simplest possible terms across 8 sections: what AI is, where it appears in everyday Indian life, how AI learns from data, the types of AI tools students use daily, real AI applications across India (agriculture, healthcare, transport, education), and how to use AI safely and honestly. No coding, no technical jargon.</p>
+    <p><strong>Learning time:</strong> Around 60–90 minutes in one sitting, or split across two or three short sessions. Sections 6–8 (How AI Learns, Types of AI, AI in India) are the most content-rich and work well as standalone homework reading.</p>
     <p><strong>Safety by design:</strong></p>
     <ul>
       <li>No personal data is collected from students on this page.</li>
@@ -768,15 +1052,20 @@ footer .fl a:hover { color:rgba(255,255,255,0.70); }
 
 <script>
 // ── Quiz logic ──
-const correct = { "1":"b", "2":"c", "3":"c", "4":"b", "5":"c" };
+const correct = { "1":"b", "2":"c", "3":"c", "4":"b", "5":"c", "6":"b", "7":"d", "8":"c", "9":"b", "10":"c" };
 const feedback = {
   "1": { b:"✓ Correct! AI stands for Artificial Intelligence.", wrong:"Not quite. AI stands for Artificial Intelligence — a computer program that can understand information and give useful answers." },
   "2": { c:"✓ Correct! YouTube uses AI to recommend videos it thinks you will enjoy, based on your watch history.", wrong:"Not this one. YouTube recommending videos is the classic everyday AI example — it learns your preferences from what you have watched before." },
   "3": { c:"✓ Correct! Always check AI answers with your textbook or teacher. AI can be wrong.", wrong:"That is not safe. AI can make mistakes and even invent false facts. Always check important information with your textbook or teacher." },
   "4": { b:"✓ Correct! Submitting AI-written work as your own is cheating. It is also bad for your own learning.", wrong:"Actually, option B is the wrong way — submitting AI-written work as your own is cheating and stops you from actually learning." },
-  "5": { c:"✓ Correct! Never share your home address, phone number, or any private personal details with any AI tool.", wrong:"Option C is the dangerous one — your home address and phone number are private and should never be shared with any AI tool or app." }
+  "5": { c:"✓ Correct! Never share your home address, phone number, or any private personal details with any AI tool.", wrong:"Option C is the dangerous one — your home address and phone number are private and should never be shared with any AI tool or app." },
+  "6": { b:"✓ Correct! AI learns by studying millions of labelled examples (training data) to find patterns — not by being told each new case by hand.", wrong:"Not quite. AI learns from millions of labelled examples automatically — this process is called Supervised Learning." },
+  "7": { d:"✓ Correct! Recommendation AI watches what you enjoy and suggests more content you are likely to like.", wrong:"Not quite. The type of AI that suggests shows, songs, and products based on your habits is called Recommendation AI." },
+  "8": { c:"✓ Correct! Plantix is the AI-powered farming app used by over 5 million Indian farmers to identify crop diseases from photos.", wrong:"Not this one. Plantix is the app that helps farmers diagnose sick crops using AI and a phone camera." },
+  "9": { b:"✓ Correct! Textbooks are verified and fact-checked. Always use them for exams, and tell your teacher when AI gives a different answer.", wrong:"The textbook is your verified source for exams. AI can and does make factual errors — this is one of its known weaknesses. Always tell your teacher about AI mistakes." },
+  "10": { c:"✓ Correct! A calculator applies fixed rules (2+2 always equals 4). AI learns patterns from data and can handle situations it was never programmed for explicitly.", wrong:"Option C is correct. The key difference is that AI learns from data — it was not given a rule for every situation. A calculator only does what it is told, exactly." }
 };
-const msgs = ["Keep going — every question you get wrong is something you now know to study!", "Good start! Re-read the sections on the questions you missed.", "Not bad! Review the safety and AI basics sections.", "Well done! You understand most of the lesson.", "5/5 — Excellent! You are ready to teach AI safety to your classmates! 🎉"];
+const msgs = ["Keep going — every question you got wrong is something new you now know to study!", "Good start! Re-read the sections on the questions you missed.", "Not bad! Review the safety and AI basics sections to strengthen your score.", "Solid effort! You understand most of the lesson — a quick re-read will get you to 10/10.", "8/10 — Great work! Just a couple of topics to revisit.", "9/10 — Almost perfect! One more read-through and you have got this.", "10/10 — Outstanding! You are ready to explain AI to your whole class! 🎉"];
 
 let answered = {};
 let submitted = false;
@@ -795,7 +1084,7 @@ document.getElementById('quizSubmit').addEventListener('click', function() {
   if (submitted) return;
   submitted = true;
   let score = 0;
-  for (let q = 1; q <= 5; q++) {
+  for (let q = 1; q <= 10; q++) {
     const ans = answered[String(q)];
     const fb = document.getElementById('fb' + q);
     if (ans) {
@@ -813,8 +1102,8 @@ document.getElementById('quizSubmit').addEventListener('click', function() {
   }
   const sb = document.getElementById('scoreBox');
   sb.classList.add('show');
-  document.getElementById('scoreNum').textContent = score + '/5';
-  document.getElementById('scoreMsg').textContent = msgs[score];
+  document.getElementById('scoreNum').textContent = score + '/10';
+  document.getElementById('scoreMsg').textContent = msgs[score <= 6 ? score : score - 4];
   this.textContent = 'Done! Scroll up to review.';
   this.disabled = true;
   gtag('event', 'quiz_complete', { event_category: 'class6', event_label: 'class06_quiz', value: score });

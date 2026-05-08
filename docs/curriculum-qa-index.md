@@ -700,4 +700,39 @@ Hub page: `content/students/class-07/class-07.html`
 
 ---
 
-*Last updated: 8 May 2026 · Class 6 complete (12 lessons) · Class 7 Lessons 1–8 live · L9–L12 in progress.*
+---
+
+### Lesson 9 — AI in Indian Schools
+
+**File:** `content/students/class-07/lesson-09.html`  
+**Duration:** 40–50 min · 8 sections · Free  
+**Story characters:** Ravi (Hyderabad, AI-enabled school) and Deepa (small town Telangana, limited access) — the urban-rural gap made personal
+
+**Section topics:**
+1. AI in Indian education — scale stats (1.5M schools, 260M students, 9.5M teachers, 28+ languages)
+2. Government initiatives: NEP 2020, PM eVIDYA, DIKSHA, CBSE AI elective, NITI Aayog AI for All, Atal Tinkering Labs
+3. AI tools already in Indian school life: BYJU'S, Grammarly, Photomath, Google Translate, ChatGPT/Gemini, NCERT solutions sites
+4. Timeline 2009–2026 — how Indian AI education evolved
+5. Real challenges vs opportunities — two-column grid
+6. How AI changes what teachers and students do
+7. What Indian schools might look like in 5–10 years
+8. Action table — what every student can do regardless of device access
+
+**Quiz (10 questions) — answers:**
+
+| Q | Question | Correct |
+|---|----------|---------|
+| 1 | What Ravi and Deepa's story illustrates | c |
+| 2 | Policy that mentioned AI, coding, computational thinking | b |
+| 3 | What DIKSHA is | c |
+| 4 | CBSE AI elective for which classes | c |
+| 5 | Correct way to use Photomath | b |
+| 6 | What only a human teacher can do | c |
+| 7 | What Atal Tinkering Labs are | b |
+| 8 | Why AI is the 'great equaliser' | c |
+| 9 | Best approach with no personal device | b |
+| 10 | Most important AI skill for Indian students now | d |
+
+---
+
+*Last updated: 8 May 2026 · Class 6 complete (12 lessons) · Class 7 Lessons 1–9 live · L10–L12 in progress.*

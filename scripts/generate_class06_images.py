@@ -46,10 +46,11 @@ IMAGES = [
     (
         "lesson-01-hero.jpg",
         "1792x1024",
-        "Curious Indian 11-year-old boy at a school desk holding a glowing smartphone. "
-        "A friendly small glowing blue AI robot floats beside him with big curious eyes. "
-        "Thought bubbles above his head show gears, lightbulbs, and question marks. "
-        "Bright Indian classroom background with colourful charts on the walls.",
+        "Curious Indian child at a school desk, age 11, holding a glowing smartphone. "
+        "A small friendly glowing blue spherical robot floats beside the child with wide curious eyes. "
+        "Colourful thought bubbles float above — showing a gear, a lightbulb, and a question mark. "
+        "Bright Indian classroom in the background with colourful posters on the walls. "
+        "Warm cheerful atmosphere, vibrant sky-blue and yellow tones.",
     ),
     (
         "lesson-02-hero.jpg",

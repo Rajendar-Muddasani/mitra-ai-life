@@ -35,7 +35,6 @@ echo ""
 
 aws s3 sync "$LOCAL_DIR" "s3://${BUCKET}/${S3_PREFIX}" \
   --region "$REGION" \
-  --acl public-read \
   --content-type "image/jpeg" \
   --exclude "*.DS_Store" \
   --exclude ".gitkeep"

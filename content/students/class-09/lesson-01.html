@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 1 — Inside Neural Networks | Class 9 | Mitra AI Life</title>
+<meta name="description" content="Class 9 Lesson 1: Understand how neural networks actually work — layers, weights, activation functions, and backpropagation. Visual and conceptual, no heavy maths." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-09/lesson-01.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#f97316" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 1 — Inside Neural Networks | Class 9 | Mitra AI Life" />
+<meta property="og:description" content="Class 9 Lesson 1: Understand how neural networks actually work — layers, weights, activation functions, and backpropagation. Visual and conceptual, no heavy maths." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-09/lesson-01.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#fff7ed;color:#7c2d12;line-height:1.7}
+a{color:#f97316;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#fdba74}
+.topnav .nav-links{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}
+.topnav .nav-links a.active{color:#fdba74}
+.lesson-hero{background:linear-gradient(135deg,#7c2d12,#c2410c,#f97316);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.story-panel{background:linear-gradient(135deg,#fff7ed,#ffedd5);border-left:5px solid #f97316;border-radius:0 16px 16px 0;padding:1.5rem 1.5rem;margin:2rem 0;position:relative}
+.story-panel::before{content:'📖';position:absolute;top:-14px;left:16px;font-size:1.4rem}
+.story-panel .sp-label{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#f97316;margin-bottom:.4rem}
+.story-panel p{font-size:.95rem;color:#7c2d12;margin-bottom:.6rem}
+.story-panel p:last-child{margin-bottom:0}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#f97316;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#7c2d12;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#9a3412;margin-bottom:.9rem}
+.lesson-section ul,.lesson-section ol{font-size:.93rem;color:#9a3412;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.orange{background:#fff7ed;border-left:4px solid #f97316;color:#7c2d12}
+.callout.amber{background:#fffbeb;border-left:4px solid #f59e0b;color:#78350f}
+.callout.red{background:#fff1f2;border-left:4px solid #f43f5e;color:#881337}
+.callout.green{background:#f0fdf4;border-left:4px solid #22c55e;color:#14532d}
+.analogy-box{background:#fff;border:2px dashed #fed7aa;border-radius:16px;padding:1.3rem;margin:1rem 0}
+.analogy-box .ab-head{font-weight:800;color:#f97316;font-size:.85rem;margin-bottom:.5rem}
+.analogy-box p{font-size:.9rem;color:#9a3412;margin-bottom:0}
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.9rem;margin:1rem 0}
+.concept-card{background:#fff;border:1.5px solid #fed7aa;border-radius:14px;padding:1rem;text-align:center}
+.concept-card .cc-icon{font-size:1.6rem;margin-bottom:.4rem}
+.concept-card .cc-term{font-weight:800;color:#7c2d12;font-size:.88rem;margin-bottom:.3rem}
+.concept-card .cc-def{font-size:.78rem;color:#9a3412;line-height:1.45}
+/* Neural network visualiser */
+.nn-visual{background:#fff;border:1.5px solid #fed7aa;border-radius:16px;padding:1.5rem;margin:1rem 0;overflow-x:auto}
+.nn-visual .nv-title{font-weight:800;color:#7c2d12;font-size:.9rem;margin-bottom:1rem;text-align:center}
+.nn-diagram{display:flex;align-items:center;justify-content:center;gap:2rem;flex-wrap:wrap}
+.nn-layer{display:flex;flex-direction:column;align-items:center;gap:.5rem}
+.nn-layer .layer-name{font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#9a3412;margin-bottom:.3rem}
+.nn-node{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;box-shadow:0 3px 10px rgba(249,115,22,.3)}
+.nn-node.hidden{background:linear-gradient(135deg,#c2410c,#9a3412)}
+.nn-node.output{background:linear-gradient(135deg,#7c2d12,#450a0a)}
+.nn-arrow{font-size:1.5rem;color:#fed7aa;align-self:center}
+.steps-timeline{margin:1rem 0}
+.step-item{display:flex;gap:1rem;align-items:flex-start;margin-bottom:1.2rem}
+.step-num{min-width:34px;height:34px;background:#f97316;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0;margin-top:.1rem}
+.step-body .step-title{font-weight:800;color:#7c2d12;font-size:.93rem;margin-bottom:.2rem}
+.step-body p{font-size:.87rem;color:#9a3412;margin:0}
+.code-block{background:#1e293b;border-radius:12px;padding:1.2rem 1.4rem;margin:1rem 0;overflow-x:auto}
+.code-block pre{font-family:'Courier New',Courier,monospace;font-size:.82rem;color:#e2e8f0;line-height:1.6;margin:0;white-space:pre-wrap}
+/* Quiz */
+.quiz-section{background:#fff;border:2px solid #f97316;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#7c2d12;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#7c2d12;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:center;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #fed7aa;background:#fff7ed;font-size:.88rem;color:#7c2d12;transition:border-color .15s}
+.quiz-opt:hover{border-color:#f97316}
+.quiz-opt.selected{border-color:#f97316;background:#fff7ed;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#f97316;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#ea580c}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #f97316;color:#f97316}
+.lesson-nav .btn-next{background:#f97316;color:#fff}
+.lesson-nav .btn-prev:hover{background:#fff7ed}
+.lesson-nav .btn-next:hover{background:#ea580c}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.nn-diagram{gap:.8rem}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-09.html" class="active">Class 9</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-09.html">Class 9</a> → Lesson 1</div>
+  <h1>Inside Neural Networks 🧠</h1>
+  <div class="meta">
+    <span>Class 9</span><span>Age 13–14</span><span>Lesson 1 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-09/lesson-01-hero.jpg" alt="Glowing neural network diagram with layers of interconnected nodes on a dark background, blue and orange highlights" loading="eager" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="sp-label">Meet Arjun — Class 9, Visakhapatnam</div>
+    <p>Arjun did great in Class 8. He knows AI learns from data. He's used ChatGPT, tried Python in Colab, and even built a simple sorting algorithm. But one question still bothers him: <em>"When I feed data into a neural network, what is actually happening inside?"</em></p>
+    <p>His teacher says "the network adjusts its weights." But what does that really mean? Today we'll open the black box together — and by the end, Arjun (and you) will be able to draw a diagram of a neural network and explain exactly what happens at each step.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">First — Quick Recap</div>
+    <div class="ls-title">What We Already Know</div>
+    <p>From Class 8, we know that a neural network is inspired by the human brain. It takes input, processes it through layers, and produces an output (a prediction). But we treated the inside as a "black box." Now we open it.</p>
+    <div class="callout orange">
+      <strong>Class 9 Promise:</strong> After this lesson you will never say "the AI just figures it out." You'll be able to explain exactly which mathematical operations happen — with enough detail to actually write code.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 1</div>
+    <div class="ls-title">The Three Kinds of Layers</div>
+    <p>Every neural network is made of layers stacked one after another. There are exactly three types:</p>
+    <div class="concept-grid">
+      <div class="concept-card"><div class="cc-icon">📥</div><div class="cc-term">Input Layer</div><div class="cc-def">Receives your raw data. One node per feature. No computation happens here.</div></div>
+      <div class="concept-card"><div class="cc-icon">⚙️</div><div class="cc-term">Hidden Layers</div><div class="cc-def">Where the real computation happens. Can be 1 to thousands of layers. "Deep learning" just means many hidden layers.</div></div>
+      <div class="concept-card"><div class="cc-icon">📤</div><div class="cc-term">Output Layer</div><div class="cc-def">Produces the final prediction. One node per class (for classification) or one node for a number (for regression).</div></div>
+    </div>
+    <div class="nn-visual">
+      <div class="nv-title">Example: Predict if a student will pass an exam (3 features → 1 output)</div>
+      <div class="nn-diagram">
+        <div class="nn-layer">
+          <div class="layer-name">Input (3)</div>
+          <div class="nn-node">H</div>
+          <div class="nn-node">A</div>
+          <div class="nn-node">S</div>
+        </div>
+        <div class="nn-arrow">→</div>
+        <div class="nn-layer">
+          <div class="layer-name">Hidden (4)</div>
+          <div class="nn-node hidden">N1</div>
+          <div class="nn-node hidden">N2</div>
+          <div class="nn-node hidden">N3</div>
+          <div class="nn-node hidden">N4</div>
+        </div>
+        <div class="nn-arrow">→</div>
+        <div class="nn-layer">
+          <div class="layer-name">Output (1)</div>
+          <div class="nn-node output">P</div>
+        </div>
+      </div>
+      <p style="font-size:.78rem;color:#9a3412;text-align:center;margin-top:.75rem">H = Hours studied · A = Attendance % · S = Sleep hours → P = Pass/Fail probability</p>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 2</div>
+    <div class="ls-title">Weights: The "Knobs" of a Network</div>
+    <p>Every connection between two nodes has a number called a <strong>weight</strong>. The weight says: "how much should this input influence the next node?" A large positive weight means "pay a lot of attention." A weight near zero means "almost ignore this."</p>
+    <div class="analogy-box">
+      <div class="ab-head">🎚 Analogy: A Music Mixer</div>
+      <p>A DJ's mixing board has sliders (volume for each instrument). The neural network's weights are those sliders. Training adjusts the sliders until the output sounds right. Before training, the sliders are set randomly. After training, they're at the exact positions that produce correct predictions.</p>
+    </div>
+    <p>In a tiny network with 3 inputs and 4 hidden nodes, there are already 3 × 4 = 12 weights just for the first layer. Large modern networks have <em>billions</em> of weights — GPT-4 has roughly 1.7 trillion parameters.</p>
+    <div class="callout orange">
+      <strong>Key Insight:</strong> When we say "the model learned," we mean: the values of all the weights were adjusted until the output became correct (or close enough). The weights are the knowledge stored in the network.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 3</div>
+    <div class="ls-title">What Happens Inside One Node</div>
+    <p>Each node in a hidden or output layer does two simple things:</p>
+    <div class="steps-timeline">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Weighted Sum</div>
+          <p>Multiply each input by its weight, add them all together, then add one more number called the <strong>bias</strong>. Result: z = (w₁×x₁) + (w₂×x₂) + ... + bias</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Activation Function</div>
+          <p>Pass the sum z through an activation function. This decides whether this node "fires" and with what intensity. Common functions: ReLU, Sigmoid, Softmax.</p>
+        </div>
+      </div>
+    </div>
+    <div class="concept-grid">
+      <div class="concept-card"><div class="cc-icon">⚡</div><div class="cc-term">ReLU</div><div class="cc-def">max(0, z) — if z is negative, output 0. If positive, pass it through. Used in most hidden layers. Fast and simple.</div></div>
+      <div class="concept-card"><div class="cc-icon">📈</div><div class="cc-term">Sigmoid</div><div class="cc-def">Squeezes output between 0 and 1. Used in output layer for yes/no (binary) classification.</div></div>
+      <div class="concept-card"><div class="cc-icon">🎲</div><div class="cc-term">Softmax</div><div class="cc-def">Converts output scores into probabilities that add up to 1. Used in output layer when classifying into many categories.</div></div>
+    </div>
+    <div class="callout amber">
+      <strong>Why do we need activation functions?</strong> Without them, stacking layers is mathematically the same as one layer. Activation functions add non-linearity — they let networks learn complex, curved patterns, not just straight lines.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 4</div>
+    <div class="ls-title">Forward Pass: From Input to Prediction</div>
+    <p>When you give a trained network an input, data flows forward through the layers, one layer at a time. Each layer produces a set of numbers that become the input to the next layer. This one-way trip is called the <strong>forward pass</strong>.</p>
+    <div class="code-block"><pre># Tiny neural network forward pass (concept — no framework)
+import math
+
+# Input: [hours_studied=6, attendance=0.85, sleep=7]
+x = [6, 0.85, 7]
+
+# Weights for 2 hidden nodes (made-up values for illustration)
+w = [[0.4, 0.1, 0.3],   # weights for hidden node 1
+     [0.2, 0.5, 0.1]]   # weights for hidden node 2
+bias = [0.2, 0.1]
+
+# Step 1: Weighted sum
+z1 = sum(w[0][i]*x[i] for i in range(3)) + bias[0]
+z2 = sum(w[1][i]*x[i] for i in range(3)) + bias[1]
+
+# Step 2: ReLU activation
+def relu(z): return max(0, z)
+h1, h2 = relu(z1), relu(z2)
+
+print(f"Hidden node 1 output: {h1:.4f}")
+print(f"Hidden node 2 output: {h2:.4f}")
+# These then feed forward to the output layer...</pre></div>
+    <p>Run this in Google Colab and try changing the weights to see how the output changes. This is exactly what training does automatically — but using calculus.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 5</div>
+    <div class="ls-title">How Training Works: Backpropagation</div>
+    <p>Training a neural network means finding the right weights. The algorithm that does this is called <strong>backpropagation</strong>. Here's the intuition:</p>
+    <div class="steps-timeline">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Make a prediction (forward pass)</div>
+          <p>Feed an input through the network to get a predicted output.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Measure the error (loss function)</div>
+          <p>Compare prediction to the correct answer. The "loss" is a number that tells how wrong we are. Lower loss = better model.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Propagate error backwards</div>
+          <p>Using calculus (the chain rule), calculate how much each weight contributed to the error. This is the "gradient."</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Update weights (gradient descent)</div>
+          <p>Adjust each weight by a tiny amount in the direction that reduces the loss. The size of the step is called the <strong>learning rate</strong>.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">Repeat thousands of times</div>
+          <p>Each repetition through the full training dataset is called an <strong>epoch</strong>. After many epochs, the weights stabilise and the loss is low.</p>
+        </div>
+      </div>
+    </div>
+    <div class="analogy-box">
+      <div class="ab-head">🏔 Analogy: Rolling Downhill in the Dark</div>
+      <p>Imagine you're blindfolded on a hilly landscape. Your goal: find the lowest valley. You feel the slope under your feet (the gradient) and take one small step downhill. Then check the slope again, take another step. Repeat until you can't go any lower. That valley is the lowest loss — the best set of weights.</p>
+    </div>
+    <div class="callout orange">
+      <strong>Real World:</strong> You don't write backpropagation yourself. Libraries like TensorFlow and PyTorch calculate all the gradients automatically. You just define the network shape, loss function, and learning rate — and call model.fit(). But now you know what's happening inside!
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 6</div>
+    <div class="ls-title">Why "Deep" Learning?</div>
+    <p>A shallow network (1–2 hidden layers) can learn simple patterns — like whether a student passes based on study hours. A deep network (many hidden layers) can learn complex patterns — like recognising a face in a photo, translating a language, or generating realistic text.</p>
+    <p>Each layer learns to detect increasingly complex features:</p>
+    <ul>
+      <li><strong>Layer 1:</strong> Detects simple patterns (edges in images, common words in text)</li>
+      <li><strong>Layer 2:</strong> Combines those into shapes (curves, phrases)</li>
+      <li><strong>Layer 3+:</strong> Combines those into objects (faces, sentences, meanings)</li>
+    </ul>
+    <div class="callout green">
+      <strong>GPT-4 has 96 transformer layers.</strong> Each layer refines the understanding of language a little more. By layer 96, the network has enough abstraction to generate coherent, contextually accurate text.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Try It in Colab</div>
+    <div class="ls-title">Your First Keras Neural Network</div>
+    <p>Here's a minimal neural network you can run right now in Google Colab. It trains on made-up student data to predict exam pass/fail:</p>
+    <div class="code-block"><pre># Open Colab: colab.research.google.com → New Notebook
+
+import numpy as np
+from tensorflow import keras
+
+# Fake student data: [hours_studied, attendance, sleep_hours]
+X = np.array([[2, 0.5, 5], [7, 0.9, 8], [4, 0.7, 6],
+              [1, 0.3, 4], [8, 0.95, 8], [3, 0.6, 6]])
+y = np.array([0, 1, 1, 0, 1, 0])  # 0=fail, 1=pass
+
+# Build a simple neural network
+model = keras.Sequential([
+    keras.layers.Dense(4, activation='relu', input_shape=(3,)),
+    keras.layers.Dense(1, activation='sigmoid')
+])
+
+model.compile(optimizer='adam', loss='binary_crossentropy',
+              metrics=['accuracy'])
+
+history = model.fit(X, y, epochs=100, verbose=0)
+print(f"Final accuracy: {history.history['accuracy'][-1]:.2f}")
+
+# Predict for a new student: [5 hours, 80% attendance, 7 hours sleep]
+prediction = model.predict([[5, 0.8, 7]])
+print(f"Pass probability: {prediction[0][0]:.2f}")</pre></div>
+    <div class="callout orange">
+      <strong>Try:</strong> Change the number 4 (hidden nodes) to 8 or 16. See if accuracy improves. Change epochs=100 to epochs=200. Watch what happens. You're doing hyperparameter tuning!
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>🧪 Check Your Understanding — Lesson 1 Quiz</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. Which layer of a neural network receives the raw input data and does NO computation?</div>
+        <div class="quiz-opt" data-opt="a">a) Output layer</div>
+        <div class="quiz-opt" data-opt="b">b) Hidden layer</div>
+        <div class="quiz-opt" data-opt="c">c) Input layer</div>
+        <div class="quiz-opt" data-opt="d">d) Loss layer</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. What are "weights" in a neural network?</div>
+        <div class="quiz-opt" data-opt="a">a) The size of the dataset used for training</div>
+        <div class="quiz-opt" data-opt="b">b) Numbers on each connection that control how much influence one node has on the next</div>
+        <div class="quiz-opt" data-opt="c">c) The number of layers in the network</div>
+        <div class="quiz-opt" data-opt="d">d) The output probabilities from the last layer</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. Why do we need activation functions like ReLU?</div>
+        <div class="quiz-opt" data-opt="a">a) To speed up data loading</div>
+        <div class="quiz-opt" data-opt="b">b) To reduce the size of the dataset</div>
+        <div class="quiz-opt" data-opt="c">c) To add non-linearity so the network can learn complex patterns</div>
+        <div class="quiz-opt" data-opt="d">d) To convert weights into probabilities</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. In backpropagation, what does the "gradient" tell us?</div>
+        <div class="quiz-opt" data-opt="a">a) The number of training epochs completed</div>
+        <div class="quiz-opt" data-opt="b">b) The total number of weights in the network</div>
+        <div class="quiz-opt" data-opt="c">c) How much each weight contributed to the prediction error</div>
+        <div class="quiz-opt" data-opt="d">d) The final accuracy of the model</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. What is one "epoch" in neural network training?</div>
+        <div class="quiz-opt" data-opt="a">a) A single weight update</div>
+        <div class="quiz-opt" data-opt="b">b) One full pass through the entire training dataset</div>
+        <div class="quiz-opt" data-opt="c">c) The time taken for one forward pass</div>
+        <div class="quiz-opt" data-opt="d">d) Adding one new layer to the network</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. What activation function should you use in the output layer for binary (yes/no) classification?</div>
+        <div class="quiz-opt" data-opt="a">a) ReLU</div>
+        <div class="quiz-opt" data-opt="b">b) Softmax</div>
+        <div class="quiz-opt" data-opt="c">c) Sigmoid</div>
+        <div class="quiz-opt" data-opt="d">d) Tanh</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. What is "gradient descent"?</div>
+        <div class="quiz-opt" data-opt="a">a) A method for loading datasets faster</div>
+        <div class="quiz-opt" data-opt="b">b) The process of adjusting weights in small steps to reduce prediction error</div>
+        <div class="quiz-opt" data-opt="c">c) A way to visualise neural network layers</div>
+        <div class="quiz-opt" data-opt="d">d) The formula for computing weighted sums</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. Why is a "deep" network better than a "shallow" network for complex tasks?</div>
+        <div class="quiz-opt" data-opt="a">a) Deep networks have more training data</div>
+        <div class="quiz-opt" data-opt="b">b) Deep networks run faster on computers</div>
+        <div class="quiz-opt" data-opt="c">c) Each layer learns increasingly complex features, enabling the network to understand patterns shallow networks cannot</div>
+        <div class="quiz-opt" data-opt="d">d) Deep networks use less memory</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Answers</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="class-09.html" class="btn-prev">← Back to Class 9</a>
+    <a href="lesson-02.html" class="btn-next">Lesson 2: Your First Dataset →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-09.html">Class 9</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS = {1:'c',2:'b',3:'c',4:'c',5:'b',6:'c',7:'b',8:'c'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q]) o.classList.add('correct');
+    });
+    if(sel){
+      if(sel.dataset.opt===ANSWERS[q]) score++;
+      else sel.classList.add('wrong');
+    }
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=75){res.className='quiz-result good';res.textContent=`Great job! ${score}/${total} correct (${pct}%) — You understand neural networks at Class 9 level!`;}
+  else if(pct>=50){res.className='quiz-result ok';res.textContent=`Good try! ${score}/${total} correct (${pct}%) — Re-read Parts 3–5 on weights and backpropagation.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} correct (${pct}%) — Review the whole lesson, especially the analogies. Then try again!`;}
+  gtag('event','quiz_complete',{event_category:'class9',event_label:'class09_lesson01_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Inside Neural Networks — Class 9 Lesson 1",
+  "description": "Understand how neural networks actually work — layers, weights, activation functions, and backpropagation. Visual and conceptual, no heavy maths.",
+  "url": "https://mitraailife.com/content/students/class-09/lesson-01.html",
+  "learningResourceType": "Lesson",
+  "educationalLevel": "Class 9",
+  "typicalAgeRange": "13-14",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "provider": { "@type": "Organization", "name": "Mitra AI Life Education", "url": "https://mitraailife.com" }
+}
+</script>
+</body>
+</html>

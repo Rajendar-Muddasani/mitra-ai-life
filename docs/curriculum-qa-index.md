@@ -950,3 +950,126 @@ Hub page: `content/students/class-07/class-07.html`
 **Sections:** 12-lesson recap grid, skills checklist, portfolio builder (5 sections), 3-min presentation guide, Class 9 preview (6 cards), wisdom table  
 **Quiz (10 capstone questions):** `{1:'b', 2:'b', 3:'c', 4:'c', 5:'b', 6:'b', 7:'c', 8:'b', 9:'c', 10:'c'}` · GA4: `class08_lesson12_quiz`
 
+
+---
+
+## Class 9 — Building with AI (Orange Theme · #f97316)
+
+**Hub:** `content/students/class-09/class-09.html`  
+**Theme:** Orange `#f97316` · Age 13–14 · 12 lessons · All free  
+**QA status:** All 12 lessons pass site_qa.js (og:description + Schema.org JSON-LD present on every page)
+
+---
+
+### Lesson 01 — Inside Neural Networks
+
+**File:** `content/students/class-09/lesson-01.html`  
+**Story:** Arjun — Visakhapatnam  
+**Interactive:** HTML/CSS neural net visual (3 layers), Keras code  
+**Sections:** Layer types, weights, activation functions, forward pass, backpropagation, gradient descent  
+**Quiz (8Q):** `{1:'c', 2:'b', 3:'c', 4:'c', 5:'b', 6:'c', 7:'b', 8:'c'}` · GA4: `class09_lesson01_quiz`
+
+---
+
+### Lesson 02 — Your First Dataset
+
+**File:** `content/students/class-09/lesson-02.html`  
+**Story:** Priya — Pune  
+**Sections:** Rows/columns/labels, data types, structured vs unstructured, Indian datasets, pandas inspect  
+**Quiz (8Q):** `{1:'c', 2:'b', 3:'c', 4:'c', 5:'d', 6:'b', 7:'c', 8:'b'}` · GA4: `class09_lesson02_quiz`
+
+---
+
+### Lesson 03 — Cleaning and Preparing Data
+
+**File:** `content/students/class-09/lesson-03.html`  
+**Story:** Kavita — Chennai  
+**Sections:** 5 data problems, missing values, drop_duplicates, str.lower/strip, astype, one-hot encoding, pd.get_dummies, 8-step pipeline  
+**Quiz (8Q):** `{1:'d', 2:'c', 3:'b', 4:'b', 5:'b', 6:'c', 7:'b', 8:'c'}` · GA4: `class09_lesson03_quiz`
+
+---
+
+### Lesson 04 — Build Your First Classifier
+
+**File:** `content/students/class-09/lesson-04.html`  
+**Story:** Rohan — Hyderabad  
+**Sections:** Classification, 80/20 train-test split, Decision Tree, sklearn 5-step workflow, Iris + student pass/fail code, feature importance  
+**Quiz (8Q):** `{1:'b', 2:'c', 3:'b', 4:'c', 5:'c', 6:'b', 7:'c', 8:'b'}` · GA4: `class09_lesson04_quiz`
+
+---
+
+### Lesson 05 — Model Evaluation: Is Your AI Good?
+
+**File:** `content/students/class-09/lesson-05.html`  
+**Story:** Divya — Coimbatore  
+**Interactive:** 2×2 confusion matrix visual, 4-metric cards, 3-card fit-compare (under/good/over)  
+**Sections:** TP/TN/FP/FN, accuracy/precision/recall/F1, overfitting vs underfitting, breast cancer sklearn code  
+**Quiz (8Q):** `{1:'b', 2:'c', 3:'c', 4:'c', 5:'b', 6:'b', 7:'b', 8:'c'}` · GA4: `class09_lesson05_quiz`
+
+---
+
+### Lesson 06 — Regression: Predicting Numbers
+
+**File:** `content/students/class-09/lesson-06.html`  
+**Story:** Ananya — Bengaluru  
+**Interactive:** Range slider (study-hours → marks predictor: marks = 10 + 8.5×hours)  
+**Sections:** Classification vs regression grid, y=mx+b, scatter with regression line, MAE/RMSE/R², sklearn LinearRegression code  
+**Quiz (8Q):** `{1:'b', 2:'c', 3:'b', 4:'b', 5:'c', 6:'b', 7:'b', 8:'c'}` · GA4: `class09_lesson06_quiz`
+
+---
+
+### Lesson 07 — Generative AI: How It Creates
+
+**File:** `content/students/class-09/lesson-07.html`  
+**Story:** Aryan — Mumbai  
+**Sections:** Discriminative vs generative, GAN diagram (Generator→Discriminator→Loop), diffusion models, transformer+attention, autoregressive, prompt engineering weak vs strong, tools grid (ChatGPT/DALL-E/Suno/ElevenLabs/Runway), hallucination section  
+**Quiz (8Q):** `{1:'b', 2:'b', 3:'c', 4:'b', 5:'c', 6:'b', 7:'b', 8:'c'}` · GA4: `class09_lesson07_quiz`
+
+---
+
+### Lesson 08 — Natural Language Processing Basics
+
+**File:** `content/students/class-09/lesson-08.html`  
+**Story:** Sneha — Nagpur  
+**Interactive:** Tokenisation chip demo (orange/grey token chips)  
+**Sections:** NLP definition, tokenisation, 5-step pipeline (lowercase→stop words→stemming→vectorise→model), BoW, TF-IDF, sentiment analysis 3-example cards, negation problem, sklearn TF-IDF+MultinomialNB code, Indian language challenges/IndicBERT/AI4Bharat  
+**Quiz (8Q):** `{1:'b', 2:'b', 3:'c', 4:'b', 5:'c', 6:'b', 7:'c', 8:'c'}` · GA4: `class09_lesson08_quiz`
+
+---
+
+### Lesson 09 — Data Analysis with Pandas and Charts
+
+**File:** `content/students/class-09/lesson-09.html`  
+**Story:** Rahul — Jaipur  
+**Interactive:** HTML bar chart visual (avg marks by subject)  
+**Sections:** Sample 120-row survey dataset table, 6-operation grid (filter/groupby/value_counts/sort_values/column select/describe), full pandas+matplotlib code (3 subplots: bar/pie/scatter+line), chart type guide  
+**Quiz (8Q):** `{1:'c', 2:'b', 3:'c', 4:'c', 5:'c', 6:'d', 7:'b', 8:'c'}` · GA4: `class09_lesson09_quiz`
+
+---
+
+### Lesson 10 — AI in the Workplace
+
+**File:** `content/students/class-09/lesson-10.html`  
+**Story:** Aisha — Lucknow  
+**Sections:** Jobs being transformed vs jobs that grow (2-column grid), 6 new AI role cards with ₹ salary ranges (Prompt Eng/AI Trainer/Data Analyst/ML Eng/MLOps/AI Researcher), skills table (Python/Data Literacy/Prompt Engineering/Critical Thinking/Communication/English), 4-step roadmap (Class 9→10→11-12→College)  
+**Quiz (8Q):** `{1:'b', 2:'b', 3:'c', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class09_lesson10_quiz`
+
+---
+
+### Lesson 11 — Building Your First API Tool
+
+**File:** `content/students/class-09/lesson-11.html`  
+**Story:** Dev — Pune  
+**Interactive:** API request→response flow diagram, JSON response demo box, security rules grid (bad/good)  
+**Sections:** API concept + REST verbs, JSON, API key safety rules (red callout), Gemini API full Python code (Colab Secrets pattern), ask_with_retry() with exponential backoff, rate limits, SYSTEM_PROMPT pattern  
+**Quiz (8Q):** `{1:'b', 2:'c', 3:'b', 4:'c', 5:'c', 6:'c', 7:'b', 8:'b'}` · GA4: `class09_lesson11_quiz`
+
+---
+
+### Lesson 12 — My Class 9 AI Project Portfolio (Capstone)
+
+**File:** `content/students/class-09/lesson-12.html`  
+**Story:** 11-character reunion — all characters from L01–L11 referenced  
+**Interactive:** 12-item skills checklist + JS progress bar, 4-prompt portfolio builder textareas, printable certificate (name input + JS + @media print CSS), Class 10 6-card preview  
+**Sections:** 12-lesson recap grid with links, skills checklist, portfolio builder, printable certificate, Class 10 preview, wisdom quotes table (one per lesson)  
+**Quiz (10 capstone questions):** `{1:'b', 2:'c', 3:'c', 4:'b', 5:'b', 6:'c', 7:'c', 8:'b', 9:'c', 10:'c'}` · GA4: `class09_lesson12_quiz`

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 8 — Natural Language Processing Basics | Class 9 | Mitra AI Life</title>
+<meta name="description" content="Class 9 Lesson 8: Understand how AI reads text. Learn tokenisation, stop words, bag-of-words, TF-IDF, sentiment analysis, and build a text classifier in Python." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-09/lesson-08.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#f97316" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 8 — Natural Language Processing Basics | Class 9 | Mitra AI Life" />
+<meta property="og:description" content="Class 9 Lesson 8: Understand how AI reads text. Learn tokenisation, stop words, bag-of-words, TF-IDF, sentiment analysis, and build a text classifier in Python." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-09/lesson-08.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#fff7ed;color:#7c2d12;line-height:1.7}
+a{color:#f97316;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#fdba74}
+.topnav .nav-links{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#fdba74}
+.lesson-hero{background:linear-gradient(135deg,#7c2d12,#c2410c,#f97316);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.story-panel{background:linear-gradient(135deg,#fff7ed,#ffedd5);border-left:5px solid #f97316;border-radius:0 16px 16px 0;padding:1.5rem 1.5rem;margin:2rem 0;position:relative}
+.story-panel::before{content:'📖';position:absolute;top:-14px;left:16px;font-size:1.4rem}
+.story-panel .sp-label{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#f97316;margin-bottom:.4rem}
+.story-panel p{font-size:.95rem;color:#7c2d12;margin-bottom:.6rem}
+.story-panel p:last-child{margin-bottom:0}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#f97316;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#7c2d12;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#9a3412;margin-bottom:.9rem}
+.lesson-section ul,.lesson-section ol{font-size:.93rem;color:#9a3412;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.orange{background:#fff7ed;border-left:4px solid #f97316;color:#7c2d12}
+.callout.amber{background:#fffbeb;border-left:4px solid #f59e0b;color:#78350f}
+.callout.green{background:#f0fdf4;border-left:4px solid #22c55e;color:#14532d}
+.callout.red{background:#fff1f2;border-left:4px solid #f43f5e;color:#881337}
+/* Token visual */
+.token-demo{background:#fff;border:1.5px solid #fed7aa;border-radius:14px;padding:1.2rem;margin:1rem 0}
+.token-demo .td-sentence{font-style:italic;color:#7c2d12;margin-bottom:.8rem;font-size:.92rem}
+.token-flow{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.7rem}
+.tok{background:#f97316;color:#fff;padding:.2rem .5rem;border-radius:6px;font-family:'Courier New',monospace;font-size:.82rem;font-weight:700}
+.tok.stop{background:#94a3b8;opacity:.6}
+.tok.key{background:#7c2d12}
+/* BoW table */
+.bow-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.83rem}
+.bow-table th{background:#7c2d12;color:#fff;padding:.5rem;text-align:center;font-size:.78rem}
+.bow-table td{padding:.45rem .6rem;border:1px solid #fed7aa;text-align:center;color:#7c2d12}
+.bow-table tr:nth-child(even) td{background:#fff7ed}
+/* NLP pipeline steps */
+.nlp-pipeline{display:flex;flex-direction:column;gap:.5rem;margin:1rem 0}
+.nlp-step{display:flex;align-items:flex-start;gap:.8rem;background:#fff;border:1.5px solid #fed7aa;border-radius:12px;padding:.8rem 1rem}
+.nlp-step .ns-num{background:#f97316;color:#fff;border-radius:50%;width:1.6rem;height:1.6rem;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.82rem;flex-shrink:0;margin-top:.1rem}
+.nlp-step .ns-content{flex:1}
+.nlp-step .ns-title{font-weight:800;color:#7c2d12;font-size:.88rem}
+.nlp-step .ns-desc{font-size:.78rem;color:#9a3412}
+/* Sentiment */
+.sentiment-row{display:flex;gap:.8rem;margin:.7rem 0;flex-wrap:wrap}
+.sent-card{flex:1;min-width:160px;background:#fff;border:1.5px solid #fed7aa;border-radius:12px;padding:.8rem;text-align:center}
+.sent-card .sc-score{font-family:'Baloo 2',cursive;font-size:1.4rem;font-weight:800}
+.sent-card .sc-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-top:.2rem}
+.sent-card .sc-text{font-size:.78rem;color:#9a3412;margin-top:.3rem;font-style:italic}
+.code-block{background:#1e293b;border-radius:12px;padding:1.2rem 1.4rem;margin:1rem 0;overflow-x:auto}
+.code-block pre{font-family:'Courier New',Courier,monospace;font-size:.82rem;color:#e2e8f0;line-height:1.6;margin:0;white-space:pre-wrap}
+.quiz-section{background:#fff;border:2px solid #f97316;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#7c2d12;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#7c2d12;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:center;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #fed7aa;background:#fff7ed;font-size:.88rem;color:#7c2d12;transition:border-color .15s}
+.quiz-opt:hover{border-color:#f97316}
+.quiz-opt.selected{border-color:#f97316;background:#fff7ed;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#f97316;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#ea580c}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #f97316;color:#f97316}
+.lesson-nav .btn-next{background:#f97316;color:#fff}
+.lesson-nav .btn-prev:hover{background:#fff7ed}
+.lesson-nav .btn-next:hover{background:#ea580c}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-09.html" class="active">Class 9</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-09.html">Class 9</a> → Lesson 8</div>
+  <h1>Natural Language Processing Basics 🗣️</h1>
+  <div class="meta">
+    <span>Class 9</span><span>Age 13–14</span><span>Lesson 8 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-09/lesson-08-hero.jpg" alt="Word cloud with Hindi and English words, student at laptop with a text sentiment analysis dashboard on screen" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="sp-label">Meet Sneha — Class 9, Nagpur</div>
+    <p>Sneha runs a small YouTube channel about Indian street food. She gets hundreds of comments in both English and Hindi every week. One month she asked herself: "Are people mostly positive or negative about my chaat recipe video? I can't read 400 comments manually."</p>
+    <p>Her older sister, studying computer science, said: "Let's write a simple NLP script. It will read all 400 comments and tell you the overall sentiment." They spent 30 minutes coding — and discovered 78% positive, 12% neutral, 10% negative. Sneha knew which recipes to continue and which needed improvement. Today you'll learn all the techniques that make this possible.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">What Is NLP?</div>
+    <div class="ls-title">Teaching Computers to Understand Language</div>
+    <p><strong>Natural Language Processing (NLP)</strong> is the branch of AI that handles human language — reading, understanding, translating, and generating text and speech. It's what powers Google Translate, Siri, Google Search autocomplete, spam filters, and ChatGPT.</p>
+    <p>The challenge: human language is ambiguous, sarcastic, context-dependent, and full of cultural references. The same word means different things in different sentences. NLP tools must handle all of this.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 1</div>
+    <div class="ls-title">Tokenisation: Breaking Text into Pieces</div>
+    <p>Before any processing, text must be split into tokens (individual units — usually words or characters). This is always the first step in any NLP pipeline.</p>
+    <div class="token-demo">
+      <div class="td-sentence">Original sentence: "The biryani recipe was absolutely amazing!"</div>
+      <p style="font-size:.78rem;font-weight:700;color:#f97316;margin-bottom:.4rem">After tokenisation:</p>
+      <div class="token-flow">
+        <span class="tok stop">The</span>
+        <span class="tok key">biryani</span>
+        <span class="tok key">recipe</span>
+        <span class="tok stop">was</span>
+        <span class="tok key">absolutely</span>
+        <span class="tok key">amazing</span>
+        <span class="tok stop">!</span>
+      </div>
+      <p style="font-size:.76rem;color:#9a3412"><span style="display:inline-block;background:#f97316;color:#fff;border-radius:4px;padding:.1rem .4rem;font-size:.72rem">orange</span> = keyword token &nbsp;&nbsp; <span style="display:inline-block;background:#94a3b8;color:#fff;border-radius:4px;padding:.1rem .4rem;font-size:.72rem;opacity:.8">grey</span> = likely stop word</p>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 2</div>
+    <div class="ls-title">NLP Text Processing Pipeline</div>
+    <div class="nlp-pipeline">
+      <div class="nlp-step">
+        <div class="ns-num">1</div>
+        <div class="ns-content">
+          <div class="ns-title">Lowercasing</div>
+          <div class="ns-desc">"Amazing" and "amazing" → both become "amazing". Without this, they'd be treated as different words.</div>
+        </div>
+      </div>
+      <div class="nlp-step">
+        <div class="ns-num">2</div>
+        <div class="ns-content">
+          <div class="ns-title">Remove Stop Words</div>
+          <div class="ns-desc">Stop words are very common words (the, is, a, was, and) that carry little meaning. Removing them reduces noise. Keep words like "not" — they change sentiment!</div>
+        </div>
+      </div>
+      <div class="nlp-step">
+        <div class="ns-num">3</div>
+        <div class="ns-content">
+          <div class="ns-title">Stemming / Lemmatisation</div>
+          <div class="ns-desc">Reduce words to their root form. "running", "runs", "ran" → "run". This way, all variations count as the same word.</div>
+        </div>
+      </div>
+      <div class="nlp-step">
+        <div class="ns-num">4</div>
+        <div class="ns-content">
+          <div class="ns-title">Vectorisation (Bag-of-Words or TF-IDF)</div>
+          <div class="ns-desc">Convert text to numbers so ML models can process it. The computer can only work with numbers — text must be encoded.</div>
+        </div>
+      </div>
+      <div class="nlp-step">
+        <div class="ns-num">5</div>
+        <div class="ns-content">
+          <div class="ns-title">Feed into ML Model</div>
+          <div class="ns-desc">The numeric representation goes into a classifier (Naive Bayes, Logistic Regression, etc.) for classification or into a regressor for sentiment scoring.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 3</div>
+    <div class="ls-title">Bag-of-Words vs TF-IDF</div>
+    <p><strong>Bag-of-Words (BoW)</strong> counts how often each word appears in a document. Two sentences become rows in a word-count table:</p>
+    <table class="bow-table">
+      <thead><tr><th>Sentence</th><th>biryani</th><th>amazing</th><th>recipe</th><th>bad</th><th>chicken</th></tr></thead>
+      <tbody>
+        <tr><td style="text-align:left">"The biryani recipe is amazing"</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+        <tr><td style="text-align:left">"The chicken biryani was bad"</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+      </tbody>
+    </table>
+    <p><strong>TF-IDF</strong> (Term Frequency–Inverse Document Frequency) is smarter. It gives higher weight to words that appear often in <em>this</em> document but rarely across <em>all</em> documents. "the" appears in every document → low weight. "biryani" appears mainly in food reviews → higher weight. TF-IDF usually produces better results than plain BoW.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 4</div>
+    <div class="ls-title">Sentiment Analysis</div>
+    <p>Sentiment analysis classifies text as positive, negative, or neutral. Let's see how the same words produce very different scores:</p>
+    <div class="sentiment-row">
+      <div class="sent-card" style="border-color:#22c55e">
+        <div class="sc-score" style="color:#15803d">+0.92</div>
+        <div class="sc-label" style="color:#15803d">Very Positive</div>
+        <div class="sc-text">"This samosa is absolutely delicious, best I've ever had!"</div>
+      </div>
+      <div class="sent-card" style="border-color:#94a3b8">
+        <div class="sc-score" style="color:#475569">+0.02</div>
+        <div class="sc-label" style="color:#475569">Neutral</div>
+        <div class="sc-text">"I ordered the samosa. It arrived in 30 minutes."</div>
+      </div>
+      <div class="sent-card" style="border-color:#f43f5e">
+        <div class="sc-score" style="color:#be123c">-0.85</div>
+        <div class="sc-label" style="color:#be123c">Very Negative</div>
+        <div class="sc-text">"Terrible. The samosa was cold and completely tasteless."</div>
+      </div>
+    </div>
+    <div class="callout amber">
+      <strong>Tricky case — negation:</strong> "The food was <em>not bad</em> at all" is actually positive. Basic BoW models struggle here because they see "not" + "bad" as negative. Modern models like BERT handle negation much better because they look at word context, not just word counts.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Try It in Colab</div>
+    <div class="ls-title">Build a Simple Sentiment Classifier</div>
+    <div class="code-block"><pre>from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report
+
+# Small dataset of food review comments (label: 1=positive, 0=negative)
+reviews = [
+    "This biryani is absolutely amazing and delicious",
+    "The best dosa I have ever tasted",
+    "Wonderful service and great food",
+    "Loved the chole bhature completely",
+    "Excellent taste, will order again",
+    "Terrible food, very bad experience",
+    "The samosa was cold and tasteless",
+    "Horrible service, never ordering again",
+    "Food arrived late and was completely soggy",
+    "Worst delivery experience, very disappointing",
+    "Good food but slightly expensive",
+    "Decent taste, not the best but okay",
+    "Average experience, nothing special",
+    "Pretty good value for the price",
+    "Nice flavours but could be better",
+]
+labels = [1,1,1,1,1, 0,0,0,0,0, 1,0,0,1,1]
+
+# Step 1: TF-IDF vectorisation
+vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1,2))
+X = vectorizer.fit_transform(reviews)
+
+# Step 2: Train/test split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, labels, test_size=0.3, random_state=42)
+
+# Step 3: Train Naive Bayes classifier
+model = MultinomialNB()
+model.fit(X_train, y_train)
+
+# Step 4: Evaluate
+y_pred = model.predict(X_test)
+print(f"Accuracy: {accuracy_score(y_test, y_pred):.2f}")
+print(classification_report(y_test, y_pred,
+      target_names=['Negative', 'Positive']))
+
+# Step 5: Predict new comments
+new_reviews = [
+    "The paneer tikka was fantastic",
+    "Very disappointing, food was cold"
+]
+new_X = vectorizer.transform(new_reviews)
+predictions = model.predict(new_X)
+for r, p in zip(new_reviews, predictions):
+    label = "Positive ✓" if p == 1 else "Negative ✗"
+    print(f"  {label}: {r}")</pre></div>
+    <div class="callout green">
+      <strong>Try extending this:</strong> Replace the reviews list with real YouTube comments (copy-paste them). Add more examples in Hindi/Hinglish. See how the model performs on mixed-language text — this is a real NLP research challenge!
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Indian Context</div>
+    <div class="ls-title">NLP Challenges for Indian Languages</div>
+    <ul>
+      <li><strong>Code-switching:</strong> Most Indians mix English and their regional language mid-sentence ("Yeh biryani toh bahut tasty hai!"). Models trained on pure English fail on this.</li>
+      <li><strong>Script variety:</strong> Telugu, Hindi, Tamil, Bengali — 22 official scripts. Text processing requires Unicode-aware tools.</li>
+      <li><strong>Low-resource languages:</strong> English NLP datasets have billions of examples. Telugu datasets have millions. Models for low-resource languages need more careful design.</li>
+      <li><strong>Tools that help:</strong> IndicBERT (AI4Bharat project), Hugging Face Indian language models, Google Translate API</li>
+      <li><strong>Opportunity:</strong> India needs more NLP researchers and datasets for its 22 languages. This is an exciting area for young Indian AI builders!</li>
+    </ul>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>🧪 Check Your Understanding — Lesson 8 Quiz</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. What is tokenisation in NLP?</div>
+        <div class="quiz-opt" data-opt="a">a) Giving a unique ID number to each document</div>
+        <div class="quiz-opt" data-opt="b">b) Breaking text into individual units (usually words or characters) for processing</div>
+        <div class="quiz-opt" data-opt="c">c) Translating text from one language to another</div>
+        <div class="quiz-opt" data-opt="d">d) Removing all punctuation marks from text</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. Why do we remove stop words in NLP preprocessing?</div>
+        <div class="quiz-opt" data-opt="a">a) They cause programming errors in Python</div>
+        <div class="quiz-opt" data-opt="b">b) They are very common words (the, is, a) that add noise but carry little meaning for classification</div>
+        <div class="quiz-opt" data-opt="c">c) They slow down tokenisation</div>
+        <div class="quiz-opt" data-opt="d">d) They make the dataset too large</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. Bag-of-Words (BoW) represents a sentence as:</div>
+        <div class="quiz-opt" data-opt="a">a) A sequence of word embeddings</div>
+        <div class="quiz-opt" data-opt="b">b) The sentence split character by character</div>
+        <div class="quiz-opt" data-opt="c">c) A count of how many times each word appears in the sentence</div>
+        <div class="quiz-opt" data-opt="d">d) The sentiment score of each word</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. TF-IDF is better than plain Bag-of-Words because:</div>
+        <div class="quiz-opt" data-opt="a">a) It uses fewer features and is always faster</div>
+        <div class="quiz-opt" data-opt="b">b) It gives higher weight to words that are important in a specific document but rare across all documents</div>
+        <div class="quiz-opt" data-opt="c">c) It handles grammar and sentence structure</div>
+        <div class="quiz-opt" data-opt="d">d) It automatically translates text</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. A sentiment analysis model gives the comment "The food was not bad at all" a negative score. This is most likely because:</div>
+        <div class="quiz-opt" data-opt="a">a) The model is broken</div>
+        <div class="quiz-opt" data-opt="b">b) The model correctly identified negative sentiment</div>
+        <div class="quiz-opt" data-opt="c">c) A simple BoW model saw the word "bad" and scored it negative, missing the negation "not"</div>
+        <div class="quiz-opt" data-opt="d">d) Food reviews are always negative</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. In the Colab code, why do we use vectorizer.transform() for new_reviews instead of vectorizer.fit_transform()?</div>
+        <div class="quiz-opt" data-opt="a">a) transform() is faster than fit_transform()</div>
+        <div class="quiz-opt" data-opt="b">b) We must use the same vocabulary learned from training data. fit_transform() would create a new vocabulary.</div>
+        <div class="quiz-opt" data-opt="c">c) fit_transform() doesn't work on lists</div>
+        <div class="quiz-opt" data-opt="d">d) There's no difference — both give the same result</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. "Code-switching" in Indian NLP refers to:</div>
+        <div class="quiz-opt" data-opt="a">a) Switching between Python and JavaScript code</div>
+        <div class="quiz-opt" data-opt="b">b) Changing the programming language used for NLP tasks</div>
+        <div class="quiz-opt" data-opt="c">c) Mixing two languages in a single sentence (e.g., English and Hindi mid-sentence)</div>
+        <div class="quiz-opt" data-opt="d">d) Writing code in Telugu script</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. Stemming and lemmatisation both aim to:</div>
+        <div class="quiz-opt" data-opt="a">a) Remove all words shorter than 3 characters</div>
+        <div class="quiz-opt" data-opt="b">b) Translate words to English</div>
+        <div class="quiz-opt" data-opt="c">c) Reduce different word forms to a common base so "running", "ran", "runs" all count as the same word</div>
+        <div class="quiz-opt" data-opt="d">d) Convert words to their TF-IDF scores</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Answers</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-07.html" class="btn-prev">← Lesson 7: Generative AI</a>
+    <a href="lesson-09.html" class="btn-next">Lesson 9: Pandas and Charts →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-09.html">Class 9</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS = {1:'b',2:'b',3:'c',4:'b',5:'c',6:'b',7:'c',8:'c'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q]) o.classList.add('correct');
+    });
+    if(sel){
+      if(sel.dataset.opt===ANSWERS[q]) score++;
+      else sel.classList.add('wrong');
+    }
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=75){res.className='quiz-result good';res.textContent=`Great work! ${score}/${total} correct (${pct}%) — You can now build and explain a sentiment analysis pipeline!`;}
+  else if(pct>=50){res.className='quiz-result ok';res.textContent=`Good try! ${score}/${total} correct (${pct}%) — Review TF-IDF vs BoW and the processing pipeline steps.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} correct (${pct}%) — Re-read the full pipeline section and try the Colab code yourself — it makes the concepts click!`;}
+  gtag('event','quiz_complete',{event_category:'class9',event_label:'class09_lesson08_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Natural Language Processing Basics — Class 9 Lesson 8",
+  "description": "Understand how AI reads text. Learn tokenisation, stop words, bag-of-words, TF-IDF, sentiment analysis, and build a text classifier in Python.",
+  "url": "https://mitraailife.com/content/students/class-09/lesson-08.html",
+  "learningResourceType": "Lesson",
+  "educationalLevel": "Class 9",
+  "typicalAgeRange": "13-14",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "provider": { "@type": "Organization", "name": "Mitra AI Life Education", "url": "https://mitraailife.com" }
+}
+</script>
+</body>
+</html>

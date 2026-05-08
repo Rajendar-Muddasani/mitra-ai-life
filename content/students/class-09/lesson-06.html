@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 6 — Regression: Predicting Numbers | Class 9 | Mitra AI Life</title>
+<meta name="description" content="Class 9 Lesson 6: Learn regression — how AI predicts numbers. Understand linear regression, compare it to classification, and build a score/price predictor in Python." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-09/lesson-06.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#f97316" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 6 — Regression: Predicting Numbers | Class 9 | Mitra AI Life" />
+<meta property="og:description" content="Class 9 Lesson 6: Learn regression — how AI predicts numbers. Understand linear regression, compare it to classification, and build a score/price predictor in Python." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-09/lesson-06.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#fff7ed;color:#7c2d12;line-height:1.7}
+a{color:#f97316;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#fdba74}
+.topnav .nav-links{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#fdba74}
+.lesson-hero{background:linear-gradient(135deg,#7c2d12,#c2410c,#f97316);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.story-panel{background:linear-gradient(135deg,#fff7ed,#ffedd5);border-left:5px solid #f97316;border-radius:0 16px 16px 0;padding:1.5rem 1.5rem;margin:2rem 0;position:relative}
+.story-panel::before{content:'📖';position:absolute;top:-14px;left:16px;font-size:1.4rem}
+.story-panel .sp-label{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#f97316;margin-bottom:.4rem}
+.story-panel p{font-size:.95rem;color:#7c2d12;margin-bottom:.6rem}
+.story-panel p:last-child{margin-bottom:0}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#f97316;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#7c2d12;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#9a3412;margin-bottom:.9rem}
+.lesson-section ul,.lesson-section ol{font-size:.93rem;color:#9a3412;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.orange{background:#fff7ed;border-left:4px solid #f97316;color:#7c2d12}
+.callout.amber{background:#fffbeb;border-left:4px solid #f59e0b;color:#78350f}
+.callout.green{background:#f0fdf4;border-left:4px solid #22c55e;color:#14532d}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0}
+.compare-card{background:#fff;border:1.5px solid #fed7aa;border-radius:14px;padding:1.2rem}
+.compare-card h4{font-family:'Baloo 2',cursive;color:#7c2d12;margin-bottom:.6rem;font-size:1.05rem}
+.compare-card ul{font-size:.82rem;color:#9a3412;padding-left:1.2rem}
+.compare-card li{margin-bottom:.35rem}
+.compare-card .tag{display:inline-block;background:#f97316;color:#fff;font-size:.72rem;font-weight:700;padding:.15rem .55rem;border-radius:8px;margin-bottom:.5rem}
+/* Simple scatter plot */
+.chart-demo{background:#fff;border:1.5px solid #fed7aa;border-radius:16px;padding:1.2rem;margin:1rem 0}
+.chart-demo .cd-title{font-weight:800;color:#7c2d12;font-size:.88rem;margin-bottom:.8rem;text-align:center}
+.scatter-area{position:relative;height:180px;border-left:2px solid #fed7aa;border-bottom:2px solid #fed7aa;margin:0 1rem 1.5rem;overflow:visible}
+.scatter-area .axis-y{position:absolute;left:-2.5rem;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-between;font-size:.7rem;color:#9a3412;font-weight:600}
+.scatter-area .axis-x{position:absolute;bottom:-1.5rem;left:0;right:0;display:flex;justify-content:space-between;font-size:.7rem;color:#9a3412;font-weight:600}
+.dot{position:absolute;width:8px;height:8px;background:#f97316;border-radius:50%;transform:translate(-50%,50%)}
+.reg-line{position:absolute;background:transparent;border-top:3px solid #7c2d12;transform-origin:left center}
+.metrics-box{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin:1rem 0}
+.metric-b{background:#fff;border:1.5px solid #fed7aa;border-radius:12px;padding:.8rem;text-align:center}
+.metric-b .mb-name{font-size:.72rem;font-weight:800;color:#f97316;margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.08em}
+.metric-b .mb-val{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#7c2d12;font-weight:800}
+.metric-b .mb-what{font-size:.72rem;color:#9a3412;margin-top:.2rem}
+.code-block{background:#1e293b;border-radius:12px;padding:1.2rem 1.4rem;margin:1rem 0;overflow-x:auto}
+.code-block pre{font-family:'Courier New',Courier,monospace;font-size:.82rem;color:#e2e8f0;line-height:1.6;margin:0;white-space:pre-wrap}
+/* Interactive predictor */
+.predictor-box{background:#fff;border:2px solid #f97316;border-radius:16px;padding:1.5rem;margin:1.5rem 0}
+.predictor-box h4{font-family:'Baloo 2',cursive;color:#7c2d12;margin-bottom:1rem;font-size:1.1rem}
+.pred-field{margin-bottom:.8rem}
+.pred-field label{display:block;font-weight:700;color:#7c2d12;font-size:.85rem;margin-bottom:.3rem}
+.pred-field input[type=range]{width:100%;accent-color:#f97316}
+.pred-field .range-val{font-weight:800;color:#f97316;font-size:.9rem}
+.pred-result{background:#fff7ed;border:2px dashed #f97316;border-radius:10px;padding:1rem;text-align:center;margin-top:.8rem}
+.pred-result .pr-label{font-size:.78rem;font-weight:800;color:#9a3412;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem}
+.pred-result .pr-value{font-family:'Baloo 2',cursive;font-size:1.8rem;color:#f97316;font-weight:800}
+.quiz-section{background:#fff;border:2px solid #f97316;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#7c2d12;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#7c2d12;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:center;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #fed7aa;background:#fff7ed;font-size:.88rem;color:#7c2d12;transition:border-color .15s}
+.quiz-opt:hover{border-color:#f97316}
+.quiz-opt.selected{border-color:#f97316;background:#fff7ed;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#f97316;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#ea580c}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #f97316;color:#f97316}
+.lesson-nav .btn-next{background:#f97316;color:#fff}
+.lesson-nav .btn-prev:hover{background:#fff7ed}
+.lesson-nav .btn-next:hover{background:#ea580c}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.compare-grid{grid-template-columns:1fr}.metrics-box{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-09.html" class="active">Class 9</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-09.html">Class 9</a> → Lesson 6</div>
+  <h1>Regression: Predicting Numbers 📈</h1>
+  <div class="meta">
+    <span>Class 9</span><span>Age 13–14</span><span>Lesson 6 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-09/lesson-06-hero.jpg" alt="Scatter plot with a regression line on a laptop screen, student pointing at predicted price of a house on a chart" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="sp-label">Meet Ananya — Class 9, Bengaluru</div>
+    <p>Ananya's family is looking to buy a flat. Her father told her: "Location, size, age of building — all these affect the price." Ananya opened Magicbricks.com and saw 200 flats in Whitefield. She thought: "Could an AI learn from these 200 listings and predict the price of any new flat in that area?"</p>
+    <p>That's exactly what <strong>regression</strong> does. Not categories (like pass/fail) — but a specific number (like ₹45 lakhs). She ran the numbers after this lesson and the model predicted within ₹3 lakhs of actual prices 80% of the time. Let's learn how.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Classification vs Regression</div>
+    <div class="ls-title">Two Types of Supervised Learning</div>
+    <p>You've already learned classification. Regression is its sibling — they're both supervised learning, but with a key difference:</p>
+    <div class="compare-grid">
+      <div class="compare-card">
+        <span class="tag">Classification</span>
+        <h4>Predicts a Category</h4>
+        <ul>
+          <li>Output: one label from a fixed list</li>
+          <li>Pass / Fail</li>
+          <li>Spam / Not Spam</li>
+          <li>Cat / Dog / Bird</li>
+          <li>Metric: Accuracy, F1</li>
+        </ul>
+      </div>
+      <div class="compare-card">
+        <span class="tag">Regression</span>
+        <h4>Predicts a Number</h4>
+        <ul>
+          <li>Output: any continuous number</li>
+          <li>Flat price: ₹42,50,000</li>
+          <li>Temperature tomorrow: 34.5°C</li>
+          <li>Student marks: 78.3</li>
+          <li>Metric: MAE, RMSE, R²</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 1</div>
+    <div class="ls-title">Linear Regression: The Simplest Model</div>
+    <p>Linear regression finds the best straight line through your data points. That line is the model — and you use it to predict any new value.</p>
+    <div class="chart-demo">
+      <div class="cd-title">Study Hours vs Exam Marks (scatter plot with regression line)</div>
+      <div style="position:relative;padding-left:3rem;padding-bottom:2rem">
+        <div class="scatter-area" id="scatter">
+          <div class="dot" style="left:12%;bottom:28%"></div>
+          <div class="dot" style="left:22%;bottom:38%"></div>
+          <div class="dot" style="left:32%;bottom:48%"></div>
+          <div class="dot" style="left:42%;bottom:55%"></div>
+          <div class="dot" style="left:52%;bottom:62%"></div>
+          <div class="dot" style="left:63%;bottom:72%"></div>
+          <div class="dot" style="left:74%;bottom:80%"></div>
+          <div class="dot" style="left:85%;bottom:88%"></div>
+          <div class="dot" style="left:25%;bottom:52%"></div>
+          <div class="dot" style="left:45%;bottom:48%"></div>
+          <div class="dot" style="left:68%;bottom:68%"></div>
+          <div style="position:absolute;left:10%;bottom:22%;width:82%;height:2px;background:#7c2d12;transform:rotate(-8deg);transform-origin:left center"></div>
+          <div class="axis-y" style="left:-2.5rem"><span>100</span><span>75</span><span>50</span><span>25</span></div>
+          <div class="axis-x" style="bottom:-1.8rem;font-size:.68rem"><span>1h</span><span>3h</span><span>5h</span><span>7h</span><span>9h</span></div>
+        </div>
+      </div>
+      <p style="font-size:.78rem;color:#9a3412;text-align:center">Each orange dot = one student. The dark line = the linear regression prediction line. A new student studying 6 hours → read up from 6h to the line → predicted marks ≈ 72.</p>
+    </div>
+
+    <p>The equation of the line is: <strong>y = mx + b</strong></p>
+    <ul>
+      <li><strong>y</strong> = the prediction (marks)</li>
+      <li><strong>x</strong> = the input feature (study hours)</li>
+      <li><strong>m</strong> = slope — how much y increases per unit of x ("each extra study hour adds about 8 marks")</li>
+      <li><strong>b</strong> = intercept — the predicted y when x = 0 ("a student who studies 0 hours scores ~20")</li>
+    </ul>
+    <div class="callout orange">
+      Linear regression learns the best m and b by minimising the total squared error between its predictions and the actual values. This is called <strong>Ordinary Least Squares (OLS)</strong> and is solved in milliseconds.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 2</div>
+    <div class="ls-title">Regression Evaluation Metrics</div>
+    <p>Accuracy doesn't make sense for regression — there's no "correct category". Instead we use error metrics:</p>
+    <div class="metrics-box">
+      <div class="metric-b">
+        <div class="mb-name">MAE</div>
+        <div class="mb-val">Mean Absolute Error</div>
+        <div class="mb-what">Average absolute difference between predicted and actual. "Off by ₹3 lakhs on average." Easy to understand.</div>
+      </div>
+      <div class="metric-b">
+        <div class="mb-name">RMSE</div>
+        <div class="mb-val">Root Mean Squared Error</div>
+        <div class="mb-what">Like MAE but penalises large errors more. Good when big mistakes are especially costly.</div>
+      </div>
+      <div class="metric-b">
+        <div class="mb-name">R² Score</div>
+        <div class="mb-val">R-squared (Coefficient of Determination)</div>
+        <div class="mb-what">0 = model is no better than the mean. 1 = perfect predictions. Target R² &gt; 0.85 for good models.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 3</div>
+    <div class="ls-title">Build a Marks Predictor in Python</div>
+    <div class="code-block"><pre>import numpy as np
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_absolute_error, r2_score
+import matplotlib.pyplot as plt
+
+# Generate student study/marks data
+np.random.seed(42)
+n = 100
+study_hours = np.random.uniform(1, 9, n)
+marks = 10 + 8.5 * study_hours + np.random.normal(0, 5, n)
+marks = np.clip(marks, 20, 100)
+
+df = pd.DataFrame({'study_hours': study_hours, 'marks': marks})
+
+# Single feature regression
+X = df[['study_hours']]   # 2D array (required by sklearn)
+y = df['marks']
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42)
+
+# Train linear regression
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+print(f"Slope (m): {model.coef_[0]:.2f}  ← each extra hour adds ~{model.coef_[0]:.1f} marks")
+print(f"Intercept (b): {model.intercept_:.2f}")
+
+# Evaluate
+y_pred = model.predict(X_test)
+print(f"\nMAE: {mean_absolute_error(y_test, y_pred):.2f} marks")
+print(f"R²:  {r2_score(y_test, y_pred):.3f}")
+
+# Predict for 5 hours study
+pred = model.predict([[5]])[0]
+print(f"\nPredicted marks for 5 hours study: {pred:.1f}")
+
+# Plot
+plt.figure(figsize=(8,5))
+plt.scatter(X_test, y_test, alpha=0.6, label='Actual', color='#f97316')
+plt.plot(X_test.sort_values('study_hours'),
+         model.predict(X_test.sort_values('study_hours')),
+         color='#7c2d12', linewidth=2, label='Predicted line')
+plt.xlabel('Study Hours')
+plt.ylabel('Marks')
+plt.title('Linear Regression: Study Hours vs Marks')
+plt.legend()
+plt.show()</pre></div>
+  </div>
+
+  <!-- Interactive predictor -->
+  <div class="predictor-box">
+    <h4>🎚 Try It: Study Hours → Marks Predictor</h4>
+    <p style="font-size:.85rem;color:#9a3412;margin-bottom:1rem">This uses the linear equation: <strong>marks = 10 + 8.5 × study_hours</strong> (approximate from the model above). Slide to explore:</p>
+    <div class="pred-field">
+      <label>Study Hours: <span class="range-val" id="hours-val">5</span> hours</label>
+      <input type="range" min="1" max="9" value="5" step="0.5" id="hours-slider" />
+    </div>
+    <div class="pred-result">
+      <div class="pr-label">Predicted Marks</div>
+      <div class="pr-value" id="pred-marks">52.5</div>
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>🧪 Check Your Understanding — Lesson 6 Quiz</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. What is the key difference between classification and regression?</div>
+        <div class="quiz-opt" data-opt="a">a) Classification needs more data than regression</div>
+        <div class="quiz-opt" data-opt="b">b) Classification predicts a category; regression predicts a continuous number</div>
+        <div class="quiz-opt" data-opt="c">c) Regression is only used for time series data</div>
+        <div class="quiz-opt" data-opt="d">d) Classification uses neural networks; regression uses decision trees</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. In the linear equation y = mx + b, what does "b" represent?</div>
+        <div class="quiz-opt" data-opt="a">a) The slope — how much y increases per unit of x</div>
+        <div class="quiz-opt" data-opt="b">b) The number of data points</div>
+        <div class="quiz-opt" data-opt="c">c) The intercept — the predicted y value when x = 0</div>
+        <div class="quiz-opt" data-opt="d">d) The error of the model</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. A flat price predictor has MAE = ₹2.5 lakhs. This means:</div>
+        <div class="quiz-opt" data-opt="a">a) The model is always wrong by exactly ₹2.5 lakhs</div>
+        <div class="quiz-opt" data-opt="b">b) On average, predictions are off by ₹2.5 lakhs</div>
+        <div class="quiz-opt" data-opt="c">c) 2.5% of predictions are wrong</div>
+        <div class="quiz-opt" data-opt="d">d) The model is 97.5% accurate</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. An R² score of 0.92 means:</div>
+        <div class="quiz-opt" data-opt="a">a) 92% of test rows were predicted correctly</div>
+        <div class="quiz-opt" data-opt="b">b) The model explains 92% of the variance in the data — a very good fit</div>
+        <div class="quiz-opt" data-opt="c">c) The model made errors in 8% of cases</div>
+        <div class="quiz-opt" data-opt="d">d) 92 rows were in the training set</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. Which of these is a regression problem?</div>
+        <div class="quiz-opt" data-opt="a">a) Will this email be spam or not spam?</div>
+        <div class="quiz-opt" data-opt="b">b) What is the next word in this sentence?</div>
+        <div class="quiz-opt" data-opt="c">c) What will the temperature be in Hyderabad tomorrow (°C)?</div>
+        <div class="quiz-opt" data-opt="d">d) Is this image a cat, dog, or bird?</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. Why do we write X = df[['study_hours']] (double brackets) instead of X = df['study_hours'] in scikit-learn?</div>
+        <div class="quiz-opt" data-opt="a">a) Double brackets are required for string columns</div>
+        <div class="quiz-opt" data-opt="b">b) scikit-learn requires X to be a 2D array (DataFrame), not a 1D Series</div>
+        <div class="quiz-opt" data-opt="c">c) It's just a Python convention, both work equally</div>
+        <div class="quiz-opt" data-opt="d">d) To include multiple copies of the same column</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. RMSE penalises large errors more than MAE. When is this useful?</div>
+        <div class="quiz-opt" data-opt="a">a) When all errors are equally important</div>
+        <div class="quiz-opt" data-opt="b">b) When a few very large prediction errors are especially harmful (e.g., bridge load calculations)</div>
+        <div class="quiz-opt" data-opt="c">c) Only for classification problems</div>
+        <div class="quiz-opt" data-opt="d">d) When the dataset has fewer than 100 rows</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. Using the equation marks = 10 + 8.5 × study_hours, what would a student who studies 4 hours be predicted to score?</div>
+        <div class="quiz-opt" data-opt="a">a) 34</div>
+        <div class="quiz-opt" data-opt="b">b) 42</div>
+        <div class="quiz-opt" data-opt="c">c) 44</div>
+        <div class="quiz-opt" data-opt="d">d) 48</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Answers</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-05.html" class="btn-prev">← Lesson 5: Model Evaluation</a>
+    <a href="lesson-07.html" class="btn-next">Lesson 7: Generative AI →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-09.html">Class 9</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+// Predictor
+const slider = document.getElementById('hours-slider');
+const hoursVal = document.getElementById('hours-val');
+const predMarks = document.getElementById('pred-marks');
+slider.addEventListener('input', () => {
+  const h = parseFloat(slider.value);
+  hoursVal.textContent = h;
+  const marks = Math.min(100, Math.round((10 + 8.5 * h) * 10) / 10);
+  predMarks.textContent = marks;
+});
+
+// Quiz
+const ANSWERS = {1:'b',2:'c',3:'b',4:'b',5:'c',6:'b',7:'b',8:'c'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q]) o.classList.add('correct');
+    });
+    if(sel){
+      if(sel.dataset.opt===ANSWERS[q]) score++;
+      else sel.classList.add('wrong');
+    }
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=75){res.className='quiz-result good';res.textContent=`Great work! ${score}/${total} correct (${pct}%) — Regression is in your toolkit!`;}
+  else if(pct>=50){res.className='quiz-result ok';res.textContent=`Good try! ${score}/${total} correct (${pct}%) — Review the comparison table and regression metrics.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} correct (${pct}%) — Re-read the Classification vs Regression comparison carefully. Try the interactive predictor!`;}
+  gtag('event','quiz_complete',{event_category:'class9',event_label:'class09_lesson06_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Regression: Predicting Numbers — Class 9 Lesson 6",
+  "description": "Learn regression — how AI predicts numbers. Understand linear regression, compare to classification, and build a score predictor in Python.",
+  "url": "https://mitraailife.com/content/students/class-09/lesson-06.html",
+  "learningResourceType": "Lesson",
+  "educationalLevel": "Class 9",
+  "typicalAgeRange": "13-14",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "provider": { "@type": "Organization", "name": "Mitra AI Life Education", "url": "https://mitraailife.com" }
+}
+</script>
+</body>
+</html>

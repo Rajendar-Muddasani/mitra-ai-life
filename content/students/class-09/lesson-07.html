@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 7 — Generative AI: How It Creates | Class 9 | Mitra AI Life</title>
+<meta name="description" content="Class 9 Lesson 7: Understand how Generative AI creates text, images and music. Learn about GANs, diffusion models, transformers, prompt engineering, and hallucination." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-09/lesson-07.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#f97316" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 7 — Generative AI: How It Creates | Class 9 | Mitra AI Life" />
+<meta property="og:description" content="Class 9 Lesson 7: Understand how Generative AI creates text, images and music. Learn about GANs, diffusion models, transformers, prompt engineering, and hallucination." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-09/lesson-07.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#fff7ed;color:#7c2d12;line-height:1.7}
+a{color:#f97316;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#fdba74}
+.topnav .nav-links{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#fdba74}
+.lesson-hero{background:linear-gradient(135deg,#7c2d12,#c2410c,#f97316);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.story-panel{background:linear-gradient(135deg,#fff7ed,#ffedd5);border-left:5px solid #f97316;border-radius:0 16px 16px 0;padding:1.5rem 1.5rem;margin:2rem 0;position:relative}
+.story-panel::before{content:'📖';position:absolute;top:-14px;left:16px;font-size:1.4rem}
+.story-panel .sp-label{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#f97316;margin-bottom:.4rem}
+.story-panel p{font-size:.95rem;color:#7c2d12;margin-bottom:.6rem}
+.story-panel p:last-child{margin-bottom:0}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#f97316;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#7c2d12;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#9a3412;margin-bottom:.9rem}
+.lesson-section ul,.lesson-section ol{font-size:.93rem;color:#9a3412;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.orange{background:#fff7ed;border-left:4px solid #f97316;color:#7c2d12}
+.callout.amber{background:#fffbeb;border-left:4px solid #f59e0b;color:#78350f}
+.callout.green{background:#f0fdf4;border-left:4px solid #22c55e;color:#14532d}
+.callout.red{background:#fff1f2;border-left:4px solid #f43f5e;color:#881337}
+/* GAN diagram */
+.gan-diagram{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:.5rem;align-items:center;margin:1rem 0;background:#fff;border:1.5px solid #fed7aa;border-radius:16px;padding:1.2rem}
+.gan-box{background:#fff7ed;border:1.5px solid #f97316;border-radius:12px;padding:.8rem;text-align:center}
+.gan-box .gb-icon{font-size:1.4rem;margin-bottom:.2rem}
+.gan-box .gb-title{font-weight:800;color:#7c2d12;font-size:.82rem}
+.gan-box .gb-desc{font-size:.72rem;color:#9a3412;margin-top:.2rem}
+.gan-arrow{font-size:1.4rem;text-align:center;color:#f97316}
+.tech-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.9rem;margin:1rem 0}
+.tech-card{background:#fff;border:1.5px solid #fed7aa;border-radius:14px;padding:1.1rem}
+.tech-card .tc-icon{font-size:1.2rem;margin-bottom:.3rem}
+.tech-card .tc-name{font-weight:800;color:#7c2d12;font-size:.88rem;margin-bottom:.3rem}
+.tech-card .tc-desc{font-size:.79rem;color:#9a3412;line-height:1.5}
+/* Prompt engineering */
+.prompt-compare{margin:1rem 0}
+.prompt-row{background:#fff;border:1.5px solid #fed7aa;border-radius:12px;padding:.9rem 1.1rem;margin-bottom:.7rem}
+.prompt-row .pr-label{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem}
+.prompt-row .pr-label.bad{color:#f43f5e}
+.prompt-row .pr-label.good{color:#22c55e}
+.prompt-row .pr-text{font-family:'Courier New',monospace;font-size:.82rem;background:#f8fafc;padding:.5rem .7rem;border-radius:8px;color:#334155;margin-bottom:.3rem}
+.prompt-row .pr-why{font-size:.76rem;color:#9a3412}
+/* Tools grid */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.7rem;margin:1rem 0}
+.tool-pill{background:#fff;border:1.5px solid #fed7aa;border-radius:12px;padding:.65rem 1rem;text-align:center}
+.tool-pill .tp-name{font-weight:800;color:#7c2d12;font-size:.82rem}
+.tool-pill .tp-type{font-size:.7rem;color:#f97316;font-weight:600}
+.quiz-section{background:#fff;border:2px solid #f97316;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#7c2d12;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#7c2d12;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:center;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #fed7aa;background:#fff7ed;font-size:.88rem;color:#7c2d12;transition:border-color .15s}
+.quiz-opt:hover{border-color:#f97316}
+.quiz-opt.selected{border-color:#f97316;background:#fff7ed;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#f97316;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#ea580c}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #f97316;color:#f97316}
+.lesson-nav .btn-next{background:#f97316;color:#fff}
+.lesson-nav .btn-prev:hover{background:#fff7ed}
+.lesson-nav .btn-next:hover{background:#ea580c}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.gan-diagram{grid-template-columns:1fr;grid-template-rows:auto}.gan-arrow{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-09.html" class="active">Class 9</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-09.html">Class 9</a> → Lesson 7</div>
+  <h1>Generative AI: How It Creates ✨</h1>
+  <div class="meta">
+    <span>Class 9</span><span>Age 13–14</span><span>Lesson 7 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-09/lesson-07-hero.jpg" alt="AI-generated art on a screen next to a student writing a creative prompt on paper, colourful generative art in background" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="sp-label">Meet Aryan — Class 9, Mumbai</div>
+    <p>Aryan is a huge fan of Bollywood music. One day he typed a description into an AI music tool: "Create an upbeat Rajasthani folk song for a school dance competition, with tabla and flute." In 20 seconds, a full song played back. He was stunned. "Did the AI compose this? Or copy it from somewhere?"</p>
+    <p>He asked his computer science teacher, who said: "It <em>generated</em> it — that's completely different from copying. The AI learned patterns from thousands of songs and created a new one following those patterns." This lesson explains exactly how that works — from GANs to transformers to why AI sometimes confidently makes things up.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Concept</div>
+    <div class="ls-title">What Does "Generative" Mean?</div>
+    <p>Most AI you've studied so far is <strong>discriminative</strong> — it draws boundaries between categories (spam vs not spam, cat vs dog). <strong>Generative AI</strong> is different — it learns the patterns in data so deeply that it can <em>create new examples</em> that look/sound/read like they came from the real world.</p>
+    <ul>
+      <li>A discriminative model answers: "Which category does this belong to?"</li>
+      <li>A generative model answers: "Give me a new example that fits this pattern."</li>
+    </ul>
+    <div class="callout orange">
+      Think of it this way: A discriminative AI is like a judge at a baking contest — it says "this cake is good / bad." A generative AI is like the baker — it <em>creates</em> a new cake following learned patterns of great baking.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 1</div>
+    <div class="ls-title">GANs: Generator vs Discriminator</div>
+    <p>Generative Adversarial Networks (GANs) were invented in 2014. They use two neural networks in competition:</p>
+    <div class="gan-diagram">
+      <div class="gan-box">
+        <div class="gb-icon">🎨</div>
+        <div class="gb-title">Generator</div>
+        <div class="gb-desc">Creates fake images from random noise. Goal: fool the Discriminator.</div>
+      </div>
+      <div class="gan-arrow">→</div>
+      <div class="gan-box" style="background:#f0fdf4;border-color:#22c55e">
+        <div class="gb-icon">🔍</div>
+        <div class="gb-title">Discriminator</div>
+        <div class="gb-desc">Decides: real image or fake? Goal: catch the Generator.</div>
+      </div>
+      <div class="gan-arrow">→</div>
+      <div class="gan-box" style="background:#fffbeb;border-color:#f59e0b">
+        <div class="gb-icon">🔁</div>
+        <div class="gb-title">Training Loop</div>
+        <div class="gb-desc">Both networks improve each round. Generator makes better fakes. Discriminator gets better at spotting them.</div>
+      </div>
+    </div>
+    <p>After millions of training rounds, the Generator becomes so good that even the Discriminator can't tell real from fake. <strong>That Generator IS the AI model</strong> — like DALL-E 1 or early deepfake systems.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 2</div>
+    <div class="ls-title">Three Generative AI Architectures</div>
+    <div class="tech-cards">
+      <div class="tech-card">
+        <div class="tc-icon">🌀</div>
+        <div class="tc-name">Diffusion Models</div>
+        <div class="tc-desc">Learn to remove noise from a noisy image step by step. To generate: start with pure noise, then denoise it into a real image. Used by DALL-E 3, Stable Diffusion, Midjourney.</div>
+      </div>
+      <div class="tech-card">
+        <div class="tc-icon">🔍</div>
+        <div class="tc-name">Transformer + Attention</div>
+        <div class="tc-desc">Processes all words simultaneously (not one at a time). "Attention" lets the model focus on relevant words anywhere in the sentence. Foundation of GPT-4, Gemini, Claude. Invented at Google in 2017 ("Attention Is All You Need" paper).</div>
+      </div>
+      <div class="tech-card">
+        <div class="tc-icon">🎵</div>
+        <div class="tc-name">Autoregressive Models</div>
+        <div class="tc-desc">Predict the next token (word/note/pixel) based on all previous tokens. Repeat until the output is complete. GPT models and music AIs like Suno/Udio work this way.</div>
+      </div>
+    </div>
+    <div class="callout amber">
+      <strong>Fun fact:</strong> ChatGPT, Gemini, Claude, and Copilot are all transformer-based autoregressive language models. They predict one word at a time, yet do it so fast (millions of tokens per second on GPU clusters) that it feels instant.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 3</div>
+    <div class="ls-title">Prompt Engineering: How to Talk to AI Better</div>
+    <p>The quality of your output depends heavily on how well you write your prompt. Here's the difference:</p>
+    <div class="prompt-compare">
+      <div class="prompt-row">
+        <div class="pr-label bad">❌ Weak Prompt</div>
+        <div class="pr-text">Write a story about a student.</div>
+        <div class="pr-why">Too vague. The AI makes random choices — age, setting, tone, length — and you get a generic story.</div>
+      </div>
+      <div class="prompt-row">
+        <div class="pr-label good">✅ Strong Prompt</div>
+        <div class="pr-text">Write a 3-paragraph short story about a 14-year-old girl in Hyderabad who discovers she can talk to AI models in Telugu. Tone: hopeful and funny. End with a surprising twist. Avoid mentioning technology brand names.</div>
+        <div class="pr-why">Specific role, context, age, location, tone, length, constraint — gives the AI exactly what it needs to create something you'll actually use.</div>
+      </div>
+    </div>
+    <ul>
+      <li><strong>Role:</strong> "You are an experienced science teacher…"</li>
+      <li><strong>Task:</strong> "Explain photosynthesis in 5 bullet points…"</li>
+      <li><strong>Audience:</strong> "…for a 12-year-old student in India"</li>
+      <li><strong>Constraints:</strong> "No jargon. Max 150 words."</li>
+      <li><strong>Format:</strong> "Output as a numbered list."</li>
+    </ul>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 4</div>
+    <div class="ls-title">Generative AI Tools You Can Try</div>
+    <div class="tools-grid">
+      <div class="tool-pill"><div class="tp-name">ChatGPT / Gemini</div><div class="tp-type">Text generation</div></div>
+      <div class="tool-pill"><div class="tp-name">DALL-E / Midjourney</div><div class="tp-type">Image generation</div></div>
+      <div class="tool-pill"><div class="tp-name">Stable Diffusion</div><div class="tp-type">Image (open source)</div></div>
+      <div class="tool-pill"><div class="tp-name">Suno / Udio</div><div class="tp-type">Music generation</div></div>
+      <div class="tool-pill"><div class="tp-name">ElevenLabs</div><div class="tp-type">Voice cloning / TTS</div></div>
+      <div class="tool-pill"><div class="tp-name">Runway / Pika</div><div class="tp-type">Video generation</div></div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Critical Thinking</div>
+    <div class="ls-title">The Hallucination Problem</div>
+    <p>Generative AI doesn't "know" facts — it predicts the most statistically likely next token. This means it can produce confidently-stated <strong>falsehoods</strong> — called <em>hallucinations</em>.</p>
+    <div class="callout red">
+      <strong>Example hallucination:</strong> Ask an AI "Who won the 2026 Nobel Prize for Physics?" It may give a convincing name with a detailed reason — even though it has no knowledge of 2026 events. The AI is pattern-matching, not fact-retrieving.
+    </div>
+    <ul>
+      <li>Always verify important facts from generative AI using reliable sources (textbooks, official sites)</li>
+      <li>Never use AI-generated legal, medical, or financial advice without expert review</li>
+      <li>Hallucinations are worse when you ask about specific dates, statistics, citations, or recent events</li>
+      <li>Indian context: be careful with AI outputs in Telugu/Hindi — translation quality varies and hallucinations increase in low-resource languages</li>
+    </ul>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>🧪 Check Your Understanding — Lesson 7 Quiz</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. What is the key difference between discriminative and generative AI?</div>
+        <div class="quiz-opt" data-opt="a">a) Discriminative AI uses more data</div>
+        <div class="quiz-opt" data-opt="b">b) Discriminative AI classifies data; generative AI creates new data that matches learned patterns</div>
+        <div class="quiz-opt" data-opt="c">c) Generative AI can only make images, not text</div>
+        <div class="quiz-opt" data-opt="d">d) They are exactly the same — just different names</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. In a GAN, what is the job of the Generator?</div>
+        <div class="quiz-opt" data-opt="a">a) To judge whether an image is real or fake</div>
+        <div class="quiz-opt" data-opt="b">b) To create fake data good enough to fool the Discriminator</div>
+        <div class="quiz-opt" data-opt="c">c) To label training data</div>
+        <div class="quiz-opt" data-opt="d">d) To measure model accuracy</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. Diffusion models (like Stable Diffusion) generate images by:</div>
+        <div class="quiz-opt" data-opt="a">a) Copying pixels from a database of real images</div>
+        <div class="quiz-opt" data-opt="b">b) Having the Generator fool the Discriminator</div>
+        <div class="quiz-opt" data-opt="c">c) Starting from pure noise and step-by-step removing noise to reveal a meaningful image</div>
+        <div class="quiz-opt" data-opt="d">d) Converting text directly to pixels without any learning</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. The "Attention" mechanism in transformers allows the model to:</div>
+        <div class="quiz-opt" data-opt="a">a) Pay more attention to longer sentences</div>
+        <div class="quiz-opt" data-opt="b">b) Focus on relevant words anywhere in the input, regardless of their position</div>
+        <div class="quiz-opt" data-opt="c">c) Process words one at a time from left to right</div>
+        <div class="quiz-opt" data-opt="d">d) Remove stop words automatically</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. Which prompt is most likely to produce a useful, specific output?</div>
+        <div class="quiz-opt" data-opt="a">a) "Write about climate change"</div>
+        <div class="quiz-opt" data-opt="b">b) "Tell me everything about AI"</div>
+        <div class="quiz-opt" data-opt="c">c) "In 5 bullet points, explain how climate change affects Indian farmers. Use simple English for a Class 9 student."</div>
+        <div class="quiz-opt" data-opt="d">d) "Climate"</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. AI "hallucination" means:</div>
+        <div class="quiz-opt" data-opt="a">a) The AI crashes when confused</div>
+        <div class="quiz-opt" data-opt="b">b) The AI generates confidently-stated false or made-up information</div>
+        <div class="quiz-opt" data-opt="c">c) The AI produces images that look too realistic</div>
+        <div class="quiz-opt" data-opt="d">d) The AI takes too long to respond</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. Autoregressive models like GPT generate text by:</div>
+        <div class="quiz-opt" data-opt="a">a) Removing noise from a noisy text input</div>
+        <div class="quiz-opt" data-opt="b">b) Predicting the next most likely word/token, one at a time</div>
+        <div class="quiz-opt" data-opt="c">c) Copying sentences from their training data</div>
+        <div class="quiz-opt" data-opt="d">d) Running two competing networks against each other</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. You ask an AI "Who won the 2028 Olympics 100m sprint?" and it gives a confident name with details. What should you do?</div>
+        <div class="quiz-opt" data-opt="a">a) Trust it — AI has access to future events</div>
+        <div class="quiz-opt" data-opt="b">b) Share it on social media immediately</div>
+        <div class="quiz-opt" data-opt="c">c) Verify the answer through official sports news sources — this is likely a hallucination</div>
+        <div class="quiz-opt" data-opt="d">d) Ask the AI again — it will correct itself</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Answers</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-06.html" class="btn-prev">← Lesson 6: Regression</a>
+    <a href="lesson-08.html" class="btn-next">Lesson 8: NLP Basics →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-09.html">Class 9</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS = {1:'b',2:'b',3:'c',4:'b',5:'c',6:'b',7:'b',8:'c'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q]) o.classList.add('correct');
+    });
+    if(sel){
+      if(sel.dataset.opt===ANSWERS[q]) score++;
+      else sel.classList.add('wrong');
+    }
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=75){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} correct (${pct}%) — You understand how modern AI creates content!`;}
+  else if(pct>=50){res.className='quiz-result ok';res.textContent=`Good try! ${score}/${total} correct (${pct}%) — Review the GAN diagram and the hallucination section.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} correct (${pct}%) — Re-read the three architectures section and the prompt engineering examples. Resubmit!`;}
+  gtag('event','quiz_complete',{event_category:'class9',event_label:'class09_lesson07_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Generative AI: How It Creates — Class 9 Lesson 7",
+  "description": "Understand how Generative AI creates text, images and music. Learn about GANs, diffusion models, transformers, prompt engineering, and hallucination.",
+  "url": "https://mitraailife.com/content/students/class-09/lesson-07.html",
+  "learningResourceType": "Lesson",
+  "educationalLevel": "Class 9",
+  "typicalAgeRange": "13-14",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "provider": { "@type": "Organization", "name": "Mitra AI Life Education", "url": "https://mitraailife.com" }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 5 — Model Evaluation | Class 9 | Mitra AI Life</title>
+<meta name="description" content="Class 9 Lesson 5: Learn accuracy, precision, recall, F1 score, and the confusion matrix. Understand overfitting vs underfitting and choose the right evaluation metric." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-09/lesson-05.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#f97316" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 5 — Model Evaluation: Is Your AI Good? | Class 9 | Mitra AI Life" />
+<meta property="og:description" content="Class 9 Lesson 5: Learn accuracy, precision, recall, F1 score, and the confusion matrix. Understand overfitting vs underfitting and choose the right evaluation metric." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-09/lesson-05.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#fff7ed;color:#7c2d12;line-height:1.7}
+a{color:#f97316;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#fdba74}
+.topnav .nav-links{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#fdba74}
+.lesson-hero{background:linear-gradient(135deg,#7c2d12,#c2410c,#f97316);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.story-panel{background:linear-gradient(135deg,#fff7ed,#ffedd5);border-left:5px solid #f97316;border-radius:0 16px 16px 0;padding:1.5rem 1.5rem;margin:2rem 0;position:relative}
+.story-panel::before{content:'📖';position:absolute;top:-14px;left:16px;font-size:1.4rem}
+.story-panel .sp-label{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#f97316;margin-bottom:.4rem}
+.story-panel p{font-size:.95rem;color:#7c2d12;margin-bottom:.6rem}
+.story-panel p:last-child{margin-bottom:0}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#f97316;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#7c2d12;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#9a3412;margin-bottom:.9rem}
+.lesson-section ul,.lesson-section ol{font-size:.93rem;color:#9a3412;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.orange{background:#fff7ed;border-left:4px solid #f97316;color:#7c2d12}
+.callout.amber{background:#fffbeb;border-left:4px solid #f59e0b;color:#78350f}
+.callout.green{background:#f0fdf4;border-left:4px solid #22c55e;color:#14532d}
+.callout.red{background:#fff1f2;border-left:4px solid #f43f5e;color:#881337}
+.matrix-grid{display:grid;grid-template-columns:auto 1fr 1fr;gap:2px;margin:1rem auto;max-width:380px;background:#fed7aa;border-radius:12px;overflow:hidden;border:2px solid #fed7aa}
+.mg-header{background:#7c2d12;color:#fff;font-weight:800;font-size:.78rem;padding:.6rem;text-align:center}
+.mg-label{background:#fff7ed;font-weight:800;font-size:.78rem;color:#7c2d12;padding:.6rem;text-align:center;display:flex;align-items:center;justify-content:center}
+.mg-tp{background:#f0fdf4;font-weight:800;font-size:1.1rem;color:#15803d;padding:.8rem;text-align:center;border-radius:4px}
+.mg-fn{background:#fff1f2;font-weight:800;font-size:1.1rem;color:#be123c;padding:.8rem;text-align:center;border-radius:4px}
+.mg-fp{background:#fffbeb;font-weight:800;font-size:1.1rem;color:#92400e;padding:.8rem;text-align:center;border-radius:4px}
+.mg-tn{background:#f0fdf4;font-weight:800;font-size:1.1rem;color:#15803d;padding:.8rem;text-align:center;border-radius:4px}
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.9rem;margin:1rem 0}
+.metric-card{background:#fff;border:1.5px solid #fed7aa;border-radius:14px;padding:1rem;text-align:center}
+.metric-card .mc-icon{font-size:1.4rem;margin-bottom:.3rem}
+.metric-card .mc-name{font-weight:800;color:#7c2d12;font-size:.9rem;margin-bottom:.25rem}
+.metric-card .mc-formula{font-family:'Courier New',monospace;font-size:.8rem;color:#f97316;margin-bottom:.3rem;background:#fff7ed;padding:.2rem .5rem;border-radius:6px}
+.metric-card .mc-when{font-size:.76rem;color:#9a3412}
+.fit-compare{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem;margin:1rem 0}
+.fit-card{border-radius:14px;padding:1rem;text-align:center}
+.fit-card.under{background:#fff1f2;border:1.5px solid #fca5a5}
+.fit-card.good{background:#f0fdf4;border:1.5px solid #86efac}
+.fit-card.over{background:#fffbeb;border:1.5px solid #fcd34d}
+.fit-card .fc-title{font-weight:800;font-size:.88rem;margin-bottom:.5rem}
+.fit-card .fc-train{font-size:.78rem;margin-bottom:.2rem}
+.fit-card .fc-test{font-size:.78rem;font-weight:700}
+.code-block{background:#1e293b;border-radius:12px;padding:1.2rem 1.4rem;margin:1rem 0;overflow-x:auto}
+.code-block pre{font-family:'Courier New',Courier,monospace;font-size:.82rem;color:#e2e8f0;line-height:1.6;margin:0;white-space:pre-wrap}
+.quiz-section{background:#fff;border:2px solid #f97316;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#7c2d12;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#7c2d12;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:center;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #fed7aa;background:#fff7ed;font-size:.88rem;color:#7c2d12;transition:border-color .15s}
+.quiz-opt:hover{border-color:#f97316}
+.quiz-opt.selected{border-color:#f97316;background:#fff7ed;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#f97316;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#ea580c}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #f97316;color:#f97316}
+.lesson-nav .btn-next{background:#f97316;color:#fff}
+.lesson-nav .btn-prev:hover{background:#fff7ed}
+.lesson-nav .btn-next:hover{background:#ea580c}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.fit-compare{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-09.html" class="active">Class 9</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-09.html">Class 9</a> → Lesson 5</div>
+  <h1>Model Evaluation: Is Your AI Good? 📏</h1>
+  <div class="meta">
+    <span>Class 9</span><span>Age 13–14</span><span>Lesson 5 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-09/lesson-05-hero.jpg" alt="Confusion matrix and evaluation metrics displayed on a data science dashboard on a monitor in a modern classroom" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="sp-label">Meet Divya — Class 9, Coimbatore</div>
+    <p>Divya built a disease detection model. It predicted whether a patient had a rare disease — and got 99% accuracy! She was thrilled. But her doctor-aunt looked at the numbers carefully. "Wait — how many patients actually had the disease in your test set?" she asked. "Just 1 out of 100," said Divya. Her aunt smiled: "So if the model just always predicts 'no disease' — it's 99% accurate. But it misses every single sick person. That's not a good medical AI."</p>
+    <p>Today we'll learn why accuracy alone is often not enough — and what metrics actually tell you whether your model is useful.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 1</div>
+    <div class="ls-title">The Confusion Matrix — Four Types of Results</div>
+    <p>When a binary classifier runs on test data, every prediction falls into one of four boxes:</p>
+    <div class="matrix-grid">
+      <div class="mg-header">↕ Actual</div>
+      <div class="mg-header">Predicted: Positive</div>
+      <div class="mg-header">Predicted: Negative</div>
+      <div class="mg-label">Actual: Positive</div>
+      <div class="mg-tp"><div style="font-size:.7rem;color:#15803d;margin-bottom:.2rem">True Positive (TP)</div>45<div style="font-size:.68rem;color:#15803d;margin-top:.15rem">Sick patient, detected sick ✓</div></div>
+      <div class="mg-fn"><div style="font-size:.7rem;color:#be123c;margin-bottom:.2rem">False Negative (FN)</div>5<div style="font-size:.68rem;color:#be123c;margin-top:.15rem">Sick patient, missed! ✗</div></div>
+      <div class="mg-label">Actual: Negative</div>
+      <div class="mg-fp"><div style="font-size:.7rem;color:#92400e;margin-bottom:.2rem">False Positive (FP)</div>10<div style="font-size:.68rem;color:#92400e;margin-top:.15rem">Healthy, called sick ✗</div></div>
+      <div class="mg-tn"><div style="font-size:.7rem;color:#15803d;margin-bottom:.2rem">True Negative (TN)</div>40<div style="font-size:.68rem;color:#15803d;margin-top:.15rem">Healthy, detected healthy ✓</div></div>
+    </div>
+    <ul>
+      <li><strong>TP (True Positive):</strong> Correctly predicted as positive — the model got it right for positives</li>
+      <li><strong>TN (True Negative):</strong> Correctly predicted as negative — the model got it right for negatives</li>
+      <li><strong>FP (False Positive):</strong> Predicted positive but actually negative — "false alarm"</li>
+      <li><strong>FN (False Negative):</strong> Predicted negative but actually positive — "missed case" (often dangerous in medical AI!)</li>
+    </ul>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 2</div>
+    <div class="ls-title">Four Evaluation Metrics</div>
+    <p>Using the confusion matrix numbers, we can calculate four metrics that each measure something different:</p>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="mc-icon">✅</div>
+        <div class="mc-name">Accuracy</div>
+        <div class="mc-formula">(TP+TN) / All</div>
+        <div class="mc-when">Good when classes are balanced. Misleading for imbalanced datasets (like Divya's disease problem).</div>
+      </div>
+      <div class="metric-card">
+        <div class="mc-icon">🎯</div>
+        <div class="mc-name">Precision</div>
+        <div class="mc-formula">TP / (TP + FP)</div>
+        <div class="mc-when">Of all positive predictions, how many were actually positive? Use when false alarms are costly.</div>
+      </div>
+      <div class="metric-card">
+        <div class="mc-icon">🔍</div>
+        <div class="mc-name">Recall (Sensitivity)</div>
+        <div class="mc-formula">TP / (TP + FN)</div>
+        <div class="mc-when">Of all actual positives, how many did we find? Use when missing a case is costly (medical, fraud).</div>
+      </div>
+      <div class="metric-card">
+        <div class="mc-icon">⚖️</div>
+        <div class="mc-name">F1 Score</div>
+        <div class="mc-formula">2 × (P×R) / (P+R)</div>
+        <div class="mc-when">Harmonic mean of precision and recall. Best single metric for imbalanced datasets.</div>
+      </div>
+    </div>
+    <div class="callout amber">
+      <strong>Using the example above (TP=45, FP=10, FN=5, TN=40):</strong><br/>
+      Accuracy = (45+40)/(45+10+5+40) = 85/100 = <strong>85%</strong><br/>
+      Precision = 45/(45+10) = 45/55 = <strong>81.8%</strong><br/>
+      Recall = 45/(45+5) = 45/50 = <strong>90%</strong><br/>
+      F1 = 2 × (0.818 × 0.90) / (0.818+0.90) = <strong>85.7%</strong>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 3</div>
+    <div class="ls-title">Which Metric Should You Use?</div>
+    <ul>
+      <li><strong>Medical diagnosis (cancer detection):</strong> Use <strong>Recall</strong> — missing a sick person (FN) is far worse than a false alarm</li>
+      <li><strong>Spam filter:</strong> Use <strong>Precision</strong> — marking a real email as spam (FP) is worse than letting one spam through</li>
+      <li><strong>Fraud detection:</strong> Use <strong>F1</strong> — both false alarms and missed fraud are costly</li>
+      <li><strong>Balanced datasets (50/50 classes):</strong> Use <strong>Accuracy</strong> — it's reliable when both classes appear equally</li>
+    </ul>
+    <div class="callout orange">
+      <strong>Rule of thumb:</strong> If one class is rare (less than 20% of data), don't trust accuracy alone. Use Recall if missing rare cases is dangerous. Use Precision if false alarms are expensive. Use F1 if both matter.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Part 4</div>
+    <div class="ls-title">Overfitting vs Underfitting</div>
+    <p>Your model can fail in two opposite ways. The key is finding the right balance:</p>
+    <div class="fit-compare">
+      <div class="fit-card under">
+        <div class="fc-title" style="color:#be123c">😕 Underfitting</div>
+        <div class="fc-train">Train accuracy: 60%</div>
+        <div class="fc-test" style="color:#be123c">Test accuracy: 58%</div>
+        <div style="font-size:.76rem;color:#9a3412;margin-top:.5rem">Model is too simple. Missed important patterns. Fix: deeper tree, more features, more epochs.</div>
+      </div>
+      <div class="fit-card good">
+        <div class="fc-title" style="color:#15803d">✅ Just Right</div>
+        <div class="fc-train">Train accuracy: 92%</div>
+        <div class="fc-test" style="color:#15803d">Test accuracy: 89%</div>
+        <div style="font-size:.76rem;color:#9a3412;margin-top:.5rem">Model learned real patterns, generalises well to new data. This is the goal.</div>
+      </div>
+      <div class="fit-card over">
+        <div class="fc-title" style="color:#92400e">⚠️ Overfitting</div>
+        <div class="fc-train">Train accuracy: 99%</div>
+        <div class="fc-test" style="color:#92400e">Test accuracy: 63%</div>
+        <div style="font-size:.76rem;color:#9a3412;margin-top:.5rem">Model memorised training data but fails on new data. Fix: simpler model, more data, regularisation.</div>
+      </div>
+    </div>
+    <div class="callout red">
+      <strong>How to detect overfitting:</strong> Training accuracy is much higher than test accuracy (gap &gt; 10–15%). This is why we always track BOTH metrics — not just the training score.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Try It in Colab</div>
+    <div class="ls-title">Calculate All Metrics in Python</div>
+    <div class="code-block"><pre>from sklearn.datasets import load_breast_cancer
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import (accuracy_score, precision_score,
+                              recall_score, f1_score, confusion_matrix)
+import pandas as pd
+
+# Load imbalanced-style dataset (breast cancer: 212 malignant, 357 benign)
+data = load_breast_cancer()
+X, y = data.data, data.target
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42)
+
+model = DecisionTreeClassifier(max_depth=5, random_state=42)
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+
+# All four metrics
+print(f"Accuracy:  {accuracy_score(y_test, y_pred):.3f}")
+print(f"Precision: {precision_score(y_test, y_pred):.3f}")
+print(f"Recall:    {recall_score(y_test, y_pred):.3f}")
+print(f"F1 Score:  {f1_score(y_test, y_pred):.3f}")
+
+# Confusion matrix
+cm = confusion_matrix(y_test, y_pred)
+print("\nConfusion Matrix:")
+print(pd.DataFrame(cm,
+    index=['Actual: Malignant', 'Actual: Benign'],
+    columns=['Predicted: Malignant', 'Predicted: Benign']))
+
+# Overfitting check
+train_acc = accuracy_score(y_train, model.predict(X_train))
+test_acc = accuracy_score(y_test, y_pred)
+print(f"\nTrain accuracy: {train_acc:.3f}")
+print(f"Test accuracy:  {test_acc:.3f}")
+print(f"Gap: {train_acc - test_acc:.3f}  (aim for < 0.05)")</pre></div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>🧪 Check Your Understanding — Lesson 5 Quiz</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. A model detects rare fraud (1% of transactions are fraud). It predicts "not fraud" for everything. Accuracy = 99%. Is this a good model?</div>
+        <div class="quiz-opt" data-opt="a">a) Yes — 99% is excellent</div>
+        <div class="quiz-opt" data-opt="b">b) No — it misses every single fraud case (Recall = 0). Accuracy is misleading here.</div>
+        <div class="quiz-opt" data-opt="c">c) It depends on the dataset size</div>
+        <div class="quiz-opt" data-opt="d">d) Yes, if the business doesn't mind missing some fraud</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. False Negatives (FN) are when the model:</div>
+        <div class="quiz-opt" data-opt="a">a) Correctly identifies a negative case</div>
+        <div class="quiz-opt" data-opt="b">b) Predicts positive when the actual answer is negative (false alarm)</div>
+        <div class="quiz-opt" data-opt="c">c) Predicts negative when the actual answer is positive (missed case)</div>
+        <div class="quiz-opt" data-opt="d">d) Makes no prediction at all</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. For a cancer screening AI, which metric should you maximise?</div>
+        <div class="quiz-opt" data-opt="a">a) Accuracy</div>
+        <div class="quiz-opt" data-opt="b">b) Precision (avoid false alarms)</div>
+        <div class="quiz-opt" data-opt="c">c) Recall (catch every sick patient, even if there are false alarms)</div>
+        <div class="quiz-opt" data-opt="d">d) Training speed</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. Your model has Train Accuracy = 98% and Test Accuracy = 64%. This is:</div>
+        <div class="quiz-opt" data-opt="a">a) Underfitting — the model is too simple</div>
+        <div class="quiz-opt" data-opt="b">b) Perfect — high train accuracy is the goal</div>
+        <div class="quiz-opt" data-opt="c">c) Overfitting — the model memorised training data but fails on new data</div>
+        <div class="quiz-opt" data-opt="d">d) Normal — test accuracy is always lower</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. F1 Score is most useful when:</div>
+        <div class="quiz-opt" data-opt="a">a) You have perfectly balanced classes (50% / 50%)</div>
+        <div class="quiz-opt" data-opt="b">b) You have imbalanced classes and both false positives and false negatives are costly</div>
+        <div class="quiz-opt" data-opt="c">c) Recall doesn't matter in your problem</div>
+        <div class="quiz-opt" data-opt="d">d) You need a simple metric students can calculate mentally</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. Precision = TP / (TP + FP) measures:</div>
+        <div class="quiz-opt" data-opt="a">a) Of all actual positives, how many did we correctly catch?</div>
+        <div class="quiz-opt" data-opt="b">b) Of all predictions of positive, how many were actually positive?</div>
+        <div class="quiz-opt" data-opt="c">c) The total number of correct predictions</div>
+        <div class="quiz-opt" data-opt="d">d) The difference between train and test accuracy</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. Underfitting occurs when:</div>
+        <div class="quiz-opt" data-opt="a">a) Training accuracy is much higher than test accuracy</div>
+        <div class="quiz-opt" data-opt="b">b) Both training and test accuracy are low — the model is too simple to learn real patterns</div>
+        <div class="quiz-opt" data-opt="c">c) The confusion matrix has many True Positives</div>
+        <div class="quiz-opt" data-opt="d">d) F1 score equals accuracy</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. For a spam filter, you prefer high Precision because:</div>
+        <div class="quiz-opt" data-opt="a">a) Catching all spam is more important than false alarms</div>
+        <div class="quiz-opt" data-opt="b">b) Missing spam is the most dangerous outcome</div>
+        <div class="quiz-opt" data-opt="c">c) Incorrectly marking an important email as spam (FP) is worse than letting one spam through (FN)</div>
+        <div class="quiz-opt" data-opt="d">d) Precision is always better than Recall for text data</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Answers</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-04.html" class="btn-prev">← Lesson 4: First Classifier</a>
+    <a href="lesson-06.html" class="btn-next">Lesson 6: Regression →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-09.html">Class 9</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS = {1:'b',2:'c',3:'c',4:'c',5:'b',6:'b',7:'b',8:'c'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q]) o.classList.add('correct');
+    });
+    if(sel){
+      if(sel.dataset.opt===ANSWERS[q]) score++;
+      else sel.classList.add('wrong');
+    }
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=75){res.className='quiz-result good';res.textContent=`Great work! ${score}/${total} correct (${pct}%) — You can now evaluate any ML model properly!`;}
+  else if(pct>=50){res.className='quiz-result ok';res.textContent=`Good try! ${score}/${total} correct (${pct}%) — Review the Precision vs Recall section. These are tricky!`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} correct (${pct}%) — Re-read the confusion matrix and all four metrics carefully. Try running the Colab code to see real numbers!`;}
+  gtag('event','quiz_complete',{event_category:'class9',event_label:'class09_lesson05_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Model Evaluation: Is Your AI Good? — Class 9 Lesson 5",
+  "description": "Learn accuracy, precision, recall, F1 score, and the confusion matrix. Understand overfitting vs underfitting and choose the right evaluation metric.",
+  "url": "https://mitraailife.com/content/students/class-09/lesson-05.html",
+  "learningResourceType": "Lesson",
+  "educationalLevel": "Class 9",
+  "typicalAgeRange": "13-14",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "provider": { "@type": "Organization", "name": "Mitra AI Life Education", "url": "https://mitraailife.com" }
+}
+</script>
+</body>
+</html>

@@ -417,7 +417,7 @@ Hub page: `content/students/class-06/class-06.html`
 
 | Class | Target Age | Status |
 |-------|-----------|--------|
-| Class 7 | 11–12 | Hub live · Lessons 1–6 live · L7–L12 in progress |
+| Class 7 | 11–12 | Hub live · Lessons 1–7 live · L8–L12 in progress |
 | Class 8 | 12–13 | Planned |
 | Class 9 | 13–14 | Planned |
 | Class 10 | 14–15 | Planned |
@@ -630,4 +630,39 @@ Hub page: `content/students/class-07/class-07.html`
 
 ---
 
-*Last updated: 8 May 2026 · Class 6 complete (12 lessons) · Class 7 Lessons 1–6 live.*
+---
+
+### Lesson 7 — Why Does AI Sometimes Get It Wrong?
+
+**File:** `content/students/class-07/lesson-07.html`  
+**Duration:** 40–50 min · 8 sections · Free  
+**Story character:** Arun (12yo, Pune) — AI invented a historical figure for his history quiz prep
+
+**Section topics:**
+1. How AI works (pattern prediction, not database lookup)
+2. Four error types: hallucination, outdated info, bias, overconfidence
+3. Hallucinations in detail — when most likely, hallucination check prompt
+4. Outdated information — what topics are at risk, currency check prompt
+5. Bias — Western-centric, urban, language bias; Indian perspective prompt
+6. Overconfidence — red-flag signals list, confidence level prompt
+7. Five everyday protection habits
+8. AI Error Spotter quick-reference table
+
+**Quiz (10 questions) — answers:**
+
+| Q | Question | Correct |
+|---|----------|---------|
+| 1 | What is an AI hallucination? | b |
+| 2 | Why doesn’t AI “look up” the answer? | b |
+| 3 | Recent government schemes in India — best approach | c |
+| 4 | Which AI error type is hardest to spot? | a |
+| 5 | AI gives detail on a lesser-known Indian freedom fighter | c |
+| 6 | Best way to get AI to admit uncertainty | b |
+| 7 | Which is a hallucination red-flag signal? | c |
+| 8 | Western bias is biggest concern for which topics? | c |
+| 9 | Safe fact to take from AI without extra verification | b |
+| 10 | Best overall mindset for AI at Class 7 | c |
+
+---
+
+*Last updated: 8 May 2026 · Class 6 complete (12 lessons) · Class 7 Lessons 1–7 live.*

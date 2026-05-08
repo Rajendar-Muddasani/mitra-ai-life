@@ -15,7 +15,7 @@ Target age group: 10–17 · School students · India · English · CBSE/SSC com
 ## Class 6 — AI Literacy for Beginners (Age 10–11)
 
 Theme colour: Sky blue `#0ea5e9`  
-Full year: 12 lessons · Lessons 1–11 Live · Lesson 12 Coming Soon  
+Full year: 12 lessons · All 12 Lessons Live · Free  
 Hub page: `content/students/class-06/class-06.html`
 
 ---
@@ -381,11 +381,35 @@ Hub page: `content/students/class-06/class-06.html`
 
 ---
 
-### Lesson 12 — Coming Soon
+### Lesson 12 — My AI Discovery Journal
 
-| Lesson | Title | Status |
-|--------|-------|--------|
-| 12 | Year Discovery Journal | Coming Soon |
+**File:** `content/students/class-06/lesson-12.html`  
+**Duration:** 60–90 min · 8 sections · Free · Final Capstone
+
+**Section topics:**
+1. Your AI Year — What You Discovered — 12-lesson recap grid with one key takeaway per lesson
+2. How to Keep an AI Discovery Journal — 5 journal categories, frequency tips, dating entries
+3. Your Biggest AI Moments — 3 guided journal prompts (Surprise, Question It Raised, Lesson That Stuck)
+4. AI Experiments to Try This Summer — 10 experiments (hallucination hunt, prompt rewriting, bias check, AI vs grandparent, story collaboration, recommendation audit, teaching AI, maths check, find AI near you, news verification)
+5. Questions Worth Keeping — 7 open AI ethics and society questions still being debated globally
+6. Your AI Commitments — 6-item personal pledge (verify, privacy, honesty, notice bias, stay curious, share)
+7. Writing Your AI Year Summary — 5-part essay template with Rahul's example
+8. Looking Ahead — Class 7 preview (AI+Language, Building with AI, AI+Society, Data Literacy) + summer preparation list
+
+**Quiz Q&A (Final — reviews all 12 lessons):**
+
+| Q# | Question (short) | A | B | C | D | ✓ |
+|----|-----------------|---|---|---|---|---|
+| 1 | What happens when AI training data contains errors or biases? | AI auto-corrects them | Logic overrides errors | **AI learns and reproduces the errors — garbage in, garbage out** | AI flags them for engineers | **c** |
+| 2 | Best way to use AI for a school history project? | Copy AI response directly | **Use AI as starting point; verify key facts against textbook and library sources** | Ask AI to write it for you | Never use AI for history | **b** |
+| 3 | What does AI knowledge cutoff mean? | AI refuses inappropriate questions | AI can't answer long questions | **AI trained on data to a certain date — doesn't automatically know newer events** | Answers less reliable after many questions | **c** |
+| 4 | AI asks for your school name and address to personalise learning — what to do? | Provide it | Provide school but not address | **Decline — no AI tool needs personal address details to answer educational questions** | Ask AI why it needs it | **c** |
+| 5 | AI-generated Diwali poem — most accurate description? | Truly original creative work | **Output combining patterns from thousands of human-written poems and Diwali content in training data** | Has no value — machine-made | Equivalent to human-written poem | **b** |
+| 6 | Classmate says AI maths answer must be right because computers don't make arithmetic mistakes — correct response? | Agree — calculators never err | Agree — AI is reliable for maths | **Disagree — AI language models can make arithmetic errors; always verify independently** | Disagree — only for fractions | **c** |
+| 7 | AI only lists men from US when asked for successful entrepreneurs — this is? | Accurate reflection of reality | **AI bias — training data over-represents certain groups** | Deliberate programming choice | Normal variation | **b** |
+| 8 | Why do AI systems use a lot of electricity? | Inefficient programming | **Training and running large AI models requires enormous computing power in data centres** | Electricity only used in training | Only in inefficient grids | **b** |
+| 9 | Most important reason to keep an AI Discovery Journal? | Required for course credit | Helps pass future exams | **Reflecting on encounters deepens genuine understanding and shows how thinking develops over time** | Easier to memorise facts | **c** |
+| 10 | Best summary of what to take from the full year of AI learning? | Too complex for students | Critical thinking less important now | **AI is powerful but imperfect — using it well requires human judgment, fact-checking, and ethical awareness** | AI knowledge is now complete | **c** |
 
 ---
 
@@ -402,4 +426,4 @@ Hub page: `content/students/class-06/class-06.html`
 
 ---
 
-*Last updated: 10 May 2026 · Lessons 1–11 live · This document grows with each new lesson.*
+*Last updated: 10 May 2026 · All 12 lessons live · Class 6 AI for Students course complete.*

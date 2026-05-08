@@ -123,3 +123,5 @@ _Updated 08 May 2026 — items P1–P5, P7 DONE. Items below are active._
 | 93 | Jun 2025 | — | accounts.md created (local only, gitignored) — full service inventory | accounts.md |
 | 94 | 08 May 2026 | 15:00 | Telugu TTS scripts updated to SSML — AI pronunciation fixed (Ay + Eye) across all 10 levels | Patch script: scripts/patch_te_scripts_ai_ssml.py; `<say-as interpret-as="characters">AI</say-as>` replaces plain text in all L1–L10 scripts |
 | 95 | 08 May 2026 | 15:18 | All 10 Telugu intro videos regenerated with SSML-fixed audio and re-uploaded to S3 | L1–L10 complete; commit 7d43212; S3: s3://mitra-ai-life-assets/videos/level-NN-intro-te.mp4 |
+| 96 | 08 May 2026 | — | students.html fully redesigned — class grid (Class 6–12), hero, safety strip, video placeholder, bands, chatbot section, notebooks strip, parents note, FAQ, bottom CTA | commit 6b777ca |
+| 97 | 08 May 2026 | — | Class 6 lesson page created — content/students/class-06/class-06.html — 5 sections, quiz, worksheet, parent/teacher note | Anu story, Indian examples, safety rules, 5-question quiz with JS scoring |

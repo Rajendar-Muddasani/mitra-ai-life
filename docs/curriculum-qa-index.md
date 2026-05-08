@@ -417,7 +417,7 @@ Hub page: `content/students/class-06/class-06.html`
 
 | Class | Target Age | Status |
 |-------|-----------|--------|
-| Class 7 | 11–12 | Hub live · Lessons 1–4 live · L5–L12 in progress |
+| Class 7 | 11–12 | Hub live · Lessons 1–5 live · L6–L12 in progress |
 | Class 8 | 12–13 | Planned |
 | Class 9 | 13–14 | Planned |
 | Class 10 | 14–15 | Planned |
@@ -560,4 +560,39 @@ Hub page: `content/students/class-07/class-07.html`
 
 ---
 
-*Last updated: 8 May 2026 · Class 6 complete (12 lessons) · Class 7 Lessons 1–4 live.*
+---
+
+### Lesson 5 — AI and Maths: Step by Step
+
+**File:** `content/students/class-07/lesson-05.html`  
+**Duration:** 45–60 min · 8 sections · Free  
+**Story character:** Rohan (12yo, Vijayawada) — copied algebra answer, couldn't redo it
+
+**Section topics:**
+1. The one rule — never ask for the answer first; bad vs good prompt comparison
+2. Fractions — concept-first prompt, stuck-on-one-step prompt
+3. Algebra — balancing concept (weighing scale), worked example (3x−4=11), check-my-working prompt
+4. Geometry — visualising via words, formula-why prompt, common topic prompts
+5. Word problems — breakdown prompt (info given / question / concept), 4-step method
+6. Ratio, proportion, percentages — topic grid with prompt starters, real-life connection prompt
+7. When AI explanation is too complex — simpler-explanation, analogy, one-at-a-time practice prompts
+8. Daily Maths practice 6-step habit table
+
+**Quiz (10 questions) — answers:**
+
+| Q | Question | Correct |
+|---|----------|---------|
+| 1 | Rohan copies AI answer — main problem? | b |
+| 2 | Best prompt for learning speed formula | b |
+| 3 | Stuck on step 3 of fraction addition | c |
+| 4 | What is Step 2 in the 4-step word problem method? | b |
+| 5 | Why ask AI to explain WHY a formula works? | c |
+| 6 | AI explanation too complex — what to do? | b |
+| 7 | When is the FIRST time to open AI in daily practice? | c |
+| 8 | Best prompt to check your algebra working | b |
+| 9 | Correct way to use AI for a geometry problem | b |
+| 10 | Best way to test genuine understanding after AI explanation | c |
+
+---
+
+*Last updated: 8 May 2026 · Class 6 complete (12 lessons) · Class 7 Lessons 1–5 live.*

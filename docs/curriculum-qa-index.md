@@ -15,7 +15,7 @@ Target age group: 10–17 · School students · India · English · CBSE/SSC com
 ## Class 6 — AI Literacy for Beginners (Age 10–11)
 
 Theme colour: Sky blue `#0ea5e9`  
-Full year: 12 lessons · Lessons 1–7 Live · Lessons 8–12 Coming Soon  
+Full year: 12 lessons · Lessons 1–8 Live · Lessons 9–12 Coming Soon  
 Hub page: `content/students/class-06/class-06.html`
 
 ---
@@ -251,11 +251,45 @@ Hub page: `content/students/class-06/class-06.html`
 
 ---
 
-### Lessons 8–12 — Coming Soon
+### Lesson 8 — Being a Responsible Digital Citizen
+
+**File:** `content/students/class-06/lesson-08.html`  
+**Duration:** 60–90 min · 8 sections · Free
+
+**Section topics:**
+1. What is a digital citizen? — 4 qualities: safe, smart, kind, ethical
+2. Your digital footprint — permanent trail, Arjun's day timeline, management tips
+3. Privacy and personal information — what never to share, India-specific phishing scams
+4. Cyberbullying — what it is, 5-step response plan, Indian helplines (CHILDLINE 1098, cybercrime.gov.in, iCall)
+5. Fake news and responsible sharing — 5-step fact-check method, Boom Live, Alt News, deepfakes
+6. Screen time and digital balance — intentional vs unintentional use, sample daily schedule
+7. AI ethics — 7 ethical/unethical scenarios, 3 self-check questions
+8. Being a positive digital citizen — the Digital Citizen Pledge (10 commitments)
+
+**Story:** Arjun (11yo, Pune, MH) has a bad online day — embarrassing photo tagged without consent, fake health news on family WhatsApp, stranger asking for school/area. His sister Meera (digital safety professional) teaches him how to handle each situation.
+
+**Quiz Q&A — Lesson 8**
+
+| Q# | Question (short) | A | B | C | D | ✓ |
+|----|-----------------|---|---|---|---|---|
+| 1 | What is a digital footprint? | File size on device | **Trail of data/activity across all internet use** | Username and profile picture | Monthly data downloaded | **b** |
+| 2 | Which detail combo is unsafe to share with online strangers? | Cricket team + favourite subject | City + general hobbies | **School name + home area + daily routine** | Opinion on best Indian movie | **c** |
+| 3 | Preethi is cyberbullied. Best first steps? | Send mean messages back | **Screenshot + block + report in app + tell trusted adult** | Delete her account | Ignore it | **b** |
+| 4 | Fake health news on WhatsApp — what to do? | Forward immediately | **Check Boom Live/Alt News first, only share if verified** | Share only in closest group | Believe it because family sent it | **b** |
+| 5 | What is a deepfake? | Slightly filtered photo | Fake social media account | **AI-generated fake video/image showing real person in fabricated situation** | Duplicate file on device | **c** |
+| 6 | Arjun submits AI-written project as his own — this is? | Smart time-saving | **Academic dishonesty + misses all the learning** | Acceptable since everyone uses AI | Fine if he edited a few sentences | **b** |
+| 7 | Best privacy setting for student social media? | Public for more followers | **Private — only approved followers see posts** | Semi-public (city visible) | Doesn't matter | **b** |
+| 8 | Best study habit for screen time? | Phone next to books | **Phone in another room, check only at scheduled break** | Study on phone to get used to format | Use screen time after midnight | **b** |
+| 9 | Stranger asks for school name + class photo — what to do? | Share it if in educational group | Share school name only | **Share neither — tell a parent or teacher about the request** | Ask why they need it first | **c** |
+| 10 | What does "think before you post" mean? | Extra time designing thumbnail | **Content is permanent + spreadable — apply teacher/parent/employer test before posting** | Only post during thinking time | Think about whether post will get likes | **b** |
+
+---
+
+### Lessons 9–12 — Coming Soon
 
 | Lesson | Title | Status |
 |--------|-------|--------|
-| 8 | Digital Citizenship and AI | Coming Soon |
+| 9 | AI and Creativity | Coming Soon |
 | 9 | AI and Creativity | Coming Soon |
 | 10 | When AI Gets It Wrong | Coming Soon |
 | 11 | AI Careers in India | Coming Soon |
@@ -276,4 +310,4 @@ Hub page: `content/students/class-06/class-06.html`
 
 ---
 
-*Last updated: 08 May 2026 · Lessons 1–7 live · This document grows with each new lesson.*
+*Last updated: 08 May 2026 · Lessons 1–8 live · This document grows with each new lesson.*

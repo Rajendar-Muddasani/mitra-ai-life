@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 4 — Transformers and Attention | Class 10 | Mitra AI Life</title>
+<meta name="description" content="Class 10 Lesson 4: Understand how transformers work — attention mechanisms, self-attention, BERT vs GPT, and why transformers replaced RNNs for text and vision." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-10/lesson-04.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#059669" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 4 — Transformers and Attention | Class 10 | Mitra AI Life" />
+<meta property="og:description" content="Class 10 Lesson 4: Understand how transformers work — attention mechanisms, self-attention, BERT vs GPT, and why transformers replaced RNNs for text and vision." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-10/lesson-04.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#ecfdf5;color:#064e3b;line-height:1.7}
+a{color:#059669;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#6ee7b7}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#6ee7b7}
+.lesson-hero{background:linear-gradient(135deg,#064e3b,#065f46,#059669);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.story-panel{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-left:5px solid #059669;border-radius:0 16px 16px 0;padding:1.5rem 1.5rem;margin:2rem 0;position:relative}
+.story-panel::before{content:'📖';position:absolute;top:-14px;left:16px;font-size:1.4rem}
+.story-panel .sp-label{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#059669;margin-bottom:.4rem}
+.story-panel p{font-size:.95rem;color:#064e3b;margin-bottom:.6rem}
+.story-panel p:last-child{margin-bottom:0}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#059669;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#064e3b;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#065f46;margin-bottom:.9rem}
+.lesson-section ul,.lesson-section ol{font-size:.93rem;color:#065f46;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.amber{background:#fffbeb;border-left:4px solid #f59e0b;color:#78350f}
+.callout.blue{background:#eff6ff;border-left:4px solid #3b82f6;color:#1e3a8a}
+/* Attention heatmap */
+.attn-table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.75rem}
+.attn-table th{padding:.4rem .5rem;font-weight:800;color:#064e3b;background:#ecfdf5;border:1px solid #a7f3d0}
+.attn-table td{padding:.4rem .5rem;border:1px solid #a7f3d0;text-align:center;font-weight:700;font-size:.72rem}
+/* BERT vs GPT */
+.bg-compare{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0}
+.bg-card{background:#fff;border:1.5px solid #a7f3d0;border-radius:12px;padding:1rem}
+.bg-card.bert{border-color:#3b82f6}
+.bg-card.gpt{border-color:#f59e0b}
+.bg-card .bc-title{font-weight:800;font-size:.88rem;color:#064e3b;margin-bottom:.4rem}
+.bg-card .bc-tag{font-size:.7rem;font-weight:800;padding:.15rem .5rem;border-radius:6px;display:inline-block;margin-bottom:.4rem}
+.bg-card.bert .bc-tag{background:#dbeafe;color:#1d4ed8}
+.bg-card.gpt .bc-tag{background:#fef3c7;color:#92400e}
+.bg-card ul{font-size:.78rem;color:#065f46;padding-left:1.2rem}
+.bg-card li{margin-bottom:.3rem}
+.code-block{background:#1e293b;border-radius:12px;padding:1.2rem 1.4rem;margin:1rem 0;overflow-x:auto}
+.code-block pre{font-family:'Courier New',Courier,monospace;font-size:.82rem;color:#e2e8f0;line-height:1.6;margin:0;white-space:pre-wrap}
+.quiz-section{background:#fff;border:2px solid #059669;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#064e3b;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#064e3b;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:center;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #a7f3d0;background:#ecfdf5;font-size:.88rem;color:#064e3b;transition:border-color .15s}
+.quiz-opt:hover{border-color:#059669}
+.quiz-opt.selected{border-color:#059669;background:#ecfdf5;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#059669;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#047857}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #059669;color:#059669}
+.lesson-nav .btn-next{background:#059669;color:#fff}
+.lesson-nav .btn-prev:hover{background:#ecfdf5}
+.lesson-nav .btn-next:hover{background:#047857}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.bg-compare{grid-template-columns:1fr}.attn-table{font-size:.65rem}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-10.html" class="active">Class 10</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-10.html">Class 10</a> → Lesson 4</div>
+  <h1>Transformers and Attention 🔮</h1>
+  <div class="meta">
+    <span>Class 10</span><span>Age 14–15</span><span>Lesson 4 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-10/lesson-04-hero.jpg" alt="Student in Srinagar studying transformer architecture on laptop — attention weight heatmap visualization on screen" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="sp-label">Meet Zara — Class 10, Srinagar</div>
+    <p>Zara loves Kashmiri poetry — ghazals, shayari, folk songs. She wanted to build a tool that could translate Kashmiri poetry to Hindi while preserving the feeling, not just the words. She tried Google Translate but the nuance was always lost.</p>
+    <p>Her AI teacher explained: "Old sequence models process words one-by-one and forget context from the beginning of a long poem by the time they reach the end. Transformers read the entire poem at once and use 'attention' to link words across any distance — even the first line to the last." Zara was fascinated. "So when it reads 'river', it knows to connect it to 'longing' twenty words later?" "Exactly."</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">The Problem with RNNs</div>
+    <div class="ls-title">Why Sequence Models Struggled</div>
+    <p>Before transformers, text was processed by Recurrent Neural Networks (RNNs) and LSTMs. They process tokens one at a time, left-to-right, carrying a "hidden state" forward.</p>
+    <ul>
+      <li><strong>Vanishing gradient:</strong> Gradients shrink as they flow back through many time steps. The model forgets early context when processing long sequences.</li>
+      <li><strong>No parallelisation:</strong> Each token must wait for the previous one. You can't use GPU parallelism — training is slow.</li>
+      <li><strong>Long-range dependency failure:</strong> In the sentence "The musical group that won the prize after competing for ten years <u>were</u> happy" — "group" and "were" are far apart. RNNs often get the agreement wrong.</li>
+    </ul>
+    <p>The 2017 paper "Attention Is All You Need" (Vaswani et al.) introduced the Transformer, which fixed all three problems at once.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Core Mechanism</div>
+    <div class="ls-title">The Attention Mechanism Explained</div>
+    <p>Attention lets each token "look at" every other token in the sequence simultaneously and decide how much to weight each one. Imagine reading the sentence: "The apple trees in the valley <strong>it</strong> grew in were beautiful."</p>
+    <p>When processing "it", attention asks: which word does "it" refer to? The model looks at all previous words, assigns high weight to "valley" and "apple trees", and low weight to "grew" and "were".</p>
+    <p><strong>Self-attention uses three learned matrices:</strong></p>
+    <ul>
+      <li><strong>Query (Q):</strong> "What am I looking for?" — represents the current token asking a question.</li>
+      <li><strong>Key (K):</strong> "What do I have to offer?" — represents each other token's "identity".</li>
+      <li><strong>Value (V):</strong> "What information do I carry?" — the actual content to aggregate if attended to.</li>
+    </ul>
+    <div class="callout blue">
+      The attention score between token i and token j is computed as:
+      $$\text{Attention}(Q, K, V) = \text{softmax}\!\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
+      Dividing by $\sqrt{d_k}$ prevents very large dot products when the embedding dimension is high.
+    </div>
+    <!-- Attention heatmap example -->
+    <p>Below is a simplified attention weight heatmap for the sentence "The river in Srinagar flows swiftly":</p>
+    <div style="overflow-x:auto">
+    <table class="attn-table">
+      <thead>
+        <tr><th></th><th>The</th><th>river</th><th>in</th><th>Srinagar</th><th>flows</th><th>swiftly</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>The</strong></td><td style="background:#6ee7b7">0.52</td><td style="background:#a7f3d0">0.21</td><td style="background:#d1fae5">0.09</td><td style="background:#d1fae5">0.07</td><td style="background:#ecfdf5">0.06</td><td style="background:#ecfdf5">0.05</td></tr>
+        <tr><td><strong>river</strong></td><td style="background:#a7f3d0">0.18</td><td style="background:#6ee7b7">0.44</td><td style="background:#d1fae5">0.11</td><td style="background:#34d399">0.17</td><td style="background:#d1fae5">0.06</td><td style="background:#ecfdf5">0.04</td></tr>
+        <tr><td><strong>in</strong></td><td style="background:#ecfdf5">0.06</td><td style="background:#a7f3d0">0.22</td><td style="background:#6ee7b7">0.38</td><td style="background:#6ee7b7">0.28</td><td style="background:#ecfdf5">0.04</td><td style="background:#ecfdf5">0.02</td></tr>
+        <tr><td><strong>Srinagar</strong></td><td style="background:#ecfdf5">0.05</td><td style="background:#34d399">0.29</td><td style="background:#d1fae5">0.14</td><td style="background:#059669;color:#fff">0.41</td><td style="background:#ecfdf5">0.07</td><td style="background:#ecfdf5">0.04</td></tr>
+        <tr><td><strong>flows</strong></td><td style="background:#ecfdf5">0.06</td><td style="background:#34d399">0.31</td><td style="background:#ecfdf5">0.08</td><td style="background:#a7f3d0">0.19</td><td style="background:#6ee7b7">0.27</td><td style="background:#d1fae5">0.09</td></tr>
+        <tr><td><strong>swiftly</strong></td><td style="background:#ecfdf5">0.04</td><td style="background:#a7f3d0">0.17</td><td style="background:#ecfdf5">0.05</td><td style="background:#d1fae5">0.09</td><td style="background:#34d399">0.38</td><td style="background:#6ee7b7">0.27</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Read each row as: "When processing this word, how much attention is paid to each other word?" Darker green = higher attention. Notice "flows" attends strongly to "river" — it knows what is flowing.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Architecture Details</div>
+    <div class="ls-title">Multi-Head Attention and Positional Encoding</div>
+    <p><strong>Multi-head attention:</strong> Run attention multiple times in parallel with different Q, K, V weight matrices. Each "head" learns to attend to different kinds of relationships. For example, one head might track subject-verb agreement, another tracks coreference (pronoun → noun).</p>
+    <p><strong>Positional encoding:</strong> Since transformers process all tokens in parallel, there's no inherent sense of order. Positional encodings are added to token embeddings to inject position information using sine and cosine functions at different frequencies.</p>
+    <div class="code-block"><pre># Visualising Attention with HuggingFace Transformers — Google Colab
+!pip install transformers bertviz -q
+
+from transformers import BertTokenizer, BertModel
+from bertviz import head_view
+import torch
+
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+model     = BertModel.from_pretrained('bert-base-uncased', output_attentions=True)
+
+sentence = "The river in Srinagar flows swiftly through the valley"
+inputs   = tokenizer(sentence, return_tensors='pt')
+
+with torch.no_grad():
+    outputs = model(**inputs)
+
+attention = outputs.attentions      # tuple of (layer, batch, heads, seq, seq)
+tokens    = tokenizer.convert_ids_to_tokens(inputs['input_ids'][0])
+
+print(f"Layers: {len(attention)}")  # 12 layers in BERT-base
+print(f"Heads per layer: {attention[0].shape[1]}")   # 12 heads
+print(f"Sequence length: {attention[0].shape[-1]}")  # tokens
+
+# Interactive visualisation — run in Colab to see coloured attention arcs
+head_view(attention, tokens)</pre></div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">BERT vs GPT</div>
+    <div class="ls-title">Two Transformer Architectures</div>
+    <div class="bg-compare">
+      <div class="bg-card bert">
+        <div class="bc-tag">Encoder-only</div>
+        <div class="bc-title">BERT (Bidirectional)</div>
+        <ul>
+          <li>Reads entire sentence left ↔ right simultaneously</li>
+          <li>Pre-trained with Masked Language Model (MLM) — predict hidden words</li>
+          <li>Great for: classification, NER, QA, sentiment</li>
+          <li>Used in: Google Search, many Indian NLP tools</li>
+          <li>Can't generate new text</li>
+        </ul>
+      </div>
+      <div class="bg-card gpt">
+        <div class="bc-tag">Decoder-only</div>
+        <div class="bc-title">GPT (Auto-regressive)</div>
+        <ul>
+          <li>Reads left → right only (causal masking)</li>
+          <li>Pre-trained by predicting next token</li>
+          <li>Great for: text generation, code, chatbots</li>
+          <li>Used in: ChatGPT, GitHub Copilot</li>
+          <li>Can generate fluent, long-form text</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout amber">
+      <strong>The full transformer</strong> (encoder + decoder) is used for sequence-to-sequence tasks like translation and summarisation. BERT uses only the encoder; GPT uses only the decoder. For translation, you'd use a model like T5 or mBART (encoder-decoder).
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>🧪 Check Your Understanding — Lesson 4 Quiz</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. The main problem with RNNs that transformers solve is:</div>
+        <div class="quiz-opt" data-opt="a">a) RNNs can only process images, not text</div>
+        <div class="quiz-opt" data-opt="b">b) RNNs struggle with long-range dependencies due to vanishing gradients and cannot be parallelised, making them slow on long sequences</div>
+        <div class="quiz-opt" data-opt="c">c) RNNs require too much labelled data</div>
+        <div class="quiz-opt" data-opt="d">d) RNNs produce bounding boxes instead of text</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. In self-attention, the "Query" vector represents:</div>
+        <div class="quiz-opt" data-opt="a">a) The database of all training examples</div>
+        <div class="quiz-opt" data-opt="b">b) The current token asking "which other tokens should I attend to?"</div>
+        <div class="quiz-opt" data-opt="c">c) The output label for classification</div>
+        <div class="quiz-opt" data-opt="d">d) The gradient update direction</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. Why is attention score divided by √d_k before softmax?</div>
+        <div class="quiz-opt" data-opt="a">a) To convert attention scores from degrees to radians</div>
+        <div class="quiz-opt" data-opt="b">b) To ensure all attention scores sum to exactly 1</div>
+        <div class="quiz-opt" data-opt="c">c) To prevent very large dot products when embedding dimension is high — large values would push softmax into near-zero gradient regions</div>
+        <div class="quiz-opt" data-opt="d">d) To speed up matrix multiplication on GPU</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. Multi-head attention uses multiple Q, K, V projections in parallel because:</div>
+        <div class="quiz-opt" data-opt="a">a) It reduces memory usage by splitting computation</div>
+        <div class="quiz-opt" data-opt="b">b) Each head can learn to attend to different kinds of relationships simultaneously — e.g., one head for syntax, another for coreference</div>
+        <div class="quiz-opt" data-opt="c">c) It is required to make the model work on multiple languages</div>
+        <div class="quiz-opt" data-opt="d">d) Each head handles one sentence at a time</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. Positional encoding is added to transformer input because:</div>
+        <div class="quiz-opt" data-opt="a">a) Transformers process all tokens in parallel and have no inherent sense of word order — positional encodings inject this information</div>
+        <div class="quiz-opt" data-opt="b">b) It converts words to numbers for the model</div>
+        <div class="quiz-opt" data-opt="c">c) It normalises token embeddings to unit length</div>
+        <div class="quiz-opt" data-opt="d">d) It assigns attention weights based on word frequency</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. BERT is described as "bidirectional" because:</div>
+        <div class="quiz-opt" data-opt="a">a) It can generate text forwards and backwards</div>
+        <div class="quiz-opt" data-opt="b">b) It reads text in both Devanagari and Latin scripts</div>
+        <div class="quiz-opt" data-opt="c">c) Its encoder attention can attend to tokens on both the left and right simultaneously — unlike GPT which is causal (left-to-right only)</div>
+        <div class="quiz-opt" data-opt="d">d) It has two separate models that are merged</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. GPT-style models are better suited than BERT for:</div>
+        <div class="quiz-opt" data-opt="a">a) Sentence classification tasks like spam detection</div>
+        <div class="quiz-opt" data-opt="b">b) Named Entity Recognition (NER)</div>
+        <div class="quiz-opt" data-opt="c">c) Text generation tasks — writing stories, answering open-ended questions, code generation — because they predict the next token autoregressively</div>
+        <div class="quiz-opt" data-opt="d">d) Object detection in images</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. The landmark paper that introduced the transformer architecture is titled:</div>
+        <div class="quiz-opt" data-opt="a">a) "Deep Residual Learning for Image Recognition"</div>
+        <div class="quiz-opt" data-opt="b">b) "Generative Adversarial Networks"</div>
+        <div class="quiz-opt" data-opt="c">c) "Attention Is All You Need"</div>
+        <div class="quiz-opt" data-opt="d">d) "BERT: Pre-training of Deep Bidirectional Transformers"</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Answers</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-03.html" class="btn-prev">← Lesson 3: Object Detection</a>
+    <a href="lesson-05.html" class="btn-next">Lesson 5: Fine-Tuning LLMs →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-10.html">Class 10</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'c',4:'b',5:'a',6:'c',7:'c',8:'c'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q]) o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=75){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — You understand the architecture that powers every modern LLM including ChatGPT!`;}
+  else if(pct>=50){res.className='quiz-result ok';res.textContent=`Good! ${score}/${total} (${pct}%) — Re-read the Q/K/V section and the BERT vs GPT comparison.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Run the bertviz attention visualisation in Colab — seeing attention weights light up for real sentences makes everything concrete.`;}
+  gtag('event','quiz_complete',{event_category:'class10',event_label:'class10_lesson04_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"Transformers and Attention — Class 10 Lesson 4",
+  "description":"Understand how transformers work — attention mechanisms, self-attention, BERT vs GPT, and why transformers replaced RNNs for text and vision.",
+  "url":"https://mitraailife.com/content/students/class-10/lesson-04.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Class 10",
+  "typicalAgeRange":"14-15",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

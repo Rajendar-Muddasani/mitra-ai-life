@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 2 — Image Classification with Transfer Learning | Class 10 | Mitra AI Life</title>
+<meta name="description" content="Class 10 Lesson 2: Use transfer learning to fine-tune MobileNetV2 on your own images in Google Colab. Achieve 90%+ accuracy with a small dataset in minutes." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-10/lesson-02.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#059669" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 2 — Image Classification with Transfer Learning | Class 10 | Mitra AI Life" />
+<meta property="og:description" content="Class 10 Lesson 2: Use transfer learning to fine-tune MobileNetV2 on your own images in Google Colab. Achieve 90%+ accuracy with a small dataset in minutes." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-10/lesson-02.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#ecfdf5;color:#064e3b;line-height:1.7}
+a{color:#059669;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#6ee7b7}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#6ee7b7}
+.lesson-hero{background:linear-gradient(135deg,#064e3b,#065f46,#059669);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.story-panel{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-left:5px solid #059669;border-radius:0 16px 16px 0;padding:1.5rem 1.5rem;margin:2rem 0;position:relative}
+.story-panel::before{content:'📖';position:absolute;top:-14px;left:16px;font-size:1.4rem}
+.story-panel .sp-label{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#059669;margin-bottom:.4rem}
+.story-panel p{font-size:.95rem;color:#064e3b;margin-bottom:.6rem}
+.story-panel p:last-child{margin-bottom:0}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#059669;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#064e3b;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#065f46;margin-bottom:.9rem}
+.lesson-section ul,.lesson-section ol{font-size:.93rem;color:#065f46;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.amber{background:#fffbeb;border-left:4px solid #f59e0b;color:#78350f}
+.callout.blue{background:#eff6ff;border-left:4px solid #3b82f6;color:#1e3a8a}
+/* Transfer learning diagram */
+.tl-diagram{display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;margin:1rem 0}
+.tl-box{background:#fff;border:1.5px solid #a7f3d0;border-radius:14px;padding:1rem 1.2rem;flex:1;min-width:220px;max-width:300px}
+.tl-box .tb-icon{font-size:1.4rem;margin-bottom:.4rem}
+.tl-box .tb-title{font-weight:800;color:#064e3b;font-size:.88rem;margin-bottom:.4rem}
+.tl-box .tb-desc{font-size:.78rem;color:#065f46}
+.tl-box.frozen{border-color:#fcd34d;background:#fffbeb}
+.tl-box.trainable{border-color:#86efac;background:#f0fdf4}
+.code-block{background:#1e293b;border-radius:12px;padding:1.2rem 1.4rem;margin:1rem 0;overflow-x:auto}
+.code-block pre{font-family:'Courier New',Courier,monospace;font-size:.82rem;color:#e2e8f0;line-height:1.6;margin:0;white-space:pre-wrap}
+.quiz-section{background:#fff;border:2px solid #059669;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#064e3b;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#064e3b;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:center;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #a7f3d0;background:#ecfdf5;font-size:.88rem;color:#064e3b;transition:border-color .15s}
+.quiz-opt:hover{border-color:#059669}
+.quiz-opt.selected{border-color:#059669;background:#ecfdf5;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#059669;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#047857}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #059669;color:#059669}
+.lesson-nav .btn-next{background:#059669;color:#fff}
+.lesson-nav .btn-prev:hover{background:#ecfdf5}
+.lesson-nav .btn-next:hover{background:#047857}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.tl-diagram{flex-direction:column}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-10.html" class="active">Class 10</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-10.html">Class 10</a> → Lesson 2</div>
+  <h1>Image Classification with Transfer Learning 🖼️</h1>
+  <div class="meta">
+    <span>Class 10</span><span>Age 14–15</span><span>Lesson 2 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-10/lesson-02-hero.jpg" alt="Student in Bengaluru looking at transfer learning diagram on laptop — MobileNet layers visualised, custom classification head shown" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="sp-label">Meet Kiran — Class 10, Bengaluru</div>
+    <p>Kiran wants to build an app that identifies Karnataka flowers — jasmine, rose, hibiscus, lotus, and champaka. She has about 200 photos per flower species collected from her garden and nearby parks. She tried training a CNN from scratch (Lesson 1 approach) and after 30 epochs got only 60% accuracy. "200 photos is just not enough," she thought.</p>
+    <p>Her uncle at an AI company said: "Use transfer learning. MobileNetV2 was trained on 1.4 million ImageNet photos. It already knows how to detect edges, textures, petals, and colour gradients. You just need to teach it the difference between Karnataka flowers. 20 minutes in Colab." Kiran followed his advice — and hit 92% accuracy.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">The Core Idea</div>
+    <div class="ls-title">What Is Transfer Learning?</div>
+    <p>Transfer learning means taking a model that was trained on a large dataset and <strong>reusing its learned features</strong> for a new, smaller task. Instead of learning filters from scratch, you start from filters that already know about shapes, textures, and patterns from millions of images.</p>
+    <div class="tl-diagram">
+      <div class="tl-box frozen">
+        <div class="tb-icon">🧊</div>
+        <div class="tb-title">Frozen Base Model (MobileNetV2)</div>
+        <div class="tb-desc">~150 layers pre-trained on ImageNet 1.4M images. <strong>Weights are locked</strong> — we don't retrain these. They already know how to extract features from images.</div>
+      </div>
+      <div class="tl-box trainable">
+        <div class="tb-icon">🔥</div>
+        <div class="tb-title">Trainable Classification Head</div>
+        <div class="tb-desc">A new Dense layer you add on top. <strong>Only these weights are trained</strong> on your small dataset. Very fast — only a few thousand parameters.</div>
+      </div>
+    </div>
+    <div class="callout blue">
+      <strong>Why this works:</strong> The early layers of any CNN trained on natural images detect the same things — edges, textures, colour blobs. Whether the image is a dog or a flower, the low-level features are the same. Transfer learning reuses this shared knowledge.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Popular Pre-trained Models</div>
+    <div class="ls-title">Which Base Model to Choose</div>
+    <ul>
+      <li><strong>MobileNetV2</strong> — Very small, fast, runs on mobile phones. Great for projects where you need to deploy on edge devices (like a phone app). ~3.4M parameters.</li>
+      <li><strong>ResNet50</strong> — Larger, more powerful, introduces skip connections to allow training very deep networks. Good general-purpose baseline.</li>
+      <li><strong>EfficientNetB0–B7</strong> — Currently the best accuracy-to-size ratio. EfficientNetB0 is an excellent default for most student projects.</li>
+      <li><strong>VGG16</strong> — Older but easy to understand conceptually. Large (138M params) — not recommended for limited hardware.</li>
+    </ul>
+    <p>All available in <code>tensorflow.keras.applications</code> — pre-downloaded with ImageNet weights in one line.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Full Code</div>
+    <div class="ls-title">Fine-Tune MobileNetV2 on Your Own Images</div>
+    <div class="code-block"><pre># Transfer Learning with MobileNetV2 — Google Colab
+# Example: Flower classifier (or replace with any image dataset)
+
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+from tensorflow.keras.applications import MobileNetV2
+import matplotlib.pyplot as plt
+import numpy as np
+
+# ── Step 1: Load dataset ──
+# Using tf_flowers dataset as a stand-in for your own photos
+# For your own images, use ImageDataGenerator.flow_from_directory()
+import tensorflow_datasets as tfds
+
+(ds_train, ds_val, ds_test), info = tfds.load(
+    'tf_flowers',
+    split=['train[:70%]', 'train[70%:85%]', 'train[85%:]'],
+    as_supervised=True,
+    with_info=True
+)
+NUM_CLASSES = info.features['label'].num_classes  # 5 flower types
+print(f"Classes: {info.features['label'].names}")
+
+# ── Step 2: Preprocess (resize and normalise) ──
+IMG_SIZE = 224  # MobileNetV2 expects 224×224
+
+def preprocess(image, label):
+    image = tf.image.resize(image, [IMG_SIZE, IMG_SIZE])
+    image = tf.cast(image, tf.float32) / 255.0
+    return image, label
+
+BATCH_SIZE = 32
+ds_train = ds_train.map(preprocess).shuffle(1000).batch(BATCH_SIZE).prefetch(1)
+ds_val   = ds_val.map(preprocess).batch(BATCH_SIZE).prefetch(1)
+ds_test  = ds_test.map(preprocess).batch(BATCH_SIZE).prefetch(1)
+
+# ── Step 3: Load MobileNetV2 base (frozen) ──
+base_model = MobileNetV2(
+    input_shape=(IMG_SIZE, IMG_SIZE, 3),
+    include_top=False,    # remove ImageNet classification head
+    weights='imagenet'    # download pre-trained weights
+)
+base_model.trainable = False  # FREEZE — don't retrain these layers
+print(f"Base model parameters: {base_model.count_params():,}")
+
+# ── Step 4: Add classification head ──
+inputs  = keras.Input(shape=(IMG_SIZE, IMG_SIZE, 3))
+x       = base_model(inputs, training=False)  # frozen base
+x       = layers.GlobalAveragePooling2D()(x)  # pool feature maps → 1D vector
+x       = layers.Dense(128, activation='relu')(x)
+x       = layers.Dropout(0.3)(x)
+outputs = layers.Dense(NUM_CLASSES, activation='softmax')(x)
+
+model = keras.Model(inputs, outputs)
+model.compile(
+    optimizer='adam',
+    loss='sparse_categorical_crossentropy',
+    metrics=['accuracy']
+)
+print(f"Trainable parameters: {sum([tf.size(w).numpy() for w in model.trainable_variables]):,}")
+
+# ── Step 5: Phase 1 — Train the head only ──
+print("\nPhase 1: Training classification head...")
+history1 = model.fit(ds_train, epochs=5, validation_data=ds_val)
+
+# ── Step 6: Phase 2 — Fine-tune top layers of base model ──
+# Unfreeze the top 30 layers for fine-tuning
+base_model.trainable = True
+for layer in base_model.layers[:-30]:
+    layer.trainable = False
+
+# Recompile with a lower learning rate (important!)
+model.compile(
+    optimizer=keras.optimizers.Adam(learning_rate=1e-5),
+    loss='sparse_categorical_crossentropy',
+    metrics=['accuracy']
+)
+
+print("\nPhase 2: Fine-tuning top layers...")
+history2 = model.fit(ds_train, epochs=10, validation_data=ds_val)
+
+# ── Step 7: Evaluate on test set ──
+test_loss, test_acc = model.evaluate(ds_test)
+print(f"\nTest accuracy after fine-tuning: {test_acc:.2%}")
+
+# ── Step 8: Predict on a single image ──
+flower_names = info.features['label'].names
+for images, labels in ds_test.take(1):
+    preds = model.predict(images[:5])
+    for i in range(5):
+        print(f"Predicted: {flower_names[np.argmax(preds[i])]:15s}  "
+              f"Actual: {flower_names[labels[i].numpy()]}")</pre></div>
+    <div class="callout green">
+      <strong>Typical results:</strong> Phase 1 alone (5 epochs, head only) → ~80–85% accuracy. After Phase 2 fine-tuning (10 more epochs) → 90–95% on flowers. Training time in Colab (T4 GPU): under 15 minutes.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Using Your Own Photos</div>
+    <div class="ls-title">Folder Structure for Custom Datasets</div>
+    <div class="code-block"><pre># If you have your own images, organise them like this:
+#
+# my_dataset/
+# ├── train/
+# │   ├── healthy/       (put healthy fruit photos here)
+# │   ├── diseased/      (put diseased fruit photos here)
+# │   └── unripe/
+# ├── val/
+# │   ├── healthy/
+# │   ├── diseased/
+# │   └── unripe/
+# └── test/
+#     ├── healthy/
+#     ├── diseased/
+#     └── unripe/
+
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+
+# Augment training images to improve generalisation
+train_datagen = ImageDataGenerator(
+    rescale=1./255,
+    rotation_range=20,
+    horizontal_flip=True,
+    zoom_range=0.2,
+    shear_range=0.1
+)
+val_datagen = ImageDataGenerator(rescale=1./255)
+
+train_gen = train_datagen.flow_from_directory(
+    'my_dataset/train',
+    target_size=(224, 224),
+    batch_size=32,
+    class_mode='sparse'
+)
+val_gen = val_datagen.flow_from_directory(
+    'my_dataset/val',
+    target_size=(224, 224),
+    batch_size=32,
+    class_mode='sparse'
+)
+
+# Replace ds_train / ds_val with train_gen / val_gen in model.fit()
+# Google Colab: upload zip of your dataset with files.upload() or mount Google Drive</pre></div>
+    <div class="callout amber">
+      <strong>How many photos do you need?</strong> With transfer learning: 100–200 per class often works. Without it: 2,000–5,000+ per class. This is the practical power of transfer learning for student projects.
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>🧪 Check Your Understanding — Lesson 2 Quiz</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. In transfer learning, `base_model.trainable = False` means:</div>
+        <div class="quiz-opt" data-opt="a">a) The model cannot be used for predictions</div>
+        <div class="quiz-opt" data-opt="b">b) The pre-trained base model's weights are frozen — they won't be updated during training on your dataset</div>
+        <div class="quiz-opt" data-opt="c">c) The model will train faster because no GPU is needed</div>
+        <div class="quiz-opt" data-opt="d">d) The model uses random initial weights</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. Why is Phase 2 fine-tuning (unfreezing top layers) compiled with a much lower learning rate (1e-5)?</div>
+        <div class="quiz-opt" data-opt="a">a) Lower learning rate is always better for all training phases</div>
+        <div class="quiz-opt" data-opt="b">b) To avoid catastrophically overwriting the valuable pre-trained features — small updates nudge the weights rather than destroying them</div>
+        <div class="quiz-opt" data-opt="c">c) Because the dataset is small and a high learning rate would crash Colab</div>
+        <div class="quiz-opt" data-opt="d">d) Lower learning rate makes the model use less memory</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. `include_top=False` when loading MobileNetV2 means:</div>
+        <div class="quiz-opt" data-opt="a">a) Only the top 10 layers are loaded</div>
+        <div class="quiz-opt" data-opt="b">b) The pre-trained ImageNet classification head (1000-class output) is removed, leaving only the feature extraction layers</div>
+        <div class="quiz-opt" data-opt="c">c) The model runs without a GPU</div>
+        <div class="quiz-opt" data-opt="d">d) The base model's weights are not downloaded</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. GlobalAveragePooling2D() is used in the classification head because:</div>
+        <div class="quiz-opt" data-opt="a">a) It applies a softmax activation to the output</div>
+        <div class="quiz-opt" data-opt="b">b) It converts the 3D feature volume output of the base model into a 1D vector suitable for a Dense layer, with fewer parameters than Flatten</div>
+        <div class="quiz-opt" data-opt="c">c) It normalises pixel values to 0–1</div>
+        <div class="quiz-opt" data-opt="d">d) It applies data augmentation during training</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. MobileNetV2 is preferred over VGG16 for student projects on small hardware because:</div>
+        <div class="quiz-opt" data-opt="a">a) VGG16 is too old and no longer available in Keras</div>
+        <div class="quiz-opt" data-opt="b">b) MobileNetV2 is designed for efficiency — far fewer parameters (~3.4M vs ~138M), runs faster, uses less memory, and can even be deployed on mobile devices</div>
+        <div class="quiz-opt" data-opt="c">c) MobileNetV2 was trained on more images than VGG16</div>
+        <div class="quiz-opt" data-opt="d">d) VGG16 doesn't support image classification tasks</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. In `ImageDataGenerator`, `horizontal_flip=True` is used to:</div>
+        <div class="quiz-opt" data-opt="a">a) Mirror images so the model learns that a flipped flower is still a flower — increases effective dataset size</div>
+        <div class="quiz-opt" data-opt="b">b) Flip labels so the model sees balanced classes</div>
+        <div class="quiz-opt" data-opt="c">c) Convert colour images to greyscale</div>
+        <div class="quiz-opt" data-opt="d">d) Rotate images by exactly 180 degrees</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. Why is `flow_from_directory` useful for custom image datasets?</div>
+        <div class="quiz-opt" data-opt="a">a) It automatically labels images based on their pixel colours</div>
+        <div class="quiz-opt" data-opt="b">b) It reads images from a folder structure where each subfolder is a class — labels are inferred from folder names, no manual CSV needed</div>
+        <div class="quiz-opt" data-opt="c">c) It uploads images to AWS S3 automatically</div>
+        <div class="quiz-opt" data-opt="d">d) It works only with black and white images</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. Transfer learning is most useful when:</div>
+        <div class="quiz-opt" data-opt="a">a) You have millions of labelled images and plenty of compute</div>
+        <div class="quiz-opt" data-opt="b">b) Your task is completely unlike anything in the pre-trained dataset</div>
+        <div class="quiz-opt" data-opt="c">c) You have a small dataset (100–1000 images per class) for a visual task similar to natural images — transfer learning dramatically outperforms training from scratch</div>
+        <div class="quiz-opt" data-opt="d">d) You are working with tabular data, not images</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Answers</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-01.html" class="btn-prev">← Lesson 1: CNNs</a>
+    <a href="lesson-03.html" class="btn-next">Lesson 3: Object Detection →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-10.html">Class 10</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'a',7:'b',8:'c'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q]) o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=75){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — You can now build a real image classifier with 90%+ accuracy using transfer learning!`;}
+  else if(pct>=50){res.className='quiz-result ok';res.textContent=`Good! ${score}/${total} (${pct}%) — Review the two training phases and why the learning rate changes.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Run the Colab code with tf_flowers first, then replace with your own photos. Hands-on builds the understanding.`;}
+  gtag('event','quiz_complete',{event_category:'class10',event_label:'class10_lesson02_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"Image Classification with Transfer Learning — Class 10 Lesson 2",
+  "description":"Use transfer learning to fine-tune MobileNetV2 on your own images in Google Colab. Achieve 90%+ accuracy with a small dataset in minutes.",
+  "url":"https://mitraailife.com/content/students/class-10/lesson-02.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Class 10",
+  "typicalAgeRange":"14-15",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

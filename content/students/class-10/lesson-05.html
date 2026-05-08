@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 5 — Fine-Tuning Language Models | Class 10 | Mitra AI Life</title>
+<meta name="description" content="Class 10 Lesson 5: Fine-tune BERT for sentiment classification on Indian review data using Hugging Face Transformers and Trainer API in Google Colab." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-10/lesson-05.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#059669" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 5 — Fine-Tuning Language Models | Class 10 | Mitra AI Life" />
+<meta property="og:description" content="Class 10 Lesson 5: Fine-tune BERT for sentiment classification on Indian review data using Hugging Face Transformers and Trainer API in Google Colab." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-10/lesson-05.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#ecfdf5;color:#064e3b;line-height:1.7}
+a{color:#059669;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#6ee7b7}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#6ee7b7}
+.lesson-hero{background:linear-gradient(135deg,#064e3b,#065f46,#059669);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.story-panel{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-left:5px solid #059669;border-radius:0 16px 16px 0;padding:1.5rem 1.5rem;margin:2rem 0;position:relative}
+.story-panel::before{content:'📖';position:absolute;top:-14px;left:16px;font-size:1.4rem}
+.story-panel .sp-label{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#059669;margin-bottom:.4rem}
+.story-panel p{font-size:.95rem;color:#064e3b;margin-bottom:.6rem}
+.story-panel p:last-child{margin-bottom:0}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#059669;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#064e3b;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#065f46;margin-bottom:.9rem}
+.lesson-section ul,.lesson-section ol{font-size:.93rem;color:#065f46;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.amber{background:#fffbeb;border-left:4px solid #f59e0b;color:#78350f}
+.callout.blue{background:#eff6ff;border-left:4px solid #3b82f6;color:#1e3a8a}
+/* Approach comparison */
+.approach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1rem 0}
+.ap-card{background:#fff;border:1.5px solid #a7f3d0;border-radius:12px;padding:.9rem;text-align:center}
+.ap-card .apc-icon{font-size:1.4rem;margin-bottom:.3rem}
+.ap-card .apc-name{font-weight:800;color:#064e3b;font-size:.82rem;margin-bottom:.3rem}
+.ap-card .apc-pro{font-size:.72rem;color:#059669;margin-bottom:.2rem}
+.ap-card .apc-con{font-size:.72rem;color:#dc2626}
+.code-block{background:#1e293b;border-radius:12px;padding:1.2rem 1.4rem;margin:1rem 0;overflow-x:auto}
+.code-block pre{font-family:'Courier New',Courier,monospace;font-size:.82rem;color:#e2e8f0;line-height:1.6;margin:0;white-space:pre-wrap}
+.quiz-section{background:#fff;border:2px solid #059669;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#064e3b;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#064e3b;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:center;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #a7f3d0;background:#ecfdf5;font-size:.88rem;color:#064e3b;transition:border-color .15s}
+.quiz-opt:hover{border-color:#059669}
+.quiz-opt.selected{border-color:#059669;background:#ecfdf5;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#059669;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#047857}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #059669;color:#059669}
+.lesson-nav .btn-next{background:#059669;color:#fff}
+.lesson-nav .btn-prev:hover{background:#ecfdf5}
+.lesson-nav .btn-next:hover{background:#047857}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.approach-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-10.html" class="active">Class 10</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-10.html">Class 10</a> → Lesson 5</div>
+  <h1>Fine-Tuning Language Models 🔧</h1>
+  <div class="meta">
+    <span>Class 10</span><span>Age 14–15</span><span>Lesson 5 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-10/lesson-05-hero.jpg" alt="Student in Kolkata fine-tuning BERT on Indian e-commerce reviews, Hugging Face Trainer output shown on laptop screen" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="sp-label">Meet Rahul — Class 10, Kolkata</div>
+    <p>Rahul's family runs a small handicrafts shop on an Indian e-commerce platform. They receive hundreds of product reviews in Hinglish (Hindi-English mix) — but manually reading all of them to understand customer sentiment wastes hours every week. He wanted an AI to classify each review as positive, neutral, or negative automatically.</p>
+    <p>He tried using a ready-made sentiment model from Hugging Face — but it was trained on English movie reviews and completely missed sarcasm common in Hinglish ("Arey bahut badiya tha, item waste ho gaya" — "Oh very great, the item turned out to be waste"). He needed to fine-tune a model on actual Indian e-commerce language.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Three Approaches</div>
+    <div class="ls-title">Prompting vs Fine-Tuning vs Training from Scratch</div>
+    <div class="approach-grid">
+      <div class="ap-card">
+        <div class="apc-icon">💬</div>
+        <div class="apc-name">Prompting</div>
+        <div class="apc-pro">✅ No training, instant, flexible</div>
+        <div class="apc-con">❌ Unreliable for consistent output, costs API money, can't deploy offline</div>
+      </div>
+      <div class="ap-card">
+        <div class="apc-icon">🔧</div>
+        <div class="apc-name">Fine-Tuning</div>
+        <div class="apc-pro">✅ Accurate, consistent, can run offline, customised for your domain</div>
+        <div class="apc-con">❌ Needs labelled data (few hundred+), takes hours in Colab</div>
+      </div>
+      <div class="ap-card">
+        <div class="apc-icon">🏗️</div>
+        <div class="apc-name">Training from Scratch</div>
+        <div class="apc-pro">✅ Full control</div>
+        <div class="apc-con">❌ Needs billions of tokens, months of GPU time, not for students</div>
+      </div>
+    </div>
+    <p>For most real-world NLP problems, <strong>fine-tuning</strong> is the sweet spot. You get the benefit of a model pre-trained on billions of words, adapted to your specific task in hours.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Hugging Face Ecosystem</div>
+    <div class="ls-title">The Tools You Need</div>
+    <ul>
+      <li><strong>transformers library:</strong> Provides pre-trained models, tokenizers, and training infrastructure. 100,000+ models on the Hub.</li>
+      <li><strong>datasets library:</strong> Efficient loading and processing of NLP datasets. Many Indian language datasets available.</li>
+      <li><strong>Trainer API:</strong> High-level training loop — handles batching, evaluation, checkpointing. You provide model + data + config.</li>
+      <li><strong>AutoModel / AutoTokenizer:</strong> Load any model by name without knowing its exact class.</li>
+    </ul>
+    <div class="callout blue">
+      <strong>IndicBERT:</strong> A BERT model pre-trained on 12 Indian languages including Hindi, Bengali, Tamil, Telugu, Kannada, Malayalam, Gujarati, Punjabi, Marathi, Urdu, Assamese, and Odia. Available at <code>ai4bharat/indic-bert</code> on Hugging Face Hub — ideal for Indian NLP projects.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Full Code</div>
+    <div class="ls-title">Fine-Tune BERT for Sentiment Classification</div>
+    <div class="code-block"><pre># Fine-Tune BERT for Sentiment Analysis — Google Colab
+!pip install transformers datasets evaluate -q
+
+import numpy as np
+from datasets import Dataset, DatasetDict
+from transformers import (AutoTokenizer, AutoModelForSequenceClassification,
+                          TrainingArguments, Trainer)
+import evaluate
+
+# ── Step 1: Prepare a small labelled dataset ──
+# Real data: label Indian e-commerce reviews 0=negative 1=neutral 2=positive
+# Here we use a minimal demo set — in your project, collect 300–1000 reviews
+train_data = {
+    "text": [
+        "Product quality is excellent, very happy with purchase!",
+        "Delivery was very fast and packaging was great",
+        "Average product, nothing special but works fine",
+        "Totally waste of money, stopped working in 2 days",
+        "Bahut achha hai, bilkul sahi quality",           # Hindi
+        "Kaam nahi karta, paise doob gaye",               # Hindi
+        "Okay okay product, theek hai for this price",    # Hinglish
+        "Amazing value, will definitely buy again",
+        "Product is decent, delivery was late though",
+        "Complete fraud, never buying from this seller",
+        "Superb build quality, highly recommend",
+        "Not as described in photos, disappointing"
+    ],
+    "label": [2, 2, 1, 0, 2, 0, 1, 2, 1, 0, 2, 0]
+}
+test_data = {
+    "text": [
+        "Mast product hai yaar, full paisa vasool",        # Hinglish
+        "Bakwaas quality, return kar diya",                # Hinglish
+        "It's okay, average experience overall"
+    ],
+    "label": [2, 0, 1]
+}
+
+train_dataset = Dataset.from_dict(train_data)
+test_dataset  = Dataset.from_dict(test_data)
+dataset = DatasetDict({"train": train_dataset, "test": test_dataset})
+print(dataset)
+
+# ── Step 2: Load tokenizer ──
+# Use IndicBERT for Indian language text, or bert-base-multilingual-cased
+MODEL_NAME = "ai4bharat/indic-bert"
+# MODEL_NAME = "bert-base-multilingual-cased"  # fallback if above is slow
+
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+
+def tokenize(examples):
+    return tokenizer(examples["text"], padding="max_length",
+                     truncation=True, max_length=128)
+
+tokenized = dataset.map(tokenize, batched=True)
+print("Sample tokens:", tokenized["train"][0].keys())
+
+# ── Step 3: Load model with classification head ──
+NUM_LABELS = 3  # negative / neutral / positive
+model = AutoModelForSequenceClassification.from_pretrained(
+    MODEL_NAME, num_labels=NUM_LABELS
+)
+
+# ── Step 4: Set up evaluation metric ──
+accuracy_metric = evaluate.load("accuracy")
+
+def compute_metrics(eval_pred):
+    logits, labels = eval_pred
+    predictions = np.argmax(logits, axis=-1)
+    return accuracy_metric.compute(predictions=predictions, references=labels)
+
+# ── Step 5: Configure training ──
+training_args = TrainingArguments(
+    output_dir="./sentiment_model",
+    num_train_epochs=5,
+    per_device_train_batch_size=4,
+    per_device_eval_batch_size=4,
+    warmup_steps=10,
+    weight_decay=0.01,
+    logging_dir="./logs",
+    evaluation_strategy="epoch",
+    save_strategy="epoch",
+    load_best_model_at_end=True,
+    report_to="none"              # disable wandb for Colab
+)
+
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=tokenized["train"],
+    eval_dataset=tokenized["test"],
+    tokenizer=tokenizer,
+    compute_metrics=compute_metrics
+)
+
+# ── Step 6: Train ──
+trainer.train()
+
+# ── Step 7: Evaluate ──
+results = trainer.evaluate()
+print(f"\nTest accuracy: {results['eval_accuracy']:.2%}")
+
+# ── Step 8: Predict on new text ──
+from transformers import pipeline
+
+classifier = pipeline("text-classification", model=model,
+                       tokenizer=tokenizer)
+id2label = {0: "NEGATIVE", 1: "NEUTRAL", 2: "POSITIVE"}
+model.config.id2label = id2label
+model.config.label2id = {v: k for k, v in id2label.items()}
+
+samples = [
+    "Item bahut zyada pricey hai for such average quality",
+    "Absolutely love this product, recommend to everyone!",
+    "Not good, not bad, just okay"
+]
+for s in samples:
+    pred = classifier(s)[0]
+    print(f"{pred['label']:10s} ({pred['score']:.2%})  →  {s[:50]}")</pre></div>
+    <div class="callout green">
+      <strong>With a real dataset of 500+ reviews:</strong> This pipeline achieves 85–92% accuracy on Indian e-commerce text. The key is collecting diverse Hinglish examples — the model learns from what you label. In Colab with T4 GPU, training takes ~5 minutes.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Where to Find Indian Datasets</div>
+    <div class="ls-title">Public NLP Datasets for Indian Languages</div>
+    <ul>
+      <li><strong>AI4Bharat datasets:</strong> IndicSentiment, IndicXNLI, Samanantar (translation) — <code>ai4bharat</code> org on Hugging Face Hub.</li>
+      <li><strong>IIT Bombay datasets:</strong> Hindi-English parallel corpus for translation.</li>
+      <li><strong>SentiRaama:</strong> Hindi sentiment dataset for e-commerce.</li>
+      <li><strong>Kaggle:</strong> Search for "hindi sentiment", "hinglish", "indian product reviews".</li>
+      <li><strong>Build your own:</strong> Use Label Studio (free, open-source) or Doccano to label a few hundred examples of your own domain data.</li>
+    </ul>
+    <div class="callout amber">
+      <strong>Rule of thumb:</strong> 300 labelled examples per class gives a reasonable baseline. 1,000+ per class gives production-quality performance when fine-tuning BERT/IndicBERT. Collecting good labels beats having more unlabelled data.
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>🧪 Check Your Understanding — Lesson 5 Quiz</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. Fine-tuning a language model means:</div>
+        <div class="quiz-opt" data-opt="a">a) Rebuilding the transformer architecture from scratch for your task</div>
+        <div class="quiz-opt" data-opt="b">b) Starting from a model pre-trained on large text data and continuing training on your smaller, task-specific labelled dataset</div>
+        <div class="quiz-opt" data-opt="c">c) Removing the attention layers and replacing them with simpler logic</div>
+        <div class="quiz-opt" data-opt="d">d) Compressing the model to run faster on mobile devices</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. `AutoModelForSequenceClassification.from_pretrained(MODEL_NAME, num_labels=3)` does what?</div>
+        <div class="quiz-opt" data-opt="a">a) Downloads only 3 layers of the pre-trained model</div>
+        <div class="quiz-opt" data-opt="b">b) Loads the full pre-trained model and adds a new classification head with 3 output neurons for your task</div>
+        <div class="quiz-opt" data-opt="c">c) Creates a new model with 3 attention heads from scratch</div>
+        <div class="quiz-opt" data-opt="d">d) Trains the model for exactly 3 epochs</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. Why is IndicBERT preferred over bert-base-uncased for Hinglish text classification?</div>
+        <div class="quiz-opt" data-opt="a">a) IndicBERT was trained on text from 12 Indian languages, so it already understands subword patterns in Hindi, Hinglish and other Indian languages</div>
+        <div class="quiz-opt" data-opt="b">b) IndicBERT has more parameters and is always more accurate</div>
+        <div class="quiz-opt" data-opt="c">c) bert-base-uncased cannot process sentences longer than 5 words</div>
+        <div class="quiz-opt" data-opt="d">d) IndicBERT is faster because it is smaller than BERT</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. In `TrainingArguments`, `weight_decay=0.01` is used to:</div>
+        <div class="quiz-opt" data-opt="a">a) Reduce the learning rate by 1% each epoch</div>
+        <div class="quiz-opt" data-opt="b">b) Apply L2 regularisation — adds a small penalty for large weights — helping prevent overfitting on small datasets</div>
+        <div class="quiz-opt" data-opt="c">c) Prune 1% of the model's weights to make it smaller</div>
+        <div class="quiz-opt" data-opt="d">d) Decay the batch size over training</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. The Trainer API's `compute_metrics` function is called:</div>
+        <div class="quiz-opt" data-opt="a">a) After every training step to monitor loss</div>
+        <div class="quiz-opt" data-opt="b">b) After each evaluation epoch to compute your chosen metrics (e.g., accuracy, F1) on the validation set</div>
+        <div class="quiz-opt" data-opt="c">c) Only once at the very end of training</div>
+        <div class="quiz-opt" data-opt="d">d) During tokenisation to check text length</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. `tokenizer(text, padding="max_length", truncation=True, max_length=128)` handles sequences longer than 128 tokens by:</div>
+        <div class="quiz-opt" data-opt="a">a) Splitting them into multiple examples</div>
+        <div class="quiz-opt" data-opt="b">b) Truncating them — cutting off text beyond 128 tokens. The model only sees the first 128 tokens of very long inputs.</div>
+        <div class="quiz-opt" data-opt="c">c) Summarising the text to fit in 128 tokens</div>
+        <div class="quiz-opt" data-opt="d">d) Raising an error and stopping training</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. `load_best_model_at_end=True` in TrainingArguments means:</div>
+        <div class="quiz-opt" data-opt="a">a) The model with the lowest training loss is saved</div>
+        <div class="quiz-opt" data-opt="b">b) After training finishes, the checkpoint with the best evaluation metric is automatically loaded — not necessarily the last epoch's weights</div>
+        <div class="quiz-opt" data-opt="c">c) The model is only trained until accuracy reaches 100%</div>
+        <div class="quiz-opt" data-opt="d">d) Training starts from the best model in the Hub</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. For collecting your own labelled sentiment dataset, a good minimum target for a reliable fine-tuned classifier is:</div>
+        <div class="quiz-opt" data-opt="a">a) 10 examples total</div>
+        <div class="quiz-opt" data-opt="b">b) 1 million examples per class</div>
+        <div class="quiz-opt" data-opt="c">c) 300–1,000 labelled examples per class</div>
+        <div class="quiz-opt" data-opt="d">d) Exactly 50 examples per class</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Answers</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-04.html" class="btn-prev">← Lesson 4: Transformers</a>
+    <a href="lesson-06.html" class="btn-next">Lesson 6: RAG Chatbot →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-10.html">Class 10</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'a',4:'b',5:'b',6:'b',7:'b',8:'c'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q]) o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=75){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — You can now build a custom NLP classifier for any Indian language domain!`;}
+  else if(pct>=50){res.className='quiz-result ok';res.textContent=`Good! ${score}/${total} (${pct}%) — Review the Trainer API parameters and the three approaches comparison.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Label 20 reviews by hand and run the Colab code — seeing the training loss drop in real time makes the concepts click.`;}
+  gtag('event','quiz_complete',{event_category:'class10',event_label:'class10_lesson05_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"Fine-Tuning Language Models — Class 10 Lesson 5",
+  "description":"Fine-tune BERT for sentiment classification on Indian review data using Hugging Face Transformers and Trainer API in Google Colab.",
+  "url":"https://mitraailife.com/content/students/class-10/lesson-05.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Class 10",
+  "typicalAgeRange":"14-15",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

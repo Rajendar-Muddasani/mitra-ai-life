@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 7 — ML Pipelines and Experiment Tracking | Class 10 | Mitra AI Life</title>
+<meta name="description" content="Class 10 Lesson 7: Build reproducible ML pipelines with sklearn Pipeline and track experiments with MLflow — log params, metrics, and compare model runs." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-10/lesson-07.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#059669" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 7 — ML Pipelines and Experiment Tracking | Class 10 | Mitra AI Life" />
+<meta property="og:description" content="Class 10 Lesson 7: Build reproducible ML pipelines with sklearn Pipeline and track experiments with MLflow — log params, metrics, and compare model runs." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-10/lesson-07.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#ecfdf5;color:#064e3b;line-height:1.7}
+a{color:#059669;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#6ee7b7}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#6ee7b7}
+.lesson-hero{background:linear-gradient(135deg,#064e3b,#065f46,#059669);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.story-panel{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-left:5px solid #059669;border-radius:0 16px 16px 0;padding:1.5rem 1.5rem;margin:2rem 0;position:relative}
+.story-panel::before{content:'📖';position:absolute;top:-14px;left:16px;font-size:1.4rem}
+.story-panel .sp-label{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#059669;margin-bottom:.4rem}
+.story-panel p{font-size:.95rem;color:#064e3b;margin-bottom:.6rem}
+.story-panel p:last-child{margin-bottom:0}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#059669;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#064e3b;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#065f46;margin-bottom:.9rem}
+.lesson-section ul,.lesson-section ol{font-size:.93rem;color:#065f46;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.amber{background:#fffbeb;border-left:4px solid #f59e0b;color:#78350f}
+.callout.blue{background:#eff6ff;border-left:4px solid #3b82f6;color:#1e3a8a}
+/* Experiment comparison table */
+.exp-table{width:100%;border-collapse:collapse;font-size:.82rem;margin:1rem 0}
+.exp-table th{background:#ecfdf5;color:#064e3b;font-weight:800;padding:.5rem .7rem;border:1px solid #a7f3d0;text-align:left}
+.exp-table td{padding:.4rem .7rem;border:1px solid #a7f3d0;color:#065f46}
+.exp-table tr.best td{background:#d1fae5;font-weight:700}
+.code-block{background:#1e293b;border-radius:12px;padding:1.2rem 1.4rem;margin:1rem 0;overflow-x:auto}
+.code-block pre{font-family:'Courier New',Courier,monospace;font-size:.82rem;color:#e2e8f0;line-height:1.6;margin:0;white-space:pre-wrap}
+.quiz-section{background:#fff;border:2px solid #059669;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#064e3b;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#064e3b;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:center;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #a7f3d0;background:#ecfdf5;font-size:.88rem;color:#064e3b;transition:border-color .15s}
+.quiz-opt:hover{border-color:#059669}
+.quiz-opt.selected{border-color:#059669;background:#ecfdf5;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#059669;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#047857}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #059669;color:#059669}
+.lesson-nav .btn-next{background:#059669;color:#fff}
+.lesson-nav .btn-prev:hover{background:#ecfdf5}
+.lesson-nav .btn-next:hover{background:#047857}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.exp-table{font-size:.72rem}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-10.html" class="active">Class 10</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-10.html">Class 10</a> → Lesson 7</div>
+  <h1>ML Pipelines and Experiment Tracking 📊</h1>
+  <div class="meta">
+    <span>Class 10</span><span>Age 14–15</span><span>Lesson 7 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-10/lesson-07-hero.jpg" alt="Student in Indore viewing MLflow experiment tracking dashboard on laptop — multiple runs compared with different accuracy metrics" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="sp-label">Meet Arjun — Class 10, Indore</div>
+    <p>Arjun was building a loan default predictor for a class project. He'd tried Random Forest with 100 trees, then 200. He'd tried with StandardScaler, then without. He'd tried with max_depth=5, then 10. After a week, he had 15 Jupyter notebooks named things like "final_v3_actually_final_this_one.ipynb". "Which run got 84%? What hyperparameters did I use?"</p>
+    <p>His mentor laughed and said: "You need experiment tracking. Professional ML teams use MLflow for exactly this — every run is logged automatically. Parameters, metrics, plots, model file. One command to compare all runs. One command to load the best model." Arjun set it up in 20 minutes and immediately found his best run.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">The Problem</div>
+    <div class="ls-title">Why Ad-hoc Notebooks Don't Scale</div>
+    <ul>
+      <li><strong>No reproducibility:</strong> You can't reliably rerun a notebook from 3 weeks ago — the data changed, cell execution order matters, environment differs.</li>
+      <li><strong>No comparison:</strong> Mentally comparing 10 runs stored in separate notebooks is error-prone.</li>
+      <li><strong>Leaking information:</strong> If you apply scaling before train/test split, test data statistics leak into your scaler. sklearn Pipeline prevents this.</li>
+      <li><strong>No model registry:</strong> "Which pickle file is the one deployed in production?" becomes a dangerous question.</li>
+    </ul>
+    <p>Two tools fix this: <strong>sklearn Pipeline</strong> for preventing data leakage, and <strong>MLflow</strong> for tracking experiments.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Tool 1</div>
+    <div class="ls-title">sklearn Pipeline — Preventing Data Leakage</div>
+    <p>A Pipeline chains preprocessing steps + model into one object. When you call <code>pipeline.fit(X_train, y_train)</code>, the scaler is fitted only on training data. When you call <code>pipeline.predict(X_test)</code>, it uses the training scaler to transform test data — never fits on test data. This is the correct way.</p>
+    <div class="code-block"><pre>from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.impute import SimpleImputer
+
+# Without Pipeline (WRONG — leaks test data into scaler):
+# scaler.fit(X)         # oops, X includes test data
+# X_scaled = scaler.transform(X)
+# X_train, X_test = train_test_split(X_scaled, ...)
+
+# With Pipeline (CORRECT):
+pipeline = Pipeline([
+    ('imputer',  SimpleImputer(strategy='median')),  # fill missing values
+    ('scaler',   StandardScaler()),                  # normalise features
+    ('model',    RandomForestClassifier(n_estimators=100, random_state=42))
+])
+# fit only trains scaler on X_train:
+pipeline.fit(X_train, y_train)
+# predict correctly transforms X_test with the training scaler:
+y_pred = pipeline.predict(X_test)</pre></div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Tool 2</div>
+    <div class="ls-title">MLflow — Experiment Tracking</div>
+    <div class="code-block"><pre># ML Pipelines + MLflow Experiment Tracking — Google Colab
+!pip install mlflow scikit-learn pandas -q
+
+import mlflow
+import mlflow.sklearn
+import pandas as pd
+import numpy as np
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
+from sklearn.impute import SimpleImputer
+
+# ── Step 1: Create a synthetic dataset (simulates loan default prediction) ──
+X, y = make_classification(
+    n_samples=1000, n_features=15, n_informative=8,
+    n_redundant=3, random_state=42
+)
+feature_names = [f"feature_{i}" for i in range(X.shape[1])]
+X_df = pd.DataFrame(X, columns=feature_names)
+
+# Add some missing values (realistic)
+X_df.iloc[50:70, 2] = np.nan
+X_df.iloc[200:220, 7] = np.nan
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X_df, y, test_size=0.2, random_state=42
+)
+
+# ── Step 2: Set up MLflow experiment ──
+mlflow.set_experiment("loan_default_predictor")
+
+def run_experiment(model_name, model, params):
+    """Train model in a Pipeline and log everything to MLflow."""
+    with mlflow.start_run(run_name=model_name):
+        # Log parameters
+        mlflow.log_params(params)
+        mlflow.log_param("model_type", model_name)
+        mlflow.log_param("train_size", len(X_train))
+
+        # Build and train pipeline
+        pipeline = Pipeline([
+            ('imputer', SimpleImputer(strategy='median')),
+            ('scaler',  StandardScaler()),
+            ('model',   model)
+        ])
+        pipeline.fit(X_train, y_train)
+
+        # Evaluate
+        y_pred  = pipeline.predict(X_test)
+        y_proba = pipeline.predict_proba(X_test)[:, 1]
+
+        accuracy = accuracy_score(y_test, y_pred)
+        f1       = f1_score(y_test, y_pred)
+        auc_roc  = roc_auc_score(y_test, y_proba)
+
+        # Cross-validation
+        cv_scores = cross_val_score(pipeline, X_train, y_train, cv=5)
+
+        # Log metrics
+        mlflow.log_metric("accuracy",    accuracy)
+        mlflow.log_metric("f1_score",    f1)
+        mlflow.log_metric("auc_roc",     auc_roc)
+        mlflow.log_metric("cv_mean",     cv_scores.mean())
+        mlflow.log_metric("cv_std",      cv_scores.std())
+
+        # Save model
+        mlflow.sklearn.log_model(pipeline, "pipeline")
+
+        print(f"\n{model_name}")
+        print(f"  Accuracy: {accuracy:.3f}  F1: {f1:.3f}  AUC: {auc_roc:.3f}")
+        print(f"  CV: {cv_scores.mean():.3f} ± {cv_scores.std():.3f}")
+
+        return {"model": model_name, "accuracy": accuracy,
+                "f1": f1, "auc": auc_roc}
+
+# ── Step 3: Run multiple experiments ──
+results = []
+
+results.append(run_experiment(
+    "LogisticRegression_C1",
+    LogisticRegression(C=1.0, max_iter=500),
+    {"C": 1.0, "max_iter": 500}
+))
+
+results.append(run_experiment(
+    "LogisticRegression_C0.1",
+    LogisticRegression(C=0.1, max_iter=500),
+    {"C": 0.1, "max_iter": 500}
+))
+
+results.append(run_experiment(
+    "RandomForest_100",
+    RandomForestClassifier(n_estimators=100, max_depth=None, random_state=42),
+    {"n_estimators": 100, "max_depth": "None"}
+))
+
+results.append(run_experiment(
+    "RandomForest_d5",
+    RandomForestClassifier(n_estimators=100, max_depth=5, random_state=42),
+    {"n_estimators": 100, "max_depth": 5}
+))
+
+results.append(run_experiment(
+    "GradientBoosting",
+    GradientBoostingClassifier(n_estimators=100, learning_rate=0.1, random_state=42),
+    {"n_estimators": 100, "learning_rate": 0.1}
+))
+
+# ── Step 4: Compare results ──
+results_df = pd.DataFrame(results).sort_values("auc", ascending=False)
+print("\n── Experiment Comparison ──")
+print(results_df.to_string(index=False))
+
+# ── Step 5: Load the best model from MLflow ──
+best_run_name = results_df.iloc[0]["model"]
+print(f"\nBest model: {best_run_name}")
+
+# Find run ID programmatically
+runs = mlflow.search_runs(experiment_names=["loan_default_predictor"],
+                           filter_string=f"tags.mlflow.runName = '{best_run_name}'")
+run_id = runs.iloc[0].run_id
+best_pipeline = mlflow.sklearn.load_model(f"runs:/{run_id}/pipeline")
+print("Best model loaded successfully!")
+print(f"Test accuracy: {accuracy_score(y_test, best_pipeline.predict(X_test)):.3f}")
+
+# ── View MLflow UI ──
+# In Colab, run: !mlflow ui --port 5000
+# Then: from pyngrok import ngrok; ngrok.connect(5000)</pre></div>
+    <!-- Experiment comparison table -->
+    <p>Typical results you'd see in the MLflow dashboard:</p>
+    <table class="exp-table">
+      <thead><tr><th>Model</th><th>Accuracy</th><th>F1 Score</th><th>AUC-ROC</th><th>CV Mean</th></tr></thead>
+      <tbody>
+        <tr class="best"><td>GradientBoosting</td><td>0.870</td><td>0.863</td><td>0.942</td><td>0.861</td></tr>
+        <tr><td>RandomForest_100</td><td>0.855</td><td>0.848</td><td>0.928</td><td>0.843</td></tr>
+        <tr><td>RandomForest_d5</td><td>0.840</td><td>0.831</td><td>0.912</td><td>0.837</td></tr>
+        <tr><td>LogisticRegression_C1</td><td>0.815</td><td>0.807</td><td>0.889</td><td>0.812</td></tr>
+        <tr><td>LogisticRegression_C0.1</td><td>0.800</td><td>0.792</td><td>0.876</td><td>0.797</td></tr>
+      </tbody>
+    </table>
+    <div class="callout green">
+      <strong>Arjun's outcome:</strong> After adding MLflow, he ran 12 experiments in 30 minutes. The MLflow UI showed GradientBoosting with AUC 0.942 as the clear winner. He loaded it with one line, packaged it for the school's science fair, and showed his judges the experiment comparison table to prove his methodology was rigorous.
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>🧪 Check Your Understanding — Lesson 7 Quiz</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. Data leakage in ML occurs when:</div>
+        <div class="quiz-opt" data-opt="a">a) Your model is too large to fit in memory</div>
+        <div class="quiz-opt" data-opt="b">b) Information from the test set influences preprocessing or model training — making test accuracy unrealistically optimistic</div>
+        <div class="quiz-opt" data-opt="c">c) Private user data is accidentally exposed on the internet</div>
+        <div class="quiz-opt" data-opt="d">d) Your training dataset is too small</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. sklearn's Pipeline solves data leakage by:</div>
+        <div class="quiz-opt" data-opt="a">a) Downloading fresh data from the internet before each run</div>
+        <div class="quiz-opt" data-opt="b">b) Ensuring preprocessing steps (like scalers) are fit only on training data, then consistently applied to test/validation data without seeing test statistics</div>
+        <div class="quiz-opt" data-opt="c">c) Encrypting the training data before model training</div>
+        <div class="quiz-opt" data-opt="d">d) Automatically splitting data into train and test sets</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. In MLflow, `mlflow.log_param("n_estimators", 100)` logs:</div>
+        <div class="quiz-opt" data-opt="a">a) A performance metric that changes during training</div>
+        <div class="quiz-opt" data-opt="b">b) A fixed hyperparameter configuration for this experiment run — so you can reproduce the exact run later</div>
+        <div class="quiz-opt" data-opt="c">c) The model's predictions on the test set</div>
+        <div class="quiz-opt" data-opt="d">d) The number of samples in your dataset</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. Why is AUC-ROC often preferred over simple accuracy for evaluating a loan default classifier?</div>
+        <div class="quiz-opt" data-opt="a">a) AUC-ROC is always a higher number than accuracy</div>
+        <div class="quiz-opt" data-opt="b">b) AUC-ROC measures model performance across all classification thresholds and is more meaningful when classes are imbalanced — a model that predicts "no default" always could have high accuracy but terrible AUC</div>
+        <div class="quiz-opt" data-opt="c">c) Accuracy cannot be calculated for binary classification problems</div>
+        <div class="quiz-opt" data-opt="d">d) AUC-ROC is faster to compute than accuracy</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. `mlflow.sklearn.log_model(pipeline, "pipeline")` saves:</div>
+        <div class="quiz-opt" data-opt="a">a) Only the model's Python code</div>
+        <div class="quiz-opt" data-opt="b">b) The entire trained Pipeline (preprocessor + model) as a versioned artefact linked to this run — loadable later with mlflow.sklearn.load_model()</div>
+        <div class="quiz-opt" data-opt="c">c) A screenshot of the model's performance graphs</div>
+        <div class="quiz-opt" data-opt="d">d) The training dataset as a CSV file</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. Cross-validation (cv=5) in the code runs training how many times?</div>
+        <div class="quiz-opt" data-opt="a">a) Once, using 5% of the data</div>
+        <div class="quiz-opt" data-opt="b">b) 5 times, each time using a different 80%/20% split of the training data — the mean score is a more reliable performance estimate than a single split</div>
+        <div class="quiz-opt" data-opt="c">c) 5 times using all available data each time</div>
+        <div class="quiz-opt" data-opt="d">d) 100 times with random sampling</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. `SimpleImputer(strategy='median')` in the Pipeline is used to:</div>
+        <div class="quiz-opt" data-opt="a">a) Remove all rows with missing values from the dataset</div>
+        <div class="quiz-opt" data-opt="b">b) Fill missing values with the median of that feature — computed on training data only — making the model robust to real-world missing data</div>
+        <div class="quiz-opt" data-opt="c">c) Generate synthetic data to replace missing values using a neural network</div>
+        <div class="quiz-opt" data-opt="d">d) Encode categorical columns as numbers</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. `mlflow.set_experiment("loan_default_predictor")` does what?</div>
+        <div class="quiz-opt" data-opt="a">a) Automatically runs all experiments defined in the file</div>
+        <div class="quiz-opt" data-opt="b">b) Creates (or selects if existing) an MLflow experiment group — all subsequent runs are logged under this name for easy comparison</div>
+        <div class="quiz-opt" data-opt="c">c) Trains a logistic regression model named after the experiment</div>
+        <div class="quiz-opt" data-opt="d">d) Sets the test size to 0.2 for all models</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Answers</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-06.html" class="btn-prev">← Lesson 6: RAG Chatbot</a>
+    <a href="lesson-08.html" class="btn-next">Lesson 8: FastAPI →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-10.html">Class 10</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'b',8:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q]) o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=75){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — You now work like a professional ML engineer: reproducible pipelines + tracked experiments!`;}
+  else if(pct>=50){res.className='quiz-result ok';res.textContent=`Good! ${score}/${total} (${pct}%) — Re-read the data leakage explanation and the MLflow logging section.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Run the Colab code, open the MLflow UI, and look at the experiment comparison table live. Organisation habits build through practice.`;}
+  gtag('event','quiz_complete',{event_category:'class10',event_label:'class10_lesson07_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"ML Pipelines and Experiment Tracking — Class 10 Lesson 7",
+  "description":"Build reproducible ML pipelines with sklearn Pipeline and track experiments with MLflow — log params, metrics, and compare model runs.",
+  "url":"https://mitraailife.com/content/students/class-10/lesson-07.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Class 10",
+  "typicalAgeRange":"14-15",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

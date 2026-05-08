@@ -1073,3 +1073,121 @@ Hub page: `content/students/class-07/class-07.html`
 **Interactive:** 12-item skills checklist + JS progress bar, 4-prompt portfolio builder textareas, printable certificate (name input + JS + @media print CSS), Class 10 6-card preview  
 **Sections:** 12-lesson recap grid with links, skills checklist, portfolio builder, printable certificate, Class 10 preview, wisdom quotes table (one per lesson)  
 **Quiz (10 capstone questions):** `{1:'b', 2:'c', 3:'c', 4:'b', 5:'b', 6:'c', 7:'c', 8:'b', 9:'c', 10:'c'}` · GA4: `class09_lesson12_quiz`
+
+---
+
+## Class 10 — Advanced AI Projects (Emerald Green, Age 14–15)
+
+### Hub
+
+**File:** `content/students/class-10/class-10.html`  
+**Theme:** Emerald green (`#059669`) | og:description: yes | Schema.org Course JSON-LD: yes | 12-card curriculum grid all Live
+
+---
+
+### Lesson 01 — Convolutional Neural Networks
+
+**File:** `content/students/class-10/lesson-01.html`  
+**Story:** Meera, Delhi — Mango disease CNN  
+**Sections:** Why dense networks fail on images, convolution + pooling + flatten + dense architecture, Keras CIFAR-10 full code, CNN learning visualisation  
+**Quiz (8Q):** `{1:'c', 2:'b', 3:'c', 4:'b', 5:'b', 6:'b', 7:'c', 8:'c'}` · GA4: `class10_lesson01_quiz`
+
+---
+
+### Lesson 02 — Image Classification with Transfer Learning
+
+**File:** `content/students/class-10/lesson-02.html`  
+**Story:** Kiran, Bengaluru — Karnataka flower classifier  
+**Sections:** Why train from scratch fails, MobileNetV2 frozen base + trainable head, data augmentation, fine-unfreeze strategy  
+**Quiz (8Q):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'a', 7:'b', 8:'c'}` · GA4: `class10_lesson02_quiz`
+
+---
+
+### Lesson 03 — Object Detection: YOLO Basics
+
+**File:** `content/students/class-10/lesson-03.html`  
+**Story:** Aditya, Chennai — Traffic monitoring  
+**Sections:** Classification vs detection vs segmentation, YOLO grid, YOLOv8 code, IoU, NMS, confidence threshold tuning  
+**Quiz (8Q):** `{1:'b', 2:'b', 3:'c', 4:'b', 5:'c', 6:'b', 7:'b', 8:'c'}` · GA4: `class10_lesson03_quiz`
+
+---
+
+### Lesson 04 — Transformers and Attention
+
+**File:** `content/students/class-10/lesson-04.html`  
+**Story:** Zara, Srinagar — Kashmiri poetry translation  
+**Sections:** RNN limits, Q/K/V self-attention formula, multi-head attention, BERT vs GPT, Hugging Face pipeline  
+**Quiz (8Q):** `{1:'b', 2:'b', 3:'c', 4:'b', 5:'a', 6:'c', 7:'c', 8:'c'}` · GA4: `class10_lesson04_quiz`
+
+---
+
+### Lesson 05 — Fine-Tuning Language Models
+
+**File:** `content/students/class-10/lesson-05.html`  
+**Story:** Rahul, Kolkata — Hinglish e-commerce sentiment  
+**Sections:** Fine-tuning vs prompting, Hugging Face Trainer API, IndicBERT, Dataset/AutoTokenizer/AutoModelForSequenceClassification full code, class weights  
+**Quiz (8Q):** `{1:'b', 2:'b', 3:'a', 4:'b', 5:'b', 6:'b', 7:'b', 8:'c'}` · GA4: `class10_lesson05_quiz`
+
+---
+
+### Lesson 06 — Building a RAG Chatbot
+
+**File:** `content/students/class-10/lesson-06.html`  
+**Story:** Priya, Chandigarh — Medical PDF Q&A  
+**Sections:** LLM limits without grounding, RAG indexing + query pipeline diagram, LangChain + ChromaDB + Gemini 1.5-flash, grounding prompt template  
+**Quiz (8Q):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'a', 6:'b', 7:'b', 8:'c'}` · GA4: `class10_lesson06_quiz`
+
+---
+
+### Lesson 07 — ML Pipelines and Experiment Tracking
+
+**File:** `content/students/class-10/lesson-07.html`  
+**Story:** Arjun, Indore — 15 messy notebooks → MLflow  
+**Sections:** Data leakage problem, sklearn Pipeline (imputer→scaler→model), MLflow start_run/log_param/log_metric/log_model, 5-model comparison table  
+**Quiz (8Q):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class10_lesson07_quiz`
+
+---
+
+### Lesson 08 — FastAPI: Serving Your ML Model
+
+**File:** `content/students/class-10/lesson-08.html`  
+**Story:** Sneha, Vadodara — Loan prediction REST API  
+**Sections:** REST API concept, Pydantic validation (Field gt=0, field_validator), 3-file architecture (train_and_save.py + main.py + test_api.py), /health + /predict, Swagger /docs  
+**Quiz (8Q):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class10_lesson08_quiz`
+
+---
+
+### Lesson 09 — Streamlit: AI Web Apps
+
+**File:** `content/students/class-10/lesson-09.html`  
+**Story:** Dev, Kochi — Coconut farm disease detector  
+**Sections:** Streamlit re-run model, essential widgets, full plant_disease_app.py (10 classes, @st.cache_resource, PIL, top-3 bar chart, feedback radio), Streamlit Community Cloud deploy  
+**Quiz (8Q):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class10_lesson09_quiz`
+
+---
+
+### Lesson 10 — AI for Real Indian Problems
+
+**File:** `content/students/class-10/lesson-10.html`  
+**Story:** Kavita, Bhopal — Soybean disease competition  
+**Sections:** 4-domain grid (Agriculture/Healthcare/Education/Financial + Indian datasets), Kavita's MobileNetV2 + Streamlit code, India AI project checklist (6 items)  
+**Quiz (8Q):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class10_lesson10_quiz`
+
+---
+
+### Lesson 11 — Responsible AI at Scale
+
+**File:** `content/students/class-10/lesson-11.html`  
+**Story:** Amar, Visakhapatnam — Microfinance loan fairness audit  
+**Sections:** 8% vs 31% FPR gap, fairness metrics table, Fairlearn MetricFrame + ThresholdOptimizer("equalized_odds"), DPDPA 2023 rights, model card, pre-deployment checklist  
+**Quiz (8Q):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b'}` · GA4: `class10_lesson11_quiz`
+
+---
+
+### Lesson 12 — Capstone: My AI Product
+
+**File:** `content/students/class-10/lesson-12.html`  
+**Story:** 11-character reunion — Meera, Kiran, Aditya, Zara, Rahul, Priya, Arjun, Sneha, Dev, Kavita, Amar  
+**Interactive:** 12-item skills checklist + JS progress bar, 4-prompt portfolio builder textareas, printable certificate (name input + JS + @media print CSS), Class 11 6-card preview  
+**Sections:** 12-lesson recap grid with links, wisdom quotes table (12 entries), skills checklist, portfolio builder, printable certificate, Class 11 preview  
+**Quiz (10 capstone questions):** `{1:'b', 2:'b', 3:'b', 4:'b', 5:'b', 6:'b', 7:'b', 8:'b', 9:'b', 10:'b'}` · GA4: `class10_lesson12_quiz`

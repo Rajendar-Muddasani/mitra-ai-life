@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 1 — Convolutional Neural Networks | Class 10 | Mitra AI Life</title>
+<meta name="description" content="Class 10 Lesson 1: Understand how CNNs work. Learn about filters, feature maps, pooling, and why CNNs outperform regular neural networks on images." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-10/lesson-01.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#059669" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 1 — Convolutional Neural Networks | Class 10 | Mitra AI Life" />
+<meta property="og:description" content="Class 10 Lesson 1: Understand how CNNs work. Learn about filters, feature maps, pooling, and why CNNs outperform regular neural networks on images." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-10/lesson-01.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#ecfdf5;color:#064e3b;line-height:1.7}
+a{color:#059669;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#6ee7b7}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#6ee7b7}
+.lesson-hero{background:linear-gradient(135deg,#064e3b,#065f46,#059669);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.story-panel{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-left:5px solid #059669;border-radius:0 16px 16px 0;padding:1.5rem 1.5rem;margin:2rem 0;position:relative}
+.story-panel::before{content:'📖';position:absolute;top:-14px;left:16px;font-size:1.4rem}
+.story-panel .sp-label{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#059669;margin-bottom:.4rem}
+.story-panel p{font-size:.95rem;color:#064e3b;margin-bottom:.6rem}
+.story-panel p:last-child{margin-bottom:0}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#059669;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#064e3b;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#065f46;margin-bottom:.9rem}
+.lesson-section ul,.lesson-section ol{font-size:.93rem;color:#065f46;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.amber{background:#fffbeb;border-left:4px solid #f59e0b;color:#78350f}
+.callout.blue{background:#eff6ff;border-left:4px solid #3b82f6;color:#1e3a8a}
+/* CNN visual */
+.cnn-visual{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;justify-content:center;background:#fff;border:1.5px solid #a7f3d0;border-radius:14px;padding:1.2rem;margin:1rem 0;overflow-x:auto}
+.cnn-block{text-align:center;flex-shrink:0}
+.cnn-block .cb-layers{display:flex;gap:3px;justify-content:center;align-items:flex-end;height:70px;margin-bottom:.4rem}
+.cnn-block .cb-layers .layer{width:14px;border-radius:3px 3px 0 0}
+.cnn-block .cb-name{font-size:.7rem;font-weight:800;color:#064e3b}
+.cnn-block .cb-sub{font-size:.62rem;color:#065f46}
+.cnn-arrow{color:#059669;font-size:1.2rem;font-weight:900;flex-shrink:0}
+/* Filter demo */
+.filter-demo{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1rem 0}
+.filter-card{background:#fff;border:1.5px solid #a7f3d0;border-radius:12px;padding:.9rem;text-align:center}
+.filter-card .fc-name{font-weight:800;color:#064e3b;font-size:.82rem;margin-bottom:.4rem}
+.filter-card .fc-grid{display:inline-grid;grid-template-columns:repeat(3,24px);gap:2px;margin:0 auto .4rem}
+.filter-card .fc-cell{width:24px;height:24px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:800;color:#fff}
+.filter-card .fc-desc{font-size:.72rem;color:#065f46}
+/* Code block */
+.code-block{background:#1e293b;border-radius:12px;padding:1.2rem 1.4rem;margin:1rem 0;overflow-x:auto}
+.code-block pre{font-family:'Courier New',Courier,monospace;font-size:.82rem;color:#e2e8f0;line-height:1.6;margin:0;white-space:pre-wrap}
+/* Quiz */
+.quiz-section{background:#fff;border:2px solid #059669;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#064e3b;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#064e3b;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:center;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #a7f3d0;background:#ecfdf5;font-size:.88rem;color:#064e3b;transition:border-color .15s}
+.quiz-opt:hover{border-color:#059669}
+.quiz-opt.selected{border-color:#059669;background:#ecfdf5;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#059669;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#047857}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #059669;color:#059669}
+.lesson-nav .btn-next{background:#059669;color:#fff}
+.lesson-nav .btn-prev:hover{background:#ecfdf5}
+.lesson-nav .btn-next:hover{background:#047857}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.filter-demo{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-10.html" class="active">Class 10</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-10.html">Class 10</a> → Lesson 1</div>
+  <h1>Convolutional Neural Networks 👁️</h1>
+  <div class="meta">
+    <span>Class 10</span><span>Age 14–15</span><span>Lesson 1 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-10/lesson-01-hero.jpg" alt="Indian student studying CNN architecture diagrams on laptop in a well-lit Delhi room, filter visualisations on screen" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="sp-label">Meet Meera — Class 10, Delhi</div>
+    <p>Meera's younger brother has a mango tree in the backyard. Every season, some mangoes develop a fungal disease. Her father usually identifies it by eye — dark spots with a yellowish ring. Meera wondered: "Could an AI identify diseased fruit from a photo?" She'd heard of apps like Plantix. But how exactly does a computer see an image?</p>
+    <p>She opened her Class 9 notes. She knew a regular neural network flattens every pixel into a 1D list. For a 224×224 image with 3 colour channels, that's 150,528 numbers — before even one neuron processes them. "No wonder they struggle," she thought. "They lose all the spatial structure." Then she read about Convolutional Neural Networks — and everything clicked.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">The Core Problem</div>
+    <div class="ls-title">Why Regular Networks Fail on Images</div>
+    <p>In Class 9, you learned how a dense (fully-connected) neural network works: every input connects to every neuron. That's fine for small data, but disastrous for images:</p>
+    <ul>
+      <li><strong>Too many parameters:</strong> A 224×224 RGB image flattened = 150,528 inputs. With 512 neurons in layer 1, that's 77 million weights — just in one layer.</li>
+      <li><strong>No spatial awareness:</strong> Flattening destroys position. A pixel at top-left has no relationship to its neighbour once it's in a list.</li>
+      <li><strong>Not translation invariant:</strong> If a cat moves from centre to corner of the photo, a dense network treats it as a completely different image.</li>
+    </ul>
+    <p>CNNs solve all three problems with one key idea: <strong>local connections + shared weights</strong>.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Core Concept</div>
+    <div class="ls-title">How a Convolutional Filter Works</div>
+    <p>A <strong>filter</strong> (also called a kernel) is a small grid of weights — typically 3×3. It slides across the image, computing a dot product at each position. The result is a <strong>feature map</strong> that highlights where that pattern appears.</p>
+    <div class="filter-demo">
+      <div class="filter-card">
+        <div class="fc-name">🔲 Edge Detector (Vertical)</div>
+        <div class="fc-grid">
+          <div class="fc-cell" style="background:#1e293b">-1</div><div class="fc-cell" style="background:#475569">0</div><div class="fc-cell" style="background:#16a34a">+1</div>
+          <div class="fc-cell" style="background:#1e293b">-1</div><div class="fc-cell" style="background:#475569">0</div><div class="fc-cell" style="background:#16a34a">+1</div>
+          <div class="fc-cell" style="background:#1e293b">-1</div><div class="fc-cell" style="background:#475569">0</div><div class="fc-cell" style="background:#16a34a">+1</div>
+        </div>
+        <div class="fc-desc">Activates strongly at vertical edges in the image</div>
+      </div>
+      <div class="filter-card">
+        <div class="fc-name">🔲 Blur Filter</div>
+        <div class="fc-grid">
+          <div class="fc-cell" style="background:#6ee7b7;color:#064e3b">1</div><div class="fc-cell" style="background:#6ee7b7;color:#064e3b">1</div><div class="fc-cell" style="background:#6ee7b7;color:#064e3b">1</div>
+          <div class="fc-cell" style="background:#6ee7b7;color:#064e3b">1</div><div class="fc-cell" style="background:#059669">1</div><div class="fc-cell" style="background:#6ee7b7;color:#064e3b">1</div>
+          <div class="fc-cell" style="background:#6ee7b7;color:#064e3b">1</div><div class="fc-cell" style="background:#6ee7b7;color:#064e3b">1</div><div class="fc-cell" style="background:#6ee7b7;color:#064e3b">1</div>
+        </div>
+        <div class="fc-desc">Averages neighbouring pixels — smooths noise</div>
+      </div>
+      <div class="filter-card">
+        <div class="fc-name">🔲 Sharpen Filter</div>
+        <div class="fc-grid">
+          <div class="fc-cell" style="background:#475569">0</div><div class="fc-cell" style="background:#1e293b">-1</div><div class="fc-cell" style="background:#475569">0</div>
+          <div class="fc-cell" style="background:#1e293b">-1</div><div class="fc-cell" style="background:#16a34a">+5</div><div class="fc-cell" style="background:#1e293b">-1</div>
+          <div class="fc-cell" style="background:#475569">0</div><div class="fc-cell" style="background:#1e293b">-1</div><div class="fc-cell" style="background:#475569">0</div>
+        </div>
+        <div class="fc-desc">Amplifies centre vs neighbours — sharpens detail</div>
+      </div>
+    </div>
+    <p>In a trained CNN, the network <strong>learns the filter weights</strong> automatically from the data. You don't hand-design them — they emerge from backpropagation.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Architecture</div>
+    <div class="ls-title">Layers of a CNN</div>
+    <!-- CNN diagram -->
+    <div class="cnn-visual">
+      <div class="cnn-block">
+        <div class="cb-layers">
+          <div class="layer" style="height:64px;background:#a7f3d0"></div>
+          <div class="layer" style="height:64px;background:#6ee7b7"></div>
+          <div class="layer" style="height:64px;background:#059669"></div>
+        </div>
+        <div class="cb-name">Input</div>
+        <div class="cb-sub">224×224×3</div>
+      </div>
+      <div class="cnn-arrow">→</div>
+      <div class="cnn-block">
+        <div class="cb-layers">
+          <div class="layer" style="height:56px;background:#34d399"></div>
+          <div class="layer" style="height:56px;background:#10b981"></div>
+          <div class="layer" style="height:50px;background:#059669"></div>
+          <div class="layer" style="height:50px;background:#047857"></div>
+          <div class="layer" style="height:44px;background:#065f46"></div>
+          <div class="layer" style="height:44px;background:#064e3b"></div>
+        </div>
+        <div class="cb-name">Conv2D</div>
+        <div class="cb-sub">32 filters × 3×3</div>
+      </div>
+      <div class="cnn-arrow">→</div>
+      <div class="cnn-block">
+        <div class="cb-layers">
+          <div class="layer" style="height:40px;background:#34d399"></div>
+          <div class="layer" style="height:40px;background:#10b981"></div>
+          <div class="layer" style="height:36px;background:#059669"></div>
+          <div class="layer" style="height:36px;background:#047857"></div>
+        </div>
+        <div class="cb-name">MaxPool2D</div>
+        <div class="cb-sub">2×2, halves size</div>
+      </div>
+      <div class="cnn-arrow">→</div>
+      <div class="cnn-block">
+        <div class="cb-layers">
+          <div class="layer" style="height:32px;background:#6ee7b7;width:10px"></div>
+          <div class="layer" style="height:32px;background:#34d399;width:10px"></div>
+          <div class="layer" style="height:28px;background:#10b981;width:10px"></div>
+          <div class="layer" style="height:28px;background:#059669;width:10px"></div>
+          <div class="layer" style="height:22px;background:#047857;width:10px"></div>
+        </div>
+        <div class="cb-name">Conv2D + Pool</div>
+        <div class="cb-sub">64 filters</div>
+      </div>
+      <div class="cnn-arrow">→</div>
+      <div class="cnn-block">
+        <div class="cb-layers">
+          <div class="layer" style="height:60px;background:#f59e0b;width:10px"></div>
+          <div class="layer" style="height:50px;background:#f59e0b;width:10px"></div>
+          <div class="layer" style="height:40px;background:#f59e0b;width:10px"></div>
+        </div>
+        <div class="cb-name">Flatten + Dense</div>
+        <div class="cb-sub">128 neurons</div>
+      </div>
+      <div class="cnn-arrow">→</div>
+      <div class="cnn-block">
+        <div class="cb-layers">
+          <div class="layer" style="height:24px;background:#3b82f6;width:10px"></div>
+          <div class="layer" style="height:20px;background:#3b82f6;width:10px"></div>
+          <div class="layer" style="height:16px;background:#3b82f6;width:10px"></div>
+        </div>
+        <div class="cb-name">Softmax Output</div>
+        <div class="cb-sub">N classes</div>
+      </div>
+    </div>
+    <ul>
+      <li><strong>Conv2D layer:</strong> Applies learnable filters across the image. Each filter detects one pattern (edge, curve, texture). More filters = richer feature set.</li>
+      <li><strong>ReLU activation:</strong> Applied after each convolution. Sets all negative values to 0 — adds non-linearity without killing spatial structure.</li>
+      <li><strong>MaxPool2D:</strong> Takes the maximum value from each 2×2 region. Reduces spatial dimensions by half, keeping the strongest features, reducing parameters.</li>
+      <li><strong>Flatten:</strong> After the conv/pool stack, converts the 3D feature volume to a 1D vector for the dense classifier.</li>
+      <li><strong>Dense + Softmax:</strong> The final classifier — same as Class 9 neural networks but much smaller because CNNs already extracted the key features.</li>
+    </ul>
+    <div class="callout blue">
+      <strong>Why pooling matters:</strong> A 224×224 image after two rounds of MaxPool2D becomes 56×56. The dense layer only sees 56×56 × (number of filters) instead of 224×224 × 3. This reduces parameters by ~16× and makes the model translation invariant — the cat at the corner and the cat at the centre produce similar feature activations.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Python Code</div>
+    <div class="ls-title">Build a CNN in Keras</div>
+    <div class="code-block"><pre># CNN for Image Classification — Google Colab
+# Task: Classify images into 10 categories (CIFAR-10 dataset)
+
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+import matplotlib.pyplot as plt
+
+# ── Step 1: Load and normalise CIFAR-10 ──
+(X_train, y_train), (X_test, y_test) = keras.datasets.cifar10.load_data()
+X_train = X_train.astype('float32') / 255.0  # scale pixels to 0-1
+X_test  = X_test.astype('float32')  / 255.0
+
+class_names = ['airplane','automobile','bird','cat','deer',
+               'dog','frog','horse','ship','truck']
+
+print(f"Training set: {X_train.shape}")   # (50000, 32, 32, 3)
+print(f"Test set:     {X_test.shape}")    # (10000, 32, 32, 3)
+
+# ── Step 2: Build CNN architecture ──
+model = keras.Sequential([
+    # Block 1: Detect edges and textures
+    layers.Conv2D(32, (3,3), activation='relu', padding='same',
+                  input_shape=(32,32,3)),
+    layers.Conv2D(32, (3,3), activation='relu', padding='same'),
+    layers.MaxPool2D(2, 2),     # 32x32 -> 16x16
+    layers.Dropout(0.25),
+
+    # Block 2: Detect shapes from edges
+    layers.Conv2D(64, (3,3), activation='relu', padding='same'),
+    layers.Conv2D(64, (3,3), activation='relu', padding='same'),
+    layers.MaxPool2D(2, 2),     # 16x16 -> 8x8
+    layers.Dropout(0.25),
+
+    # Classifier head
+    layers.Flatten(),
+    layers.Dense(512, activation='relu'),
+    layers.Dropout(0.5),
+    layers.Dense(10, activation='softmax')  # 10 CIFAR-10 classes
+])
+
+model.summary()  # see total parameters
+
+# ── Step 3: Compile ──
+model.compile(
+    optimizer='adam',
+    loss='sparse_categorical_crossentropy',
+    metrics=['accuracy']
+)
+
+# ── Step 4: Train ──
+history = model.fit(
+    X_train, y_train,
+    epochs=20,
+    batch_size=64,
+    validation_split=0.1,
+    verbose=1
+)
+
+# ── Step 5: Evaluate ──
+test_loss, test_acc = model.evaluate(X_test, y_test, verbose=0)
+print(f"\nTest accuracy: {test_acc:.2%}")
+
+# ── Step 6: Plot training curves ──
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
+ax1.plot(history.history['accuracy'], label='Train')
+ax1.plot(history.history['val_accuracy'], label='Val')
+ax1.set_title('Accuracy'); ax1.legend()
+ax2.plot(history.history['loss'], label='Train')
+ax2.plot(history.history['val_loss'], label='Val')
+ax2.set_title('Loss'); ax2.legend()
+plt.tight_layout(); plt.show()
+
+# ── Step 7: Predict on one image ──
+import numpy as np
+idx = 42
+pred = model.predict(X_test[idx:idx+1])
+print(f"Predicted: {class_names[np.argmax(pred)]}  "
+      f"Actual: {class_names[y_test[idx][0]]}")</pre></div>
+    <div class="callout amber">
+      <strong>Expected result:</strong> With 20 epochs on CIFAR-10, this architecture reaches roughly 75–80% test accuracy. ResNet-50 (from Class 10 Lesson 2) gets 93%+ using transfer learning — same task, far less training, much better accuracy.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Key Ideas Summary</div>
+    <div class="ls-title">What Makes CNNs Powerful</div>
+    <ul>
+      <li><strong>Parameter sharing:</strong> One filter's weights are shared across the whole image. A 3×3 filter with 32 output channels = only 3×3×3×32 = 864 parameters, regardless of image size.</li>
+      <li><strong>Hierarchical features:</strong> Early layers detect edges → middle layers detect shapes → deep layers detect objects (eyes, wheels, leaves).</li>
+      <li><strong>Data augmentation:</strong> Flip, rotate, zoom training images to artificially increase dataset size. Keras has <code>ImageDataGenerator</code> for this.</li>
+      <li><strong>Batch Normalisation:</strong> Often added after Conv layers to stabilise training — speeds up convergence significantly.</li>
+    </ul>
+    <div class="callout green">
+      <strong>Meera's mango project:</strong> To build a mango disease detector, you need ~500–1000 labelled photos (healthy / diseased). With CNNs and transfer learning (next lesson), you can achieve 90%+ accuracy from scratch in Colab — no expensive GPU required for inference.
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>🧪 Check Your Understanding — Lesson 1 Quiz</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. The main reason regular (dense) neural networks struggle with images is:</div>
+        <div class="quiz-opt" data-opt="a">a) They are too slow to train</div>
+        <div class="quiz-opt" data-opt="b">b) They require GPU hardware</div>
+        <div class="quiz-opt" data-opt="c">c) They lose spatial structure when images are flattened, and have too many parameters for image-sized inputs</div>
+        <div class="quiz-opt" data-opt="d">d) They can only work with greyscale images</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. A convolutional filter (kernel) is typically:</div>
+        <div class="quiz-opt" data-opt="a">a) The same size as the full input image</div>
+        <div class="quiz-opt" data-opt="b">b) A small grid of learnable weights (e.g., 3×3) that slides across the image</div>
+        <div class="quiz-opt" data-opt="c">c) A pre-defined mathematical function that cannot be changed by training</div>
+        <div class="quiz-opt" data-opt="d">d) A list of pixel brightness values from the image</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. The purpose of MaxPool2D(2,2) in a CNN is to:</div>
+        <div class="quiz-opt" data-opt="a">a) Add more feature maps to increase model capacity</div>
+        <div class="quiz-opt" data-opt="b">b) Apply an activation function to remove negative values</div>
+        <div class="quiz-opt" data-opt="c">c) Reduce the spatial dimensions of feature maps by half, keeping the strongest activations and reducing parameters</div>
+        <div class="quiz-opt" data-opt="d">d) Connect all neurons from one layer to all neurons in the next</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. "Parameter sharing" in CNNs means:</div>
+        <div class="quiz-opt" data-opt="a">a) Multiple users share the same trained model</div>
+        <div class="quiz-opt" data-opt="b">b) One filter's weights are used at every position as it slides across the image, drastically reducing the number of learnable parameters</div>
+        <div class="quiz-opt" data-opt="c">c) All layers in the network use the same weight values</div>
+        <div class="quiz-opt" data-opt="d">d) Dense layers share weights with convolutional layers</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. In a deep CNN, what does the network typically learn in its earliest layers?</div>
+        <div class="quiz-opt" data-opt="a">a) High-level concepts like "cat" or "car"</div>
+        <div class="quiz-opt" data-opt="b">b) Simple patterns like edges and colour gradients, which later layers combine into shapes and objects</div>
+        <div class="quiz-opt" data-opt="c">c) The softmax probabilities for each class</div>
+        <div class="quiz-opt" data-opt="d">d) The exact pixel colours in the training images</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. In Keras, `padding='same'` in Conv2D means:</div>
+        <div class="quiz-opt" data-opt="a">a) All layers use the same filter size</div>
+        <div class="quiz-opt" data-opt="b">b) The output feature map has the same spatial dimensions as the input by adding zeros around the border</div>
+        <div class="quiz-opt" data-opt="c">c) The model uses the same weights as the previous layer</div>
+        <div class="quiz-opt" data-opt="d">d) No activation function is applied</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. Why is data augmentation useful when training a CNN?</div>
+        <div class="quiz-opt" data-opt="a">a) It increases the number of test images to evaluate accuracy more precisely</div>
+        <div class="quiz-opt" data-opt="b">b) It makes images smaller so training is faster</div>
+        <div class="quiz-opt" data-opt="c">c) It artificially increases training set diversity (flips, rotations, zooms) so the model generalises better and overfits less</div>
+        <div class="quiz-opt" data-opt="d">d) It normalises pixel values to the range 0–1</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. After two MaxPool2D(2,2) layers, a 224×224 feature map becomes:</div>
+        <div class="quiz-opt" data-opt="a">a) 224×224 (pooling doesn't change size)</div>
+        <div class="quiz-opt" data-opt="b">b) 112×112</div>
+        <div class="quiz-opt" data-opt="c">c) 56×56</div>
+        <div class="quiz-opt" data-opt="d">d) 28×28</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Answers</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="class-10.html" class="btn-prev">← Class 10 Hub</a>
+    <a href="lesson-02.html" class="btn-next">Lesson 2: Transfer Learning →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-10.html">Class 10</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'c',2:'b',3:'c',4:'b',5:'b',6:'b',7:'c',8:'c'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q]) o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=75){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — You understand how CNNs see the world. Ready for transfer learning!`;}
+  else if(pct>=50){res.className='quiz-result ok';res.textContent=`Good try! ${score}/${total} (${pct}%) — Re-read the pooling and filter sections.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Run the Keras code in Colab and watch model.summary() — seeing the architecture live makes it click!`;}
+  gtag('event','quiz_complete',{event_category:'class10',event_label:'class10_lesson01_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"Convolutional Neural Networks — Class 10 Lesson 1",
+  "description":"Understand how CNNs work. Learn about filters, feature maps, pooling, and why CNNs outperform regular neural networks on images.",
+  "url":"https://mitraailife.com/content/students/class-10/lesson-01.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Class 10",
+  "typicalAgeRange":"14-15",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

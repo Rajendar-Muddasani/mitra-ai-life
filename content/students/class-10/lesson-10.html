@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 10 — AI for Real Indian Problems | Class 10 | Mitra AI Life</title>
+<meta name="description" content="Class 10 Lesson 10: Explore AI applications for India's biggest challenges — agriculture, healthcare, education, and financial inclusion — with real datasets and project ideas." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-10/lesson-10.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#059669" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 10 — AI for Real Indian Problems | Class 10 | Mitra AI Life" />
+<meta property="og:description" content="Class 10 Lesson 10: Explore AI applications for India's biggest challenges — agriculture, healthcare, education, and financial inclusion — with real datasets and project ideas." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-10/lesson-10.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#ecfdf5;color:#064e3b;line-height:1.7}
+a{color:#059669;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#6ee7b7}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#6ee7b7}
+.lesson-hero{background:linear-gradient(135deg,#064e3b,#065f46,#059669);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.story-panel{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-left:5px solid #059669;border-radius:0 16px 16px 0;padding:1.5rem 1.5rem;margin:2rem 0;position:relative}
+.story-panel::before{content:'📖';position:absolute;top:-14px;left:16px;font-size:1.4rem}
+.story-panel .sp-label{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#059669;margin-bottom:.4rem}
+.story-panel p{font-size:.95rem;color:#064e3b;margin-bottom:.6rem}
+.story-panel p:last-child{margin-bottom:0}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#059669;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#064e3b;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#065f46;margin-bottom:.9rem}
+.lesson-section ul,.lesson-section ol{font-size:.93rem;color:#065f46;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.amber{background:#fffbeb;border-left:4px solid #f59e0b;color:#78350f}
+.callout.blue{background:#eff6ff;border-left:4px solid #3b82f6;color:#1e3a8a}
+/* Domain project cards */
+.domain-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin:1rem 0}
+.domain-card{background:#fff;border:1.5px solid #a7f3d0;border-radius:14px;padding:1.2rem;transition:box-shadow .15s}
+.domain-card:hover{box-shadow:0 4px 16px rgba(5,150,105,.12)}
+.dc-icon{font-size:1.8rem;margin-bottom:.4rem}
+.dc-title{font-family:'Baloo 2',cursive;font-size:1.05rem;color:#064e3b;margin-bottom:.3rem}
+.dc-stat{font-size:.78rem;font-weight:800;color:#059669;margin-bottom:.5rem}
+.dc-desc{font-size:.82rem;color:#065f46;margin-bottom:.5rem;line-height:1.5}
+.dc-project{font-size:.78rem;background:#ecfdf5;border-radius:6px;padding:.35rem .5rem;color:#064e3b;margin-bottom:.3rem}
+.dc-project strong{color:#059669}
+.dc-dataset{font-size:.72rem;color:#6b7280;margin-top:.3rem}
+.dc-diff{display:inline-block;font-size:.68rem;font-weight:800;padding:.15rem .5rem;border-radius:10px;margin-top:.4rem}
+.diff-beginner{background:#d1fae5;color:#065f46}
+.diff-intermediate{background:#fef3c7;color:#92400e}
+.diff-advanced{background:#fee2e2;color:#991b1b}
+.code-block{background:#1e293b;border-radius:12px;padding:1.2rem 1.4rem;margin:1rem 0;overflow-x:auto}
+.code-block pre{font-family:'Courier New',Courier,monospace;font-size:.82rem;color:#e2e8f0;line-height:1.6;margin:0;white-space:pre-wrap}
+.quiz-section{background:#fff;border:2px solid #059669;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#064e3b;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#064e3b;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:center;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #a7f3d0;background:#ecfdf5;font-size:.88rem;color:#064e3b;transition:border-color .15s}
+.quiz-opt:hover{border-color:#059669}
+.quiz-opt.selected{border-color:#059669;background:#ecfdf5;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#059669;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#047857}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #059669;color:#059669}
+.lesson-nav .btn-next{background:#059669;color:#fff}
+.lesson-nav .btn-prev:hover{background:#ecfdf5}
+.lesson-nav .btn-next:hover{background:#047857}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.domain-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-10.html" class="active">Class 10</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-10.html">Class 10</a> → Lesson 10</div>
+  <h1>AI for Real Indian Problems 🇮🇳</h1>
+  <div class="meta">
+    <span>Class 10</span><span>Age 14–15</span><span>Lesson 10 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-10/lesson-10-hero.jpg" alt="Collage of four AI for India domains — farmer with smartphone checking crop disease, doctor with tablet, student in rural school, and digital payment on feature phone" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="sp-label">Meet Kavita — Class 10, Bhopal</div>
+    <p>Kavita's school had a "Student Innovation for India" competition. The theme: use technology to solve a problem you see in your community. While her classmates thought of apps for ordering food faster, Kavita thought bigger. Her uncle is a soybean farmer in Vidisha district who loses 20–30% of his crop every year to diseases he can't identify early. Her grandmother lives 40 km from the nearest hospital.</p>
+    <p>"AI doesn't just make apps faster," Kavita wrote in her project proposal. "It can give a poor farmer the same advisory service as a large agricultural company. It can give a rural patient access to preliminary diagnosis that was only possible in big cities. That's the kind of AI I want to build." She won first place. This lesson explores the four domains where student-built AI can create the most impact in India.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Four Impact Domains</div>
+    <div class="ls-title">Where Student AI Projects Can Make a Real Difference</div>
+    <div class="domain-grid">
+      <!-- Agriculture -->
+      <div class="domain-card">
+        <div class="dc-icon">🌾</div>
+        <div class="dc-title">Agriculture</div>
+        <div class="dc-stat">58% of India's population depends on farming</div>
+        <div class="dc-desc">India has 120M+ smallholder farms. Most farmers lose 15–40% of crop yield to pests, diseases, and poor timing. Expensive inputs are often applied too late or in wrong quantities.</div>
+        <div class="dc-project"><strong>Project idea 1:</strong> Crop disease detector — CNN trained on PlantVillage dataset (54,000 labelled leaf images, 38 disease classes). Output: disease name + treatment + severity. Deploy as Streamlit app.</div>
+        <div class="dc-project"><strong>Project idea 2:</strong> Crop price predictor — LSTM or gradient boosting on Agmarknet price data (government open data, district-wise daily prices). Predict next week's mandi price.</div>
+        <div class="dc-dataset">Datasets: PlantVillage (Kaggle), Agmarknet API, ICAR open datasets</div>
+        <div><span class="dc-diff diff-beginner">Beginner: price predictor</span> <span class="dc-diff diff-intermediate">Intermediate: disease detector</span></div>
+      </div>
+      <!-- Healthcare -->
+      <div class="domain-card">
+        <div class="dc-icon">🏥</div>
+        <div class="dc-title">Healthcare</div>
+        <div class="dc-stat">1 doctor per 1511 patients in India (WHO recommends 1:1000)</div>
+        <div class="dc-desc">India has a severe shortage of doctors, especially in rural areas. 70% of hospitals are in cities. Telemedicine and AI-assisted screening can bridge the gap for primary diagnosis.</div>
+        <div class="dc-project"><strong>Project idea 1:</strong> Diabetes risk predictor — Logistic regression / Random Forest on PIMA Indian Diabetes dataset. Input: 8 clinical features. Output: risk score + lifestyle advice.</div>
+        <div class="dc-project"><strong>Project idea 2:</strong> X-ray pneumonia detector — CNN using transfer learning (MobileNetV2) on NIH Chest X-ray dataset. Binary classification: Normal / Pneumonia.</div>
+        <div class="dc-dataset">Datasets: PIMA Diabetes (Kaggle), NIH Chest X-ray (Kaggle), AIIMS open research data</div>
+        <div><span class="dc-diff diff-beginner">Beginner: diabetes risk</span> <span class="dc-diff diff-advanced">Advanced: X-ray CNN</span></div>
+      </div>
+      <!-- Education -->
+      <div class="domain-card">
+        <div class="dc-icon">📚</div>
+        <div class="dc-title">Education</div>
+        <div class="dc-stat">10M+ students drop out of school annually in India</div>
+        <div class="dc-desc">India has 250M school children. Dropout rates are highest in Grades 6–9, especially for girls. Early identification of at-risk students enables targeted intervention by teachers and social workers.</div>
+        <div class="dc-project"><strong>Project idea 1:</strong> Student dropout predictor — Gradient boosting on UDISE+ data (school-level enrollment, attendance, pass rates by district). Identify high-risk districts.</div>
+        <div class="dc-project"><strong>Project idea 2:</strong> Telugu/Hindi learning assistant — Fine-tuned small LLM (DistilBERT) to answer curriculum questions in Telugu. RAG over NCERT textbook PDFs.</div>
+        <div class="dc-dataset">Datasets: UDISE+ (data.gov.in), NCERT textbooks (public), ASER rural education survey</div>
+        <div><span class="dc-diff diff-beginner">Beginner: dropout analysis</span> <span class="dc-diff diff-intermediate">Intermediate: RAG assistant</span></div>
+      </div>
+      <!-- Financial Inclusion -->
+      <div class="domain-card">
+        <div class="dc-icon">💳</div>
+        <div class="dc-title">Financial Inclusion</div>
+        <div class="dc-stat">190M+ Indians are unbanked or underbanked</div>
+        <div class="dc-desc">India has 800M+ UPI users but access to formal credit is limited for rural and informal workers. Fair, explainable AI credit scoring can help microfinance institutions lend responsibly.</div>
+        <div class="dc-project"><strong>Project idea 1:</strong> Micro-credit scoring — Gradient boosting + SHAP explainability on synthetic PMJDY-inspired dataset. Feature importance shows which factors drive the decision (required for responsible lending).</div>
+        <div class="dc-project"><strong>Project idea 2:</strong> UPI fraud detector — Anomaly detection (Isolation Forest) on transaction patterns. Flag transactions that deviate significantly from user's history.</div>
+        <div class="dc-dataset">Datasets: RBI PMJDY data, UCI Credit Default dataset, synthetic data generators for privacy</div>
+        <div><span class="dc-diff diff-intermediate">Intermediate: credit scoring</span> <span class="dc-diff diff-advanced">Advanced: fraud detection</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Sample Project</div>
+    <div class="ls-title">Kavita's Soybean Disease Detector</div>
+    <div class="code-block"><pre># Soybean Crop Disease Classifier — Kavita's project
+# Uses: Transfer Learning (MobileNetV2) + Streamlit + Streamlit Cloud
+
+# ── Step 1: Data — PlantVillage dataset on Kaggle ──
+# https://www.kaggle.com/datasets/abdallahalidev/plantvillage-dataset
+# Folder structure: data/train/Soybean_Bacterial_Blight/
+#                   data/train/Soybean_Frogeye_Leaf_Spot/
+#                   data/train/Soybean_Healthy/
+
+import tensorflow as tf
+from tensorflow.keras.applications import MobileNetV2
+from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout
+from tensorflow.keras.models import Model
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+
+CLASSES = ["Bacterial Blight", "Frogeye Leaf Spot", "Healthy"]
+IMG_SIZE = 224
+BATCH    = 32
+EPOCHS   = 10
+
+# Data generators with augmentation
+train_gen = ImageDataGenerator(
+    rescale=1./255, rotation_range=20, horizontal_flip=True,
+    zoom_range=0.15, validation_split=0.2
+)
+train_data = train_gen.flow_from_directory(
+    "data/", target_size=(IMG_SIZE, IMG_SIZE),
+    batch_size=BATCH, subset='training', class_mode='categorical'
+)
+val_data = train_gen.flow_from_directory(
+    "data/", target_size=(IMG_SIZE, IMG_SIZE),
+    batch_size=BATCH, subset='validation', class_mode='categorical'
+)
+
+# Transfer learning: MobileNetV2 base + custom head
+base = MobileNetV2(input_shape=(IMG_SIZE, IMG_SIZE, 3), include_top=False, weights='imagenet')
+base.trainable = False
+x = base.output
+x = GlobalAveragePooling2D()(x)
+x = Dropout(0.3)(x)
+output = Dense(len(CLASSES), activation='softmax')(x)
+model = Model(inputs=base.input, outputs=output)
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+# Train
+history = model.fit(train_data, validation_data=val_data, epochs=EPOCHS)
+model.save("soybean_model.h5")
+print(f"Val accuracy: {max(history.history['val_accuracy']):.3f}")
+
+# ── Step 2: Streamlit app (save as app.py) ──
+# streamlit run app.py
+
+APP_CODE = '''
+import streamlit as st, numpy as np
+from PIL import Image
+import tensorflow as tf
+
+CLASSES = ["Bacterial Blight", "Frogeye Leaf Spot", "Healthy"]
+TREATMENTS = {
+    "Bacterial Blight":   "Copper-based bactericide. Remove infected leaves. Avoid overhead irrigation.",
+    "Frogeye Leaf Spot":  "Thiophanate-methyl fungicide. Plant resistant varieties next season.",
+    "Healthy":            "Crop is healthy! Monitor weekly for early signs."
+}
+
+@st.cache_resource
+def load_model():
+    return tf.keras.models.load_model("soybean_model.h5")
+
+st.title("🌱 Soybean Disease Detector")
+st.markdown("Upload a soybean leaf photo to identify disease.")
+model = load_model()
+uploaded = st.file_uploader("Upload leaf image", type=["jpg","jpeg","png"])
+if uploaded:
+    img = Image.open(uploaded).convert("RGB")
+    st.image(img, use_container_width=True)
+    arr = np.expand_dims(np.array(img.resize((224,224)))/255.0, 0)
+    pred = model.predict(arr)[0]
+    cls  = CLASSES[np.argmax(pred)]
+    conf = pred.max()
+    st.success(f"**{cls}** ({conf*100:.1f}% confidence)")
+    st.info(TREATMENTS[cls])
+'''
+with open("app.py", "w") as f:
+    f.write(APP_CODE)
+print("app.py written — run: streamlit run app.py")</pre></div>
+    <div class="callout green">
+      <strong>Kavita's competition result:</strong> Her app correctly identified Frogeye Leaf Spot in 8 of 10 test images from her uncle's farm. The judges were impressed not by the accuracy but by her problem framing: she had spoken to 15 farmers, understood what disease descriptions they actually understood, and included the treatment cost estimate next to each recommendation. Technical skill + domain understanding = real impact.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Choosing Your Project</div>
+    <div class="ls-title">The India AI Project Checklist</div>
+    <ul>
+      <li>✅ <strong>Is there a real person who has this problem?</strong> Can you talk to them? (Farmer, patient, teacher, small business owner)</li>
+      <li>✅ <strong>Is there public data?</strong> Check: Kaggle, data.gov.in, AI4Bharat, iNaturalist, UDISE+, RBI open data</li>
+      <li>✅ <strong>Does your output have a clear action?</strong> "Disease X — use Y treatment" is better than just "Probability: 0.73"</li>
+      <li>✅ <strong>Can you build a v1 in 2 weeks?</strong> Start simpler than you think. A working simple model beats a theoretically perfect one</li>
+      <li>✅ <strong>How will you handle wrong predictions?</strong> Always show confidence. For healthcare/agriculture, always say "Verify with an expert"</li>
+      <li>✅ <strong>Who gives feedback?</strong> Real users who test your app give 10× more learning than any evaluation metric</li>
+    </ul>
+    <div class="callout amber">
+      <strong>The most important lesson:</strong> India's AI opportunity is not in building the next GPT. It is in taking existing, proven AI techniques and applying them to 100 million-scale problems that Silicon Valley ignores — because those problems don't generate enough revenue for large companies but matter enormously to real people.
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>🧪 Check Your Understanding — Lesson 10 Quiz</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. The PlantVillage dataset is suitable for a beginner crop disease project because:</div>
+        <div class="quiz-opt" data-opt="a">a) It contains financial data about crop prices in Indian mandis</div>
+        <div class="quiz-opt" data-opt="b">b) It has 54,000+ labelled leaf images across 38 disease classes — large enough to train a CNN with transfer learning to good accuracy without needing to collect your own images</div>
+        <div class="quiz-opt" data-opt="c">c) It is the only agriculture dataset approved for school projects in India</div>
+        <div class="quiz-opt" data-opt="d">d) It was created specifically for the Indian climate and crop varieties</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. Why should an AI health screening app always say "Verify with an expert" even if it has 90% accuracy?</div>
+        <div class="quiz-opt" data-opt="a">a) To make the app seem less impressive so users don't trust it too much</div>
+        <div class="quiz-opt" data-opt="b">b) 90% accuracy means 1 in 10 results is wrong — for medical decisions, a false negative (missing a disease) or false positive (unnecessary treatment) can cause serious harm. AI assists; it does not replace clinical judgment.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Regulatory requirements in India mandate disclaimers on all mobile apps</div>
+        <div class="quiz-opt" data-opt="d">d) Because the model has never seen Indian patients in its training data</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. UDISE+ data is useful for a student dropout predictor because:</div>
+        <div class="quiz-opt" data-opt="a">a) It contains individual student test scores from all Indian schools</div>
+        <div class="quiz-opt" data-opt="b">b) It is India's official school-level dataset with enrollment, attendance, pass rates, and infrastructure data by district — allowing analysis of patterns that predict high dropout risk at scale</b></div>
+        <div class="quiz-opt" data-opt="c">c) It provides real-time dropout notifications from school attendance systems</div>
+        <div class="quiz-opt" data-opt="d">d) It only covers urban schools in the top 10 cities</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. SHAP (SHapley Additive exPlanations) is important in a credit scoring AI because:</div>
+        <div class="quiz-opt" data-opt="a">a) It increases model accuracy by removing redundant features</div>
+        <div class="quiz-opt" data-opt="b">b) It explains WHY the model made a decision — showing which features (income, employment history, existing loans) contributed most to approving or rejecting a loan. This is required for fair, auditable lending decisions.</b></div>
+        <div class="quiz-opt" data-opt="c">c) It compresses the model file for faster loading on mobile</div>
+        <div class="quiz-opt" data-opt="d">d) It translates model outputs into Hindi for rural users</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. Which aspect of Kavita's project impressed the competition judges most?</div>
+        <div class="quiz-opt" data-opt="a">a) She achieved the highest possible model accuracy (100%)</div>
+        <div class="quiz-opt" data-opt="b">b) Her domain understanding — she talked to 15 farmers, included disease descriptions farmers understood, and added treatment cost estimates. Technical skill combined with real user insight.</b></div>
+        <div class="quiz-opt" data-opt="c">c) She used the most expensive cloud GPU to train the model</div>
+        <div class="quiz-opt" data-opt="d">d) She built the app entirely in JavaScript without Python</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. Anomaly detection with Isolation Forest is appropriate for UPI fraud detection because:</div>
+        <div class="quiz-opt" data-opt="a">a) Isolation Forest can only process payment data in rupee amounts</div>
+        <div class="quiz-opt" data-opt="b">b) Fraud transactions are rare and labelled data is scarce — Isolation Forest is an unsupervised method that learns normal transaction patterns and flags outliers without needing labelled fraud examples</b></div>
+        <div class="quiz-opt" data-opt="c">c) It is the only algorithm approved by the RBI for payment systems</div>
+        <div class="quiz-opt" data-opt="d">d) It processes transactions in real-time faster than neural networks</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. Why does the project checklist ask "Is there a real person who has this problem?"</div>
+        <div class="quiz-opt" data-opt="a">a) Because AI models require human-labelled data from the exact target user group</div>
+        <div class="quiz-opt" data-opt="b">b) Projects that solve imaginary problems (or problems in Silicon Valley, not India) waste time. Talking to the actual user reveals what features matter, what language to use, and what trust looks like — insights that change the whole design.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Real users are required to sign legal agreements before ML projects can begin</div>
+        <div class="quiz-opt" data-opt="d">d) To satisfy school competition rules that require user interviews</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. India's AI opportunity compared to Silicon Valley is described as:</div>
+        <div class="quiz-opt" data-opt="a">a) Building larger and more powerful foundation models to compete with GPT-4</div>
+        <div class="quiz-opt" data-opt="b">b) Applying existing, proven AI techniques to 100 million-scale problems that matter to real people but are ignored by large companies because they don't generate enough profit</b></div>
+        <div class="quiz-opt" data-opt="c">c) Copying successful American AI startups and translating their products to Hindi</div>
+        <div class="quiz-opt" data-opt="d">d) Focusing only on AI for English-speaking urban Indians</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Answers</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-09.html" class="btn-prev">← Lesson 9: Streamlit</a>
+    <a href="lesson-11.html" class="btn-next">Lesson 11: Responsible AI →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-10.html">Class 10</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'b',8:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q]) o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=75){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — Pick one domain from this lesson and start your India AI project. The skills from L01–L09 are exactly what you need.`;}
+  else if(pct>=50){res.className='quiz-result ok';res.textContent=`Good! ${score}/${total} (${pct}%) — Re-read the domain cards and the project checklist.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Read about one real Indian AI project online (e.g., Wadhwani AI, iCROP, Niramai). Understanding what has worked makes this lesson's ideas concrete.`;}
+  gtag('event','quiz_complete',{event_category:'class10',event_label:'class10_lesson10_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"AI for Real Indian Problems — Class 10 Lesson 10",
+  "description":"Explore AI applications for India's biggest challenges — agriculture, healthcare, education, and financial inclusion — with real datasets and project ideas.",
+  "url":"https://mitraailife.com/content/students/class-10/lesson-10.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Class 10",
+  "typicalAgeRange":"14-15",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

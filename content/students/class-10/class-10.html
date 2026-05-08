@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Class 10 — Advanced AI Projects | Mitra AI Life</title>
+<meta name="description" content="Class 10: Advanced AI Projects for age 14–15. CNNs, transfer learning, object detection, transformers, RAG chatbots, FastAPI, Streamlit, ML pipelines, and your capstone AI product." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-10/class-10.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#059669" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Class 10 — Advanced AI Projects | Mitra AI Life" />
+<meta property="og:description" content="Class 10: Advanced AI Projects for age 14–15. CNNs, transfer learning, object detection, transformers, RAG chatbots, FastAPI, Streamlit, ML pipelines, and your capstone AI product." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-10/class-10.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#ecfdf5;color:#064e3b;line-height:1.7}
+a{color:#059669;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#6ee7b7}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#6ee7b7}
+.class-hero{background:linear-gradient(135deg,#064e3b,#065f46,#059669,#34d399);padding:3rem 1.5rem 4rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.class-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.class-hero .class-badge{display:inline-block;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);border-radius:24px;padding:.3rem 1rem;font-size:.78rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.9);margin-bottom:1rem;position:relative}
+.class-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(2rem,6vw,3.2rem);font-weight:800;line-height:1.1;margin-bottom:.75rem;position:relative}
+.class-hero .sub{font-size:1rem;color:rgba(255,255,255,.8);max-width:540px;margin:0 auto 1.2rem;position:relative}
+.class-hero .meta-pills{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;position:relative}
+.class-hero .meta-pills span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.25rem .85rem;font-size:.8rem;color:rgba(255,255,255,.85)}
+.content-wrap{max-width:900px;margin:0 auto;padding:3rem 1.5rem 5rem}
+/* Prereq */
+.prereq-box{background:#fff;border:2px solid #a7f3d0;border-radius:14px;padding:1.2rem 1.4rem;margin-bottom:2.5rem}
+.prereq-box .pb-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#059669;margin-bottom:.4rem}
+.prereq-box p{font-size:.88rem;color:#065f46;margin:0}
+/* Outcome grid */
+.outcome-section{margin-bottom:2.5rem}
+.outcome-section h2{font-family:'Baloo 2',cursive;font-size:1.4rem;color:#064e3b;margin-bottom:1rem}
+.outcome-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem}
+.outcome-card{background:#fff;border:1.5px solid #a7f3d0;border-radius:12px;padding:.9rem 1rem;display:flex;gap:.7rem;align-items:flex-start}
+.outcome-card .oc-icon{font-size:1.2rem;flex-shrink:0;margin-top:.1rem}
+.outcome-card .oc-text{font-size:.84rem;color:#065f46;font-weight:600}
+/* Curriculum grid */
+.curric-section h2{font-family:'Baloo 2',cursive;font-size:1.4rem;color:#064e3b;margin-bottom:1rem}
+.curric-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-bottom:2rem}
+.cc-card{background:#fff;border:1.5px solid #a7f3d0;border-radius:14px;padding:1.1rem;position:relative;transition:box-shadow .15s,border-color .15s}
+.cc-card:hover{border-color:#059669;box-shadow:0 4px 18px rgba(5,150,105,.12)}
+.cc-card a{text-decoration:none;color:inherit;display:block}
+.cc-card .cc-num{font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#059669;margin-bottom:.25rem}
+.cc-card .cc-title{font-weight:800;color:#064e3b;font-size:.9rem;margin-bottom:.3rem}
+.cc-card .cc-desc{font-size:.78rem;color:#065f46;margin-bottom:.5rem}
+.cc-badge{font-size:.68rem;font-weight:700;border-radius:10px;padding:.15rem .5rem}
+.cc-badge.live{background:#dcfce7;color:#15803d}
+/* CTA */
+.cta-wrap{text-align:center;margin:2rem 0}
+.cta-wrap a{display:inline-block;background:#059669;color:#fff;border-radius:12px;padding:.85rem 2.2rem;font-weight:800;font-size:1rem;text-decoration:none}
+.cta-wrap a:hover{background:#047857}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-10.html" class="active">Class 10</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="class-hero">
+  <div class="class-badge">Class 10 · Age 14–15</div>
+  <h1>Advanced AI Projects 🚀</h1>
+  <p class="sub">CNNs, transfer learning, transformers, RAG chatbots, FastAPI, Streamlit, ML pipelines — and your own deployed AI product.</p>
+  <div class="meta-pills">
+    <span>12 Lessons</span><span>Age 14–15</span><span>🆓 Free</span><span>Prerequisite: Class 9</span>
+  </div>
+</header>
+
+<main class="content-wrap">
+  <div class="prereq-box">
+    <div class="pb-label">Before you start</div>
+    <p>You should have completed <strong>Class 9 — Building with AI</strong> (or have equivalent knowledge of neural networks, sklearn classifiers, pandas, basic NLP, and calling APIs from Python). Every lesson runs in Google Colab — no installation required.</p>
+  </div>
+
+  <div class="outcome-section">
+    <h2>What You Will Build</h2>
+    <div class="outcome-grid">
+      <div class="outcome-card"><div class="oc-icon">👁️</div><div class="oc-text">An image classifier using CNN and transfer learning</div></div>
+      <div class="outcome-card"><div class="oc-icon">🔍</div><div class="oc-text">An object detector running on your own photos</div></div>
+      <div class="outcome-card"><div class="oc-icon">💬</div><div class="oc-text">A RAG chatbot that answers questions from your own documents</div></div>
+      <div class="outcome-card"><div class="oc-icon">⚙️</div><div class="oc-text">A REST API serving an ML model (FastAPI)</div></div>
+      <div class="outcome-card"><div class="oc-icon">🌐</div><div class="oc-text">A deployed web app users can actually visit (Streamlit Cloud)</div></div>
+      <div class="outcome-card"><div class="oc-icon">🏅</div><div class="oc-text">A full capstone AI product with a public GitHub repo and live URL</div></div>
+    </div>
+  </div>
+
+  <div class="curric-section">
+    <h2>12-Lesson Curriculum</h2>
+    <div class="curric-grid">
+      <div class="cc-card"><a href="lesson-01.html"><div class="cc-num">Lesson 01</div><div class="cc-title">Convolutional Neural Networks</div><div class="cc-desc">Filters, feature maps, pooling — how CNNs see the world</div><span class="cc-badge live">● Live · Free</span></a></div>
+      <div class="cc-card"><a href="lesson-02.html"><div class="cc-num">Lesson 02</div><div class="cc-title">Image Classification with Transfer Learning</div><div class="cc-desc">Fine-tune MobileNetV2 on your own images in Colab</div><span class="cc-badge live">● Live · Free</span></a></div>
+      <div class="cc-card"><a href="lesson-03.html"><div class="cc-num">Lesson 03</div><div class="cc-title">Object Detection: YOLO Basics</div><div class="cc-desc">Bounding boxes, IoU, NMS — run YOLOv8 on real photos</div><span class="cc-badge live">● Live · Free</span></a></div>
+      <div class="cc-card"><a href="lesson-04.html"><div class="cc-num">Lesson 04</div><div class="cc-title">Transformers and Attention</div><div class="cc-desc">Self-attention, BERT, GPT architecture deep dive</div><span class="cc-badge live">● Live · Free</span></a></div>
+      <div class="cc-card"><a href="lesson-05.html"><div class="cc-num">Lesson 05</div><div class="cc-title">Fine-Tuning Language Models</div><div class="cc-desc">Hugging Face, IndicBERT, fine-tune for Indian text tasks</div><span class="cc-badge live">● Live · Free</span></a></div>
+      <div class="cc-card"><a href="lesson-06.html"><div class="cc-num">Lesson 06</div><div class="cc-title">Building a RAG Chatbot</div><div class="cc-desc">Retrieval-Augmented Generation, vector embeddings, your own doc Q&amp;A</div><span class="cc-badge live">● Live · Free</span></a></div>
+      <div class="cc-card"><a href="lesson-07.html"><div class="cc-num">Lesson 07</div><div class="cc-title">ML Pipelines and Experiment Tracking</div><div class="cc-desc">MLflow experiments, DVC data versioning, reproducible ML</div><span class="cc-badge live">● Live · Free</span></a></div>
+      <div class="cc-card"><a href="lesson-08.html"><div class="cc-num">Lesson 08</div><div class="cc-title">FastAPI: Serving Your ML Model</div><div class="cc-desc">Build a REST API for your classifier — Pydantic + Uvicorn</div><span class="cc-badge live">● Live · Free</span></a></div>
+      <div class="cc-card"><a href="lesson-09.html"><div class="cc-num">Lesson 09</div><div class="cc-title">Streamlit: AI Web Apps</div><div class="cc-desc">Build a visual web app for your model — deploy in 10 minutes</div><span class="cc-badge live">● Live · Free</span></a></div>
+      <div class="cc-card"><a href="lesson-10.html"><div class="cc-num">Lesson 10</div><div class="cc-title">AI for Real Indian Problems</div><div class="cc-desc">Agriculture, healthcare, education, financial inclusion — build something that matters</div><span class="cc-badge live">● Live · Free</span></a></div>
+      <div class="cc-card"><a href="lesson-11.html"><div class="cc-num">Lesson 11</div><div class="cc-title">Responsible AI at Scale</div><div class="cc-desc">Bias auditing, model cards, India's PDPB, fairness tools</div><span class="cc-badge live">● Live · Free</span></a></div>
+      <div class="cc-card"><a href="lesson-12.html"><div class="cc-num">Lesson 12</div><div class="cc-title">Capstone: My AI Product</div><div class="cc-desc">End-to-end: dataset → model → API → web app → deployed URL</div><span class="cc-badge live">● Live · Free</span></a></div>
+    </div>
+  </div>
+
+  <div class="cta-wrap">
+    <a href="lesson-01.html">Start Lesson 1 → CNNs</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Class 10 — Advanced AI Projects",
+  "description": "Class 10 for age 14–15. CNNs, transfer learning, object detection, transformers, RAG chatbots, FastAPI, Streamlit, ML pipelines, and a full capstone AI product.",
+  "url": "https://mitraailife.com/content/students/class-10/class-10.html",
+  "educationalLevel": "Class 10",
+  "typicalAgeRange": "14-15",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "numberOfCredits": 12,
+  "provider": { "@type": "Organization", "name": "Mitra AI Life Education", "url": "https://mitraailife.com" }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 9 — Streamlit: AI Web Apps | Class 10 | Mitra AI Life</title>
+<meta name="description" content="Class 10 Lesson 9: Build and deploy an AI web app with Streamlit — no HTML needed. Create an image classifier UI with file upload, deploy free on Streamlit Community Cloud." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-10/lesson-09.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#059669" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 9 — Streamlit: AI Web Apps | Class 10 | Mitra AI Life" />
+<meta property="og:description" content="Class 10 Lesson 9: Build and deploy an AI web app with Streamlit — no HTML needed. Create an image classifier UI with file upload, deploy free on Streamlit Community Cloud." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-10/lesson-09.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#ecfdf5;color:#064e3b;line-height:1.7}
+a{color:#059669;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#6ee7b7}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#6ee7b7}
+.lesson-hero{background:linear-gradient(135deg,#064e3b,#065f46,#059669);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.story-panel{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-left:5px solid #059669;border-radius:0 16px 16px 0;padding:1.5rem 1.5rem;margin:2rem 0;position:relative}
+.story-panel::before{content:'📖';position:absolute;top:-14px;left:16px;font-size:1.4rem}
+.story-panel .sp-label{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#059669;margin-bottom:.4rem}
+.story-panel p{font-size:.95rem;color:#064e3b;margin-bottom:.6rem}
+.story-panel p:last-child{margin-bottom:0}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#059669;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#064e3b;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#065f46;margin-bottom:.9rem}
+.lesson-section ul,.lesson-section ol{font-size:.93rem;color:#065f46;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.amber{background:#fffbeb;border-left:4px solid #f59e0b;color:#78350f}
+.callout.blue{background:#eff6ff;border-left:4px solid #3b82f6;color:#1e3a8a}
+/* Streamlit widget mock */
+.st-mock{background:#fff;border:1.5px solid #a7f3d0;border-radius:14px;padding:1.2rem 1.4rem;margin:1rem 0}
+.st-mock .st-title{font-family:'Baloo 2',cursive;font-size:1.1rem;color:#064e3b;margin-bottom:.4rem}
+.st-mock .st-upload{border:2px dashed #a7f3d0;border-radius:8px;padding:.9rem;text-align:center;font-size:.82rem;color:#6b7280;margin:.5rem 0}
+.st-mock .st-btn{background:#059669;color:#fff;border:none;border-radius:6px;padding:.4rem 1.2rem;font-weight:800;font-size:.82rem;cursor:default;margin:.4rem 0;display:inline-block}
+.st-mock .st-result{background:#ecfdf5;border-radius:6px;padding:.6rem .8rem;font-size:.82rem;color:#064e3b;margin-top:.5rem}
+.code-block{background:#1e293b;border-radius:12px;padding:1.2rem 1.4rem;margin:1rem 0;overflow-x:auto}
+.code-block pre{font-family:'Courier New',Courier,monospace;font-size:.82rem;color:#e2e8f0;line-height:1.6;margin:0;white-space:pre-wrap}
+.deploy-steps{counter-reset:deploy;padding:0;list-style:none;margin:1rem 0}
+.deploy-steps li{counter-increment:deploy;display:flex;align-items:flex-start;gap:.8rem;font-size:.9rem;color:#065f46;margin-bottom:.75rem}
+.deploy-steps li::before{content:counter(deploy);background:#059669;color:#fff;border-radius:50%;width:1.5rem;height:1.5rem;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.78rem;flex-shrink:0;margin-top:.1rem}
+.quiz-section{background:#fff;border:2px solid #059669;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#064e3b;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#064e3b;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:center;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #a7f3d0;background:#ecfdf5;font-size:.88rem;color:#064e3b;transition:border-color .15s}
+.quiz-opt:hover{border-color:#059669}
+.quiz-opt.selected{border-color:#059669;background:#ecfdf5;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#059669;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#047857}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #059669;color:#059669}
+.lesson-nav .btn-next{background:#059669;color:#fff}
+.lesson-nav .btn-prev:hover{background:#ecfdf5}
+.lesson-nav .btn-next:hover{background:#047857}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-10.html" class="active">Class 10</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-10.html">Class 10</a> → Lesson 9</div>
+  <h1>Streamlit: AI Web Apps 🌐</h1>
+  <div class="meta">
+    <span>Class 10</span><span>Age 14–15</span><span>Lesson 9 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-10/lesson-09-hero.jpg" alt="Student in Kochi showing a Streamlit plant disease classifier app on laptop — uploaded leaf image with disease prediction shown" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="sp-label">Meet Dev — Class 10, Kochi</div>
+    <p>Dev's family runs a small coconut farm in Thrissur district. Every monsoon, coconut palms get attacked by pests and fungal diseases. His father shows photos to an agricultural officer who visits once a month — but by then, the disease has spread. Dev thought: "I have a trained CNN model from Lesson 1 that classifies plant diseases. What if farmers could upload a photo from their phone and get an instant answer?"</p>
+    <p>The problem: building a website needs HTML, CSS, JavaScript. FastAPI from Lesson 8 needs a separate frontend. Dev discovered Streamlit — a Python library that turns a Python script into a full web application. No HTML. No CSS. Just Python. He had a working app in 40 minutes and deployed it online for free.</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">What is Streamlit?</div>
+    <div class="ls-title">Python Script → Web App in Minutes</div>
+    <p>Streamlit is a Python library that converts a regular Python script into an interactive web application by simply calling functions like <code>st.title()</code>, <code>st.text_input()</code>, and <code>st.image()</code>. Every time a user interacts with a widget (slider, button, file upload), the entire script re-runs from top to bottom and the UI updates.</p>
+    <div class="st-mock">
+      <div class="st-title">🌿 Plant Disease Detector</div>
+      <div class="st-upload">📷 Upload a leaf image (jpg, png)<br><small>Drop files here or click to browse</small></div>
+      <div class="st-btn">Analyse Image</div>
+      <div class="st-result">✅ <strong>Detected: Coconut Leaf Blight</strong> (94.2% confidence)<br>💊 Recommended: Copper oxychloride spray, 3g/litre water.</div>
+    </div>
+    <p><small>This is what Dev built. The UI above is a static preview of what the Streamlit app looks like.</small></p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Core Widgets</div>
+    <div class="ls-title">Essential Streamlit Functions</div>
+    <div class="code-block"><pre>import streamlit as st
+
+# Layout
+st.title("My AI App")
+st.header("Section heading")
+st.subheader("Sub-heading")
+st.write("Any text, dataframe, chart, dict — all rendered automatically")
+st.markdown("**Bold**, *italic*, and `code` formatting supported")
+
+# Input widgets
+name = st.text_input("Your name", placeholder="e.g. Priya")
+age  = st.number_input("Age", min_value=5, max_value=100, value=15)
+lang = st.selectbox("Preferred language", ["English", "Telugu", "Hindi", "Malayalam"])
+conf = st.slider("Confidence threshold", min_value=0.0, max_value=1.0, value=0.5)
+clicked = st.button("Run prediction")
+
+# File upload
+uploaded = st.file_uploader("Upload image", type=["jpg","jpeg","png"])
+
+# Output
+st.success("Great job! 🎉")    # green box
+st.warning("Check your input")  # yellow box
+st.error("Invalid file")        # red box
+
+# Show image
+if uploaded:
+    st.image(uploaded, caption="Uploaded image", use_container_width=True)
+
+# Show data and charts
+import pandas as pd
+df = pd.DataFrame({"Score": [85, 92, 78]}, index=["Run1","Run2","Run3"])
+st.dataframe(df)
+st.bar_chart(df)</pre></div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Full App</div>
+    <div class="ls-title">Plant Disease Classifier — Complete Streamlit App</div>
+    <div class="code-block"><pre># plant_disease_app.py
+# Run locally: streamlit run plant_disease_app.py
+# Deploy free: https://share.streamlit.io
+
+import streamlit as st
+import numpy as np
+from PIL import Image
+
+# ── Page config ──
+st.set_page_config(
+    page_title="Plant Disease Detector",
+    page_icon="🌿",
+    layout="centered"
+)
+
+# ── Cache the model — loaded once, not on every re-run ──
+@st.cache_resource
+def load_model():
+    """Load the trained CNN model. Cached so it only loads once."""
+    try:
+        import tensorflow as tf
+        model = tf.keras.models.load_model("plant_disease_model.h5")
+        return model
+    except Exception:
+        return None
+
+# ── Class labels (matches training dataset order) ──
+CLASSES = [
+    "Cashew Anthracnose",
+    "Cashew Gumosis",
+    "Cassava Bacterial Blight",
+    "Cassava Brown Spot",
+    "Coconut Leaf Blight",
+    "Coconut Leaf Rot",
+    "Healthy",
+    "Maize Leaf Blight",
+    "Maize Leaf Spot",
+    "Tomato Early Blight"
+]
+
+TREATMENTS = {
+    "Cashew Anthracnose":      "Spray Mancozeb 75WP (2.5g/L). Remove infected branches.",
+    "Cashew Gumosis":          "Apply Bordeaux paste on affected areas. Improve drainage.",
+    "Cassava Bacterial Blight":"Remove and burn infected parts. Use disease-free cuttings.",
+    "Cassava Brown Spot":      "Apply Carbendazim 50WP (1g/L). Ensure good spacing.",
+    "Coconut Leaf Blight":     "Spray Copper oxychloride (3g/L). Improve air circulation.",
+    "Coconut Leaf Rot":        "Apply Bordeaux mixture. Remove fallen debris.",
+    "Healthy":                 "No treatment needed. Plant is healthy! ✅",
+    "Maize Leaf Blight":       "Spray Propiconazole (1ml/L). Use resistant varieties.",
+    "Maize Leaf Spot":         "Apply Zineb 75WP (2g/L). Destroy infected crop residue.",
+    "Tomato Early Blight":     "Spray Chlorothalonil 75WP (2g/L). Stake plants well."
+}
+
+# ── App UI ──
+st.title("🌿 Plant Disease Detector")
+st.markdown("Upload a photo of a plant leaf to identify disease and get treatment advice.")
+st.markdown("---")
+
+model = load_model()
+if model is None:
+    st.warning("⚠️ Model file not found. Running in demo mode with random predictions.")
+
+# Sidebar — settings
+with st.sidebar:
+    st.header("Settings")
+    confidence_threshold = st.slider("Minimum confidence", 0.3, 1.0, 0.6)
+    show_top3 = st.checkbox("Show top 3 predictions", value=True)
+    st.markdown("---")
+    st.markdown("**Supported crops:**")
+    st.markdown("Cashew · Cassava · Coconut · Maize · Tomato")
+
+# File upload
+uploaded_file = st.file_uploader(
+    "📷 Upload a leaf image",
+    type=["jpg", "jpeg", "png"],
+    help="Take a clear photo of the leaf in good lighting"
+)
+
+if uploaded_file is not None:
+    # Display uploaded image
+    image = Image.open(uploaded_file).convert("RGB")
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        st.image(image, caption="Uploaded leaf", use_container_width=True)
+
+    with col2:
+        with st.spinner("Analysing..."):
+            # Preprocess for CNN (224×224, normalised)
+            img_array = np.array(image.resize((224, 224))) / 255.0
+            img_array = np.expand_dims(img_array, axis=0)  # (1, 224, 224, 3)
+
+            if model is not None:
+                predictions = model.predict(img_array)[0]
+            else:
+                # Demo mode: fake predictions for illustration
+                predictions = np.random.dirichlet(np.ones(len(CLASSES)) * 0.5)
+
+            top_idx  = np.argmax(predictions)
+            top_conf = predictions[top_idx]
+            top_cls  = CLASSES[top_idx]
+
+        if top_conf >= confidence_threshold:
+            if top_cls == "Healthy":
+                st.success(f"✅ **{top_cls}**\n\n{top_conf*100:.1f}% confident")
+            else:
+                st.error(f"⚠️ **{top_cls}**\n\n{top_conf*100:.1f}% confident")
+        else:
+            st.warning(f"Low confidence ({top_conf*100:.1f}%). Please upload a clearer photo.")
+
+    # Treatment recommendation
+    if top_conf >= confidence_threshold:
+        st.markdown("### 💊 Recommended Treatment")
+        treatment = TREATMENTS.get(top_cls, "Consult an agricultural officer.")
+        st.info(treatment)
+
+    # Top 3 predictions bar chart
+    if show_top3:
+        st.markdown("### 📊 Top 3 Predictions")
+        top3_idx   = np.argsort(predictions)[-3:][::-1]
+        top3_data  = {CLASSES[i]: float(predictions[i]) for i in top3_idx}
+        import pandas as pd
+        st.bar_chart(pd.Series(top3_data))
+
+    # Feedback button
+    st.markdown("---")
+    correct = st.radio("Was this prediction correct?", ["Yes", "No"], horizontal=True)
+    if st.button("Submit feedback"):
+        st.success("Thank you! Your feedback helps improve the model.")</pre></div>
+    <div class="callout blue">
+      <strong>@st.cache_resource</strong> is essential for ML apps. Without it, the model would be reloaded from disk every time ANY widget is interacted with — causing 2–10 second pauses. With the decorator, Streamlit loads the model once and caches it in memory across all re-runs.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Free Deployment</div>
+    <div class="ls-title">Share Your App with the World</div>
+    <ol class="deploy-steps">
+      <li>Create a free GitHub account and push your app code + <code>requirements.txt</code> to a public repo. Requirements: <code>streamlit</code>, <code>tensorflow</code>, <code>pillow</code>, <code>numpy</code></li>
+      <li>Go to <strong>share.streamlit.io</strong> and sign in with GitHub</li>
+      <li>Click "New app", select your repo, set main file as <code>plant_disease_app.py</code></li>
+      <li>Click "Deploy" — Streamlit Cloud installs packages and starts your app automatically</li>
+      <li>Share the public URL (e.g., <code>yourname-plant-detector.streamlit.app</code>) — anyone in the world can use your app from any browser</li>
+    </ol>
+    <div class="callout amber">
+      <strong>Model file size:</strong> Streamlit Community Cloud has a 1GB limit per app. Large deep learning models (.h5 files) should be stored in a cloud bucket (like Google Drive or S3) and downloaded at startup using <code>gdown</code> or <code>boto3</code> rather than committed to GitHub.
+    </div>
+    <div class="callout green">
+      <strong>Dev's outcome:</strong> He deployed the app and shared the URL with his father. His father showed it to farmers in their village. Within a week, 12 farmers had uploaded leaf photos. The app correctly identified coconut blight in 9 of them, giving them treatment recommendations 3 weeks before the next agricultural officer visit.
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>🧪 Check Your Understanding — Lesson 9 Quiz</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. Streamlit re-runs the entire script whenever:</div>
+        <div class="quiz-opt" data-opt="a">a) The server clock ticks every second</div>
+        <div class="quiz-opt" data-opt="b">b) A user interacts with any widget (button click, slider move, file upload) — Streamlit's execution model re-runs the script top-to-bottom and updates the UI with new values</div>
+        <div class="quiz-opt" data-opt="c">c) The Python file is saved on disk</div>
+        <div class="quiz-opt" data-opt="d">d) A new user opens the app URL</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. `@st.cache_resource` on the model loading function is important because:</div>
+        <div class="quiz-opt" data-opt="a">a) It saves the model predictions to a local database for offline use</div>
+        <div class="quiz-opt" data-opt="b">b) Without it, the model would be re-loaded from disk on every widget interaction — causing multi-second delays. The decorator caches the loaded model object in memory, so it's loaded only once per session.</div>
+        <div class="quiz-opt" data-opt="c">c) It compresses the model file to save storage space</div>
+        <div class="quiz-opt" data-opt="d">d) It allows the model to run on GPU automatically</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. `st.columns([1, 1])` creates:</div>
+        <div class="quiz-opt" data-opt="a">a) A table with 1 row and 1 column</div>
+        <div class="quiz-opt" data-opt="b">b) Two equal-width side-by-side columns that you can fill independently — useful for showing an image next to prediction results</div>
+        <div class="quiz-opt" data-opt="c">c) A 1×1 pixel invisible container</div>
+        <div class="quiz-opt" data-opt="d">d) Two buttons placed side by side</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. Streamlit Community Cloud (share.streamlit.io) deploys apps from:</div>
+        <div class="quiz-opt" data-opt="a">a) A zip file uploaded to the Streamlit website</div>
+        <div class="quiz-opt" data-opt="b">b) A public GitHub repository — it clones the repo, installs requirements.txt, and runs your app file on a cloud server with a public URL</div>
+        <div class="quiz-opt" data-opt="c">c) A Docker container that you build and push manually</div>
+        <div class="quiz-opt" data-opt="d">d) Python code pasted directly into the Streamlit web editor</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. `np.expand_dims(img_array, axis=0)` is used before model.predict() to:</div>
+        <div class="quiz-opt" data-opt="a">a) Increase the image resolution for better predictions</div>
+        <div class="quiz-opt" data-opt="b">b) Add a batch dimension — CNN models expect shape (batch_size, height, width, channels), but a single image has shape (height, width, channels). expand_dims converts (224,224,3) to (1,224,224,3).</b></div>
+        <div class="quiz-opt" data-opt="c">c) Convert the image from colour to grayscale</div>
+        <div class="quiz-opt" data-opt="d">d) Normalise pixel values to the range 0–1</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. `st.sidebar` places widgets:</div>
+        <div class="quiz-opt" data-opt="a">a) Below the main content area</div>
+        <div class="quiz-opt" data-opt="b">b) In a collapsible panel on the left side of the app — ideal for settings that don't need to be visible by default, keeping the main area clean</div>
+        <div class="quiz-opt" data-opt="c">c) In a popup modal that appears on button click</div>
+        <div class="quiz-opt" data-opt="d">d) As floating buttons in the bottom-right corner</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. The difference between `st.success()`, `st.warning()`, and `st.error()` is:</div>
+        <div class="quiz-opt" data-opt="a">a) They differ in font size only</div>
+        <div class="quiz-opt" data-opt="b">b) They display coloured message boxes — green (success), yellow (warning), red (error) — providing visual feedback about the state of an operation without any custom CSS</div>
+        <div class="quiz-opt" data-opt="c">c) st.error() raises a Python exception; the others just print</div>
+        <div class="quiz-opt" data-opt="d">d) They only work inside @st.cache_resource functions</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. Compared to building a FastAPI backend + separate HTML/JS frontend, Streamlit's main advantage for ML prototyping is:</div>
+        <div class="quiz-opt" data-opt="a">a) Streamlit apps run 10× faster than FastAPI apps</div>
+        <div class="quiz-opt" data-opt="b">b) You can build a shareable, interactive ML demo entirely in Python — no HTML, CSS, or JavaScript needed. This is much faster for prototyping, though FastAPI is better for production-scale APIs consumed by external apps.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Streamlit apps automatically train the ML model on new uploaded data</div>
+        <div class="quiz-opt" data-opt="d">d) Streamlit apps work offline without any internet connection</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Answers</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-08.html" class="btn-prev">← Lesson 8: FastAPI</a>
+    <a href="lesson-10.html" class="btn-next">Lesson 10: AI for India →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-10.html">Class 10</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'b',8:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q]) o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=75){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — You can now deploy any Python ML model as a shareable web app for free. That's a real-world skill!`;}
+  else if(pct>=50){res.className='quiz-result ok';res.textContent=`Good! ${score}/${total} (${pct}%) — Re-read the cache_resource and columns sections.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Install Streamlit (pip install streamlit), copy the code, run it — the first time you see a Python script become a web app in real time is memorable.`;}
+  gtag('event','quiz_complete',{event_category:'class10',event_label:'class10_lesson09_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"Streamlit: AI Web Apps — Class 10 Lesson 9",
+  "description":"Build and deploy an AI web app with Streamlit — no HTML needed. Create an image classifier UI with file upload, deploy free on Streamlit Community Cloud.",
+  "url":"https://mitraailife.com/content/students/class-10/lesson-09.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Class 10",
+  "typicalAgeRange":"14-15",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

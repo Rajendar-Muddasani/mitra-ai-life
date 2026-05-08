@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 8 — FastAPI: Serving Your ML Model | Class 10 | Mitra AI Life</title>
+<meta name="description" content="Class 10 Lesson 8: Serve a trained ML model as a REST API using FastAPI and Pydantic — add a predict endpoint, auto Swagger docs, and test with Python requests." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-10/lesson-08.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#059669" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 8 — FastAPI: Serving Your ML Model | Class 10 | Mitra AI Life" />
+<meta property="og:description" content="Class 10 Lesson 8: Serve a trained ML model as a REST API using FastAPI and Pydantic — add a predict endpoint, auto Swagger docs, and test with Python requests." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-10/lesson-08.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#ecfdf5;color:#064e3b;line-height:1.7}
+a{color:#059669;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#6ee7b7}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#6ee7b7}
+.lesson-hero{background:linear-gradient(135deg,#064e3b,#065f46,#059669);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.story-panel{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-left:5px solid #059669;border-radius:0 16px 16px 0;padding:1.5rem 1.5rem;margin:2rem 0;position:relative}
+.story-panel::before{content:'📖';position:absolute;top:-14px;left:16px;font-size:1.4rem}
+.story-panel .sp-label{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#059669;margin-bottom:.4rem}
+.story-panel p{font-size:.95rem;color:#064e3b;margin-bottom:.6rem}
+.story-panel p:last-child{margin-bottom:0}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#059669;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#064e3b;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#065f46;margin-bottom:.9rem}
+.lesson-section ul,.lesson-section ol{font-size:.93rem;color:#065f46;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.amber{background:#fffbeb;border-left:4px solid #f59e0b;color:#78350f}
+.callout.blue{background:#eff6ff;border-left:4px solid #3b82f6;color:#1e3a8a}
+/* Request-Response flow */
+.api-flow{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;justify-content:center;background:#fff;border:1.5px solid #a7f3d0;border-radius:14px;padding:1.2rem;margin:1rem 0}
+.af-box{background:#ecfdf5;border:1.5px solid #a7f3d0;border-radius:10px;padding:.55rem .8rem;font-size:.75rem;font-weight:800;color:#064e3b;text-align:center;flex-shrink:0;min-width:100px}
+.af-arrow{color:#059669;font-size:1.1rem;font-weight:900;flex-shrink:0}
+.code-block{background:#1e293b;border-radius:12px;padding:1.2rem 1.4rem;margin:1rem 0;overflow-x:auto}
+.code-block pre{font-family:'Courier New',Courier,monospace;font-size:.82rem;color:#e2e8f0;line-height:1.6;margin:0;white-space:pre-wrap}
+.quiz-section{background:#fff;border:2px solid #059669;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#064e3b;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#064e3b;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:center;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #a7f3d0;background:#ecfdf5;font-size:.88rem;color:#064e3b;transition:border-color .15s}
+.quiz-opt:hover{border-color:#059669}
+.quiz-opt.selected{border-color:#059669;background:#ecfdf5;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#059669;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#047857}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #059669;color:#059669}
+.lesson-nav .btn-next{background:#059669;color:#fff}
+.lesson-nav .btn-prev:hover{background:#ecfdf5}
+.lesson-nav .btn-next:hover{background:#047857}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.api-flow{flex-direction:column}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-10.html" class="active">Class 10</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-10.html">Class 10</a> → Lesson 8</div>
+  <h1>FastAPI: Serving Your ML Model ⚡</h1>
+  <div class="meta">
+    <span>Class 10</span><span>Age 14–15</span><span>Lesson 8 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-10/lesson-08-hero.jpg" alt="Student in Vadodara testing a FastAPI predict endpoint in Swagger UI — JSON request body with prediction response" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="sp-label">Meet Sneha — Class 10, Vadodara</div>
+    <p>Sneha had trained a model in Lesson 7 that predicted whether a loan application would default. Accuracy: 87%. She was proud of it. But then her friend Rohan asked: "Can I use your model from my phone app?" She sent him the .pkl file and Python code. He didn't know Python. Dead end.</p>
+    <p>Her teacher explained: "A trained model living in a Jupyter notebook is like a doctor who only sees patients at their own home. To be useful, they need a clinic — a fixed address where anyone can walk in with their questions and receive answers. For ML models, that clinic is called a REST API. FastAPI lets you build one in under 50 lines of Python."</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Concept</div>
+    <div class="ls-title">What is a REST API?</div>
+    <p>REST (Representational State Transfer) is a standard way for different programs to communicate over the internet. An API (Application Programming Interface) is the "front desk" of your ML model:</p>
+    <div class="api-flow">
+      <div class="af-box">📱 Client (Phone App / Website / Python Script)</div>
+      <div class="af-arrow">→ POST /predict (JSON)</div>
+      <div class="af-box">⚡ FastAPI Server</div>
+      <div class="af-arrow">→</div>
+      <div class="af-box">🧠 Loaded ML Pipeline</div>
+      <div class="af-arrow">← JSON Response</div>
+      <div class="af-box">📊 {"prediction": 0, "probability": 0.12}</div>
+    </div>
+    <p>FastAPI is the most popular Python web framework for ML APIs because it is fast, automatically generates interactive documentation, and uses Pydantic for input validation — catching bad data before it reaches your model.</p>
+    <div class="callout blue">
+      <strong>Pydantic</strong> is Python's data validation library. When you define a Pydantic model with <code>income: float</code>, FastAPI will automatically return a clear error if a client sends <code>"income": "banana"</code> — before your ML model ever sees the bad input.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Full Code</div>
+    <div class="ls-title">Loan Default Prediction API</div>
+    <div class="code-block"><pre># ── FILE 1: train_and_save.py ──
+# Run this first to create the model file
+import pickle, numpy as np, pandas as pd
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.impute import SimpleImputer
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.metrics import accuracy_score
+
+X, y = make_classification(
+    n_samples=1000, n_features=5, n_informative=4, random_state=42
+)
+feature_names = ["income", "loan_amount", "credit_score", "employment_years", "existing_loans"]
+X_df = pd.DataFrame(X, columns=feature_names)
+X_train, X_test, y_train, y_test = train_test_split(X_df, y, test_size=0.2, random_state=42)
+
+pipeline = Pipeline([
+    ('imputer', SimpleImputer(strategy='median')),
+    ('scaler',  StandardScaler()),
+    ('model',   GradientBoostingClassifier(n_estimators=100, random_state=42))
+])
+pipeline.fit(X_train, y_train)
+print(f"Test accuracy: {accuracy_score(y_test, pipeline.predict(X_test)):.3f}")
+
+with open("loan_model.pkl", "wb") as f:
+    pickle.dump(pipeline, f)
+print("Model saved to loan_model.pkl")</pre></div>
+    <div class="code-block"><pre># ── FILE 2: main.py ── (the FastAPI application)
+# Run with: uvicorn main:app --reload
+import pickle
+import numpy as np
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel, Field, field_validator
+
+# ── Load model at startup (not on each request) ──
+with open("loan_model.pkl", "rb") as f:
+    pipeline = pickle.load(f)
+
+app = FastAPI(
+    title="Loan Default Prediction API",
+    description="Predict probability of loan default. Built with FastAPI + scikit-learn.",
+    version="1.0.0"
+)
+
+# ── Input schema: Pydantic validates every incoming request ──
+class LoanApplication(BaseModel):
+    income: float            = Field(..., gt=0,  description="Monthly income in thousands")
+    loan_amount: float       = Field(..., gt=0,  description="Loan amount in thousands")
+    credit_score: float      = Field(..., ge=300, le=900, description="CIBIL score 300-900")
+    employment_years: float  = Field(..., ge=0,  description="Years of employment")
+    existing_loans: float    = Field(..., ge=0,  description="Number of existing loans")
+
+    @field_validator('credit_score')
+    @classmethod
+    def score_must_be_valid(cls, v):
+        if v < 300 or v > 900:
+            raise ValueError("CIBIL credit score must be between 300 and 900")
+        return v
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "income": 45.0,
+                "loan_amount": 200.0,
+                "credit_score": 720.0,
+                "employment_years": 3.5,
+                "existing_loans": 1.0
+            }
+        }
+
+# ── Output schema ──
+class PredictionResponse(BaseModel):
+    prediction: int               # 0 = no default, 1 = default
+    prediction_label: str         # human-readable
+    default_probability: float    # 0.0 – 1.0
+    risk_level: str               # Low / Medium / High
+
+# ── Endpoints ──
+@app.get("/")
+def root():
+    return {"message": "Loan Default Prediction API is running",
+            "docs": "/docs", "version": "1.0.0"}
+
+@app.get("/health")
+def health():
+    return {"status": "ok", "model_loaded": pipeline is not None}
+
+@app.post("/predict", response_model=PredictionResponse)
+def predict(application: LoanApplication):
+    """
+    Predict whether a loan application will default.
+    Returns prediction (0/1), probability, and risk level.
+    """
+    try:
+        features = [[
+            application.income,
+            application.loan_amount,
+            application.credit_score,
+            application.employment_years,
+            application.existing_loans
+        ]]
+        prediction  = int(pipeline.predict(features)[0])
+        probability = float(pipeline.predict_proba(features)[0][1])
+
+        if probability < 0.25:
+            risk = "Low"
+        elif probability < 0.60:
+            risk = "Medium"
+        else:
+            risk = "High"
+
+        return PredictionResponse(
+            prediction=prediction,
+            prediction_label="Default" if prediction == 1 else "No Default",
+            default_probability=round(probability, 4),
+            risk_level=risk
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Prediction error: {str(e)}")</pre></div>
+    <div class="code-block"><pre># ── FILE 3: test_api.py ── (test the running API)
+import requests
+
+BASE = "http://127.0.0.1:8000"
+
+# Test 1: Health check
+resp = requests.get(f"{BASE}/health")
+print("Health:", resp.json())
+
+# Test 2: Low-risk applicant
+low_risk = {
+    "income": 80.0,
+    "loan_amount": 150.0,
+    "credit_score": 800.0,
+    "employment_years": 10.0,
+    "existing_loans": 0.0
+}
+resp = requests.post(f"{BASE}/predict", json=low_risk)
+print("Low-risk:", resp.json())
+# Expected: {"prediction": 0, "prediction_label": "No Default",
+#             "default_probability": 0.04, "risk_level": "Low"}
+
+# Test 3: High-risk applicant
+high_risk = {
+    "income": 15.0,
+    "loan_amount": 500.0,
+    "credit_score": 380.0,
+    "employment_years": 0.5,
+    "existing_loans": 4.0
+}
+resp = requests.post(f"{BASE}/predict", json=high_risk)
+print("High-risk:", resp.json())
+# Expected: {"prediction": 1, "prediction_label": "Default",
+#             "default_probability": 0.87, "risk_level": "High"}
+
+# Test 4: Invalid input (Pydantic validation)
+bad_input = {
+    "income": -100,      # negative — Field gt=0 will reject
+    "loan_amount": 200.0,
+    "credit_score": 720.0,
+    "employment_years": 3.0,
+    "existing_loans": 1.0
+}
+resp = requests.post(f"{BASE}/predict", json=bad_input)
+print("Bad input response:", resp.status_code, resp.json()["detail"][0]["msg"])</pre></div>
+    <div class="callout green">
+      <strong>Automatic Swagger docs:</strong> When your server is running, go to <code>http://127.0.0.1:8000/docs</code> in your browser. FastAPI auto-generates an interactive UI where you can test your endpoints without writing any test code. Your model has a professional API with zero extra work.
+    </div>
+    <div class="callout amber">
+      <strong>To run in Google Colab:</strong> <code>!pip install fastapi uvicorn[standard] pyngrok requests</code> → start uvicorn as a background process → use pyngrok to expose port 8000 as a public URL. Then share the ngrok URL with classmates who can call your API from their phones!
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>🧪 Check Your Understanding — Lesson 8 Quiz</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. A REST API for an ML model is needed because:</div>
+        <div class="quiz-opt" data-opt="a">a) Trained models cannot make predictions without an API</div>
+        <div class="quiz-opt" data-opt="b">b) It provides a language-agnostic interface — any app (mobile, web, Python, Java) can call your model over HTTP without needing a Python environment</div>
+        <div class="quiz-opt" data-opt="c">c) REST APIs make models more accurate by optimising inference</div>
+        <div class="quiz-opt" data-opt="d">d) FastAPI retrains your model automatically on new incoming data</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. Pydantic's `Field(..., gt=0)` on `income` means:</div>
+        <div class="quiz-opt" data-opt="a">a) Income must be a string greater than zero characters</div>
+        <div class="quiz-opt" data-opt="b">b) Income must be a number strictly greater than zero — FastAPI returns a 422 validation error automatically if the client sends a negative or zero value</div>
+        <div class="quiz-opt" data-opt="c">c) The field is optional and defaults to zero</div>
+        <div class="quiz-opt" data-opt="d">d) Income values greater than zero are rounded to the nearest integer</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. Why is the model loaded ONCE at startup (outside the endpoint function) rather than inside `/predict`?</div>
+        <div class="quiz-opt" data-opt="a">a) FastAPI requires models to be global variables</div>
+        <div class="quiz-opt" data-opt="b">b) Loading a model reads a file from disk and can take seconds — doing it on every prediction would make the API very slow. Loading once means predictions use the already-loaded model in memory.</div>
+        <div class="quiz-opt" data-opt="c">c) pickle files cannot be opened inside Python functions</div>
+        <div class="quiz-opt" data-opt="d">d) It prevents the model file from being updated while the server is running</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. `@app.post("/predict")` versus `@app.get("/predict")` — why POST for prediction?</div>
+        <div class="quiz-opt" data-opt="a">a) POST requests are processed faster than GET requests</div>
+        <div class="quiz-opt" data-opt="b">b) POST requests carry a body (JSON payload with features) — GET requests pass data in the URL which is limited in size and exposes sensitive loan data in browser history and server logs</div>
+        <div class="quiz-opt" data-opt="c">c) FastAPI requires POST for all machine learning endpoints</div>
+        <div class="quiz-opt" data-opt="d">d) GET requests do not return JSON responses</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. `HTTPException(status_code=500, detail=...)` is raised in the prediction endpoint to:</div>
+        <div class="quiz-opt" data-opt="a">a) Crash the server so the user knows something went wrong</div>
+        <div class="quiz-opt" data-opt="b">b) Return a structured error response with HTTP status 500 (Internal Server Error) when an unexpected exception occurs — the client receives a JSON error message instead of seeing Python tracebacks</div>
+        <div class="quiz-opt" data-opt="c">c) Log the error to MLflow automatically</div>
+        <div class="quiz-opt" data-opt="d">d) Retry the prediction automatically with different inputs</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. What does `uvicorn main:app --reload` do?</div>
+        <div class="quiz-opt" data-opt="a">a) Starts a new Python process that reloads the page every second</div>
+        <div class="quiz-opt" data-opt="b">b) Starts the FastAPI application using the Uvicorn ASGI server, watching for file changes and auto-restarting — ideal for development so you don't need to manually restart after each code change</div>
+        <div class="quiz-opt" data-opt="c">c) Retrains the ML model whenever new data is added to main.py</div>
+        <div class="quiz-opt" data-opt="d">d) Runs all test files in the project folder automatically</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. FastAPI's automatic Swagger UI at `/docs` is generated from:</div>
+        <div class="quiz-opt" data-opt="a">a) A separate documentation file you must write manually</div>
+        <div class="quiz-opt" data-opt="b">b) The Pydantic models, endpoint decorators, and docstrings in your Python code — FastAPI introspects these to auto-generate an interactive OpenAPI specification with zero extra configuration</div>
+        <div class="quiz-opt" data-opt="c">c) Templates downloaded from the FastAPI website on first run</div>
+        <div class="quiz-opt" data-opt="d">d) A JavaScript file that must be placed in the same folder as main.py</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. `pipeline.predict_proba(features)[0][1]` returns:</div>
+        <div class="quiz-opt" data-opt="a">a) The predicted class label (0 or 1)</div>
+        <div class="quiz-opt" data-opt="b">b) The probability that the sample belongs to class 1 (default) — the second column of the probability matrix for the first (and only) sample in our request</div>
+        <div class="quiz-opt" data-opt="c">c) The feature importance for the most predictive variable</div>
+        <div class="quiz-opt" data-opt="d">d) The index of the most important feature in the pipeline</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Answers</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-07.html" class="btn-prev">← Lesson 7: ML Pipelines</a>
+    <a href="lesson-09.html" class="btn-next">Lesson 9: Streamlit →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-10.html">Class 10</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'b',8:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q]) o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=75){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — Your model now has a professional REST API. Any developer in the world can use it.`;}
+  else if(pct>=50){res.className='quiz-result ok';res.textContent=`Good! ${score}/${total} (${pct}%) — Re-read the Pydantic validation and startup loading sections.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Install FastAPI locally (pip install fastapi uvicorn), copy the code, run it, and visit localhost:8000/docs. Interacting with the Swagger UI makes the concepts click.`;}
+  gtag('event','quiz_complete',{event_category:'class10',event_label:'class10_lesson08_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"FastAPI: Serving Your ML Model — Class 10 Lesson 8",
+  "description":"Serve a trained ML model as a REST API using FastAPI and Pydantic — add a predict endpoint, auto Swagger docs, and test with Python requests.",
+  "url":"https://mitraailife.com/content/students/class-10/lesson-08.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Class 10",
+  "typicalAgeRange":"14-15",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

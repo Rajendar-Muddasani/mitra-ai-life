@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lesson 11 — Responsible AI at Scale | Class 10 | Mitra AI Life</title>
+<meta name="description" content="Class 10 Lesson 11: Learn fairness, bias, demographic parity, model cards, India's DPDPA, and Fairlearn — essential skills before deploying AI that affects real people." />
+<link rel="canonical" href="https://mitraailife.com/content/students/class-10/lesson-11.html" />
+<link rel="icon" href="../../../site/favicon.ico" sizes="any" />
+<meta name="theme-color" content="#059669" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lesson 11 — Responsible AI at Scale | Class 10 | Mitra AI Life" />
+<meta property="og:description" content="Class 10 Lesson 11: Learn fairness, bias, demographic parity, model cards, India's DPDPA, and Fairlearn — essential skills before deploying AI that affects real people." />
+<meta property="og:url" content="https://mitraailife.com/content/students/class-10/lesson-11.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#ecfdf5;color:#064e3b;line-height:1.7}
+a{color:#059669;text-decoration:none}a:hover{text-decoration:underline}
+.topnav{background:#0f172a;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.topnav .brand{color:#fff;font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;text-decoration:none}
+.topnav .brand span{color:#6ee7b7}
+.topnav .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;text-decoration:none}
+.topnav .nav-links a:hover{color:#fff}.topnav .nav-links a.active{color:#6ee7b7}
+.lesson-hero{background:linear-gradient(135deg,#064e3b,#065f46,#059669);padding:2.8rem 1.5rem 3.5rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.lesson-hero .breadcrumb{font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:1rem;position:relative}
+.lesson-hero .breadcrumb a{color:rgba(255,255,255,.75);text-decoration:underline}
+.lesson-hero h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:.7rem;position:relative}
+.lesson-hero .meta{font-size:.85rem;color:rgba(255,255,255,.75);position:relative}
+.lesson-hero .meta span{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:.2rem .75rem;margin:.2rem}
+.hero-img{width:100%;height:240px;object-fit:cover;object-position:center 40%;display:block}
+.story-panel{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-left:5px solid #059669;border-radius:0 16px 16px 0;padding:1.5rem 1.5rem;margin:2rem 0;position:relative}
+.story-panel::before{content:'📖';position:absolute;top:-14px;left:16px;font-size:1.4rem}
+.story-panel .sp-label{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#059669;margin-bottom:.4rem}
+.story-panel p{font-size:.95rem;color:#064e3b;margin-bottom:.6rem}
+.story-panel p:last-child{margin-bottom:0}
+.content-wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.lesson-section{margin-bottom:2.5rem}
+.ls-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#059669;margin-bottom:.3rem}
+.ls-title{font-family:'Baloo 2',cursive;font-size:1.55rem;color:#064e3b;margin-bottom:.7rem}
+.lesson-section p{font-size:.95rem;color:#065f46;margin-bottom:.9rem}
+.lesson-section ul,.lesson-section ol{font-size:.93rem;color:#065f46;padding-left:1.4rem;margin-bottom:.9rem}
+.lesson-section li{margin-bottom:.45rem}
+.callout{border-radius:12px;padding:.9rem 1.1rem;font-size:.88rem;margin:1rem 0}
+.callout.green{background:#ecfdf5;border-left:4px solid #059669;color:#064e3b}
+.callout.amber{background:#fffbeb;border-left:4px solid #f59e0b;color:#78350f}
+.callout.blue{background:#eff6ff;border-left:4px solid #3b82f6;color:#1e3a8a}
+.callout.red{background:#fff1f2;border-left:4px solid #f43f5e;color:#881337}
+/* Fairness metrics table */
+.fair-table{width:100%;border-collapse:collapse;font-size:.82rem;margin:1rem 0}
+.fair-table th{background:#ecfdf5;color:#064e3b;font-weight:800;padding:.5rem .7rem;border:1px solid #a7f3d0;text-align:left}
+.fair-table td{padding:.4rem .7rem;border:1px solid #a7f3d0;color:#065f46}
+.fair-table tr.fail td{background:#fff1f2;color:#881337}
+/* Audit checklist */
+.audit-list{list-style:none;padding:0;margin:1rem 0}
+.audit-list li{display:flex;align-items:flex-start;gap:.7rem;padding:.5rem 0;border-bottom:1px solid #d1fae5;font-size:.88rem;color:#065f46}
+.audit-list li::before{content:'☐';font-size:1rem;flex-shrink:0;margin-top:.05rem}
+.audit-list li strong{color:#064e3b}
+.code-block{background:#1e293b;border-radius:12px;padding:1.2rem 1.4rem;margin:1rem 0;overflow-x:auto}
+.code-block pre{font-family:'Courier New',Courier,monospace;font-size:.82rem;color:#e2e8f0;line-height:1.6;margin:0;white-space:pre-wrap}
+.quiz-section{background:#fff;border:2px solid #059669;border-radius:18px;padding:1.8rem;margin:2rem 0}
+.quiz-section h3{font-family:'Baloo 2',cursive;font-size:1.2rem;color:#064e3b;margin-bottom:1.2rem}
+.q-block{margin-bottom:1.5rem}
+.q-block .q-text{font-weight:700;color:#064e3b;font-size:.93rem;margin-bottom:.6rem}
+.quiz-opt{display:flex;align-items:center;gap:.6rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;margin-bottom:.3rem;border:1.5px solid #a7f3d0;background:#ecfdf5;font-size:.88rem;color:#064e3b;transition:border-color .15s}
+.quiz-opt:hover{border-color:#059669}
+.quiz-opt.selected{border-color:#059669;background:#ecfdf5;font-weight:700}
+.quiz-opt.correct{border-color:#22c55e;background:#f0fdf4;color:#14532d}
+.quiz-opt.wrong{border-color:#f43f5e;background:#fff1f2;color:#881337}
+.quiz-btn{background:#059669;color:#fff;border:none;border-radius:10px;padding:.7rem 2rem;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;font-family:'Nunito',sans-serif}
+.quiz-btn:hover{background:#047857}
+.quiz-result{display:none;margin-top:1rem;padding:1rem;border-radius:10px;font-weight:700;text-align:center}
+.quiz-result.good{background:#f0fdf4;color:#14532d;border:2px solid #22c55e}
+.quiz-result.ok{background:#fffbeb;color:#78350f;border:2px solid #f59e0b}
+.quiz-result.low{background:#fff1f2;color:#881337;border:2px solid #f43f5e}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;flex-wrap:wrap;gap:1rem}
+.lesson-nav a{display:inline-block;padding:.65rem 1.4rem;border-radius:10px;font-weight:800;font-size:.88rem;text-decoration:none}
+.lesson-nav .btn-prev{background:#fff;border:2px solid #059669;color:#059669}
+.lesson-nav .btn-next{background:#059669;color:#fff}
+.lesson-nav .btn-prev:hover{background:#ecfdf5}
+.lesson-nav .btn-next:hover{background:#047857}
+footer{background:#0f172a;color:rgba(255,255,255,.55);padding:2rem 1.5rem;text-align:center;font-size:.82rem}
+footer a{color:rgba(255,255,255,.6)}
+footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+@media(max-width:600px){.content-wrap{padding:2rem 1rem 3rem}.fair-table{font-size:.72rem}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="../../../site/index.html" class="brand">Mitra <span>AI</span> Life</a>
+  <div class="nav-links">
+    <a href="class-10.html" class="active">Class 10</a>
+    <a href="../../../site/students.html">All Classes</a>
+    <a href="../../../site/index.html">Home</a>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="breadcrumb"><a href="class-10.html">Class 10</a> → Lesson 11</div>
+  <h1>Responsible AI at Scale ⚖️</h1>
+  <div class="meta">
+    <span>Class 10</span><span>Age 14–15</span><span>Lesson 11 of 12</span><span>🆓 Free</span>
+  </div>
+</header>
+
+<img class="hero-img" src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-10/lesson-11-hero.jpg" alt="Student in Visakhapatnam studying AI fairness — balance scale illustration, demographic parity chart, model card document visible on screen" loading="lazy" onerror="this.style.display='none'" />
+
+<main class="content-wrap">
+  <div class="story-panel">
+    <div class="sp-label">Meet Amar — Class 10, Visakhapatnam</div>
+    <p>Amar was excited. His loan default predictor from Lessons 7–8 had 87% accuracy. He showed it to a microfinance NGO in Vizag that lends to self-help groups in fishing villages. They wanted to use it. But then one of their officers asked: "Did you check if it treats applicants from coastal communities the same as urban applicants? Our training data has very few loans from Araku Valley — it might just deny everyone from there."</p>
+    <p>Amar ran a fairness audit. He was disturbed by what he found: his model was 79% accurate for urban applicants but only 61% accurate for rural applicants. It had a false positive rate (incorrectly flagging good loans as risky) of 8% for urban areas but 31% for rural areas. "My model would have denied loans to 3× more legitimate rural borrowers," he said. "That's not a technical bug. That's an injustice."</p>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Why Fairness Matters</div>
+    <div class="ls-title">Bias Amplification at Scale</div>
+    <p>A human loan officer making a biased decision affects one person. An AI model deployed at scale makes biased decisions millions of times per day — and because it feels "objective" and algorithmic, the bias is harder to detect and challenge.</p>
+    <p>In India, historical bias in data is especially acute:</p>
+    <ul>
+      <li><strong>Lending data:</strong> Banks historically lent less to women, rural areas, and lower castes — so a model trained on historical approvals "learns" to replicate those patterns</li>
+      <li><strong>Healthcare data:</strong> Diagnostic datasets often underrepresent dark skin tones, women in cardiac studies, rural populations</li>
+      <li><strong>Employment data:</strong> CVs historically from top colleges → model penalises regional universities regardless of actual candidate quality</li>
+    </ul>
+    <div class="callout red">
+      <strong>The core problem:</strong> AI models optimise for accuracy on average. Average performance hides disaster for minority groups. A model that is 90% accurate overall could be 60% accurate for a specific demographic — making it worse than random for that group.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Fairness Metrics</div>
+    <div class="ls-title">Measuring Demographic Parity and Equalised Odds</div>
+    <table class="fair-table">
+      <thead><tr><th>Metric</th><th>Definition</th><th>Formula</th><th>Amar's model result</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Demographic Parity</strong></td><td>Each group gets approved at equal rates</td><td>P(approve|urban) ≈ P(approve|rural)</td><td>Urban: 72% approve, Rural: 41% approve</td></tr>
+        <tr class="fail"><td><strong>Equalised Odds</strong> (stronger)</td><td>Each group has equal TPR AND equal FPR</td><td>TPR_urban ≈ TPR_rural AND FPR_urban ≈ FPR_rural</td><td>FPR: 8% urban vs 31% rural ❌ FAILS</td></tr>
+        <tr><td><strong>Calibration</strong></td><td>Predicted probability matches actual rate</td><td>P(default|score=0.7) ≈ 70% for all groups</td><td>Well-calibrated overall</td></tr>
+      </tbody>
+    </table>
+    <div class="callout amber">
+      <strong>Fairness trade-offs:</strong> It is mathematically impossible to simultaneously satisfy all fairness metrics when base rates differ between groups (Chouldechova's impossibility theorem). Choosing which metric to prioritise is an ethical decision, not just a technical one — and that decision should involve the affected communities.
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Fairness Audit Code</div>
+    <div class="ls-title">Using Fairlearn to Measure and Mitigate Bias</div>
+    <div class="code-block"><pre># Responsible AI Audit with Fairlearn — Google Colab
+!pip install fairlearn scikit-learn pandas matplotlib -q
+
+import numpy as np
+import pandas as pd
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.impute import SimpleImputer
+from sklearn.metrics import accuracy_score, confusion_matrix
+from fairlearn.metrics import (
+    MetricFrame, demographic_parity_difference,
+    equalized_odds_difference, false_positive_rate
+)
+from fairlearn.postprocessing import ThresholdOptimizer
+import matplotlib.pyplot as plt
+
+# ── Step 1: Generate biased dataset ──
+np.random.seed(42)
+n = 2000
+
+# Rural group (40% of sample, worse features due to historical underbanking)
+urban_mask = np.random.choice([0, 1], size=n, p=[0.4, 0.6])
+X = np.column_stack([
+    np.random.normal(50, 15, n) + urban_mask * 10,  # income higher in urban
+    np.random.normal(200, 80, n) - urban_mask * 20, # loan amount
+    np.random.normal(650, 80, n) + urban_mask * 40, # credit score biased up for urban
+    np.random.normal(5, 3, n).clip(0),              # employment years
+    np.random.randint(0, 4, n).astype(float)        # existing loans
+])
+# Ground truth default: mainly income and loan ratio, NOT location
+true_default = ((X[:, 0] / X[:, 1]) < 0.3).astype(int)
+
+df = pd.DataFrame(X, columns=['income', 'loan_amount', 'credit_score',
+                                'employment_years', 'existing_loans'])
+df['is_urban'] = urban_mask
+df['default']  = true_default
+
+X_train, X_test, y_train, y_test, grp_train, grp_test = train_test_split(
+    df.drop(['is_urban', 'default'], axis=1),
+    df['default'], df['is_urban'],
+    test_size=0.3, random_state=42
+)
+
+# ── Step 2: Train baseline model ──
+pipeline = Pipeline([
+    ('imputer', SimpleImputer(strategy='median')),
+    ('scaler',  StandardScaler()),
+    ('model',   GradientBoostingClassifier(n_estimators=100, random_state=42))
+])
+pipeline.fit(X_train, y_train)
+y_pred = pipeline.predict(X_test)
+
+print("=== BASELINE MODEL AUDIT ===")
+print(f"Overall accuracy: {accuracy_score(y_test, y_pred):.3f}")
+
+# ── Step 3: Fairness metrics with MetricFrame ──
+mf = MetricFrame(
+    metrics={
+        "accuracy":           accuracy_score,
+        "false_positive_rate": false_positive_rate
+    },
+    y_true=y_test,
+    y_pred=y_pred,
+    sensitive_features=grp_test.map({0: "Rural", 1: "Urban"})
+)
+
+print("\nAccuracy by group:")
+print(mf.by_group["accuracy"].to_string())
+print("\nFalse Positive Rate by group (incorrectly flagged as default):")
+print(mf.by_group["false_positive_rate"].to_string())
+print(f"\nDemographic Parity Difference:  {demographic_parity_difference(y_test, y_pred, sensitive_features=grp_test):.3f}")
+print(f"Equalised Odds Difference:       {equalized_odds_difference(y_test, y_pred, sensitive_features=grp_test):.3f}")
+# 0 = perfectly fair | 1 = maximally unfair
+
+# ── Step 4: Mitigate bias with ThresholdOptimizer ──
+# Adjust decision thresholds per group to equalise FPR
+mitigator = ThresholdOptimizer(
+    estimator=pipeline,
+    constraints="equalized_odds",
+    objective="accuracy_score",
+    predict_method="auto"
+)
+mitigator.fit(X_train, y_train, sensitive_features=grp_train)
+y_pred_fair = mitigator.predict(X_test, sensitive_features=grp_test)
+
+print("\n=== AFTER FAIRNESS MITIGATION ===")
+mf_fair = MetricFrame(
+    metrics={"accuracy": accuracy_score, "false_positive_rate": false_positive_rate},
+    y_true=y_test, y_pred=y_pred_fair,
+    sensitive_features=grp_test.map({0: "Rural", 1: "Urban"})
+)
+print(f"Overall accuracy: {accuracy_score(y_test, y_pred_fair):.3f} (may decrease slightly)")
+print("\nAccuracy by group:")
+print(mf_fair.by_group["accuracy"].to_string())
+print("\nFalse Positive Rate by group (after mitigation):")
+print(mf_fair.by_group["false_positive_rate"].to_string())
+print(f"\nEqualised Odds Difference after mitigation: {equalized_odds_difference(y_test, y_pred_fair, sensitive_features=grp_test):.3f}")</pre></div>
+    <div class="callout green">
+      <strong>Amar's finding after mitigation:</strong> The FPR gap dropped from 23 percentage points (8% vs 31%) to under 4 percentage points. Overall accuracy decreased from 87% to 83% — a small cost to ensure rural applicants are treated fairly. Amar wrote in his report: "We chose to sacrifice 4% overall accuracy to prevent 27% more rural families from being wrongly denied credit. That is the right trade-off."
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <div class="ls-label">Documentation</div>
+    <div class="ls-title">Model Cards and India's DPDPA</div>
+    <p>A <strong>Model Card</strong> (developed by Google) is a short document every deployed AI model should have. It records:</p>
+    <ul>
+      <li>What the model does and intended use cases</li>
+      <li>Training data description (what populations are represented)</li>
+      <li>Performance metrics broken down by demographic group</li>
+      <li>Known limitations and failure modes</li>
+      <li>Ethical considerations and recommended uses</li>
+    </ul>
+    <p>India's <strong>Digital Personal Data Protection Act (DPDPA) 2023</strong> creates legal obligations for AI systems processing personal data:</p>
+    <ul>
+      <li>Explicit consent required before processing personal data for AI decisions</li>
+      <li>Right to explanation: people can ask why an automated system denied them credit/service</li>
+      <li>Data Fiduciary (company using AI) is responsible for accuracy and fairness</li>
+      <li>Children's data (under 18) requires verifiable parental consent</li>
+    </ul>
+    <div class="callout blue">
+      <strong>Pre-deployment audit checklist for your AI projects:</strong>
+    </div>
+    <ul class="audit-list">
+      <li><strong>Demographic representation:</strong> Does training data include all groups who will use the system? Especially rural, women, lower-income, and language minorities?</li>
+      <li><strong>Fairness metrics:</strong> Calculate accuracy, FPR, and FNR separately for each demographic group. Document results.</li>
+      <li><strong>Failure mode analysis:</strong> What happens when the model is wrong? Is the harm proportional and reversible?</li>
+      <li><strong>Human override:</strong> Is there a clear process for affected people to appeal an AI decision to a human?</li>
+      <li><strong>Model card:</strong> Write and publish a model card before deployment. Link to it from your app's About page.</li>
+      <li><strong>Consent:</strong> Do users know their data is being used for AI predictions? Is this disclosed clearly?</li>
+      <li><strong>Monitoring plan:</strong> How will you detect if model performance or fairness degrades after deployment?</li>
+    </ul>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-section">
+    <h3>🧪 Check Your Understanding — Lesson 11 Quiz</h3>
+    <div id="quiz-container">
+      <div class="q-block" data-q="1">
+        <div class="q-text">1. Why is bias in AI at scale more dangerous than bias in individual human decisions?</div>
+        <div class="quiz-opt" data-opt="a">a) AI models are always more accurate than humans, so their biases affect more correct outcomes</div>
+        <div class="quiz-opt" data-opt="b">b) An AI system deployed at scale makes millions of biased decisions per day, feels "objective" so is harder to challenge, and systematically affects entire demographic groups rather than one person at a time</div>
+        <div class="quiz-opt" data-opt="c">c) AI bias can be fixed by rewriting code, but human bias cannot be fixed at all</div>
+        <div class="quiz-opt" data-opt="d">d) AI models are regulated by SEBI which makes their decisions legally binding</div>
+      </div>
+      <div class="q-block" data-q="2">
+        <div class="q-text">2. Demographic Parity in a loan approval model means:</div>
+        <div class="quiz-opt" data-opt="a">a) All demographic groups have the same number of people in the training dataset</div>
+        <div class="quiz-opt" data-opt="b">b) Each demographic group (urban/rural, male/female) receives loan approvals at approximately equal rates — regardless of any historical patterns in the training data</b></div>
+        <div class="quiz-opt" data-opt="c">c) The model uses demographic information as an input feature to improve accuracy</div>
+        <div class="quiz-opt" data-opt="d">d) All employees who built the model come from diverse backgrounds</div>
+      </div>
+      <div class="q-block" data-q="3">
+        <div class="q-text">3. Equalised Odds (a stricter fairness metric than Demographic Parity) requires:</div>
+        <div class="quiz-opt" data-opt="a">a) That the model has the same overall accuracy across all groups</div>
+        <div class="quiz-opt" data-opt="b">b) That both the True Positive Rate AND False Positive Rate are equal across groups — ensuring the model is equally good at identifying real defaulters AND equally unlikely to falsely flag non-defaulters, regardless of group</b></div>
+        <div class="quiz-opt" data-opt="c">c) That the model's prediction probabilities are exactly 50% for each group</div>
+        <div class="quiz-opt" data-opt="d">d) That the training dataset has an equal number of examples from each group</div>
+      </div>
+      <div class="q-block" data-q="4">
+        <div class="q-text">4. In Amar's model, the False Positive Rate was 8% for urban and 31% for rural. This means:</div>
+        <div class="quiz-opt" data-opt="a">a) The model correctly identifies 8% of urban defaults and 31% of rural defaults</div>
+        <div class="quiz-opt" data-opt="b">b) 31% of rural applicants who would NOT have defaulted were INCORRECTLY predicted as defaulters — nearly 4× the rate for urban applicants. These are good borrowers being denied loans because of where they live.</b></div>
+        <div class="quiz-opt" data-opt="c">c) The model rejects 31% of all rural applications</div>
+        <div class="quiz-opt" data-opt="d">d) Rural applicants file 31% more loan complaints than urban applicants</div>
+      </div>
+      <div class="q-block" data-q="5">
+        <div class="q-text">5. ThresholdOptimizer in Fairlearn mitigates bias by:</div>
+        <div class="quiz-opt" data-opt="a">a) Retraining the entire model on a new, balanced dataset</div>
+        <div class="quiz-opt" data-opt="b">b) Adjusting the decision threshold per demographic group (post-processing) — a higher threshold for the advantaged group and a lower threshold for the disadvantaged group — until the specified fairness constraint is approximately satisfied</b></div>
+        <div class="quiz-opt" data-opt="c">c) Removing demographic features from the input data before training</div>
+        <div class="quiz-opt" data-opt="d">d) Adding demographic information as a class weight during training</div>
+      </div>
+      <div class="q-block" data-q="6">
+        <div class="q-text">6. A Model Card should be published because:</div>
+        <div class="quiz-opt" data-opt="a">a) It improves model accuracy by documenting hyperparameters clearly</div>
+        <div class="quiz-opt" data-opt="b">b) It communicates to users, regulators, and the public what the model does, who it was tested on, its known limitations, and its fairness metrics — creating accountability and enabling informed use or rejection of the AI system</b></div>
+        <div class="quiz-opt" data-opt="c">c) It is required by GitHub to publish AI models in a public repository</div>
+        <div class="quiz-opt" data-opt="d">d) It automatically generates the Swagger documentation for the FastAPI endpoint</div>
+      </div>
+      <div class="q-block" data-q="7">
+        <div class="q-text">7. Under India's Digital Personal Data Protection Act (DPDPA) 2023, a person denied a loan by an AI system has the right to:</div>
+        <div class="quiz-opt" data-opt="a">a) Receive a refund of the application fee</div>
+        <div class="quiz-opt" data-opt="b">b) Ask for an explanation of why the automated system rejected their application — the company (Data Fiduciary) is legally obligated to explain AI decisions and provide a human appeal process</b></div>
+        <div class="quiz-opt" data-opt="c">c) Demand that the company delete their AI model and retrain it</div>
+        <div class="quiz-opt" data-opt="d">d) Sue the AI model itself in a consumer court</div>
+      </div>
+      <div class="q-block" data-q="8">
+        <div class="q-text">8. Amar's decision to accept 4% lower accuracy in exchange for fairer rural FPR was:</div>
+        <div class="quiz-opt" data-opt="a">a) A poor engineering decision — accuracy should always be maximised</div>
+        <div class="quiz-opt" data-opt="b">b) The right ethical trade-off — preventing 27% more rural families from being wrongly denied credit is a more important outcome than a small aggregate accuracy improvement. Fairness sometimes costs accuracy, and that cost is often worth paying.</b></div>
+        <div class="quiz-opt" data-opt="c">c) Against DPDPA regulations, which require maximum accuracy</div>
+        <div class="quiz-opt" data-opt="d">d) Unnecessary — the 4% accuracy difference is statistically insignificant</div>
+      </div>
+    </div>
+    <button class="quiz-btn" id="quiz-submit">Submit Answers</button>
+    <div class="quiz-result" id="quiz-result"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <a href="lesson-10.html" class="btn-prev">← Lesson 10: AI for India</a>
+    <a href="lesson-12.html" class="btn-next">Lesson 12: Capstone →</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">Mitra AI Life</div>
+  <p style="margin-bottom:.5rem;"><a href="../../../site/index.html">Home</a> · <a href="class-10.html">Class 10</a> · <a href="../../../site/students.html">All Classes</a> · <a href="../../../site/privacy.html">Privacy Policy</a></p>
+  <p>© 2026 Mitra AI Life Education · Free AI education for every student</p>
+</footer>
+
+<script>
+const ANSWERS={1:'b',2:'b',3:'b',4:'b',5:'b',6:'b',7:'b',8:'b'};
+document.querySelectorAll('.q-block').forEach(block=>{
+  block.querySelectorAll('.quiz-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+document.getElementById('quiz-submit').addEventListener('click',()=>{
+  let score=0,total=Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(q=>{
+    const block=document.querySelector(`.q-block[data-q="${q}"]`);
+    const sel=block.querySelector('.quiz-opt.selected');
+    block.querySelectorAll('.quiz-opt').forEach(o=>{
+      o.classList.remove('correct','wrong');
+      if(o.dataset.opt===ANSWERS[q]) o.classList.add('correct');
+    });
+    if(sel){if(sel.dataset.opt===ANSWERS[q])score++;else sel.classList.add('wrong');}
+  });
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  let pct=Math.round(score/total*100);
+  if(pct>=75){res.className='quiz-result good';res.textContent=`Excellent! ${score}/${total} (${pct}%) — Add a fairness audit to every ML project you build from now on. It takes 30 minutes and prevents real harm.`;}
+  else if(pct>=50){res.className='quiz-result ok';res.textContent=`Good! ${score}/${total} (${pct}%) — Re-read the fairness metrics table and Amar's FPR analysis.`;}
+  else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Run the Fairlearn code on your own model. Seeing your own model fail equalized_odds for the first time is the lesson that changes how you think about AI.`;}
+  gtag('event','quiz_complete',{event_category:'class10',event_label:'class10_lesson11_quiz',value:score});
+  document.getElementById('quiz-submit').disabled=true;
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LearningResource",
+  "name":"Responsible AI at Scale — Class 10 Lesson 11",
+  "description":"Learn fairness, bias, demographic parity, model cards, India's DPDPA, and Fairlearn — essential skills before deploying AI that affects real people.",
+  "url":"https://mitraailife.com/content/students/class-10/lesson-11.html",
+  "learningResourceType":"Lesson",
+  "educationalLevel":"Class 10",
+  "typicalAgeRange":"14-15",
+  "inLanguage":"en",
+  "isAccessibleForFree":true,
+  "provider":{"@type":"Organization","name":"Mitra AI Life Education","url":"https://mitraailife.com"}
+}
+</script>
+</body>
+</html>

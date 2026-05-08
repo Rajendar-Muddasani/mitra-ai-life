@@ -15,7 +15,7 @@ Target age group: 10–17 · School students · India · English · CBSE/SSC com
 ## Class 6 — AI Literacy for Beginners (Age 10–11)
 
 Theme colour: Sky blue `#0ea5e9`  
-Full year: 12 lessons · Lessons 1–4 Live · Lessons 5–12 Coming Soon  
+Full year: 12 lessons · Lessons 1–6 Live · Lessons 7–12 Coming Soon  
 Hub page: `content/students/class-06/class-06.html`
 
 ---
@@ -148,13 +148,80 @@ Hub page: `content/students/class-06/class-06.html`
 
 ---
 
-### Lessons 5–12 — Coming Soon
+### Lesson 5 — AI in India: Real Stories
+
+**File:** `content/students/class-06/lesson-05.html`  
+**Duration:** 60–90 min · 8 sections · Free  
+**Commit:** ff7438a
+
+**Section topics:**
+1. Plantix (Andhra Pradesh) — crop disease detection via Computer Vision
+2. Aravind Eye Care (Tamil Nadu) — diabetic retinopathy screening with AI
+3. DIKSHA (Govt of India) — 280M students, 36 languages, Recommendation + Translation + TTS
+4. Bhashini (MeitY/AI4Bharat/IIT Madras) — language inclusion for non-English/Hindi India
+5. Indian Railways / AskDISHA — demand forecasting, predictive maintenance, NLP chatbot
+6. Qure.ai (Mumbai) — TB detection from chest X-rays
+7. UPI fraud detection (NPCI) — anomaly detection, limits on social engineering
+8. AI access map + Digital Divide — 350M offline Indians, tribal language gaps
+
+**Story:** Raju (11yo, Guntur, AP) uses Plantix on father's phone; chilli plants recover; family earns ₹12,000 more
+
+**Quiz Q&A — Lesson 5**
+
+| Q# | Question (short) | A | B | C | D | ✓ |
+|----|-----------------|---|---|---|---|---|
+| 1 | What does Plantix identify from a photo? | Soil type | **Crop disease or pest** | Best fertiliser brand | Harvest date | **b** |
+| 2 | Aravind Eye Care's AI screens for: | Malaria | Cataracts | **Diabetic retinopathy** | Colour blindness | **c** |
+| 3 | DIKSHA is used by approximately how many students? | 28 million | **280 million** | 2.8 million | 28 thousand | **b** |
+| 4 | Bhashini's main purpose is: | Online shopping | Exam preparation | AI image generation | **Language access for non-English/Hindi speakers** | **d** |
+| 5 | What does AskDISHA help with? | Train painting | Ticket queries and booking | **Both A and B** | Neither | **c** |
+| 6 | Qure.ai analyses chest X-rays mainly to detect: | Broken bones | Heart disease | Diabetes | **Tuberculosis (TB)** | **d** |
+| 7 | UPI processes approx. how many transactions/month (2024)? | 140 million | 1.4 billion | **14 billion** | 140 billion | **c** |
+| 8 | What fraud does AI struggle most to prevent in UPI? | Duplicate transactions | Wrong account numbers | Network glitches | **Social engineering — people tricked into sharing OTPs** | **d** |
+| 9 | "Digital Divide" refers to: | Gap in exam marks | Gap between school types | **Gap between those with/without internet access** | Difference in phone brands | **c** |
+| 10 | Approx. how many Indians lack reliable internet access (2024)? | 35 million | **350 million** | 3.5 million | 3,500 | **b** |
+
+---
+
+### Lesson 6 — Asking Good Questions with AI
+
+**File:** `content/students/class-06/lesson-06.html`  
+**Duration:** 60–90 min · 8 sections · Free
+
+**Section topics:**
+1. What is a prompt? (input → output, garbage in = garbage out)
+2. The CTFX formula — Context, Task, Format, constraInt (limit)
+3. Weak vs strong prompts — side-by-side before/after examples
+4. Prompting for study help — explain, summarise, quiz me, simplify, check my answer
+5. Prompting for creative tasks — stories, poems, scripts, ideas
+6. Prompting in Telugu, Hindi, and Tamil — cross-language prompts
+7. When AI gives a bad answer — follow-up prompts (5 patterns)
+8. Ethical prompting — privacy rules, academic honesty, what not to ask
+
+**Story:** Arjun (11yo, Hyderabad) types a vague prompt and gets useless answers; his mother shows him CTFX — same AI, completely different result.
+
+**Quiz Q&A — Lesson 6**
+
+| Q# | Question (short) | A | B | C | D | ✓ |
+|----|-----------------|---|---|---|---|---|
+| 1 | What is a "prompt"? | App notification | **Instruction/question you type into AI** | AI's stored database | Programming language | **b** |
+| 2 | Arjun typed "Tell me about rivers" but needed only AP rivers. Problem? | Wrong tool | Asked too many questions | **Prompt too vague — lacked context and specifics** | AI can't do geography | **c** |
+| 3 | Strongest prompt for photosynthesis? | "Photosynthesis" | "Tell me about photosynthesis" | **"Explain in 5 bullet points for Class 6, mango tree example"** | "What is photosynthesis explain" | **c** |
+| 4 | Adding "I am a Class 6 student" helps because: | Logs in to student account | **AI adjusts vocabulary and complexity to your level** | Makes AI faster | Required by school rules | **b** |
+| 5 | Neha submitted AI-written assignment as her own. Main problem? | AI can't write about water cycle | **Academic dishonesty + no real learning** | Assignment too long | AI only writes English | **b** |
+| 6 | Best exam-prep prompt? | "Give me notes" | "Help me study" | **"Quiz me on Chapter 7, one question at a time, tell me if correct"** | "Tell me everything" | **c** |
+| 7 | AI wrote snowstorm poem instead of monsoon. Best follow-up? | Switch to different tool | **"Rewrite about Indian monsoon — rain, frogs, chai, no snow"** | Accept snowstorm poem | Report AI as broken | **b** |
+| 8 | Why never type name/address into AI chatbot? | Makes AI slower | AI gets confused | **AI may store data — privacy/safety risk** | AI only handles general questions | **c** |
+| 9 | Most ethical AI study use? | AI takes your online test | AI writes your diary | **AI explains a concept in simpler words with Indian examples** | AI impersonates your teacher | **c** |
+| 10 | What is a "follow-up prompt"? | First question to start | **Prompt after AI's answer to improve/clarify/extend** | Special school AI tool | Paid premium feature | **b** |
+
+---
+
+### Lessons 7–12 — Coming Soon
 
 | Lesson | Title | Status |
 |--------|-------|--------|
-| 5 | AI in India — Real Stories (Extended Case Studies) | 🔄 Building |
-| 6 | Asking Good Questions with AI | Coming Soon |
-| 7 | AI for Study Help | Coming Soon |
+| 7 | AI for Study Help — Practical | Coming Soon |
 | 8 | Digital Citizenship and AI | Coming Soon |
 | 9 | AI and Creativity | Coming Soon |
 | 10 | When AI Gets It Wrong | Coming Soon |
@@ -176,4 +243,4 @@ Hub page: `content/students/class-06/class-06.html`
 
 ---
 
-*Last updated: 08 May 2026 · Lessons 1–4 live · This document grows with each new lesson.*
+*Last updated: 08 May 2026 · Lessons 1–6 live · This document grows with each new lesson.*

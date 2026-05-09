@@ -391,21 +391,22 @@ Junior developers looking to add an AI-powered project to their resume.
 
 ### What the track offers
 - Guided project briefs with clear problem statements
-- Starter Jupyter notebooks with scaffolded code
+- Starter code plus a clear final-code path
 - File structure recommendations
 - README templates
 - Deployment walkthroughs (Streamlit Cloud, Hugging Face Spaces, Vercel)
+- Report templates, PPT templates, and viva support
 - Peer review or mentor review as an optional add-on
 
 ### First project planned
-- Canteen Menu Optimiser (Streamlit + Pandas + OpenAI) — inspired by Kiran's story in L7
-- Starter notebook: data loading, OpenAI call, Streamlit UI scaffold
+- Document Q&A Assistant — thesis-ready RAG system with document upload, retrieval, citations, and demo flow
+- Public kit page: `content/projects/project-01-document-qa-assistant.html`
 
 ### Tech format
-- Project brief as markdown
-- Starter code as Jupyter notebook (.ipynb)
-- README as markdown
-- All hosted on mitraaiprojects.com once site is created
+- Public catalog page on the current site as the first validation step
+- Project brief + implementation page + future code pack
+- README / report / PPT / viva materials as part of the delivery model
+- All hosted on mitraaiprojects.com once the separate site is created
 
 ---
 

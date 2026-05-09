@@ -211,6 +211,62 @@ Each "Project Kit" = one self-contained page covering:
 | project-09 | Full Stack AI App | React + FastAPI + OpenAI + Supabase | ₹5,000 | Planned |
 | project-10 | Capstone: Deploy on Cloud | Any of above + AWS deployment | ₹5,000 | Planned |
 
+### Positioning update
+
+Do not organize this track primarily by year or by subject labels like ML, DL, or GenAI.
+
+Reason:
+- the student track already covers most of the concept teaching in Class 11 and Class 12
+- engineering students need outcomes, not another theory ladder
+- the real buying moment is usually third-year mini-projects, final-year major projects, internship demos, and thesis submission support
+
+Better organizing principle: organize by project outcome.
+
+### Recommended catalog structure
+
+| Lane | Target learner | Goal | Typical duration |
+|---|---|---|---|
+| Guided Mini Projects | 2nd/3rd year students | build one working scoped project fast | 2 to 4 weeks |
+| Major Project Kits | 3rd/4th year students | thesis-ready final-year submission | 8 to 16 weeks |
+| Portfolio Builds | final-year students and freshers | company-ready deployed demo + GitHub proof | 4 to 8 weeks |
+| Viva and Submission Packs | final-year students | report, PPT, demo script, viva defense | add-on |
+
+### What every serious project kit should include
+
+- problem statement and scope boundaries
+- dataset or data-collection plan
+- architecture diagram
+- milestone-wise implementation plan
+- starter code plus final code path
+- README and setup guide
+- deployment guide
+- project report template
+- PPT / seminar deck template
+- viva questions and answers
+- testing checklist and known limitations
+- extension ideas for internship or startup version
+
+### Recommended first six kits for this track
+
+| ID | Project Name | Delivery goal |
+|---|---|---|
+| project-01 | Document Q&A Assistant for Colleges or Offices | thesis-ready RAG system + admin upload flow |
+| project-02 | AI Resume Screener and Interview Copilot | portfolio build + placement relevance |
+| project-03 | Inventory Forecasting Dashboard for Local Business | thesis-ready forecasting + dashboard + report |
+| project-04 | Multilingual Customer Support Assistant | deployable chatbot + escalation workflow |
+| project-05 | AI Attendance and Analytics Dashboard | college-friendly dashboard + reporting pack |
+| project-06 | Vision-Based Quality Inspection Demo | company-style CV project + deployment story |
+
+### Product rule
+
+This track should make a student stronger for:
+- final-year project submission
+- viva explanation
+- internship interviews
+- fresher AI or software roles
+
+If a kit looks like a toy demo that cannot support at least one of those four outcomes, it should not be the lead offer.
+
 ### Project 01 content outline (build first):
 - Story: Final year student Arjun needs a project. Builds a chatbot in a weekend.
 - Prerequisites: Python basics, an OpenAI API key

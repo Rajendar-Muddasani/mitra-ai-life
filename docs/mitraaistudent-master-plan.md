@@ -29,66 +29,69 @@ It is a guided learning track for:
 
 Teach students to use AI as:
 
-- a study helper
+Ship a serious pre-college AI engineering track that moves beyond basics into frontier concepts, production thinking, and research readiness.
 - an explanation tool
 - a revision partner
 - a creativity tool
 - a safe digital skill
 - a future academic foundation
-
-Never teach AI as:
-
-- a cheating machine
-- a marks guarantee
+- write stronger Python for AI systems
+- explain deep learning, RL, MLOps, multi-modal AI, agents, and safety in plain but serious language
+- read research papers and connect equations to code
+- reason about deployment, monitoring, startup thinking, and responsible release
+- prepare a public AI research or engineering portfolio before Class 12
 - a replacement for learning
 - a replacement for teachers or parents
 - a promise of a job before higher education
-
-### Final structural decision
-
-- Use class-wise navigation from Class 6 to Junior College +2.
-- Class 11 is labelled "Junior College +1" (also covers Inter 1st Year / PUC-1 / CBSE Class 11).
-- Class 12 is labelled "Junior College +2" (also covers Inter 2nd Year / PUC-2 / CBSE Class 12).
+- advanced Python for AI
+- deep learning theory
+- reinforcement learning and PPO
+- MLOps and production ML
+- monitoring, drift, and experimentation
+- multi-modal AI
+- AI agents and tool use
+- reading and implementing research papers
+- AI safety and alignment
+- AI startups in India
+- capstone portfolio work
 - Do not use Level 1, Level 2, Level 3 naming for this track.
-- Keep launch language English only.
+### Shipped lesson map
 - Keep the track under the existing site at `/students.html` and future class pages under the same Mitra AI Life repo.
-- Keep early access free until the founder explicitly decides otherwise.
+- Lesson 1: Advanced Python for AI
+- Lesson 2: Deep Learning Theory
+- Lesson 3: RL: MDPs and Q-Learning
+- Lesson 4: Deep RL: Policy Gradients and PPO
+- Lesson 5: MLOps: Dockerising Your ML Model
+- Lesson 6: Production ML: Monitoring and Drift
+- Lesson 7: Multi-modal AI: Vision + Language + Speech
+- Lesson 8: AI Agents and Tool Use
+- Lesson 9: Reading and Implementing AI Research Papers
+- Lesson 10: AI Safety and Alignment
+- Lesson 11: Building AI Startups in India
+- Lesson 12: Capstone: My AI Research Project
 
----
+### Content assets
 
-## 2. Non-Negotiable Rules
-
-### Audience rule
-
-This track serves minors. Every decision must assume the learner may be 10 to 18 years old.
-
-### Safety rule
-
-Every page, video, worksheet, notebook, and chatbot interaction must be safe for school-age learners.
-
-### Content rule
-
-Use simple English, strong visuals, Indian school-life examples, and original content.
-
-### Curriculum rule
-
-Follow CBSE, ICSE, Cambridge, and SSC patterns broadly, but do not copy textbooks or copyrighted materials.
-
-### Academic honesty rule
+- 1 class hub page
+- 12 full HTML lessons
+- 12 quizzes
+- 1 capstone portfolio experience
+- written curriculum fully live
+- no standalone ipynb notebook files shipped yet in the current repo
 
 Always frame AI as help for understanding, planning, brainstorming, practice, and revision.
 Never frame AI as a way to submit answers without learning.
-
+Pick one frontier topic from the class, build one public artefact around it, and explain it clearly on GitHub in your own words.
 ### Data privacy rule
 
 Do not ask children to share:
-
+Future helper role: explain difficult concepts, clarify code reasoning, and guide project planning without turning into a homework or code-copy bot.
 - home address
 - phone number
 - school ID
-- Aadhaar
-- parent income
-- private photos
+- pretending this is only a notebook-skills class
+- reducing the course to college-syllabus imitation
+- overpromising jobs or startup outcomes
 - personal marksheets
 - passwords
 
@@ -96,66 +99,70 @@ Do not ask children to share:
 
 Do not enable public comments or open chat spaces on child-facing student pages.
 For this track, avoid Disqus on class pages.
-
+Turn the Class 11 foundation into applied AI mastery with modern systems, deployment thinking, and a college-ready portfolio.
 ### Language rule
 
 Launch in English only for the student track.
 Telugu can be added later after the English curriculum stabilizes.
 
----
-
-## 3. What Success Looks Like
-
-### Student outcomes
+- explain and compare modern AI systems used in real production settings
+- understand fine-tuning, RAG, distributed training, serving, forecasting, recommenders, and product rollout
+- reason about infrastructure cost, safety, and ethics in applied AI
+- build a college-ready portfolio with flagship project framing
+- move into engineering college with a much stronger practical AI base than a normal school learner
 
 By the end of the track, a student should be able to:
 
-- explain in simple words what AI is
-- use AI safely for study support
-- ask better questions
-- check AI answers instead of trusting blindly
-- use simple Python notebooks
-- understand basic data and ML ideas
-- understand what GenAI is and where it can fail
-- understand what agentic AI means at a basic level
-- use AI honestly in school work
+- LLM fine-tuning with QLoRA
+- vector databases and hybrid RAG
+- distributed training with DDP
+- graph neural networks
+- diffusion models and image generation
+- speech AI and voice-cloning ethics
+- recommender systems at scale
+- vLLM and Kubernetes serving
+- time-series forecasting
+- AI product management
+- college admissions and AI career path
+- capstone portfolio synthesis
 
-### Parent and teacher outcomes
+### Shipped lesson map
 
-Parents and teachers should feel that this track:
-
-- is safe
-- is practical
+- Lesson 1: LLM Fine-tuning with QLoRA
+- Lesson 2: Vector Databases and Hybrid RAG
+- Lesson 3: Distributed Training with PyTorch DDP
+- Lesson 4: Graph Neural Networks
+- Lesson 5: Diffusion Models and Image Generation
+- Lesson 6: Speech AI: TTS and Voice Cloning Ethics
+- Lesson 7: Recommender Systems at Scale
+- Lesson 8: AI at Scale: Kubernetes + vLLM
+- Lesson 9: Time Series Forecasting
+- Lesson 10: AI Product Management
+- Lesson 11: College Admissions and AI Career Path
+- Lesson 12: Capstone: My College AI Portfolio
 - does not push cheating
-- explains AI without hype
+### Content assets
 - introduces coding gradually
-- builds future readiness in a calm way
-
-### Business outcome
-
-This track should strengthen the platform as a trusted education product, not as a generic AI tool directory.
-
----
-
-## 4. Curriculum Design Principles
-
-### Principle 1: age-appropriate progression
-
-- Classes 6 to 7: awareness, safety, prompting, study help
+- 1 class hub page
+- 12 full HTML lessons
+- 12 quizzes
+- 1 capstone portfolio experience
+- written curriculum fully live
+- no standalone ipynb notebook files shipped yet in the current repo
 - Classes 8 to 10: Python, notebooks, data thinking, responsible AI, projects
 - Classes 11 to 12: stronger Python, ML foundations, GenAI, agentic AI, future-ready projects
 
-### Principle 2: visual first
+Create a 3-flagship pre-college AI portfolio that you can carry into engineering admissions, internships, and first-year projects.
 
 Use simple images, diagrams, comics, flow cards, and slide-style teaching before deep text.
 
-### Principle 3: short learning units
+Future helper role: explain concepts, compare system choices, and guide safe portfolio refinement without replacing original student work.
 
 Students should learn in small pieces.
 
 - class intro video
 - 1 main lesson page
-- 1 worksheet
+- pretending the current repo already ships standalone notebooks when it does not
 - 1 mini quiz
 - 1 safe chatbot helper
 - 1 notebook where relevant
@@ -565,66 +572,69 @@ Help students compare answers, improve prompts, and explain notebook steps.
 
 ### Goal
 
-Build a strong foundation in Python, data science, and beginner ML.
+Ship a serious pre-college AI engineering track that moves beyond basics into frontier concepts, production thinking, and research readiness.
 
 ### Learning outcomes
 
 The learner should be able to:
 
-- work comfortably in Python notebooks
-- analyze simple datasets
-- visualize data
-- understand supervised learning at a beginner level
-- understand model evaluation in simple terms
+- write stronger Python for AI systems
+- explain deep learning, RL, MLOps, multi-modal AI, agents, and safety in plain but serious language
+- read research papers and connect equations to code
+- reason about deployment, monitoring, startup thinking, and responsible release
+- prepare a public AI research or engineering portfolio before Class 12
 
 ### Content topics
 
-- Python revision and deeper practice
-- datasets and analysis
-- regression vs classification
-- overfitting in plain English
-- useful AI applications
-- responsible prompting for research and productivity
+- advanced Python for AI
+- deep learning theory
+- reinforcement learning and PPO
+- MLOps and production ML
+- monitoring, drift, and experimentation
+- multi-modal AI
+- AI agents and tool use
+- reading and implementing research papers
+- AI safety and alignment
+- AI startups in India
+- capstone portfolio work
 
-### Python topics
+### Shipped lesson map
 
-- functions
-- modules
-- file handling
-- CSV and JSON
-- pandas
-- numpy basics
-- matplotlib basics
-
-### ML topics
-
-- linear regression
-- decision tree concept
-- nearest-neighbor concept
-- clustering concept
+- Lesson 1: Advanced Python for AI
+- Lesson 2: Deep Learning Theory
+- Lesson 3: RL: MDPs and Q-Learning
+- Lesson 4: Deep RL: Policy Gradients and PPO
+- Lesson 5: MLOps: Dockerising Your ML Model
+- Lesson 6: Production ML: Monitoring and Drift
+- Lesson 7: Multi-modal AI: Vision + Language + Speech
+- Lesson 8: AI Agents and Tool Use
+- Lesson 9: Reading and Implementing AI Research Papers
+- Lesson 10: AI Safety and Alignment
+- Lesson 11: Building AI Startups in India
+- Lesson 12: Capstone: My AI Research Project
 
 ### Content assets
 
-- 1 class intro video
-- 1 stronger notebook guide page
-- 3 notebooks
-- 1 project brief
-- 1 practice worksheet
-- 1 quiz
+- 1 class hub page
+- 12 full HTML lessons
+- 12 quizzes
+- 1 capstone portfolio experience
+- written curriculum fully live
+- no standalone ipynb notebook files shipped yet in the current repo
 
 ### Small challenge
 
-Analyze a simple marks or attendance dataset and present the insights in charts.
+Pick one frontier topic from the class, build one public artefact around it, and explain it clearly on GitHub in your own words.
 
 ### Chatbot role
 
-Help interpret code errors, explain concepts, and guide project planning.
+Future helper role: explain difficult concepts, clarify code reasoning, and guide project planning without turning into a homework or code-copy bot.
 
 ### Avoid
 
-- too many libraries at once
-- advanced mathematics beyond school comfort
-- turning the course into a college syllabus clone
+- pretending this is only a notebook-skills class
+- reducing the course to college-syllabus imitation
+- overpromising jobs or startup outcomes
 
 ---
 
@@ -632,66 +642,70 @@ Help interpret code errors, explain concepts, and guide project planning.
 
 ### Goal
 
-Give students a mature, future-ready view of AI before college.
+Turn the Class 11 foundation into applied AI mastery with modern systems, deployment thinking, and a college-ready portfolio.
 
 ### Learning outcomes
 
 The learner should be able to:
 
-- explain ML, DL, GenAI, and agentic AI at a beginner but serious level
-- build stronger notebooks and mini projects
-- understand retrieval-based assistants and document Q and A in simple terms
-- understand limits, risks, and responsible use
-- prepare a simple AI portfolio for higher education readiness
+- explain and compare modern AI systems used in real production settings
+- understand fine-tuning, RAG, distributed training, serving, forecasting, recommenders, and product rollout
+- reason about infrastructure cost, safety, and ethics in applied AI
+- build a college-ready portfolio with flagship project framing
+- move into engineering college with a much stronger practical AI base than a normal school learner
 
 ### Content topics
 
-- AI project lifecycle
-- neural networks in plain language
-- GenAI basics and limitations
-- embeddings in plain language
-- RAG concept
-- agentic AI concept
-- automation basics
-- AI ethics and governance awareness
-- college readiness and portfolio thinking
+- LLM fine-tuning with QLoRA
+- vector databases and hybrid RAG
+- distributed training with DDP
+- graph neural networks
+- diffusion models and image generation
+- speech AI and voice-cloning ethics
+- recommender systems at scale
+- vLLM and Kubernetes serving
+- time-series forecasting
+- AI product management
+- college admissions and AI career path
+- capstone portfolio synthesis
 
-### Python topics
+### Shipped lesson map
 
-- stronger notebook workflow
-- working with text files and structured data
-- simple app or demo flow
-- optional Streamlit exposure later
-
-### Notebook topics
-
-- simple ML project
-- document Q and A concept notebook
-- prompt evaluation notebook
-- mini portfolio project
+- Lesson 1: LLM Fine-tuning with QLoRA
+- Lesson 2: Vector Databases and Hybrid RAG
+- Lesson 3: Distributed Training with PyTorch DDP
+- Lesson 4: Graph Neural Networks
+- Lesson 5: Diffusion Models and Image Generation
+- Lesson 6: Speech AI: TTS and Voice Cloning Ethics
+- Lesson 7: Recommender Systems at Scale
+- Lesson 8: AI at Scale: Kubernetes + vLLM
+- Lesson 9: Time Series Forecasting
+- Lesson 10: AI Product Management
+- Lesson 11: College Admissions and AI Career Path
+- Lesson 12: Capstone: My College AI Portfolio
 
 ### Content assets
 
-- 1 class intro video
-- 1 future-readiness lesson page
-- 3 notebooks
-- 1 portfolio template
-- 1 case-study worksheet
-- 1 quiz
+- 1 class hub page
+- 12 full HTML lessons
+- 12 quizzes
+- 1 capstone portfolio experience
+- written curriculum fully live
+- no standalone ipynb notebook files shipped yet in the current repo
 
 ### Small challenge
 
-Create a mini AI learning portfolio with one notebook, one reflection, and one ethical-use checklist.
+Create a 3-flagship pre-college AI portfolio that you can carry into engineering admissions, internships, and first-year projects.
 
 ### Chatbot role
 
-Help with concept explanation, project planning, and safe refinement of ideas.
+Future helper role: explain concepts, compare system choices, and guide safe portfolio refinement without replacing original student work.
 
 ### Avoid
 
 - pretending agentic AI is ready for unsupervised school use
 - overpromising college or job outcomes
-- forcing advanced frameworks too early
+- pretending the current repo already ships standalone notebooks when it does not
 
 ---
 

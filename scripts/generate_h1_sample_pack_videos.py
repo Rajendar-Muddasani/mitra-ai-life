@@ -62,10 +62,9 @@ def parse_args() -> argparse.Namespace:
 def get_openai_client():
     from openai import OpenAI
 
-    api_key = os.environ.get("OPENAI_API_KEY")
-    if not api_key:
-        raise RuntimeError("OPENAI_API_KEY is not set")
-    return OpenAI(api_key=api_key)
+    if api_key := os.environ.get("OPENAI_API_KEY"):
+        return OpenAI(api_key=api_key)
+    raise RuntimeError("OPENAI_API_KEY is not set")
 
 
 def lesson_jobs(manifest: dict, selected_lessons: set[str] | None) -> list[dict]:
@@ -116,13 +115,13 @@ def generate_audio(job: dict, client, voice: str, tts_model: str) -> list[Path]:
             print(f"  [SKIP] {job['lesson']['id']} scene {scene_number:02d} audio")
         else:
             print(f"  [TTS] {job['lesson']['id']} scene {scene_number:02d}")
-            response = client.audio.speech.create(
+            with client.audio.speech.with_streaming_response.create(
                 model=tts_model,
                 voice=voice,
                 input=scene["narration"],
                 speed=0.95,
-            )
-            response.stream_to_file(str(audio_path))
+            ) as response:
+                response.stream_to_file(str(audio_path))
             time.sleep(1)
         audio_files.append(audio_path)
 

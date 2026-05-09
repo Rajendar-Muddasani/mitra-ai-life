@@ -155,6 +155,26 @@ h1 {
   padding: 1rem;
 }
 
+.media-frame {
+  overflow: hidden;
+  padding: 0;
+}
+
+.media-frame video {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #000;
+}
+
+.media-caption {
+  padding: 1rem 1rem 1.1rem;
+}
+
+.media-caption p {
+  margin: 0.5rem 0 0;
+}
+
 .tag {
   display: inline-flex;
   align-items: center;

@@ -243,9 +243,10 @@ footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(25
     <div class="ls-label">Your Certificate</div>
     <div class="ls-title">Print Your Completion Certificate</div>
     <div class="certificate-wrapper">
+      <p id="cert-help" style="font-size:.9rem;margin-bottom:.6rem;">First pass the Capstone Quiz below (80% or higher). The Generate button unlocks once you pass.</p>
       <div class="cert-input-row">
-        <input type="text" id="cert-name-input" placeholder="Enter your full name…" maxlength="60" />
-        <button onclick="generateCertificate()">Generate Certificate</button>
+        <input type="text" id="cert-name-input" placeholder="Enter your full name…" maxlength="60" disabled />
+        <button id="cert-btn" onclick="generateCertificate()" disabled style="opacity:.5;cursor:not-allowed;">🔒 Pass the Quiz to Unlock</button>
       </div>
       <div id="certificate">
         <div class="cert-org">Mitra AI Life Education</div>
@@ -425,7 +426,22 @@ function updateProgress(){
 }
 
 // Certificate generator
+let quizPassed = false;
+function unlockCertificate(){
+  quizPassed = true;
+  const btn = document.getElementById('cert-btn');
+  const inp = document.getElementById('cert-name-input');
+  const help = document.getElementById('cert-help');
+  btn.disabled = false;
+  btn.style.opacity = '1';
+  btn.style.cursor = 'pointer';
+  btn.textContent = 'Generate Certificate';
+  inp.disabled = false;
+  help.textContent = '✅ Quiz passed! Enter your full name and click Generate Certificate.';
+  help.style.fontWeight = '700';
+}
 function generateCertificate(){
+  if(!quizPassed){alert('Please pass the Capstone Quiz (80% or higher) first.');return;}
   const name=document.getElementById('cert-name-input').value.trim();
   if(!name){alert('Please enter your name first.');return;}
   document.getElementById('cert-name-display').textContent=name;
@@ -462,7 +478,7 @@ document.getElementById('quiz-submit').addEventListener('click',()=>{
   const res=document.getElementById('quiz-result');
   res.style.display='block';
   let pct=Math.round(score/total*100);
-  if(pct>=80){res.className='quiz-result good';res.textContent=`Outstanding! ${score}/${total} correct (${pct}%) — Class 9 COMPLETE. You're ready for Class 10!`;}
+  if(pct>=80){res.className='quiz-result good';res.textContent=`Outstanding! ${score}/${total} correct (${pct}%) — Class 9 COMPLETE. Your certificate is now unlocked above. You're ready for Class 10!`;unlockCertificate();}
   else if(pct>=60){res.className='quiz-result ok';res.textContent=`Well done! ${score}/${total} correct (${pct}%) — Review any lessons you found tricky before starting Class 10.`;}
   else{res.className='quiz-result low';res.textContent=`${score}/${total} correct (${pct}%) — Class 9 covers a lot of ground! Revisit the lessons where the quiz showed gaps. Each one links above in the recap grid.`;}
   gtag('event','quiz_complete',{event_category:'class9',event_label:'class09_lesson12_quiz',value:score});

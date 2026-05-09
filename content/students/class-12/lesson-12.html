@@ -275,16 +275,16 @@ footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(25
     <div class="ls-title">Class 12 Completion Certificate</div>
     <div class="cert-wrap">
       <h3>🎓 Certificate of Completion</h3>
-      <div class="cert-sub">Enter your name and click Generate</div>
-      <input class="cert-name-input" id="cert-name" type="text" placeholder="Your Full Name" maxlength="60" />
+      <div class="cert-sub" id="cert-sub">First pass the Capstone Quiz below (80% or higher). The Generate button unlocks once you pass.</div>
+      <input class="cert-name-input" id="cert-name" type="text" placeholder="Your Full Name" maxlength="60" disabled />
       <br/>
-      <button class="cert-btn" id="cert-btn">Generate Certificate</button>
+      <button class="cert-btn" id="cert-btn" disabled style="opacity:.5;cursor:not-allowed;">🔒 Pass the Quiz to Unlock</button>
       <div class="cert-output" id="cert-output">
         <div class="co-title">This certifies that</div>
         <div class="co-name" id="cert-display-name"></div>
         <div class="co-body">has successfully completed<br/><strong>Class 12 — Applied AI Mastery</strong><br/>12 lessons · 96 quiz questions · Mitra AI Life Education<br/><br/>
         Skills: LLM Fine-tuning · Hybrid RAG · Distributed Training · GNNs · Diffusion · Speech AI Ethics · Recommender Systems · vLLM at Scale · Time Series · AI Product Management · College Portfolio<br/><br/>
-        🌟 Ready for Engineering College — IIT / IIIT / BITS / NIT and beyond</div>
+        🌟 Ready for engineering college — any of the 100+ AICTE-approved colleges across India, plus opportunities abroad.</div>
       </div>
     </div>
   </div>
@@ -429,7 +429,23 @@ function updateSkillsBar(){
 checkboxes.forEach(cb=>{cb.addEventListener('change', updateSkillsBar);});
 updateSkillsBar();
 
+let quizPassed = false;
+function unlockCertificate(){
+  quizPassed = true;
+  const btn = document.getElementById('cert-btn');
+  const inp = document.getElementById('cert-name');
+  const sub = document.getElementById('cert-sub');
+  btn.disabled = false;
+  btn.style.opacity = '1';
+  btn.style.cursor = 'pointer';
+  btn.textContent = 'Generate Certificate';
+  inp.disabled = false;
+  sub.textContent = '✅ Quiz passed! Enter your full name and click Generate.';
+  sub.style.color = '#bbf7d0';
+  sub.style.fontWeight = '700';
+}
 document.getElementById('cert-btn').addEventListener('click',()=>{
+  if(!quizPassed){alert('Please pass the Capstone Quiz (80% or higher) first.');return;}
   const name = document.getElementById('cert-name').value.trim();
   if(!name){alert('Please enter your name first.');return;}
   document.getElementById('cert-display-name').textContent = name;
@@ -459,7 +475,7 @@ document.getElementById('quiz-submit').addEventListener('click',()=>{
   const res=document.getElementById('quiz-result');
   res.style.display='block';
   let pct=Math.round(score/total*100);
-  if(pct>=80){res.className='quiz-result good';res.textContent=`Capstone complete! ${score}/${total} (${pct}%) — You've mastered Class 12. Enter your name above to generate your certificate!`;}
+  if(pct>=80){res.className='quiz-result good';res.textContent=`Capstone complete! ${score}/${total} (${pct}%) — You've mastered Class 12. Your certificate is now unlocked above — scroll up, enter your name, and generate it!`;unlockCertificate();}
   else if(pct>=60){res.className='quiz-result ok';res.textContent=`${score}/${total} (${pct}%) — Good work! Review the lessons for any questions you missed, then retry for a perfect score.`;}
   else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Revisit the lessons indicated above, then come back and complete the capstone.`;}
   gtag('event','quiz_complete',{event_category:'class12',event_label:'class12_lesson12_quiz',value:score});

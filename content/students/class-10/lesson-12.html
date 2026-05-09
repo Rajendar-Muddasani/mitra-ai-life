@@ -358,10 +358,10 @@ footer .footer-brand{font-family:'Baloo 2',cursive;font-size:.9rem;color:rgba(25
   <!-- Certificate -->
   <div class="cert-section" id="cert-section">
     <h3>🎓 Earn Your Class 10 Certificate</h3>
-    <p style="font-size:.85rem;color:#065f46;margin-bottom:.7rem">Enter your name and click Print Certificate to generate a printable certificate of completion.</p>
-    <input class="cert-input" id="cert-name" type="text" placeholder="Your full name" maxlength="60" />
+    <p style="font-size:.85rem;color:#065f46;margin-bottom:.7rem" id="cert-help">First pass the Capstone Quiz below (80% or higher). The Generate button unlocks once you pass.</p>
+    <input class="cert-input" id="cert-name" type="text" placeholder="Your full name" maxlength="60" disabled />
     <br>
-    <button class="cert-btn" onclick="showCert()">Generate Certificate</button>
+    <button class="cert-btn" id="cert-btn" onclick="showCert()" disabled style="opacity:.5;cursor:not-allowed;">🔒 Pass the Quiz to Unlock</button>
     <button class="cert-btn secondary" onclick="window.print()">🖨️ Print</button>
     <div class="cert-preview" id="cert-preview">
       <div class="cp-seal">🏆</div>
@@ -414,7 +414,22 @@ function updateProgress(){
 }
 
 // Certificate
+let quizPassed = false;
+function unlockCertificate(){
+  quizPassed = true;
+  const btn = document.getElementById('cert-btn');
+  const inp = document.getElementById('cert-name');
+  const help = document.getElementById('cert-help');
+  btn.disabled = false;
+  btn.style.opacity = '1';
+  btn.style.cursor = 'pointer';
+  btn.textContent = 'Generate Certificate';
+  inp.disabled = false;
+  help.textContent = '✅ Quiz passed! Enter your full name and click Generate Certificate.';
+  help.style.fontWeight = '700';
+}
 function showCert(){
+  if(!quizPassed){alert('Please pass the Capstone Quiz (80% or higher) first.');return;}
   const name = document.getElementById('cert-name').value.trim();
   if(!name){alert('Please enter your name.');return;}
   document.getElementById('cert-name-display').textContent = name;
@@ -447,7 +462,7 @@ document.getElementById('quiz-submit').addEventListener('click',()=>{
   const res=document.getElementById('quiz-result');
   res.style.display='block';
   let pct=Math.round(score/total*100);
-  if(pct>=80){res.className='quiz-result good';res.textContent=`Outstanding! ${score}/${total} (${pct}%) — Class 10 Complete! You are ready for Class 11. Build your first AI project for a real Indian problem this week.`;}
+  if(pct>=80){res.className='quiz-result good';res.textContent=`Outstanding! ${score}/${total} (${pct}%) — Class 10 Complete! Your certificate is now unlocked. Build your first AI project for a real Indian problem this week.`;unlockCertificate();}
   else if(pct>=60){res.className='quiz-result ok';res.textContent=`Good effort! ${score}/${total} (${pct}%) — Review the lessons for the questions you missed, then retake. You're almost there.`;}
   else{res.className='quiz-result low';res.textContent=`${score}/${total} (${pct}%) — Go back to specific lessons. The capstone quiz covers all 11 lessons — revisit the ones where the questions tripped you up.`;}
   gtag('event','quiz_complete',{event_category:'class10',event_label:'class10_lesson12_quiz',value:score});

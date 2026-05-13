@@ -195,11 +195,12 @@ def _load_env():
         pass
 
 
-def _tts_to_file(client, text: str, voice: str, speed: float, out_mp3: pathlib.Path) -> None:
-    """Google Cloud TTS — `client` and `voice` args kept for API compat."""
-    import sys
+def _tts_to_file(_client, text: str, _voice: str, speed: float,
+                 out_mp3: pathlib.Path) -> None:
+    """Google Cloud TTS — prints text, writes MP3."""
     sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
     from _google_tts import tts_to_bytes
+    print(f"    [gTTS] {repr(text[:35])} spd={speed}")
     out_mp3.write_bytes(tts_to_bytes(text, speed=speed))
 
 
@@ -223,38 +224,60 @@ def generate_video_for_letter(roman: str, voice: str) -> None:
     out_video = VID_DIR / f"{roman}-barakhadi-detailed.mp4"
     print(f"\n=== {letter} ({roman})  →  {out_video.name} ===")
 
-    import openai
-    client = openai.OpenAI()
+    # Per-matra TTS input and speed — long vowels need slower speed and sometimes
+    # a context word to prevent the TTS from cutting them short.
+    # Context words are minimal — just enough for the TTS to understand the vowel length.
+    # Format: (tts_input, speaking_speed)
+    MATRA_TTS: dict[str, tuple[str, float]] = {
+        "a":  (letter,                0.65),  # base form  (ka)
+        "aa": (letter + "ा" + "।",   0.58),  # long aa    (kaa) — danda forces hold
+        "i":  (letter + "ि",          0.65),  # short i    (ki)
+        "ee": (letter + "ी" + "।",   0.58),  # long ee    (kee)
+        "u":  (letter + "ु",          0.65),  # short u    (ku)
+        "oo": (letter + "ू" + "।",   0.58),  # long oo    (koo)
+        "e":  (letter + "े",          0.65),  # e          (ke)
+        "ai": (letter + "ै",          0.60),  # ai/guy     (kai)
+        "o":  (letter + "ो",          0.65),  # o          (ko)
+        "au": (letter + "ौ",          0.60),  # au/gaw     (kau)
+        "an": (letter + "ं",          0.65),  # anusvara   (kan)
+        "ah": (letter + "ः",          0.65),  # visarga    (kah)
+    }
+    REPS = 3
 
     with tempfile.TemporaryDirectory() as tmp:
         tmp = pathlib.Path(tmp)
         atomic_clips: list[pathlib.Path] = []
 
-        # Intro clip — bilingual: English then Hindi
-        intro_text = (
-            f"Let's learn barakhadi. {letter} की बाराखड़ी सीखते हैं। "
-            f"मेरे साथ बोलिए।"
-        )
+        # Intro — TWO clips: English first (gives context), then Hindi (instruction)
+        # Both play on the same intro frame. Separate clips = clear gap between languages.
         intro_png = tmp / "intro.png"
-        intro_mp3 = tmp / "intro.mp3"
-        intro_mp4 = tmp / "intro.mp4"
         render_highlight_frame(letter, col_a, col_b, label, 0).save(str(intro_png))
-        print("  [TTS] intro")
-        _tts_to_file(client, intro_text, voice, 0.75, intro_mp3)
-        make_atomic_mp4(intro_png, intro_mp3, intro_mp4, head_sil=0.3, tail_sil=0.8)
-        atomic_clips.append(intro_mp4)
 
-        # One highlighted frame + 3 repetitions per matra cell.
-        # Single TTS call per form, reused 3 times (no extra API cost).
-        REPS = 3
+        en_intro = f"Let's learn {letter} barakhadi. Watch each form light up and say it with me."
+        hi_intro = f"{letter} की बाराखड़ी। मेरे साथ बोलिए।"
+
+        print("  [TTS] intro (English)")
+        en_mp3 = tmp / "intro_en.mp3"
+        hi_mp3 = tmp / "intro_hi.mp3"
+        _tts_to_file(None, en_intro, voice, 0.78, en_mp3)
+        make_atomic_mp4(intro_png, en_mp3, tmp / "intro_en.mp4", head_sil=0.3, tail_sil=0.5)
+        atomic_clips.append(tmp / "intro_en.mp4")
+
+        print("  [TTS] intro (Hindi)")
+        _tts_to_file(None, hi_intro, voice, 0.65, hi_mp3)
+        make_atomic_mp4(intro_png, hi_mp3, tmp / "intro_hi.mp4", head_sil=0.2, tail_sil=0.8)
+        atomic_clips.append(tmp / "intro_hi.mp4")
+
+        # One TTS per matra, reused REPS times — no extra API cost
         for idx, m in enumerate(MATRAS):
-            form      = letter + m["matra"]
             frame_png = tmp / f"frame_{idx:02d}.png"
-            audio_mp3 = tmp / f"form_{idx:02d}.mp3"   # generated once, reused
-
+            audio_mp3 = tmp / f"form_{idx:02d}.mp3"
             render_highlight_frame(letter, col_a, col_b, label, idx).save(str(frame_png))
-            print(f"  [TTS] {form}  (×1, reused {REPS}×)")
-            _tts_to_file(client, form, voice, 0.70, audio_mp3)
+
+            tts_text, spd = MATRA_TTS.get(m["label"], (letter + m["matra"], 0.65))
+            form_label = letter + m["matra"]
+            print(f"  [TTS] {form_label}  (×1, reused {REPS}×, speed={spd})")
+            _tts_to_file(None, tts_text, voice, spd, audio_mp3)
 
             for rep in range(REPS):
                 clip_mp4 = tmp / f"cell_{idx:02d}_r{rep}.mp4"

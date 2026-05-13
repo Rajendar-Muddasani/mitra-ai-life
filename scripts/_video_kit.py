@@ -117,15 +117,20 @@ def make_atomic_mp4(
     out_path: Path,
     head_sil: float = 0.3,
     tail_sil: float = 0.6,
-    trim_lead_silence: bool = True,
+    trim_lead_silence: bool = False,  # False = safe for Google TTS (no variable leading silence)
 ) -> None:
     """Render one self-contained MP4 from a static frame and a TTS audio file.
 
     Timeline inside the resulting clip:
         0.0 ......... frame appears
-        head_sil .... voiced TTS begins (leading model-silence stripped)
+        head_sil .... voiced TTS begins
         head_sil + spoken_dur .... voiced TTS ends
-        head_sil + spoken_dur + tail_sil .... clip ends, frame still showing
+        head_sil + spoken_dur + tail_sil .... clip ends
+
+    trim_lead_silence should be False for Google Cloud TTS (which has negligible
+    leading silence) and True only for OpenAI tts-1 (which adds 50-600 ms of
+    silence before speech). With trim=True on Google TTS, soft-attack sounds
+    (गु, अ, आ etc.) get incorrectly trimmed and appear missing.
     """
     frame_path = Path(frame_path)
     audio_path = Path(audio_path)
@@ -137,8 +142,6 @@ def make_atomic_mp4(
     spoken_dur = max(0.05, raw_dur - lead)
     total = head_sil + spoken_dur + tail_sil
 
-    # Audio filtergraph: trim leading silence, then prepend head_sil silence,
-    # then pad to `total` seconds (this also covers the tail silence).
     head_ms = int(round(head_sil * 1000))
     af = (
         f"atrim=start={lead:.4f},asetpts=PTS-STARTPTS,"

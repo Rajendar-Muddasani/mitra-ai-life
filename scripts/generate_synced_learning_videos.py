@@ -304,14 +304,20 @@ def generate_barakhadi_video(voice: str) -> None:
     with tempfile.TemporaryDirectory() as td:
         tmp = pathlib.Path(td)
         atoms: list[pathlib.Path] = []
+        # Long-vowel matras need more time; speed 0.55 forces Google TTS to hold them
+        LONG_MATRA_LABELS = {"aa", "ee", "oo"}
         for entry in VYANJAN:
             print(f"  [ROW] {entry['letter']} की बाराखड़ी")
             for idx, matra in enumerate(MATRAS):
-                form = entry["letter"] + matra["matra"]
+                form  = entry["letter"] + matra["matra"]
+                label = matra["label"]
                 frame = tmp / f"{entry['roman']}-{idx:02d}.png"
                 render_barakhadi_highlight(entry, idx).save(str(frame))
                 mp3 = tmp / f"{entry['roman']}-{idx:02d}.mp3"
-                mp3.write_bytes(_tts(form, voice, speed=0.65))
+                # Append danda for long vowels — signals to TTS to hold the vowel
+                tts_input = (form + "।") if label in LONG_MATRA_LABELS else form
+                spd = 0.55 if label in LONG_MATRA_LABELS else 0.65
+                mp3.write_bytes(_tts(tts_input, voice, speed=spd))
                 atom = tmp / f"{entry['roman']}-{idx:02d}.mp4"
                 make_atomic_mp4(frame, mp3, atom, head_sil=0.3, tail_sil=0.7)
                 atoms.append(atom)

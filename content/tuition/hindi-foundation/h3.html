@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hindi Words and Reading | Mitra AI Life</title>
+  <meta name="description" content="Common Hindi words grouped by topic: animals, food, home objects, body parts, and colours. Picture + word + pronunciation cards for early readers." />
+  <link rel="canonical" href="https://mitraailife.com/content/tuition/hindi-foundation/h3.html" />
+  <meta property="og:title" content="Hindi Words and Reading | Mitra AI Life" />
+  <meta property="og:description" content="Common Hindi words grouped by topic. Picture + word + pronunciation cards for early readers." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mitraailife.com/content/tuition/hindi-foundation/h3.html" />
+  <meta property="og:image" content="https://mitraailife.com/og/tuition.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&family=Noto+Sans+Devanagari:wght@400;700;800&display=swap" rel="stylesheet" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+  <link rel="stylesheet" href="hindi-pack.css" />
+  <link rel="stylesheet" href="hindi-quiz.css" />
+</head>
+<body>
+  <div class="topbar">
+    <a class="brand" href="../../../site/index.html">Mitra AI Life</a>
+    <div class="toplinks">
+      <a class="pill" href="../../../site/tuition.html">Tuition</a>
+      <a class="pill" href="parent-guide.html">For Parents</a>
+    </div>
+  </div>
+
+  <nav class="section-nav">
+    <a href="h1.html">Letters and Sounds</a>
+    <a href="h2.html">Barakhadi</a>
+    <a href="h3.html" class="active">Words and Reading</a>
+    <a class="soon">Writing</a>
+    <a class="soon">Grammar</a>
+  </nav>
+
+  <section class="hero hero-single-col">
+    <div>
+      <div class="eyebrow">Hindi Tuition</div>
+      <h1>Words and Reading · शब्द और पाठन</h1>
+      <p class="lead">Now that you know the letters and the barakhadi, let us learn full words. Each card shows a real picture, the Hindi word, how it sounds in English, and what it means. Say each word aloud with the picture in front of you.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>How to use this page</h2>
+    <p>Pick one topic at a time. Look at the picture, say the Hindi word aloud, then say the meaning. Do five words today, the next five tomorrow. Watch the video together at the end of each topic and repeat after Mitra.</p>
+  </section>
+
+  <style>
+    /* Cards that fail to load become a soft "coming soon" tile */
+    .word-card-grid .coming-soon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 0.8 / 1;
+      background: linear-gradient(180deg, #fffefb, #fff5d8);
+      border: 1px dashed rgba(107, 86, 50, 0.32);
+      border-radius: 12px;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 0.95rem;
+      text-align: center;
+      padding: 1rem;
+      line-height: 1.4;
+    }
+    .word-card-grid .coming-soon::before {
+      content: 'Coming soon';
+      display: block;
+      font-size: 0.7rem;
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.word-card-grid img').forEach(function (img) {
+        img.addEventListener('error', function () {
+          const alt = img.getAttribute('alt') || 'coming soon';
+          const ph = document.createElement('div');
+          ph.className = 'coming-soon';
+          ph.textContent = alt;
+          if (img.parentNode) img.parentNode.replaceChild(ph, img);
+        });
+      });
+    });
+  </script>
+
+  <section class="section" id="words-reading-video">
+    <h2>Watch and listen — सभी शब्द (all words)</h2>
+    <p>The video shows each card and says the Hindi word twice with its pronunciation and meaning. Pause after each card and say it aloud.</p>
+    <div class="video-block">
+      <video controls preload="metadata">
+        <source src="../../assets/videos/hindi-h1/words-reading.mp4" type="video/mp4" />
+        <p>Video not supported. <a href="../../assets/videos/hindi-h1/words-reading.mp4">Open directly.</a></p>
+      </video>
+    </div>
+  </section>
+  <script>
+    (function () {
+      // Hide the video section if the file isn't generated yet (HEAD check)
+      fetch('../../assets/videos/hindi-h1/words-reading.mp4', { method: 'HEAD' })
+        .then(function (r) {
+          if (!r.ok) {
+            const sec = document.getElementById('words-reading-video');
+            if (sec) sec.style.display = 'none';
+          }
+        })
+        .catch(function () {
+          const sec = document.getElementById('words-reading-video');
+          if (sec) sec.style.display = 'none';
+        });
+    })();
+  </script>
+
+  <section class="section">
+    <h2>जानवर · Animals</h2>
+    <p>Common animals every child sees or hears about. Say the Hindi word as soon as you see the picture.</p>
+    <div class="word-card-grid">
+      <img src="../../assets/images/word-cards/h3-animals/sher.png"    alt="शेर — sher (lion)"     loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-animals/billi.png"   alt="बिल्ली — billi (cat)" loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-animals/kutta.png"   alt="कुत्ता — kutta (dog)" loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-animals/haathi.png"  alt="हाथी — haathi (elephant)" loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-animals/bandar.png"  alt="बंदर — bandar (monkey)" loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-animals/chidiya.png" alt="चिड़िया — chidiya (bird)" loading="lazy" />
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>खाना · Food</h2>
+    <p>Foods you eat every day at home.</p>
+    <div class="word-card-grid">
+      <img src="../../assets/images/word-cards/h3-food/roti.png"   alt="रोटी — roti (flatbread)" loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-food/chawal.png" alt="चावल — chawal (rice)"   loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-food/dal.png"    alt="दाल — dal (lentils)"    loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-food/sabzi.png"  alt="सब्ज़ी — sabzi (vegetables)" loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-food/doodh.png"  alt="दूध — doodh (milk)"      loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-food/phal.png"   alt="फल — phal (fruit)"       loading="lazy" />
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>घर की चीज़ें · Home Objects</h2>
+    <p>Things you see in every Indian home.</p>
+    <div class="word-card-grid">
+      <img src="../../assets/images/word-cards/h3-home/kursi.png"   alt="कुर्सी — kursi (chair)"  loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-home/mez.png"     alt="मेज़ — mez (table)"      loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-home/pankha.png"  alt="पंखा — pankha (fan)"    loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-home/bistar.png"  alt="बिस्तर — bistar (bed)"  loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-home/darwaza.png" alt="दरवाज़ा — darwaza (door)" loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-home/khidki.png"  alt="खिड़की — khidki (window)" loading="lazy" />
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>शरीर के अंग · Body Parts</h2>
+    <p>The parts of your body that you can point to.</p>
+    <div class="word-card-grid">
+      <img src="../../assets/images/word-cards/h3-body/sir.png"   alt="सिर — sir (head)"    loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-body/aankh.png" alt="आँख — aankh (eye)"   loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-body/naak.png"  alt="नाक — naak (nose)"   loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-body/kaan.png"  alt="कान — kaan (ear)"    loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-body/haath.png" alt="हाथ — haath (hand)"  loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-body/pair.png"  alt="पैर — pair (foot)"   loading="lazy" />
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>रंग · Colours</h2>
+    <p>Six basic colours. Point at things around you and say their colour in Hindi.</p>
+    <div class="word-card-grid">
+      <img src="../../assets/images/word-cards/h3-colours/lal.png"   alt="लाल — laal (red)"     loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-colours/hara.png"  alt="हरा — hara (green)"   loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-colours/neela.png" alt="नीला — neela (blue)"  loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-colours/peela.png" alt="पीला — peela (yellow)" loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-colours/kaala.png" alt="काला — kaala (black)" loading="lazy" />
+      <img src="../../assets/images/word-cards/h3-colours/safed.png" alt="सफ़ेद — safed (white)" loading="lazy" />
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>सुनिए और पहचानिए · Listening Check</h2>
+    <p>Listen to the word and tap the picture that matches. There is no marking — you can try as many times as you like. The voice will play when you press <strong>Play</strong>.</p>
+    <div id="hindi-quiz" data-quiz="h3-words"></div>
+  </section>
+
+  <div class="navline">
+    <a href="h2.html">← Barakhadi</a>
+    <a href="parent-guide.html">For Parents →</a>
+  </div>
+
+  <div class="footer">Mitra AI Life · Hindi words and reading</div>
+
+  <script src="hindi-quiz.js" defer></script>
+</body>
+</html>

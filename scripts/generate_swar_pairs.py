@@ -183,39 +183,31 @@ def generate_video(voice: str) -> None:
     VID_DIR.mkdir(parents=True, exist_ok=True)
     import sys
     sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-    from _av_sync import padded_audio
-    from moviepy import AudioFileClip, ImageClip, concatenate_videoclips
+    from _video_kit import make_atomic_mp4, concat_mp4s
 
-    clips = []
     with tempfile.TemporaryDirectory() as tmp:
         tmp = pathlib.Path(tmp)
+        atoms: list[pathlib.Path] = []
         for p in PAIRS:
-            png = IMG_DIR / f"pair-{p['name']}-card.png"
-            if not png.exists():
-                render_pair_card(p).save(str(png))
+            if not (IMG_DIR / f"pair-{p['name']}-card.png").exists():
+                render_pair_card(p).save(str(IMG_DIR / f"pair-{p['name']}-card.png"))
 
             segments = [
-                ("left", "मेरे साथ बोलिए। " + ". ".join([p["l1"]] * 3) + "."),
+                ("left",  "मेरे साथ बोलिए। " + ". ".join([p["l1"]] * 3) + "."),
                 ("right", "अब " + ". ".join([p["l2"]] * 3) + "."),
-                ("both", f"बहुत अच्छा! {p['l1']} और {p['l2']}।"),
+                ("both",  f"बहुत अच्छा! {p['l1']} और {p['l2']}।"),
             ]
             for idx, (active, text) in enumerate(segments):
                 frame = tmp / f"{p['name']}-{idx}.png"
                 render_pair_card(p, active=active).save(str(frame))
-                ap = tmp / f"{p['name']}-{idx}.mp3"
-                ap.write_bytes(_tts_text(text, voice))
-                aud = AudioFileClip(str(ap))
-                padded = padded_audio(aud, head=0.3, tail=0.6)
-                clips.append(ImageClip(str(frame)).with_duration(padded.duration).with_audio(padded))
+                mp3 = tmp / f"{p['name']}-{idx}.mp3"
+                mp3.write_bytes(_tts_text(text, voice))
+                atom = tmp / f"{p['name']}-{idx}.mp4"
+                make_atomic_mp4(frame, mp3, atom, head_sil=0.3, tail_sil=0.6)
+                atoms.append(atom)
 
-        print("Assembling video…")
-        final = concatenate_videoclips(clips, method="compose")
-        print(f"  Writing {OUT_VIDEO}")
-        final.write_videofile(
-            str(OUT_VIDEO), fps=24, codec="libx264",
-            audio_codec="aac", logger=None,
-            ffmpeg_params=["-pix_fmt", "yuv420p"],
-        )
+        print(f"  Concatenating {len(atoms)} clips → {OUT_VIDEO}")
+        concat_mp4s(atoms, OUT_VIDEO)
     print("  Done.")
 
 

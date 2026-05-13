@@ -257,63 +257,46 @@ def _tts(client, narration: str, out_path: pathlib.Path, voice: str) -> None:
 
 
 def generate_video(voice: str) -> None:
-    import os, imageio_ffmpeg, sys
-    from moviepy import AudioFileClip, ImageClip, concatenate_videoclips
-    import numpy as np
+    import sys
     sys.path.insert(0, str(ROOT / "scripts"))
-    from _av_sync import padded_audio
-
-    ffmpeg_bin = imageio_ffmpeg.get_ffmpeg_exe()
-    os.environ["IMAGEIO_FFMPEG_EXE"] = ffmpeg_bin
-
+    from _video_kit import make_atomic_mp4, concat_mp4s
     from dotenv import load_dotenv
     load_dotenv(ROOT / ".env")
     import openai
     client = openai.OpenAI()
 
-    tmp_dir = VID_DIR / "audio_tmp" / "vyanjan_pairs"
-    tmp_dir.mkdir(parents=True, exist_ok=True)
+    VID_DIR.mkdir(parents=True, exist_ok=True)
     IMG_DIR.mkdir(parents=True, exist_ok=True)
 
-    clips = []
-    for p in PAIRS:
-        card_path = IMG_DIR / f"pair-{p['name']}-card.png"
-        if not card_path.exists():
-            img = render_pair_card(p)
-            img.save(str(card_path))
+    with tempfile.TemporaryDirectory() as td:
+        tmp = pathlib.Path(td)
+        atoms: list[pathlib.Path] = []
 
-        if p["solo"]:
-            segments = [("left", "सुनिए और बोलिए। " + ". ".join([p["l1"]] * 3) + ". बहुत अच्छा!")]
-        else:
-            segments = [
-                ("left", "मेरे साथ बोलिए। " + ". ".join([p["l1"]] * 3) + "."),
-                ("right", "अब " + ". ".join([p["l2"]] * 3) + "."),
-                ("both", f"बहुत अच्छा! {p['l1']} और {p['l2']}।"),
-            ]
+        for p in PAIRS:
+            card_path = IMG_DIR / f"pair-{p['name']}-card.png"
+            if not card_path.exists():
+                render_pair_card(p).save(str(card_path))
 
-        for idx, (active, narration) in enumerate(segments):
-            frame_path = tmp_dir / f"{p['name']}-{idx}.png"
-            render_pair_card(p, active=active).save(str(frame_path))
-            audio_path = tmp_dir / f"{p['name']}-{idx}.mp3"
-            _tts(client, narration, audio_path, voice)
-            frame = np.array(Image.open(frame_path).convert("RGB"))
-            audio = AudioFileClip(str(audio_path))
-            padded = padded_audio(audio, head=0.3, tail=0.7)
-            clip  = ImageClip(frame, duration=padded.duration).with_audio(padded)
-            clips.append(clip)
+            if p["solo"]:
+                segments = [("left", "सुनिए और बोलिए। " + ". ".join([p["l1"]] * 3) + ". बहुत अच्छा!")]
+            else:
+                segments = [
+                    ("left",  "मेरे साथ बोलिए। " + ". ".join([p["l1"]] * 3) + "."),
+                    ("right", "अब " + ". ".join([p["l2"]] * 3) + "."),
+                    ("both",  f"बहुत अच्छा! {p['l1']} और {p['l2']}।"),
+                ]
 
-    VID_DIR.mkdir(parents=True, exist_ok=True)
-    final = concatenate_videoclips(clips, method="compose")
-    print(f"  Writing {OUT_VIDEO}")
-    final.write_videofile(
-        str(OUT_VIDEO),
-        fps=24,
-        codec="libx264",
-        audio_codec="aac",
-        temp_audiofile=str(VID_DIR / "vyanjan_pairs_tmp.m4a"),
-        remove_temp=True,
-        logger=None,
-    )
+            for idx, (active, narration) in enumerate(segments):
+                frame = tmp / f"{p['name']}-{idx}.png"
+                render_pair_card(p, active=active).save(str(frame))
+                mp3 = tmp / f"{p['name']}-{idx}.mp3"
+                _tts(client, narration, mp3, voice)
+                atom = tmp / f"{p['name']}-{idx}.mp4"
+                make_atomic_mp4(frame, mp3, atom, head_sil=0.3, tail_sil=0.7)
+                atoms.append(atom)
+
+        print(f"  Concatenating {len(atoms)} clips → {OUT_VIDEO}")
+        concat_mp4s(atoms, OUT_VIDEO)
     print("  Done.")
 
 

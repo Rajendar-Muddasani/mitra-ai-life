@@ -149,41 +149,25 @@ def generate_audio(client, voice: str) -> list[Path]:
     return files
 
 
-def make_clip(entry: dict, audio_path: Path):
+def generate_video(audio_files: list[Path]) -> None:
     import sys
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from _av_sync import padded_audio
-    from moviepy import AudioFileClip, ImageClip
-    import numpy as np
-
-    img = render_card_image(entry, VIDEO_W, VIDEO_H)
-    frame = np.array(img.convert("RGB"))
-    audio = AudioFileClip(str(audio_path))
-    padded = padded_audio(audio, head=0.3, tail=0.6)
-    return ImageClip(frame, duration=padded.duration).with_audio(padded)
-
-
-def generate_video(audio_files: list[Path]) -> None:
-    import imageio_ffmpeg
-    from moviepy import concatenate_videoclips
-
-    ffmpeg_bin = imageio_ffmpeg.get_ffmpeg_exe()
-    os.environ["IMAGEIO_FFMPEG_EXE"] = ffmpeg_bin
+    from _video_kit import make_atomic_mp4, concat_mp4s
+    import tempfile
 
     VIDEO_DIR.mkdir(parents=True, exist_ok=True)
-    print("  Building clips…")
-    clips = [make_clip(entry, af) for entry, af in zip(SWAR, audio_files)]
-    final = concatenate_videoclips(clips, method="compose")
-    print(f"  Writing {VIDEO_OUT}")
-    final.write_videofile(
-        str(VIDEO_OUT),
-        fps=FPS,
-        codec="libx264",
-        audio_codec="aac",
-        temp_audiofile=str(VIDEO_DIR / "swar_tmp_audio.m4a"),
-        remove_temp=True,
-        logger=None,
-    )
+    print("  Building atomic clips…")
+    with tempfile.TemporaryDirectory() as td:
+        tmp = Path(td)
+        atoms: list[Path] = []
+        for entry, af in zip(SWAR, audio_files):
+            frame_png = tmp / f"{entry['roman']}.png"
+            render_card_image(entry, VIDEO_W, VIDEO_H).save(str(frame_png))
+            atom = tmp / f"{entry['roman']}.mp4"
+            make_atomic_mp4(frame_png, af, atom, head_sil=0.3, tail_sil=0.6)
+            atoms.append(atom)
+        print(f"  Concatenating {len(atoms)} clips → {VIDEO_OUT}")
+        concat_mp4s(atoms, VIDEO_OUT)
     print("  Done.")
 
 

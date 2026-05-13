@@ -348,35 +348,22 @@ def generate_video(voice: str) -> None:
     VID_DIR.mkdir(parents=True, exist_ok=True)
     import sys
     sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-    from _av_sync import padded_audio
-    from moviepy import AudioFileClip, ImageClip
-    from moviepy import concatenate_videoclips
+    from _video_kit import make_atomic_mp4, concat_mp4s
 
-    clips = []
     with tempfile.TemporaryDirectory() as tmp:
         tmp = pathlib.Path(tmp)
+        atoms: list[pathlib.Path] = []
         for v in VYANJAN:
             png = IMG_DIR / f"{v['roman']}-bara.png"
             if not png.exists():
                 render_card(v).save(str(png))
-
-            audio_bytes = _tts(v, voice)
             ap = tmp / f"{v['roman']}.mp3"
-            ap.write_bytes(audio_bytes)
-
-            aud  = AudioFileClip(str(ap))
-            padded = padded_audio(aud, head=0.3, tail=0.7)
-            clip = ImageClip(str(png)).with_duration(padded.duration).with_audio(padded)
-            clips.append(clip)
-
-        print("Assembling video…")
-        final = concatenate_videoclips(clips, method="compose")
-        print(f"  Writing {OUT_VIDEO}")
-        final.write_videofile(
-            str(OUT_VIDEO), fps=24, codec="libx264",
-            audio_codec="aac", logger=None,
-            ffmpeg_params=["-pix_fmt", "yuv420p"],
-        )
+            ap.write_bytes(_tts(v, voice))
+            atom = tmp / f"{v['roman']}.mp4"
+            make_atomic_mp4(png, ap, atom, head_sil=0.3, tail_sil=0.7)
+            atoms.append(atom)
+        print(f"  Concatenating {len(atoms)} clips → {OUT_VIDEO}")
+        concat_mp4s(atoms, OUT_VIDEO)
     print("  Done.")
 
 

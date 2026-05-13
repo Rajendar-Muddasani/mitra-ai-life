@@ -186,8 +186,7 @@ def generate_video(voice: str) -> None:
     _load_env()
     VID_DIR.mkdir(parents=True, exist_ok=True)
     sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-    from _av_sync import padded_audio
-    from moviepy import AudioFileClip, ImageClip, concatenate_videoclips
+    from _video_kit import make_atomic_mp4, concat_mp4s
     import openai, tempfile
     client = openai.OpenAI()
 
@@ -196,9 +195,9 @@ def generate_video(voice: str) -> None:
             model="tts-1", voice=voice, speed=speed, input=text,
         ).content
 
-    clips = []
     with tempfile.TemporaryDirectory() as td:
         tmp = pathlib.Path(td)
+        atoms: list[pathlib.Path] = []
         for topic, spec in TOPICS.items():
             for entry in spec["words"]:
                 card_path = OUT_BASE / f"h3-{topic}" / f"{entry['slug']}.png"
@@ -212,22 +211,15 @@ def generate_video(voice: str) -> None:
                 print(f"  [TTS] {topic} · {entry['word']}")
                 mp3 = tmp / f"{topic}-{entry['slug']}.mp3"
                 mp3.write_bytes(tts(narration))
-                aud = AudioFileClip(str(mp3))
-                padded = padded_audio(aud, head=0.4, tail=1.2)
-                clips.append(
-                    ImageClip(str(card_path)).with_duration(padded.duration).with_audio(padded)
-                )
+                atom = tmp / f"{topic}-{entry['slug']}.mp4"
+                make_atomic_mp4(card_path, mp3, atom, head_sil=0.4, tail_sil=1.2)
+                atoms.append(atom)
 
-        if not clips:
+        if not atoms:
             print("No clips to assemble.")
             return
-        print("Assembling words-reading video…")
-        final = concatenate_videoclips(clips, method="compose")
-        print(f"  Writing {OUT_VIDEO}")
-        final.write_videofile(
-            str(OUT_VIDEO), fps=24, codec="libx264", audio_codec="aac",
-            logger=None, ffmpeg_params=["-pix_fmt", "yuv420p"],
-        )
+        print(f"  Concatenating {len(atoms)} clips → {OUT_VIDEO}")
+        concat_mp4s(atoms, OUT_VIDEO)
 
 
 def main():

@@ -16,6 +16,7 @@ visible form slowly. Every displayed form is synced to its own TTS audio.
 import argparse
 import os
 import pathlib
+import sys
 import tempfile
 from PIL import Image, ImageDraw, ImageFont
 
@@ -237,13 +238,12 @@ def render_barakhadi_highlight(entry: dict, hi_idx: int) -> Image.Image:
 def generate_swar_video(voice: str) -> None:
     _load_env()
     VID_DIR.mkdir(parents=True, exist_ok=True)
-    import sys
     sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-    from _av_sync import padded_audio
-    from moviepy import AudioFileClip, ImageClip, concatenate_videoclips
-    clips = []
+    from _video_kit import make_atomic_mp4, concat_mp4s
+    out = VID_DIR / "swar-word-sync.mp4"
     with tempfile.TemporaryDirectory() as td:
         tmp = pathlib.Path(td)
+        atoms: list[pathlib.Path] = []
         for item in SWAR:
             png = SWAR_CARD_DIR / f"{item['slug']}.png"
             if not png.exists():
@@ -255,25 +255,22 @@ def generate_swar_video(voice: str) -> None:
             print(f"  [SWAR] {item['form']} → {item['word']} / {item['pron']}")
             mp3 = tmp / f"swar-{item['slug']}.mp3"
             mp3.write_bytes(_tts(text, voice, speed=0.68))
-            aud = AudioFileClip(str(mp3))
-            padded = padded_audio(aud, head=0.3, tail=1.4)
-            clips.append(ImageClip(str(frame)).with_duration(padded.duration).with_audio(padded))
-        final = concatenate_videoclips(clips, method="compose")
-        out = VID_DIR / "swar-word-sync.mp4"
-        print(f"  Writing {out}")
-        final.write_videofile(str(out), fps=24, codec="libx264", audio_codec="aac", logger=None, ffmpeg_params=["-pix_fmt", "yuv420p"])
+            atom = tmp / f"swar-{item['slug']}.mp4"
+            make_atomic_mp4(frame, mp3, atom, head_sil=0.3, tail_sil=1.5)
+            atoms.append(atom)
+        print(f"  Concatenating {len(atoms)} clips → {out}")
+        concat_mp4s(atoms, out)
 
 
 def generate_barakhadi_video(voice: str) -> None:
     _load_env()
     VID_DIR.mkdir(parents=True, exist_ok=True)
-    import sys
     sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-    from _av_sync import padded_audio
-    from moviepy import AudioFileClip, ImageClip, concatenate_videoclips
-    clips = []
+    from _video_kit import make_atomic_mp4, concat_mp4s
+    out = VID_DIR / "barakhadi-sync.mp4"
     with tempfile.TemporaryDirectory() as td:
         tmp = pathlib.Path(td)
+        atoms: list[pathlib.Path] = []
         for entry in VYANJAN:
             print(f"  [ROW] {entry['letter']} की बाराखड़ी")
             for idx, matra in enumerate(MATRAS):
@@ -284,13 +281,11 @@ def generate_barakhadi_video(voice: str) -> None:
                 spoken = ". ".join([form] * reps) + "."
                 mp3 = tmp / f"{entry['roman']}-{idx:02d}.mp3"
                 mp3.write_bytes(_tts(spoken, voice, speed=0.68))
-                aud = AudioFileClip(str(mp3))
-                padded = padded_audio(aud, head=0.3, tail=0.9)
-                clips.append(ImageClip(str(frame)).with_duration(padded.duration).with_audio(padded))
-        final = concatenate_videoclips(clips, method="compose")
-        out = VID_DIR / "barakhadi-sync.mp4"
-        print(f"  Writing {out}")
-        final.write_videofile(str(out), fps=24, codec="libx264", audio_codec="aac", logger=None, ffmpeg_params=["-pix_fmt", "yuv420p"])
+                atom = tmp / f"{entry['roman']}-{idx:02d}.mp4"
+                make_atomic_mp4(frame, mp3, atom, head_sil=0.3, tail_sil=0.8)
+                atoms.append(atom)
+        print(f"  Concatenating {len(atoms)} clips → {out}")
+        concat_mp4s(atoms, out)
 
 
 def main() -> None:

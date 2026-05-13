@@ -195,17 +195,22 @@ def _load_env():
         pass
 
 
-def _tts_form(form: str, voice: str, reps: int = 4) -> bytes:
-    import openai
-    client = openai.OpenAI()
-    narration = ". ".join([form] * reps) + "."
-    print(f"  [TTS] {form}  ×{reps}")
-    return client.audio.speech.create(
-        model="tts-1", voice=voice, speed=0.72, input=narration
-    ).content
+def _tts_to_file(client, text: str, voice: str, speed: float, out_mp3: pathlib.Path) -> None:
+    """Stream OpenAI TTS to disk. tts-1 produces ~variable leading silence;
+    the video kit strips it before timeline assembly."""
+    with client.audio.speech.with_streaming_response.create(
+        model="tts-1", voice=voice, input=text, speed=speed,
+    ) as resp:
+        resp.stream_to_file(str(out_mp3))
 
 
 def generate_video_for_letter(roman: str, voice: str) -> None:
+    """Build one detailed barakhadi video using the atomic-clip pipeline.
+
+    Each cell becomes a self-contained MP4 with the highlighted frame plus
+    the TTS for that form (4 reps, slow). Atomic clips are then stitched
+    losslessly via ffmpeg concat so audio/video stay bit-exact aligned.
+    """
     if roman not in LETTERS:
         raise SystemExit(f"Unknown letter: {roman}. Known: {sorted(LETTERS)}")
     letter, col_a, col_b = LETTERS[roman]
@@ -214,55 +219,45 @@ def generate_video_for_letter(roman: str, voice: str) -> None:
     _load_env()
     VID_DIR.mkdir(parents=True, exist_ok=True)
     sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-    from _av_sync import padded_audio
-    from moviepy import AudioFileClip, ImageClip, concatenate_videoclips
+    from _video_kit import make_atomic_mp4, concat_mp4s
 
     out_video = VID_DIR / f"{roman}-barakhadi-detailed.mp4"
     print(f"\n=== {letter} ({roman})  →  {out_video.name} ===")
 
     import openai
     client = openai.OpenAI()
-    print("  [TTS] intro")
-    intro_audio = client.audio.speech.create(
-        model="tts-1", voice=voice, speed=0.75,
-        input=f"चलो, {letter} की बाराखड़ी सीखते हैं। मेरे साथ बोलिए।"
-    ).content
 
-    clips = []
     with tempfile.TemporaryDirectory() as tmp:
         tmp = pathlib.Path(tmp)
-        intro_img = render_highlight_frame(letter, col_a, col_b, label, 0)
-        intro_png = tmp / "intro.png"
-        intro_img.save(str(intro_png))
-        ap = tmp / "intro.mp3"
-        ap.write_bytes(intro_audio)
-        aud = AudioFileClip(str(ap))
-        padded = padded_audio(aud, head=0.3, tail=0.4)
-        clips.append(ImageClip(str(intro_png)).with_duration(padded.duration).with_audio(padded))
+        atomic_clips: list[pathlib.Path] = []
 
+        # Intro clip
+        intro_text = f"चलो, {letter} की बाराखड़ी सीखते हैं। मेरे साथ बोलिए।"
+        intro_png  = tmp / "intro.png"
+        intro_mp3  = tmp / "intro.mp3"
+        intro_mp4  = tmp / "intro.mp4"
+        render_highlight_frame(letter, col_a, col_b, label, 0).save(str(intro_png))
+        print("  [TTS] intro")
+        _tts_to_file(client, intro_text, voice, 0.75, intro_mp3)
+        make_atomic_mp4(intro_png, intro_mp3, intro_mp4, head_sil=0.3, tail_sil=0.5)
+        atomic_clips.append(intro_mp4)
+
+        # One atomic clip per matra cell
         for idx, m in enumerate(MATRAS):
-            form  = letter + m["matra"]
-            frame = render_highlight_frame(letter, col_a, col_b, label, idx)
-            frame_path = tmp / f"frame_{idx:02d}.png"
-            frame.save(str(frame_path))
+            form = letter + m["matra"]
+            frame_png = tmp / f"frame_{idx:02d}.png"
+            audio_mp3 = tmp / f"form_{idx:02d}.mp3"
+            clip_mp4  = tmp / f"cell_{idx:02d}.mp4"
 
-            audio_bytes = _tts_form(form, voice, reps=4)
-            mp = tmp / f"form_{idx:02d}.mp3"
-            mp.write_bytes(audio_bytes)
+            render_highlight_frame(letter, col_a, col_b, label, idx).save(str(frame_png))
+            narration = ". ".join([form] * 4) + "."
+            print(f"  [TTS] {form}  ×4")
+            _tts_to_file(client, narration, voice, 0.72, audio_mp3)
+            make_atomic_mp4(frame_png, audio_mp3, clip_mp4, head_sil=0.3, tail_sil=0.6)
+            atomic_clips.append(clip_mp4)
 
-            aud = AudioFileClip(str(mp))
-            padded = padded_audio(aud, head=0.3, tail=0.6)
-            clip = ImageClip(str(frame_path)).with_duration(padded.duration).with_audio(padded)
-            clips.append(clip)
-
-        print("  Assembling…")
-        final = concatenate_videoclips(clips, method="compose")
-        print(f"  Writing {out_video}")
-        final.write_videofile(
-            str(out_video), fps=24, codec="libx264",
-            audio_codec="aac", logger=None,
-            ffmpeg_params=["-pix_fmt", "yuv420p"],
-        )
+        print(f"  Concatenating {len(atomic_clips)} atomic clips losslessly…")
+        concat_mp4s(atomic_clips, out_video)
     print(f"  Done: {out_video}")
 
 

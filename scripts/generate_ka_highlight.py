@@ -196,12 +196,11 @@ def _load_env():
 
 
 def _tts_to_file(client, text: str, voice: str, speed: float, out_mp3: pathlib.Path) -> None:
-    """Stream OpenAI TTS to disk. tts-1 produces ~variable leading silence;
-    the video kit strips it before timeline assembly."""
-    with client.audio.speech.with_streaming_response.create(
-        model="tts-1", voice=voice, input=text, speed=speed,
-    ) as resp:
-        resp.stream_to_file(str(out_mp3))
+    """Google Cloud TTS — `client` and `voice` args kept for API compat."""
+    import sys
+    sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+    from _google_tts import tts_to_bytes
+    out_mp3.write_bytes(tts_to_bytes(text, speed=speed))
 
 
 def generate_video_for_letter(roman: str, voice: str) -> None:
@@ -231,30 +230,37 @@ def generate_video_for_letter(roman: str, voice: str) -> None:
         tmp = pathlib.Path(tmp)
         atomic_clips: list[pathlib.Path] = []
 
-        # Intro clip
-        intro_text = f"चलो, {letter} की बाराखड़ी सीखते हैं। मेरे साथ बोलिए।"
-        intro_png  = tmp / "intro.png"
-        intro_mp3  = tmp / "intro.mp3"
-        intro_mp4  = tmp / "intro.mp4"
+        # Intro clip — bilingual: English then Hindi
+        intro_text = (
+            f"Let's learn barakhadi. {letter} की बाराखड़ी सीखते हैं। "
+            f"मेरे साथ बोलिए।"
+        )
+        intro_png = tmp / "intro.png"
+        intro_mp3 = tmp / "intro.mp3"
+        intro_mp4 = tmp / "intro.mp4"
         render_highlight_frame(letter, col_a, col_b, label, 0).save(str(intro_png))
         print("  [TTS] intro")
         _tts_to_file(client, intro_text, voice, 0.75, intro_mp3)
-        make_atomic_mp4(intro_png, intro_mp3, intro_mp4, head_sil=0.3, tail_sil=0.5)
+        make_atomic_mp4(intro_png, intro_mp3, intro_mp4, head_sil=0.3, tail_sil=0.8)
         atomic_clips.append(intro_mp4)
 
-        # One atomic clip per matra cell
+        # One highlighted frame + 3 repetitions per matra cell.
+        # Single TTS call per form, reused 3 times (no extra API cost).
+        REPS = 3
         for idx, m in enumerate(MATRAS):
-            form = letter + m["matra"]
+            form      = letter + m["matra"]
             frame_png = tmp / f"frame_{idx:02d}.png"
-            audio_mp3 = tmp / f"form_{idx:02d}.mp3"
-            clip_mp4  = tmp / f"cell_{idx:02d}.mp4"
+            audio_mp3 = tmp / f"form_{idx:02d}.mp3"   # generated once, reused
 
             render_highlight_frame(letter, col_a, col_b, label, idx).save(str(frame_png))
-            narration = ". ".join([form] * 4) + "."
-            print(f"  [TTS] {form}  ×4")
-            _tts_to_file(client, narration, voice, 0.72, audio_mp3)
-            make_atomic_mp4(frame_png, audio_mp3, clip_mp4, head_sil=0.3, tail_sil=0.6)
-            atomic_clips.append(clip_mp4)
+            print(f"  [TTS] {form}  (×1, reused {REPS}×)")
+            _tts_to_file(client, form, voice, 0.70, audio_mp3)
+
+            for rep in range(REPS):
+                clip_mp4 = tmp / f"cell_{idx:02d}_r{rep}.mp4"
+                make_atomic_mp4(frame_png, audio_mp3, clip_mp4,
+                                head_sil=0.3, tail_sil=0.7)
+                atomic_clips.append(clip_mp4)
 
         print(f"  Concatenating {len(atomic_clips)} atomic clips losslessly…")
         concat_mp4s(atomic_clips, out_video)

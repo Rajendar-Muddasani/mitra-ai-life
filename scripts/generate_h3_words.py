@@ -187,13 +187,9 @@ def generate_video(voice: str) -> None:
     VID_DIR.mkdir(parents=True, exist_ok=True)
     sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
     from _video_kit import make_atomic_mp4, concat_mp4s
-    import openai, tempfile
-    client = openai.OpenAI()
-
-    def tts(text: str, speed: float = 0.68) -> bytes:
-        return client.audio.speech.create(
-            model="tts-1", voice=voice, speed=speed, input=text,
-        ).content
+    import tempfile
+    sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+    from _google_tts import tts_to_bytes
 
     with tempfile.TemporaryDirectory() as td:
         tmp = pathlib.Path(td)
@@ -204,16 +200,21 @@ def generate_video(voice: str) -> None:
                 if not card_path.exists():
                     print(f"  [SKIP] missing card: {card_path.name}")
                     continue
-                narration = (
-                    f"{entry['word']}. {entry['word']}. "
-                    f"{entry['pron']}. {entry['meaning']}."
-                )
-                print(f"  [TTS] {topic} · {entry['word']}")
-                mp3 = tmp / f"{topic}-{entry['slug']}.mp3"
-                mp3.write_bytes(tts(narration))
-                atom = tmp / f"{topic}-{entry['slug']}.mp4"
-                make_atomic_mp4(card_path, mp3, atom, head_sil=0.4, tail_sil=1.2)
-                atoms.append(atom)
+                print(f"  [gTTS] {topic} · {entry['word']} / {entry['meaning']}")
+
+                # Clip 1: Hindi word only (slow, clear)
+                hi_mp3 = tmp / f"{topic}-{entry['slug']}-hi.mp3"
+                hi_mp3.write_bytes(tts_to_bytes(entry["word"], speed=0.65))
+                hi_atom = tmp / f"{topic}-{entry['slug']}-hi.mp4"
+                make_atomic_mp4(card_path, hi_mp3, hi_atom, head_sil=0.3, tail_sil=0.7)
+                atoms.append(hi_atom)
+
+                # Clip 2: English meaning only (natural pace)
+                en_mp3 = tmp / f"{topic}-{entry['slug']}-en.mp3"
+                en_mp3.write_bytes(tts_to_bytes(entry["meaning"], speed=0.80))
+                en_atom = tmp / f"{topic}-{entry['slug']}-en.mp4"
+                make_atomic_mp4(card_path, en_mp3, en_atom, head_sil=0.2, tail_sil=1.0)
+                atoms.append(en_atom)
 
         if not atoms:
             print("No clips to assemble.")

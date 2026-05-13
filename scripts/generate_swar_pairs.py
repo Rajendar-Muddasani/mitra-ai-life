@@ -66,7 +66,7 @@ PAIRS = [
     },
 ]
 
-CARD_W, CARD_H = 1080, 480
+CARD_W, CARD_H = 1080, 560   # taller so roman labels + pron hints are never cut
 
 
 def _hex(h: str) -> tuple:
@@ -77,77 +77,83 @@ def _blend(a: tuple, b: tuple, t: float) -> tuple:
     return tuple(int(a[i] * (1 - t) + b[i] * t) for i in range(3))
 
 
+CELL_TOP = 58           # y where white cells start
+CELL_BOT = CARD_H - 50  # y where white cells end (50px bottom margin)
+LETTER_Y = 64           # top of Devanagari letter inside cell
+PRON_Y   = CARD_H - 120 # y of pronunciation hint
+LABEL_Y  = CARD_H - 72  # y of roman label (e.g. "a", "aa")
+
+
 def _load_fonts():
     try:
-        big   = ImageFont.truetype(FONT_DEV, 180)
-        label = ImageFont.truetype(FONT_LAT, 40)
-        pron  = ImageFont.truetype(FONT_LAT, 26)
-        badge = ImageFont.truetype(FONT_LAT, 26)
+        big   = ImageFont.truetype(FONT_DEV, 200)
+        label = ImageFont.truetype(FONT_LAT, 46)
+        pron  = ImageFont.truetype(FONT_LAT, 28)
+        badge = ImageFont.truetype(FONT_LAT, 28)
     except Exception:
         big = label = pron = badge = ImageFont.load_default()
     return big, label, pron, badge
 
 
-def render_pair_card(p: dict, active: str | None = None) -> Image.Image:
+def render_pair_card(p: dict, highlight: str | None = None) -> Image.Image:
+    """Render a swar pair card.
+
+    `highlight` can be "left", "right", "both", or None (no highlight).
+    """
     col_a = _hex(p["col_a"])
     col_b = _hex(p["col_b"])
 
     img  = Image.new("RGB", (CARD_W, CARD_H))
     draw = ImageDraw.Draw(img)
 
-    # Horizontal gradient
     for x in range(CARD_W):
         draw.line([(x, 0), (x, CARD_H)], fill=_blend(col_a, col_b, x / CARD_W))
 
     big, lbl, pron_f, badge_f = _load_fonts()
 
     # Badge centred at top
-    badge = "Say it with me  ·  मेरे साथ बोलिए"
+    badge = "मेरे साथ बोलिए  ·  Say it with me"
     bw    = draw.textlength(badge, font=badge_f)
     bx    = (CARD_W - bw) / 2
-    draw.rounded_rectangle([bx - 12, 10, bx + bw + 12, 44], radius=8, fill=(255, 255, 255))
+    draw.rounded_rectangle([bx - 14, 10, bx + bw + 14, 48], radius=8, fill=(255, 255, 255))
     draw.text((bx, 14), badge, font=badge_f, fill="#222222")
 
-    # Soft vertical divider
+    # Vertical divider between the two halves
     mid = CARD_W // 2
-    draw.line([(mid, 60), (mid, CARD_H - 30)], fill=(255, 255, 255), width=2)
+    draw.line([(mid, 62), (mid, CARD_H - 54)], fill=(255, 255, 255), width=2)
 
-    # Left and right cells
     half = CARD_W // 2
     cells = [
         ("left",  p["l1"], p["r1"], p.get("p1", ""), half // 2),
         ("right", p["l2"], p["r2"], p.get("p2", ""), half + half // 2),
     ]
     for side, letter, roman, pron_text, cx_mid in cells:
-        if active in (side, "both"):
-            left = 24 if side == "left" else half + 24
-            right = half - 24 if side == "left" else CARD_W - 24
-            draw.rounded_rectangle([left, 58, right, CARD_H - 32], radius=24, fill=(255, 248, 205))
+        hi = highlight in (side, "both")
+        left  = 20           if side == "left" else half + 20
+        right = half - 20    if side == "left" else CARD_W - 20
+        if hi:
+            draw.rounded_rectangle([left, CELL_TOP, right, CELL_BOT],
+                                    radius=24, fill=(255, 248, 205))
             text_fill  = (24, 24, 24)
-            label_fill = (60, 60, 60)
-            pron_fill  = (180, 90, 0)
+            label_fill = (50, 50, 50)
+            pron_fill  = (160, 80, 0)
         else:
             text_fill  = "white"
-            label_fill = "#f1f1f1"
-            pron_fill  = (255, 240, 120)
-        # Devanagari letter (large)
-        lw  = draw.textlength(letter, font=big)
-        lx  = cx_mid - lw / 2
-        ly  = 55
-        draw.text((lx, ly), letter, font=big, fill=text_fill)
+            label_fill = (240, 240, 240)
+            pron_fill  = (255, 235, 100)
 
-        # Pronunciation hint (e.g. "i (short, as in 'it')")
+        # Large Devanagari letter
+        lw = draw.textlength(letter, font=big)
+        draw.text((cx_mid - lw / 2, LETTER_Y), letter, font=big, fill=text_fill)
+
+        # Pronunciation hint
         if pron_text:
             pw = draw.textlength(pron_text, font=pron_f)
-            px = cx_mid - pw / 2
-            py = CARD_H - 100
-            draw.text((px, py), pron_text, font=pron_f, fill=pron_fill)
+            draw.text((cx_mid - pw / 2, PRON_Y), pron_text, font=pron_f, fill=pron_fill)
 
-        # Roman label (a / aa)
-        rw  = draw.textlength(roman, font=lbl)
-        rx  = cx_mid - rw / 2
-        ry  = CARD_H - 60
-        draw.text((rx, ry), roman, font=lbl, fill=label_fill)
+        # Roman label — well above the card bottom
+        rw = draw.textlength(roman, font=lbl)
+        draw.text((cx_mid - rw / 2, LABEL_Y), roman, font=lbl, fill=label_fill)
 
     return img
 
@@ -169,41 +175,54 @@ def _load_env() -> None:
         pass
 
 
-def _tts_text(text: str, voice: str) -> bytes:
-    import openai
-    client = openai.OpenAI()
-    print(f"  [TTS] {text[:45]}…")
-    return client.audio.speech.create(
-        model="tts-1", voice=voice, speed=0.72, input=text
-    ).content
+def _tts_text(text: str, _voice: str = "nova", speed: float = 0.72) -> bytes:
+    import sys
+    sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+    from _google_tts import tts_to_bytes
+    print(f"  [gTTS] {text[:50]}…")
+    return tts_to_bytes(text, speed=speed)
 
 
 def generate_video(voice: str) -> None:
+    """Swar pair repeat-after-me video.
+
+    For each pair the sequence is:
+      [l1 said once] +700ms → [l2 said once] +700ms
+      → ["मेरे साथ बोलिए / Say it with me"] +5000ms (child repeats)
+
+    No "बहुत अच्छा" — cleaner pacing, child focuses on saying not evaluating.
+    Card always shows both letters at full brightness.
+    """
     _load_env()
     VID_DIR.mkdir(parents=True, exist_ok=True)
     import sys
     sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
     from _video_kit import make_atomic_mp4, concat_mp4s
 
+    # Regenerate pair card PNGs with the new taller layout
+    IMG_DIR.mkdir(parents=True, exist_ok=True)
+    for p in PAIRS:
+        render_pair_card(p).save(str(IMG_DIR / f"pair-{p['name']}-card.png"))
+
     with tempfile.TemporaryDirectory() as tmp:
         tmp = pathlib.Path(tmp)
         atoms: list[pathlib.Path] = []
-        for p in PAIRS:
-            if not (IMG_DIR / f"pair-{p['name']}-card.png").exists():
-                render_pair_card(p).save(str(IMG_DIR / f"pair-{p['name']}-card.png"))
 
-            segments = [
-                ("left",  "मेरे साथ बोलिए। " + ". ".join([p["l1"]] * 3) + "."),
-                ("right", "अब " + ". ".join([p["l2"]] * 3) + "."),
-                ("both",  f"बहुत अच्छा! {p['l1']} और {p['l2']}।"),
-            ]
-            for idx, (active, text) in enumerate(segments):
-                frame = tmp / f"{p['name']}-{idx}.png"
-                render_pair_card(p, active=active).save(str(frame))
-                mp3 = tmp / f"{p['name']}-{idx}.mp3"
-                mp3.write_bytes(_tts_text(text, voice))
+        for p in PAIRS:
+            frame = tmp / f"{p['name']}.png"
+            render_pair_card(p).save(str(frame))   # no highlight — full card
+
+            # 3 clips — prompt FIRST so child knows to listen, then each letter,
+            # then 5 s silence for the child to say both back
+            for idx, (text, tail, spd) in enumerate([
+                ("मेरे साथ बोलिए। Say it with me.", 0.8, 0.72),
+                (p["l1"],                            0.7, 0.65),
+                (p["l2"],                            5.0, 0.65),
+            ]):
+                mp3  = tmp / f"{p['name']}-{idx}.mp3"
                 atom = tmp / f"{p['name']}-{idx}.mp4"
-                make_atomic_mp4(frame, mp3, atom, head_sil=0.3, tail_sil=0.6)
+                mp3.write_bytes(_tts_text(text, voice, speed=spd))
+                make_atomic_mp4(frame, mp3, atom, head_sil=0.3, tail_sil=tail)
                 atoms.append(atom)
 
         print(f"  Concatenating {len(atoms)} clips → {OUT_VIDEO}")

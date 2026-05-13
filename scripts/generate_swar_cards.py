@@ -126,25 +126,17 @@ def generate_card_pngs() -> None:
         print(f"  [PNG] {out.name}")
 
 
-def generate_audio(client, voice: str) -> list[Path]:
+def generate_audio(_client, _voice: str) -> list[Path]:
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from _google_tts import tts_to_file as g_tts
     AUDIO_DIR.mkdir(parents=True, exist_ok=True)
     files: list[Path] = []
     for entry in SWAR:
         out = AUDIO_DIR / f"{entry['roman']}.mp3"
-        if out.exists():
-            print(f"  [SKIP] {out.name}")
-        else:
-            # Say the letter 7 times with a natural pause between each
-            text = "  ".join([entry["letter"]] * 7)
-            print(f"  [TTS] {entry['label']}  →  {text[:30]}")
-            with client.audio.speech.with_streaming_response.create(
-                model="tts-1",
-                voice=voice,
-                input=text,
-                speed=0.68,
-            ) as response:
-                response.stream_to_file(str(out))
-            time.sleep(0.6)
+        # Say the letter 7 times with a natural pause between each
+        text = "  ".join([entry["letter"]] * 7)
+        g_tts(text, out, speed=0.68, skip_existing=True)
         files.append(out)
     return files
 
@@ -191,14 +183,8 @@ def main() -> None:
         print("Cards done. Run without --cards-only to generate TTS audio and video.")
         return
 
-    if not os.environ.get("OPENAI_API_KEY"):
-        raise RuntimeError("OPENAI_API_KEY not set. Add it to .env or export before running.")
-
-    from openai import OpenAI
-    client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
-
-    print("Generating TTS audio (7× per letter)…")
-    audio_files = generate_audio(client, args.voice)
+    print("Generating TTS audio via Google Cloud TTS (7× per letter)…")
+    audio_files = generate_audio(None, args.voice)
 
     print("Assembling video…")
     generate_video(audio_files)

@@ -155,6 +155,7 @@ def make_atomic_mp4(
         "-map", "0:v:0", "-map", "[a]",
         "-t", f"{total:.4f}",
         "-c:v", ATOMIC_VIDEO_CODEC, "-pix_fmt", ATOMIC_PIX_FMT, "-r", str(ATOMIC_FPS),
+        "-g", "24",   # keyframe every 1 s — allows fine-grained scrubbing in any browser
         "-c:a", ATOMIC_AUDIO_CODEC, "-b:a", ATOMIC_AUDIO_BR,
         "-ar", str(ATOMIC_AUDIO_RATE), "-ac", str(ATOMIC_AUDIO_CH),
         "-movflags", "+faststart",

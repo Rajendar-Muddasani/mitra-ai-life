@@ -244,16 +244,11 @@ def generate_cards() -> None:
         print(f"  [PNG] {out.name}")
 
 
-def _tts(client, narration: str, out_path: pathlib.Path, voice: str) -> None:
-    if out_path.exists():
-        print(f"  [SKIP] {out_path.name}")
-        return
-    print(f"  [TTS] {narration[:50]}")
-    with client.audio.speech.with_streaming_response.create(
-        model="tts-1", voice=voice, input=narration, speed=0.72,
-    ) as resp:
-        resp.stream_to_file(str(out_path))
-    time.sleep(0.5)
+def _tts(_client, narration: str, out_path: pathlib.Path, _voice: str) -> None:
+    import sys
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from _google_tts import tts_to_file as g_tts
+    g_tts(narration, out_path, speed=0.72, skip_existing=True)
 
 
 def generate_video(voice: str) -> None:

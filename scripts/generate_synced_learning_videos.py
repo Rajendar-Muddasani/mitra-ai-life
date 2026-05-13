@@ -140,13 +140,21 @@ def _centered_text(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int], te
     draw.text((left + (right - left - width) / 2, top + (bottom - top - height) / 2 - bbox[1]), text, font=font, fill=fill)
 
 
-def _tts(text: str, voice: str, speed: float = 0.72) -> bytes:
-    import openai
-    client = openai.OpenAI()
-    return client.audio.speech.create(model="tts-1", voice=voice, speed=speed, input=text).content
+def _tts(text: str, _voice: str = "nova", speed: float = 0.72) -> bytes:
+    """Google Cloud TTS — voice arg kept for API compat but voice is set in _google_tts.py."""
+    sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+    from _google_tts import tts_to_bytes
+    return tts_to_bytes(text, speed=speed)
 
 
 def render_swar_teaching_frame(item: dict, source_card: pathlib.Path) -> Image.Image:
+    """Two-panel teaching card: object image (left) + letter/word/meaning (right).
+
+    Left panel shows the realistic DALL-E image — cropped to include the full
+    object without cutting heads/tops (word card image zone: y 166-776, x 145-755).
+    Right panel shows: large letter form, Hindi word, English meaning.
+    No 'Swar sound x7' or 'Say along with Mitra' labels — they add clutter.
+    """
     col_a, col_b = item["colors"]
     img = Image.new("RGB", (CARD_W, CARD_H))
     draw = ImageDraw.Draw(img)
@@ -154,29 +162,25 @@ def render_swar_teaching_frame(item: dict, source_card: pathlib.Path) -> Image.I
     for x in range(CARD_W):
         draw.line([(x, 0), (x, CARD_H)], fill=_blend(col_a, col_b, x / CARD_W))
 
-    dev_mega = _font(FONT_DEV, 190)
-    dev_word = _font(FONT_DEV, 86)
-    latin_big = _font(FONT_LAT, 58)
-    latin_mid = _font(FONT_LAT, 42)
-    label_f = _font(FONT_LAT, 28)
+    dev_mega = _font(FONT_DEV, 200)
+    dev_word = _font(FONT_DEV, 90)
+    latin_big = _font(FONT_LAT, 62)
+    latin_mid = _font(FONT_LAT, 46)
 
-    draw.rounded_rectangle([34, 24, 360, 72], radius=18, fill=(255, 255, 255))
-    draw.text((58, 33), "Say along with Mitra", font=label_f, fill=(32, 32, 32))
-    draw.rounded_rectangle([1070, 24, 1404, 72], radius=18, fill=(255, 255, 255))
-    draw.text((1092, 33), "Swar sound x7", font=label_f, fill=(32, 32, 32))
-
+    # Left: object image — use the full DALL-E image bounds from the word card
+    # Word card DALL-E image occupies (145, 166) to (755, 776) in the 900×1120 card
     card = Image.open(source_card).convert("RGB")
-    object_crop = card.crop((104, 190, 664, 750)).resize((560, 560), Image.LANCZOS)
-    draw.rounded_rectangle([62, 128, 662, 728], radius=28, fill=(255, 255, 255))
-    img.paste(object_crop, (82, 148))
+    object_crop = card.crop((145, 166, 755, 776)).resize((560, 560), Image.LANCZOS)
+    draw.rounded_rectangle([50, 110, 658, 718], radius=28, fill=(255, 255, 255))
+    img.paste(object_crop, (70, 130))
 
-    panel = [720, 120, 1378, 728]
+    # Right: letter + word + meaning panel
+    panel = [710, 110, 1400, 718]
     draw.rounded_rectangle(panel, radius=30, fill=(255, 255, 255))
-    _centered_text(draw, (panel[0], 140, panel[2], 330), item["form"], dev_mega, (24, 24, 24))
-    _centered_text(draw, (panel[0], 335, panel[2], 445), item["word"], dev_word, (42, 42, 42))
-    _centered_text(draw, (panel[0], 465, panel[2], 540), item["pron"], latin_big, (210, 96, 0))
-    _centered_text(draw, (panel[0], 575, panel[2], 640), item["meaning"], latin_mid, (82, 82, 82))
-    _centered_text(draw, (panel[0], 660, panel[2], 712), "pause and say", label_f, (98, 98, 98))
+    _centered_text(draw, (panel[0], 125, panel[2], 330), item["form"], dev_mega, (24, 24, 24))
+    _centered_text(draw, (panel[0], 340, panel[2], 455), item["word"],  dev_word, (42, 42, 42))
+    _centered_text(draw, (panel[0], 480, panel[2], 570), item["pron"],  latin_big, (200, 90, 0))
+    _centered_text(draw, (panel[0], 590, panel[2], 660), item["meaning"], latin_mid, (70, 70, 70))
     return img
 
 
@@ -235,7 +239,14 @@ def render_barakhadi_highlight(entry: dict, hi_idx: int) -> Image.Image:
     return img
 
 
-def generate_swar_video(voice: str) -> None:
+def generate_swar_video(voice: str, reps: int = 1) -> None:
+    """Swar word-sync video.
+
+    For each swar the sequence is (repeated `reps` times):
+      [letter sound] +700ms → [Hindi word] +700ms → [English meaning] +700ms
+    Between rounds: +2 s gap after the meaning clip.
+    Audio files are generated once and reused across reps (same TTS cost).
+    """
     _load_env()
     VID_DIR.mkdir(parents=True, exist_ok=True)
     sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
@@ -250,14 +261,36 @@ def generate_swar_video(voice: str) -> None:
                 raise FileNotFoundError(png)
             frame = tmp / f"swar-{item['slug']}.png"
             render_swar_teaching_frame(item, png).save(str(frame))
-            repeated_sound = ". ".join([item["form"]] * 7)
-            text = f"{repeated_sound}. {item['word']}. {item['pron']}. {item['meaning']}."
-            print(f"  [SWAR] {item['form']} → {item['word']} / {item['pron']}")
-            mp3 = tmp / f"swar-{item['slug']}.mp3"
-            mp3.write_bytes(_tts(text, voice, speed=0.68))
-            atom = tmp / f"swar-{item['slug']}.mp4"
-            make_atomic_mp4(frame, mp3, atom, head_sil=0.3, tail_sil=1.5)
-            atoms.append(atom)
+
+            # Generate 3 TTS files once — letter, Hindi word, English meaning
+            print(f"  [SWAR] {item['form']} → {item['word']} → {item['meaning']}")
+            letter_mp3 = tmp / f"{item['slug']}-letter.mp3"
+            word_mp3   = tmp / f"{item['slug']}-word.mp3"
+            mean_mp3   = tmp / f"{item['slug']}-mean.mp3"
+            letter_mp3.write_bytes(_tts(item["form"],    voice, speed=0.72))
+            word_mp3.write_bytes(  _tts(item["word"],    voice, speed=0.68))
+            mean_mp3.write_bytes(  _tts(item["meaning"], voice, speed=0.78))
+
+            # Build clips: reuse the same MP3 files each rep
+            for rep in range(reps):
+                is_last = (rep == reps - 1)
+                inter_gap = 0.7 + 2.0   # 2 s breathing room between rounds
+                final_gap = 0.7         # no extra gap after last round
+
+                # Clip 1: letter
+                a = tmp / f"{item['slug']}-r{rep}-l.mp4"
+                make_atomic_mp4(frame, letter_mp3, a, head_sil=0.3, tail_sil=0.7)
+                atoms.append(a)
+                # Clip 2: Hindi word
+                a = tmp / f"{item['slug']}-r{rep}-w.mp4"
+                make_atomic_mp4(frame, word_mp3, a, head_sil=0.3, tail_sil=0.7)
+                atoms.append(a)
+                # Clip 3: English meaning (longer tail between rounds)
+                tail = final_gap if is_last else inter_gap
+                a = tmp / f"{item['slug']}-r{rep}-m.mp4"
+                make_atomic_mp4(frame, mean_mp3, a, head_sil=0.3, tail_sil=tail)
+                atoms.append(a)
+
         print(f"  Concatenating {len(atoms)} clips → {out}")
         concat_mp4s(atoms, out)
 
@@ -277,12 +310,10 @@ def generate_barakhadi_video(voice: str) -> None:
                 form = entry["letter"] + matra["matra"]
                 frame = tmp / f"{entry['roman']}-{idx:02d}.png"
                 render_barakhadi_highlight(entry, idx).save(str(frame))
-                reps = 3 if entry["roman"] == "ka" else 1
-                spoken = ". ".join([form] * reps) + "."
                 mp3 = tmp / f"{entry['roman']}-{idx:02d}.mp3"
-                mp3.write_bytes(_tts(spoken, voice, speed=0.68))
+                mp3.write_bytes(_tts(form, voice, speed=0.65))
                 atom = tmp / f"{entry['roman']}-{idx:02d}.mp4"
-                make_atomic_mp4(frame, mp3, atom, head_sil=0.3, tail_sil=0.8)
+                make_atomic_mp4(frame, mp3, atom, head_sil=0.3, tail_sil=0.7)
                 atoms.append(atom)
         print(f"  Concatenating {len(atoms)} clips → {out}")
         concat_mp4s(atoms, out)
@@ -292,9 +323,11 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--kind", choices=["swar", "barakhadi", "all"], default="all")
     parser.add_argument("--voice", default="nova")
+    parser.add_argument("--reps", type=int, default=1,
+                        help="Repetitions per swar (1 to verify, 3 for final)")
     args = parser.parse_args()
     if args.kind in ("swar", "all"):
-        generate_swar_video(args.voice)
+        generate_swar_video(args.voice, reps=args.reps)
     if args.kind in ("barakhadi", "all"):
         generate_barakhadi_video(args.voice)
 

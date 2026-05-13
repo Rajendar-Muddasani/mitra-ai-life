@@ -330,17 +330,15 @@ def _load_env() -> None:
         pass
 
 
-def _tts(entry: dict, voice: str) -> bytes:
-    import openai
-    client = openai.OpenAI()
-    forms  = [entry["letter"] + m["matra"] for m in MATRAS]
-    # Intro + say each form twice, slowly
+def _tts(entry: dict, _voice: str = "nova") -> bytes:
+    import sys
+    sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+    from _google_tts import tts_to_bytes
+    forms     = [entry["letter"] + m["matra"] for m in MATRAS]
     doubled   = ". ".join(f"{f}. {f}" for f in forms)
     narration = f"{entry['letter']} की बाराखड़ी। {doubled}."
-    print(f"  [TTS] {entry['roman']}  →  {narration[:55]}…")
-    return client.audio.speech.create(
-        model="tts-1", voice=voice, speed=0.65, input=narration
-    ).content
+    print(f"  [gTTS] {entry['roman']}  →  {narration[:55]}…")
+    return tts_to_bytes(narration, speed=0.65)
 
 
 def generate_video(voice: str) -> None:

@@ -84,4 +84,8 @@
   <url><loc>https://mitraailife.com/teachers/lesson-07-te.html</loc><priority>0.7</priority></url>
   <url><loc>https://mitraailife.com/teachers/lesson-08-te.html</loc><priority>0.7</priority></url>
   <url><loc>https://mitraailife.com/teachers/prompt-templates-te.html</loc><priority>0.7</priority></url>
+
+  <!-- Telugu policy pages -->
+  <url><loc>https://mitraailife.com/privacy-te.html</loc><priority>0.4</priority></url>
+  <url><loc>https://mitraailife.com/payment-policy-te.html</loc><priority>0.4</priority></url>
 </urlset>

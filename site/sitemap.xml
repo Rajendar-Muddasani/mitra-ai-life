@@ -62,4 +62,26 @@
     <loc>https://mitraailife.com/contact-te.html</loc>
     <priority>0.5</priority>
   </url>
+
+  <!-- Teachers track — English lessons -->
+  <url><loc>https://mitraailife.com/teachers/lesson-01.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-02.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-03.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-04.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-05.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-06.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-07.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-08.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/prompt-templates.html</loc><priority>0.7</priority></url>
+
+  <!-- Teachers track — Telugu lessons -->
+  <url><loc>https://mitraailife.com/teachers/lesson-01-te.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-02-te.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-03-te.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-04-te.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-05-te.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-06-te.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-07-te.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-08-te.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/prompt-templates-te.html</loc><priority>0.7</priority></url>
 </urlset>

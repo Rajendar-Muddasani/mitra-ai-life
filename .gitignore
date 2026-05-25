@@ -67,3 +67,6 @@ accounts.md
 
 # Voice test output
 voice_tests/
+
+# Generated teachers overview video (hosted on S3, not tracked in git)
+content/assets/videos/teachers-overview/

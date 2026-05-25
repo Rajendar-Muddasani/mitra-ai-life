@@ -60,9 +60,9 @@ FONT_BODY = _find_font([
 ])
 # Telugu requires a font that covers Telugu glyphs.
 FONT_TE = _find_font([
+    str(ROOT / "scripts" / "_fonts" / "NotoSansTelugu-Bold.ttf"),
     "/System/Library/Fonts/KohinoorTelugu.ttc",
     "/System/Library/Fonts/Supplemental/Telugu Sangam MN.ttc",
-    "/System/Library/Fonts/Supplemental/Telugu MN.ttc",
 ])
 
 # ── slide content ─────────────────────────────────────────────────────────────
@@ -90,7 +90,7 @@ SLIDES_EN = [
      "AI helps. Teacher decides.",
      "Every lesson teaches you what to check before using AI output."),
     ("START FREE TODAY",
-     "mitraailife.com / teachers",
+     "mitraailife.com/site/teachers.html",
      "8 lessons • Free • No sign-up needed"),
 ]
 
@@ -113,11 +113,11 @@ SLIDES_TE = [
     ("ఒక prompt, ఒక lesson plan",
      "Topic type చేయండి. పూర్తి plan వస్తుంది.",
      "మీరు review చేసి, edit చేసి, class లో వాడండి."),
-    ("మీరే control లో ఉంటారు",
+    ("అంతా మీ control లో ఉంటుంది",
      "AI help చేస్తుంది. Teacher decide చేస్తారు.",
      "AI output వాడే ముందు ఏమి check చేయాలో ప్రతి lesson నేర్పుతుంది."),
     ("ఇవాళే free గా మొదలు పెట్టండి",
-     "mitraailife.com / teachers",
+     "mitraailife.com/site/teachers.html",
      "8 lessons • ఉచితం • Sign-up అవసరం లేదు"),
 ]
 
@@ -130,7 +130,7 @@ NARR_EN = [
     "Lessons seven and eight. Safe and responsible A I use. Review every A I output. Protect student privacy.",
     "One prompt, one lesson plan. You type a topic. A I gives you a full plan. Then you review, edit, and use it in class.",
     "You stay in control. A I helps. The teacher decides. Every lesson teaches you what to check before using A I output.",
-    "Start free today. Visit mitra ai life dot com slash teachers. Eight lessons. Free. No sign up needed.",
+    "Start free today. Visit mitra ai life dot com, site, teachers dot H T M L. Eight lessons. Free. No sign up needed.",
 ]
 
 NARR_TE = [
@@ -141,7 +141,7 @@ NARR_TE = [
     "లెసన్స్ ఏడు మరియు ఎనిమిది. సేఫ్ మరియు రెస్పాన్సిబుల్ ఏ ఐ యూస్. ప్రతి ఏ ఐ అవుట్‌పుట్ రివ్యూ చేయండి. స్టూడెంట్ ప్రైవసీ కాపాడండి.",
     "ఒక ప్రాంప్ట్, ఒక లెసన్ ప్లాన్. మీరు టాపిక్ టైప్ చేస్తే ఏ ఐ పూర్తి ప్లాన్ ఇస్తుంది. తర్వాత మీరు రివ్యూ చేసి, ఎడిట్ చేసి, క్లాస్ లో వాడండి.",
     "మీరే కంట్రోల్ లో ఉంటారు. ఏ ఐ హెల్ప్ చేస్తుంది. టీచర్ డిసైడ్ చేస్తారు. ఏ ఐ అవుట్‌పుట్ వాడే ముందు ఏమి చెక్ చేయాలో ప్రతి లెసన్ నేర్పుతుంది.",
-    "ఇవాళే ఉచితంగా మొదలు పెట్టండి. మిత్ర ఏ ఐ లైఫ్ డాట్ కామ్ స్లాష్ టీచర్స్ ని విజిట్ చేయండి. ఎనిమిది లెసన్స్. ఉచితం. సైన్ అప్ అవసరం లేదు.",
+    "ఇవాళే ఉచితంగా మొదలు పెట్టండి. మిత్ర ఏ ఐ లైఫ్ డాట్ కామ్ స్లాష్ సైట్ స్లాష్ టీచర్స్ డాట్ హెచ్ టీ ఎమ్ ఎల్ ని విజిట్ చేయండి. ఎనిమిది లెసన్స్. ఉచితం. సైన్ అప్ అవసరం లేదు.",
 ]
 
 assert len(SLIDES_EN) == len(NARR_EN) == 8
@@ -366,9 +366,11 @@ def upload_to_s3(local: Path, key: str) -> str:
     return url
 
 
-def main():
-    en_mp4 = build_lang("en", SLIDES_EN, NARR_EN)
-    te_mp4 = build_lang("te", SLIDES_TE, NARR_TE)
+def main(langs: list[str] | None = None):
+    if langs is None:
+        langs = ["en", "te"]
+    en_mp4 = build_lang("en", SLIDES_EN, NARR_EN) if "en" in langs else OUT_DIR / "teachers-overview-en.mp4"
+    te_mp4 = build_lang("te", SLIDES_TE, NARR_TE) if "te" in langs else OUT_DIR / "teachers-overview-te.mp4"
 
     print("\n══════ Uploading to S3 ══════")
     en_url = upload_to_s3(en_mp4, "videos/teachers/teachers-overview-en.mp4")
@@ -382,4 +384,19 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+    p = argparse.ArgumentParser()
+    p.add_argument("--lang", choices=["en", "te", "both"], default="both")
+    p.add_argument("--force", action="store_true", help="Delete cached segments before building")
+    args = p.parse_args()
+    langs = ["en", "te"] if args.lang == "both" else [args.lang]
+    if args.force:
+        import shutil
+        for lang in langs:
+            work = OUT_DIR / lang
+            if work.exists():
+                shutil.rmtree(work)
+            final = OUT_DIR / f"teachers-overview-{lang}.mp4"
+            if final.exists():
+                final.unlink()
+    main(langs)

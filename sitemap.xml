@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://mitraailife.com/</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://mitraailife.com/daily-life.html</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://mitraailife.com/students.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mitraailife.com/tuition.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mitraailife.com/spoken-english.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mitraailife.com/projects.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mitraailife.com/small-business.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mitraailife.com/teachers.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mitraailife.com/contact.html</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://mitraailife.com/privacy.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://mitraailife.com/payment-policy.html</loc>
+  </url>
+  <url>
+    <loc>https://mitraailife.com/index-te.html</loc>
+  </url>
+  <url>
+    <loc>https://mitraailife.com/daily-life-te.html</loc>
+  </url>
+  <url>
+    <loc>https://mitraailife.com/spoken-english-te.html</loc>
+  </url>
+  <url>
+    <loc>https://mitraailife.com/small-business-te.html</loc>
+  </url>
+  <url>
+    <loc>https://mitraailife.com/teachers-te.html</loc>
+  </url>
+  <url>
+    <loc>https://mitraailife.com/contact-te.html</loc>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Teachers track — English lessons -->
+  <url><loc>https://mitraailife.com/teachers/lesson-01.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-02.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-03.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-04.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-05.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-06.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-07.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-08.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/prompt-templates.html</loc><priority>0.7</priority></url>
+
+  <!-- Teachers track — Telugu lessons -->
+  <url><loc>https://mitraailife.com/teachers/lesson-01-te.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-02-te.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-03-te.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-04-te.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-05-te.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-06-te.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-07-te.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/lesson-08-te.html</loc><priority>0.7</priority></url>
+  <url><loc>https://mitraailife.com/teachers/prompt-templates-te.html</loc><priority>0.7</priority></url>
+
+  <!-- Telugu policy pages -->
+  <url><loc>https://mitraailife.com/privacy-te.html</loc><priority>0.4</priority></url>
+  <url><loc>https://mitraailife.com/payment-policy-te.html</loc><priority>0.4</priority></url>
+</urlset>

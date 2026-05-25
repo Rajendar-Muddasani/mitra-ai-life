@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Privacy and Safe AI Use | AI for Teachers | Mitra AI Life</title>
+  <meta name="description" content="What never to share with AI tools. How to teach students about honest AI use. Basic school AI policy points." />
+  <link rel="canonical" href="https://mitraailife.com/teachers/lesson-08.html" />
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="manifest" href="../site.webmanifest" />
+  <meta name="theme-color" content="#06111f" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+  <link rel="stylesheet" href="../track-page.css" />
+  <style>
+    .lesson-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.65rem 5vw;
+      background: rgba(3,8,18,0.9); backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      position: sticky; top: 0; z-index: 20;
+    }
+    .lesson-nav a { color: #b8c7da; text-decoration: none; font-size: 0.82rem; font-weight: 700; }
+    .lesson-nav a:hover { color: #f8fbff; }
+    .lesson-nav .brand { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1rem; color: #f8fbff; }
+    .lesson-nav .brand span { color: #68e1ff; }
+    .lesson-wrap { max-width: 820px; margin: 0 auto; padding: 3rem 5vw 5rem; }
+    .lesson-eyebrow { color: #68e1ff; font-size: 0.72rem; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .lesson-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.1; margin-bottom: 1rem; }
+    .lesson-meta { color: rgba(184,199,218,0.7); font-size: 0.82rem; margin-bottom: 2rem; }
+    .wyl-box {
+      background: rgba(104,225,255,0.06); border: 1px solid rgba(104,225,255,0.2);
+      border-radius: 14px; padding: 1.25rem 1.4rem; margin-bottom: 2.5rem;
+    }
+    .wyl-box h3 { font-size: 0.78rem; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: #68e1ff; margin-bottom: 0.75rem; }
+    .wyl-box ul { list-style: none; padding: 0; display: grid; gap: 0.5rem; }
+    .wyl-box ul li { color: #b8c7da; font-size: 0.93rem; line-height: 1.55; padding-left: 1.2rem; position: relative; }
+    .wyl-box ul li::before { content: "✓"; position: absolute; left: 0; color: #68e1ff; font-weight: 900; }
+    .section-h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.2rem, 2.5vw, 1.6rem); margin: 2.5rem 0 0.75rem; }
+    .lesson-p { color: #b8c7da; line-height: 1.75; font-size: 0.97rem; margin-bottom: 1rem; }
+    .prompt-label { font-size: 0.72rem; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: #68e1ff; margin: 1.5rem 0 0.4rem; }
+    .prompt-box {
+      background: rgba(0,0,0,0.4); border: 1px solid rgba(104,225,255,0.18);
+      border-radius: 12px; padding: 1.2rem 1.4rem;
+      font-size: 0.87rem; color: #a8d8ff; line-height: 1.75; white-space: pre-wrap; margin-bottom: 1rem;
+    }
+    .output-box {
+      background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.22);
+      border-radius: 12px; padding: 1.2rem 1.4rem;
+      font-size: 0.87rem; color: #a7f3d0; line-height: 1.75; white-space: pre-wrap; margin-bottom: 1rem;
+    }
+    .checklist-box {
+      background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.22);
+      border-radius: 14px; padding: 1.25rem 1.4rem; margin: 1.5rem 0;
+    }
+    .checklist-box h3 { font-size: 0.78rem; font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; color: #f59e0b; margin-bottom: 0.75rem; }
+    .checklist-box ul { list-style: none; padding: 0; display: grid; gap: 0.5rem; }
+    .checklist-box ul li { color: #b8c7da; font-size: 0.93rem; line-height: 1.55; display: flex; gap: 0.6rem; }
+    .checklist-box ul li::before { content: "☐"; color: #f59e0b; flex-shrink: 0; }
+    .practice-box {
+      background: rgba(139,92,246,0.07); border: 1px solid rgba(139,92,246,0.22);
+      border-radius: 14px; padding: 1.25rem 1.4rem; margin: 1.5rem 0;
+    }
+    .practice-box h3 { font-size: 0.78rem; font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; color: #a78bfa; margin-bottom: 0.75rem; }
+    .practice-box p, .practice-box ol { color: #b8c7da; font-size: 0.93rem; line-height: 1.65; }
+    .practice-box ol { padding-left: 1.3rem; display: grid; gap: 0.5rem; }
+    .lesson-nav-btns {
+      display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 3rem; padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .nav-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.65rem 1.4rem; border-radius: 12px; font-weight: 900; font-size: 0.9rem;
+      text-decoration: none; border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.07); color: #f8fbff;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .nav-btn:hover { background: rgba(255,255,255,0.12); }
+    .nav-btn.primary { background: #f59e0b; color: #201200; border-color: #f59e0b; box-shadow: 0 4px 0 #9a5b00; }
+    .divider { height: 1px; background: rgba(255,255,255,0.08); margin: 2rem 0; }
+    .highlight { color: #68e1ff; font-weight: 800; }
+    .warn { color: #f87171; font-weight: 700; }
+    .info-card {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px; padding: 1rem 1.2rem; margin-bottom: 0.85rem;
+    }
+    .info-card strong { color: #f8fbff; display: block; margin-bottom: 0.25rem; font-size: 0.95rem; }
+    .info-card span { color: #b8c7da; font-size: 0.88rem; line-height: 1.6; }
+  </style>
+</head>
+<body style="background:#06111f;color:#f8fbff;">
+<nav class="lesson-nav">
+  <a class="brand" href="../teachers.html">Mitra <span>AI</span> Life</a>
+  <a href="../teachers.html">← Back to AI for Teachers</a>
+</nav>
+<div class="lesson-wrap">
+  <p class="lesson-eyebrow">Lesson 8 of 8 · Free · AI for Teachers</p>
+  <h1 class="lesson-title">Student Privacy and Safe AI Use</h1>
+  <p class="lesson-meta">8 minutes to read · Important for all teachers · English</p>
+
+  <div class="wyl-box">
+    <h3>What you will learn</h3>
+    <ul>
+      <li>What information about students must never be entered into AI tools</li>
+      <li>Copyright basics every teacher using AI should know</li>
+      <li>How to talk to students about honest and safe AI use</li>
+      <li>Simple school AI policy points to follow or propose</li>
+    </ul>
+  </div>
+
+  <h2 class="section-h2">Why privacy matters when using AI tools</h2>
+  <p class="lesson-p">Public AI tools like ChatGPT and Gemini process your input on external servers. Whatever you type into these tools may be stored, reviewed, or used to improve the AI model. This is not a reason to avoid using these tools — but it is a reason to be careful about what you type into them.</p>
+  <p class="lesson-p">As a teacher, you handle sensitive information about minors every day: names, marks, health notes, family situations, behavioural observations. This information is your professional responsibility to protect.</p>
+
+  <h2 class="section-h2">What must never go into a public AI tool</h2>
+
+  <div class="info-card"><strong>Student full names + performance data</strong><span>Never type: "Arjun Sharma from Class 8B scored 34/50 in Maths. Create a remedial plan for him." Use a description instead: "A student at the lower end of the class who struggles with fractions. Create a remedial worksheet."</span></div>
+  <div class="info-card"><strong>Student health or family information</strong><span>Medical conditions, family problems, learning disabilities, or any sensitive personal information about a student should never be entered into public AI tools.</span></div>
+  <div class="info-card"><strong>Student contact details</strong><span>Phone numbers, addresses, parent emails, or any personal identification for students or parents.</span></div>
+  <div class="info-card"><strong>School confidential documents</strong><span>Internal school reports, staff performance records, exam paper drafts that are not yet distributed, or administrative documents marked confidential.</span></div>
+
+  <p class="lesson-p"><span class="highlight">The rule is simple:</span> if you would not post it on a public notice board at school, do not type it into a public AI tool.</p>
+
+  <div class="divider"></div>
+
+  <h2 class="section-h2">Copyright basics for teachers using AI</h2>
+  <p class="lesson-p">Teachers often use textbook content as reference material for AI. Here are the basic rules to follow:</p>
+
+  <div class="info-card"><strong>Pasting a few paragraphs from your textbook into AI for personal lesson planning:</strong><span> Generally acceptable for personal classroom use. Check your school or publisher's policy if unsure.</span></div>
+  <div class="info-card"><strong>Pasting full chapters into a public AI tool and sharing the AI output publicly online:</strong><span> This could raise copyright issues. Be careful about what you publish from AI-assisted work based on copyrighted material.</span></div>
+  <div class="info-card"><strong>Creating original prompts and questions based on a topic (not copying directly):</strong><span> This is fine. AI creating original questions on a topic you specify is different from reproducing textbook content.</span></div>
+  <div class="info-card"><strong>Claiming AI-generated content as entirely your own original work in a publication or commercial product:</strong><span> This can be legally and ethically problematic. Always acknowledge AI assistance when publishing or commercialising content.</span></div>
+
+  <div class="divider"></div>
+
+  <h2 class="section-h2">Teaching students about honest AI use</h2>
+  <p class="lesson-p">Your students are already using AI tools — often without knowing how to use them honestly or safely. As a teacher who now understands AI, you are in the best position to guide them.</p>
+
+  <div class="info-card"><strong>Tell students this:</strong><span>"AI is a tool like a calculator. A calculator doesn't do your Maths learning for you — it helps you check and calculate faster. AI doesn't do your thinking for you — it helps you get a first draft faster. You still need to understand the topic."</span></div>
+  <div class="info-card"><strong>Set clear rules for assignments:</strong><span>Tell students when AI use is allowed (brainstorming, proofreading), when it is not allowed (answering exam questions, writing essays meant to test student thinking), and what honest disclosure looks like ("I used AI to get an initial outline and then wrote this myself").</span></div>
+  <div class="info-card"><strong>Teach the review habit to students too:</strong><span>Tell students: "If you use AI to get information, you must verify that information from a textbook or trusted source before submitting it. AI can be wrong." This builds critical thinking.</span></div>
+
+  <h2 class="section-h2">Simple school AI policy points</h2>
+  <p class="lesson-p">If your school does not have an AI policy yet, here are basic points you can follow personally and propose to your school leadership:</p>
+
+  <div class="prompt-box">Suggested school AI use principles for teachers:
+
+1. AI tools are permitted for teacher preparation work (lesson plans, worksheets, question paper drafts).
+2. All AI output must be reviewed and approved by the teacher before classroom use.
+3. Student personal details must never be entered into public AI tools.
+4. AI-drafted question papers must be verified for accuracy before printing.
+5. Teachers should not present AI output as guaranteed truth to students.
+6. Student AI use rules should be explained clearly at the start of each academic year.
+7. AI tools should supplement teacher judgment — not replace it.</div>
+
+  <div class="checklist-box">
+    <h3>Personal privacy checklist — run through this before every AI session</h3>
+    <ul>
+      <li>Does my prompt contain any student names? Remove them.</li>
+      <li>Does my prompt contain any student marks or performance data? Anonymise it.</li>
+      <li>Does my prompt contain any health or family information? Remove it.</li>
+      <li>Does my prompt contain any school confidential document content? Do not paste it.</li>
+      <li>Am I pasting full textbook chapters into a public tool? Check school and copyright policy first.</li>
+      <li>Am I planning to publish or sell AI-assisted content? Acknowledge AI use properly.</li>
+    </ul>
+  </div>
+
+  <div class="practice-box">
+    <h3>Practice task</h3>
+    <ol>
+      <li>Look at the 3 prompts you wrote in Lessons 4, 5, and 6. Did any of them include any student names, marks, or personal information? If yes, rewrite them without that information.</li>
+      <li>Write a 3-sentence explanation of honest AI use that you could say to your students at the start of next term. Keep it simple enough for your class level.</li>
+      <li>Identify one AI use rule you want to follow personally and one rule you would propose for your school. Write both down.</li>
+    </ol>
+  </div>
+
+  <div style="background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.22);border-radius:14px;padding:1.25rem 1.4rem;margin-top:2rem;">
+    <p style="font-size:0.78rem;font-weight:900;letter-spacing:0.14em;text-transform:uppercase;color:#34d399;margin-bottom:0.6rem;">YOU HAVE COMPLETED ALL 8 FREE LESSONS</p>
+    <p style="color:#b8c7da;font-size:0.95rem;line-height:1.7;">You now know how to use AI for lesson plans, worksheets, question papers, and feedback — with the review habits and safety rules that keep you and your students protected. Return to the AI for Teachers hub to explore workshops and advanced skill levels.</p>
+    <a href="../teachers.html#skill-ladder" style="display:inline-block;margin-top:1rem;background:#f59e0b;color:#201200;font-weight:900;font-size:0.9rem;padding:0.65rem 1.4rem;border-radius:12px;text-decoration:none;box-shadow:0 4px 0 #9a5b00;">See full skill ladder →</a>
+  </div>
+  <div class="lesson-nav-btns">
+    <a class="nav-btn" href="../teachers.html">← All Teacher Lessons</a>
+    <a class="nav-btn" href="lesson-07.html">← Lesson 7</a>
+    
+  </div>
+</div>
+<footer style="border-top:1px solid rgba(255,255,255,0.08);padding:1.5rem 5vw;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;font-size:0.82rem;color:rgba(184,199,218,0.55);">
+  <span>Mitra AI Life · AI for Teachers</span>
+  <div style="display:flex;gap:1.25rem;">
+    <a href="../teachers.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Teacher Hub</a>
+    <a href="../contact.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Contact</a>
+    <a href="../privacy.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Privacy</a>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reference Notes నుండి Lesson Plan తయారు చేయడం | Teachers కోసం AI | Mitra AI Life</title>
+  <meta name="description" content="మీ notes paste చేసి AI తో complete lesson plan create చేయడానికి 4-step workflow. Class 8 Science example తో." />
+  <link rel="canonical" href="https://mitraailife.com/teachers/lesson-04-te.html" />
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="manifest" href="../site.webmanifest" />
+  <meta name="theme-color" content="#06111f" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&family=Syne:wght@700;800&family=Hind:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+  <link rel="stylesheet" href="../track-page.css" />
+  <style>
+    .lesson-nav { display:flex;align-items:center;justify-content:space-between;padding:0.65rem 5vw;background:rgba(3,8,18,0.9);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,0.1);position:sticky;top:0;z-index:20; }
+    .lesson-nav a { color:#b8c7da;text-decoration:none;font-size:0.82rem;font-weight:700; }
+    .lesson-nav a:hover { color:#f8fbff; }
+    .lesson-nav .brand { font-family:'Baloo 2',cursive;font-weight:800;font-size:1rem;color:#f8fbff; }
+    .lesson-nav .brand span { color:#68e1ff; }
+    .lesson-nav .nav-right { display:flex;gap:1.25rem;align-items:center; }
+    .lang-link { color:rgba(184,199,218,0.7);font-size:0.78rem; }
+    .lang-link:hover { color:#68e1ff; }
+    .lesson-wrap { max-width:820px;margin:0 auto;padding:3rem 5vw 5rem; }
+    .lesson-eyebrow { color:#68e1ff;font-size:0.72rem;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.75rem; }
+    .lesson-title { font-family:'Syne',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.2;margin-bottom:1rem; }
+    .lesson-meta { color:rgba(184,199,218,0.7);font-size:0.82rem;margin-bottom:2rem; }
+    .wyl-box { background:rgba(104,225,255,0.06);border:1px solid rgba(104,225,255,0.2);border-radius:14px;padding:1.25rem 1.4rem;margin-bottom:2.5rem; }
+    .wyl-box h3 { font-size:0.78rem;font-weight:900;letter-spacing:0.15em;text-transform:uppercase;color:#68e1ff;margin-bottom:0.75rem; }
+    .wyl-box ul { list-style:none;padding:0;display:grid;gap:0.5rem; }
+    .wyl-box ul li { color:#b8c7da;font-size:0.93rem;line-height:1.6;padding-left:1.2rem;position:relative; }
+    .wyl-box ul li::before { content:"✓";position:absolute;left:0;color:#68e1ff;font-weight:900; }
+    .section-h2 { font-family:'Syne',sans-serif;font-size:clamp(1.2rem,2.5vw,1.6rem);margin:2.5rem 0 0.75rem; }
+    .lesson-p { color:#b8c7da;line-height:1.8;font-size:0.97rem;margin-bottom:1rem; }
+    .prompt-label { font-size:0.72rem;font-weight:900;letter-spacing:0.15em;text-transform:uppercase;color:#68e1ff;margin:1.5rem 0 0.4rem; }
+    .prompt-box { background:rgba(0,0,0,0.4);border:1px solid rgba(104,225,255,0.18);border-radius:12px;padding:1.2rem 1.4rem;font-size:0.87rem;color:#a8d8ff;line-height:1.75;white-space:pre-wrap;margin-bottom:1rem; }
+    .output-box { background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.22);border-radius:12px;padding:1.2rem 1.4rem;font-size:0.87rem;color:#a7f3d0;line-height:1.75;white-space:pre-wrap;margin-bottom:1rem; }
+    .checklist-box { background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.22);border-radius:14px;padding:1.25rem 1.4rem;margin:1.5rem 0; }
+    .checklist-box h3 { font-size:0.78rem;font-weight:900;letter-spacing:0.14em;text-transform:uppercase;color:#f59e0b;margin-bottom:0.75rem; }
+    .checklist-box ul { list-style:none;padding:0;display:grid;gap:0.55rem; }
+    .checklist-box ul li { color:#b8c7da;font-size:0.93rem;line-height:1.6;display:flex;gap:0.6rem; }
+    .checklist-box ul li::before { content:"☐";color:#f59e0b;flex-shrink:0; }
+    .practice-box { background:rgba(139,92,246,0.07);border:1px solid rgba(139,92,246,0.22);border-radius:14px;padding:1.25rem 1.4rem;margin:1.5rem 0; }
+    .practice-box h3 { font-size:0.78rem;font-weight:900;letter-spacing:0.14em;text-transform:uppercase;color:#a78bfa;margin-bottom:0.75rem; }
+    .practice-box p, .practice-box ol { color:#b8c7da;font-size:0.93rem;line-height:1.7; }
+    .practice-box ol { padding-left:1.3rem;display:grid;gap:0.5rem; }
+    .lesson-nav-btns { display:flex;gap:1rem;flex-wrap:wrap;margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.1); }
+    .nav-btn { display:inline-flex;align-items:center;justify-content:center;padding:0.65rem 1.4rem;border-radius:12px;font-weight:900;font-size:0.9rem;text-decoration:none;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.07);color:#f8fbff;transition:background 0.15s,border-color 0.15s; }
+    .nav-btn:hover { background:rgba(255,255,255,0.12); }
+    .nav-btn.primary { background:#f59e0b;color:#201200;border-color:#f59e0b;box-shadow:0 4px 0 #9a5b00; }
+    .divider { height:1px;background:rgba(255,255,255,0.08);margin:2rem 0; }
+    .highlight { color:#68e1ff;font-weight:800; }
+    .warn { color:#f87171;font-weight:700; }
+    .info-card { background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:1rem 1.2rem;margin-bottom:0.85rem; }
+    .info-card strong { color:#f8fbff;display:block;margin-bottom:0.3rem;font-size:0.95rem; }
+    .info-card span { color:#b8c7da;font-size:0.88rem;line-height:1.65; }
+  </style>
+</head>
+<body style="background:#06111f;color:#f8fbff;">
+<nav class="lesson-nav">
+  <a class="brand" href="../teachers-te.html">Mitra <span>AI</span> Life</a>
+  <div class="nav-right">
+    <a href="lesson-04.html" class="lang-link">🇬🇧 English</a>
+    <a href="../teachers-te.html">← Teachers కోసం AI</a>
+  </div>
+</nav>
+<div class="lesson-wrap">
+  <p class="lesson-eyebrow">Lesson 4 / 8 · ఉచితం · Teachers కోసం AI</p>
+  <h1 class="lesson-title">Reference Notes నుండి Lesson Plan తయారు చేయడం</h1>
+  <p class="lesson-meta">చదవడానికి 10 నిమిషాలు · Lesson 3 పై build అవుతుంది · తెలుగు + English</p>
+
+  <div class="wyl-box">
+    <h3>మీరు నేర్చుకునేవి</h3>
+    <ul>
+      <li>AI తో lesson plan create చేయడానికి complete 4-step workflow</li>
+      <li>Paste చేయడానికి ముందు మీ reference material ఎలా prepare చేయాలి</li>
+      <li>Real example: Class 8 Science కి lesson plan — Microorganisms</li>
+      <li>AI output review చేస్తున్నప్పుడు ఏం check చేయాలి</li>
+    </ul>
+  </div>
+
+  <h2 class="section-h2">4-step lesson plan workflow</h2>
+
+  <div class="info-card"><strong>Step 1 — మీ reference material prepare చేయండి</strong><span>మీ textbook లేదా notes నుండి relevant section తీసుకోండి. Type లేదా copy-paste చేయండి. Lesson scope బయట content remove చేయండి. మొత్తం chapter అవసరం లేదు — మీరు teach చేస్తున్న భాగం మాత్రమే.</span></div>
+  <div class="info-card"><strong>Step 2 — Formula use చేసి prompt రాయండి</strong><span>Lesson 3 నుండి 7-part formula use చేయండి. Specify: role, task, class level, topic, output format, మరియు safety instruction "do not add content outside these notes."</span></div>
+  <div class="info-card"><strong>Step 3 — Reference material ని చివర paste చేయండి</strong><span>Prompt తరువాత మీ reference notes paste చేయండి. "Reference material:" అని header గా రాసి దాని కింద paste చేయండి. AI exactly దేని నుండి work చేయాలో ఇది చెబుతుంది.</span></div>
+  <div class="info-card"><strong>Step 4 — Output review మరియు personalise చేయండి</strong><span>ప్రతి section read చేయండి. మీ textbook తో facts fix చేయండి. మీ classroom actually చేయగల activities గా మార్చండి. మీ స్వంత examples add చేయండి. మీది గా చేయండి.</span></div>
+
+  <div class="divider"></div>
+
+  <h2 class="section-h2">Complete example — Class 8 Science, Microorganisms</h2>
+
+  <div class="prompt-label">The prompt (reference notes తో)</div>
+  <div class="prompt-box">You are an experienced Class 8 Science teacher.
+Create a 40-minute lesson plan on microorganisms for Class 8 NCERT students.
+Include: 3 learning outcomes, 3 warm-up questions, explanation flow (step by step), 1 classroom activity using easily available items, a board summary (5 key points), and 5 homework questions.
+Keep all language at Class 8 level.
+Do not add content outside the reference material below.
+Use Indian daily-life examples where possible.
+
+Reference material:
+Microorganisms are very small living things that cannot be seen with the naked eye. They include bacteria, fungi, protozoa, algae, and viruses. They are found everywhere — in air, water, soil, and inside the bodies of living things. Some microorganisms are useful. For example, bacteria help in making curd (yogurt) from milk. Yeast is a fungus used to make bread rise. Some microorganisms cause diseases. Bacteria cause tuberculosis and cholera. Viruses cause flu and COVID-19. Fungi cause ringworm. Microorganisms are also used in the production of medicines like penicillin.</div>
+
+  <div class="prompt-label">Sample AI output</div>
+  <div class="output-box">LESSON PLAN — Microorganisms | Class 8 Science | 40 minutes
+
+LEARNING OUTCOMES
+By the end of this lesson, students will be able to:
+1. Define microorganisms and name five main types
+2. Give two examples each of useful and harmful microorganisms
+3. Connect microorganisms to daily life in India (curd, bread, disease)
+
+WARM-UP (5 minutes)
+1. Ask: "Has anyone at home made curd from milk? What was used to start it?"
+2. Ask: "What happens to bread when it rises? What do you think causes it?"
+3. Ask: "Can you think of any small thing in your home that causes food to spoil?"
+
+EXPLANATION FLOW (25 minutes)
+1. Define microorganism — cannot be seen with the naked eye (2 min)
+2. Show the 5 types on the board: bacteria, fungi, protozoa, algae, virus (3 min)
+3. Useful microorganisms — curd-making (lactobacillus), bread-making (yeast), penicillin medicine (8 min)
+4. Harmful microorganisms — TB (bacteria), flu/COVID (virus), ringworm (fungi) with disease name and cause (8 min)
+5. Quick summary check: ask 2 students to name one useful and one harmful microorganism (4 min)
+
+CLASSROOM ACTIVITY (5 minutes)
+Materials needed: A small cup of yesterday's curd and a cup of fresh milk.
+Activity: Show students that adding a little curd to warm milk starts the curd-making process. Ask: "What microorganism is doing this work?" (Answer: Lactobacillus bacteria)
+
+BOARD SUMMARY (5 key points)
+1. Microorganisms = too small to see with the naked eye
+2. Five types: bacteria, fungi, protozoa, algae, virus
+3. Useful: curd (bacteria), bread (yeast), medicine (penicillin from fungus)
+4. Harmful: TB, cholera (bacteria), flu, COVID (virus), ringworm (fungi)
+5. Microorganisms are found everywhere — air, water, soil, inside living bodies
+
+HOMEWORK (5 questions)
+1. Name two microorganisms that are useful to humans. Give one use for each.
+2. Which type of microorganism causes COVID-19?
+3. Why is it important to keep food covered at home? (Connect to microorganisms)
+4. Write two sentences explaining what lactobacillus does.
+5. A student says "all microorganisms are dangerous." Is this correct? Why or why not?
+
+[Teacher: verify all disease names and microorganism types against your Class 8 NCERT textbook before using in class]</div>
+
+  <div class="checklist-box">
+    <h3>Review checklist — ఈ lesson plan teach చేయడానికి ముందు</h3>
+    <ul>
+      <li>మీ specific students కి 40 నిమిషాల్లో learning outcomes achievable గా ఉన్నాయా?</li>
+      <li>మీ class కి warm-up conversation suitable గా ఉందా — మీ students ఈ questions కి relate అవుతారా?</li>
+      <li>Explanation flow మీ teaching style కి match అవుతుందా?</li>
+      <li>Classroom activity practical గా ఉందా — materials ఉన్నాయా?</li>
+      <li>NCERT textbook తో అన్ని facts verify చేశారా?</li>
+      <li>Homework questions right difficulty level లో ఉన్నాయా?</li>
+    </ul>
+  </div>
+
+  <h2 class="section-h2">Plan personalise చేయడం</h2>
+  <p class="lesson-p">AI output ఒక strong starting draft. కానీ teach చేయడానికి ముందు మీది గా చేసుకోవాలి:</p>
+  <ul style="list-style:none;padding:0;display:grid;gap:0.6rem;margin-bottom:1.25rem;">
+    <li style="color:#b8c7da;font-size:0.93rem;padding-left:1.2rem;position:relative;"><span style="position:absolute;left:0;color:#68e1ff;">→</span> మీ specific students recognise చేసే examples కి warm-up questions మార్చండి</li>
+    <li style="color:#b8c7da;font-size:0.93rem;padding-left:1.2rem;position:relative;"><span style="position:absolute;left:0;color:#68e1ff;">→</span> మీ class usual గా ఎంత fast move అవుతుందనే దాని ఆధారంగా time allocations adjust చేయండి</li>
+    <li style="color:#b8c7da;font-size:0.93rem;padding-left:1.2rem;position:relative;"><span style="position:absolute;left:0;color:#68e1ff;">→</span> మీ classroom లో చేయలేని ఏ activity ని అయినా మీకు పనిచేసే దానితో replace చేయండి</li>
+    <li style="color:#b8c7da;font-size:0.93rem;padding-left:1.2rem;position:relative;"><span style="position:absolute;left:0;color:#68e1ff;">→</span> మీ students connect అయ్యే మీ స్వంత stories, local examples, references add చేయండి</li>
+  </ul>
+
+  <div class="practice-box">
+    <h3>Practice task</h3>
+    <ol>
+      <li>మీరు రాబోయే 3 రోజుల్లో teach చేయబోయే topic ఎంచుకోండి.</li>
+      <li>ఆ topic గురించి మీ textbook నుండి లేదా మీ knowledge నుండి 5–10 lines notes రాయండి.</li>
+      <li>Lesson 3 నుండి 7-part formula use చేసి lesson plan prompt రాయండి. చివర మీ notes paste చేయండి.</li>
+      <li>Prompt ని ChatGPT లేదా Gemini లో submit చేయండి.</li>
+      <li>Output read చేయండి. Mark చేయండి: ఏది as-is keep చేస్తారు, ఏది మార్చుతారు, ఏది remove చేస్తారు.</li>
+      <li>ఆ edits చేయండి. మీకు ఇప్పుడు classroom-ready lesson plan ఉంది.</li>
+    </ol>
+  </div>
+
+  <div class="lesson-nav-btns">
+    <a class="nav-btn" href="../teachers-te.html">← అన్ని Teacher Lessons</a>
+    <a class="nav-btn" href="lesson-03-te.html">← Lesson 3</a>
+    <a class="nav-btn primary" href="lesson-05-te.html">Lesson 5 →</a>
+  </div>
+</div>
+<footer style="border-top:1px solid rgba(255,255,255,0.08);padding:1.5rem 5vw;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;font-size:0.82rem;color:rgba(184,199,218,0.55);">
+  <span>Mitra AI Life · Teachers కోసం AI</span>
+  <div style="display:flex;gap:1.25rem;">
+    <a href="../teachers-te.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Teacher Hub</a>
+    <a href="../contact-te.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">సంప్రదించండి</a>
+    <a href="../privacy.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Privacy</a>
+  </div>
+</footer>
+</body>
+</html>

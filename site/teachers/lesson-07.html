@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Review AI Output Before Classroom Use | AI for Teachers | Mitra AI Life</title>
+  <meta name="description" content="A practical checklist-based workflow for reviewing every worksheet, lesson plan, and question paper AI creates." />
+  <link rel="canonical" href="https://mitraailife.com/teachers/lesson-07.html" />
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="manifest" href="../site.webmanifest" />
+  <meta name="theme-color" content="#06111f" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+  <link rel="stylesheet" href="../track-page.css" />
+  <style>
+    .lesson-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.65rem 5vw;
+      background: rgba(3,8,18,0.9); backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      position: sticky; top: 0; z-index: 20;
+    }
+    .lesson-nav a { color: #b8c7da; text-decoration: none; font-size: 0.82rem; font-weight: 700; }
+    .lesson-nav a:hover { color: #f8fbff; }
+    .lesson-nav .brand { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1rem; color: #f8fbff; }
+    .lesson-nav .brand span { color: #68e1ff; }
+    .lesson-wrap { max-width: 820px; margin: 0 auto; padding: 3rem 5vw 5rem; }
+    .lesson-eyebrow { color: #68e1ff; font-size: 0.72rem; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .lesson-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.1; margin-bottom: 1rem; }
+    .lesson-meta { color: rgba(184,199,218,0.7); font-size: 0.82rem; margin-bottom: 2rem; }
+    .wyl-box {
+      background: rgba(104,225,255,0.06); border: 1px solid rgba(104,225,255,0.2);
+      border-radius: 14px; padding: 1.25rem 1.4rem; margin-bottom: 2.5rem;
+    }
+    .wyl-box h3 { font-size: 0.78rem; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: #68e1ff; margin-bottom: 0.75rem; }
+    .wyl-box ul { list-style: none; padding: 0; display: grid; gap: 0.5rem; }
+    .wyl-box ul li { color: #b8c7da; font-size: 0.93rem; line-height: 1.55; padding-left: 1.2rem; position: relative; }
+    .wyl-box ul li::before { content: "✓"; position: absolute; left: 0; color: #68e1ff; font-weight: 900; }
+    .section-h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.2rem, 2.5vw, 1.6rem); margin: 2.5rem 0 0.75rem; }
+    .lesson-p { color: #b8c7da; line-height: 1.75; font-size: 0.97rem; margin-bottom: 1rem; }
+    .prompt-label { font-size: 0.72rem; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: #68e1ff; margin: 1.5rem 0 0.4rem; }
+    .prompt-box {
+      background: rgba(0,0,0,0.4); border: 1px solid rgba(104,225,255,0.18);
+      border-radius: 12px; padding: 1.2rem 1.4rem;
+      font-size: 0.87rem; color: #a8d8ff; line-height: 1.75; white-space: pre-wrap; margin-bottom: 1rem;
+    }
+    .output-box {
+      background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.22);
+      border-radius: 12px; padding: 1.2rem 1.4rem;
+      font-size: 0.87rem; color: #a7f3d0; line-height: 1.75; white-space: pre-wrap; margin-bottom: 1rem;
+    }
+    .checklist-box {
+      background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.22);
+      border-radius: 14px; padding: 1.25rem 1.4rem; margin: 1.5rem 0;
+    }
+    .checklist-box h3 { font-size: 0.78rem; font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; color: #f59e0b; margin-bottom: 0.75rem; }
+    .checklist-box ul { list-style: none; padding: 0; display: grid; gap: 0.5rem; }
+    .checklist-box ul li { color: #b8c7da; font-size: 0.93rem; line-height: 1.55; display: flex; gap: 0.6rem; }
+    .checklist-box ul li::before { content: "☐"; color: #f59e0b; flex-shrink: 0; }
+    .practice-box {
+      background: rgba(139,92,246,0.07); border: 1px solid rgba(139,92,246,0.22);
+      border-radius: 14px; padding: 1.25rem 1.4rem; margin: 1.5rem 0;
+    }
+    .practice-box h3 { font-size: 0.78rem; font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; color: #a78bfa; margin-bottom: 0.75rem; }
+    .practice-box p, .practice-box ol { color: #b8c7da; font-size: 0.93rem; line-height: 1.65; }
+    .practice-box ol { padding-left: 1.3rem; display: grid; gap: 0.5rem; }
+    .lesson-nav-btns {
+      display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 3rem; padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .nav-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.65rem 1.4rem; border-radius: 12px; font-weight: 900; font-size: 0.9rem;
+      text-decoration: none; border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.07); color: #f8fbff;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .nav-btn:hover { background: rgba(255,255,255,0.12); }
+    .nav-btn.primary { background: #f59e0b; color: #201200; border-color: #f59e0b; box-shadow: 0 4px 0 #9a5b00; }
+    .divider { height: 1px; background: rgba(255,255,255,0.08); margin: 2rem 0; }
+    .highlight { color: #68e1ff; font-weight: 800; }
+    .warn { color: #f87171; font-weight: 700; }
+    .info-card {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px; padding: 1rem 1.2rem; margin-bottom: 0.85rem;
+    }
+    .info-card strong { color: #f8fbff; display: block; margin-bottom: 0.25rem; font-size: 0.95rem; }
+    .info-card span { color: #b8c7da; font-size: 0.88rem; line-height: 1.6; }
+  </style>
+</head>
+<body style="background:#06111f;color:#f8fbff;">
+<nav class="lesson-nav">
+  <a class="brand" href="../teachers.html">Mitra <span>AI</span> Life</a>
+  <a href="../teachers.html">← Back to AI for Teachers</a>
+</nav>
+<div class="lesson-wrap">
+  <p class="lesson-eyebrow">Lesson 7 of 8 · Free · AI for Teachers</p>
+  <h1 class="lesson-title">Review AI Output Before Classroom Use</h1>
+  <p class="lesson-meta">7 minutes to read · Works for all previous lessons · English</p>
+
+  <div class="wyl-box">
+    <h3>What you will learn</h3>
+    <ul>
+      <li>Why teacher review is not optional — even for experienced AI users</li>
+      <li>The 3 types of AI errors that appear most in teaching material</li>
+      <li>A complete review workflow you can use every time</li>
+      <li>How to build review into your routine without adding much time</li>
+    </ul>
+  </div>
+
+  <h2 class="section-h2">The honest truth about AI and accuracy</h2>
+  <p class="lesson-p">AI tools are trained on enormous amounts of text. They are very good at producing text that <em>looks</em> correct. But they sometimes produce facts, dates, answers, and explanations that are <span class="warn">confidently wrong</span>.</p>
+  <p class="lesson-p">This happens because AI predicts what words should come next based on patterns — it does not actually verify facts. A well-written wrong answer is more dangerous than an obviously wrong answer because it is harder to catch.</p>
+
+  <h2 class="section-h2">The 3 most common AI errors in teaching material</h2>
+
+  <div class="info-card"><strong>1. Factual hallucination</strong><span>AI invents a plausible-sounding fact. Example: a Science worksheet where one answer about the boiling point of a chemical is slightly wrong. Or a History question where a battle date is off by a few years. Always verify key facts against your textbook.</span></div>
+  <div class="info-card"><strong>2. Wrong answer in the answer key</strong><span>The question may be correct but the answer key has an error. This is most common in Maths (wrong calculation), Grammar (wrong tense rule), and Science (wrong classification). Check every answer key item independently.</span></div>
+  <div class="info-card"><strong>3. Out-of-scope content</strong><span>AI sometimes adds facts, concepts, or terms that are beyond the class level or outside the syllabus you specified. These confuse students and may cause problems in assessment. Remove anything outside the scope.</span></div>
+
+  <div class="divider"></div>
+
+  <h2 class="section-h2">The review workflow — use this every time</h2>
+
+  <div class="prompt-label">Step 1 — Quick scan (1 minute)</div>
+  <div class="prompt-box">Read through the full output once without stopping.
+Goal: Get an overall feeling.
+Ask yourself: Does this look right? Are there any obviously strange sentences?
+Flag anything that seems wrong and continue reading.</div>
+
+  <div class="prompt-label">Step 2 — Fact check (3–5 minutes)</div>
+  <div class="prompt-box">Go back to flagged items.
+Open your textbook to the relevant chapter.
+Verify: dates, names, definitions, scientific terms, calculations, grammar rules.
+Fix anything that is wrong.
+If you are not sure about a fact, check one more reference before using it in class.</div>
+
+  <div class="prompt-label">Step 3 — Answer key check (2–3 minutes)</div>
+  <div class="prompt-box">For every answer in the answer key:
+- Can you verify it is correct from the textbook?
+- For MCQs: are the wrong options clearly wrong (not debatable)?
+- For short-answer: is the model answer at the right length and language level?
+Fix or rewrite any answer that is wrong or unclear.</div>
+
+  <div class="prompt-label">Step 4 — Suitability check (1 minute)</div>
+  <div class="prompt-box">Read from your students' perspective.
+- Is every question clearly written?
+- Is the language level correct for the class?
+- Are examples relatable for Indian students?
+- Is the scope within what you taught?
+Replace or reword anything that doesn't pass this check.</div>
+
+  <div class="prompt-label">Step 5 — Final count (30 seconds)</div>
+  <div class="prompt-box">For worksheets: count total marks across all sections.
+For question papers: confirm marks add up to the stated total.
+For lesson plans: confirm timing adds up to the class duration.
+Adjust if totals don't match.</div>
+
+  <h2 class="section-h2">Building review into your routine</h2>
+  <p class="lesson-p">The full review process takes about 8–12 minutes for a typical worksheet or lesson plan. This is still much faster than creating from scratch (which takes 45–60 minutes).</p>
+  <p class="lesson-p">With practice, the review gets faster. You will start to recognise the types of errors AI commonly makes in your subject area. After a few weeks, most teachers report that AI creates 80–90% correct material for their subject and review time drops to 5 minutes or less.</p>
+
+  <div class="checklist-box">
+    <h3>Master review checklist — use before every classroom use</h3>
+    <ul>
+      <li>Factual accuracy: all key facts verified against textbook</li>
+      <li>Answer key: every answer checked independently</li>
+      <li>MCQ options: exactly one clearly correct answer per question</li>
+      <li>Language level: suitable for the class — not too easy, not too hard</li>
+      <li>Scope: no questions outside the syllabus or beyond class level</li>
+      <li>Indian context: examples and scenarios are relatable for your students</li>
+      <li>Marks total: counts add up correctly</li>
+      <li>Timing: lesson plan sections add up to class duration</li>
+      <li>Privacy: no student names or personal details in the material</li>
+      <li>Teacher approval: you have personally read and approved every item</li>
+    </ul>
+  </div>
+
+  <div class="practice-box">
+    <h3>Practice task</h3>
+    <ol>
+      <li>Take the AI output you created in the Lesson 4 or Lesson 5 practice task.</li>
+      <li>Apply the 5-step review workflow from this lesson. Time yourself.</li>
+      <li>Note: how many items did you change? What types of errors did you find?</li>
+      <li>Write down the 2 most common error types you noticed — these are your personal review focus areas going forward.</li>
+    </ol>
+  </div>
+  <div class="lesson-nav-btns">
+    <a class="nav-btn" href="../teachers.html">← All Teacher Lessons</a>
+    <a class="nav-btn" href="lesson-06.html">← Lesson 6</a>
+    <a class="nav-btn primary" href="lesson-08.html">Lesson 8 →</a>
+  </div>
+</div>
+<footer style="border-top:1px solid rgba(255,255,255,0.08);padding:1.5rem 5vw;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;font-size:0.82rem;color:rgba(184,199,218,0.55);">
+  <span>Mitra AI Life · AI for Teachers</span>
+  <div style="display:flex;gap:1.25rem;">
+    <a href="../teachers.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Teacher Hub</a>
+    <a href="../contact.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Contact</a>
+    <a href="../privacy.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Privacy</a>
+  </div>
+</footer>
+</body>
+</html>

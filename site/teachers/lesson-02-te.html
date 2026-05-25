@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChatGPT, Gemini, Claude Basics | Teachers కోసం AI | Mitra AI Life</title>
+  <meta name="description" content="ChatGPT, Gemini, Claude — ఈ మూడు AI tools ఎలా start చేయాలి, beginner teacher ఏది మొదట try చేయాలి." />
+  <link rel="canonical" href="https://mitraailife.com/teachers/lesson-02-te.html" />
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="manifest" href="../site.webmanifest" />
+  <meta name="theme-color" content="#06111f" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&family=Syne:wght@700;800&family=Hind:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+  <link rel="stylesheet" href="../track-page.css" />
+  <style>
+    .lesson-nav { display:flex;align-items:center;justify-content:space-between;padding:0.65rem 5vw;background:rgba(3,8,18,0.9);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,0.1);position:sticky;top:0;z-index:20; }
+    .lesson-nav a { color:#b8c7da;text-decoration:none;font-size:0.82rem;font-weight:700; }
+    .lesson-nav a:hover { color:#f8fbff; }
+    .lesson-nav .brand { font-family:'Baloo 2',cursive;font-weight:800;font-size:1rem;color:#f8fbff; }
+    .lesson-nav .brand span { color:#68e1ff; }
+    .lesson-nav .nav-right { display:flex;gap:1.25rem;align-items:center; }
+    .lang-link { color:rgba(184,199,218,0.7);font-size:0.78rem; }
+    .lang-link:hover { color:#68e1ff; }
+    .lesson-wrap { max-width:820px;margin:0 auto;padding:3rem 5vw 5rem; }
+    .lesson-eyebrow { color:#68e1ff;font-size:0.72rem;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.75rem; }
+    .lesson-title { font-family:'Syne',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.2;margin-bottom:1rem; }
+    .lesson-meta { color:rgba(184,199,218,0.7);font-size:0.82rem;margin-bottom:2rem; }
+    .wyl-box { background:rgba(104,225,255,0.06);border:1px solid rgba(104,225,255,0.2);border-radius:14px;padding:1.25rem 1.4rem;margin-bottom:2.5rem; }
+    .wyl-box h3 { font-size:0.78rem;font-weight:900;letter-spacing:0.15em;text-transform:uppercase;color:#68e1ff;margin-bottom:0.75rem; }
+    .wyl-box ul { list-style:none;padding:0;display:grid;gap:0.5rem; }
+    .wyl-box ul li { color:#b8c7da;font-size:0.93rem;line-height:1.6;padding-left:1.2rem;position:relative; }
+    .wyl-box ul li::before { content:"✓";position:absolute;left:0;color:#68e1ff;font-weight:900; }
+    .section-h2 { font-family:'Syne',sans-serif;font-size:clamp(1.2rem,2.5vw,1.6rem);margin:2.5rem 0 0.75rem; }
+    .lesson-p { color:#b8c7da;line-height:1.8;font-size:0.97rem;margin-bottom:1rem; }
+    .prompt-label { font-size:0.72rem;font-weight:900;letter-spacing:0.15em;text-transform:uppercase;color:#68e1ff;margin:1.5rem 0 0.4rem; }
+    .prompt-box { background:rgba(0,0,0,0.4);border:1px solid rgba(104,225,255,0.18);border-radius:12px;padding:1.2rem 1.4rem;font-size:0.87rem;color:#a8d8ff;line-height:1.75;white-space:pre-wrap;margin-bottom:1rem; }
+    .output-box { background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.22);border-radius:12px;padding:1.2rem 1.4rem;font-size:0.87rem;color:#a7f3d0;line-height:1.75;white-space:pre-wrap;margin-bottom:1rem; }
+    .checklist-box { background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.22);border-radius:14px;padding:1.25rem 1.4rem;margin:1.5rem 0; }
+    .checklist-box h3 { font-size:0.78rem;font-weight:900;letter-spacing:0.14em;text-transform:uppercase;color:#f59e0b;margin-bottom:0.75rem; }
+    .checklist-box ul { list-style:none;padding:0;display:grid;gap:0.55rem; }
+    .checklist-box ul li { color:#b8c7da;font-size:0.93rem;line-height:1.6;display:flex;gap:0.6rem; }
+    .checklist-box ul li::before { content:"☐";color:#f59e0b;flex-shrink:0; }
+    .practice-box { background:rgba(139,92,246,0.07);border:1px solid rgba(139,92,246,0.22);border-radius:14px;padding:1.25rem 1.4rem;margin:1.5rem 0; }
+    .practice-box h3 { font-size:0.78rem;font-weight:900;letter-spacing:0.14em;text-transform:uppercase;color:#a78bfa;margin-bottom:0.75rem; }
+    .practice-box p, .practice-box ol { color:#b8c7da;font-size:0.93rem;line-height:1.7; }
+    .practice-box ol { padding-left:1.3rem;display:grid;gap:0.5rem; }
+    .lesson-nav-btns { display:flex;gap:1rem;flex-wrap:wrap;margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.1); }
+    .nav-btn { display:inline-flex;align-items:center;justify-content:center;padding:0.65rem 1.4rem;border-radius:12px;font-weight:900;font-size:0.9rem;text-decoration:none;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.07);color:#f8fbff;transition:background 0.15s,border-color 0.15s; }
+    .nav-btn:hover { background:rgba(255,255,255,0.12); }
+    .nav-btn.primary { background:#f59e0b;color:#201200;border-color:#f59e0b;box-shadow:0 4px 0 #9a5b00; }
+    .divider { height:1px;background:rgba(255,255,255,0.08);margin:2rem 0; }
+    .highlight { color:#68e1ff;font-weight:800; }
+    .warn { color:#f87171;font-weight:700; }
+    .info-card { background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:1rem 1.2rem;margin-bottom:0.85rem; }
+    .info-card strong { color:#f8fbff;display:block;margin-bottom:0.3rem;font-size:0.95rem; }
+    .info-card span { color:#b8c7da;font-size:0.88rem;line-height:1.65; }
+  </style>
+</head>
+<body style="background:#06111f;color:#f8fbff;">
+<nav class="lesson-nav">
+  <a class="brand" href="../teachers-te.html">Mitra <span>AI</span> Life</a>
+  <div class="nav-right">
+    <a href="lesson-02.html" class="lang-link">🇬🇧 English</a>
+    <a href="../teachers-te.html">← Teachers కోసం AI</a>
+  </div>
+</nav>
+<div class="lesson-wrap">
+  <p class="lesson-eyebrow">Lesson 2 / 8 · ఉచితం · Teachers కోసం AI</p>
+  <h1 class="lesson-title">ChatGPT, Gemini, మరియు Claude Basics</h1>
+  <p class="lesson-meta">చదవడానికి 7 నిమిషాలు · ఏ prior AI knowledge అవసరం లేదు · తెలుగు + English</p>
+
+  <div class="wyl-box">
+    <h3>మీరు నేర్చుకునేవి</h3>
+    <ul>
+      <li>ChatGPT, Gemini, Claude ని ఎలా తెరవాలి మరియు use చేయడం start చేయాలి</li>
+      <li>Teaching work కోసం ప్రతి tool దేనికి best</li>
+      <li>Beginner teacher గా ఏ tool తో start చేయాలి</li>
+      <li>Free మరియు paid versions మధ్య తేడా</li>
+    </ul>
+  </div>
+
+  <h2 class="section-h2">Start చేయడానికి ఒక్క tool మాత్రమే అవసరం</h2>
+  <p class="lesson-p">చాలా AI tools ఉన్నాయి. కానీ teaching work కోసం, మూడు tools దాదాపు అన్నీ cover చేస్తాయి: <span class="highlight">ChatGPT</span>, <span class="highlight">Gemini</span>, <span class="highlight">Claude</span>. మూడూ అవసరం లేదు. ఒకటి తో start చేయండి, comfortable అవ్వండి, తరువాత మిగతావి try చేయండి.</p>
+
+  <h2 class="section-h2">ChatGPT — అత్యంత widely used</h2>
+  <div class="info-card"><strong>Website:</strong><span> chat.openai.com</span></div>
+  <div class="info-card"><strong>తయారుచేసినది:</strong><span> OpenAI (USA)</span></div>
+  <div class="info-card"><strong>Free tier:</strong><span> ఉంది. మీ email తో free account create చేయండి. Free version (GPT-4o mini) lesson plans, worksheets, question papers కి సరిపోతుంది.</span></div>
+  <div class="info-card"><strong>Teachers కి best:</strong><span> Lesson plans, worksheets, question papers, explanations, feedback comments, parent messages. అన్ని subjects మరియు class levels కి బాగా పనిచేస్తుంది.</span></div>
+  <div class="info-card"><strong>ఎలా start చేయాలి:</strong><span> chat.openai.com కి వెళ్ళండి → Email తో sign up చేయండి → Chat box లో మీ request type చేయండి → Enter నొక్కండి.</span></div>
+  <p class="lesson-p">చాలా teachers కి ChatGPT best starting tool ఎందుకంటే ఇది largest community మరియు online లో most examples కలిగి ఉంది. "ChatGPT prompt for teachers" search చేస్తే చాలా examples కనిపిస్తాయి.</p>
+
+  <h2 class="section-h2">Gemini — Google యొక్క AI tool</h2>
+  <div class="info-card"><strong>Website:</strong><span> gemini.google.com</span></div>
+  <div class="info-card"><strong>తయారుచేసినది:</strong><span> Google</span></div>
+  <div class="info-card"><strong>Free tier:</strong><span> ఉంది. మీ existing Google account తో sign in చేయండి. Gmail already use చేస్తుంటే కొత్త account అవసరం లేదు.</span></div>
+  <div class="info-card"><strong>Teachers కి best:</strong><span> Quick lesson drafts, Google Docs integration, long text summarising, మరియు school లో Google Workspace use చేసే teachers.</span></div>
+  <div class="info-card"><strong>ఎలా start చేయాలి:</strong><span> gemini.google.com కి వెళ్ళండి → Gmail తో sign in చేయండి → Request type చేయండి → Enter నొక్కండి. Google Docs sidebar లో కూడా available.</span></div>
+  <p class="lesson-p">మీ school Google Classroom లేదా Google Docs use చేస్తుంటే, Gemini ఆ tools లోనే directly పనిచేస్తుంది కాబట్టి ప్రత్యేకంగా useful. Google ecosystem లో ఇప్పటికే ఉన్న teachers కి good choice.</p>
+
+  <h2 class="section-h2">Claude — long reference material కి best</h2>
+  <div class="info-card"><strong>Website:</strong><span> claude.ai</span></div>
+  <div class="info-card"><strong>తయారుచేసినది:</strong><span> Anthropic (USA)</span></div>
+  <div class="info-card"><strong>Free tier:</strong><span> ఉంది. Email తో free account create చేయండి. Free tier లో daily usage limit ఉంటుంది.</span></div>
+  <div class="info-card"><strong>Teachers కి best:</strong><span> మొత్తం chapter, long syllabus, లేదా multiple pages of notes paste చేయాల్సి వచ్చినప్పుడు. Free tier లో Claude చాలా long text ని ఇతరుల కంటే better గా handle చేస్తుంది.</span></div>
+  <div class="info-card"><strong>ఎలా start చేయాలి:</strong><span> claude.ai కి వెళ్ళండి → Sign up చేయండి → మీ reference material తో పాటు request paste చేయండి → Enter నొక్కండి.</span></div>
+  <p class="lesson-p">ఎప్పుడైనా large amount of reference text paste చేయాల్సి వచ్చినప్పుడు — textbook నుండి మొత్తం chapter, full year syllabus — ఆ material లోనే stay కావడానికి Claude most reliable option.</p>
+
+  <div class="divider"></div>
+
+  <h2 class="section-h2">మీరు ఏది తో start చేయాలి?</h2>
+  <p class="lesson-p">మీరు complete beginner అయితే <span class="highlight">ChatGPT తో start చేయండి</span>. ఇది most documented మరియు teacher communities లో most commonly discussed AI tool.</p>
+  <p class="lesson-p">మీ school Google Workspace use చేస్తుంటే మరియు కొత్త account create చేయకూడదు అనుకుంటే <span class="highlight">Gemini తో start చేయండి</span>.</p>
+  <p class="lesson-p">Long chapter లేదా syllabus ఉండి AI ని strictly ఆ material లోనే work చేయించాలనుకుంటే <span class="highlight">Claude use చేయండి</span>.</p>
+
+  <h2 class="section-h2">Free vs paid — pay చేయాలా?</h2>
+  <p class="lesson-p">ఈ 8 lessons లో cover అయ్యే work కి — lesson plans, worksheets, question papers, feedback — <span class="highlight">ఈ tools లో దేనిదైనా free tier సరిపోతుంది</span>. Start చేయడానికి pay చేయవలసిన అవసరం లేదు.</p>
+  <p class="lesson-p">Paid versions ఎక్కువ usage, faster responses, advanced features ఇస్తాయి. ప్రతిరోజూ heavily use చేస్తే తరువాత upgrade చేయవచ్చు. ప్రస్తుతం, free తో start చేయండి.</p>
+
+  <div class="divider"></div>
+
+  <h2 class="section-h2">Basic steps — మూడు tools కీ ఒకటే</h2>
+
+  <div class="prompt-label">ప్రతి conversation ఎలా పనిచేస్తుంది</div>
+  <div class="prompt-box">Step 1: Website తెరిచి sign in చేయండి (లేదా free account create చేయండి)
+Step 2: ఒక text box కనిపిస్తుంది — ఇక్కడ మీ request type చేయండి
+Step 3: మీ request clearly type చేయండి (దీనినే "prompt" అంటారు)
+Step 4: Enter నొక్కండి లేదా send button click చేయండి
+Step 5: Output read చేయండి
+Step 6: Output సరిగ్గా లేకపోతే, అదే chat లో follow-up correction type చేయండి
+Step 7: మీకు అవసరమైనది copy చేసి use చేయడానికి ముందు check చేయండి</div>
+
+  <div class="prompt-label">Try చేయడానికి ఒక simple first request</div>
+  <div class="prompt-box">Create a 5-question quiz on the water cycle for Class 6 students.
+Include multiple choice questions with 4 options each.
+Add an answer key at the end.
+Keep language simple.</div>
+
+  <div class="output-box">Quiz — The Water Cycle (Class 6)
+
+1. What is the process by which water turns into water vapour called?
+   a) Condensation  b) Evaporation  c) Precipitation  d) Transpiration
+   Answer: b) Evaporation
+
+2. From where does most of the water in the water cycle come?
+   a) Rivers  b) Glaciers  c) Oceans  d) Lakes
+   Answer: c) Oceans
+
+3. What happens during condensation?
+   a) Water evaporates from plants  b) Water vapour cools and turns into clouds  c) Rain falls on the ground  d) Water soaks into the soil
+   Answer: b) Water vapour cools and turns into clouds
+
+4. What is the name of the process by which plants release water vapour?
+   a) Evaporation  b) Condensation  c) Transpiration  d) Infiltration
+   Answer: c) Transpiration
+
+5. Where does water go after it falls as rain on land?
+   a) It stays on the surface forever  b) It flows into rivers, soaks into soil, or evaporates again  c) It immediately goes back into clouds  d) It disappears into the ground permanently
+   Answer: b) It flows into rivers, soaks into soil, or evaporates again
+
+[Teacher: verify answers against your Class 6 textbook chapter on water cycle before distributing]</div>
+
+  <div class="checklist-box">
+    <h3>AI output పొందిన తరువాత — ఎప్పుడూ check చేయండి</h3>
+    <ul>
+      <li>Facts correct గా ఉన్నాయా? Textbook తో 2–3 answers verify చేయండి.</li>
+      <li>Class level కి language సరిగ్గా ఉందా?</li>
+      <li>మీరు currently teach చేస్తున్న syllabus లోనే అన్ని questions ఉన్నాయా?</li>
+      <li>ఏ question wording అయినా మార్చాలనుకుంటారా? Use చేయడానికి ముందు మార్చండి.</li>
+    </ul>
+  </div>
+
+  <div class="practice-box">
+    <h3>Practice task</h3>
+    <ol>
+      <li>ఒక tool ఎంచుకోండి: ChatGPT (chat.openai.com), Gemini (gemini.google.com), లేదా Claude (claude.ai).</li>
+      <li>మీకు లేకపోతే free account create చేయండి. మీ email use చేయండి.</li>
+      <li>ఈ prompt type చేయండి: <em>"Create 5 true-or-false questions on the topic of respiration for Class 9 Biology. Include answers."</em></li>
+      <li>Output read చేసి, ఏ answers keep చేస్తారో మరియు ఏవి మార్చుతారో mark చేయండి.</li>
+      <li>రెండవ tool లో అదే prompt repeat చేసి రెండు outputs compare చేయండి.</li>
+    </ol>
+  </div>
+
+  <div class="lesson-nav-btns">
+    <a class="nav-btn" href="../teachers-te.html">← అన్ని Teacher Lessons</a>
+    <a class="nav-btn" href="lesson-01-te.html">← Lesson 1</a>
+    <a class="nav-btn primary" href="lesson-03-te.html">Lesson 3 →</a>
+  </div>
+</div>
+<footer style="border-top:1px solid rgba(255,255,255,0.08);padding:1.5rem 5vw;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;font-size:0.82rem;color:rgba(184,199,218,0.55);">
+  <span>Mitra AI Life · Teachers కోసం AI</span>
+  <div style="display:flex;gap:1.25rem;">
+    <a href="../teachers-te.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Teacher Hub</a>
+    <a href="../contact-te.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">సంప్రదించండి</a>
+    <a href="../privacy.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Privacy</a>
+  </div>
+</footer>
+</body>
+</html>

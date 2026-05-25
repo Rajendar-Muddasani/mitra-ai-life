@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChatGPT, Gemini, and Claude Basics | AI for Teachers | Mitra AI Life</title>
+  <meta name="description" content="How to open and use the three main AI tools. What each is good at. Which one to try first as a teacher." />
+  <link rel="canonical" href="https://mitraailife.com/teachers/lesson-02.html" />
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="manifest" href="../site.webmanifest" />
+  <meta name="theme-color" content="#06111f" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+  <link rel="stylesheet" href="../track-page.css" />
+  <style>
+    .lesson-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.65rem 5vw;
+      background: rgba(3,8,18,0.9); backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      position: sticky; top: 0; z-index: 20;
+    }
+    .lesson-nav a { color: #b8c7da; text-decoration: none; font-size: 0.82rem; font-weight: 700; }
+    .lesson-nav a:hover { color: #f8fbff; }
+    .lesson-nav .brand { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1rem; color: #f8fbff; }
+    .lesson-nav .brand span { color: #68e1ff; }
+    .lesson-wrap { max-width: 820px; margin: 0 auto; padding: 3rem 5vw 5rem; }
+    .lesson-eyebrow { color: #68e1ff; font-size: 0.72rem; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .lesson-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.1; margin-bottom: 1rem; }
+    .lesson-meta { color: rgba(184,199,218,0.7); font-size: 0.82rem; margin-bottom: 2rem; }
+    .wyl-box {
+      background: rgba(104,225,255,0.06); border: 1px solid rgba(104,225,255,0.2);
+      border-radius: 14px; padding: 1.25rem 1.4rem; margin-bottom: 2.5rem;
+    }
+    .wyl-box h3 { font-size: 0.78rem; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: #68e1ff; margin-bottom: 0.75rem; }
+    .wyl-box ul { list-style: none; padding: 0; display: grid; gap: 0.5rem; }
+    .wyl-box ul li { color: #b8c7da; font-size: 0.93rem; line-height: 1.55; padding-left: 1.2rem; position: relative; }
+    .wyl-box ul li::before { content: "✓"; position: absolute; left: 0; color: #68e1ff; font-weight: 900; }
+    .section-h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.2rem, 2.5vw, 1.6rem); margin: 2.5rem 0 0.75rem; }
+    .lesson-p { color: #b8c7da; line-height: 1.75; font-size: 0.97rem; margin-bottom: 1rem; }
+    .prompt-label { font-size: 0.72rem; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: #68e1ff; margin: 1.5rem 0 0.4rem; }
+    .prompt-box {
+      background: rgba(0,0,0,0.4); border: 1px solid rgba(104,225,255,0.18);
+      border-radius: 12px; padding: 1.2rem 1.4rem;
+      font-size: 0.87rem; color: #a8d8ff; line-height: 1.75; white-space: pre-wrap; margin-bottom: 1rem;
+    }
+    .output-box {
+      background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.22);
+      border-radius: 12px; padding: 1.2rem 1.4rem;
+      font-size: 0.87rem; color: #a7f3d0; line-height: 1.75; white-space: pre-wrap; margin-bottom: 1rem;
+    }
+    .checklist-box {
+      background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.22);
+      border-radius: 14px; padding: 1.25rem 1.4rem; margin: 1.5rem 0;
+    }
+    .checklist-box h3 { font-size: 0.78rem; font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; color: #f59e0b; margin-bottom: 0.75rem; }
+    .checklist-box ul { list-style: none; padding: 0; display: grid; gap: 0.5rem; }
+    .checklist-box ul li { color: #b8c7da; font-size: 0.93rem; line-height: 1.55; display: flex; gap: 0.6rem; }
+    .checklist-box ul li::before { content: "☐"; color: #f59e0b; flex-shrink: 0; }
+    .practice-box {
+      background: rgba(139,92,246,0.07); border: 1px solid rgba(139,92,246,0.22);
+      border-radius: 14px; padding: 1.25rem 1.4rem; margin: 1.5rem 0;
+    }
+    .practice-box h3 { font-size: 0.78rem; font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; color: #a78bfa; margin-bottom: 0.75rem; }
+    .practice-box p, .practice-box ol { color: #b8c7da; font-size: 0.93rem; line-height: 1.65; }
+    .practice-box ol { padding-left: 1.3rem; display: grid; gap: 0.5rem; }
+    .lesson-nav-btns {
+      display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 3rem; padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .nav-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.65rem 1.4rem; border-radius: 12px; font-weight: 900; font-size: 0.9rem;
+      text-decoration: none; border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.07); color: #f8fbff;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .nav-btn:hover { background: rgba(255,255,255,0.12); }
+    .nav-btn.primary { background: #f59e0b; color: #201200; border-color: #f59e0b; box-shadow: 0 4px 0 #9a5b00; }
+    .divider { height: 1px; background: rgba(255,255,255,0.08); margin: 2rem 0; }
+    .highlight { color: #68e1ff; font-weight: 800; }
+    .warn { color: #f87171; font-weight: 700; }
+    .info-card {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px; padding: 1rem 1.2rem; margin-bottom: 0.85rem;
+    }
+    .info-card strong { color: #f8fbff; display: block; margin-bottom: 0.25rem; font-size: 0.95rem; }
+    .info-card span { color: #b8c7da; font-size: 0.88rem; line-height: 1.6; }
+  </style>
+</head>
+<body style="background:#06111f;color:#f8fbff;">
+<nav class="lesson-nav">
+  <a class="brand" href="../teachers.html">Mitra <span>AI</span> Life</a>
+  <a href="../teachers.html">← Back to AI for Teachers</a>
+</nav>
+<div class="lesson-wrap">
+  <p class="lesson-eyebrow">Lesson 2 of 8 · Free · AI for Teachers</p>
+  <h1 class="lesson-title">ChatGPT, Gemini, and Claude Basics</h1>
+  <p class="lesson-meta">7 minutes to read · No prior AI knowledge needed · English</p>
+
+  <div class="wyl-box">
+    <h3>What you will learn</h3>
+    <ul>
+      <li>How to open and start using ChatGPT, Gemini, and Claude</li>
+      <li>What each tool is best at for teaching work</li>
+      <li>Which tool to start with as a beginner teacher</li>
+      <li>The difference between free and paid versions</li>
+    </ul>
+  </div>
+
+  <h2 class="section-h2">You only need one tool to start</h2>
+  <p class="lesson-p">There are many AI tools. But for teaching work, three tools cover almost everything: <span class="highlight">ChatGPT</span>, <span class="highlight">Gemini</span>, and <span class="highlight">Claude</span>. You do not need all three. Start with one, get comfortable, then try the others if you want to.</p>
+
+  <h2 class="section-h2">ChatGPT — the most widely used</h2>
+  <div class="info-card"><strong>Website:</strong><span> chat.openai.com</span></div>
+  <div class="info-card"><strong>Made by:</strong><span> OpenAI (USA)</span></div>
+  <div class="info-card"><strong>Free tier:</strong><span> Yes. Create a free account with your email. The free version (GPT-4o mini) is enough for lesson plans, worksheets, and question papers.</span></div>
+  <div class="info-card"><strong>Best for teachers:</strong><span> Lesson plans, worksheets, question papers, explanations, feedback comments, parent messages. Works well for all subjects and class levels.</span></div>
+  <div class="info-card"><strong>How to start:</strong><span> Go to chat.openai.com → Sign up with email → Type your request in the chat box → Press Enter.</span></div>
+  <p class="lesson-p">ChatGPT is the best starting tool for most teachers because it has the largest community and most examples online. If you search "ChatGPT prompt for teachers" you will find many examples.</p>
+
+  <h2 class="section-h2">Gemini — Google's AI tool</h2>
+  <div class="info-card"><strong>Website:</strong><span> gemini.google.com</span></div>
+  <div class="info-card"><strong>Made by:</strong><span> Google</span></div>
+  <div class="info-card"><strong>Free tier:</strong><span> Yes. Sign in with your existing Google account. No new account needed if you already use Gmail.</span></div>
+  <div class="info-card"><strong>Best for teachers:</strong><span> Quick lesson drafts, Google Docs integration, summarising long text, and teachers who already use Google Workspace at school.</span></div>
+  <div class="info-card"><strong>How to start:</strong><span> Go to gemini.google.com → Sign in with Gmail → Type your request → Press Enter. Also available in the Google Docs sidebar.</span></div>
+  <p class="lesson-p">If your school uses Google Classroom or Google Docs, Gemini is especially useful because it works directly inside those tools. Good choice for teachers who are already in the Google ecosystem.</p>
+
+  <h2 class="section-h2">Claude — best for long reference material</h2>
+  <div class="info-card"><strong>Website:</strong><span> claude.ai</span></div>
+  <div class="info-card"><strong>Made by:</strong><span> Anthropic (USA)</span></div>
+  <div class="info-card"><strong>Free tier:</strong><span> Yes. Create a free account with your email. Daily usage limit applies on the free tier.</span></div>
+  <div class="info-card"><strong>Best for teachers:</strong><span> When you need to paste a full chapter, a long syllabus, or multiple pages of notes. Claude handles very long text better than the others on the free tier.</span></div>
+  <div class="info-card"><strong>How to start:</strong><span> Go to claude.ai → Sign up → Paste your reference material along with your request → Press Enter.</span></div>
+  <p class="lesson-p">If you ever need to paste a large amount of reference text — a whole chapter from a textbook, a full year's syllabus — Claude is the most reliable option for staying inside that material.</p>
+
+  <div class="divider"></div>
+
+  <h2 class="section-h2">Which one should you start with?</h2>
+  <p class="lesson-p"><span class="highlight">Start with ChatGPT</span> if you are a complete beginner. It is the most documented and the most commonly discussed AI tool in teacher communities.</p>
+  <p class="lesson-p"><span class="highlight">Start with Gemini</span> if your school uses Google Workspace and you want to avoid creating a new account.</p>
+  <p class="lesson-p"><span class="highlight">Use Claude</span> when you have a long chapter or syllabus and want AI to work strictly inside that material.</p>
+
+  <h2 class="section-h2">Free vs paid — do you need to pay?</h2>
+  <p class="lesson-p">For the work covered in these 8 lessons — lesson plans, worksheets, question papers, and feedback — the <span class="highlight">free tier of any of these tools is enough</span>. You do not need to pay anything to get started.</p>
+  <p class="lesson-p">Paid versions give more usage, faster responses, and access to advanced features. You can upgrade later if you use the tools heavily every day. For now, start free.</p>
+
+  <div class="divider"></div>
+
+  <h2 class="section-h2">The basic steps — same for all three tools</h2>
+
+  <div class="prompt-label">How every conversation works</div>
+  <div class="prompt-box">Step 1: Open the website and sign in (or create a free account)
+Step 2: You will see a text box — this is where you type your request
+Step 3: Type your request clearly (this is called a "prompt")
+Step 4: Press Enter or click the send button
+Step 5: Read the output
+Step 6: If the output is not right, type a follow-up correction in the same chat
+Step 7: Copy what you need and check it before use</div>
+
+  <div class="prompt-label">A simple first request to try</div>
+  <div class="prompt-box">Create a 5-question quiz on the water cycle for Class 6 students.
+Include multiple choice questions with 4 options each.
+Add an answer key at the end.
+Keep language simple.</div>
+
+  <div class="output-box">Quiz — The Water Cycle (Class 6)
+
+1. What is the process by which water turns into water vapour called?
+   a) Condensation  b) Evaporation  c) Precipitation  d) Transpiration
+   Answer: b) Evaporation
+
+2. From where does most of the water in the water cycle come?
+   a) Rivers  b) Glaciers  c) Oceans  d) Lakes
+   Answer: c) Oceans
+
+3. What happens during condensation?
+   a) Water evaporates from plants  b) Water vapour cools and turns into clouds  c) Rain falls on the ground  d) Water soaks into the soil
+   Answer: b) Water vapour cools and turns into clouds
+
+4. What is the name of the process by which plants release water vapour?
+   a) Evaporation  b) Condensation  c) Transpiration  d) Infiltration
+   Answer: c) Transpiration
+
+5. Where does water go after it falls as rain on land?
+   a) It stays on the surface forever  b) It flows into rivers, soaks into soil, or evaporates again  c) It immediately goes back into clouds  d) It disappears into the ground permanently
+   Answer: b) It flows into rivers, soaks into soil, or evaporates again
+
+[Teacher: verify answers against your Class 6 textbook chapter on water cycle before distributing]</div>
+
+  <div class="checklist-box">
+    <h3>After getting AI output — always check</h3>
+    <ul>
+      <li>Are the facts correct? Verify 2–3 answers against your textbook.</li>
+      <li>Is the language right for the class level?</li>
+      <li>Are all questions within the syllabus you are currently teaching?</li>
+      <li>Would you change the wording of any question? Change it before using.</li>
+    </ul>
+  </div>
+
+  <div class="practice-box">
+    <h3>Practice task</h3>
+    <ol>
+      <li>Choose one tool: ChatGPT (chat.openai.com), Gemini (gemini.google.com), or Claude (claude.ai).</li>
+      <li>Create a free account if you don't have one. Use your email.</li>
+      <li>Type this prompt: <em>"Create 5 true-or-false questions on the topic of respiration for Class 9 Biology. Include answers."</em></li>
+      <li>Read the output and mark which answers you would keep and which you would change.</li>
+      <li>Repeat the same prompt on a second tool and compare the two outputs.</li>
+    </ol>
+  </div>
+  <div class="lesson-nav-btns">
+    <a class="nav-btn" href="../teachers.html">← All Teacher Lessons</a>
+    <a class="nav-btn" href="lesson-01.html">← Lesson 1</a>
+    <a class="nav-btn primary" href="lesson-03.html">Lesson 3 →</a>
+  </div>
+</div>
+<footer style="border-top:1px solid rgba(255,255,255,0.08);padding:1.5rem 5vw;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;font-size:0.82rem;color:rgba(184,199,218,0.55);">
+  <span>Mitra AI Life · AI for Teachers</span>
+  <div style="display:flex;gap:1.25rem;">
+    <a href="../teachers.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Teacher Hub</a>
+    <a href="../contact.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Contact</a>
+    <a href="../privacy.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Privacy</a>
+  </div>
+</footer>
+</body>
+</html>

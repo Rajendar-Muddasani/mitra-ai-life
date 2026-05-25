@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teachers కోసం Simple Prompt Formula | Teachers కోసం AI | Mitra AI Life</title>
+  <meta name="description" content="ఏ teacher అయినా use చేయగల 7-part prompt formula. మూడు ready-to-use templates తో." />
+  <link rel="canonical" href="https://mitraailife.com/teachers/lesson-03-te.html" />
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="manifest" href="../site.webmanifest" />
+  <meta name="theme-color" content="#06111f" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&family=Syne:wght@700;800&family=Hind:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+  <link rel="stylesheet" href="../track-page.css" />
+  <style>
+    .lesson-nav { display:flex;align-items:center;justify-content:space-between;padding:0.65rem 5vw;background:rgba(3,8,18,0.9);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,0.1);position:sticky;top:0;z-index:20; }
+    .lesson-nav a { color:#b8c7da;text-decoration:none;font-size:0.82rem;font-weight:700; }
+    .lesson-nav a:hover { color:#f8fbff; }
+    .lesson-nav .brand { font-family:'Baloo 2',cursive;font-weight:800;font-size:1rem;color:#f8fbff; }
+    .lesson-nav .brand span { color:#68e1ff; }
+    .lesson-nav .nav-right { display:flex;gap:1.25rem;align-items:center; }
+    .lang-link { color:rgba(184,199,218,0.7);font-size:0.78rem; }
+    .lang-link:hover { color:#68e1ff; }
+    .lesson-wrap { max-width:820px;margin:0 auto;padding:3rem 5vw 5rem; }
+    .lesson-eyebrow { color:#68e1ff;font-size:0.72rem;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.75rem; }
+    .lesson-title { font-family:'Syne',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.2;margin-bottom:1rem; }
+    .lesson-meta { color:rgba(184,199,218,0.7);font-size:0.82rem;margin-bottom:2rem; }
+    .wyl-box { background:rgba(104,225,255,0.06);border:1px solid rgba(104,225,255,0.2);border-radius:14px;padding:1.25rem 1.4rem;margin-bottom:2.5rem; }
+    .wyl-box h3 { font-size:0.78rem;font-weight:900;letter-spacing:0.15em;text-transform:uppercase;color:#68e1ff;margin-bottom:0.75rem; }
+    .wyl-box ul { list-style:none;padding:0;display:grid;gap:0.5rem; }
+    .wyl-box ul li { color:#b8c7da;font-size:0.93rem;line-height:1.6;padding-left:1.2rem;position:relative; }
+    .wyl-box ul li::before { content:"✓";position:absolute;left:0;color:#68e1ff;font-weight:900; }
+    .section-h2 { font-family:'Syne',sans-serif;font-size:clamp(1.2rem,2.5vw,1.6rem);margin:2.5rem 0 0.75rem; }
+    .lesson-p { color:#b8c7da;line-height:1.8;font-size:0.97rem;margin-bottom:1rem; }
+    .prompt-label { font-size:0.72rem;font-weight:900;letter-spacing:0.15em;text-transform:uppercase;color:#68e1ff;margin:1.5rem 0 0.4rem; }
+    .prompt-box { background:rgba(0,0,0,0.4);border:1px solid rgba(104,225,255,0.18);border-radius:12px;padding:1.2rem 1.4rem;font-size:0.87rem;color:#a8d8ff;line-height:1.75;white-space:pre-wrap;margin-bottom:1rem; }
+    .output-box { background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.22);border-radius:12px;padding:1.2rem 1.4rem;font-size:0.87rem;color:#a7f3d0;line-height:1.75;white-space:pre-wrap;margin-bottom:1rem; }
+    .checklist-box { background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.22);border-radius:14px;padding:1.25rem 1.4rem;margin:1.5rem 0; }
+    .checklist-box h3 { font-size:0.78rem;font-weight:900;letter-spacing:0.14em;text-transform:uppercase;color:#f59e0b;margin-bottom:0.75rem; }
+    .checklist-box ul { list-style:none;padding:0;display:grid;gap:0.55rem; }
+    .checklist-box ul li { color:#b8c7da;font-size:0.93rem;line-height:1.6;display:flex;gap:0.6rem; }
+    .checklist-box ul li::before { content:"☐";color:#f59e0b;flex-shrink:0; }
+    .practice-box { background:rgba(139,92,246,0.07);border:1px solid rgba(139,92,246,0.22);border-radius:14px;padding:1.25rem 1.4rem;margin:1.5rem 0; }
+    .practice-box h3 { font-size:0.78rem;font-weight:900;letter-spacing:0.14em;text-transform:uppercase;color:#a78bfa;margin-bottom:0.75rem; }
+    .practice-box p, .practice-box ol { color:#b8c7da;font-size:0.93rem;line-height:1.7; }
+    .practice-box ol { padding-left:1.3rem;display:grid;gap:0.5rem; }
+    .lesson-nav-btns { display:flex;gap:1rem;flex-wrap:wrap;margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.1); }
+    .nav-btn { display:inline-flex;align-items:center;justify-content:center;padding:0.65rem 1.4rem;border-radius:12px;font-weight:900;font-size:0.9rem;text-decoration:none;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.07);color:#f8fbff;transition:background 0.15s,border-color 0.15s; }
+    .nav-btn:hover { background:rgba(255,255,255,0.12); }
+    .nav-btn.primary { background:#f59e0b;color:#201200;border-color:#f59e0b;box-shadow:0 4px 0 #9a5b00; }
+    .divider { height:1px;background:rgba(255,255,255,0.08);margin:2rem 0; }
+    .highlight { color:#68e1ff;font-weight:800; }
+    .warn { color:#f87171;font-weight:700; }
+    .info-card { background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:1rem 1.2rem;margin-bottom:0.85rem; }
+    .info-card strong { color:#f8fbff;display:block;margin-bottom:0.3rem;font-size:0.95rem; }
+    .info-card span { color:#b8c7da;font-size:0.88rem;line-height:1.65; }
+  </style>
+</head>
+<body style="background:#06111f;color:#f8fbff;">
+<nav class="lesson-nav">
+  <a class="brand" href="../teachers-te.html">Mitra <span>AI</span> Life</a>
+  <div class="nav-right">
+    <a href="lesson-03.html" class="lang-link">🇬🇧 English</a>
+    <a href="../teachers-te.html">← Teachers కోసం AI</a>
+  </div>
+</nav>
+<div class="lesson-wrap">
+  <p class="lesson-eyebrow">Lesson 3 / 8 · ఉచితం · Teachers కోసం AI</p>
+  <h1 class="lesson-title">Teachers కోసం Simple Prompt Formula</h1>
+  <p class="lesson-meta">చదవడానికి 8 నిమిషాలు · Lesson 2 పై build అవుతుంది · తెలుగు + English</p>
+
+  <div class="wyl-box">
+    <h3>మీరు నేర్చుకునేవి</h3>
+    <ul>
+      <li>Vague prompt vague result ఎందుకు ఇస్తుంది</li>
+      <li>ప్రతి teacher use చేయగల 7-part prompt formula</li>
+      <li>వేర్వేరు teaching tasks కోసం మూడు ready-to-use prompt examples</li>
+      <li>ఒక చిన్న change తో weak prompt ని ఎలా improve చేయాలి</li>
+    </ul>
+  </div>
+
+  <h2 class="section-h2">మీ first prompt perfect గా ఎందుకు పనిచేయదు</h2>
+  <p class="lesson-p">చాలా teachers "make a worksheet on fractions for Class 6" అని type చేస్తారు మరియు output too easy, too hard, too long, లేదా right format లో లేకుండా వస్తుంది. Problem AI tool కాదు. Problem ఏమిటంటే prompt too vague.</p>
+  <p class="lesson-p">AI కి తెలియాలి: మీరు ఎవరు, మీకు ఏం కావాలి, ఎవరి కోసం, ఏ level, ఏ format, ఏ limits లో stay కావాలి. ఈ విషయాలు మీరు ఎంత clearly చెబితే, output అంత better గా ఉంటుంది.</p>
+
+  <h2 class="section-h2">7-part prompt formula</h2>
+
+  <div class="info-card"><strong>Part 1 — Role:</strong><span> AI ఎవరిగా act చేయాలో చెప్పండి. "You are an experienced Class 8 Maths teacher."</span></div>
+  <div class="info-card"><strong>Part 2 — Task:</strong><span> AI exactly ఏం create చేయాలో చెప్పండి. "Create a 40-minute lesson plan."</span></div>
+  <div class="info-card"><strong>Part 3 — Class level:</strong><span> Grade మరియు subject specify చేయండి. "For Class 8 students studying CBSE Maths."</span></div>
+  <div class="info-card"><strong>Part 4 — Topic:</strong><span> Topic గురించి specific గా ఉండండి. "On the topic: Linear Equations in One Variable."</span></div>
+  <div class="info-card"><strong>Part 5 — Reference material:</strong><span> Prompt తరువాత మీ notes, chapter text, లేదా syllabus paste చేయండి. "Use only the reference material below."</span></div>
+  <div class="info-card"><strong>Part 6 — Output format:</strong><span> మీకు ఏ sections కావాలో AI కి చెప్పండి. "Include: learning outcomes, warm-up, explanation steps, 1 activity, board summary, 5 homework questions."</span></div>
+  <div class="info-card"><strong>Part 7 — Safety instruction:</strong><span> Limits set చేయండి. "Do not add content outside the reference material. Keep all examples simple and relevant to Indian students."</span></div>
+
+  <div class="divider"></div>
+
+  <h2 class="section-h2">Weak prompt vs strong prompt — side by side</h2>
+
+  <div class="prompt-label">Weak prompt</div>
+  <div class="prompt-box">Make a worksheet on fractions for Class 6.</div>
+
+  <div class="prompt-label">Strong prompt (formula use చేస్తూ)</div>
+  <div class="prompt-box">You are an experienced Class 6 Maths teacher.
+Create a worksheet on fractions for Class 6 CBSE students.
+Include: 5 fill-in-the-blank questions, 5 MCQs, 4 short-answer questions, 1 word problem using a real Indian daily-life situation.
+Add a complete answer key.
+Use only simple language suitable for Class 6.
+Do not include topics beyond the CBSE Class 6 fractions syllabus.</div>
+
+  <p class="lesson-p">Strong prompt AI కి role, specific task, class level, topic, section counts తో output format, language requirement, scope limit ఇస్తుంది. Result more usable గా ఉంటుంది, చాలా తక్కువ corrections అవసరం అవుతాయి.</p>
+
+  <div class="divider"></div>
+
+  <h2 class="section-h2">మూడు ready-to-use prompt templates</h2>
+
+  <div class="prompt-label">Template 1 — Lesson plan</div>
+  <div class="prompt-box">You are an experienced [SUBJECT] teacher for [CLASS LEVEL].
+Create a [DURATION]-minute lesson plan on [TOPIC].
+Use only the reference material below.
+Include: learning outcomes (3 points), 3 warm-up questions, explanation flow, 1 classroom activity, board summary, 5 homework questions.
+Keep the language simple.
+Do not add content outside the reference material.
+
+Reference material:
+[PASTE YOUR NOTES HERE]</div>
+
+  <div class="prompt-label">Template 2 — Worksheet with answer key</div>
+  <div class="prompt-box">You are a [CLASS LEVEL] [SUBJECT] teacher.
+Create a worksheet on [TOPIC] for [CLASS LEVEL] students.
+Include: [N] fill-in-the-blanks, [N] MCQs (4 options each), [N] short-answer questions, [N] application/word problems.
+Add a complete answer key at the end.
+Use examples from Indian daily life where possible.
+Do not include content outside this syllabus point: [SYLLABUS POINT].</div>
+
+  <div class="prompt-label">Template 3 — Simple explanation</div>
+  <div class="prompt-box">Explain [CONCEPT] to a [CLASS LEVEL] student in India.
+Use very simple English.
+Use a real-life example that an Indian student in a [CITY/TOWN TYPE] school would understand.
+Keep the explanation to 3 short paragraphs.
+After the explanation, add 2 questions to check understanding.</div>
+
+  <div class="divider"></div>
+
+  <h2 class="section-h2">Follow-up తో output ఎలా improve చేయాలి</h2>
+  <p class="lesson-p">First output సరిగ్గా లేకపోతే, మళ్ళీ start చేయవలసిన అవసరం లేదు. అదే chat window లో correction type చేయండి:</p>
+
+  <div class="prompt-box">The word problems are too difficult for Class 6. Make them simpler and use examples about buying vegetables at a market or sharing rotis at lunch.</div>
+
+  <p class="lesson-p">AI earlier conversation గుర్తుంచుకుంటుంది. మీకు అవసరమైనట్లుగా match అయ్యే వరకు అదే window లో refine చేయవచ్చు.</p>
+
+  <div class="checklist-box">
+    <h3>ఏ AI output అయినా use చేయడానికి ముందు</h3>
+    <ul>
+      <li>మీరు specify చేసిన topic మరియు class level లోనే AI stay అయిందా?</li>
+      <li>Facts మరియు answers correct గా ఉన్నాయా?</li>
+      <li>మీ students కి language appropriate గా ఉందా?</li>
+      <li>మీరు ఇచ్చిన reference material బయటకి AI వెళ్ళిందా?</li>
+      <li>ఏ question లేదా explanation wording అయినా మార్చాలనుకుంటారా?</li>
+    </ul>
+  </div>
+
+  <div class="practice-box">
+    <h3>Practice task</h3>
+    <ol>
+      <li>మీరు currently teach చేస్తున్న class నుండి ఒక topic ఎంచుకోండి.</li>
+      <li>7-part formula use చేసి prompt రాయండి. అన్ని 7 parts fill చేయండి.</li>
+      <li>Prompt ని ChatGPT లేదా Gemini లో paste చేయండి.</li>
+      <li>Output read చేయండి. ఒక follow-up correction type చేయండి — format, difficulty, లేదా language గురించి ఏదైనా change చేయండి.</li>
+      <li>First output మరియు second output compare చేయండి. ఒక correction ఎంత తేడా చేస్తుందో గమనించండి.</li>
+    </ol>
+  </div>
+
+  <div class="lesson-nav-btns">
+    <a class="nav-btn" href="../teachers-te.html">← అన్ని Teacher Lessons</a>
+    <a class="nav-btn" href="lesson-02-te.html">← Lesson 2</a>
+    <a class="nav-btn primary" href="lesson-04-te.html">Lesson 4 →</a>
+  </div>
+</div>
+<footer style="border-top:1px solid rgba(255,255,255,0.08);padding:1.5rem 5vw;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;font-size:0.82rem;color:rgba(184,199,218,0.55);">
+  <span>Mitra AI Life · Teachers కోసం AI</span>
+  <div style="display:flex;gap:1.25rem;">
+    <a href="../teachers-te.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Teacher Hub</a>
+    <a href="../contact-te.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">సంప్రదించండి</a>
+    <a href="../privacy.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Privacy</a>
+  </div>
+</footer>
+</body>
+</html>

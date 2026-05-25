@@ -3,28 +3,87 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI for Teachers | Mitra AI Life</title>
-  <meta name="description" content="Teachers కోసం AI tools: lesson plans, worksheets, student feedback, parent communication మరియు classroom content తయారీ." />
+  <title>Teachers కోసం AI Tools | Mitra AI Life</title>
+  <meta name="description" content="ChatGPT, Gemini, Claude వంటి AI tools తో lesson plans, worksheets, question papers మరియు classroom activities ఎలా తయారు చేయాలో నేర్చుకోండి — safe గా, simple గా." />
   <link rel="canonical" href="https://mitraailife.com/teachers-te.html" />
   <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
   <meta name="theme-color" content="#06111f" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="AI for Teachers | Mitra AI Life" />
+  <meta property="og:title" content="Teachers కోసం AI Tools | Mitra AI Life" />
+  <meta property="og:description" content="School మరియు college teachers కోసం practical AI support. Lesson plans, worksheets, question papers మరియు మరిన్ని." />
+  <meta property="og:url" content="https://mitraailife.com/teachers-te.html" />
   <meta property="og:image" content="https://mitraailife.com/og/teachers.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Teachers కోసం AI Tools | Mitra AI Life" />
+  <meta name="twitter:description" content="School మరియు college teachers కోసం practical AI support. Lesson plans, worksheets, question papers మరియు మరిన్ని." />
+  <meta name="twitter:image" content="https://mitraailife.com/og/teachers.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Hind:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&family=Syne:wght@700;800&family=Hind:wght@400;600;700&display=swap" rel="stylesheet" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
   <link rel="stylesheet" href="track-page.css" />
+  <style>
+    .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+    .tool-card { border: 1px solid var(--line); background: rgba(255,255,255,0.055); border-radius: 14px; padding: 1rem 1rem 0.85rem; }
+    .tool-card .tool-name { font-size: 0.97rem; font-weight: 800; color: var(--text); margin-bottom: 0.3rem; }
+    .tool-card .tool-use { font-size: 0.84rem; color: var(--muted); line-height: 1.55; }
+    .prompt-box { background: rgba(0,0,0,0.35); border: 1px solid rgba(104,225,255,0.18); border-radius: 12px; padding: 1.2rem 1.4rem; font-family: 'Nunito', monospace; font-size: 0.88rem; color: #a8d8ff; line-height: 1.7; white-space: pre-wrap; margin-top: 1.25rem; }
+    .prompt-label { font-size: 0.72rem; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cyan); margin-top: 1.5rem; margin-bottom: 0.4rem; }
+    .ladder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+    .ladder-card { border: 1px solid var(--line); background: rgba(255,255,255,0.055); border-radius: 14px; padding: 1rem 1rem 0.85rem; display: flex; gap: 0.75rem; align-items: flex-start; }
+    .ladder-card .level-badge { flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%; background: rgba(104,225,255,0.12); border: 1px solid rgba(104,225,255,0.25); display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 900; color: var(--cyan); }
+    .ladder-card h3 { font-size: 0.93rem; font-weight: 800; margin-bottom: 0.25rem; }
+    .ladder-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+    .safety-list { margin-top: 1.25rem; display: grid; gap: 0.65rem; list-style: none; padding: 0; }
+    .safety-list li { display: flex; gap: 0.65rem; align-items: flex-start; font-size: 0.93rem; color: var(--muted); line-height: 1.6; }
+    .safety-list li::before { content: '✗'; color: #f87171; font-weight: 900; flex-shrink: 0; margin-top: 1px; }
+    .lesson-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+    .lesson-card { border: 1px solid var(--line); background: rgba(255,255,255,0.055); border-radius: 14px; padding: 1rem 1.1rem; text-decoration: none; display: block; transition: border-color 0.15s, background 0.15s; }
+    .lesson-card:hover { border-color: rgba(104,225,255,0.35); background: rgba(104,225,255,0.06); }
+    .lesson-card .lesson-num { font-size: 0.7rem; font-weight: 900; letter-spacing: 0.13em; text-transform: uppercase; color: var(--cyan); margin-bottom: 0.4rem; }
+    .lesson-card h3 { font-size: 0.97rem; font-weight: 800; color: var(--text); margin-bottom: 0.3rem; }
+    .lesson-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+    .paid-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+    .paid-card { border: 1px solid rgba(245,158,11,0.22); background: rgba(245,158,11,0.05); border-radius: 14px; padding: 1rem; }
+    .paid-card h3 { font-size: 0.93rem; font-weight: 800; color: var(--text); margin-bottom: 0.3rem; }
+    .paid-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+    .form-section { background: #0b1628; border-top: 1px solid var(--line); padding: 4rem 5vw; }
+    .form-inner { max-width: 680px; margin: 0 auto; }
+    .form-inner h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.5rem, 3vw, 2.2rem); margin-bottom: 0.5rem; }
+    .form-inner p.sub { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.75rem; line-height: 1.65; }
+    .teacher-form { display: grid; gap: 0.85rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+    @media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
+    .teacher-form input, .teacher-form select, .teacher-form textarea { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); border-radius: 10px; color: var(--text); font: 0.93rem 'Nunito', sans-serif; padding: 0.7rem 0.9rem; outline: none; transition: border-color 0.15s; }
+    .teacher-form input::placeholder, .teacher-form textarea::placeholder { color: rgba(255,255,255,0.28); }
+    .teacher-form input:focus, .teacher-form select:focus, .teacher-form textarea:focus { border-color: rgba(104,225,255,0.45); }
+    .teacher-form select option { background: #0d1b2e; color: #f8fbff; }
+    .teacher-form textarea { resize: vertical; min-height: 90px; }
+    .teacher-form .submit-btn { background: var(--amber); color: #201200; font: 900 1rem 'Nunito', sans-serif; border: none; border-radius: 12px; padding: 0.8rem 2rem; cursor: pointer; box-shadow: 0 4px 0 #9a5b00; transition: filter 0.15s, transform 0.1s; align-self: flex-start; }
+    .teacher-form .submit-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    .form-note { font-size: 0.78rem; color: rgba(255,255,255,0.3); line-height: 1.6; margin-top: 0.4rem; }
+  </style>
 </head>
 <body class="theme-teachers">
+
+<!-- ── Navigation ──────────────────────────────────────────────────────── -->
 <nav class="topnav">
   <a class="brand" href="index-te.html">Mitra <span>AI</span> Life</a>
   <div class="track-links">
     <a href="index-te.html">హోమ్</a>
     <a href="daily-life-te.html">రోజువారీ AI</a>
+    <a href="students.html">Students కోసం AI</a>
+    <a href="tuition.html">AI Tuition</a>
+    <a href="spoken-english.html">Spoken English</a>
+    <a href="projects.html">AI Project Kits</a>
+    <a href="small-business.html">Small Business కోసం AI</a>
     <a class="active" href="teachers-te.html">Teachers కోసం AI</a>
     <a href="contact-te.html">సంప్రదించండి</a>
   </div>
@@ -37,64 +96,437 @@
   </div>
 </nav>
 
+<!-- ── Section 1: Hero ─────────────────────────────────────────────────── -->
 <main class="hero">
   <section>
-    <p class="eyebrow">ప్లాన్ చేసిన ట్రాక్</p>
-    <h1>Teachers కోసం AI</h1>
-    <p class="lead">Primary మరియు secondary school teachers కోసం. Lesson plans, worksheets, student feedback, parent communication మరియు classroom content AI తో తయారు చేయండి — planning సమయం తగ్గించండి, teaching quality పెంచండి.</p>
+    <p class="eyebrow">కొత్త ట్రాక్ · ఉచిత starter lessons</p>
+    <h1>Teachers కి plan, prepare, మరియు better గా teach చేయడంలో సహాయపడే AI tools</h1>
+    <p class="lead">ChatGPT, Gemini, Claude వంటి AI tools ఉపయోగించి lesson plans, worksheets, question papers, activities, feedback మరియు classroom material ఎలా safely తయారు చేయాలో నేర్చుకోండి. సమయం ఆదా చేయండి, clarity పెంచండి, teacher నే నియంత్రణలో ఉండండి.</p>
     <div class="actions">
-      <a class="btn primary" href="mailto:hello@mitraailife.com?subject=AI%20for%20Teachers%20enquiry">ఈ ట్రాక్ గురించి సంప్రదించండి</a>
-      <a class="btn secondary" href="index-te.html">హోమ్ కి తిరిగి వెళ్ళండి</a>
+      <a class="btn primary" href="#free-lessons">ఉచిత Teacher AI Basics మొదలుపెట్టండి</a>
+      <a class="btn secondary" href="#interest-form">Teacher Workshop request చేయండి</a>
     </div>
   </section>
   <aside class="panel">
-    <h2>మొదట ఏం వస్తుంది</h2>
+    <h2>మీరు నేర్చుకునేవి</h2>
     <ul>
-      <li><strong>Lesson planning:</strong> 10 నిమిషాల్లో complete lesson plan.</li>
-      <li><strong>Worksheets:</strong> topic, class, difficulty level ఇవ్వండి — AI రెడీ చేస్తుంది.</li>
-      <li><strong>Parent messages:</strong> Telugu + English లో professional communication.</li>
-      <li><strong>Feedback:</strong> student assignments కు quick, kind feedback.</li>
+      <li><strong>Lesson plans:</strong> syllabus లేదా reference notes నుండి కొన్ని నిమిషాల్లో.</li>
+      <li><strong>Worksheets &amp; quizzes:</strong> grade మరియు topic ప్రకారం answer keys తో.</li>
+      <li><strong>Question papers:</strong> marks balance మరియు safety review తో drafts.</li>
+      <li><strong>Classroom activities:</strong> discussions, games, project tasks.</li>
+      <li><strong>Prompt skills:</strong> ప్రతి సారి పనిచేసే simple formula.</li>
+      <li><strong>Safety rules:</strong> class లో AI output use చేయడానికి ముందు check చేయవలసినవి.</li>
     </ul>
   </aside>
 </main>
 
+<!-- ── Video placeholder ───────────────────────────────────────────────── -->
 <section style="background:#0f172a;padding:2.5rem 0 3rem;">
   <div style="width:90%;max-width:1100px;margin:0 auto;text-align:center;">
-    <div style="color:rgba(255,255,255,0.5);font-size:0.72rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.75rem;">ముందు చూడండి · 2 నిమిషాలు</div>
-    <h2 style="color:#fff;font-size:clamp(1.1rem,2.5vw,1.7rem);font-weight:800;margin:0 0 1.25rem;">AI for Teachers — 2 నిమిషాల పరిచయం</h2>
+    <div style="color:rgba(255,255,255,0.5);font-size:0.72rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.75rem;">మొదట చూడండి · 2 నిమిషాలు</div>
+    <h2 style="color:#fff;font-size:clamp(1.1rem,2.5vw,1.7rem);font-weight:800;margin:0 0 1.25rem;">Teachers కోసం AI — 2 నిమిషాల overview</h2>
     <div style="position:relative;width:100%;padding-top:56.25%;border-radius:16px;overflow:hidden;box-shadow:0 12px 48px rgba(0,0,0,0.6);background:#1e293b;border:2px dashed rgba(99,179,255,0.3);">
       <div style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;">
         <div style="font-size:3rem;">🎬</div>
-        <div style="color:rgba(255,255,255,0.8);font-size:1rem;font-weight:700;">మిత్ర Teachers ట్రాక్ ను పరిచయం చేస్తుంది</div>
-        <div style="padding:5px 18px;background:rgba(99,179,255,0.12);border:1px solid rgba(99,179,255,0.3);border-radius:20px;color:rgba(255,255,255,0.5);font-size:0.75rem;font-weight:600;letter-spacing:0.1em;">వీడియో త్వరలో వస్తుంది</div>
+        <div style="color:rgba(255,255,255,0.8);font-size:1rem;font-weight:700;">Mitra Teachers కోసం AI పరిచయం చేస్తుంది</div>
+        <div style="padding:5px 18px;background:rgba(99,179,255,0.12);border:1px solid rgba(99,179,255,0.3);border-radius:20px;color:rgba(255,255,255,0.5);font-size:0.75rem;font-weight:600;letter-spacing:0.1em;">VIDEO త్వరలో</div>
       </div>
     </div>
-    <p style="color:rgba(255,255,255,0.35);font-size:0.78rem;margin-top:0.7rem;">Sign-in అవసరం లేదు · Telugu narration</p>
+    <p style="color:rgba(255,255,255,0.35);font-size:0.78rem;margin-top:0.7rem;">Sign-in అవసరం లేదు · తెలుగు narration</p>
   </div>
 </section>
 
+<!-- ── Section 2: Who Can Use This ────────────────────────────────────── -->
 <section class="band">
   <div class="band-inner">
-    <h2>మొదట ఏం వస్తుంది</h2>
+    <h2>ఈ track ఎవరి కోసం</h2>
+    <p>Preparation పై సమయం ఆదా చేయాలనుకుని, తమ work లో AI ని safely use చేయాలనుకునే ఏ teacher లేదా education professional అయినా.</p>
     <div class="status-grid">
-      <div class="status-card"><h3>Lesson Planning</h3><p>Subject, class, chapter ఇవ్వండి — 10 నిమిషాల్లో detailed lesson plan రెడీ.</p></div>
-      <div class="status-card"><h3>Worksheets</h3><p>Multiple choice, fill-in-the-blank, short answer — class level కి అనుగుణంగా.</p></div>
-      <div class="status-card"><h3>Communication</h3><p>Parent letters, progress reports, meeting reminders — Telugu మరియు English లో.</p></div>
+      <div class="status-card">
+        <h3>🏫 School teachers</h3>
+        <p>Class 1 నుండి Class 12 వరకు ఏ subject లోనైనా primary, middle, high school teachers.</p>
+      </div>
+      <div class="status-card">
+        <h3>🎓 College lecturers</h3>
+        <p>Degree మరియు diploma lecturers — assignment, viva, lecture prep ని వేగంగా చేయాలనుకునే వారు.</p>
+      </div>
+      <div class="status-card">
+        <h3>📚 Tuition teachers</h3>
+        <p>Multiple students, multiple subjects handle చేసే private tutors మరియు coaching teachers.</p>
+      </div>
+      <div class="status-card">
+        <h3>🏢 Coaching centres</h3>
+        <p>Reliable question bank drafts అవసరమైన NEET, JEE, board exam coaching staff.</p>
+      </div>
+      <div class="status-card">
+        <h3>🎤 English trainers</h3>
+        <p>Activity ideas అవసరమైన spoken English మరియు communication skills teachers.</p>
+      </div>
+      <div class="status-card">
+        <h3>👩‍💼 School coordinators</h3>
+        <p>తమ teaching team ని AI tools పై train చేయాలనుకునే academic leads మరియు principals.</p>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- ── Section 3: What AI Can Help Teachers Do ────────────────────────── -->
+<section class="band" style="background:rgba(0,0,0,0.2);">
+  <div class="band-inner">
+    <h2>Teachers కి AI ఏ పనుల్లో సహాయం చేస్తుంది</h2>
+    <p>ప్రతి వారం పునరావృతమయ్యే preparation tasks పై AI సమయం ఆదా చేస్తుంది. Classroom decisions అన్నీ teacher నే తీసుకుంటారు.</p>
+    <div class="status-grid">
+      <div class="status-card">
+        <h3>📋 Lesson plans</h3>
+        <p>Reference notes నుండి warm-up, explanation, activity, homework తో 30 లేదా 40 నిమిషాల lesson plans తయారు చేయండి.</p>
+      </div>
+      <div class="status-card">
+        <h3>📄 Worksheets</h3>
+        <p>Grade ప్రకారం answer keys తో fill-in-the-blanks, MCQs, short-answer, match-the-following తయారు చేయండి.</p>
+      </div>
+      <div class="status-card">
+        <h3>📝 Question papers</h3>
+        <p>Marks distribution, difficulty balance, review కోసం answer keys తో question papers draft చేయండి.</p>
+      </div>
+      <div class="status-card">
+        <h3>🧠 Simple explanations</h3>
+        <p>కష్టమైన concepts ని students కి అర్థమయ్యే Indian real-life examples తో simple English లో rewrite చేయండి.</p>
+      </div>
+      <div class="status-card">
+        <h3>🎮 Class activities</h3>
+        <p>Discussion questions, group activities, debate topics, quizzes, exit ticket ideas తయారు చేయండి.</p>
+      </div>
+      <div class="status-card">
+        <h3>💬 Feedback comments</h3>
+        <p>Common student mistakes మీద ఒక improvement step తో kind, useful feedback రాయండి.</p>
+      </div>
+      <div class="status-card">
+        <h3>📊 Presentations</h3>
+        <p>Slide outlines, speaker notes, board summaries, visual idea descriptions తయారు చేయండి.</p>
+      </div>
+      <div class="status-card">
+        <h3>✉️ Parent messages</h3>
+        <p>Common school updates కోసం clear, respectful భాషలో parent communication draft చేయండి.</p>
+      </div>
+      <div class="status-card">
+        <h3>🔁 Remedial support</h3>
+        <p>Slow learners కోసం simplified notes, advanced students కోసం challenge tasks, extra practice sheets తయారు చేయండి.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 4: AI Tools Teachers Should Know ───────────────────────── -->
+<section class="band">
+  <div class="band-inner">
+    <h2>Teachers తెలుసుకోవలసిన AI tools</h2>
+    <p>అన్నీ use చేయవలసిన అవసరం లేదు. ఒకటి తో మొదలుపెట్టండి. బాగా నేర్చుకోండి. Ready అయినప్పుడు మరికొన్ని add చేయండి.</p>
+    <div class="tools-grid">
+      <div class="tool-card"><div class="tool-name">ChatGPT</div><div class="tool-use">Lesson plans, worksheets, explanations, question papers కి best. మొదలుపెట్టడానికి free tier సరిపోతుంది.</div></div>
+      <div class="tool-card"><div class="tool-name">Gemini</div><div class="tool-use">Google యొక్క AI tool. Drafts, summaries, Google Docs integration కి మంచిది. Android లో బాగా పనిచేస్తుంది.</div></div>
+      <div class="tool-card"><div class="tool-name">Claude</div><div class="tool-use">పెద్ద reference material కి strong. మొత్తం chapter paste చేసి structured output కావాలంటే ఉపయోగపడుతుంది.</div></div>
+      <div class="tool-card"><div class="tool-name">Microsoft Copilot</div><div class="tool-use">Windows మరియు Word లో built-in. Microsoft Office రోజూ ఉపయోగించే teachers కి మంచిది.</div></div>
+      <div class="tool-card"><div class="tool-name">NotebookLM</div><div class="tool-use">మీ textbook లేదా notes paste చేయండి. మీ material నుండి మాత్రమే AI answer చేస్తుంది. Exam prep కి చాలా safe.</div></div>
+      <div class="tool-card"><div class="tool-name">Canva AI</div><div class="tool-use">AI సహాయంతో classroom posters, presentation slides, visual activity sheets తయారు చేయండి.</div></div>
+      <div class="tool-card"><div class="tool-name">Perplexity</div><div class="tool-use">Source citations తో research tool. Lesson material లో include చేయడానికి ముందు facts verify చేయడానికి use చేయండి.</div></div>
+      <div class="tool-card"><div class="tool-name">Google Docs AI</div><div class="tool-use">Lesson plans, worksheets రాస్తుండగా Google Docs లోనే suggestions మరియు rewrites.</div></div>
+      <div class="tool-card"><div class="tool-name">Text-to-speech tools</div><div class="tool-use">వినడం ద్వారా బాగా నేర్చుకునే students కోసం lesson notes ని audio గా convert చేయండి. Revision support కి మంచిది.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 5: Reference Material Workflow ─────────────────────────── -->
+<section class="band" style="background:rgba(0,0,0,0.2);">
+  <div class="band-inner">
+    <h2>AI తో reference material ఎలా use చేయాలి</h2>
+    <p>మీ స్వంత reference material ఇచ్చినప్పుడు AI output చాలా accurate మరియు safe గా ఉంటుంది. మీ notes లోనే ఉండమని AI కి ఎల్లప్పుడూ చెప్పండి.</p>
+    <div class="status-grid" style="margin-top:1.5rem;">
+      <div class="status-card"><h3>AI కి మీరు ఇవ్వగలిగేవి</h3><p>Textbook chapter text · Syllabus outline · పాత question papers · Marking scheme · Sample worksheet · Class level మరియు language level</p></div>
+      <div class="status-card"><h3>AI కి చెప్పవలసినవి</h3><p>"ఈ notes బయట information add చేయవద్దు." · "Syllabus లోనే ఉండండి." · "Class 8 language level use చేయండి." · "ఈ marks pattern follow చేయండి."</p></div>
+      <div class="status-card"><h3>తరువాత check చేయవలసినవి</h3><p>మీ notes లో లేని facts AI add చేసిందా? Class level కి భాష సరిగ్గా ఉందా? Marks మరియు difficulty balance గా ఉన్నాయా?</p></div>
+      <div class="status-card"><h3>Privacy rules</h3><p>Students personal details, names ఏ public AI tool లోకి upload చేయవద్దు. Permission లేకుండా copyrighted textbooks మొత్తం paste చేయవద్దు.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 6: Prompt Engineering for Teachers ────────────────────── -->
+<section class="band" id="prompt-formula">
+  <div class="band-inner">
+    <h2>Teachers కోసం simple prompt formula</h2>
+    <p>మంచి prompt అంటే AI కి role, task, class level, topic, reference material, output format, మరియు safety instruction ఇవ్వడం. ఇది memorise చేయవలసిన అవసరం లేదు. ప్రతి సారి ఈ pattern follow చేయండి.</p>
+
+    <div class="prompt-label">Formula</div>
+    <div class="prompt-box">Role + Task + Class level + Topic + Reference material + Output format + Safety instruction</div>
+
+    <div class="prompt-label">Example — Lesson plan prompt</div>
+    <div class="prompt-box">You are an experienced Class 8 science teacher.
+Create a 40-minute lesson plan on photosynthesis.
+Use only the reference notes below.
+Keep the language simple enough for Class 8 students.
+Include: 5 warm-up questions, explanation flow, 1 hands-on activity, board summary, 5 homework questions.
+Do not add facts that are not in the reference notes.
+
+Reference notes:
+[మీ notes ఇక్కడ paste చేయండి]</div>
+
+    <div class="prompt-label">Example — Worksheet prompt</div>
+    <div class="prompt-box">Create a worksheet for Class 6 Maths on fractions.
+Use only the reference material below.
+Include: 5 fill-in-the-blanks, 5 MCQs, 5 short-answer questions, 2 word problems from daily life.
+Add a complete answer key.
+Do not include questions outside the reference material.
+
+Reference material:
+[మీ notes ఇక్కడ paste చేయండి]</div>
+  </div>
+</section>
+
+<!-- ── Section 7: Question Paper Preparation ─────────────────────────── -->
+<section class="band" style="background:rgba(0,0,0,0.2);">
+  <div class="band-inner">
+    <h2>AI తో question paper preparation</h2>
+    <p>AI కొన్ని seconds లో draft question paper create చేయగలదు. కానీ print చేయడానికి ముందు final paper ని teacher ఎల్లప్పుడూ review, correct, balance, approve చేయాలి.</p>
+    <div class="status-grid" style="margin-top:1.5rem;">
+      <div class="status-card"><h3>AI కి ఇవ్వవలసినవి</h3><p>Syllabus · Reference chapter · పాత question paper pattern · Marks distribution · Difficulty mix · Time limit · Learning outcomes</p></div>
+      <div class="status-card"><h3>AI create చేసేది</h3><p>Question paper draft · Marks table · Objective మరియు descriptive mix · Internal choice questions · Application-based questions</p></div>
+      <div class="status-card"><h3>Teacher review checklist</h3><p>అన్ని questions syllabus నుండేనా? Marks balance సరిగ్గా ఉందా? Difficulty fair గా ఉందా? AI పాత paper copy చేసిందా? భాష clear గా ఉందా?</p></div>
+      <div class="status-card"><h3>Important rule</h3><p>AI draft create చేస్తుంది. Teacher final paper approve చేస్తారు. Teacher review మరియు correction లేకుండా AI paper ఎప్పుడూ use చేయవద్దు.</p></div>
+    </div>
+
+    <div class="prompt-label">Example — Question paper prompt</div>
+    <div class="prompt-box">Create a draft question paper for Class 10 Science — Chapter: Light.
+Total marks: 25. Time: 45 minutes.
+Difficulty: 40% easy, 40% medium, 20% hard.
+Include: 5 MCQs (1 mark each), 5 short-answer questions (2 marks each), 1 long-answer question (5 marks).
+Add a marks distribution table and answer key.
+Do not copy questions from the old paper below directly.
+Teacher review required before final use.
+
+Syllabus and old paper reference:
+[ఇక్కడ paste చేయండి]</div>
+
+    <div style="margin-top:1.5rem;padding:1.1rem 1.4rem;background:rgba(104,225,255,0.06);border:1px solid rgba(104,225,255,0.2);border-radius:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+      <div>
+        <div style="font-size:0.72rem;font-weight:900;letter-spacing:0.15em;text-transform:uppercase;color:#68e1ff;margin-bottom:0.35rem;">ఉచిత resource</div>
+        <div style="font-weight:800;font-size:0.97rem;color:#f8fbff;">Teacher AI Prompt Template Pack</div>
+        <div style="color:#b8c7da;font-size:0.85rem;margin-top:0.25rem;">Lesson plans, worksheets, question papers, feedback, parent messages, మరిన్నింటి కోసం 20+ copy-paste templates.</div>
+      </div>
+      <a href="teachers/prompt-templates-te.html" style="flex-shrink:0;display:inline-block;background:#f59e0b;color:#201200;font-weight:900;font-size:0.88rem;padding:0.65rem 1.4rem;border-radius:12px;text-decoration:none;box-shadow:0 4px 0 #9a5b00;white-space:nowrap;">Template pack తెరవండి →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 8: Teacher AI Skill Ladder ────────────────────────────── -->
+<section class="band" id="skill-ladder">
+  <div class="band-inner">
+    <h2>Teacher AI skill ladder</h2>
+    <p>పూర్తి beginner నుండి AI-assisted teaching workflows run చేయడం వరకు పది steps. మీ pace లో వెళ్ళవచ్చు. మొదటి రెండు steps ఉచితం.</p>
+    <div class="ladder-grid">
+      <div class="ladder-card"><div class="level-badge">1</div><div><h3>Teachers కోసం AI Basics</h3><p>AI ఏం చేయగలదు, ఏం చేయలేదు. ChatGPT, Gemini, Claude basics. AI ఎందుకు తప్పులు చేస్తుంది.</p></div></div>
+      <div class="ladder-card"><div class="level-badge">2</div><div><h3>Teaching కోసం Prompt Writing</h3><p>Simple prompt formula. Role, task, class level, topic, safety instruction. Reusable templates.</p></div></div>
+      <div class="ladder-card"><div class="level-badge">3</div><div><h3>AI తో Lesson Planning</h3><p>30 మరియు 40 నిమిషాల plans. Weekly plans. Warm-up, board work, activity, homework.</p></div></div>
+      <div class="ladder-card"><div class="level-badge">4</div><div><h3>Worksheet మరియు Quiz Creation</h3><p>అన్ని question types. Fill-in, MCQ, short-answer, match. Answer keys. Grade-wise output.</p></div></div>
+      <div class="ladder-card"><div class="level-badge">5</div><div><h3>Question Paper Drafting</h3><p>Blueprint, marks table, difficulty mix, internal choice. Print కి ముందు review workflow.</p></div></div>
+      <div class="ladder-card"><div class="level-badge">6</div><div><h3>Classroom Activities మరియు Projects</h3><p>Discussions, debates, roleplay, group tasks, exit tickets, revision games.</p></div></div>
+      <div class="ladder-card"><div class="level-badge">7</div><div><h3>Feedback మరియు Remedial Support</h3><p>Student feedback comments. Remedial worksheets. Slow మరియు advanced learners కి support.</p></div></div>
+      <div class="ladder-card"><div class="level-badge">8</div><div><h3>Visual మరియు Audio Material కి Generative AI</h3><p>Slide outlines, poster ideas, audio scripts, image prompts, lesson video storyboards.</p></div></div>
+      <div class="ladder-card"><div class="level-badge">9</div><div><h3>AI Agents మరియు Teacher Workflows</h3><p>AI agents అంటే ఏమిటి. Weekly planning కి agentic AI. Repeated classroom templates ని automate చేయడం.</p></div></div>
+      <div class="ladder-card"><div class="level-badge">10</div><div><h3>Schools మరియు Colleges కోసం Responsible AI</h3><p>Student privacy, copyright, assessment లో anti-bias, school AI policy, honest student AI use.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 9: Safety and Ethics ──────────────────────────────────── -->
+<section class="band" style="background:rgba(0,0,0,0.2);">
+  <div class="band-inner">
+    <h2>Teachers కోసం safety మరియు ethics rules</h2>
+    <p>ఈ rules students ని protect చేస్తాయి, teacher ని protect చేస్తాయి, classroom లో AI use ని honest గా ఉంచుతాయి.</p>
+    <ul class="safety-list" style="margin-top:1.25rem;">
+      <li>ఏ public AI tool లోకి student personal details, names, లేదా sensitive records upload చేయవద్దు.</li>
+      <li>AI output ని blindly నమ్మవద్దు. Classroom use కి ముందు ఎల్లప్పుడూ human review చేయండి.</li>
+      <li>School policy మరియు copyright rules check చేయకుండా copyrighted textbooks మొత్తం public AI tools లోకి copy చేయవద్దు.</li>
+      <li>Manually check చేయకుండా unfair, biased, లేదా unbalanced assessment create చేయడానికి AI use చేయవద్దు.</li>
+      <li>AI output ని students కి guaranteed truth గా present చేయవద్దు. ఇది review చేసిన draft అని చెప్పండి.</li>
+      <li>AI tool use పై school లేదా institution policy ని bypass చేయవద్దు.</li>
+      <li>Teacher judgment లేకుండా individual student performance ని evaluate చేయడానికి AI use చేయవద్దు.</li>
+    </ul>
+    <div class="status-grid" style="margin-top:1.5rem;">
+      <div class="status-card"><h3>ప్రతి AI session కి ముందు</h3><p>ఏ reference material use చేయడం safe అని decide చేయండి. AI tools పై school policy check చేయండి. Tool తెరవడానికి ముందే మీ prompt prepare చేయండి.</p></div>
+      <div class="status-card"><h3>Classroom use కి ముందు</h3><p>Facts correct గా ఉన్నాయా? Class level కి suitable గా ఉందా? భాష clear గా ఉందా? Marks balanced గా ఉన్నాయా? Privacy respect చేయబడిందా? Teacher approve చేశారా?</p></div>
+      <div class="status-card"><h3>Students కి AI గురించి teach చేయడం</h3><p>AI ఒక tool, source of truth కాదు అని students కి teach చేయండి. Honest AI use ని encourage చేయండి. Assignments లో AI కి clear rules పెట్టండి.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 10: Free Starter Lessons ──────────────────────────────── -->
+<section class="band" id="free-lessons">
+  <div class="band-inner">
+    <h2>ఉచిత starter lessons — ఇక్కడ మొదలుపెట్టండి</h2>
+    <p>మిమ్మల్ని మొదలుపెట్టడానికి ఎనిమిది ఉచిత lessons. Sign-in అవసరం లేదు. ఏ device లోనైనా చదవండి.</p>
+    <div class="lesson-cards">
+      <a class="lesson-card" href="teachers/lesson-01-te.html">
+        <div class="lesson-num">Lesson 1 · ఉచితం</div>
+        <h3>Teachers కోసం AI ఏం చేయగలదు</h3>
+        <p>AI ఎక్కడ సమయం ఆదా చేస్తుంది మరియు teacher ఎక్కడ control లో ఉండాలి అనే simple overview.</p>
+      </a>
+      <a class="lesson-card" href="teachers/lesson-02-te.html">
+        <div class="lesson-num">Lesson 2 · ఉచితం</div>
+        <h3>ChatGPT, Gemini, Claude Basics</h3>
+        <p>ఈ tools ఎలా తెరవాలి, వాటిలో ఏది దేనికి మంచిది, మొదట ఏది try చేయాలి.</p>
+      </a>
+      <a class="lesson-card" href="teachers/lesson-03-te.html">
+        <div class="lesson-num">Lesson 3 · ఉచితం</div>
+        <h3>Teachers కోసం Simple Prompt Formula</h3>
+        <p>AI output ని reliable గా చేసే 7-part formula. మూడు examples తో practice.</p>
+      </a>
+      <a class="lesson-card" href="teachers/lesson-04-te.html">
+        <div class="lesson-num">Lesson 4 · ఉచితం</div>
+        <h3>Reference Notes నుండి Lesson Plan తయారు చేయడం</h3>
+        <p>Step-by-step: notes paste చేయండి, prompt రాయండి, complete lesson plan పొందండి, review చేయండి.</p>
+      </a>
+      <a class="lesson-card" href="teachers/lesson-05-te.html">
+        <div class="lesson-num">Lesson 5 · ఉచితం</div>
+        <h3>Worksheet మరియు Answer Key తయారు చేయడం</h3>
+        <p>MCQs, fill-in, short-answer, answer key తో complete worksheet generate చేయండి.</p>
+      </a>
+      <a class="lesson-card" href="teachers/lesson-06-te.html">
+        <div class="lesson-num">Lesson 6 · ఉచితం</div>
+        <h3>Question Paper Draft ని Safely తయారు చేయడం</h3>
+        <p>మీ syllabus మరియు పాత paper pattern use చేయండి. AI draft చేస్తుంది. Teacher review చేస్తారు.</p>
+      </a>
+      <a class="lesson-card" href="teachers/lesson-07-te.html">
+        <div class="lesson-num">Lesson 7 · ఉచితం</div>
+        <h3>Classroom Use కి ముందు AI Output Review</h3>
+        <p>AI create చేసే ప్రతి worksheet, lesson plan, question paper కి practical checklist.</p>
+      </a>
+      <a class="lesson-card" href="teachers/lesson-08-te.html">
+        <div class="lesson-num">Lesson 8 · ఉచితం</div>
+        <h3>Student Privacy మరియు Safe AI Use</h3>
+        <p>AI తో ఎప్పుడూ share చేయకూడనివి. Students కి honest AI use ఎలా teach చేయాలి. School policy basics.</p>
+      </a>
+    </div>
+
+    <div style="margin-top:1.75rem;padding:1.1rem 1.4rem;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+      <div>
+        <div style="font-size:0.72rem;font-weight:900;letter-spacing:0.15em;text-transform:uppercase;color:#f59e0b;margin-bottom:0.35rem;">ఇది కూడా ఉచితం · Sign-in అవసరం లేదు</div>
+        <div style="font-weight:800;font-size:0.97rem;color:#f8fbff;">Prompt Template Pack — copy &amp; paste ready</div>
+        <div style="color:#b8c7da;font-size:0.85rem;margin-top:0.25rem;">Lesson plans, worksheets, question papers, feedback, మరిన్నింటి కోసం 20+ templates. ఒకసారి click చేయండి, blanks fill చేయండి, వెంటనే use చేయండి.</div>
+      </div>
+      <a href="teachers/prompt-templates-te.html" style="flex-shrink:0;display:inline-block;background:#f59e0b;color:#201200;font-weight:900;font-size:0.88rem;padding:0.65rem 1.4rem;border-radius:12px;text-decoration:none;box-shadow:0 4px 0 #9a5b00;white-space:nowrap;">Templates తెరవండి →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 11: Future Paid / Workshop Options ─────────────────────── -->
+<section class="band" style="background:rgba(0,0,0,0.2);">
+  <div class="band-inner">
+    <h2>Workshops మరియు institution support</h2>
+    <p>ఉచిత starter lessons తరువాత, ఎక్కువ support కావాలనుకునే teachers కోసం deeper options available. Pricing మరియు dates announce చేయబడతాయి. క్రింద interest register చేయండి.</p>
+    <div class="paid-grid">
+      <div class="paid-card"><h3>2-hour Teacher Workshop</h3><p>Lesson planning, worksheet creation, question paper drafting పై hands-on session. Live లేదా online.</p></div>
+      <div class="paid-card"><h3>1-day School Training</h3><p>School teaching team కి full day. Practical workflows, subject examples, safety rules, Q&amp;A.</p></div>
+      <div class="paid-card"><h3>Subject-wise Prompt Packs</h3><p>Class level ప్రకారం Science, Maths, English, Social Studies, Telugu కోసం ready-to-use prompt templates.</p></div>
+      <div class="paid-card"><h3>Exam Paper Preparation Pack</h3><p>Marks balance మరియు review checklist తో board exam paper drafting కి templates మరియు workflow.</p></div>
+      <div class="paid-card"><h3>College Lecturers కోసం AI</h3><p>Degree courses కోసం viva questions, assignment design, rubrics, lecture material workflows.</p></div>
+      <div class="paid-card"><h3>Institution Onboarding</h3><p>Schools మరియు colleges కి custom AI training. Policy guide, teacher handbook, follow-up support తో.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 12: Teacher Interest Form ─────────────────────────────── -->
+<section class="form-section" id="interest-form">
+  <div class="form-inner">
+    <h2>మీ interest register చేయండి</h2>
+    <p class="sub">మీ గురించి మరియు మీరు ఏమి నేర్చుకోవాలనుకుంటున్నారో చెప్పండి. మీ situation కి తగిన lessons, workshops, లేదా institutional support తో మేము contact చేస్తాము. Spam లేదు. Payment pressure లేదు.</p>
+    <form class="teacher-form" action="https://formspree.io/f/xojbnkry" method="POST">
+      <div class="form-row">
+        <input type="text" name="name" placeholder="మీ పేరు" required autocomplete="name" />
+        <input type="tel" name="phone" placeholder="Phone లేదా WhatsApp number" autocomplete="tel" />
+      </div>
+      <input type="email" name="email" placeholder="Email address" autocomplete="email" />
+      <div class="form-row">
+        <select name="role" required>
+          <option value="" disabled selected>మీ role</option>
+          <option>School teacher</option>
+          <option>College lecturer</option>
+          <option>Tuition teacher</option>
+          <option>Coaching centre teacher</option>
+          <option>Spoken English trainer</option>
+          <option>School coordinator / principal</option>
+          <option>Academic content creator</option>
+          <option>Other</option>
+        </select>
+        <input type="text" name="school" placeholder="School లేదా college పేరు" />
+      </div>
+      <div class="form-row">
+        <input type="text" name="subject" placeholder="మీరు teach చేసే subject (ఉదా. Science, Maths)" />
+        <input type="text" name="classes" placeholder="Class levels (ఉదా. Class 6–10)" />
+      </div>
+      <input type="text" name="city" placeholder="నగరం" />
+      <select name="interest">
+        <option value="" disabled selected>మీకు ఏది ఎక్కువ interest?</option>
+        <option>Free starter lessons</option>
+        <option>2-hour teacher workshop</option>
+        <option>1-day school training</option>
+        <option>Subject-wise prompt packs</option>
+        <option>Institution onboarding</option>
+        <option>ప్రస్తుతం just explore చేస్తున్నాను</option>
+      </select>
+      <textarea name="message" placeholder="ఏదైనా specific subjects, topics, లేదా questions? (optional)"></textarea>
+      <button type="submit" class="submit-btn">Interest పంపండి →</button>
+      <p class="form-note">మేము student data సేకరించము. మీ information మీకు relevant Mitra AI Life teacher support updates పంపడానికి మాత్రమే use అవుతుంది. ఎప్పుడైనా unsubscribe చేయవచ్చు.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ── FAQ ─────────────────────────────────────────────────────────────── -->
 <section class="band faq">
   <div class="band-inner">
     <h2>తరచుగా అడిగే ప్రశ్నలు</h2>
     <div class="faq-list">
-      <details><summary>AI lesson plan అంటే curriculum follow అవుతుందా?</summary><p>AI ఒక strong draft ఇస్తుంది. మీరు మీ school curriculum, student levels కి review మరియు adjust చేయాలి. AI mein Judgment కాదు — support tool.</p></details>
-      <details><summary>Student data safe గా ఉంటుందా?</summary><p>AI tools లో student పేర్లు, IDs, personal details enter చేయవద్దు. Generic prompts వాడండి.</p></details>
-      <details><summary>AI students exam లో copy paste చేయగలరా?</summary><p>AI plagiarism ఒక real concern. Lessons లో students ఎలా honestly AI వాడాలో, ఎలా రాయకూడదో కూడా నేర్పిస్తాం.</p></details>
-      <details><summary>Smartphone తో use చేయవచ్చా?</summary><p>అవును. All tools smartphone friendly. Lesson prep చేయడానికి laptop అవసరం లేదు.</p></details>
+      <details>
+        <summary>AI teachers ని replace చేస్తుందా?</summary>
+        <p>లేదు. Worksheets మరియు lesson plans వంటి repeated tasks పై AI preparation సమయం ఆదా చేస్తుంది. Classroom, final material, మరియు అన్ని student decisions పై teacher control లోనే ఉంటారు.</p>
+      </details>
+      <details>
+        <summary>AI tools use చేయడానికి technically skilled గా ఉండాలా?</summary>
+        <p>లేదు. WhatsApp లో message type చేయగలిగితే, ChatGPT లేదా Gemini use చేయవచ్చు. ఈ lessons ఏ prior AI లేదా technology background లేని teachers కోసం designed చేయబడ్డాయి.</p>
+      </details>
+      <details>
+        <summary>AI worksheets students కి ఇవ్వడం safe గా ఉందా?</summary>
+        <p>Teacher review తరువాత మాత్రమే. AI draft create చేస్తుంది. Students కి ఇవ్వడానికి ముందు accuracy, appropriateness, class-level భాష కోసం teacher check చేయాలి.</p>
+      </details>
+      <details>
+        <summary>నా స్వంత textbook లేదా syllabus AI తో use చేయవచ్చా?</summary>
+        <p>అవును. మీ notes paste చేసి ఆ notes నుండి మాత్రమే material create చేయమని AI ని అడగవచ్చు. Third-party material use చేయడానికి ముందు మీ school policy మరియు copyright rules check చేయండి.</p>
+      </details>
+      <details>
+        <summary>మొదటి lessons ఉచితంగా ఉన్నాయా?</summary>
+        <p>అవును. మొదటి ఎనిమిది starter lessons ఉచితం. Payment లేదు, sign-in అవసరం లేదు. Workshops మరియు subject packs launch అయినప్పుడు clear pricing ఉంటుంది.</p>
+      </details>
+      <details>
+        <summary>ఈ track కి Telugu version ఉందా?</summary>
+        <p>ఈ landing page Telugu లో ఉంది. Lesson content ప్రస్తుతం English లో ఉంది — Telugu lessons English version review తరువాత add చేయబడతాయి. Telugu content ready అయినప్పుడు notify చేయడానికి క్రింద interest register చేయండి.</p>
+      </details>
+      <details>
+        <summary>School లేదా institution group training request చేయగలదా?</summary>
+        <p>అవును. ఈ page లోని interest form use చేయండి. "Institution onboarding" select చేసి మీ school పేరు, నగరం, team size ఇవ్వండి. మేము options తో respond చేస్తాము.</p>
+      </details>
     </div>
   </div>
 </section>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"AI teachers ని replace చేస్తుందా?","acceptedAnswer":{"@type":"Answer","text":"లేదు. Worksheets మరియు lesson plans వంటి repeated tasks పై AI preparation సమయం ఆదా చేస్తుంది. Classroom, final material, మరియు అన్ని student decisions పై teacher control లోనే ఉంటారు."}},
+{"@type":"Question","name":"AI tools use చేయడానికి technically skilled గా ఉండాలా?","acceptedAnswer":{"@type":"Answer","text":"లేదు. WhatsApp లో message type చేయగలిగితే, ChatGPT లేదా Gemini use చేయవచ్చు."}},
+{"@type":"Question","name":"AI worksheets students కి ఇవ్వడం safe గా ఉందా?","acceptedAnswer":{"@type":"Answer","text":"Teacher review తరువాత మాత్రమే. AI draft create చేస్తుంది. Students కి ఇవ్వడానికి ముందు teacher check చేయాలి."}},
+{"@type":"Question","name":"నా స్వంత textbook AI తో use చేయవచ్చా?","acceptedAnswer":{"@type":"Answer","text":"అవును. మీ notes paste చేసి ఆ notes నుండి మాత్రమే material create చేయమని AI ని అడగవచ్చు."}},
+{"@type":"Question","name":"మొదటి lessons ఉచితంగా ఉన్నాయా?","acceptedAnswer":{"@type":"Answer","text":"అవును. మొదటి ఎనిమిది starter lessons ఉచితం. Payment లేదు, sign-in అవసరం లేదు."}},
+{"@type":"Question","name":"Telugu version ఉందా?","acceptedAnswer":{"@type":"Answer","text":"Landing page మరియు అన్ని 8 ఉచిత lessons ఇప్పుడు Telugu + English mixed style లో అందుబాటులో ఉన్నాయి. ప్రతి Telugu lesson పైన English version కి toggle కూడా ఉంది."}},
+{"@type":"Question","name":"School group training request చేయగలదా?","acceptedAnswer":{"@type":"Answer","text":"అవును. Interest form use చేసి Institution onboarding select చేయండి."}}
+]}
+</script>
 
 <footer>
   <span>Mitra AI Life · Teachers కోసం AI</span>
@@ -105,5 +537,6 @@
     <a href="payment-policy.html">Payments</a>
   </div>
 </footer>
+
 </body>
 </html>

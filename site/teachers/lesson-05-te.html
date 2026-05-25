@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Worksheet మరియు Answer Key తయారు చేయడం | Teachers కోసం AI | Mitra AI Life</title>
+  <meta name="description" content="AI నుండి ఒక request లో worksheet మరియు answer key పొందడం. Class 9 English example తో." />
+  <link rel="canonical" href="https://mitraailife.com/teachers/lesson-05-te.html" />
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="manifest" href="../site.webmanifest" />
+  <meta name="theme-color" content="#06111f" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&family=Syne:wght@700;800&family=Hind:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+  <link rel="stylesheet" href="../track-page.css" />
+  <style>
+    .lesson-nav { display:flex;align-items:center;justify-content:space-between;padding:0.65rem 5vw;background:rgba(3,8,18,0.9);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,0.1);position:sticky;top:0;z-index:20; }
+    .lesson-nav a { color:#b8c7da;text-decoration:none;font-size:0.82rem;font-weight:700; }
+    .lesson-nav a:hover { color:#f8fbff; }
+    .lesson-nav .brand { font-family:'Baloo 2',cursive;font-weight:800;font-size:1rem;color:#f8fbff; }
+    .lesson-nav .brand span { color:#68e1ff; }
+    .lesson-nav .nav-right { display:flex;gap:1.25rem;align-items:center; }
+    .lang-link { color:rgba(184,199,218,0.7);font-size:0.78rem; }
+    .lang-link:hover { color:#68e1ff; }
+    .lesson-wrap { max-width:820px;margin:0 auto;padding:3rem 5vw 5rem; }
+    .lesson-eyebrow { color:#68e1ff;font-size:0.72rem;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.75rem; }
+    .lesson-title { font-family:'Syne',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.2;margin-bottom:1rem; }
+    .lesson-meta { color:rgba(184,199,218,0.7);font-size:0.82rem;margin-bottom:2rem; }
+    .wyl-box { background:rgba(104,225,255,0.06);border:1px solid rgba(104,225,255,0.2);border-radius:14px;padding:1.25rem 1.4rem;margin-bottom:2.5rem; }
+    .wyl-box h3 { font-size:0.78rem;font-weight:900;letter-spacing:0.15em;text-transform:uppercase;color:#68e1ff;margin-bottom:0.75rem; }
+    .wyl-box ul { list-style:none;padding:0;display:grid;gap:0.5rem; }
+    .wyl-box ul li { color:#b8c7da;font-size:0.93rem;line-height:1.6;padding-left:1.2rem;position:relative; }
+    .wyl-box ul li::before { content:"✓";position:absolute;left:0;color:#68e1ff;font-weight:900; }
+    .section-h2 { font-family:'Syne',sans-serif;font-size:clamp(1.2rem,2.5vw,1.6rem);margin:2.5rem 0 0.75rem; }
+    .lesson-p { color:#b8c7da;line-height:1.8;font-size:0.97rem;margin-bottom:1rem; }
+    .prompt-label { font-size:0.72rem;font-weight:900;letter-spacing:0.15em;text-transform:uppercase;color:#68e1ff;margin:1.5rem 0 0.4rem; }
+    .prompt-box { background:rgba(0,0,0,0.4);border:1px solid rgba(104,225,255,0.18);border-radius:12px;padding:1.2rem 1.4rem;font-size:0.87rem;color:#a8d8ff;line-height:1.75;white-space:pre-wrap;margin-bottom:1rem; }
+    .output-box { background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.22);border-radius:12px;padding:1.2rem 1.4rem;font-size:0.87rem;color:#a7f3d0;line-height:1.75;white-space:pre-wrap;margin-bottom:1rem; }
+    .checklist-box { background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.22);border-radius:14px;padding:1.25rem 1.4rem;margin:1.5rem 0; }
+    .checklist-box h3 { font-size:0.78rem;font-weight:900;letter-spacing:0.14em;text-transform:uppercase;color:#f59e0b;margin-bottom:0.75rem; }
+    .checklist-box ul { list-style:none;padding:0;display:grid;gap:0.55rem; }
+    .checklist-box ul li { color:#b8c7da;font-size:0.93rem;line-height:1.6;display:flex;gap:0.6rem; }
+    .checklist-box ul li::before { content:"☐";color:#f59e0b;flex-shrink:0; }
+    .practice-box { background:rgba(139,92,246,0.07);border:1px solid rgba(139,92,246,0.22);border-radius:14px;padding:1.25rem 1.4rem;margin:1.5rem 0; }
+    .practice-box h3 { font-size:0.78rem;font-weight:900;letter-spacing:0.14em;text-transform:uppercase;color:#a78bfa;margin-bottom:0.75rem; }
+    .practice-box p, .practice-box ol { color:#b8c7da;font-size:0.93rem;line-height:1.7; }
+    .practice-box ol { padding-left:1.3rem;display:grid;gap:0.5rem; }
+    .lesson-nav-btns { display:flex;gap:1rem;flex-wrap:wrap;margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.1); }
+    .nav-btn { display:inline-flex;align-items:center;justify-content:center;padding:0.65rem 1.4rem;border-radius:12px;font-weight:900;font-size:0.9rem;text-decoration:none;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.07);color:#f8fbff;transition:background 0.15s,border-color 0.15s; }
+    .nav-btn:hover { background:rgba(255,255,255,0.12); }
+    .nav-btn.primary { background:#f59e0b;color:#201200;border-color:#f59e0b;box-shadow:0 4px 0 #9a5b00; }
+    .divider { height:1px;background:rgba(255,255,255,0.08);margin:2rem 0; }
+    .highlight { color:#68e1ff;font-weight:800; }
+    .warn { color:#f87171;font-weight:700; }
+    .info-card { background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:1rem 1.2rem;margin-bottom:0.85rem; }
+    .info-card strong { color:#f8fbff;display:block;margin-bottom:0.3rem;font-size:0.95rem; }
+    .info-card span { color:#b8c7da;font-size:0.88rem;line-height:1.65; }
+  </style>
+</head>
+<body style="background:#06111f;color:#f8fbff;">
+<nav class="lesson-nav">
+  <a class="brand" href="../teachers-te.html">Mitra <span>AI</span> Life</a>
+  <div class="nav-right">
+    <a href="lesson-05.html" class="lang-link">🇬🇧 English</a>
+    <a href="../teachers-te.html">← Teachers కోసం AI</a>
+  </div>
+</nav>
+<div class="lesson-wrap">
+  <p class="lesson-eyebrow">Lesson 5 / 8 · ఉచితం · Teachers కోసం AI</p>
+  <h1 class="lesson-title">Worksheet మరియు Answer Key తయారు చేయడం</h1>
+  <p class="lesson-meta">చదవడానికి 8 నిమిషాలు · Lesson 3 పై build అవుతుంది · తెలుగు + English</p>
+
+  <div class="wyl-box">
+    <h3>మీరు నేర్చుకునేవి</h3>
+    <ul>
+      <li>ఏ question types combination అయినా AI నుండి ఎలా అడగాలి</li>
+      <li>ఒకే request లో worksheet మరియు answer key పొందడం ఎలా</li>
+      <li>Real example: Class 9 English worksheet on tenses</li>
+      <li>Review సమయంలో catch చేయవలసిన common mistakes</li>
+    </ul>
+  </div>
+
+  <h2 class="section-h2">Worksheets best starting point</h2>
+  <p class="lesson-p">అన్ని teaching tasks లో, worksheet creation లోనే AI ఎక్కువ సమయం ఆదా చేస్తుంది. Manually 45 నిమిషాలు పట్టే worksheet AI తో 3 నిమిషాల్లో అవుతుంది — AI generate చేయడానికి 30 seconds, మిగతాది మీ review కి.</p>
+  <p class="lesson-p">Key ఏమిటంటే మీకు ఏ question types మరియు counts కావాలో AI కి exactly చెప్పడం. Specify చేయకపోతే, AI guess చేస్తుంది — ఆ guess మీ class needs తో match కాకపోవచ్చు.</p>
+
+  <h2 class="section-h2">AI బాగా handle చేసే worksheet question types</h2>
+
+  <div class="info-card"><strong>Fill-in-the-blank</strong><span> "Complete the sentence with the correct word." Vocabulary, grammar, science terms, historical facts కి పనిచేస్తుంది.</span></div>
+  <div class="info-card"><strong>Multiple choice (MCQ)</strong><span> "Choose the correct answer from a, b, c, d." Plausible wrong answers తో 4-option MCQs AI create చేయగలదు. Wrong options actually correct కాదని ఎల్లప్పుడూ check చేయండి.</span></div>
+  <div class="info-card"><strong>Short-answer</strong><span> "Answer in 1–2 sentences." Long writing అవసరం లేకుండా understanding check చేయడానికి good.</span></div>
+  <div class="info-card"><strong>Match the following</strong><span> Match చేయడానికి రెండు columns. Vocabulary, cause-effect, term-definition కి good.</span></div>
+  <div class="info-card"><strong>True or false</strong><span> Quick fact-check questions. AI-generated true/false answers ఎల్లప్పుడూ verify చేయండి — ఇక్కడ AI కొన్నిసార్లు mistakes చేస్తుంది.</span></div>
+  <div class="info-card"><strong>Application / word problems</strong><span> Daily-life scenarios use చేసే story-based problems. Relatable contexts కోసం "use Indian daily-life examples" specify చేయండి.</span></div>
+
+  <div class="divider"></div>
+
+  <h2 class="section-h2">Complete example — Class 9 English, Tenses</h2>
+
+  <div class="prompt-label">The prompt</div>
+  <div class="prompt-box">You are an experienced Class 9 English teacher.
+Create a worksheet on tenses for Class 9 CBSE students.
+Include:
+  - 5 fill-in-the-blank questions (use correct tense)
+  - 5 MCQs (identify the correct tense in a sentence)
+  - 4 short-answer questions (rewrite the sentence in the given tense)
+  - 1 paragraph with 5 blanks to fill in with correct tense forms
+Add a complete answer key at the end.
+Use sentences about Indian school life, sports, and daily activities.
+Do not include advanced grammar structures beyond Class 9 CBSE level.</div>
+
+  <div class="prompt-label">Sample AI output (condensed)</div>
+  <div class="output-box">WORKSHEET — Tenses | Class 9 English
+
+SECTION A: Fill in the blanks (5 marks)
+1. She _______ (study) for two hours every evening. [studies]
+2. They _______ (play) cricket when it started raining. [were playing]
+3. By the time the teacher arrived, the students _______ (complete) their homework. [had completed]
+4. Ravi _______ (not eat) breakfast yet when his bus came. [had not eaten]
+5. The school _______ (celebrate) its annual day next Friday. [will celebrate / is celebrating]
+
+SECTION B: MCQs — Identify the tense (5 marks)
+1. "Priya has been learning Bharatanatyam since she was seven."
+   a) Simple Present  b) Present Perfect Continuous  c) Past Continuous  d) Future Perfect
+   Answer: b) Present Perfect Continuous
+
+[...4 more MCQs...]
+
+SECTION C: Rewrite in given tense (4 marks)
+1. "She reads a book." → Rewrite in Past Perfect.
+   Answer: She had read a book.
+[...3 more...]
+
+SECTION D: Fill the blanks in the paragraph (5 marks)
+Arjun (1)_______ (wake) up early every morning. Yesterday, he (2)_______ (wake) up at 5 am and (3)_______ (go) for a run. He (4)_______ (run) for 30 minutes by the time his mother (5)_______ (call) him for breakfast.
+Answers: 1-wakes, 2-woke, 3-went, 4-had been running, 5-called
+
+ANSWER KEY (full answers listed for all sections)
+
+[Teacher: verify tense classifications against your Class 9 CBSE grammar textbook — especially Section C rewrite answers]</div>
+
+  <h2 class="section-h2">Catch చేయవలసిన common review mistakes</h2>
+  <p class="lesson-p">AI worksheets create చేస్తున్నప్పుడు, ఈ specific problems కోసం watch చేయండి:</p>
+
+  <div class="info-card"><strong>Answer key లో wrong answers:</strong><span> ఇది grammar (tenses, prepositions) మరియు maths లో ఎక్కువగా జరుగుతుంది. ప్రతి answer key answer manually check చేయండి.</span></div>
+  <div class="info-card"><strong>అన్ని technically correct గా ఉండే MCQ options:</strong><span> కొన్నిసార్లు AI 4 options create చేస్తుంది, వాటిలో 2 లేదా 3 acceptable గా ఉంటాయి. ప్రతి MCQ కి exactly ఒక్క clearly correct answer మాత్రమే ఉండాలి.</span></div>
+  <div class="info-card"><strong>"False" answer actually debatable గా ఉండే True/False:</strong><span> AI కొన్నిసార్లు T/F questions create చేస్తుంది, వాటిలో "false" answer certain contexts లో true గా argue చేయవచ్చు. వీటిని replace చేయండి.</span></div>
+  <div class="info-card"><strong>Indian context కి match కాని word problems:</strong><span> AI "dollars" లేదా "miles" లేదా non-Indian food names use చేయవచ్చు. వీటిని rupees, kilometres, rotis, samosas, లేదా natural గా ఏది అయితే అది గా మార్చండి.</span></div>
+
+  <div class="checklist-box">
+    <h3>Worksheet review checklist</h3>
+    <ul>
+      <li>Answer key లో ప్రతి answer correct గా ఉందా? ప్రతిది check చేయండి.</li>
+      <li>MCQs కి exactly ఒక్క clearly correct answer ఉందా?</li>
+      <li>అన్ని questions class level మరియు syllabus scope లోనేనా?</li>
+      <li>Contexts Indian గా మరియు మీ students కి relatable గా ఉన్నాయా?</li>
+      <li>Total marks count correct గా ఉందా? ప్రతి section కి marks count చేయండి.</li>
+      <li>Instructions students అర్థం చేసుకోవడానికి language clear గా ఉందా?</li>
+    </ul>
+  </div>
+
+  <div class="practice-box">
+    <h3>Practice task</h3>
+    <ol>
+      <li>ఈ వారం మీరు teach చేసే ఏ class నుండి అయినా ఒక topic ఎంచుకోండి.</li>
+      <li>Worksheet prompt రాయండి, specify: class level, topic, exact counts తో 4 question types, answer key, language instruction.</li>
+      <li>ChatGPT లేదా Gemini లో submit చేయండి.</li>
+      <li>Answer key లో ప్రతి single answer check చేయండి.</li>
+      <li>మీరు మార్చదలచిన 1–2 items mark చేయండి. ఆ edits చేయండి.</li>
+      <li>Worksheet ఇప్పుడు classroom-ready.</li>
+    </ol>
+  </div>
+
+  <div class="lesson-nav-btns">
+    <a class="nav-btn" href="../teachers-te.html">← అన్ని Teacher Lessons</a>
+    <a class="nav-btn" href="lesson-04-te.html">← Lesson 4</a>
+    <a class="nav-btn primary" href="lesson-06-te.html">Lesson 6 →</a>
+  </div>
+</div>
+<footer style="border-top:1px solid rgba(255,255,255,0.08);padding:1.5rem 5vw;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;font-size:0.82rem;color:rgba(184,199,218,0.55);">
+  <span>Mitra AI Life · Teachers కోసం AI</span>
+  <div style="display:flex;gap:1.25rem;">
+    <a href="../teachers-te.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Teacher Hub</a>
+    <a href="../contact-te.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">సంప్రదించండి</a>
+    <a href="../privacy.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Privacy</a>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create a Question Paper Draft Safely | AI for Teachers | Mitra AI Life</title>
+  <meta name="description" content="Use your syllabus and old paper pattern to draft a balanced question paper with AI. Teacher always reviews before printing." />
+  <link rel="canonical" href="https://mitraailife.com/teachers/lesson-06.html" />
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="manifest" href="../site.webmanifest" />
+  <meta name="theme-color" content="#06111f" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+  <link rel="stylesheet" href="../track-page.css" />
+  <style>
+    .lesson-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.65rem 5vw;
+      background: rgba(3,8,18,0.9); backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      position: sticky; top: 0; z-index: 20;
+    }
+    .lesson-nav a { color: #b8c7da; text-decoration: none; font-size: 0.82rem; font-weight: 700; }
+    .lesson-nav a:hover { color: #f8fbff; }
+    .lesson-nav .brand { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1rem; color: #f8fbff; }
+    .lesson-nav .brand span { color: #68e1ff; }
+    .lesson-wrap { max-width: 820px; margin: 0 auto; padding: 3rem 5vw 5rem; }
+    .lesson-eyebrow { color: #68e1ff; font-size: 0.72rem; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .lesson-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.1; margin-bottom: 1rem; }
+    .lesson-meta { color: rgba(184,199,218,0.7); font-size: 0.82rem; margin-bottom: 2rem; }
+    .wyl-box {
+      background: rgba(104,225,255,0.06); border: 1px solid rgba(104,225,255,0.2);
+      border-radius: 14px; padding: 1.25rem 1.4rem; margin-bottom: 2.5rem;
+    }
+    .wyl-box h3 { font-size: 0.78rem; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: #68e1ff; margin-bottom: 0.75rem; }
+    .wyl-box ul { list-style: none; padding: 0; display: grid; gap: 0.5rem; }
+    .wyl-box ul li { color: #b8c7da; font-size: 0.93rem; line-height: 1.55; padding-left: 1.2rem; position: relative; }
+    .wyl-box ul li::before { content: "✓"; position: absolute; left: 0; color: #68e1ff; font-weight: 900; }
+    .section-h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.2rem, 2.5vw, 1.6rem); margin: 2.5rem 0 0.75rem; }
+    .lesson-p { color: #b8c7da; line-height: 1.75; font-size: 0.97rem; margin-bottom: 1rem; }
+    .prompt-label { font-size: 0.72rem; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: #68e1ff; margin: 1.5rem 0 0.4rem; }
+    .prompt-box {
+      background: rgba(0,0,0,0.4); border: 1px solid rgba(104,225,255,0.18);
+      border-radius: 12px; padding: 1.2rem 1.4rem;
+      font-size: 0.87rem; color: #a8d8ff; line-height: 1.75; white-space: pre-wrap; margin-bottom: 1rem;
+    }
+    .output-box {
+      background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.22);
+      border-radius: 12px; padding: 1.2rem 1.4rem;
+      font-size: 0.87rem; color: #a7f3d0; line-height: 1.75; white-space: pre-wrap; margin-bottom: 1rem;
+    }
+    .checklist-box {
+      background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.22);
+      border-radius: 14px; padding: 1.25rem 1.4rem; margin: 1.5rem 0;
+    }
+    .checklist-box h3 { font-size: 0.78rem; font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; color: #f59e0b; margin-bottom: 0.75rem; }
+    .checklist-box ul { list-style: none; padding: 0; display: grid; gap: 0.5rem; }
+    .checklist-box ul li { color: #b8c7da; font-size: 0.93rem; line-height: 1.55; display: flex; gap: 0.6rem; }
+    .checklist-box ul li::before { content: "☐"; color: #f59e0b; flex-shrink: 0; }
+    .practice-box {
+      background: rgba(139,92,246,0.07); border: 1px solid rgba(139,92,246,0.22);
+      border-radius: 14px; padding: 1.25rem 1.4rem; margin: 1.5rem 0;
+    }
+    .practice-box h3 { font-size: 0.78rem; font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; color: #a78bfa; margin-bottom: 0.75rem; }
+    .practice-box p, .practice-box ol { color: #b8c7da; font-size: 0.93rem; line-height: 1.65; }
+    .practice-box ol { padding-left: 1.3rem; display: grid; gap: 0.5rem; }
+    .lesson-nav-btns {
+      display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 3rem; padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .nav-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.65rem 1.4rem; border-radius: 12px; font-weight: 900; font-size: 0.9rem;
+      text-decoration: none; border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.07); color: #f8fbff;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .nav-btn:hover { background: rgba(255,255,255,0.12); }
+    .nav-btn.primary { background: #f59e0b; color: #201200; border-color: #f59e0b; box-shadow: 0 4px 0 #9a5b00; }
+    .divider { height: 1px; background: rgba(255,255,255,0.08); margin: 2rem 0; }
+    .highlight { color: #68e1ff; font-weight: 800; }
+    .warn { color: #f87171; font-weight: 700; }
+    .info-card {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px; padding: 1rem 1.2rem; margin-bottom: 0.85rem;
+    }
+    .info-card strong { color: #f8fbff; display: block; margin-bottom: 0.25rem; font-size: 0.95rem; }
+    .info-card span { color: #b8c7da; font-size: 0.88rem; line-height: 1.6; }
+  </style>
+</head>
+<body style="background:#06111f;color:#f8fbff;">
+<nav class="lesson-nav">
+  <a class="brand" href="../teachers.html">Mitra <span>AI</span> Life</a>
+  <a href="../teachers.html">← Back to AI for Teachers</a>
+</nav>
+<div class="lesson-wrap">
+  <p class="lesson-eyebrow">Lesson 6 of 8 · Free · AI for Teachers</p>
+  <h1 class="lesson-title">Create a Question Paper Draft Safely</h1>
+  <p class="lesson-meta">10 minutes to read · Builds on Lessons 3–5 · English</p>
+
+  <div class="wyl-box">
+    <h3>What you will learn</h3>
+    <ul>
+      <li>The full workflow for drafting a question paper safely with AI</li>
+      <li>What reference material to give AI for exam paper creation</li>
+      <li>A real example: Class 10 Social Studies unit test</li>
+      <li>The non-negotiable teacher review steps before printing any AI paper</li>
+    </ul>
+  </div>
+
+  <h2 class="section-h2">Why question papers need extra care</h2>
+  <p class="lesson-p">A worksheet is practice material — if one question is slightly off, a student gets confused, and the teacher corrects it next class. A question paper is assessment material — if it has a wrong question, an unfair marks distribution, or incorrect answer key, students are affected in their grades.</p>
+  <p class="lesson-p">This is why question paper creation with AI needs a <span class="highlight">more careful review process</span>. AI creates the draft. The teacher does the quality check. This is not optional.</p>
+
+  <h2 class="section-h2">What to give AI for a question paper</h2>
+
+  <div class="info-card"><strong>1. Syllabus or chapter list</strong><span> Which chapters or units does the paper cover? Be specific about what is included and excluded.</span></div>
+  <div class="info-card"><strong>2. Old question paper pattern</strong><span> Paste the structure from a previous year paper or your school's standard format. AI will follow the same format.</span></div>
+  <div class="info-card"><strong>3. Marks distribution</strong><span> Total marks, section-wise marks, per-question marks. Be explicit: "5 MCQs of 1 mark each, 4 short-answer of 2 marks each, 2 long-answer of 5 marks each."</span></div>
+  <div class="info-card"><strong>4. Difficulty mix</strong><span> Tell AI what percentage should be easy, medium, and hard. A common school exam balance: 40% easy, 40% medium, 20% hard.</span></div>
+  <div class="info-card"><strong>5. Time limit</strong><span> "This is a 45-minute class test" or "This is a 3-hour board exam paper." Affects question complexity.</span></div>
+
+  <div class="divider"></div>
+
+  <h2 class="section-h2">Complete example — Class 10 Social Studies unit test</h2>
+
+  <div class="prompt-label">The prompt</div>
+  <div class="prompt-box">You are an experienced Class 10 Social Studies teacher preparing an internal unit test.
+Create a question paper for Class 10 on the topic: The Rise of Nationalism in Europe (Chapter 1, NCERT).
+Total marks: 25. Time: 45 minutes.
+Difficulty: 8 easy marks, 12 medium marks, 5 hard marks.
+Format:
+  Section A: 5 MCQs × 1 mark = 5 marks
+  Section B: 4 short-answer questions (2–3 sentences) × 2 marks = 8 marks
+  Section C: 2 medium-answer questions (5–6 sentences) × 4 marks = 8 marks
+  Section D: 1 map-based question × 4 marks (describe/identify without an actual map image) = 4 marks
+Add a complete answer key with model answers.
+Do not copy questions directly from the NCERT textbook exercises.
+Create original questions based on the chapter concepts.
+Teacher review required before printing.
+
+Chapter topics covered:
+- French Revolution and sense of collective identity
+- Role of culture, language, and folk traditions in building nationalism
+- Unification of Germany (Bismarck's role)
+- Unification of Italy (Garibaldi, Mazzini, Cavour)
+- Balkan nationalism and Eastern Question</div>
+
+  <div class="prompt-label">Sample AI output (condensed)</div>
+  <div class="output-box">UNIT TEST — The Rise of Nationalism in Europe
+Class 10 Social Studies | 25 Marks | 45 Minutes
+
+SECTION A: Multiple Choice Questions (5 × 1 = 5 marks)
+1. Which event is considered a turning point in the beginning of nationalist movements in Europe?
+   a) Industrial Revolution  b) French Revolution  c) American Civil War  d) Congress of Vienna
+   Answer: b) French Revolution
+
+2. Who was known as the "Sword of Italian Unification"?
+   a) Cavour  b) Mazzini  c) Garibaldi  d) Bismarck
+   Answer: c) Garibaldi
+
+[...3 more MCQs...]
+
+SECTION B: Short-answer questions (4 × 2 = 8 marks)
+1. What was the role of folk songs and folk tales in building nationalist feeling in Europe?
+   Model Answer: Folk songs and tales carried stories of common history and shared identity. Romanticist poets and musicians used these to create a sense of shared cultural roots among people who spoke the same language but lived in different states.
+
+[...3 more short-answer questions with model answers...]
+
+SECTION C: Medium-answer questions (2 × 4 = 8 marks)
+1. How did Otto von Bismarck use wars and diplomacy to unify Germany?
+   Model Answer: Bismarck, the Chancellor of Prussia, believed in "blood and iron" — military strength over idealism. He fought three wars: against Denmark (1864), Austria (1866), and France (1870–71). Each war gave Prussia more territory and influence. After defeating France, the German states agreed to form the German Empire in 1871, with the Prussian king as Emperor.
+
+[...1 more medium-answer question with model answer...]
+
+SECTION D: Map-based question (1 × 4 = 4 marks)
+Describe the major territorial changes in Europe between 1815 (Congress of Vienna) and 1871 (Unification of Germany and Italy). Name two regions that changed significantly and explain why.
+
+Model Answer: After the Congress of Vienna, Europe was reorganised to restore conservative monarchies. By 1871, two major changes occurred: (1) Italy unified under King Victor Emmanuel II after Garibaldi's campaigns in the south and Cavour's diplomatic efforts in the north. (2) Germany unified under Prussian leadership after Bismarck's three wars. The Austro-Hungarian Empire lost influence in both regions.
+
+ANSWER KEY — Full model answers for all sections
+[All answers listed above]
+
+TEACHER NOTE: Verify all historical dates and names against NCERT Class 10 History Chapter 1 before printing. The map-based question assumes students have studied the relevant maps in class.</div>
+
+  <div class="checklist-box">
+    <h3>Non-negotiable review steps before printing any AI question paper</h3>
+    <ul>
+      <li>Verify every MCQ answer against the textbook. Check that wrong options are truly wrong.</li>
+      <li>Verify every model answer in the answer key for factual accuracy.</li>
+      <li>Count the total marks — does the paper add up to the correct total?</li>
+      <li>Check the difficulty balance — are there enough easy marks for average students?</li>
+      <li>Check for any question that was lifted from a previous year paper — replace it.</li>
+      <li>Read every question aloud — is the language clear and unambiguous for students?</li>
+      <li>Check that all topics in the paper were actually taught in class before the exam.</li>
+      <li>Get a second teacher to glance at the paper if possible before printing.</li>
+    </ul>
+  </div>
+
+  <div class="practice-box">
+    <h3>Practice task</h3>
+    <ol>
+      <li>Choose an upcoming class test or internal exam you need to prepare.</li>
+      <li>Gather: chapter list, your school's standard question paper format, marks distribution, and time limit.</li>
+      <li>Write a question paper prompt using all 5 reference material elements from this lesson.</li>
+      <li>Submit to ChatGPT or Claude (Claude handles longer reference pastes well).</li>
+      <li>Apply the full review checklist above. Mark every item you check.</li>
+      <li>Make corrections. Print only after all checklist items are cleared.</li>
+    </ol>
+  </div>
+  <div class="lesson-nav-btns">
+    <a class="nav-btn" href="../teachers.html">← All Teacher Lessons</a>
+    <a class="nav-btn" href="lesson-05.html">← Lesson 5</a>
+    <a class="nav-btn primary" href="lesson-07.html">Lesson 7 →</a>
+  </div>
+</div>
+<footer style="border-top:1px solid rgba(255,255,255,0.08);padding:1.5rem 5vw;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;font-size:0.82rem;color:rgba(184,199,218,0.55);">
+  <span>Mitra AI Life · AI for Teachers</span>
+  <div style="display:flex;gap:1.25rem;">
+    <a href="../teachers.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Teacher Hub</a>
+    <a href="../contact.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Contact</a>
+    <a href="../privacy.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Privacy</a>
+  </div>
+</footer>
+</body>
+</html>

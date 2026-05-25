@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teacher AI Prompt Templates | Teachers కోసం AI | Mitra AI Life</title>
+  <meta name="description" content="Teachers కోసం ఉచిత copy-paste AI prompt templates. Lesson plans, worksheets, question papers, explanations, feedback, parent messages, మరియు ఇంకా." />
+  <link rel="canonical" href="https://mitraailife.com/teachers/prompt-templates-te.html" />
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="manifest" href="../site.webmanifest" />
+  <meta name="theme-color" content="#06111f" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&family=Syne:wght@700;800&family=Hind:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGY0LH6W93"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QGY0LH6W93');</script>
+  <link rel="stylesheet" href="../track-page.css" />
+  <style>
+    .lesson-nav { display:flex;align-items:center;justify-content:space-between;padding:0.65rem 5vw;background:rgba(3,8,18,0.9);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,0.1);position:sticky;top:0;z-index:20; }
+    .lesson-nav a { color:#b8c7da;text-decoration:none;font-size:0.82rem;font-weight:700; }
+    .lesson-nav a:hover { color:#f8fbff; }
+    .lesson-nav .brand { font-family:'Baloo 2',cursive;font-weight:800;font-size:1rem;color:#f8fbff; }
+    .lesson-nav .brand span { color:#68e1ff; }
+    .lesson-nav .nav-right { display:flex;gap:1.25rem;align-items:center; }
+    .lang-link { color:rgba(184,199,218,0.7);font-size:0.78rem; }
+    .lang-link:hover { color:#68e1ff; }
+    .page-wrap { max-width:900px;margin:0 auto;padding:3rem 5vw 5rem; }
+    .page-eyebrow { color:#68e1ff;font-size:0.72rem;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.75rem; }
+    .page-title { font-family:'Syne',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.1;margin-bottom:1rem; }
+    .page-lead { color:#b8c7da;font-size:1rem;line-height:1.7;margin-bottom:2rem;max-width:700px; }
+    .cat-nav { display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(255,255,255,0.08); }
+    .cat-btn { padding:0.45rem 0.95rem;border-radius:999px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:#b8c7da;font:700 0.8rem 'Nunito',sans-serif;cursor:pointer;transition:background 0.15s,border-color 0.15s,color 0.15s;text-decoration:none;display:inline-block; }
+    .cat-btn:hover, .cat-btn.active { background:rgba(104,225,255,0.12);border-color:rgba(104,225,255,0.35);color:#f8fbff; }
+    .cat-section { margin-bottom:3rem;scroll-margin-top:80px; }
+    .cat-title { font-family:'Syne',sans-serif;font-size:clamp(1.2rem,2.5vw,1.6rem);margin-bottom:0.4rem; }
+    .cat-desc { color:#b8c7da;font-size:0.9rem;line-height:1.6;margin-bottom:1.25rem; }
+    .tpl-card { background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:14px;margin-bottom:1.25rem;overflow:hidden; }
+    .tpl-header { display:flex;align-items:center;justify-content:space-between;padding:0.85rem 1.2rem;border-bottom:1px solid rgba(255,255,255,0.08);gap:0.75rem; }
+    .tpl-name { font-weight:800;font-size:0.93rem;color:#f8fbff; }
+    .tpl-tag { font-size:0.7rem;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;padding:2px 10px;border-radius:999px;background:rgba(104,225,255,0.1);border:1px solid rgba(104,225,255,0.25);color:#68e1ff; }
+    .copy-btn { flex-shrink:0;padding:0.35rem 0.9rem;border-radius:8px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);color:#f59e0b;font:700 0.78rem 'Nunito',sans-serif;cursor:pointer;transition:background 0.15s;white-space:nowrap; }
+    .copy-btn:hover { background:rgba(245,158,11,0.2); }
+    .copy-btn.copied { background:rgba(16,185,129,0.15);border-color:rgba(16,185,129,0.3);color:#34d399; }
+    .tpl-body { padding:1.1rem 1.2rem;font-size:0.86rem;color:#a8d8ff;line-height:1.75;white-space:pre-wrap;font-family:'Nunito',monospace; }
+    .tpl-note { padding:0.65rem 1.2rem;font-size:0.8rem;color:rgba(184,199,218,0.65);border-top:1px solid rgba(255,255,255,0.06);line-height:1.55; }
+    .divider { height:1px;background:rgba(255,255,255,0.07);margin:2.5rem 0; }
+    .how-box { background:rgba(104,225,255,0.05);border:1px solid rgba(104,225,255,0.18);border-radius:14px;padding:1.25rem 1.4rem;margin-bottom:2.5rem; }
+    .how-box h3 { font-size:0.78rem;font-weight:900;letter-spacing:0.15em;text-transform:uppercase;color:#68e1ff;margin-bottom:0.75rem; }
+    .how-box ol { padding-left:1.3rem;display:grid;gap:0.5rem; }
+    .how-box ol li { color:#b8c7da;font-size:0.93rem;line-height:1.6; }
+    .how-box ol li strong { color:#f8fbff; }
+  </style>
+</head>
+<body style="background:#06111f;color:#f8fbff;">
+<nav class="lesson-nav">
+  <a class="brand" href="../teachers-te.html">Mitra <span>AI</span> Life</a>
+  <div class="nav-right">
+    <a href="prompt-templates.html" class="lang-link">🇬🇧 English</a>
+    <a href="../teachers-te.html">← Teachers కోసం AI</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <p class="page-eyebrow">ఉచిత resource · Teachers కోసం AI</p>
+  <h1 class="page-title">Teacher AI Prompt Templates</h1>
+  <p class="page-lead">ఏ template అయినా copy చేయండి, [BRACKETS] లో ఉన్న parts fill చేయండి, చివర మీ reference notes paste చేయండి, మరియు ChatGPT, Gemini, లేదా Claude కి send చేయండి. Prior AI experience అవసరం లేదు.</p>
+
+  <div class="how-box">
+    <h3>ఈ Templates ఎలా use చేయాలి</h3>
+    <ol>
+      <li><strong>ఏ card మీద అయినా "Copy template" click చేయండి.</strong></li>
+      <li><strong>ChatGPT, Gemini, లేదా Claude open చేయండి</strong> (free account — payment అవసరం లేదు).</li>
+      <li><strong>Template ని chat box లో paste చేయండి.</strong> అన్ని [BRACKETS] ని మీ details తో fill చేయండి.</li>
+      <li><strong>Template లో "Reference material:" line ఉంటే</strong> — send చేయడానికి ముందు ఆ line కింద మీ textbook notes లేదా syllabus paste చేయండి.</li>
+      <li><strong>Output read చేసి</strong> classroom use కి ముందు accuracy review చేయండి. Review checklist కోసం <a href="lesson-07-te.html" style="color:#68e1ff;font-weight:800;">Lesson 7</a> చూడండి.</li>
+    </ol>
+  </div>
+
+  <nav class="cat-nav" aria-label="Template categories">
+    <a class="cat-btn" href="#cat-lesson-plan">Lesson Plans</a>
+    <a class="cat-btn" href="#cat-worksheet">Worksheets</a>
+    <a class="cat-btn" href="#cat-question-paper">Question Papers</a>
+    <a class="cat-btn" href="#cat-explanation">Explanations</a>
+    <a class="cat-btn" href="#cat-feedback">Feedback</a>
+    <a class="cat-btn" href="#cat-parent">Parent Messages</a>
+    <a class="cat-btn" href="#cat-activity">Class Activities</a>
+    <a class="cat-btn" href="#cat-remedial">Remedial Support</a>
+  </nav>
+
+  <!-- 1. Lesson Plans -->
+  <section class="cat-section" id="cat-lesson-plan">
+    <h2 class="cat-title">Lesson Plans</h2>
+    <p class="cat-desc">మీ textbook notes లేదా syllabus ని reference material గా use చేయండి. Class level మరియు topic గురించి ఎంత specific గా ఉంటే, output అంత better.</p>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Standard 40-minute lesson plan</div></div>
+        <span class="tpl-tag">Lesson plan</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">You are an experienced [SUBJECT] teacher for [CLASS LEVEL].
+Create a 40-minute lesson plan on [TOPIC].
+Use only the reference material below.
+Include:
+  - 3 learning outcomes (what students will be able to do after the lesson)
+  - 3 warm-up questions (to start class discussion)
+  - Explanation flow (step-by-step, with timing for each step)
+  - 1 classroom activity using easily available materials
+  - Board summary (5 key points in simple language)
+  - 5 homework questions (mix of easy and medium difficulty)
+Keep all language at [CLASS LEVEL] level.
+Use Indian daily-life examples where possible.
+Do not add content outside the reference material.
+
+Reference material:
+[PASTE YOUR NOTES OR TEXTBOOK SECTION HERE]</pre>
+      <div class="tpl-note">పనిచేస్తుంది: Science, Maths, English, Social Studies, Hindi, Telugu, మరియు చాలా school subjects.</div>
+    </div>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">30-minute quick lesson plan</div></div>
+        <span class="tpl-tag">Lesson plan</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">You are a [SUBJECT] teacher for [CLASS LEVEL].
+Create a 30-minute focused lesson plan on [TOPIC].
+This is a revision or follow-up lesson — keep it tight and fast-paced.
+Include:
+  - 2 warm-up questions (3 minutes)
+  - Key points explanation (15 minutes, bullet-style)
+  - 1 quick group activity or pair discussion (7 minutes)
+  - Exit ticket: 2 questions students answer before leaving (5 minutes)
+Keep language simple. All content from reference material only.
+
+Reference material:
+[PASTE YOUR NOTES HERE]</pre>
+      <div class="tpl-note">దీనికి best: revision classes, catch-up sessions, లేదా ఒక single focused concept cover చేయడం.</div>
+    </div>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Weekly lesson plan (5 days)</div></div>
+        <span class="tpl-tag">Lesson plan</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">You are an experienced [SUBJECT] teacher for [CLASS LEVEL].
+Create a 5-day weekly lesson plan for the topic: [TOPIC / UNIT NAME].
+Each day has one 40-minute period.
+Structure each day as: Day title → Objective → Key activity → Homework (2 questions).
+Day 1: Introduction and basic concepts.
+Day 2: Deeper explanation and examples.
+Day 3: Practice with worksheets or problems.
+Day 4: Discussion, application, or project activity.
+Day 5: Revision, Q&A, and end-of-week quiz (5 questions).
+Use only the reference material below. Keep all language at [CLASS LEVEL] level.
+
+Reference material:
+[PASTE UNIT NOTES OR CHAPTER SUMMARY HERE]</pre>
+      <div class="tpl-note">దీనికి best: ఒక school week అంతటా full unit లేదా chapter coverage planning.</div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 2. Worksheets -->
+  <section class="cat-section" id="cat-worksheet">
+    <h2 class="cat-title">Worksheets</h2>
+    <p class="cat-desc">Question types మరియు exact counts ఎల్లప్పుడూ specify చేయండి. ప్రతి request లో answer key అడగండి.</p>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Mixed question types worksheet</div></div>
+        <span class="tpl-tag">Worksheet</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">You are a [CLASS LEVEL] [SUBJECT] teacher.
+Create a worksheet on [TOPIC] for [CLASS LEVEL] students.
+Include:
+  - [N] fill-in-the-blank questions
+  - [N] MCQs (4 options each, only one correct answer)
+  - [N] short-answer questions (answer in 2–3 sentences)
+  - [N] application/word problems using Indian daily-life situations
+Add a complete answer key at the end.
+Use simple language suitable for [CLASS LEVEL].
+Use examples from Indian daily life (cities, food, festivals, cricket, markets).
+Do not include content outside this syllabus point: [SYLLABUS POINT OR CHAPTER NAME].</pre>
+      <div class="tpl-note">[N] ని numbers తో replace చేయండి. Example: 5 fill-in-the-blank, 5 MCQs, 4 short-answer, 2 word problems.</div>
+    </div>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Maths practice worksheet</div></div>
+        <span class="tpl-tag">Worksheet · Maths</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">You are a [CLASS LEVEL] Maths teacher.
+Create a practice worksheet on [TOPIC] for [CLASS LEVEL] CBSE/State Board students.
+Include:
+  - 5 direct calculation problems (easy)
+  - 5 word problems (medium — use Indian currency rupees, Indian distances in km/m)
+  - 3 application problems (hard — multi-step)
+  - 1 bonus problem (challenge, clearly marked)
+Add a complete answer key with step-by-step solutions for the word problems.
+All problems must be solvable using only the methods taught in [CLASS LEVEL].
+Do not use calculators or advanced methods not covered at this level.</pre>
+      <div class="tpl-note">Maths answer keys ఎల్లప్పుడూ verify చేయండి — multi-step problems లో AI calculation errors most common.</div>
+    </div>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Vocabulary and comprehension worksheet (English)</div></div>
+        <span class="tpl-tag">Worksheet · English</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">You are a [CLASS LEVEL] English teacher.
+Create a comprehension and vocabulary worksheet based on the passage below.
+Include:
+  - 5 comprehension questions (find the answer from the passage)
+  - 3 inference questions (what does the author mean / what happened next)
+  - 5 vocabulary questions (match word to meaning, or fill blank with correct word)
+  - 1 short writing task: "Write 3 sentences about [TOPIC CONNECTED TO PASSAGE]"
+Add a complete answer key.
+Keep all questions at [CLASS LEVEL] reading level.
+
+Passage:
+[PASTE THE READING PASSAGE HERE]</pre>
+      <div class="tpl-note">Passage ని directly మీ textbook లేదా reader నుండి paste చేయండి. AI అన్ని questions ఆ text పైనే base చేస్తుంది.</div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 3. Question Papers -->
+  <section class="cat-section" id="cat-question-paper">
+    <h2 class="cat-title">Question Papers</h2>
+    <p class="cat-desc">మీ prompt లో "Teacher review required before printing" ఎల్లప్పుడూ add చేయండి. Answer key లో ప్రతి answer ని మీ textbook తో verify చేయండి.</p>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Class test / unit test (25 marks)</div></div>
+        <span class="tpl-tag">Question paper</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">You are an experienced [CLASS LEVEL] [SUBJECT] teacher.
+Create a unit test question paper on [TOPIC / CHAPTER NAME].
+Total marks: 25. Time: 45 minutes.
+Difficulty: 40% easy, 40% medium, 20% hard.
+Format:
+  Section A: 5 MCQs × 1 mark = 5 marks
+  Section B: 5 short-answer questions × 2 marks = 10 marks
+  Section C: 2 medium-answer questions × 4 marks = 8 marks
+  Section D: 1 long-answer OR application question × 2 marks = 2 marks
+Add a complete answer key with model answers for Sections B, C, D.
+Do not copy questions directly from the NCERT/textbook exercises.
+Create original questions based on the chapter concepts.
+Teacher review required before printing.
+
+Chapter or syllabus reference:
+[PASTE CHAPTER TOPICS OR SYLLABUS POINTS HERE]</pre>
+      <div class="tpl-note">Use చేయడానికి ముందు format ని మీ school standard question paper pattern కి match అయ్యేలా adjust చేయండి.</div>
+    </div>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Half-yearly / term exam (50 marks)</div></div>
+        <span class="tpl-tag">Question paper</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">You are an experienced [CLASS LEVEL] [SUBJECT] teacher.
+Create a term exam question paper covering [LIST CHAPTERS / UNITS].
+Total marks: 50. Time: 2 hours.
+Difficulty: 30% easy, 45% medium, 25% hard.
+Format:
+  Section A: 10 MCQs × 1 mark = 10 marks
+  Section B: 6 short-answer questions × 2 marks = 12 marks (answer in 3–4 sentences)
+  Section C: 4 medium-answer questions × 4 marks = 16 marks (answer in 5–6 sentences)
+  Section D: 3 long-answer questions × 4 marks = 12 marks (choose 2 — internal choice)
+Balance questions equally across all listed chapters.
+Add a marks distribution table showing which chapter each question tests.
+Add a complete answer key.
+Teacher review required before printing.
+
+Chapters / topics covered:
+[LIST CHAPTERS AND KEY TOPICS HERE]</pre>
+      <div class="tpl-note">Board exam format కోసం, ఏ sections కి internal choice ఉందో specify చేయండి (attempt any X of Y questions).</div>
+    </div>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Oral / viva question list</div></div>
+        <span class="tpl-tag">Question paper · Viva</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">You are a [CLASS LEVEL] [SUBJECT] teacher preparing for oral assessments.
+Create a list of 20 viva / oral questions on [TOPIC].
+Organise into three groups:
+  - Easy (can answer in 1 sentence): 8 questions
+  - Medium (needs 2–3 sentences): 8 questions
+  - Hard (requires explanation or example): 4 questions
+Add expected answers for each question (brief, 1–3 sentences).
+Keep language appropriate for [CLASS LEVEL] students speaking in English.
+Include 2–3 questions that connect the topic to daily life in India.
+
+Topic reference:
+[PASTE CHAPTER NOTES OR SYLLABUS POINTS]</pre>
+      <div class="tpl-note">Practical exams, lab vivas, project presentations, మరియు seminar evaluations కి useful.</div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 4. Explanations -->
+  <section class="cat-section" id="cat-explanation">
+    <h2 class="cat-title">Simple Explanations</h2>
+    <p class="cat-desc">Textbook explanation మీ students కి too complex గా ఉన్నప్పుడు use చేయండి. AI మీకు choose చేయడానికి 2–3 simpler versions ఇస్తుంది.</p>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Explain a concept in simple language</div></div>
+        <span class="tpl-tag">Explanation</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">Explain [CONCEPT NAME] to a [CLASS LEVEL] student in India.
+Use very simple English — as if explaining to a child who has never heard this term before.
+Use a real-life example that a student in an Indian [city / town / village] school would understand.
+Keep the explanation to 3 short paragraphs.
+End with 2 simple questions the teacher can ask to check understanding.
+Do not use technical language beyond [CLASS LEVEL] syllabus.</pre>
+      <div class="tpl-note">Example CONCEPT NAME: photosynthesis, democracy, prime numbers, Newton's laws, inflation.</div>
+    </div>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Explain why a common student mistake is wrong</div></div>
+        <span class="tpl-tag">Explanation · Correction</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">Many [CLASS LEVEL] students make this mistake: [DESCRIBE THE MISTAKE].
+Explain in simple English:
+  1. Why this is incorrect
+  2. What the correct understanding is
+  3. A simple way to remember the correct version
+  4. One example that shows the difference clearly
+Write this as something the teacher can read aloud to the class.
+Keep language at [CLASS LEVEL] level.
+Do not use technical terms that students at this level would not know.</pre>
+      <div class="tpl-note">Example mistake: "Students think evaporation only happens when water boils" / "Students confuse mean and median".</div>
+    </div>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Explain a concept using 3 different analogies</div></div>
+        <span class="tpl-tag">Explanation · Analogy</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">Give me 3 different analogies to explain [CONCEPT] to [CLASS LEVEL] students in India.
+Each analogy should use a different context: one from daily home life, one from school or sports, one from nature or surroundings.
+After each analogy, write 1 sentence explaining how it connects to [CONCEPT].
+Keep all language simple enough for [CLASS LEVEL].
+The teacher will choose the best analogy for their class.</pre>
+      <div class="tpl-note">Physics, Chemistry, Economics, మరియు Grammar లో abstract concepts కి ముఖ్యంగా useful.</div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 5. Feedback -->
+  <section class="cat-section" id="cat-feedback">
+    <h2 class="cat-title">Feedback Comments</h2>
+    <p class="cat-desc">Student names లేదా personal data ఎప్పుడూ include చేయవద్దు. Anonymised descriptions use చేయండి. Students తో share చేయడానికి ముందు ఎల్లప్పుడూ personalise చేయండి.</p>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Feedback on common class mistakes</div></div>
+        <span class="tpl-tag">Feedback</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">I am a [SUBJECT] teacher for [CLASS LEVEL].
+My students made the following common mistakes in their [ASSIGNMENT / TEST]:
+[LIST THE MISTAKES — e.g., "confused active and passive voice", "wrong formula for area of triangle", "incomplete answers to application questions"]
+
+For each mistake, write:
+  - A kind, encouraging feedback comment (1–2 sentences)
+  - One specific improvement tip the student can act on immediately
+  - One example showing the correct approach
+
+Write the feedback as if addressing a student directly. Keep the tone supportive, not critical.
+Keep language at [CLASS LEVEL] level.</pre>
+      <div class="tpl-note">Anonymised descriptions మాత్రమే use చేయండి. Individual student names లేదా personal data ఎప్పుడూ include చేయవద్దు.</div>
+    </div>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Assignment progress note for reports</div></div>
+        <span class="tpl-tag">Feedback · Report</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">Write 3 different versions of a progress comment for a student report card.
+Subject: [SUBJECT]. Class: [CLASS LEVEL].
+
+Version 1 — for a strong student: [briefly describe: what they do well, one area for challenge]
+Version 2 — for an average student: [briefly describe: solid understanding, what to focus on]
+Version 3 — for a student who needs support: [briefly describe: effort shown, specific next step]
+
+Each comment should be 2–3 sentences. Positive, specific, and actionable.
+Do not use the student's name — write "[Student]" as a placeholder.
+Keep language professional and suitable for a school report card.</pre>
+      <div class="tpl-note">AI output review చేసిన తర్వాతే [Student] ని actual student name తో replace చేయండి.</div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 6. Parent Messages -->
+  <section class="cat-section" id="cat-parent">
+    <h2 class="cat-title">Parent Communication</h2>
+    <p class="cat-desc">AI clear, respectful draft create చేస్తుంది. Send చేయడానికి ముందు specific school name, date, మరియు real details ఎల్లప్పుడూ add చేయండి.</p>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">General school circular / announcement</div></div>
+        <span class="tpl-tag">Parent message</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">Write a school circular to parents about [EVENT OR ANNOUNCEMENT].
+Details:
+  - What: [describe the event or news]
+  - When: [date and time]
+  - Where: [location if applicable]
+  - What parents need to do: [action required, if any]
+  - Contact for queries: [teacher name / phone / email]
+
+Keep the tone formal but friendly. Length: 3–4 short paragraphs.
+Use simple English that non-native English-speaking parents can understand.
+Sign off as: [Your name], Class Teacher, [Class], [School Name].</pre>
+      <div class="tpl-note">Send చేయడానికి ముందు school name, real dates, మరియు contact details add చేయండి. Raw AI draft send చేయవద్దు.</div>
+    </div>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Attendance / performance concern note</div></div>
+        <span class="tpl-tag">Parent message · Concern</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">Write a polite, caring message from a teacher to a parent about:
+[CONCERN — e.g., "irregular attendance in the last 3 weeks" OR "declining test scores in Maths" OR "not submitting homework regularly"]
+
+The message should:
+  - State the concern clearly without blaming
+  - Acknowledge that the parent may not be aware
+  - Ask for a short meeting or phone call to discuss support
+  - End on a positive, collaborative note
+  - Be 3–4 sentences long
+
+Do not include the student's name — use "[Student]" as a placeholder.
+Keep the tone respectful, warm, and solution-focused.</pre>
+      <div class="tpl-note">Send చేయడానికి ముందు [Student] ని actual student name తో replace చేయండి. Full message tone review చేయండి.</div>
+    </div>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Exam / result communication</div></div>
+        <span class="tpl-tag">Parent message · Exams</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">Write a parent message about the upcoming [EXAM TYPE — e.g., "Half-yearly exams", "Unit test", "Board exams"].
+Include:
+  - Exam dates: [dates]
+  - Subjects: [subjects]
+  - Syllabus coverage: [brief description]
+  - How parents can support preparation at home (2–3 practical tips)
+  - What to bring on exam day (if relevant)
+Keep the message encouraging, not stressful. Length: 4–5 short paragraphs.
+Write in simple English that parents with basic English can understand.</pre>
+      <div class="tpl-note">Parents కి send చేయడానికి ముందు actual dates, subjects, మరియు school-specific information add చేయండి.</div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 7. Activities -->
+  <section class="cat-section" id="cat-activity">
+    <h2 class="cat-title">Classroom Activities</h2>
+    <p class="cat-desc">AI structured activity instructions generate చేస్తుంది. Activity మీ classroom size మరియు available resources కి practical గా ఉందో ఎల్లప్పుడూ check చేయండి.</p>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Group discussion activity</div></div>
+        <span class="tpl-tag">Activity · Discussion</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">Create a group discussion activity for a [CLASS LEVEL] [SUBJECT] class on [TOPIC].
+Class size: approximately [NUMBER] students. Groups of [GROUP SIZE].
+Time available: [MINUTES] minutes.
+Include:
+  - 1 clear discussion question (open-ended, no single right answer)
+  - 3 follow-up prompts if the discussion slows down
+  - Instructions for how to run the activity (teacher's step-by-step guide)
+  - How to bring the class back together to share (2–3 minutes)
+  - 1 exit question each student answers individually after the discussion
+Keep the topic relevant to [CLASS LEVEL] understanding. Use Indian contexts where possible.</pre>
+      <div class="tpl-note">Social Studies, English, Science ethics topics, History, మరియు Environmental Studies కి good.</div>
+    </div>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Quick revision quiz game</div></div>
+        <span class="tpl-tag">Activity · Quiz game</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">Create a 10-question rapid-fire quiz for [CLASS LEVEL] [SUBJECT] to revise [TOPIC].
+Format: Teacher asks question aloud. Students call out answer or write on slate/paper.
+Include:
+  - 10 quick questions (short, clear, one-word or one-sentence answers)
+  - Answer key for the teacher
+  - Scoring: 1 point per correct answer
+  - 3 bonus challenge questions for fast finishers
+Keep questions at [CLASS LEVEL] difficulty. Vary between easy, medium, and slightly tricky.
+This is a fun revision activity — questions should be engaging, not anxiety-inducing.</pre>
+      <div class="tpl-note">ఏ subject కి అయినా పనిచేస్తుంది. Time limit ని 5–10 నిమిషాలకి adjust చేయండి. Class చివరి 10 నిమిషాలకి great.</div>
+    </div>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Project or research task instructions</div></div>
+        <span class="tpl-tag">Activity · Project</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">Create student instructions for a project task on [TOPIC] for [CLASS LEVEL] [SUBJECT].
+Project duration: [DAYS / WEEKS].
+Format: [individual / pairs / group of 3–4].
+Include:
+  - Project title and objective (what students will learn by doing this)
+  - Step-by-step instructions (5–6 steps, clear enough for students to follow independently)
+  - List of allowed resources (textbook, library, internet — specify what is permitted)
+  - What to submit (poster / written report / presentation / model — specify)
+  - Evaluation criteria (what makes a good project — 3–4 points)
+  - Submission deadline: [DATE]
+Keep instructions simple enough for students to read and follow without teacher help.</pre>
+      <div class="tpl-note">AI project instructions careful గా review చేయండి — resource requirements మీ school context కి realistic గా ఉన్నాయో check చేయండి.</div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 8. Remedial -->
+  <section class="cat-section" id="cat-remedial">
+    <h2 class="cat-title">Remedial Support</h2>
+    <p class="cat-desc">Extra support లేదా challenge అవసరమైన students కోసం ఈ templates use చేయండి. మీ prompt లో student names లేదా personal information ఎప్పుడూ include చేయవద్దు.</p>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Simplified notes for struggling students</div></div>
+        <span class="tpl-tag">Remedial · Simplified</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">Rewrite the following [SUBJECT] notes from [CLASS LEVEL] in much simpler language.
+Target: a student who is struggling with this topic and needs the explanation to be slower, clearer, and easier.
+Make the language 2 class levels simpler.
+Break every concept into very small steps.
+Use short sentences (maximum 12 words per sentence).
+Add a real Indian daily-life example for each key idea.
+End with 5 very easy practice questions to build confidence.
+
+Original notes:
+[PASTE THE TEXTBOOK OR CLASS NOTES HERE]</pre>
+      <div class="tpl-note">No facts మారాయని confirm చేయడానికి simplified output review చేయండి — language మాత్రమే simplify అవ్వాలి.</div>
+    </div>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Extra practice for students who need more</div></div>
+        <span class="tpl-tag">Remedial · Practice</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">Create an extra practice sheet for [CLASS LEVEL] students who need additional support on [TOPIC].
+Focus only on the most basic foundational concepts — not advanced applications.
+Include:
+  - 3 worked examples showing the concept step by step
+  - 5 guided practice problems (with partial working shown — student fills in blanks)
+  - 5 independent practice problems (no hints)
+  - Answer key for all problems
+Keep everything at the simplest possible level.
+Use encouraging language in instructions: "You can do this", "Try step by step".
+Do not include any new concepts not already taught.</pre>
+      <div class="tpl-note">దీనికి best: Maths foundations, grammar rules, Science definitions, మరియు sequential steps ఉన్న ఏ topic అయినా.</div>
+    </div>
+
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div><div class="tpl-name">Challenge tasks for advanced students</div></div>
+        <span class="tpl-tag">Remedial · Advanced</span>
+        <button class="copy-btn" onclick="copyTemplate(this)">Copy template</button>
+      </div>
+      <pre class="tpl-body">Create 5 challenge tasks for advanced [CLASS LEVEL] students who have mastered the basics of [TOPIC] and need more stretch.
+These tasks should:
+  - Go beyond the standard syllabus without introducing content from a higher class
+  - Require creative thinking, connections between ideas, or real-world application
+  - Have no single obvious answer — reward explanation and reasoning
+  - Each take 5–10 minutes to complete
+Mark each task with difficulty: medium-hard or hard.
+Add a brief teacher note explaining what kind of thinking each task develops.
+All tasks must stay within [CLASS LEVEL] content boundaries.</pre>
+      <div class="tpl-note">Fast finishers, gifted students, లేదా enrichment programmes కి use చేయండి. Tasks syllabus ని exceed చేయవు అని review చేయండి.</div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem;">
+    <a href="../teachers-te.html" style="display:inline-flex;align-items:center;padding:0.65rem 1.4rem;border-radius:12px;font-weight:900;font-size:0.9rem;text-decoration:none;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.07);color:#f8fbff;">← Teacher Hub కి తిరిగి</a>
+    <a href="lesson-03-te.html" style="display:inline-flex;align-items:center;padding:0.65rem 1.4rem;border-radius:12px;font-weight:900;font-size:0.9rem;text-decoration:none;background:#f59e0b;color:#201200;box-shadow:0 4px 0 #9a5b00;">Prompt formula నేర్చుకోండి →</a>
+  </div>
+
+</div>
+
+<footer style="border-top:1px solid rgba(255,255,255,0.08);padding:1.5rem 5vw;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;font-size:0.82rem;color:rgba(184,199,218,0.55);">
+  <span>Mitra AI Life · Teachers కోసం AI</span>
+  <div style="display:flex;gap:1.25rem;">
+    <a href="../teachers-te.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Teacher Hub</a>
+    <a href="../contact-te.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">సంప్రదించండి</a>
+    <a href="../privacy.html" style="color:rgba(184,199,218,0.55);text-decoration:none;">Privacy</a>
+  </div>
+</footer>
+
+<script>
+function copyTemplate(btn) {
+  const card = btn.closest('.tpl-card');
+  const pre = card.querySelector('.tpl-body');
+  const text = pre.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy template'; btn.classList.remove('copied'); }, 2000);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy template'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>

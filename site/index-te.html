@@ -165,7 +165,7 @@
       background:linear-gradient(135deg,rgba(83,166,255,0.2),rgba(121,145,255,0.15));
       border:1px solid rgba(83,166,255,0.3);
     }
-    .level-info { flex:1; }
+    .level-info { flex:1; min-width:0; }
     .level-title { font-weight:800; font-size:1rem; margin-bottom:4px; }
     .level-desc  { font-size:0.85rem; color:var(--muted); }
     .level-badge {
@@ -175,6 +175,17 @@
     .badge-free { background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.4); color:#34d399; }
     .badge-paid { background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.3); color:var(--amber2); }
     .badge-soon { background:rgba(119,168,255,0.1); border:1px solid rgba(119,168,255,0.2); color:var(--muted); }
+
+    @media (max-width:700px) {
+      .section-wrap { padding:52px 16px; }
+      .ladder-row { align-items:flex-start; gap:14px; padding:18px; flex-wrap:wrap; }
+      .ladder-row:hover { transform:none; }
+      .level-info { flex:1 1 calc(100% - 70px); }
+      .level-badge {
+        margin-left:66px; max-width:calc(100% - 66px);
+        white-space:normal; line-height:1.35; text-align:center;
+      }
+    }
 
     /* WHY */
     .why-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; }
@@ -241,6 +252,27 @@
     <span class="trust-pill">📱 ఏ ఫోన్‌లోనైనా పనిచేస్తుంది</span>
     <span class="trust-pill">🇮🇳 నిజమైన భారతీయ ఉదాహరణలు</span>
     <span class="trust-pill">🗣️ తెలుగులో అందుబాటులో ఉంది</span>
+  </div>
+</section>
+
+<!-- MITRA INTRO VIDEO -->
+<section style="background:linear-gradient(180deg,#0f172a 0%,#1e3a5f 100%); padding:3.5rem 1rem 4rem;">
+  <div style="max-width:1100px; margin:0 auto; text-align:center;">
+    <div style="color:rgba(255,255,255,0.55); font-size:0.75rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:0.75rem;">
+      ముందుగా చూడండి · 1 నిమిషం
+    </div>
+    <h2 style="color:#fff; font-size:clamp(1.2rem,3vw,1.8rem); font-weight:800; margin:0 0 1.5rem;">
+      మిత్ర AI లైఫ్‌లో ఏముందో ఒక చిన్న పరిచయం
+    </h2>
+    <video controls preload="none" playsinline
+           poster="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/videos/home/home-hero-en-poster.jpg"
+           style="width:100%;border-radius:16px;display:block;box-shadow:0 12px 48px rgba(0,0,0,0.6);background:#000;">
+      <source src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/videos/home/home-hero-en.mp4" type="video/mp4" />
+      మీ బ్రౌజర్ HTML5 వీడియోను సపోర్ట్ చేయడం లేదు.
+    </video>
+    <p style="color:rgba(255,255,255,0.4); font-size:0.8rem; margin-top:0.9rem;">
+      సైన్-ఇన్ అవసరం లేదు · English narration
+    </p>
   </div>
 </section>
 
@@ -322,8 +354,8 @@
       <span class="level-badge badge-paid"><s style="opacity:0.7;font-weight:700">₹600</s> <span style="color:#22c55e;font-weight:900">₹0 ఎర్లీ యాక్సెస్</span></span>
     </a>
 
-    <a href="../content/english/level-09-ai-for-income/level-09-comic-te.html" class="level-row hidden" data-level-id="level-09">
-      <span class="level-num">9</span>
+    <a href="../content/english/level-09-ai-for-income/level-09-comic-te.html" class="ladder-row hidden" data-level-id="level-09">
+      <div class="level-num">09</div>
       <div class="level-info">
         <div class="level-title">AI తో ఆదాయం</div>
         <div class="level-desc">AI నైపుణ్యాలతో freelance చేయండి, content కి డబ్బు సంపాదించండి, మీరు ఇప్పటికే చేసే పనికి AI సేవలు జోడించండి. 3–4 గంటలు.</div>
@@ -331,8 +363,8 @@
       <span class="level-badge badge-paid"><s style="opacity:0.7;font-weight:700">₹700</s> <span style="color:#22c55e;font-weight:900">₹0 ఎర్లీ యాక్సెస్</span></span>
     </a>
 
-    <a href="../content/english/level-10-ai-safety/level-10-comic-te.html" class="level-row hidden" data-level-id="level-10">
-      <span class="level-num">10</span>
+    <a href="../content/english/level-10-ai-safety/level-10-comic-te.html" class="ladder-row hidden" data-level-id="level-10">
+      <div class="level-num">10</div>
       <div class="level-info">
         <div class="level-title">AI భద్రత &amp; సమాజం</div>
         <div class="level-desc">Deepfakes గుర్తించండి, AI output fact-check చేయండి, privacy రక్షించుకోండి, బాధ్యతాయుత AI user గా మారండి. 2–3 గంటలు.</div>

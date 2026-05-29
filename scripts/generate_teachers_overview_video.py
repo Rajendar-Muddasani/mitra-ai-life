@@ -27,6 +27,7 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "content" / "assets" / "videos" / "teachers-overview"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
+VERSION_SUFFIX_BY_LANG = {"en": "", "te": "-v2"}
 
 # ── load .env ─────────────────────────────────────────────────────────────────
 env_path = ROOT / ".env"
@@ -101,25 +102,25 @@ SLIDES_TE = [
     "8 short lessons • ఇవాళే మొదలు పెట్టండి"),
     ("ప్రతి teacher కోసం",
      "వారానికి 2 నుండి 3 గంటలు ఆదా",
-     "Lesson plans, worksheets, question papers — minutes లో."),
+    "Lesson plan. Worksheet. Question paper draft. Step by step."),
     ("LESSON 01 నుండి 03",
      "Basics తో మొదలు పెట్టండి",
-     "AI overview • ChatGPT, Gemini, Claude • Simple prompt formula"),
+    "AI basics. ChatGPT. Gemini. Claude. Simple prompt formula."),
     ("LESSON 04 నుండి 06",
      "Real teaching material తయారు చేయండి",
-     "Lesson plans • Worksheets, answer keys • Question paper drafts"),
+    "Plan తయారు చేయండి. Worksheet తయారు చేయండి. Answer key check చేయండి."),
     ("LESSON 07 మరియు 08",
      "Safe మరియు responsible AI use",
-     "ప్రతి AI output review చేయండి • Student privacy కాపాడండి"),
+    "AI output review చేయండి. Student privacy కాపాడండి."),
     ("ఒక prompt, ఒక lesson plan",
      "Topic type చేయండి. పూర్తి plan వస్తుంది.",
      "మీరు review చేసి, edit చేసి, class లో వాడండి."),
-    ("అంతా మీ control లో ఉంటుంది",
-      "AI help చేస్తుంది. Teacher decide చేస్తారు.",
+    ("ఇది మీ control లో ఉంటుంది",
+    "AI help చేస్తుంది. Teacher decide చేస్తారు.",
      "AI output వాడే ముందు ఏమి check చేయాలో ప్రతి lesson నేర్పుతుంది."),
-     ("ఇవాళే మొదలు పెట్టండి",
-      "Teacher AI Basics",
-      "Lesson plan, worksheet, safety — ఒక్కొక్కటి step by step."),
+    ("ఇవాళే మొదలు పెట్టండి",
+    "Teacher AI Basics",
+    "Lesson plan practice. Worksheet practice. Safety practice."),
 ]
 
 # Voiceover narration per slide (English + Telugu).
@@ -135,14 +136,14 @@ NARR_EN = [
 ]
 
 NARR_TE = [
-    "మిత్ర ఏ ఐ లైఫ్ లో, టీచర్స్ కోసం ఏ ఐ ట్రాక్. ఎనిమిది చిన్న లెసన్స్ తో, మీరు ఇవాళే మొదలు పెట్టవచ్చు.",
-    "ఈ ట్రాక్ ప్రతి టీచర్ కోసం. లెసన్ ప్లాన్, వర్క్‌షీట్, క్వశ్చన్ పేపర్ వంటి repeated పనుల్లో, వారానికి రెండు నుండి మూడు గంటలు ఆదా చేయవచ్చు.",
-    "మొదటి మూడు లెసన్స్ లో బేసిక్స్ ఉంటాయి. ఏ ఐ అంటే ఏమిటి, ఛాట్ జీ పీ టీ, జెమినై, క్లాడ్ ఎలా వాడాలి, మరియు simple prompt formula ఎలా రాయాలి.",
-    "లెసన్స్ నాలుగు నుండి ఆరు లో, real teaching material తయారు చేస్తారు. Lesson plan, answer key తో worksheet, మరియు question paper draft step by step గా చేస్తారు.",
-    "లెసన్స్ ఏడు మరియు ఎనిమిది లో, safe మరియు responsible ఏ ఐ use నేర్చుకుంటారు. ప్రతి ఏ ఐ output ని review చేయాలి, student privacy ని కాపాడాలి.",
-    "ఒక prompt తో ఒక lesson plan తయారవుతుంది. మీరు topic type చేస్తారు. ఏ ఐ plan ఇస్తుంది. తర్వాత మీరు review చేసి, edit చేసి, class లో వాడతారు.",
-    "అంతా మీ control లో ఉంటుంది. ఏ ఐ help చేస్తుంది. Teacher final decision తీసుకుంటారు. ఏ ఐ output వాడే ముందు ఏమి check చేయాలో, ప్రతి lesson స్పష్టంగా చెబుతుంది.",
-    "ఇవాళే Teacher AI Basics మొదలు పెట్టండి. Lesson plan, worksheet, question paper, safety rules — ఒక్కొక్కటి step by step గా నేర్చుకోండి.",
+    "మిత్ర ఏ ఐ లైఫ్ లో టీచర్స్ కోసం ఏ ఐ ట్రాక్. ఇది teacher కి simple starting point. ఒక్కో lesson చిన్నదిగా ఉంటుంది.",
+    "ఈ ట్రాక్ preparation time తగ్గించడానికి help చేస్తుంది. ముందు lesson plan. తర్వాత worksheet. తర్వాత question paper draft. ప్రతి పని step by step.",
+    "మొదట basics. ఏ ఐ అంటే ఏమిటి. ChatGPT ని ఎలా అడగాలి. Gemini ని ఎలా అడగాలి. Claude ని ఎలా compare చేయాలి.",
+    "తర్వాత teaching material. ఒక topic తీసుకుంటాం. Plan చేస్తాం. Worksheet చేస్తాం. Answer key check చేస్తాం.",
+    "తర్వాత safety. Student private details paste చేయకూడదు. AI answer ని blindly use చేయకూడదు. Teacher review తప్పనిసరి.",
+    "మీరు topic type చేస్తారు. AI draft ఇస్తుంది. మీరు edit చేస్తారు. Class కి suit అయ్యేలా final చేస్తారు.",
+    "ఇది మీ control లో ఉంటుంది. AI help చేస్తుంది. Final decision teacher తీసుకుంటారు. Use చేసే ముందు checklist follow చేస్తారు.",
+    "Teacher AI Basics తో మొదలు పెట్టండి. Lesson plan practice. Worksheet practice. Safety practice. ఒక్కొక్కటి clear గా నేర్చుకుంటారు.",
 ]
 
 assert len(SLIDES_EN) == len(NARR_EN) == 8
@@ -232,7 +233,7 @@ def tts_to_file(text: str, out_path: Path, lang: str) -> None:
         model="tts-1",
         voice="nova",
         input=text,
-        speed=0.92 if lang == "te" else 0.95,
+        speed=0.88 if lang == "te" else 0.95,
     ) as response:
         response.stream_to_file(str(out_path))
     print(f"  [tts:{lang}] {out_path.name}")
@@ -303,7 +304,8 @@ def build_lang(lang: str, slides: list[tuple], narration: list[str]) -> Path:
         print(f"\n[{idx}] {title}")
         render_slide(eye, title, sub, img_p, lang)
         if i == 1:
-            shutil.copyfile(img_p, OUT_DIR / f"teachers-overview-{lang}-poster.jpg")
+            suffix = VERSION_SUFFIX_BY_LANG[lang]
+            shutil.copyfile(img_p, OUT_DIR / f"teachers-overview-{lang}{suffix}-poster.jpg")
         tts_to_file(narr, aud_p, lang)
 
         if not seg_p.exists():
@@ -311,7 +313,8 @@ def build_lang(lang: str, slides: list[tuple], narration: list[str]) -> Path:
             make_segment(img_p, aud_p, seg_p)
         segments.append(seg_p)
 
-    out_mp4 = OUT_DIR / f"teachers-overview-{lang}.mp4"
+    suffix = VERSION_SUFFIX_BY_LANG[lang]
+    out_mp4 = OUT_DIR / f"teachers-overview-{lang}{suffix}.mp4"
     print(f"\n══ Concatenating into {out_mp4.name}")
     concat_mp4s(segments, out_mp4)
     dur = audio_duration(out_mp4)
@@ -351,9 +354,10 @@ def main(langs: list[str] | None = None):
     print("\n══════ Uploading to S3 ══════")
     urls = {}
     for lang, mp4_path in outputs.items():
-        poster_path = OUT_DIR / f"teachers-overview-{lang}-poster.jpg"
-        urls[f"{lang}_mp4"] = upload_to_s3(mp4_path, f"videos/teachers/teachers-overview-{lang}.mp4", "video/mp4")
-        urls[f"{lang}_poster"] = upload_to_s3(poster_path, f"videos/teachers/teachers-overview-{lang}-poster.jpg", "image/jpeg")
+        suffix = VERSION_SUFFIX_BY_LANG[lang]
+        poster_path = OUT_DIR / f"teachers-overview-{lang}{suffix}-poster.jpg"
+        urls[f"{lang}_mp4"] = upload_to_s3(mp4_path, f"videos/teachers/teachers-overview-{lang}{suffix}.mp4", "video/mp4")
+        urls[f"{lang}_poster"] = upload_to_s3(poster_path, f"videos/teachers/teachers-overview-{lang}{suffix}-poster.jpg", "image/jpeg")
 
     print("\n══════ DONE ══════")
     for label, url in urls.items():
@@ -374,10 +378,11 @@ if __name__ == "__main__":
             work = OUT_DIR / lang
             if work.exists():
                 shutil.rmtree(work)
-            final = OUT_DIR / f"teachers-overview-{lang}.mp4"
+            suffix = VERSION_SUFFIX_BY_LANG[lang]
+            final = OUT_DIR / f"teachers-overview-{lang}{suffix}.mp4"
             if final.exists():
                 final.unlink()
-            poster = OUT_DIR / f"teachers-overview-{lang}-poster.jpg"
+            poster = OUT_DIR / f"teachers-overview-{lang}{suffix}-poster.jpg"
             if poster.exists():
                 poster.unlink()
     main(langs)

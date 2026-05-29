@@ -26,6 +26,7 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "content" / "assets" / "videos" / "track-overviews"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
+VERSION_SUFFIX_BY_LANG = {"en": "", "te": "-v2"}
 
 WIDTH, HEIGHT = 1920, 1080
 TEXT = (248, 251, 255)
@@ -201,17 +202,17 @@ TRACKS_TE = {
         "warm": (245, 158, 11),
         "slides": [
             ("MITRA AI LIFE", "రోజువారీ జీవితానికి AI", "Indian daily life కోసం simple AI skills"),
-            ("సింపుల్ గా మొదలు", "Real daily పనులకు AI", "Messages, letters, summaries, budgets, planning, family help."),
-            ("సేఫ్టీ ముఖ్యం", "ఏది నమ్మకూడదో నేర్చుకోండి", "Scams, fake news, deepfakes, privacy, AI mistakes."),
-            ("విజువల్ లెర్నింగ్", "10 beginner levels సిద్ధంగా ఉన్నాయి", "Short lessons, practical examples, technical background అవసరం లేదు."),
+            ("సింపుల్ గా మొదలు", "Real daily పనులకు AI", "Message. Letter. Summary. Budget. Family plan."),
+            ("సేఫ్టీ ముఖ్యం", "ఏది నమ్మకూడదో నేర్చుకోండి", "Scam check. Fake news check. Privacy check."),
+            ("విజువల్ లెర్నింగ్", "10 beginner levels సిద్ధంగా ఉన్నాయి", "Short lessons. Practical examples. Simple practice."),
             ("ఇవాళే మొదలు", "Level 1 తో ఒక habit build చేయండి", "చిన్న practical task తో AI confidence పెంచుకోండి."),
         ],
         "narration": [
-            "మిత్ర ఏ ఐ లైఫ్ లో, రోజువారీ జీవితానికి ఏ ఐ ట్రాక్. Indian daily life లో ఉపయోగపడే simple ఏ ఐ skills ఇక్కడ నేర్చుకుంటారు.",
-            "సింపుల్ గా మొదలు పెడదాం. Messages, letters, summaries, family planning, budgets, మరియు రోజువారీ routines కోసం ఏ ఐ ఎలా వాడాలో నేర్చుకుంటారు.",
-            "సేఫ్టీ చాలా ముఖ్యం. Scams, fake news, deepfakes, privacy, మరియు ఏ ఐ mistakes ని simple examples తో అర్థం చేసుకుంటారు.",
-            "ఈ ట్రాక్ visual గా ఉంటుంది. పది beginner levels సిద్ధంగా ఉన్నాయి. Practical examples ఉంటాయి. Technical background అవసరం లేదు.",
-            "ఇవాళే Level 1 తో మొదలు పెట్టండి. ఒక్క చిన్న useful habit build చేస్తే, daily life లో ఏ ఐ confidence పెరుగుతుంది.",
+            "మిత్ర ఏ ఐ లైఫ్ లో రోజువారీ జీవితానికి ఏ ఐ ట్రాక్. ఇది beginners కోసం. Indian daily life లో ఉపయోగపడే simple skills ఇక్కడ నేర్చుకుంటారు.",
+            "సింపుల్ గా మొదలు పెడదాం. ముందు message రాయడం. తర్వాత formal letter. తర్వాత short summary. తర్వాత family plan. ఒక్కో పని separately practice చేస్తారు.",
+            "Safety part కూడా ఉంటుంది. Scam message ని check చేస్తారు. Fake news ని verify చేస్తారు. Privacy protect చేస్తారు. AI mistake ని cross check చేస్తారు.",
+            "ఈ track visual గా ఉంటుంది. పది beginner levels సిద్ధంగా ఉన్నాయి. ఒక్క page ఒకసారి. Practical example ఒకసారి. Simple practice ఒకసారి.",
+            "ఇవాళే Level 1 తో మొదలు పెట్టండి. చిన్న task తో start చేయండి. Daily life లో confidence step by step పెరుగుతుంది.",
         ],
     },
     "spoken-english": {
@@ -220,17 +221,17 @@ TRACKS_TE = {
         "warm": (251, 113, 133),
         "slides": [
             ("SPEAK WITH CONFIDENCE", "Spoken English with AI", "Listen, repeat, roleplay, real conversations."),
-            ("GRAMMAR భయం వద్దు", "Useful sentences తో start చేయండి", "Self introduction, help అడగడం, shops, office, interviews."),
-            ("SAFE PRACTICE", "Real conversation ముందు AI తో practice", "Try, repeat, correct, confidence build చేయండి."),
-            ("REAL LIFE FIRST", "Indian situations కోసం English", "Students, job seekers, parents, workers కోసం daily words."),
+            ("GRAMMAR భయం వద్దు", "Useful sentences తో start చేయండి", "Introduce. Ask for help. Speak at shops. Practice interviews."),
+            ("SAFE PRACTICE", "Real conversation ముందు AI తో practice", "Try. Repeat. Correct. Build confidence."),
+            ("REAL LIFE FIRST", "Indian situations కోసం English", "Student practice. Job practice. Parent practice. Work practice."),
             ("చిన్నగా మొదలు", "ఒక conversation ఒకసారి", "First practical roleplay తో speaking confidence పెంచుకోండి."),
         ],
         "narration": [
-            "మిత్ర ఏ ఐ లైఫ్ లో, Spoken English with AI ట్రాక్. Listen, repeat, roleplay, మరియు real conversations తో English speaking practice చేస్తారు.",
-            "Grammar భయం అవసరం లేదు. Self introduction, help అడగడం, shops లో మాట్లాడటం, office లో మాట్లాడటం, interviews కోసం useful sentences తో మొదలు పెడతారు.",
-            "Real person తో మాట్లాడే ముందు, ఏ ఐ తో safely practice చేయవచ్చు. Try చేయండి, repeat చేయండి, correct చేసుకోండి, confidence build చేయండి.",
-            "ఈ ట్రాక్ real Indian situations పై focus చేస్తుంది. Students, job seekers, parents, workers daily life లో వాడే words practice చేస్తారు.",
-            "చిన్నగా మొదలు పెట్టండి. ఒక్క conversation ఒకసారి. First practical roleplay తో speaking confidence పెంచుకోండి.",
+            "మిత్ర ఏ ఐ లైఫ్ లో Spoken English with AI track. ముందుగా వినండి. తర్వాత repeat చేయండి. తర్వాత roleplay చేయండి. తర్వాత real conversation కి prepare అవ్వండి.",
+            "Grammar భయం అవసరం లేదు. ముందు self introduction. తర్వాత help అడగడం. తర్వాత shop లో మాట్లాడటం. తర్వాత interview answer practice.",
+            "Real person తో మాట్లాడే ముందు AI తో practice చేయవచ్చు. ఒక sentence try చేయండి. అదే sentence repeat చేయండి. Mistake ఉంటే correct చేసుకోండి.",
+            "ఈ track Indian situations కోసం. Students కి practice. Job seekers కి practice. Parents కి practice. Workers కి practice.",
+            "చిన్నగా మొదలు పెట్టండి. ఒక్క conversation ఒకసారి. First roleplay తో speaking confidence పెంచుకోండి.",
         ],
     },
     "small-business": {
@@ -239,17 +240,17 @@ TRACKS_TE = {
         "warm": (34, 197, 94),
         "slides": [
             ("LOCAL BUSINESS FIRST", "Small Business కోసం AI", "Shops, services, tutors, home businesses కోసం practical help."),
-            ("CUSTOMER MESSAGES", "వేగంగా, calm గా reply చేయండి", "WhatsApp offers, customer replies, complaints, product descriptions."),
-            ("PROMOTION HELP", "మీ month plan చేయండి", "Festival offers, captions, posters, simple campaign ideas."),
+            ("CUSTOMER MESSAGES", "వేగంగా, calm గా reply చేయండి", "Offer message. Customer reply. Complaint response."),
+            ("PROMOTION HELP", "మీ month plan చేయండి", "Festival offer. Caption. Poster idea. Campaign plan."),
             ("మీ control లో ఉంటుంది", "AI assist చేస్తుంది. Owner decide చేస్తారు.", "Private customer data ని AI tools లో paste చేయవద్దు."),
             ("సింపుల్ గా మొదలు", "ఒక useful workflow", "Communication మరియు promotion basics తో business confidence పెంచుకోండి."),
         ],
         "narration": [
-            "మిత్ర ఏ ఐ లైఫ్ లో, Small Business కోసం ఏ ఐ ట్రాక్. Shops, local services, tutors, మరియు home businesses కోసం practical ఏ ఐ help ఇక్కడ ఉంటుంది.",
-            "Customer messages వేగంగా మరియు calm గా రాయండి. WhatsApp offers, customer replies, complaint responses, product descriptions కోసం ఏ ఐ help తీసుకోండి.",
-            "Promotion planning లో కూడా ఏ ఐ ఉపయోగపడుతుంది. Festival offers, Instagram captions, posters, మరియు simple campaign ideas ని month కోసం plan చేయవచ్చు.",
-            "అంతా మీ control లో ఉంటుంది. ఏ ఐ assist చేస్తుంది. Owner final decision తీసుకుంటారు. Private customer data ని ఏ ఐ tools లో paste చేయకూడదు.",
-            "సింపుల్ గా మొదలు పెట్టండి. ఒక useful workflow తో start చేయండి. Communication మరియు promotion basics తో business confidence పెంచుకోండి.",
+            "మిత్ర ఏ ఐ లైఫ్ లో Small Business కోసం ఏ ఐ track. Shops కోసం help. Local services కోసం help. Tutors కోసం help. Home business కోసం help.",
+            "Customer messages calm గా రాయండి. ముందుగా WhatsApp offer. తర్వాత customer reply. తర్వాత complaint response. తర్వాత product description.",
+            "Promotion planning లో కూడా AI ఉపయోగపడుతుంది. ముందు festival offer. తర్వాత caption. తర్వాత poster idea. తర్వాత simple campaign plan.",
+            "ఇది మీ control లో ఉంటుంది. AI assist చేస్తుంది. Owner final decision తీసుకుంటారు. Private customer data ని AI tools లో paste చేయకూడదు.",
+            "సింపుల్ గా మొదలు పెట్టండి. ఒక useful workflow తో start చేయండి. Communication basics. Promotion basics. Business confidence step by step.",
         ],
     },
 }
@@ -345,7 +346,7 @@ def tts_to_file(text: str, out_path: Path, lang: str) -> None:
         model="tts-1",
         voice="nova",
         input=text,
-        speed=0.92 if lang == "te" else 0.95,
+        speed=0.88 if lang == "te" else 0.95,
     ) as response:
         response.stream_to_file(str(out_path))
     print(f"  [tts] {out_path.name}")
@@ -400,8 +401,9 @@ def build_track(slug: str, lang: str, force: bool = False) -> Path:
     if force and work_dir.exists():
         shutil.rmtree(work_dir)
     work_dir.mkdir(parents=True, exist_ok=True)
-    output_path = OUT_DIR / f"{slug}-overview-{lang}.mp4"
-    poster_path = OUT_DIR / f"{slug}-overview-{lang}-poster.jpg"
+    suffix = VERSION_SUFFIX_BY_LANG[lang]
+    output_path = OUT_DIR / f"{slug}-overview-{lang}{suffix}.mp4"
+    poster_path = OUT_DIR / f"{slug}-overview-{lang}{suffix}-poster.jpg"
     if force and output_path.exists():
         output_path.unlink()
     if output_path.exists() and not force:
@@ -464,13 +466,13 @@ def main() -> None:
     for slug, output_path in outputs:
         print(
             "  aws s3 cp "
-            f"{output_path} s3://mitra-ai-life-assets/videos/track-overviews/{slug}-overview-{args.lang}.mp4 "
+            f"{output_path} s3://mitra-ai-life-assets/videos/track-overviews/{output_path.name} "
             "--content-type 'video/mp4' --cache-control 'public, max-age=86400'"
         )
-        poster_path = OUT_DIR / f"{slug}-overview-{args.lang}-poster.jpg"
+        poster_path = OUT_DIR / f"{output_path.stem}-poster.jpg"
         print(
             "  aws s3 cp "
-            f"{poster_path} s3://mitra-ai-life-assets/videos/track-overviews/{slug}-overview-{args.lang}-poster.jpg "
+            f"{poster_path} s3://mitra-ai-life-assets/videos/track-overviews/{poster_path.name} "
             "--content-type 'image/jpeg' --cache-control 'public, max-age=86400'"
         )
 

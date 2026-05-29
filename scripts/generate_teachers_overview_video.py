@@ -7,7 +7,7 @@ Produces two MP4s:
   - teachers-overview-en.mp4 (English voiceover)
   - teachers-overview-te.mp4 (Telugu voiceover)
 
-Each video = 8 branded slide images (1920×1080) + Google Cloud TTS voiceover,
+Each video = 8 branded slide images (1920×1080) + OpenAI TTS voiceover,
 muxed per-segment and losslessly concatenated.
 
 Run:
@@ -17,6 +17,7 @@ Run:
 from __future__ import annotations
 
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -97,7 +98,7 @@ SLIDES_EN = [
 SLIDES_TE = [
     ("MITRA AI LIFE",
      "Teachers కోసం AI",
-     "ఉచిత course • 8 short lessons • ఇవాళే మొదలు పెట్టండి"),
+    "8 short lessons • ఇవాళే మొదలు పెట్టండి"),
     ("ప్రతి teacher కోసం",
      "వారానికి 2 నుండి 3 గంటలు ఆదా",
      "Lesson plans, worksheets, question papers — minutes లో."),
@@ -114,11 +115,11 @@ SLIDES_TE = [
      "Topic type చేయండి. పూర్తి plan వస్తుంది.",
      "మీరు review చేసి, edit చేసి, class లో వాడండి."),
     ("అంతా మీ control లో ఉంటుంది",
-     "AI help చేస్తుంది. Teacher decide చేస్తారు.",
+      "AI help చేస్తుంది. Teacher decide చేస్తారు.",
      "AI output వాడే ముందు ఏమి check చేయాలో ప్రతి lesson నేర్పుతుంది."),
-    ("ఇవాళే free గా మొదలు పెట్టండి",
-     "mitraailife.com/site/teachers.html",
-     "8 lessons • ఉచితం • Sign-up అవసరం లేదు"),
+     ("ఇవాళే మొదలు పెట్టండి",
+      "Teacher AI Basics",
+      "Lesson plan, worksheet, safety — ఒక్కొక్కటి step by step."),
 ]
 
 # Voiceover narration per slide (English + Telugu).
@@ -134,14 +135,14 @@ NARR_EN = [
 ]
 
 NARR_TE = [
-    "మిత్ర ఏ ఐ లైఫ్ ప్రెజెంట్ చేస్తోంది — టీచర్స్ కోసం ఏ ఐ. ఎనిమిది షార్ట్ లెసన్స్ తో ఉచిత కోర్సు. మీరు ఇవాళే మొదలు పెట్టవచ్చు.",
-    "ప్రతి టీచర్ కోసం. వారానికి రెండు నుండి మూడు గంటలు ఆదా చేయండి. లెసన్ ప్లాన్స్, వర్క్‌షీట్స్, మరియు క్వశ్చన్ పేపర్స్ నిమిషాల్లో.",
-    "లెసన్స్ ఒకటి నుండి మూడు. బేసిక్స్ తో మొదలు పెట్టండి. ఏ ఐ ఓవర్వ్యూ. ఛాట్ జీ పీ టీ, జెమినై, మరియు క్లాడ్. తర్వాత సింపుల్ ప్రాంప్ట్ ఫార్ములా నేర్చుకోండి.",
-    "లెసన్స్ నాలుగు నుండి ఆరు. రియల్ టీచింగ్ మెటీరియల్ తయారు చేయండి. లెసన్ ప్లాన్స్. ఆన్సర్ కీ తో వర్క్‌షీట్స్. మరియు క్వశ్చన్ పేపర్ డ్రాఫ్ట్స్.",
-    "లెసన్స్ ఏడు మరియు ఎనిమిది. సేఫ్ మరియు రెస్పాన్సిబుల్ ఏ ఐ యూస్. ప్రతి ఏ ఐ అవుట్‌పుట్ రివ్యూ చేయండి. స్టూడెంట్ ప్రైవసీ కాపాడండి.",
-    "ఒక ప్రాంప్ట్, ఒక లెసన్ ప్లాన్. మీరు టాపిక్ టైప్ చేస్తే ఏ ఐ పూర్తి ప్లాన్ ఇస్తుంది. తర్వాత మీరు రివ్యూ చేసి, ఎడిట్ చేసి, క్లాస్ లో వాడండి.",
-    "మీరే కంట్రోల్ లో ఉంటారు. ఏ ఐ హెల్ప్ చేస్తుంది. టీచర్ డిసైడ్ చేస్తారు. ఏ ఐ అవుట్‌పుట్ వాడే ముందు ఏమి చెక్ చేయాలో ప్రతి లెసన్ నేర్పుతుంది.",
-    "ఇవాళే ఉచితంగా మొదలు పెట్టండి. మిత్ర ఏ ఐ లైఫ్ డాట్ కామ్ స్లాష్ సైట్ స్లాష్ టీచర్స్ డాట్ హెచ్ టీ ఎమ్ ఎల్ ని విజిట్ చేయండి. ఎనిమిది లెసన్స్. ఉచితం. సైన్ అప్ అవసరం లేదు.",
+    "మిత్ర ఏ ఐ లైఫ్ లో, టీచర్స్ కోసం ఏ ఐ ట్రాక్. ఎనిమిది చిన్న లెసన్స్ తో, మీరు ఇవాళే మొదలు పెట్టవచ్చు.",
+    "ఈ ట్రాక్ ప్రతి టీచర్ కోసం. లెసన్ ప్లాన్, వర్క్‌షీట్, క్వశ్చన్ పేపర్ వంటి repeated పనుల్లో, వారానికి రెండు నుండి మూడు గంటలు ఆదా చేయవచ్చు.",
+    "మొదటి మూడు లెసన్స్ లో బేసిక్స్ ఉంటాయి. ఏ ఐ అంటే ఏమిటి, ఛాట్ జీ పీ టీ, జెమినై, క్లాడ్ ఎలా వాడాలి, మరియు simple prompt formula ఎలా రాయాలి.",
+    "లెసన్స్ నాలుగు నుండి ఆరు లో, real teaching material తయారు చేస్తారు. Lesson plan, answer key తో worksheet, మరియు question paper draft step by step గా చేస్తారు.",
+    "లెసన్స్ ఏడు మరియు ఎనిమిది లో, safe మరియు responsible ఏ ఐ use నేర్చుకుంటారు. ప్రతి ఏ ఐ output ని review చేయాలి, student privacy ని కాపాడాలి.",
+    "ఒక prompt తో ఒక lesson plan తయారవుతుంది. మీరు topic type చేస్తారు. ఏ ఐ plan ఇస్తుంది. తర్వాత మీరు review చేసి, edit చేసి, class లో వాడతారు.",
+    "అంతా మీ control లో ఉంటుంది. ఏ ఐ help చేస్తుంది. Teacher final decision తీసుకుంటారు. ఏ ఐ output వాడే ముందు ఏమి check చేయాలో, ప్రతి lesson స్పష్టంగా చెబుతుంది.",
+    "ఇవాళే Teacher AI Basics మొదలు పెట్టండి. Lesson plan, worksheet, question paper, safety rules — ఒక్కొక్కటి step by step గా నేర్చుకోండి.",
 ]
 
 assert len(SLIDES_EN) == len(NARR_EN) == 8
@@ -224,46 +225,16 @@ def render_slide(eyebrow: str, title: str, subline: str, path: Path,
 def tts_to_file(text: str, out_path: Path, lang: str) -> None:
     if out_path.exists():
         return
-    from google.cloud import texttospeech
-    client = texttospeech.TextToSpeechClient()
+    from openai import OpenAI
 
-    if lang == "en":
-        voice = texttospeech.VoiceSelectionParams(
-            language_code="en-US", name="en-US-Chirp3-HD-Charon",
-        )
-        rate = 1.0
-    else:
-        voice = texttospeech.VoiceSelectionParams(
-            language_code="te-IN", name="te-IN-Chirp3-HD-Kore",
-        )
-        rate = 0.95
-
-    try:
-        resp = client.synthesize_speech(
-            input=texttospeech.SynthesisInput(text=text),
-            voice=voice,
-            audio_config=texttospeech.AudioConfig(
-                audio_encoding=texttospeech.AudioEncoding.MP3,
-                speaking_rate=rate,
-            ),
-        )
-    except Exception as e:
-        # Fall back to Standard voice if Chirp3-HD not available for that locale
-        print(f"  [WARN] Chirp3-HD failed ({e}); falling back to Standard")
-        fb_name = "en-US-Neural2-D" if lang == "en" else "te-IN-Standard-B"
-        voice = texttospeech.VoiceSelectionParams(
-            language_code="en-US" if lang == "en" else "te-IN",
-            name=fb_name,
-        )
-        resp = client.synthesize_speech(
-            input=texttospeech.SynthesisInput(text=text),
-            voice=voice,
-            audio_config=texttospeech.AudioConfig(
-                audio_encoding=texttospeech.AudioEncoding.MP3,
-                speaking_rate=rate,
-            ),
-        )
-    out_path.write_bytes(resp.audio_content)
+    client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+    with client.audio.speech.with_streaming_response.create(
+        model="tts-1",
+        voice="nova",
+        input=text,
+        speed=0.92 if lang == "te" else 0.95,
+    ) as response:
+        response.stream_to_file(str(out_path))
     print(f"  [tts:{lang}] {out_path.name}")
 
 
@@ -331,6 +302,8 @@ def build_lang(lang: str, slides: list[tuple], narration: list[str]) -> Path:
 
         print(f"\n[{idx}] {title}")
         render_slide(eye, title, sub, img_p, lang)
+        if i == 1:
+            shutil.copyfile(img_p, OUT_DIR / f"teachers-overview-{lang}-poster.jpg")
         tts_to_file(narr, aud_p, lang)
 
         if not seg_p.exists():
@@ -348,7 +321,7 @@ def build_lang(lang: str, slides: list[tuple], narration: list[str]) -> Path:
 
 
 # ── upload to S3 ──────────────────────────────────────────────────────────────
-def upload_to_s3(local: Path, key: str) -> str:
+def upload_to_s3(local: Path, key: str, content_type: str) -> str:
     import boto3
     s3 = boto3.client(
         "s3",
@@ -359,7 +332,7 @@ def upload_to_s3(local: Path, key: str) -> str:
     BUCKET = "mitra-ai-life-assets"
     s3.upload_file(
         str(local), BUCKET, key,
-        ExtraArgs={"ContentType": "video/mp4", "CacheControl": "public,max-age=31536000"},
+        ExtraArgs={"ContentType": content_type, "CacheControl": "public,max-age=31536000"},
     )
     url = f"https://{BUCKET}.s3.{os.environ.get('AWS_DEFAULT_REGION', 'us-west-2')}.amazonaws.com/{key}"
     print(f"  📤 uploaded: {url}")
@@ -369,16 +342,22 @@ def upload_to_s3(local: Path, key: str) -> str:
 def main(langs: list[str] | None = None):
     if langs is None:
         langs = ["en", "te"]
-    en_mp4 = build_lang("en", SLIDES_EN, NARR_EN) if "en" in langs else OUT_DIR / "teachers-overview-en.mp4"
-    te_mp4 = build_lang("te", SLIDES_TE, NARR_TE) if "te" in langs else OUT_DIR / "teachers-overview-te.mp4"
+    outputs = {}
+    if "en" in langs:
+        outputs["en"] = build_lang("en", SLIDES_EN, NARR_EN)
+    if "te" in langs:
+        outputs["te"] = build_lang("te", SLIDES_TE, NARR_TE)
 
     print("\n══════ Uploading to S3 ══════")
-    en_url = upload_to_s3(en_mp4, "videos/teachers/teachers-overview-en.mp4")
-    te_url = upload_to_s3(te_mp4, "videos/teachers/teachers-overview-te.mp4")
+    urls = {}
+    for lang, mp4_path in outputs.items():
+        poster_path = OUT_DIR / f"teachers-overview-{lang}-poster.jpg"
+        urls[f"{lang}_mp4"] = upload_to_s3(mp4_path, f"videos/teachers/teachers-overview-{lang}.mp4", "video/mp4")
+        urls[f"{lang}_poster"] = upload_to_s3(poster_path, f"videos/teachers/teachers-overview-{lang}-poster.jpg", "image/jpeg")
 
     print("\n══════ DONE ══════")
-    print(f"EN: {en_url}")
-    print(f"TE: {te_url}")
+    for label, url in urls.items():
+        print(f"{label}: {url}")
     print("\nNext: replace the 'VIDEO COMING SOON' / 'VIDEO త్వరలో' placeholders")
     print("      in site/teachers.html and site/teachers-te.html with HTML5 <video> tags.")
 
@@ -391,7 +370,6 @@ if __name__ == "__main__":
     args = p.parse_args()
     langs = ["en", "te"] if args.lang == "both" else [args.lang]
     if args.force:
-        import shutil
         for lang in langs:
             work = OUT_DIR / lang
             if work.exists():
@@ -399,4 +377,7 @@ if __name__ == "__main__":
             final = OUT_DIR / f"teachers-overview-{lang}.mp4"
             if final.exists():
                 final.unlink()
+            poster = OUT_DIR / f"teachers-overview-{lang}-poster.jpg"
+            if poster.exists():
+                poster.unlink()
     main(langs)

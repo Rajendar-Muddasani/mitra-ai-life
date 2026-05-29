@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """
-Generate English overview videos for the main track pages that do not already
-have a live overview video.
+Generate overview videos for the main track pages that do not already have a
+live overview video.
 
 Outputs:
-  content/assets/videos/track-overviews/{slug}-overview-en.mp4
-  content/assets/videos/track-overviews/{slug}-overview-en-poster.jpg
+    content/assets/videos/track-overviews/{slug}-overview-{lang}.mp4
+    content/assets/videos/track-overviews/{slug}-overview-{lang}-poster.jpg
 
 Usage:
   source .venv/bin/activate
   python scripts/generate_track_overview_videos.py --track daily-life
+    python scripts/generate_track_overview_videos.py --track daily-life --lang te
   python scripts/generate_track_overview_videos.py
 """
 from __future__ import annotations
@@ -61,6 +62,17 @@ FONT_HEADING = find_font([
 FONT_BODY = find_font([
     "/System/Library/Fonts/Supplemental/Arial.ttf",
     "/System/Library/Fonts/Helvetica.ttc",
+])
+FONT_TE_HEADING = find_font([
+    str(ROOT / "scripts" / "_fonts" / "NotoSansTelugu-Bold.ttf"),
+    "/System/Library/Fonts/KohinoorTelugu.ttc",
+    "/System/Library/Fonts/Supplemental/Telugu Sangam MN.ttc",
+])
+FONT_TE_BODY = find_font([
+    str(ROOT / "scripts" / "_fonts" / "NotoSansTelugu-Regular.ttf"),
+    str(ROOT / "scripts" / "_fonts" / "NotoSansTelugu-Bold.ttf"),
+    "/System/Library/Fonts/KohinoorTelugu.ttc",
+    "/System/Library/Fonts/Supplemental/Telugu Sangam MN.ttc",
 ])
 
 
@@ -182,6 +194,70 @@ TRACKS = {
 }
 
 
+TRACKS_TE = {
+    "daily-life": {
+        "title": "రోజువారీ జీవితానికి AI",
+        "accent": (104, 225, 255),
+        "warm": (245, 158, 11),
+        "slides": [
+            ("MITRA AI LIFE", "రోజువారీ జీవితానికి AI", "Indian daily life కోసం simple AI skills"),
+            ("సింపుల్ గా మొదలు", "Real daily పనులకు AI", "Messages, letters, summaries, budgets, planning, family help."),
+            ("సేఫ్టీ ముఖ్యం", "ఏది నమ్మకూడదో నేర్చుకోండి", "Scams, fake news, deepfakes, privacy, AI mistakes."),
+            ("విజువల్ లెర్నింగ్", "10 beginner levels సిద్ధంగా ఉన్నాయి", "Short lessons, practical examples, technical background అవసరం లేదు."),
+            ("ఇవాళే మొదలు", "Level 1 తో ఒక habit build చేయండి", "చిన్న practical task తో AI confidence పెంచుకోండి."),
+        ],
+        "narration": [
+            "మిత్ర ఏ ఐ లైఫ్ లో, రోజువారీ జీవితానికి ఏ ఐ ట్రాక్. Indian daily life లో ఉపయోగపడే simple ఏ ఐ skills ఇక్కడ నేర్చుకుంటారు.",
+            "సింపుల్ గా మొదలు పెడదాం. Messages, letters, summaries, family planning, budgets, మరియు రోజువారీ routines కోసం ఏ ఐ ఎలా వాడాలో నేర్చుకుంటారు.",
+            "సేఫ్టీ చాలా ముఖ్యం. Scams, fake news, deepfakes, privacy, మరియు ఏ ఐ mistakes ని simple examples తో అర్థం చేసుకుంటారు.",
+            "ఈ ట్రాక్ visual గా ఉంటుంది. పది beginner levels సిద్ధంగా ఉన్నాయి. Practical examples ఉంటాయి. Technical background అవసరం లేదు.",
+            "ఇవాళే Level 1 తో మొదలు పెట్టండి. ఒక్క చిన్న useful habit build చేస్తే, daily life లో ఏ ఐ confidence పెరుగుతుంది.",
+        ],
+    },
+    "spoken-english": {
+        "title": "Spoken English with AI",
+        "accent": (196, 181, 253),
+        "warm": (251, 113, 133),
+        "slides": [
+            ("SPEAK WITH CONFIDENCE", "Spoken English with AI", "Listen, repeat, roleplay, real conversations."),
+            ("GRAMMAR భయం వద్దు", "Useful sentences తో start చేయండి", "Self introduction, help అడగడం, shops, office, interviews."),
+            ("SAFE PRACTICE", "Real conversation ముందు AI తో practice", "Try, repeat, correct, confidence build చేయండి."),
+            ("REAL LIFE FIRST", "Indian situations కోసం English", "Students, job seekers, parents, workers కోసం daily words."),
+            ("చిన్నగా మొదలు", "ఒక conversation ఒకసారి", "First practical roleplay తో speaking confidence పెంచుకోండి."),
+        ],
+        "narration": [
+            "మిత్ర ఏ ఐ లైఫ్ లో, Spoken English with AI ట్రాక్. Listen, repeat, roleplay, మరియు real conversations తో English speaking practice చేస్తారు.",
+            "Grammar భయం అవసరం లేదు. Self introduction, help అడగడం, shops లో మాట్లాడటం, office లో మాట్లాడటం, interviews కోసం useful sentences తో మొదలు పెడతారు.",
+            "Real person తో మాట్లాడే ముందు, ఏ ఐ తో safely practice చేయవచ్చు. Try చేయండి, repeat చేయండి, correct చేసుకోండి, confidence build చేయండి.",
+            "ఈ ట్రాక్ real Indian situations పై focus చేస్తుంది. Students, job seekers, parents, workers daily life లో వాడే words practice చేస్తారు.",
+            "చిన్నగా మొదలు పెట్టండి. ఒక్క conversation ఒకసారి. First practical roleplay తో speaking confidence పెంచుకోండి.",
+        ],
+    },
+    "small-business": {
+        "title": "Small Business కోసం AI",
+        "accent": (253, 186, 116),
+        "warm": (34, 197, 94),
+        "slides": [
+            ("LOCAL BUSINESS FIRST", "Small Business కోసం AI", "Shops, services, tutors, home businesses కోసం practical help."),
+            ("CUSTOMER MESSAGES", "వేగంగా, calm గా reply చేయండి", "WhatsApp offers, customer replies, complaints, product descriptions."),
+            ("PROMOTION HELP", "మీ month plan చేయండి", "Festival offers, captions, posters, simple campaign ideas."),
+            ("మీ control లో ఉంటుంది", "AI assist చేస్తుంది. Owner decide చేస్తారు.", "Private customer data ని AI tools లో paste చేయవద్దు."),
+            ("సింపుల్ గా మొదలు", "ఒక useful workflow", "Communication మరియు promotion basics తో business confidence పెంచుకోండి."),
+        ],
+        "narration": [
+            "మిత్ర ఏ ఐ లైఫ్ లో, Small Business కోసం ఏ ఐ ట్రాక్. Shops, local services, tutors, మరియు home businesses కోసం practical ఏ ఐ help ఇక్కడ ఉంటుంది.",
+            "Customer messages వేగంగా మరియు calm గా రాయండి. WhatsApp offers, customer replies, complaint responses, product descriptions కోసం ఏ ఐ help తీసుకోండి.",
+            "Promotion planning లో కూడా ఏ ఐ ఉపయోగపడుతుంది. Festival offers, Instagram captions, posters, మరియు simple campaign ideas ని month కోసం plan చేయవచ్చు.",
+            "అంతా మీ control లో ఉంటుంది. ఏ ఐ assist చేస్తుంది. Owner final decision తీసుకుంటారు. Private customer data ని ఏ ఐ tools లో paste చేయకూడదు.",
+            "సింపుల్ గా మొదలు పెట్టండి. ఒక useful workflow తో start చేయండి. Communication మరియు promotion basics తో business confidence పెంచుకోండి.",
+        ],
+    },
+}
+
+
+TRACKS_BY_LANG = {"en": TRACKS, "te": TRACKS_TE}
+
+
 def wrap_text(text: str, font: ImageFont.FreeTypeFont, max_width: int, draw: ImageDraw.ImageDraw) -> list[str]:
     words = text.split()
     if not words:
@@ -203,7 +279,7 @@ def blend(color_a: tuple[int, int, int], color_b: tuple[int, int, int], ratio: f
     return tuple(int(color_a[channel] * (1 - ratio) + color_b[channel] * ratio) for channel in range(3))
 
 
-def render_slide(eyebrow: str, title: str, subline: str, path: Path, accent: tuple[int, int, int], warm: tuple[int, int, int]) -> None:
+def render_slide(eyebrow: str, title: str, subline: str, path: Path, accent: tuple[int, int, int], warm: tuple[int, int, int], lang: str) -> None:
     image = Image.new("RGB", (WIDTH, HEIGHT), NAVY)
     draw = ImageDraw.Draw(image)
 
@@ -221,9 +297,11 @@ def render_slide(eyebrow: str, title: str, subline: str, path: Path, accent: tup
     draw.ellipse([WIDTH - 480, -180, WIDTH + 180, 480], outline=accent, width=10)
     draw.ellipse([-220, HEIGHT - 420, 380, HEIGHT + 180], outline=warm, width=8)
 
-    font_eyebrow = ImageFont.truetype(FONT_BODY, 38)
-    font_title = ImageFont.truetype(FONT_HEADING, 104)
-    font_sub = ImageFont.truetype(FONT_BODY, 48)
+    font_body_path = FONT_TE_BODY if lang == "te" else FONT_BODY
+    font_heading_path = FONT_TE_HEADING if lang == "te" else FONT_HEADING
+    font_eyebrow = ImageFont.truetype(font_body_path, 38)
+    font_title = ImageFont.truetype(font_heading_path, 104)
+    font_sub = ImageFont.truetype(font_body_path, 48)
     font_brand = ImageFont.truetype(FONT_BODY, 30)
 
     eyebrow_width = draw.textbbox((0, 0), eyebrow, font=font_eyebrow)[2]
@@ -257,7 +335,7 @@ def render_slide(eyebrow: str, title: str, subline: str, path: Path, accent: tup
     image.save(path, "JPEG", quality=92)
 
 
-def tts_to_file(text: str, out_path: Path) -> None:
+def tts_to_file(text: str, out_path: Path, lang: str) -> None:
     if out_path.exists():
         return
     from openai import OpenAI
@@ -267,7 +345,7 @@ def tts_to_file(text: str, out_path: Path) -> None:
         model="tts-1",
         voice="nova",
         input=text,
-        speed=0.95,
+        speed=0.92 if lang == "te" else 0.95,
     ) as response:
         response.stream_to_file(str(out_path))
     print(f"  [tts] {out_path.name}")
@@ -316,21 +394,21 @@ def concat_segments(segment_paths: list[Path], output_path: Path) -> None:
     list_file.unlink()
 
 
-def build_track(slug: str, force: bool = False) -> Path:
-    config = TRACKS[slug]
-    work_dir = OUT_DIR / slug
+def build_track(slug: str, lang: str, force: bool = False) -> Path:
+    config = TRACKS_BY_LANG[lang][slug]
+    work_dir = OUT_DIR / f"{slug}-{lang}"
     if force and work_dir.exists():
         shutil.rmtree(work_dir)
     work_dir.mkdir(parents=True, exist_ok=True)
-    output_path = OUT_DIR / f"{slug}-overview-en.mp4"
-    poster_path = OUT_DIR / f"{slug}-overview-en-poster.jpg"
+    output_path = OUT_DIR / f"{slug}-overview-{lang}.mp4"
+    poster_path = OUT_DIR / f"{slug}-overview-{lang}-poster.jpg"
     if force and output_path.exists():
         output_path.unlink()
     if output_path.exists() and not force:
         print(f"\n[{slug}] skip final exists: {output_path.name}")
         return output_path
 
-    print(f"\n===== {config['title']} =====")
+    print(f"\n===== {config['title']} ({lang}) =====")
     segments: list[Path] = []
     slides = config["slides"]
     narration = config["narration"]
@@ -340,10 +418,10 @@ def build_track(slug: str, force: bool = False) -> Path:
         audio_path = work_dir / f"narr-{slide_id}.mp3"
         segment_path = work_dir / f"seg-{slide_id}.mp4"
         print(f"[{slug}:{slide_id}] {title}")
-        render_slide(eyebrow, title, subline, image_path, config["accent"], config["warm"])
+        render_slide(eyebrow, title, subline, image_path, config["accent"], config["warm"], lang)
         if slide_number == 1:
             shutil.copyfile(image_path, poster_path)
-        tts_to_file(voiceover, audio_path)
+        tts_to_file(voiceover, audio_path, lang)
         make_segment(image_path, audio_path, segment_path)
         segments.append(segment_path)
 
@@ -355,25 +433,27 @@ def build_track(slug: str, force: bool = False) -> Path:
     return output_path
 
 
-def parse_targets(raw_targets: str) -> list[str]:
+def parse_targets(raw_targets: str, lang: str) -> list[str]:
+    available_tracks = TRACKS_BY_LANG[lang]
     if raw_targets == "all":
-        return list(TRACKS.keys())
+        return list(available_tracks.keys())
     targets = [target.strip() for target in raw_targets.split(",") if target.strip()]
-    unknown = [target for target in targets if target not in TRACKS]
+    unknown = [target for target in targets if target not in available_tracks]
     if unknown:
-        raise SystemExit(f"Unknown track(s): {', '.join(unknown)}")
+        raise SystemExit(f"Unknown {lang} track(s): {', '.join(unknown)}")
     return targets
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--track", default="all", help="Track slug, comma list, or all")
+    parser.add_argument("--lang", choices=["en", "te"], default="en")
     parser.add_argument("--force", action="store_true", help="Regenerate cached segments and final MP4")
     args = parser.parse_args()
 
     outputs = []
-    for slug in parse_targets(args.track):
-        outputs.append((slug, build_track(slug, force=args.force)))
+    for slug in parse_targets(args.track, args.lang):
+        outputs.append((slug, build_track(slug, args.lang, force=args.force)))
 
     print("\nAll requested videos are ready:")
     for slug, output_path in outputs:
@@ -384,13 +464,13 @@ def main() -> None:
     for slug, output_path in outputs:
         print(
             "  aws s3 cp "
-            f"{output_path} s3://mitra-ai-life-assets/videos/track-overviews/{slug}-overview-en.mp4 "
+            f"{output_path} s3://mitra-ai-life-assets/videos/track-overviews/{slug}-overview-{args.lang}.mp4 "
             "--content-type 'video/mp4' --cache-control 'public, max-age=86400'"
         )
-        poster_path = OUT_DIR / f"{slug}-overview-en-poster.jpg"
+        poster_path = OUT_DIR / f"{slug}-overview-{args.lang}-poster.jpg"
         print(
             "  aws s3 cp "
-            f"{poster_path} s3://mitra-ai-life-assets/videos/track-overviews/{slug}-overview-en-poster.jpg "
+            f"{poster_path} s3://mitra-ai-life-assets/videos/track-overviews/{slug}-overview-{args.lang}-poster.jpg "
             "--content-type 'image/jpeg' --cache-control 'public, max-age=86400'"
         )
 

@@ -8,9 +8,9 @@ Run:  .venv/bin/python scripts/generate_class07_images.py
 - Logs cost estimate at the end
 - After generation, upload with: bash scripts/upload_class07_images.sh
 """
+import base64
 import os
 import time
-import urllib.request
 from pathlib import Path
 
 from openai import OpenAI
@@ -158,14 +158,14 @@ def generate(filename: str, size: str, prompt: str) -> None:
     print(f"  GEN   {filename} ...", end="", flush=True)
     try:
         response = client.images.generate(
-            model="dall-e-3",
+            model="gpt-image-1",
             prompt=full_prompt,
-            size=size,
-            quality="standard",
+            size="1536x1024",
+            quality="medium",
             n=1,
         )
-        url = response.data[0].url
-        urllib.request.urlretrieve(url, out_path)
+        img_bytes = base64.b64decode(response.data[0].b64_json)
+        out_path.write_bytes(img_bytes)
         print(f" saved ({out_path.stat().st_size // 1024} KB)")
     except Exception as exc:
         print(f" ERROR: {exc}")
@@ -177,7 +177,7 @@ def main():
     print(f"Total images : {len(IMAGES)}\n")
     for filename, size, prompt in IMAGES:
         generate(filename, size, prompt)
-    cost = len(IMAGES) * 0.040
+    cost = len(IMAGES) * 0.011  # gpt-image-1 standard 1536x1024
     print(f"\nDone. Estimated cost: ${cost:.2f} USD (standard quality 1792×1024)")
 
 

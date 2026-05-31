@@ -25,6 +25,11 @@ ROOT = Path(__file__).parent.parent
 MANIFEST = ROOT / "content" / "tuition" / "hindi-foundation" / "manifests" / "h1-sample-pack.json"
 SCENES_DIR = ROOT / "content" / "assets" / "scenes" / "hindi-h1"
 RATE_LIMIT_SLEEP = 13
+NO_TEXT_RULE = (
+    "Do not render any text, Devanagari letters, English letters, numbers, labels, captions, "
+    "worksheets, flashcards, symbols, or watermarks inside the image. "
+    "Use object-first educational art only, with the explanation added on the lesson page instead."
+)
 
 
 def load_env() -> None:
@@ -66,7 +71,7 @@ def build_image_jobs(manifest: dict, selected_lessons: set[str] | None) -> list[
                     f"Learning outcome: {lesson['learningOutcome']} "
                     f"Visual direction: {lesson['heroPrompt']} "
                     "Bright beginner-friendly Indian classroom atmosphere, child-safe, uncluttered, "
-                    "educational illustration, no text overlays, no watermark."
+                    f"educational illustration. {NO_TEXT_RULE}"
                 ),
             }
         )
@@ -85,7 +90,7 @@ def build_image_jobs(manifest: dict, selected_lessons: set[str] | None) -> list[
                         f"Narration context: {scene['narration']} "
                         f"Visual prompt: {scene['visualPrompt']} "
                         "Use a clean 16:9 educational composition, child-safe Indian learning context, "
-                        "large readable Devanagari when needed, no Latin text overlays, no watermark."
+                        f"with strong focal objects and generous negative space. {NO_TEXT_RULE}"
                     ),
                 }
             )

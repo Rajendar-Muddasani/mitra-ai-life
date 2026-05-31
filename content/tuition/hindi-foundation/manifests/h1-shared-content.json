@@ -1,0 +1,428 @@
+{
+  "H1-01": {
+    "page": "content/tuition/hindi-foundation/h1-01.html",
+    "reading": {
+      "label": "Letters",
+      "heading": "Read the letters",
+      "body": "These are the exact letters and the first anchor word for this lesson. Read them aloud slowly before going further.",
+      "columns": "two",
+      "note": "The pictures below are only for memory support. The exact letters and words are the cards above.",
+      "cards": [
+        {"letter": "अ", "word": "अ", "gloss": "Short open sound. Start here."},
+        {"letter": "आ", "word": "आम", "gloss": "Longer sound with mango as the anchor word."}
+      ]
+    },
+    "scenes": {
+      "label": "Lesson flow",
+      "heading": "See the lesson in order",
+      "body": "Each card shows one step of the lesson. Scroll from top to bottom to follow the order.",
+      "boards": [
+        {
+          "theme": "sunrise",
+          "label": "Lesson 1",
+          "badge": "Start",
+          "title": "Hindi Is For Me",
+          "hindi": "अ   आ",
+          "caption": "Start with two sounds only, without pressure.",
+          "chips": ["आम"],
+          "aria": "Lesson 1 cover card showing अ and आ with आम",
+          "summaryBadge": "Start",
+          "summaryTitle": "Warm, no-shame welcome",
+          "summaryText": "The lesson opens by telling the learner that starting from zero is normal and safe."
+        },
+        {
+          "sceneNumber": 1,
+          "theme": "ocean",
+          "label": "First Sound",
+          "badge": "Scene 1",
+          "title": "Meet the short sound",
+          "hindi": "अ",
+          "caption": "One letter, one sound, one calm step.",
+          "chips": ["अ"],
+          "aria": "Scene 1 card showing अ",
+          "summaryBadge": "Scene 1",
+          "summaryTitle": "Meet the short sound अ",
+          "summaryText": "The learner sees one big letter and only one sound at a time, without overload."
+        },
+        {
+          "sceneNumber": 2,
+          "theme": "berry",
+          "label": "Long Sound",
+          "badge": "Scene 2",
+          "title": "Move to the longer sound",
+          "hindi": "आ",
+          "caption": "Read the letter, then connect it to the word below.",
+          "chips": ["आम"],
+          "aria": "Scene 2 card showing आ and आम",
+          "summaryBadge": "Scene 2",
+          "summaryTitle": "Move to the longer sound आ",
+          "summaryText": "The second frame stretches the sound and keeps the teaching pace slow and clear."
+        },
+        {
+          "sceneNumber": 3,
+          "theme": "mint",
+          "label": "Compare",
+          "badge": "Scene 3",
+          "title": "Notice the difference",
+          "hindi": "अ      आ",
+          "caption": "Short first, long second.",
+          "chips": ["अ", "आ"],
+          "aria": "Scene 3 comparison card showing अ and आ",
+          "summaryBadge": "Scene 3",
+          "summaryTitle": "Compare short and long",
+          "summaryText": "The learner now notices the difference between अ and आ instead of memorizing blindly."
+        },
+        {
+          "sceneNumber": 4,
+          "theme": "sunrise",
+          "label": "Anchor Word",
+          "badge": "Scene 4",
+          "title": "Attach the sound to the word",
+          "hindi": "आम",
+          "caption": "This is the exact word the learner should say with आ.",
+          "chips": ["आ", "आम"],
+          "aria": "Scene 4 anchor card showing आम",
+          "summaryBadge": "Scene 4",
+          "summaryTitle": "Attach आ to आम",
+          "summaryText": "The mango image turns the longer sound into a memorable real-world anchor."
+        },
+        {
+          "sceneNumber": 5,
+          "theme": "midnight",
+          "label": "Trace",
+          "badge": "Scene 5",
+          "title": "Write after listening",
+          "hindi": "अ   आ",
+          "caption": "Trace only after both sounds feel familiar.",
+          "chips": ["अ", "आ"],
+          "aria": "Scene 5 tracing card showing अ and आ",
+          "summaryBadge": "Scene 5",
+          "summaryTitle": "Finish with tracing and recap",
+          "summaryText": "The page ends the sequence by moving from listening into one small writing step."
+        }
+      ]
+    }
+  },
+  "H1-02": {
+    "page": "content/tuition/hindi-foundation/h1-02.html",
+    "reading": {
+      "label": "Letters",
+      "heading": "Read the letters",
+      "body": "These are the four letters and their anchor words for this lesson. Read each card aloud before moving on.",
+      "columns": "two",
+      "note": "The pictures below are only for memory support. The exact letters and words are the cards above.",
+      "cards": [
+        {"letter": "अ", "word": "अ", "gloss": "Short sound."},
+        {"letter": "आ", "word": "आम", "gloss": "Long sound with mango."},
+        {"letter": "इ", "word": "इमली", "gloss": "Tamarind anchor."},
+        {"letter": "ई", "word": "ईख", "gloss": "Sugarcane anchor."}
+      ]
+    },
+    "scenes": {
+      "label": "Lesson flow",
+      "heading": "See the lesson in order",
+      "body": "Each card shows one step of the lesson. Scroll from top to bottom to follow the order.",
+      "boards": [
+        {
+          "theme": "sunrise",
+          "label": "Lesson 2",
+          "badge": "Start",
+          "title": "Swar Set 1",
+          "hindi": "अ  आ  इ  ई",
+          "caption": "Exact reading card for the first four swar in this lesson.",
+          "chips": ["आम", "इमली", "ईख"],
+          "aria": "Lesson 2 cover card showing the first four swar अ आ इ ई",
+          "summaryBadge": "Start",
+          "summaryTitle": "Intro to the first four swar",
+          "summaryText": "The lesson starts by showing the child that only four sounds matter in this round: अ, आ, इ, and ई."
+        },
+        {
+          "sceneNumber": 1,
+          "theme": "ocean",
+          "label": "Short and Long",
+          "badge": "Scene 1",
+          "title": "Begin with the first pair",
+          "hindi": "अ   आ",
+          "caption": "Short sound first, then the longer open sound.",
+          "chips": ["अ", "आ"],
+          "aria": "Scene 1 card showing अ and आ",
+          "summaryBadge": "Scene 1",
+          "summaryTitle": "Begin with अ and आ",
+          "summaryText": "The first pair establishes short-versus-long sound contrast using the simplest early vowels."
+        },
+        {
+          "sceneNumber": 2,
+          "theme": "berry",
+          "label": "Second Pair",
+          "badge": "Scene 2",
+          "title": "Add the front sounds",
+          "hindi": "इ   ई",
+          "caption": "Read the letters first, then connect them to the words below.",
+          "chips": ["इमली", "ईख"],
+          "aria": "Scene 2 card showing इ and ई with anchor words",
+          "summaryBadge": "Scene 2",
+          "summaryTitle": "Add इ and ई",
+          "summaryText": "The second pair extends the listening pattern without changing the basic teaching method."
+        },
+        {
+          "sceneNumber": 3,
+          "theme": "mint",
+          "label": "Anchor Words",
+          "badge": "Scene 3",
+          "title": "Match each sound to a word",
+          "hindi": "आम   इमली   ईख",
+          "caption": "These are the exact words learners should read and hear in this step.",
+          "chips": ["आ", "इ", "ई"],
+          "aria": "Scene 3 card showing anchor words आम इमली ईख",
+          "summaryBadge": "Scene 3",
+          "summaryTitle": "Match sound to anchor image",
+          "summaryText": "The learner connects each sound to a familiar picture so recall becomes easier than raw memorization."
+        },
+        {
+          "sceneNumber": 4,
+          "theme": "sunrise",
+          "label": "Repeat Loop",
+          "badge": "Scene 4",
+          "title": "Say each sound seven times",
+          "hindi": "अ  आ  इ  ई",
+          "caption": "Repeat in order, without rushing.",
+          "chips": ["7x अ", "7x आ", "7x इ", "7x ई"],
+          "aria": "Scene 4 repetition card showing अ आ इ ई",
+          "summaryBadge": "Scene 4",
+          "summaryTitle": "Repeat in a steady rhythm",
+          "summaryText": "The lesson stays on repetition long enough for the learner to hear the differences calmly."
+        },
+        {
+          "sceneNumber": 5,
+          "theme": "midnight",
+          "label": "Quick Check",
+          "badge": "Scene 5",
+          "title": "Show the right sound card",
+          "hindi": "आ   ?   इ   ?   ई",
+          "caption": "Use this exact recap prompt before tracing begins.",
+          "chips": ["आ", "इ", "ई"],
+          "aria": "Scene 5 recap card asking for आ इ and ई",
+          "summaryBadge": "Scene 5",
+          "summaryTitle": "Trace after listening",
+          "summaryText": "The final frame turns listening confidence into tracing, only after the sounds already feel familiar."
+        }
+      ]
+    }
+  },
+  "H1-03": {
+    "page": "content/tuition/hindi-foundation/h1-03.html",
+    "reading": {
+      "label": "Letters",
+      "heading": "Read the letters",
+      "body": "These are the next four swar with their anchor words. Read each card aloud before moving on.",
+      "columns": "two",
+      "note": "The pictures below are only for memory support. The exact letters and words are the cards above.",
+      "cards": [
+        {"letter": "उ", "word": "उल्लू", "gloss": "Short rounded sound."},
+        {"letter": "ऊ", "word": "ऊन", "gloss": "Long rounded sound."},
+        {"letter": "ए", "word": "एड़ी", "gloss": "Flat front sound."},
+        {"letter": "ऐ", "word": "ऐनक", "gloss": "Glasses anchor."}
+      ]
+    },
+    "scenes": {
+      "label": "Lesson flow",
+      "heading": "See the lesson in order",
+      "body": "Each card shows one step of the lesson. Scroll from top to bottom to follow the second swar set.",
+      "boards": [
+        {
+          "theme": "sunrise",
+          "label": "Lesson 3",
+          "badge": "Start",
+          "title": "Swar Set 2",
+          "hindi": "उ   ऊ   ए   ऐ",
+          "caption": "Exact reading card for the second vowel set.",
+          "chips": ["उल्लू", "ऊन", "एड़ी", "ऐनक"],
+          "aria": "Lesson 3 cover card showing उ ऊ ए ऐ",
+          "summaryBadge": "Start",
+          "summaryTitle": "Introduce the second swar set",
+          "summaryText": "The page opens by narrowing attention to four new sounds: उ, ऊ, ए, and ऐ."
+        },
+        {
+          "sceneNumber": 1,
+          "theme": "ocean",
+          "label": "Rounded Pair",
+          "badge": "Scene 1",
+          "title": "Meet the rounded sounds",
+          "hindi": "उ   ऊ",
+          "caption": "Read the short sound first, then the longer one.",
+          "chips": ["उ", "ऊ"],
+          "aria": "Scene 1 card showing उ and ऊ",
+          "summaryBadge": "Scene 1",
+          "summaryTitle": "Meet उ and ऊ",
+          "summaryText": "The learner first hears the short and long rounded pair side by side."
+        },
+        {
+          "sceneNumber": 2,
+          "theme": "berry",
+          "label": "Front Pair",
+          "badge": "Scene 2",
+          "title": "Add the front sounds",
+          "hindi": "ए   ऐ",
+          "caption": "These two sounds should be heard and read separately.",
+          "chips": ["ए", "ऐ"],
+          "aria": "Scene 2 card showing ए and ऐ",
+          "summaryBadge": "Scene 2",
+          "summaryTitle": "Add ए and ऐ",
+          "summaryText": "The teaching pattern repeats so the new pair feels familiar rather than difficult."
+        },
+        {
+          "sceneNumber": 3,
+          "theme": "mint",
+          "label": "Anchor Words",
+          "badge": "Scene 3",
+          "title": "Match each sound to a word",
+          "hindi": "उल्लू   ऊन   एड़ी   ऐनक",
+          "caption": "These are the exact words the learner should read and hear here.",
+          "chips": ["उ", "ऊ", "ए", "ऐ"],
+          "aria": "Scene 3 card showing anchor words उल्लू ऊन एड़ी and ऐनक",
+          "summaryBadge": "Scene 3",
+          "summaryTitle": "Attach each sound to a word",
+          "summaryText": "Anchor words like उल्लू, ऊन, एड़ी, and ऐनक give each vowel a visual memory hook."
+        },
+        {
+          "sceneNumber": 4,
+          "theme": "sunrise",
+          "label": "Repeat Loop",
+          "badge": "Scene 4",
+          "title": "Say each sound slowly",
+          "hindi": "उ  ऊ  ए  ऐ",
+          "caption": "Repeat calmly until the contrast feels easy.",
+          "chips": ["7x उ", "7x ऊ", "7x ए", "7x ऐ"],
+          "aria": "Scene 4 repetition card showing उ ऊ ए ऐ",
+          "summaryBadge": "Scene 4",
+          "summaryTitle": "Practice slow contrast listening",
+          "summaryText": "The learner stays with the sound pairs long enough to notice where confusion starts."
+        },
+        {
+          "sceneNumber": 5,
+          "theme": "midnight",
+          "label": "Mixed Recap",
+          "badge": "Scene 5",
+          "title": "Mix the first eight swar",
+          "hindi": "अ  आ  इ  ई  उ  ऊ  ए  ऐ",
+          "caption": "This exact recap line leads into the confidence check.",
+          "chips": ["8 sounds"],
+          "aria": "Scene 5 mixed recap card showing eight swar",
+          "summaryBadge": "Scene 5",
+          "summaryTitle": "End with a mixed recap",
+          "summaryText": "The final frame prepares the learner for the H1 confidence check by revisiting earlier swar together."
+        }
+      ]
+    }
+  },
+  "H1-04": {
+    "page": "content/tuition/hindi-foundation/h1-04.html",
+    "reading": {
+      "label": "Letters",
+      "heading": "Letter cards for the check",
+      "body": "Use these letter cards during the listening check. Point to the card that matches the sound you hear.",
+      "columns": "two",
+      "note": "The pictures below are only for memory support. The exact letters and words are the cards above.",
+      "cards": [
+        {"letter": "अ", "word": "अ", "gloss": "Short sound."},
+        {"letter": "आ", "word": "आम", "gloss": "Mango anchor."},
+        {"letter": "इ", "word": "इमली", "gloss": "Tamarind anchor."},
+        {"letter": "ई", "word": "ईख", "gloss": "Sugarcane anchor."},
+        {"letter": "उ", "word": "उल्लू", "gloss": "Owl anchor."},
+        {"letter": "ऊ", "word": "ऊन", "gloss": "Wool anchor."},
+        {"letter": "ए", "word": "एड़ी", "gloss": "Heel anchor."},
+        {"letter": "ऐ", "word": "ऐनक", "gloss": "Glasses anchor."}
+      ]
+    },
+    "scenes": {
+      "label": "Lesson flow",
+      "heading": "See the check in order",
+      "body": "Each card shows one step of the listening check. Scroll from top to bottom to follow the order.",
+      "boards": [
+        {
+          "theme": "sunrise",
+          "label": "Lesson 4",
+          "badge": "Start",
+          "title": "Listening Check",
+          "hindi": "अ  आ  इ  ई  उ  ऊ  ए  ऐ",
+          "caption": "Use exact text cards for the calm mixed-sound check.",
+          "chips": ["Listen first", "No pressure"],
+          "aria": "Lesson 4 cover card showing the eight swar for the listening check",
+          "summaryBadge": "Start",
+          "summaryTitle": "Set a calm tone for the check",
+          "summaryText": "The first frame makes it clear that this is a low-pressure check, not a stressful test."
+        },
+        {
+          "sceneNumber": 1,
+          "theme": "ocean",
+          "label": "Round 1",
+          "badge": "Scene 1",
+          "title": "Hear the sound. Point to the card.",
+          "hindi": "अ  आ  इ  ई  उ  ऊ  ए  ऐ",
+          "caption": "All eight swar are visible for the first response round.",
+          "chips": ["Point only"],
+          "aria": "Scene 1 card showing all eight swar for hear and point round",
+          "summaryBadge": "Scene 1",
+          "summaryTitle": "Round 1: hear and point",
+          "summaryText": "The learner first responds only by recognizing the sound and pointing to the correct card."
+        },
+        {
+          "sceneNumber": 2,
+          "theme": "berry",
+          "label": "Round 2",
+          "badge": "Scene 2",
+          "title": "Hear the word. Choose the swar.",
+          "hindi": "आम   इमली   ईख   उल्लू   ऊन   एड़ी   ऐनक",
+          "caption": "These exact anchor words should drive the second round.",
+          "chips": ["Word to sound"],
+          "aria": "Scene 2 card showing anchor words for the word round",
+          "summaryBadge": "Scene 2",
+          "summaryTitle": "Round 2: hear the anchor word",
+          "summaryText": "The learner now identifies the vowel from the anchor word instead of from the raw sound alone."
+        },
+        {
+          "sceneNumber": 3,
+          "theme": "mint",
+          "label": "Round 3",
+          "badge": "Scene 3",
+          "title": "Revise only the weak sounds",
+          "hindi": "अ  ?   ऊ  ?   ऐ  ?",
+          "caption": "Keep the focus only on sounds that need help.",
+          "chips": ["Repeat calmly"],
+          "aria": "Scene 3 card showing only weak sounds are revised",
+          "summaryBadge": "Scene 3",
+          "summaryTitle": "Revise only weak sounds",
+          "summaryText": "The page focuses on missed sounds instead of repeating everything without purpose."
+        },
+        {
+          "sceneNumber": 4,
+          "theme": "sunrise",
+          "label": "Round 4",
+          "badge": "Scene 4",
+          "title": "Trace only the missed letters",
+          "hindi": "अ   ऊ   ऐ",
+          "caption": "Do not rewrite everything. Keep the check light.",
+          "chips": ["Trace only mistakes"],
+          "aria": "Scene 4 tracing card showing missed letters only",
+          "summaryBadge": "Scene 4",
+          "summaryTitle": "Trace only after listening",
+          "summaryText": "The learner writes only the sounds that still need support, keeping the task calm and focused."
+        },
+        {
+          "sceneNumber": 5,
+          "theme": "midnight",
+          "label": "Decision",
+          "badge": "Scene 5",
+          "title": "Repeat here or move to the next section",
+          "hindi": "क  ख  ग  घ",
+          "caption": "This is the preview of what comes next if the learner is ready.",
+          "chips": ["Next section"],
+          "aria": "Scene 5 move-on card pointing to the next consonant section",
+          "summaryBadge": "Scene 5",
+          "summaryTitle": "Decide whether to move ahead",
+          "summaryText": "The last frame closes H1 by asking one practical question: repeat calmly or move ahead with confidence."
+        }
+      ]
+    }
+  }
+}

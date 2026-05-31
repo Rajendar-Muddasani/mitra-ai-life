@@ -15,13 +15,13 @@
         "What picture anchor is used for आ?",
         "What should happen first in this lesson: listening or testing?"
       ],
-      "heroPrompt": "A warm, child-friendly Indian learning corner, large Devanagari letters अ and आ floating in bright colors, one mango image as the anchor for आ, soft classroom light, no text overlays, educational illustration style.",
+      "heroPrompt": "A warm, child-friendly Indian learning corner with a smiling learner, gentle teacher presence, one ripe mango on the desk, soft classroom light, calm educational illustration style, no text or letters.",
       "videoScenes": [
         {"scene": 1, "purpose": "No-shame welcome", "narration": "Hindi is for you. We will go slowly. We will listen first.", "visualPrompt": "Smiling child seated calmly at a study table, friendly Hindi teacher figure nearby, warm yellow and orange palette."},
-        {"scene": 2, "purpose": "Teach अ", "narration": "अ... अ... अ... repeat seven times.", "visualPrompt": "Full-screen large orange अ on a clean cream background with gentle motion lines."},
-        {"scene": 3, "purpose": "Teach आ", "narration": "आ... आ... आ... repeat seven times. आ for आम.", "visualPrompt": "Large red-orange आ beside a ripe mango on a simple bright background."},
-        {"scene": 4, "purpose": "Contrast", "narration": "Short sound: अ. Long sound: आ.", "visualPrompt": "Two side-by-side sound cards showing अ and आ with short vs long wave shapes."},
-        {"scene": 5, "purpose": "Trace", "narration": "Now trace one big अ and one big आ.", "visualPrompt": "Worksheet-style dotted outlines for अ and आ with a child's pencil entering frame."}
+        {"scene": 2, "purpose": "Teach अ", "narration": "अ... अ... अ... repeat seven times.", "visualPrompt": "Single bright orange teaching shape on a clean cream background with gentle motion lines, short-sound mood, no letters or text."},
+        {"scene": 3, "purpose": "Teach आ", "narration": "आ... आ... आ... repeat seven times. आ for आम.", "visualPrompt": "Ripe mango beside a longer flowing orange sound ribbon on a simple bright background, no letters or text."},
+        {"scene": 4, "purpose": "Contrast", "narration": "Short sound: अ. Long sound: आ.", "visualPrompt": "Two side-by-side sound waves, one short and one long, in a clean comparison layout, no letters or text."},
+        {"scene": 5, "purpose": "Trace", "narration": "Now trace one big अ and one big आ.", "visualPrompt": "Blank handwriting practice sheet with two bold tracing paths and a child's pencil entering frame, no letters or text."}
       ]
     },
     {
@@ -36,13 +36,13 @@
         "Which letter should be shown after hearing sugarcane?",
         "What should the learner do before tracing?"
       ],
-      "heroPrompt": "A colorful early-Hindi lesson poster showing four large Devanagari vowels अ आ इ ई, with mango, tamarind, sugarcane, and a clean anchor card layout, child-safe educational art.",
+      "heroPrompt": "A colorful early-Hindi learning scene with mango, tamarind, sugarcane, and a calm study-table layout, child-safe educational art, no text or letters.",
       "videoScenes": [
-        {"scene": 1, "purpose": "Recap", "narration": "Today we learn four swar: अ, आ, इ, ई.", "visualPrompt": "Four glowing vowel cards in a row on a cream background."},
-        {"scene": 2, "purpose": "Anchor pairs", "narration": "आ for आम. इ for इमली. ई for ईख.", "visualPrompt": "Three simple picture cards: mango, tamarind, sugarcane, each beside the matching letter."},
-        {"scene": 3, "purpose": "Repeat loops", "narration": "Each sound repeats seven times with pauses.", "visualPrompt": "Animated sound-wave dots under each letter card."},
-        {"scene": 4, "purpose": "Trace", "narration": "Trace after listening.", "visualPrompt": "Dotted tracing sheets for the four swar."},
-        {"scene": 5, "purpose": "Quick recap", "narration": "Show me आ. Show me इ. Show me ई.", "visualPrompt": "Teacher hand pointing to mixed letter cards."}
+        {"scene": 1, "purpose": "Recap", "narration": "Today we learn four swar: अ, आ, इ, ई.", "visualPrompt": "Four colorful sound tokens in a row on a cream background, no letters or text."},
+        {"scene": 2, "purpose": "Anchor pairs", "narration": "आ for आम. इ for इमली. ई for ईख.", "visualPrompt": "Three clean anchor objects: mango, tamarind, sugarcane, arranged on a study table, no letters or text."},
+        {"scene": 3, "purpose": "Repeat loops", "narration": "Each sound repeats seven times with pauses.", "visualPrompt": "Playful rhythm dots and sound-wave shapes around simple teaching tiles, no letters or text."},
+        {"scene": 4, "purpose": "Trace", "narration": "Trace after listening.", "visualPrompt": "Blank dotted tracing paths on worksheets with a pencil and child hand, no letters or text."},
+        {"scene": 5, "purpose": "Quick recap", "narration": "Show me आ. Show me इ. Show me ई.", "visualPrompt": "Teacher hand pointing to mixed colorful study objects on a table, no letters or text."}
       ]
     },
     {
@@ -57,13 +57,13 @@
         "Which card should be picked after hearing ए?",
         "What happens after this lesson?"
       ],
-      "heroPrompt": "A bright Hindi vowel lesson card featuring उ ऊ ए ऐ, with child-safe owl, wool, heel, and glasses anchors, uncluttered school illustration style.",
+      "heroPrompt": "A bright child-safe learning scene with owl, wool, heel, and glasses as anchor objects, uncluttered school illustration style, no text or letters.",
       "videoScenes": [
-        {"scene": 1, "purpose": "Introduce four sounds", "narration": "Now we add उ, ऊ, ए, ऐ.", "visualPrompt": "Four new vowel cards appearing one by one."},
-        {"scene": 2, "purpose": "Rounded pair", "narration": "उ is shorter. ऊ is longer.", "visualPrompt": "Two cards side by side for उ and ऊ with wave shapes showing short and long."},
-        {"scene": 3, "purpose": "Front pair", "narration": "ए and ऐ sound different. Listen carefully.", "visualPrompt": "Letter cards ए and ऐ with simple mouth-shape icons."},
-        {"scene": 4, "purpose": "Picture anchors", "narration": "उल्लू, ऊन, एड़ी, ऐनक.", "visualPrompt": "Four anchor images arranged in a clean 2x2 grid."},
-        {"scene": 5, "purpose": "Mixed revision", "narration": "Now mix all eight swar and listen carefully.", "visualPrompt": "Eight vowel cards shuffled across a playful cream background."}
+        {"scene": 1, "purpose": "Introduce four sounds", "narration": "Now we add उ, ऊ, ए, ऐ.", "visualPrompt": "Four fresh glowing sound tokens appearing one by one, no letters or text."},
+        {"scene": 2, "purpose": "Rounded pair", "narration": "उ is shorter. ऊ is longer.", "visualPrompt": "Two rounded sound shapes side by side with short and long wave patterns, no letters or text."},
+        {"scene": 3, "purpose": "Front pair", "narration": "ए and ऐ sound different. Listen carefully.", "visualPrompt": "Two front-sound shapes with simple mouth icons in a clean comparison layout, no letters or text."},
+        {"scene": 4, "purpose": "Picture anchors", "narration": "उल्लू, ऊन, एड़ी, ऐनक.", "visualPrompt": "Owl, wool, heel, and glasses arranged in a clean 2x2 teaching grid, no letters or text."},
+        {"scene": 5, "purpose": "Mixed revision", "narration": "Now mix all eight swar and listen carefully.", "visualPrompt": "Eight colorful sound tokens scattered on a playful cream background, no letters or text."}
       ]
     },
     {
@@ -78,13 +78,13 @@
         "Should the learner be pushed forward if still confused?",
         "What is the next pack after H1?"
       ],
-      "heroPrompt": "A cheerful mixed-swar revision board with eight large Devanagari vowel cards and a calm parent-guided check atmosphere, bright but uncluttered.",
+      "heroPrompt": "A cheerful mixed-sound revision scene with colorful learning objects and a calm parent-guided check atmosphere, bright but uncluttered, no text or letters.",
       "videoScenes": [
         {"scene": 1, "purpose": "Set tone", "narration": "This is not an exam. It is a confidence check.", "visualPrompt": "Smiling child and parent seated together with flashcards on a table."},
-        {"scene": 2, "purpose": "Sound round", "narration": "Hear the sound. Point to the right card.", "visualPrompt": "Eight mixed swar flashcards in a semicircle."},
-        {"scene": 3, "purpose": "Word round", "narration": "Hear the word. Choose the matching swar.", "visualPrompt": "Anchor picture cards for mango, tamarind, wool, glasses and more."},
-        {"scene": 4, "purpose": "Review only mistakes", "narration": "Repeat only the weak sounds. Celebrate the strong ones.", "visualPrompt": "Green check marks on known sounds and gentle highlight on missed sounds."},
-        {"scene": 5, "purpose": "Bridge", "narration": "If the learner is ready, next comes H2 consonants.", "visualPrompt": "Preview cards with क ख ग घ on a soft golden background."}
+        {"scene": 2, "purpose": "Sound round", "narration": "Hear the sound. Point to the right card.", "visualPrompt": "Eight mixed study tokens in a semicircle on the table, no letters or text."},
+        {"scene": 3, "purpose": "Word round", "narration": "Hear the word. Choose the matching swar.", "visualPrompt": "Anchor objects for mango, tamarind, wool, glasses and more arranged clearly on a table, no letters or text."},
+        {"scene": 4, "purpose": "Review only mistakes", "narration": "Repeat only the weak sounds. Celebrate the strong ones.", "visualPrompt": "Known items grouped confidently and missed items gently spotlighted, no symbols, letters, or text."},
+        {"scene": 5, "purpose": "Bridge", "narration": "If the learner is ready, next comes H2 consonants.", "visualPrompt": "Preview of the next pack using four colorful blank learning tiles on a soft golden background, no letters or text."}
       ]
     }
   ]

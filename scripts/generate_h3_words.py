@@ -27,6 +27,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT_BASE = ROOT / "content/assets/images/word-cards"
 VID_DIR  = ROOT / "content/assets/videos/hindi-h1"
 OUT_VIDEO = VID_DIR / "words-reading.mp4"
+DEFAULT_TTS_VOICE = "hi-IN-Chirp3-HD-Kore"
 
 sys.path.insert(0, str(ROOT / "scripts"))
 from generate_word_cards import (
@@ -203,15 +204,21 @@ def generate_video(voice: str) -> None:
                 print(f"  [gTTS] {topic} · {entry['word']} / {entry['meaning']}")
 
                 # Clip 1: Hindi word only (slow, clear)
+                # Word-level overrides: TTS-safe text and speed per tricky word
+                _WORD_OVERRIDES = {
+                    "सफ़ेद": ("सफेद", 0.65),   # nukta-free avoids TTS Urdu-origin confusion
+                    "कुत्ता": ("कुत्ता", 0.55), # aspirated retroflex — slow speed for clarity
+                }
+                hi_word, hi_speed = _WORD_OVERRIDES.get(entry["word"], (entry["word"], 0.65))
                 hi_mp3 = tmp / f"{topic}-{entry['slug']}-hi.mp3"
-                hi_mp3.write_bytes(tts_to_bytes(entry["word"], speed=0.65))
+                hi_mp3.write_bytes(tts_to_bytes(hi_word, speed=hi_speed, voice=voice))
                 hi_atom = tmp / f"{topic}-{entry['slug']}-hi.mp4"
                 make_atomic_mp4(card_path, hi_mp3, hi_atom, head_sil=0.3, tail_sil=0.7)
                 atoms.append(hi_atom)
 
                 # Clip 2: English meaning only (natural pace)
                 en_mp3 = tmp / f"{topic}-{entry['slug']}-en.mp3"
-                en_mp3.write_bytes(tts_to_bytes(entry["meaning"], speed=0.80))
+                en_mp3.write_bytes(tts_to_bytes(entry["meaning"], speed=0.80, voice=voice))
                 en_atom = tmp / f"{topic}-{entry['slug']}-en.mp4"
                 make_atomic_mp4(card_path, en_mp3, en_atom, head_sil=0.2, tail_sil=1.0)
                 atoms.append(en_atom)
@@ -228,7 +235,7 @@ def main():
     ap.add_argument("--topic", choices=list(TOPICS.keys()) + ["all"], default="all")
     ap.add_argument("--cards-only", action="store_true")
     ap.add_argument("--force", action="store_true")
-    ap.add_argument("--voice", default="nova")
+    ap.add_argument("--voice", default=DEFAULT_TTS_VOICE)
     args = ap.parse_args()
 
     topics = list(TOPICS.keys()) if args.topic == "all" else [args.topic]

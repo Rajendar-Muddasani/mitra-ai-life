@@ -17,7 +17,7 @@
   const QUIZZES = {
     "h3-words": {
       title: "Listening check",
-      base: "../../assets/images/word-cards/",
+      base: "https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/images/word-cards/",
       questions: [
         // animals
         { word: "शेर",   answer: "h3-animals/sher.png",

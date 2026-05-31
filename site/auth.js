@@ -86,9 +86,9 @@ async function renderAuthUI(authNavArea) {
         '.auth-avatar-btn img,.auth-avatar-btn .auth-initials{width:32px;height:32px;border-radius:50%;display:block}',
         '.auth-avatar-btn img{object-fit:cover;border:2px solid rgba(99,179,255,0.5)}',
         '.auth-avatar-btn .auth-initials{background:#2563eb;color:white;font-size:0.72rem;font-weight:800;display:flex;align-items:center;justify-content:center}',
-        '.auth-drop{display:none;position:absolute;right:0;top:calc(100% + 6px);min-width:160px;background:#0d1b2e;border:1px solid rgba(83,166,255,0.22);border-radius:12px;padding:10px;z-index:400;box-shadow:0 8px 32px rgba(0,0,0,0.5)}',
+        '.auth-drop{display:none;position:absolute;right:0;top:calc(100% + 6px);min-width:260px;max-width:min(86vw,340px);background:#0d1b2e;border:1px solid rgba(83,166,255,0.22);border-radius:12px;padding:12px;z-index:400;box-shadow:0 8px 32px rgba(0,0,0,0.5)}',
         '.auth-wrap.open .auth-drop{display:block}',
-        '.auth-drop-name{font-size:0.82rem;font-weight:700;color:#e2e8f0;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px}',
+        '.auth-drop-name{font-size:0.95rem;font-weight:800;line-height:1.35;color:#e2e8f0;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.1);white-space:normal;overflow-wrap:anywhere;word-break:break-word;max-width:none}',
         '.auth-sign-out{width:100%;font-size:0.78rem;padding:6px 10px;border:1px solid rgba(255,255,255,0.15);border-radius:8px;background:rgba(255,255,255,0.05);cursor:pointer;color:#94a3b8;text-align:left}'
       ].join('');
       document.head.appendChild(st);

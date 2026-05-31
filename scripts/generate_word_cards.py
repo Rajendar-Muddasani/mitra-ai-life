@@ -270,13 +270,13 @@ def _make_numeral_one(col: tuple) -> Image.Image:
     img  = Image.new("RGB", (1024, 1024), (248, 250, 252))
     draw = ImageDraw.Draw(img)
     try:
-        f = ImageFont.truetype(FONT_LAT, 700)
+        f = ImageFont.truetype(FONT_LAT, 900)
     except Exception:
         f = ImageFont.load_default()
     bbox = draw.textbbox((0, 0), "1", font=f)
     tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
-    tx = (1024 - tw) // 2
-    ty = (1024 - th) // 2 - 20
+    tx = (1024 - tw) // 2 - bbox[0]   # subtract left bearing for true horizontal centre
+    ty = (1024 - th) // 2 - bbox[1]   # subtract top bearing for true vertical centre
     draw.text((tx, ty), "1", font=f, fill=col)
     return img
 

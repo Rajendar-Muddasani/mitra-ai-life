@@ -572,6 +572,83 @@ h1 {
   border: 1px solid rgba(107, 86, 50, 0.14);
 }
 
+/* ── Writing practice page ───────────────────────────────── */
+.writing-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.stroke-grid, .writing-grid, .copy-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.stroke-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.writing-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.copy-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+
+.stroke-card, .writing-card, .copy-card {
+  background: #fffefb;
+  border: 1px solid rgba(107, 86, 50, 0.16);
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+.stroke-mark, .trace-letter, .copy-word {
+  font-family: 'Noto Sans Devanagari', 'Baloo 2', sans-serif;
+  color: var(--orange);
+}
+
+.stroke-mark {
+  display: block;
+  min-height: 70px;
+  font-size: 3.4rem;
+  line-height: 1;
+  text-align: center;
+}
+
+.stroke-card strong { display: block; margin-top: 0.45rem; }
+.stroke-card p, .copy-card p { margin: 0.25rem 0 0; }
+
+.trace-letter {
+  display: grid;
+  place-items: center;
+  min-height: 150px;
+  margin-bottom: 0.75rem;
+  border-radius: 12px;
+  background: repeating-linear-gradient(180deg, #fffaf0 0 38px, #f6e3b0 39px 40px);
+  border: 1px solid rgba(107, 86, 50, 0.12);
+  font-size: 5rem;
+  font-weight: 800;
+}
+
+.writing-card h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+.writing-card ol { margin: 0; padding-left: 1.2rem; color: var(--muted); line-height: 1.6; }
+
+.copy-word {
+  display: block;
+  font-size: 2.4rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.practice-line {
+  height: 44px;
+  margin-top: 0.75rem;
+  border-bottom: 2px solid rgba(107, 86, 50, 0.28);
+  background: linear-gradient(180deg, transparent 48%, rgba(245, 158, 11, 0.12) 49%, transparent 52%);
+}
+
+@media print {
+  .topbar, .section-nav, .navline, .footer, .writing-actions { display: none; }
+  body { background: #fff; }
+  .section { width: 100%; box-shadow: none; break-inside: avoid; }
+  .hero { padding: 1rem 0; }
+}
+
 /* ── Plain lesson link list ───────────────────────────────── */
 .lesson-link-list {
   margin-top: 1rem;

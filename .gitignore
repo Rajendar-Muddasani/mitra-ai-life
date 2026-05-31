@@ -73,3 +73,7 @@ content/assets/videos/teachers-overview/
 
 # YouTube video output (upload directly, not tracked in git)
 output/
+
+# Local scratch / experimentation scripts (prefixed with underscore-gen)
+# Real production scripts never start with `_gen_`.
+scripts/_gen_*.py

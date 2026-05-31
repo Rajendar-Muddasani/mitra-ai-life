@@ -642,6 +642,76 @@ h1 {
   background: linear-gradient(180deg, transparent 48%, rgba(245, 158, 11, 0.12) 49%, transparent 52%);
 }
 
+/* ── Grammar basics page ───────────────────────────────── */
+.grammar-grid, .practice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.pattern-card, .practice-card {
+  background: #fffefb;
+  border: 1px solid rgba(107, 86, 50, 0.16);
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+.pattern-card h3 {
+  color: var(--orange);
+  font-size: 2rem;
+  margin-bottom: 0.45rem;
+}
+
+.pattern-card strong {
+  display: block;
+  margin-top: 0.75rem;
+  font-size: 1.7rem;
+  color: var(--green);
+}
+
+.pattern-card span { color: var(--muted); font-weight: 800; }
+
+.grammar-table {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.grammar-table div[role="row"] {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.8rem;
+  border: 1px solid rgba(107, 86, 50, 0.14);
+  border-radius: 12px;
+  background: #fffefb;
+}
+
+.grammar-table strong {
+  color: var(--orange);
+  font-size: 1.3rem;
+}
+
+.grammar-table .devanagari {
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.practice-card p {
+  margin: 0 0 0.55rem;
+  color: var(--text);
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.practice-card strong { color: var(--green); }
+
+@media (max-width: 680px) {
+  .grammar-table div[role="row"] { grid-template-columns: 1fr; }
+}
+
 @media print {
   .topbar, .section-nav, .navline, .footer, .writing-actions { display: none; }
   body { background: #fff; }

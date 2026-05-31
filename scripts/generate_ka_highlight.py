@@ -93,6 +93,24 @@ GROUP_PRESETS = {
     "all-ushma": ["sha", "ssha", "sa", "ha"],
 }
 
+# Context words for consonants whose isolated base form is mispronounced.
+# Format: Hindi word that begins with the letter + danda + isolated letter once.
+# The leading word primes the TTS with the correct articulation mode.
+_LETTER_BASE_CONTEXT: dict[str, str] = {
+    # Aspirated unvoiced
+    "ख": "खाना। ख।", "छ": "छाता। छ।",
+    "ठ": "ठंड। ठ।",  "थ": "थाली। थ।", "फ": "फल। फ।",
+    # Aspirated voiced
+    "घ": "घर। घ।",   "झ": "झरना। झ।",
+    "ढ": "ढोल। ढ।",  "ध": "धन। ध।",   "भ": "भालू। भ।",
+    # Rare nasals
+    "ङ": "लंगूर। ङ।",  # velar nasal (in-gya)
+    "ञ": "अंजीर। ञ।",  # palatal nasal (in-nya)
+    "ण": "गणित। ण।",   # retroflex nasal (un-a)
+    # Sibilant
+    "श": "शेर। श।",    # palatal sh (not English 's')
+}
+
 CARD_W   = 1080
 CARD_H   = 480
 COLS     = 6
@@ -229,18 +247,18 @@ def generate_video_for_letter(roman: str, voice: str) -> None:
     # Context words are minimal — just enough for the TTS to understand the vowel length.
     # Format: (tts_input, speaking_speed)
     MATRA_TTS: dict[str, tuple[str, float]] = {
-        "a":  (letter,                0.65),  # base form  (ka)
+        "a":  (_LETTER_BASE_CONTEXT.get(letter, letter), 0.65),  # base form — context word for aspirated/rare letters
         "aa": (letter + "ा" + "।",   0.58),  # long aa    (kaa) — danda forces hold
         "i":  (letter + "ि",          0.65),  # short i    (ki)
         "ee": (letter + "ी" + "।",   0.58),  # long ee    (kee)
         "u":  (letter + "ु",          0.65),  # short u    (ku)
         "oo": (letter + "ू" + "।",   0.58),  # long oo    (koo)
         "e":  (letter + "े",          0.65),  # e          (ke)
-        "ai": (letter + "ै",          0.60),  # ai/guy     (kai)
+        "ai": (letter + "ैसे",        0.60),  # ai — "कैसे" context guides TTS → clear "kai"
         "o":  (letter + "ो",          0.65),  # o          (ko)
         "au": (letter + "ौ",          0.60),  # au/gaw     (kau)
         "an": (letter + "ं",          0.65),  # anusvara   (kan)
-        "ah": (letter + "ः",          0.65),  # visarga    (kah)
+        "ah": (letter + "ः",          0.55),  # visarga — slow speed for clear breath
     }
     REPS = 3
 

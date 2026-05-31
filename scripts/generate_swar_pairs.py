@@ -11,7 +11,7 @@ Usage:
   python scripts/generate_swar_pairs.py --voice nova
 """
 
-import argparse, pathlib, tempfile
+import argparse, pathlib, subprocess, tempfile
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT      = pathlib.Path(__file__).resolve().parent.parent
@@ -208,21 +208,87 @@ def generate_video(voice: str) -> None:
         tmp = pathlib.Path(tmp)
         atoms: list[pathlib.Path] = []
 
+        _PURE_DIR = pathlib.Path(__file__).resolve().parent.parent / "content/assets/audio/pronunciation-test/swar-pure"
+        _LETTER_PRECONFIRMED = {
+            "अ":  _PURE_DIR / "a.mp3",
+            "आ":  _PURE_DIR / "aa.mp3",
+            "इ":  _PURE_DIR / "i.mp3",
+            "ई":  _PURE_DIR / "ee.mp3",
+            "उ":  _PURE_DIR / "u.mp3",
+            "ऊ":  _PURE_DIR / "oo.mp3",
+            "ए":  _PURE_DIR / "e.mp3",
+            "ऐ":  _PURE_DIR / "ai.mp3",
+            "ओ":  _PURE_DIR / "o.mp3",
+            "औ":  _PURE_DIR / "au.mp3",
+            "अं": _PURE_DIR / "an.mp3",
+            "अः": _PURE_DIR / "ah.mp3",
+        }
+
+        # ── Intro clips ——————————————————————————————————————————
+        # Explain: what is this video, what we learn, what child should do
+        intro_img = Image.new("RGB", (CARD_W, CARD_H))
+        intro_draw = ImageDraw.Draw(intro_img)
+        for x in range(CARD_W):
+            r = int(10 + (40  - 10 ) * x / CARD_W)
+            g = int(20 + (10  - 20 ) * x / CARD_W)
+            b = int(90 + (130 - 90 ) * x / CARD_W)
+            intro_draw.line([(x, 0), (x, CARD_H)], fill=(r, g, b))
+        _, lbl_f, _, badge_f = _load_fonts()
+        try:
+            title_f = ImageFont.truetype(FONT_DEV, 76)
+            sub_f   = ImageFont.truetype(FONT_LAT, 36)
+            hint_f  = ImageFont.truetype(FONT_LAT, 28)
+        except Exception:
+            title_f = sub_f = hint_f = ImageFont.load_default()
+        badge = "मेरे साथ बोलिए  ·  Say it with me"
+        bw = intro_draw.textlength(badge, font=badge_f)
+        bx = (CARD_W - bw) / 2
+        intro_draw.rounded_rectangle([bx-14, 10, bx+bw+14, 48], radius=8, fill=(255, 255, 255))
+        intro_draw.text((bx, 14), badge, font=badge_f, fill="#222222")
+        for text, y, font, fill in [
+            ("हिंदी स्वर सीखिए",              85,  title_f, (255, 220, 50)),
+            ("Learn Hindi Vowels (Swar)",         185, sub_f,   (255, 255, 255)),
+            ("I will say two vowels.",             265, hint_f,  (200, 230, 255)),
+            ("Listen carefully, then say with me!",305, hint_f,  (200, 230, 255)),
+            ("ध्यान से सुनिए और मेरे साथ बोलिए!",  380, hint_f,  (255, 235, 100)),
+        ]:
+            tw = intro_draw.textlength(text, font=font)
+            intro_draw.text(((CARD_W - tw) / 2, y), text, font=font, fill=fill)
+        intro_frame = tmp / "intro.png"
+        intro_img.save(str(intro_frame))
+
+        _INTRO_CLIPS = [
+            ("Hello! In this video, we will learn Hindi vowels, called Swar.",     0.7, 0.80),
+            ("I will say two vowels. Listen carefully.",                           0.7, 0.80),
+            ("Then say them with me. Are you ready? Let us begin!",                1.0, 0.80),
+            ("नमस्ते! अब हम हिंदी के स्वर सीखेंगे। ध्यान से सुनिए, फिर मेरे साथ बोलिए।", 1.2, 0.72),
+        ]
+        for idx, (text, tail, spd) in enumerate(_INTRO_CLIPS):
+            imp3  = tmp / f"intro-{idx}.mp3"
+            iatom = tmp / f"intro-{idx}.mp4"
+            imp3.write_bytes(_tts_text(text, voice, speed=spd))
+            make_atomic_mp4(intro_frame, imp3, iatom, head_sil=0.4, tail_sil=tail)
+            atoms.append(iatom)
+
         for p in PAIRS:
             frame = tmp / f"{p['name']}.png"
             render_pair_card(p).save(str(frame))   # no highlight — full card
 
-            # 3 clips — prompt FIRST so child knows to listen, then each letter,
-            # then 5 s silence for the child to say both back
-            for idx, (text, tail, spd) in enumerate([
-                ("मेरे साथ बोलिए। Say it with me.", 0.8, 0.72),
-                (p["l1"],                            0.7, 0.65),
-                (p["l2"],                            5.0, 0.65),
-            ]):
-                mp3  = tmp / f"{p['name']}-{idx}.mp3"
-                atom = tmp / f"{p['name']}-{idx}.mp4"
-                mp3.write_bytes(_tts_text(text, voice, speed=spd))
-                make_atomic_mp4(frame, mp3, atom, head_sil=0.3, tail_sil=tail)
+            # Letter sounds: copy pre-baked pure vowel clips directly
+            for slot, letter in [("l1", p["l1"]), ("l2", p["l2"])]:
+                dst = tmp / f"{p['name']}-{slot}.mp3"
+                dst.write_bytes(_LETTER_PRECONFIRMED[letter].read_bytes())
+
+            # 3 clips — prompt FIRST, then each letter, then 5 s silence for repeat
+            prompt_mp3 = tmp / f"{p['name']}-0.mp3"
+            prompt_mp3.write_bytes(_tts_text("मेरे साथ बोलिए। Say it with me.", voice, speed=0.72))
+            for clip_name, mp3_path, tail in [
+                (f"{p['name']}-0.mp4", prompt_mp3,                     0.8),
+                (f"{p['name']}-1.mp4", tmp / f"{p['name']}-l1.mp3",   0.7),
+                (f"{p['name']}-2.mp4", tmp / f"{p['name']}-l2.mp3",   5.0),
+            ]:
+                atom = tmp / clip_name
+                make_atomic_mp4(frame, mp3_path, atom, head_sil=0.3, tail_sil=tail)
                 atoms.append(atom)
 
         print(f"  Concatenating {len(atoms)} clips → {OUT_VIDEO}")

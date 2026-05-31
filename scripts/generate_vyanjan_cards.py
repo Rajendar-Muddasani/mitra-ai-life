@@ -168,11 +168,35 @@ def generate_audio(_client, _voice: str) -> list[Path]:
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     from _google_tts import tts_to_file as g_tts
     AUDIO_DIR.mkdir(parents=True, exist_ok=True)
+    # Problematic letters: use a phonetic context word so the TTS model
+    # learns the correct articulation before the isolated repetitions.
+    # Aspirated consonants and rare nasals/sibilants need a context word so the
+    # TTS model articulates them correctly (not as consonant + soft 'ha' cluster).
+    _CONTEXT_TEXT = {
+        # Aspirated unvoiced (2nd in each varga)
+        "ख": "खाना। ख। ख। ख। ख। ख। ख। ख।",    # kha
+        "छ": "छुट्टी। छ। छ। छ। छ। छ। छ। छ।",    # chha — 7c confirmed
+        "ठ": "ठंड। ठ। ठ। ठ। ठ। ठ। ठ। ठ।",    # ttha
+        "थ": "थाली। थ। थ। थ। थ। थ। थ। थ।",    # tha
+        "फ": "फल। फ। फ। फ। फ। फ। फ। फ।",      # pha
+        # Aspirated voiced (4th in each varga)
+        "घ": "घर। घ। घ। घ। घ। घ। घ। घ।",      # gha
+        "झ": "झरना। झ। झ। झ। झ। झ। झ। झ।",    # jha
+        "ढ": "ढोल। ढ। ढ। ढ। ढ। ढ। ढ। ढ।",    # ddha
+        "ध": "धन। ध। ध। ध। ध। ध। ध। ध।",      # dha
+        "भ": "भालू। भ। भ। भ। भ। भ। भ। भ।",    # bha
+        # Rare nasals
+        "ङ": "लंगूर। ङ। ङ। ङ। ङ। ङ। ङ। ङ।",   # nga (in-gya) — velar nasal
+        "ञ": "अंजीर। ञ। ञ। ञ। ञ। ञ। ञ। ञ।",   # nya (in-nya) — palatal nasal
+        "ण": "गणित। ण। ण। ण। ण। ण। ण। ण।",    # nna (un-a) — retroflex nasal
+        # Sibilant
+        "श": "शेर। श। श। श। श। श। श। श।",      # sha — palatal 'sh'
+    }
     files: list[Path] = []
     for entry in VYANJAN:
         out = AUDIO_DIR / f"{entry['roman']}.mp3"
-        text = "  ".join([entry["letter"]] * 7)
-        g_tts(text, out, speed=0.68, skip_existing=True)
+        text = _CONTEXT_TEXT.get(entry["letter"], "  ".join([entry["letter"]] * 7))
+        g_tts(text, out, speed=0.65, skip_existing=True)
         files.append(out)
     return files
 

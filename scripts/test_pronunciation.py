@@ -49,7 +49,7 @@ def load_env():
         pass
 
 
-def tts_to_file(text: str, out_path: pathlib.Path, voice: str = "hi-IN-Chirp3-HD-Aoede",
+def tts_to_file(text: str, out_path: pathlib.Path, voice: str = "hi-IN-Chirp3-HD-Kore",
                 speed: float = 0.70):
     import sys
     sys.path.insert(0, str(ROOT / "scripts"))
@@ -57,12 +57,38 @@ def tts_to_file(text: str, out_path: pathlib.Path, voice: str = "hi-IN-Chirp3-HD
     g_tts(text, out_path, speed=speed, voice=voice, skip_existing=True)
 
 
+# Letters whose isolated form is mispronounced — use a context word followed
+# by the isolated letter so the TTS model learns the correct articulation.
+# Aspirated consonants: context word beginning with that letter forces TTS
+# to aspirate strongly instead of splitting into consonant + soft 'ha'.
+_PRON_CONTEXT = {
+    # Aspirated unvoiced (2nd in each varga)
+    "ख": "खाना। ख। ख। ख।",    # kha — aspirated ka
+    "छ": "छाता। छ। छ। छ।",    # chha — aspirated cha
+    "ठ": "ठंड। ठ। ठ। ठ।",    # ttha — aspirated retroflex ta
+    "थ": "थाली। थ। थ। थ।",    # tha — aspirated dental ta
+    "फ": "फल। फ। फ। फ।",      # pha — aspirated pa
+    # Aspirated voiced (4th in each varga)
+    "घ": "घर। घ। घ। घ।",      # gha — aspirated ga
+    "झ": "झरना। झ। झ। झ।",    # jha — aspirated ja
+    "ढ": "ढोल। ढ। ढ। ढ।",    # ddha — aspirated retroflex da
+    "ध": "धन। ध। ध। ध।",      # dha — aspirated dental da
+    "भ": "भालू। भ। भ। भ।",    # bha — aspirated ba
+    # Rare nasals
+    "ङ": "लंगूर। ङ। ङ। ङ।",   # nga — velar nasal (in-gya); लंगूर has ng before g
+    "ञ": "अंजीर। ञ। ञ। ञ।",   # nya — palatal nasal (in-nya); अंजीर has n before j
+    "ण": "गणित। ण। ण। ण।",    # nna — retroflex nasal (un-a); गणित has ण in middle
+    # Sibilant
+    "श": "शेर। श। श। श।",      # sha — palatal fricative 'sh' (not English 's')
+}
+
+
 def gen_group(entries: list[tuple], group_dir: pathlib.Path, voice: str):
     """Generate one test clip per letter — 3 reps at slow speed so it's clearly audible."""
     group_dir.mkdir(parents=True, exist_ok=True)
     for (letter, slug) in entries:
-        # Repeat 3× so the sound is long enough to hear; add a comma pause between reps
-        text = f"{letter}, {letter}, {letter}"
+        # Use phonetic context for tricky letters; repeat 3× for all others
+        text = _PRON_CONTEXT.get(letter, f"{letter}, {letter}, {letter}")
         tts_to_file(text, group_dir / f"{slug}.mp3", voice, speed=0.60)
 
 
@@ -155,7 +181,7 @@ def main():
                     default="vyanjan")
     ap.add_argument("--letter", default="ka",
                     help="Which consonant's barakhadi to test (roman, e.g. ka kha)")
-    ap.add_argument("--voice",  default="nova")
+    ap.add_argument("--voice",  default="hi-IN-Chirp3-HD-Kore")
     ap.add_argument("--speed",  type=float, default=0.70)
     args = ap.parse_args()
 

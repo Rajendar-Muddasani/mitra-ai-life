@@ -3,8 +3,8 @@
 Generate the Telugu homepage hero video for site/index-te.html.
 
 Output:
-  content/assets/videos/home/home-hero-te.mp4
-  content/assets/videos/home/home-hero-te-poster.jpg
+    content/assets/videos/home/home-hero-te-standard-a.mp4
+    content/assets/videos/home/home-hero-te-standard-a-poster.jpg
 
 Usage:
   source .venv/bin/activate
@@ -25,6 +25,10 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "content" / "assets" / "videos" / "home"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
+VERSION_SUFFIX = "-standard-a"
+TTS_LANGUAGE_CODE = "te-IN"
+TTS_VOICE = "te-IN-Standard-A"
+TTS_SPEAKING_RATE = 0.90
 
 WIDTH, HEIGHT = 1920, 1080
 NAVY  = (5, 10, 26)
@@ -303,16 +307,19 @@ def render_slide(
 def tts_to_file(text: str, out_path: Path) -> None:
     if out_path.exists():
         return
-    from openai import OpenAI
+    from google.cloud import texttospeech
 
-    client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
-    with client.audio.speech.with_streaming_response.create(
-        model="tts-1",
-        voice="nova",
-        input=text,
-        speed=0.92,
-    ) as response:
-        response.stream_to_file(str(out_path))
+    client = texttospeech.TextToSpeechClient()
+    response = client.synthesize_speech(
+        input=texttospeech.SynthesisInput(text=text),
+        voice=texttospeech.VoiceSelectionParams(language_code=TTS_LANGUAGE_CODE, name=TTS_VOICE),
+        audio_config=texttospeech.AudioConfig(
+            audio_encoding=texttospeech.AudioEncoding.MP3,
+            speaking_rate=TTS_SPEAKING_RATE,
+        ),
+        timeout=45,
+    )
+    out_path.write_bytes(response.audio_content)
     print(f"  [tts] {out_path.name}")
 
 
@@ -340,11 +347,11 @@ def make_segment(image_path: Path, audio_path: Path, output_path: Path) -> None:
         "-f", "lavfi", "-t", f"{tail_silence:.3f}", "-i", "anullsrc=r=44100:cl=stereo",
         "-filter_complex", "[2:a][1:a][3:a]concat=n=3:v=0:a=1[aout]",
         "-map", "0:v", "-map", "[aout]",
-        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "30",
+        "-c:v", "libx264", "-preset", "ultrafast", "-tune", "stillimage", "-pix_fmt", "yuv420p", "-r", "30",
         "-c:a", "aac", "-b:a", "192k", "-ar", "44100",
         "-shortest", str(output_path),
     ]
-    subprocess.run(command, check=True, capture_output=True)
+    subprocess.run(command, check=True, capture_output=True, timeout=120)
     print(f"  [seg] {output_path.name}")
 
 
@@ -355,18 +362,18 @@ def concat_segments(segment_paths: list[Path], output_path: Path) -> None:
     )
     command = [
         "ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(list_file),
-        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "30",
+        "-c:v", "libx264", "-preset", "ultrafast", "-tune", "stillimage", "-pix_fmt", "yuv420p", "-r", "30",
         "-c:a", "aac", "-b:a", "192k", "-ar", "44100",
         "-movflags", "+faststart", str(output_path),
     ]
-    subprocess.run(command, check=True, capture_output=True)
+    subprocess.run(command, check=True, capture_output=True, timeout=180)
     list_file.unlink()
 
 
 def build(force: bool = False) -> tuple[Path, Path]:
-    work_dir = OUT_DIR / "work-te"
-    output_path = OUT_DIR / "home-hero-te.mp4"
-    poster_path = OUT_DIR / "home-hero-te-poster.jpg"
+    work_dir = OUT_DIR / f"work-te{VERSION_SUFFIX}"
+    output_path = OUT_DIR / f"home-hero-te{VERSION_SUFFIX}.mp4"
+    poster_path = OUT_DIR / f"home-hero-te{VERSION_SUFFIX}-poster.jpg"
 
     if force and work_dir.exists():
         shutil.rmtree(work_dir)
@@ -409,12 +416,12 @@ def main() -> None:
     print("\nUpload commands:")
     print(
         f"  aws s3 cp {video_path} "
-        "s3://mitra-ai-life-assets/videos/home/home-hero-te.mp4 "
+        f"s3://mitra-ai-life-assets/videos/home/home-hero-te{VERSION_SUFFIX}.mp4 "
         "--content-type 'video/mp4' --cache-control 'public, max-age=86400'"
     )
     print(
         f"  aws s3 cp {poster_path} "
-        "s3://mitra-ai-life-assets/videos/home/home-hero-te-poster.jpg "
+        f"s3://mitra-ai-life-assets/videos/home/home-hero-te{VERSION_SUFFIX}-poster.jpg "
         "--content-type 'image/jpeg' --cache-control 'public, max-age=86400'"
     )
 

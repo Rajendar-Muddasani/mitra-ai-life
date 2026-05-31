@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hindi Letters · हिंदी अक्षर</title>
+<style>
+:root{
+  --bg:#0f172a;--surface:#1e293b;--card:#273549;
+  --accent:#fbbf24;--text:#f1f5f9;--muted:#94a3b8;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:"Segoe UI",Arial,sans-serif;min-height:100vh}
+header{background:linear-gradient(135deg,#1e3a8a,#7c3aed);padding:28px 32px 22px;text-align:center}
+header h1{font-size:2.2em;color:#fff;font-weight:700}
+header h1 span{color:var(--accent)}
+header p{color:#c4b5fd;font-size:1em;margin-top:6px}
+
+/* ── Letter buttons ── */
+.groups-wrap{padding:24px 24px 8px;max-width:1100px;margin:auto}
+.group-label{font-size:.75em;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:18px 0 8px}
+.group-label:first-child{margin-top:0}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px}
+.lbtn{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  width:72px;height:72px;border-radius:12px;border:2px solid transparent;
+  background:var(--surface);cursor:pointer;transition:all .18s;user-select:none;
+  font-family:"Devanagari Sangam MN","Noto Sans Devanagari","Mangal",sans-serif;
+}
+.lbtn:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 4px 16px rgba(251,191,36,.25)}
+.lbtn.active{background:var(--accent);color:#0f172a;border-color:var(--accent)}
+.lbtn .hi{font-size:1.65em;line-height:1.15}
+.lbtn .ro{font-size:.62em;color:var(--muted);font-family:"Segoe UI",Arial,sans-serif;letter-spacing:.02em}
+.lbtn.active .ro{color:#78350f}
+
+/* ── Word panel ── */
+#panel{max-width:1100px;margin:0 auto;padding:0 24px 40px;display:none}
+#panel-header{display:flex;align-items:baseline;gap:16px;padding:22px 0 16px}
+#panel-letter{font-size:3.4em;font-family:"Devanagari Sangam MN","Noto Sans Devanagari","Mangal",sans-serif;color:var(--accent)}
+#panel-title{font-size:1.3em;color:var(--muted)}
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+  gap:16px;
+}
+.wcard{
+  background:var(--card);border-radius:var(--radius);overflow:hidden;
+  transition:transform .15s;cursor:default;
+}
+.wcard:hover{transform:translateY(-4px)}
+.wcard .img-wrap{width:100%;aspect-ratio:1;background:#1e293b;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.wcard .img-wrap img{width:100%;height:100%;object-fit:cover}
+.wcard .img-wrap .placeholder{font-size:3.8em;font-family:"Devanagari Sangam MN","Noto Sans Devanagari","Mangal",sans-serif;color:#334155}
+.wcard .info{padding:10px 12px 12px}
+.wcard .hi-word{font-size:1.25em;font-family:"Devanagari Sangam MN","Noto Sans Devanagari","Mangal",sans-serif;color:#f8fafc;font-weight:600}
+.wcard .roman{font-size:.78em;color:var(--accent);margin-top:3px;font-style:italic}
+.wcard .meaning{font-size:.82em;color:var(--muted);margin-top:4px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Hindi Letters <span>· हिंदी अक्षर</span></h1>
+  <p>Click any letter to explore words &nbsp;·&nbsp; किसी अक्षर पर क्लिक करें</p>
+</header>
+
+<div class="groups-wrap" id="buttons"></div>
+<div id="panel">
+  <div id="panel-header">
+    <span id="panel-letter"></span>
+    <span id="panel-title"></span>
+  </div>
+  <div class="cards-grid" id="cards"></div>
+</div>
+
+<script>
+// ─── Public image base paths ──────────────────────────────────────────────
+const S = "https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/images/word-cards/swar/";
+const A = "https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/images/word-cards/h3-animals/";
+const F = "https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/images/word-cards/h3-food/";
+const H = "https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/images/word-cards/h3-home/";
+const B = "https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/images/word-cards/h3-body/";
+const C = "https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/images/word-cards/h3-colours/";
+
+// ─── Full letter data ──────────────────────────────────────────────────────
+// {h: Hindi letter, r: Roman label, words: [{h,r,e,img}]}
+const DATA = [
+ {group:"Vowels — स्वर", letters:[
+  {h:"अ",r:"a",words:[
+    {h:"अनार",r:"anaar",e:"pomegranate",img:S+"a.png"},
+    {h:"अच्छा",r:"achha",e:"good"},
+    {h:"अंबर",r:"ambar",e:"sky / cloth"},
+    {h:"अब",r:"ab",e:"now"},
+  ]},
+  {h:"आ",r:"aa",words:[
+    {h:"आम",r:"aam",e:"mango",img:S+"aa.png"},
+    {h:"आँख",r:"aankh",e:"eye",img:B+"aankh.png"},
+    {h:"आकाश",r:"aakaash",e:"sky"},
+    {h:"आज",r:"aaj",e:"today"},
+    {h:"आग",r:"aag",e:"fire"},
+  ]},
+  {h:"इ",r:"i",words:[
+    {h:"इमली",r:"imli",e:"tamarind",img:S+"i.png"},
+    {h:"इंसान",r:"insaan",e:"human being"},
+    {h:"इधर",r:"idhar",e:"this side / here"},
+  ]},
+  {h:"ई",r:"ee",words:[
+    {h:"ईंट",r:"eent",e:"brick",img:S+"ee.png"},
+    {h:"ईश्वर",r:"eeshwar",e:"God"},
+    {h:"ईमान",r:"eemaan",e:"honesty"},
+  ]},
+  {h:"उ",r:"u",words:[
+    {h:"उल्लू",r:"ullu",e:"owl",img:S+"u.png"},
+    {h:"उंगली",r:"ungli",e:"finger"},
+    {h:"उठो",r:"utho",e:"get up"},
+    {h:"उपहार",r:"uphaar",e:"gift"},
+  ]},
+  {h:"ऊ",r:"oo",words:[
+    {h:"ऊँट",r:"oont",e:"camel",img:S+"oo.png"},
+    {h:"ऊपर",r:"upar",e:"above / up"},
+    {h:"ऊन",r:"oon",e:"wool"},
+  ]},
+  {h:"ए",r:"e",words:[
+    {h:"एक",r:"ek",e:"one",img:S+"e.png"},
+    {h:"एड़ी",r:"edi",e:"heel"},
+    {h:"एहसान",r:"ehsaan",e:"favour / kindness"},
+  ]},
+  {h:"ऐ",r:"ai",words:[
+    {h:"ऐनक",r:"ainak",e:"glasses",img:S+"ai.png"},
+    {h:"ऐसे",r:"aise",e:"like this"},
+    {h:"ऐतिहास",r:"aitihās",e:"history"},
+  ]},
+  {h:"ओ",r:"o",words:[
+    {h:"ओस",r:"os",e:"dew drops",img:S+"o.png"},
+    {h:"ओखली",r:"okhli",e:"mortar (kitchen)"},
+    {h:"ओढ़नी",r:"odhni",e:"shawl / veil"},
+  ]},
+  {h:"औ",r:"au",words:[
+    {h:"औरत",r:"aurat",e:"woman",img:S+"au.png"},
+    {h:"औज़ार",r:"auzaar",e:"tool"},
+    {h:"औषध",r:"aushadh",e:"medicine"},
+  ]},
+  {h:"अं",r:"an",words:[
+    {h:"अंगूर",r:"angoor",e:"grapes",img:S+"an.png"},
+    {h:"अंडा",r:"anda",e:"egg"},
+    {h:"अंदर",r:"andar",e:"inside"},
+    {h:"अंग",r:"ang",e:"body part / limb"},
+  ]},
+  {h:"अः",r:"ah",words:[
+    {h:"अहा!",r:"aha",e:"wow / hurray",img:S+"ah.png"},
+    {h:"नमः",r:"namah",e:"salutation (Om Namah)"},
+  ]},
+ ]},
+ {group:"क-वर्ग  (ka-varga)",letters:[
+  {h:"क",r:"ka",words:[
+    {h:"कुत्ता",r:"kutta",e:"dog",img:A+"kutta.png"},
+    {h:"कुर्सी",r:"kursi",e:"chair",img:H+"kursi.png"},
+    {h:"कान",r:"kaan",e:"ear",img:B+"kaan.png"},
+    {h:"काला",r:"kaala",e:"black",img:C+"kaala.png"},
+    {h:"कमल",r:"kamal",e:"lotus"},
+    {h:"किताब",r:"kitaab",e:"book"},
+  ]},
+  {h:"ख",r:"kha",words:[
+    {h:"खिड़की",r:"khidki",e:"window",img:H+"khidki.png"},
+    {h:"खाना",r:"khaana",e:"food / meal"},
+    {h:"खरगोश",r:"khargosh",e:"rabbit"},
+    {h:"खेल",r:"khel",e:"game / sport"},
+  ]},
+  {h:"ग",r:"ga",words:[
+    {h:"गाय",r:"gaay",e:"cow"},
+    {h:"गाजर",r:"gaajar",e:"carrot"},
+    {h:"गर्मी",r:"garmi",e:"summer / heat"},
+    {h:"गाना",r:"gaana",e:"song"},
+  ]},
+  {h:"घ",r:"gha",words:[
+    {h:"घर",r:"ghar",e:"house / home"},
+    {h:"घड़ी",r:"ghadi",e:"clock / watch"},
+    {h:"घास",r:"ghaas",e:"grass"},
+    {h:"घोड़ा",r:"ghoda",e:"horse"},
+  ]},
+  {h:"ङ",r:"nga",words:[
+    {h:"मंगल",r:"mangal",e:"auspicious / Mars (ञ hidden)"},
+    {h:"रंग",r:"rang",e:"colour"},
+  ]},
+ ]},
+ {group:"च-वर्ग  (cha-varga)",letters:[
+  {h:"च",r:"cha",words:[
+    {h:"चिड़िया",r:"chidiya",e:"bird",img:A+"chidiya.png"},
+    {h:"चावल",r:"chawal",e:"rice",img:F+"chawal.png"},
+    {h:"चाय",r:"chaay",e:"tea"},
+    {h:"चाँद",r:"chaand",e:"moon"},
+    {h:"चश्मा",r:"chashma",e:"spectacles"},
+  ]},
+  {h:"छ",r:"chha",words:[
+    {h:"छाता",r:"chhaata",e:"umbrella"},
+    {h:"छत",r:"chhat",e:"roof"},
+    {h:"छोटा",r:"chhota",e:"small"},
+    {h:"छुट्टी",r:"chhutti",e:"holiday / vacation"},
+  ]},
+  {h:"ज",r:"ja",words:[
+    {h:"जल",r:"jal",e:"water"},
+    {h:"जंगल",r:"jungle",e:"forest / jungle"},
+    {h:"जूता",r:"joota",e:"shoe"},
+    {h:"जादू",r:"jaadu",e:"magic"},
+  ]},
+  {h:"झ",r:"jha",words:[
+    {h:"झरना",r:"jharna",e:"waterfall"},
+    {h:"झाड़ू",r:"jhaadu",e:"broom"},
+    {h:"झील",r:"jheel",e:"lake"},
+  ]},
+  {h:"ञ",r:"nya",words:[
+    {h:"ज्ञान",r:"gyaan",e:"knowledge"},
+    {h:"अंजीर",r:"anjeer",e:"fig (ञ in medial)"},
+  ]},
+ ]},
+ {group:"ट-वर्ग  (retroflex)",letters:[
+  {h:"ट",r:"tta",words:[
+    {h:"टमाटर",r:"tamatar",e:"tomato"},
+    {h:"टोपी",r:"topi",e:"hat / cap"},
+    {h:"ट्रेन",r:"train",e:"train"},
+    {h:"टोकरी",r:"tokri",e:"basket"},
+  ]},
+  {h:"ठ",r:"ttha",words:[
+    {h:"ठंड",r:"thand",e:"cold weather"},
+    {h:"ठीक",r:"theek",e:"okay / correct"},
+    {h:"ठेला",r:"thela",e:"handcart / push-cart"},
+  ]},
+  {h:"ड",r:"dda",words:[
+    {h:"डब्बा",r:"dabba",e:"box / tin"},
+    {h:"डर",r:"dar",e:"fear"},
+    {h:"डाल",r:"daal",e:"branch"},
+    {h:"डाकिया",r:"daakiya",e:"postman"},
+  ]},
+  {h:"ढ",r:"ddha",words:[
+    {h:"ढोल",r:"dhol",e:"drum"},
+    {h:"ढक्कन",r:"dhakkan",e:"lid / cap"},
+    {h:"ढाबा",r:"dhaaba",e:"roadside eatery"},
+  ]},
+  {h:"ण",r:"nna",words:[
+    {h:"गणित",r:"ganit",e:"mathematics"},
+    {h:"प्रण",r:"pran",e:"vow / pledge"},
+  ]},
+ ]},
+ {group:"त-वर्ग  (ta-varga)",letters:[
+  {h:"त",r:"ta",words:[
+    {h:"तितली",r:"titli",e:"butterfly"},
+    {h:"तरबूज़",r:"tarbooz",e:"watermelon"},
+    {h:"ताला",r:"taala",e:"lock"},
+    {h:"तारा",r:"taara",e:"star"},
+  ]},
+  {h:"थ",r:"tha",words:[
+    {h:"थाली",r:"thaali",e:"plate (round)"},
+    {h:"थैला",r:"thela",e:"bag / sack"},
+    {h:"थकान",r:"thakaan",e:"tiredness"},
+  ]},
+  {h:"द",r:"da",words:[
+    {h:"दाल",r:"daal",e:"lentils",img:F+"dal.png"},
+    {h:"दूध",r:"doodh",e:"milk",img:F+"doodh.png"},
+    {h:"दरवाज़ा",r:"darwaza",e:"door",img:H+"darwaza.png"},
+    {h:"दिल",r:"dil",e:"heart"},
+    {h:"दिन",r:"din",e:"day"},
+  ]},
+  {h:"ध",r:"dha",words:[
+    {h:"धन",r:"dhan",e:"wealth / money"},
+    {h:"धरती",r:"dharti",e:"earth / ground"},
+    {h:"धूप",r:"dhoop",e:"sunshine / sunlight"},
+  ]},
+  {h:"न",r:"na",words:[
+    {h:"नाक",r:"naak",e:"nose",img:B+"naak.png"},
+    {h:"नीला",r:"neela",e:"blue",img:C+"neela.png"},
+    {h:"नदी",r:"nadi",e:"river"},
+    {h:"नमक",r:"namak",e:"salt"},
+    {h:"नाम",r:"naam",e:"name"},
+  ]},
+ ]},
+ {group:"प-वर्ग  (pa-varga)",letters:[
+  {h:"प",r:"pa",words:[
+    {h:"पंखा",r:"pankha",e:"fan",img:H+"pankha.png"},
+    {h:"पैर",r:"pair",e:"leg / foot",img:B+"pair.png"},
+    {h:"पीला",r:"peela",e:"yellow",img:C+"peela.png"},
+    {h:"पानी",r:"paani",e:"water"},
+    {h:"पेड़",r:"ped",e:"tree"},
+    {h:"पत्ता",r:"patta",e:"leaf"},
+  ]},
+  {h:"फ",r:"pha",words:[
+    {h:"फल",r:"phal",e:"fruit",img:F+"phal.png"},
+    {h:"फूल",r:"phool",e:"flower"},
+    {h:"फिल्म",r:"film",e:"movie / film"},
+    {h:"फर्श",r:"farsh",e:"floor"},
+  ]},
+  {h:"ब",r:"ba",words:[
+    {h:"बिल्ली",r:"billi",e:"cat",img:A+"billi.png"},
+    {h:"बंदर",r:"bandar",e:"monkey",img:A+"bandar.png"},
+    {h:"बिस्तर",r:"bistar",e:"bed",img:H+"bistar.png"},
+    {h:"बारिश",r:"baarish",e:"rain"},
+    {h:"बाज़ार",r:"baazaar",e:"market"},
+  ]},
+  {h:"भ",r:"bha",words:[
+    {h:"भालू",r:"bhaalu",e:"bear"},
+    {h:"भाई",r:"bhai",e:"brother"},
+    {h:"भोजन",r:"bhojan",e:"food / meal"},
+    {h:"भारत",r:"bharat",e:"India"},
+  ]},
+  {h:"म",r:"ma",words:[
+    {h:"मेज़",r:"mez",e:"table",img:H+"mez.png"},
+    {h:"माँ",r:"maa",e:"mother"},
+    {h:"मछली",r:"machli",e:"fish"},
+    {h:"मकान",r:"makaan",e:"house / building"},
+    {h:"मिठाई",r:"mithai",e:"sweets"},
+  ]},
+ ]},
+ {group:"Semi-vowels — अन्तःस्थ",letters:[
+  {h:"य",r:"ya",words:[
+    {h:"यात्रा",r:"yaatra",e:"journey / travel"},
+    {h:"याद",r:"yaad",e:"memory / reminder"},
+    {h:"यंत्र",r:"yantra",e:"machine / instrument"},
+  ]},
+  {h:"र",r:"ra",words:[
+    {h:"रोटी",r:"roti",e:"flatbread",img:F+"roti.png"},
+    {h:"लाल",r:"laal",e:"red",img:C+"lal.png"},
+    {h:"रात",r:"raat",e:"night"},
+    {h:"रंग",r:"rang",e:"colour"},
+    {h:"राजा",r:"raaja",e:"king"},
+  ]},
+  {h:"ल",r:"la",words:[
+    {h:"लाल",r:"laal",e:"red",img:C+"lal.png"},
+    {h:"लड़की",r:"ladki",e:"girl"},
+    {h:"लकड़ी",r:"lakdi",e:"wood"},
+    {h:"लहर",r:"lahar",e:"wave"},
+  ]},
+  {h:"व",r:"va",words:[
+    {h:"वर्षा",r:"varsha",e:"rain / rainfall"},
+    {h:"विद्यालय",r:"vidyaalay",e:"school"},
+    {h:"वायु",r:"vaayu",e:"air / wind"},
+  ]},
+ ]},
+ {group:"Sibilants & Ha — ऊष्म",letters:[
+  {h:"श",r:"sha",words:[
+    {h:"शेर",r:"sher",e:"lion",img:A+"sher.png"},
+    {h:"शहद",r:"shahad",e:"honey"},
+    {h:"शाम",r:"shaam",e:"evening"},
+    {h:"शहर",r:"shahar",e:"city / town"},
+  ]},
+  {h:"ष",r:"Sha",words:[
+    {h:"षट्कोण",r:"shatkona",e:"hexagon"},
+    {h:"विषय",r:"vishay",e:"subject / topic"},
+  ]},
+  {h:"स",r:"sa",words:[
+    {h:"सब्ज़ी",r:"sabzi",e:"vegetables",img:F+"sabzi.png"},
+    {h:"सिर",r:"sir",e:"head",img:B+"sir.png"},
+    {h:"सफ़ेद",r:"safed",e:"white",img:C+"safed.png"},
+    {h:"सूरज",r:"sooraj",e:"sun"},
+    {h:"सेब",r:"seb",e:"apple"},
+  ]},
+  {h:"ह",r:"ha",words:[
+    {h:"हाथी",r:"haathi",e:"elephant",img:A+"haathi.png"},
+    {h:"हाथ",r:"haath",e:"hand",img:B+"haath.png"},
+    {h:"हरा",r:"hara",e:"green",img:C+"hara.png"},
+    {h:"हवा",r:"hawa",e:"air / breeze"},
+    {h:"हँसना",r:"hansna",e:"to laugh"},
+  ]},
+ ]},
+];
+
+// ─── Group colours for buttons ────────────────────────────────────────────
+const GROUP_COLORS = [
+  "#7c3aed","#1d4ed8","#0f766e","#b45309",
+  "#b91c1c","#15803d","#6d28d9","#0369a1",
+];
+
+// ─── Build button groups ──────────────────────────────────────────────────
+const container = document.getElementById("buttons");
+let activeBtn = null;
+
+DATA.forEach((grp, gi) => {
+  const lbl = document.createElement("div");
+  lbl.className = "group-label";
+  lbl.textContent = grp.group;
+  container.appendChild(lbl);
+
+  const row = document.createElement("div");
+  row.className = "btn-row";
+
+  grp.letters.forEach(letter => {
+    const btn = document.createElement("div");
+    btn.className = "lbtn";
+    btn.style.setProperty("--grp-color", GROUP_COLORS[gi % GROUP_COLORS.length]);
+    btn.innerHTML = `<span class="hi">${letter.h}</span><span class="ro">${letter.r}</span>`;
+    btn.addEventListener("click", () => showWords(letter, btn));
+    row.appendChild(btn);
+  });
+  container.appendChild(row);
+});
+
+// ─── Show word panel ──────────────────────────────────────────────────────
+function showWords(letter, btn) {
+  if (activeBtn) activeBtn.classList.remove("active");
+  if (activeBtn === btn) {
+    activeBtn = null;
+    document.getElementById("panel").style.display = "none";
+    return;
+  }
+  activeBtn = btn;
+  btn.classList.add("active");
+
+  document.getElementById("panel-letter").textContent = letter.h;
+  document.getElementById("panel-title").textContent =
+    `· ${letter.r}  —  ${letter.words.length} word${letter.words.length > 1 ? "s" : ""}`;
+
+  const grid = document.getElementById("cards");
+  grid.innerHTML = "";
+
+  letter.words.forEach(w => {
+    const card = document.createElement("div");
+    card.className = "wcard";
+
+    const imgWrap = document.createElement("div");
+    imgWrap.className = "img-wrap";
+    if (w.img) {
+      const img = document.createElement("img");
+      img.src = w.img;
+      img.alt = w.e;
+      img.onerror = () => {
+        imgWrap.innerHTML = `<span class="placeholder">${w.h[0]}</span>`;
+      };
+      imgWrap.appendChild(img);
+    } else {
+      imgWrap.innerHTML = `<span class="placeholder">${w.h[0]}</span>`;
+    }
+
+    const info = document.createElement("div");
+    info.className = "info";
+    info.innerHTML = `
+      <div class="hi-word">${w.h}</div>
+      <div class="roman">${w.r}</div>
+      <div class="meaning">${w.e}</div>`;
+
+    card.appendChild(imgWrap);
+    card.appendChild(info);
+    grid.appendChild(card);
+  });
+
+  const panel = document.getElementById("panel");
+  panel.style.display = "block";
+  panel.scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+</script>
+</body>
+</html>

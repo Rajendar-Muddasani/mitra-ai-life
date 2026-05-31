@@ -4,8 +4,8 @@ Generate overview videos for the main track pages that do not already have a
 live overview video.
 
 Outputs:
-    content/assets/videos/track-overviews/{slug}-overview-{lang}.mp4
-    content/assets/videos/track-overviews/{slug}-overview-{lang}-poster.jpg
+    content/assets/videos/track-overviews/{slug}-overview-{lang}{suffix}.mp4
+    content/assets/videos/track-overviews/{slug}-overview-{lang}{suffix}-poster.jpg
 
 Usage:
   source .venv/bin/activate
@@ -26,7 +26,11 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "content" / "assets" / "videos" / "track-overviews"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
-VERSION_SUFFIX_BY_LANG = {"en": "", "te": "-v2"}
+VERSION_SUFFIX_BY_LANG = {"en": "-charon", "te": "-standard-a"}
+TTS_BY_LANG = {
+    "en": ("en-US", "en-US-Chirp3-HD-Charon", 1.0),
+    "te": ("te-IN", "te-IN-Standard-A", 0.90),
+}
 
 WIDTH, HEIGHT = 1920, 1080
 TEXT = (248, 251, 255)
@@ -339,16 +343,20 @@ def render_slide(eyebrow: str, title: str, subline: str, path: Path, accent: tup
 def tts_to_file(text: str, out_path: Path, lang: str) -> None:
     if out_path.exists():
         return
-    from openai import OpenAI
+    from google.cloud import texttospeech
 
-    client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
-    with client.audio.speech.with_streaming_response.create(
-        model="tts-1",
-        voice="nova",
-        input=text,
-        speed=0.88 if lang == "te" else 0.95,
-    ) as response:
-        response.stream_to_file(str(out_path))
+    language_code, voice_name, speaking_rate = TTS_BY_LANG[lang]
+    client = texttospeech.TextToSpeechClient()
+    response = client.synthesize_speech(
+        input=texttospeech.SynthesisInput(text=text),
+        voice=texttospeech.VoiceSelectionParams(language_code=language_code, name=voice_name),
+        audio_config=texttospeech.AudioConfig(
+            audio_encoding=texttospeech.AudioEncoding.MP3,
+            speaking_rate=speaking_rate,
+        ),
+        timeout=45,
+    )
+    out_path.write_bytes(response.audio_content)
     print(f"  [tts] {out_path.name}")
 
 
@@ -374,11 +382,11 @@ def make_segment(image_path: Path, audio_path: Path, output_path: Path) -> None:
         "-f", "lavfi", "-t", f"{tail_silence:.3f}", "-i", "anullsrc=r=44100:cl=stereo",
         "-filter_complex", "[2:a][1:a][3:a]concat=n=3:v=0:a=1[aout]",
         "-map", "0:v", "-map", "[aout]",
-        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "30",
+        "-c:v", "libx264", "-preset", "ultrafast", "-tune", "stillimage", "-pix_fmt", "yuv420p", "-r", "30",
         "-c:a", "aac", "-b:a", "192k", "-ar", "44100",
         "-shortest", str(output_path),
     ]
-    subprocess.run(command, check=True, capture_output=True)
+    subprocess.run(command, check=True, capture_output=True, timeout=120)
     print(f"  [seg] {output_path.name}")
 
 
@@ -387,11 +395,11 @@ def concat_segments(segment_paths: list[Path], output_path: Path) -> None:
     list_file.write_text("".join(f"file '{segment_path.resolve()}'\n" for segment_path in segment_paths))
     command = [
         "ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(list_file),
-        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "30",
+        "-c:v", "libx264", "-preset", "ultrafast", "-tune", "stillimage", "-pix_fmt", "yuv420p", "-r", "30",
         "-c:a", "aac", "-b:a", "192k", "-ar", "44100",
         "-movflags", "+faststart", str(output_path),
     ]
-    subprocess.run(command, check=True, capture_output=True)
+    subprocess.run(command, check=True, capture_output=True, timeout=180)
     list_file.unlink()
 
 

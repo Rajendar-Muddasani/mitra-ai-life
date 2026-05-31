@@ -7,7 +7,7 @@ Produces two MP4s:
   - teachers-overview-en.mp4 (English voiceover)
   - teachers-overview-te.mp4 (Telugu voiceover)
 
-Each video = 8 branded slide images (1920×1080) + OpenAI TTS voiceover,
+Each video = 8 branded slide images (1920×1080) + Google Cloud TTS voiceover,
 muxed per-segment and losslessly concatenated.
 
 Run:
@@ -27,7 +27,11 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "content" / "assets" / "videos" / "teachers-overview"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
-VERSION_SUFFIX_BY_LANG = {"en": "", "te": "-v2"}
+VERSION_SUFFIX_BY_LANG = {"en": "", "te": "-standard-a"}
+TTS_BY_LANG = {
+    "en": ("en-US", "en-US-Chirp3-HD-Charon", 1.0),
+    "te": ("te-IN", "te-IN-Standard-A", 0.90),
+}
 
 # ── load .env ─────────────────────────────────────────────────────────────────
 env_path = ROOT / ".env"
@@ -116,11 +120,11 @@ SLIDES_TE = [
      "Topic type చేయండి. పూర్తి plan వస్తుంది.",
      "మీరు review చేసి, edit చేసి, class లో వాడండి."),
     ("ఇది మీ control లో ఉంటుంది",
-    "AI help చేస్తుంది. Teacher decide చేస్తారు.",
+     "AI help చేస్తుంది. Teacher decide చేస్తారు.",
      "AI output వాడే ముందు ఏమి check చేయాలో ప్రతి lesson నేర్పుతుంది."),
     ("ఇవాళే మొదలు పెట్టండి",
-    "Teacher AI Basics",
-    "Lesson plan practice. Worksheet practice. Safety practice."),
+     "Teacher AI Basics",
+     "Lesson plan practice. Worksheet practice. Safety practice."),
 ]
 
 # Voiceover narration per slide (English + Telugu).
@@ -226,16 +230,20 @@ def render_slide(eyebrow: str, title: str, subline: str, path: Path,
 def tts_to_file(text: str, out_path: Path, lang: str) -> None:
     if out_path.exists():
         return
-    from openai import OpenAI
+    from google.cloud import texttospeech
 
-    client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
-    with client.audio.speech.with_streaming_response.create(
-        model="tts-1",
-        voice="nova",
-        input=text,
-        speed=0.88 if lang == "te" else 0.95,
-    ) as response:
-        response.stream_to_file(str(out_path))
+    language_code, voice_name, speaking_rate = TTS_BY_LANG[lang]
+    client = texttospeech.TextToSpeechClient()
+    response = client.synthesize_speech(
+        input=texttospeech.SynthesisInput(text=text),
+        voice=texttospeech.VoiceSelectionParams(language_code=language_code, name=voice_name),
+        audio_config=texttospeech.AudioConfig(
+            audio_encoding=texttospeech.AudioEncoding.MP3,
+            speaking_rate=speaking_rate,
+        ),
+        timeout=45,
+    )
+    out_path.write_bytes(response.audio_content)
     print(f"  [tts:{lang}] {out_path.name}")
 
 
@@ -269,7 +277,7 @@ def make_segment(img: Path, audio: Path, out_mp4: Path,
         "-shortest",
         str(out_mp4),
     ]
-    subprocess.run(cmd, check=True, capture_output=True)
+    subprocess.run(cmd, check=True, capture_output=True, timeout=120)
 
 
 def concat_mp4s(mp4s: list[Path], out_mp4: Path) -> None:
@@ -284,7 +292,7 @@ def concat_mp4s(mp4s: list[Path], out_mp4: Path) -> None:
         "-movflags", "+faststart",
         str(out_mp4),
     ]
-    subprocess.run(cmd, check=True, capture_output=True)
+    subprocess.run(cmd, check=True, capture_output=True, timeout=180)
     listfile.unlink()
 
 

@@ -1,10 +1,10 @@
 """
 Level 1 Intro Video Generator
-Produces: content/assets/videos/level-01-intro.mp4
+Produces: content/assets/videos/level-01-intro-charon.mp4
 Runtime: ~90 seconds, 1280×720, narrated slideshow
 
 Uses:
-- OpenAI TTS (tts-1, voice=nova) for narration
+- Google Cloud TTS (en-US-Chirp3-HD-Charon) for narration
 - moviepy + imageio_ffmpeg (no system ffmpeg needed)
 - L1 scene images from content/assets/scenes/
 
@@ -13,7 +13,6 @@ Run: .venv/bin/python scripts/generate_level01_video.py
 
 import os
 import sys
-import time
 import urllib.request
 from pathlib import Path
 
@@ -25,14 +24,15 @@ if env_path.exists():
             k, v = line.split("=", 1)
             os.environ.setdefault(k.strip(), v.strip())
 
-from openai import OpenAI
-client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
-
 # ── Paths ────────────────────────────────────────────────────────────────────
 ROOT       = Path(__file__).parent.parent
 SCENES_DIR = ROOT / "content" / "assets" / "scenes"
-AUDIO_DIR  = ROOT / "content" / "assets" / "videos" / "audio_tmp"
-VIDEO_OUT  = ROOT / "content" / "assets" / "videos" / "level-01-intro.mp4"
+VERSION_SUFFIX = "-charon"
+TTS_LANGUAGE_CODE = "en-US"
+TTS_VOICE = "en-US-Chirp3-HD-Charon"
+TTS_SPEAKING_RATE = 1.0
+AUDIO_DIR  = ROOT / "content" / "assets" / "videos" / f"audio_tmp_l1{VERSION_SUFFIX}"
+VIDEO_OUT  = ROOT / "content" / "assets" / "videos" / f"level-01-intro{VERSION_SUFFIX}.mp4"
 
 AUDIO_DIR.mkdir(parents=True, exist_ok=True)
 VIDEO_OUT.parent.mkdir(parents=True, exist_ok=True)
@@ -114,6 +114,9 @@ SCENES = [
 # ── Step 1: Generate TTS audio for each scene ────────────────────────────────
 print("Step 1: Generating TTS narration audio...")
 audio_files = []
+from google.cloud import texttospeech
+
+client = texttospeech.TextToSpeechClient()
 
 for i, (img, text, _) in enumerate(SCENES, start=1):
     audio_path = AUDIO_DIR / f"scene-{i:02d}.mp3"
@@ -121,16 +124,17 @@ for i, (img, text, _) in enumerate(SCENES, start=1):
         print(f"  [SKIP] Scene {i} audio already exists")
     else:
         print(f"  [{i}/{len(SCENES)}] TTS: {text[:60]}...")
-        response = client.audio.speech.create(
-            model="tts-1",
-            voice="nova",        # clear, warm female voice
-            input=text,
-            speed=0.95,          # slightly slower for clarity
+        response = client.synthesize_speech(
+            input=texttospeech.SynthesisInput(text=text),
+            voice=texttospeech.VoiceSelectionParams(language_code=TTS_LANGUAGE_CODE, name=TTS_VOICE),
+            audio_config=texttospeech.AudioConfig(
+                audio_encoding=texttospeech.AudioEncoding.MP3,
+                speaking_rate=TTS_SPEAKING_RATE,
+            ),
+            timeout=45,
         )
-        response.stream_to_file(str(audio_path))
+        audio_path.write_bytes(response.audio_content)
         print(f"    Saved: {audio_path.name}")
-        if i < len(SCENES):
-            time.sleep(1)        # gentle rate limiting
 
     audio_files.append(audio_path)
 

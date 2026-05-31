@@ -1,8 +1,8 @@
 """
 Generate Level 6 English narrated intro video.
 Topic: Power User — Same AI. 10× the Results. Half the Time.
-8 scenes, ~120s, voice: nova, speed: 0.95
-Output: content/assets/videos/level-06-intro.mp4
+8 scenes, ~120s, voice: en-US-Chirp3-HD-Charon
+Output: content/assets/videos/level-06-intro-charon.mp4
 """
 
 import os
@@ -13,8 +13,12 @@ from moviepy import AudioFileClip, ImageClip, concatenate_videoclips
 
 ROOT      = Path(__file__).parent.parent
 SCENES    = ROOT / "content/assets/scenes"
-AUDIO_DIR = ROOT / "content/assets/videos/audio_tmp_l6"
-OUT       = ROOT / "content/assets/videos/level-06-intro.mp4"
+VERSION_SUFFIX = "-charon"
+TTS_LANGUAGE_CODE = "en-US"
+TTS_VOICE = "en-US-Chirp3-HD-Charon"
+TTS_SPEAKING_RATE = 1.0
+AUDIO_DIR = ROOT / f"content/assets/videos/audio_tmp_l6{VERSION_SUFFIX}"
+OUT       = ROOT / f"content/assets/videos/level-06-intro{VERSION_SUFFIX}.mp4"
 AUDIO_DIR.mkdir(parents=True, exist_ok=True)
 
 W, H, FPS = 1280, 720, 24
@@ -101,8 +105,9 @@ SCENES_DATA = [
 ]
 
 def generate_audio():
-    from openai import OpenAI
-    client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+    from google.cloud import texttospeech
+
+    client = texttospeech.TextToSpeechClient()
     print("Step 1: Generating TTS narration audio...")
     for i, sc in enumerate(SCENES_DATA, 1):
         path = AUDIO_DIR / f"scene-{i:02d}.mp3"
@@ -111,10 +116,16 @@ def generate_audio():
             continue
         preview = sc["text"][:60].replace("\n", " ")
         print(f"  [{i}/{len(SCENES_DATA)}] TTS: {preview}...")
-        response = client.audio.speech.create(
-            model="tts-1", voice="nova", input=sc["text"], speed=0.95,
+        response = client.synthesize_speech(
+            input=texttospeech.SynthesisInput(text=sc["text"]),
+            voice=texttospeech.VoiceSelectionParams(language_code=TTS_LANGUAGE_CODE, name=TTS_VOICE),
+            audio_config=texttospeech.AudioConfig(
+                audio_encoding=texttospeech.AudioEncoding.MP3,
+                speaking_rate=TTS_SPEAKING_RATE,
+            ),
+            timeout=45,
         )
-        response.stream_to_file(str(path))
+        path.write_bytes(response.audio_content)
         print(f"    Saved: {path.name}")
     print(f"  Audio ready: {len(SCENES_DATA)} files\n")
 
@@ -165,7 +176,7 @@ def build_video():
     print(f"\n✅ Video ready: {OUT}")
     print(f"   Duration: ~{dur_s}s")
     print(f"\nNext — upload to S3:")
-    print(f"  source .env && aws s3 cp {OUT} s3://mitra-ai-life-assets/videos/level-06-intro.mp4 --content-type 'video/mp4' --cache-control 'public, max-age=86400'")
+    print(f"  source .env && aws s3 cp {OUT} s3://mitra-ai-life-assets/videos/level-06-intro{VERSION_SUFFIX}.mp4 --content-type 'video/mp4' --cache-control 'public, max-age=86400'")
 
 if __name__ == "__main__":
     generate_audio()

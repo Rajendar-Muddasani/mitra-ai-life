@@ -616,7 +616,6 @@ h1 {
 }
 .section-nav a:hover { background: #eef; border-color: #aab; }
 .section-nav a.active { background: #1a2a6c; color: white; border-color: #1a2a6c; }
-.section-nav a.soon   { color: #bbb; border-color: #eee; pointer-events: none; cursor: default; }
 
 /* ── Parent guide lists ───────────────────────────────────────────────── */
 .parent-list {

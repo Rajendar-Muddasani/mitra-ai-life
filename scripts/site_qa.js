@@ -24,7 +24,12 @@ const SITE_DIR = path.resolve(__dirname, '..', 'site');
 const SITEMAP = path.join(SITE_DIR, 'sitemap.xml');
 
 // Pages excluded from SEO checks (utility / non-public-index pages)
-const SEO_EXCLUDE = new Set(['404.html', 'logo-options.html', 'contact-te.html']);
+const SEO_EXCLUDE = new Set([
+  '404.html',
+  'logo-options.html',
+  'contact-te.html',
+  'teachers-te-standard-a-review.html',
+]);
 
 // Pages excluded from sitemap coverage check
 const SITEMAP_EXCLUDE = new Set([
@@ -33,6 +38,7 @@ const SITEMAP_EXCLUDE = new Set([
   'index-te.html',
   'contact-te.html',
   'logo-options.html',
+  'teachers-te-standard-a-review.html',
 ]);
 
 function listHtmlFiles() {

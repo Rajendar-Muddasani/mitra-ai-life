@@ -62,6 +62,7 @@ Keep each track separate in audience, tone, and content path. Do not merge every
 - `site/privacy.html` — public privacy policy
 - `site/payment-policy.html` — payment and refund policy
 - `scripts/site_qa.js` — Node validator for local links, SEO basics, and sitemap coverage (`node scripts/site_qa.js`)
+- `scripts/sync_h1_media.sh` — rerenders H1 lesson pages from shared JSON and rebuilds H1 MP4s in one command (`scripts/sync_h1_media.sh` or `scripts/sync_h1_media.sh H1-01 H1-02`)
 - `content/english/` — AI for Daily Life English lesson pages
 - `content/telugu/` — Telugu lesson pages
 - `docs/mitraailife-unified-platform-plan.md` — one-site platform strategy

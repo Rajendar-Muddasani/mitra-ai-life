@@ -1,6 +1,6 @@
 """
 Generate class hub intro videos for Classes 7–12.
-Each video: 5 scenes, ~90 seconds, voice: nova, speed: 0.95
+Each video: 5 scenes, ~90 seconds, voice: en-US-Chirp3-HD-Charon
 Uses existing lesson hero images as scene backdrops.
 
 Usage:
@@ -8,8 +8,8 @@ Usage:
   python scripts/generate_class_hub_videos.py --class 08 # single class
   python scripts/generate_class_hub_videos.py --class 07,10,12
 
-Output: content/assets/students/class-NN/class-NN-intro.mp4
-Upload: s3://mitra-ai-life-assets/students/class-NN/class-NN-intro.mp4
+Output: content/assets/students/class-NN/class-NN-intro-charon.mp4
+Upload: s3://mitra-ai-life-assets/students/class-NN/class-NN-intro-charon.mp4
 """
 
 import os, sys, argparse, base64
@@ -22,6 +22,10 @@ ROOT = Path(__file__).parent.parent
 load_dotenv(ROOT / ".env")
 
 W, H, FPS = 1280, 720, 24
+VERSION_SUFFIX = "-charon"
+TTS_LANGUAGE_CODE = "en-US"
+TTS_VOICE = "en-US-Chirp3-HD-Charon"
+TTS_SPEAKING_RATE = 1.0
 
 # ---------------------------------------------------------------------------
 # Scene data: 5 scenes per class.
@@ -312,14 +316,15 @@ CLASS_DATA = {
 
 def get_paths(cls: str):
     asset_dir = ROOT / "content" / "assets" / "students" / f"class-{cls}"
-    audio_dir = ROOT / "content" / "assets" / "students" / f"class-{cls}" / "audio_tmp"
-    out_file  = ROOT / "content" / "assets" / "students" / f"class-{cls}" / f"class-{cls}-intro.mp4"
+    audio_dir = ROOT / "content" / "assets" / "students" / f"class-{cls}" / f"audio_tmp{VERSION_SUFFIX}"
+    out_file  = ROOT / "content" / "assets" / "students" / f"class-{cls}" / f"class-{cls}-intro{VERSION_SUFFIX}.mp4"
     return asset_dir, audio_dir, out_file
 
 
 def generate_audio(cls: str):
-    from openai import OpenAI
-    client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+    from google.cloud import texttospeech
+
+    client = texttospeech.TextToSpeechClient()
     asset_dir, audio_dir, _ = get_paths(cls)
     audio_dir.mkdir(parents=True, exist_ok=True)
     scenes = CLASS_DATA[cls]["scenes"]
@@ -331,10 +336,16 @@ def generate_audio(cls: str):
             continue
         preview = sc["text"][:55].replace("\n", " ")
         print(f"    Scene {i}: {preview}...")
-        resp = client.audio.speech.create(
-            model="tts-1", voice="nova", input=sc["text"], speed=0.95
+        response = client.synthesize_speech(
+            input=texttospeech.SynthesisInput(text=sc["text"]),
+            voice=texttospeech.VoiceSelectionParams(language_code=TTS_LANGUAGE_CODE, name=TTS_VOICE),
+            audio_config=texttospeech.AudioConfig(
+                audio_encoding=texttospeech.AudioEncoding.MP3,
+                speaking_rate=TTS_SPEAKING_RATE,
+            ),
+            timeout=45,
         )
-        resp.stream_to_file(str(path))
+        path.write_bytes(response.audio_content)
     print(f"  [{cls}] Audio done.\n")
 
 
@@ -430,5 +441,5 @@ if __name__ == "__main__":
 
     print("\nUpload to S3:")
     for cls, out in outputs:
-        print(f"  aws s3 cp {out} s3://mitra-ai-life-assets/students/class-{cls}/class-{cls}-intro.mp4 \\")
+        print(f"  aws s3 cp {out} s3://mitra-ai-life-assets/students/class-{cls}/class-{cls}-intro{VERSION_SUFFIX}.mp4 \\")
         print(f"    --content-type 'video/mp4' --cache-control 'public, max-age=86400'")

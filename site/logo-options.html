@@ -16,27 +16,24 @@
     body { margin: 0; font-family: Nunito, Arial, sans-serif; background: radial-gradient(circle at top, #122036, #07101d 65%); color: var(--text); }
     main { max-width: 1280px; margin: 0 auto; padding: 32px 20px 48px; }
     h1 { margin: 0 0 10px; font-size: clamp(2rem, 4vw, 3rem); }
-    p.lead { margin: 0 0 28px; color: var(--muted); font-size: 1rem; line-height: 1.6; }
+    p.lead { margin: 0 0 28px; color: var(--muted); font-size: 1rem; line-height: 1.6; max-width: 900px; }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
     .card { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 20px; }
     .card img { width: 100%; aspect-ratio: 1; object-fit: contain; border-radius: 16px; background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border: 1px solid rgba(255,255,255,0.07); padding: 16px; }
     .card h2 { margin: 14px 0 4px; font-size: 1.05rem; }
     .card p { margin: 0 0 8px; color: var(--muted); }
+    .card p.note { color: #d7e4f7; min-height: 46px; }
     code { color: #d4def1; font-size: 0.82rem; word-break: break-all; }
   </style>
 </head>
 <body>
   <main>
     <h1>Mitra AI Logo Options</h1>
-    <p class="lead">Option 1 keeps lines on the dots. Option 2 keeps lines above the dots. Option 3 connects the outer lines above the dots. Option 4 connects them on the dots. Option 5 connects them inside the dots. Option 6 has no lines. Option 7 has no lines and only one black dot.</p>
+    <p class="lead">Three human-chain concepts based on your direction: 8 heads around the oval, simple joined hand-lines between them, and legs standing on the AI oval. Option 1 is the cleanest. Option 2 is softer and more friendly. Option 3 makes the standing posture on the oval stronger.</p>
     <section class="grid">
-      <article class="card"><img src="logo-options/logo-01-lines-on-dots.svg" alt="Lines On Dots" /><h2>Option 1</h2><p>Lines On Dots</p><code>site/logo-options/logo-01-lines-on-dots.svg</code></article>
-      <article class="card"><img src="logo-options/logo-02-lines-above-dots.svg" alt="Lines Above Dots" /><h2>Option 2</h2><p>Lines Above Dots</p><code>site/logo-options/logo-02-lines-above-dots.svg</code></article>
-      <article class="card"><img src="logo-options/logo-03-connected-above.svg" alt="Connected Above Dots" /><h2>Option 3</h2><p>Connected Above Dots</p><code>site/logo-options/logo-03-connected-above.svg</code></article>
-      <article class="card"><img src="logo-options/logo-04-connected-on.svg" alt="Connected On Dots" /><h2>Option 4</h2><p>Connected On Dots</p><code>site/logo-options/logo-04-connected-on.svg</code></article>
-      <article class="card"><img src="logo-options/logo-05-connected-inside.svg" alt="Connected Inside Dots" /><h2>Option 5</h2><p>Connected Inside Dots</p><code>site/logo-options/logo-05-connected-inside.svg</code></article>
-      <article class="card"><img src="logo-options/logo-06-no-lines.svg" alt="No Lines" /><h2>Option 6</h2><p>No Lines</p><code>site/logo-options/logo-06-no-lines.svg</code></article>
-      <article class="card"><img src="logo-options/logo-07-no-lines-single-black.svg" alt="No Lines, Single Black Dot" /><h2>Option 7</h2><p>No Lines, Single Black Dot</p><code>site/logo-options/logo-07-no-lines-single-black.svg</code></article>
+      <article class="card"><img src="logo-options/logo-human-01-linked-circle.svg" alt="Linked Circle" /><h2>Option 1</h2><p>Linked Circle</p><p class="note">Straight hand links. Cleanest and most logo-like.</p><code>site/logo-options/logo-human-01-linked-circle.svg</code></article>
+      <article class="card"><img src="logo-options/logo-human-02-soft-embrace.svg" alt="Soft Embrace" /><h2>Option 2</h2><p>Soft Embrace</p><p class="note">Curved hand links. Feels warmer and more human.</p><code>site/logo-options/logo-human-02-soft-embrace.svg</code></article>
+      <article class="card"><img src="logo-options/logo-human-03-oval-stand.svg" alt="Oval Stand" /><h2>Option 3</h2><p>Oval Stand</p><p class="note">Tighter chain with a stronger standing-on-the-oval feel.</p><code>site/logo-options/logo-human-03-oval-stand.svg</code></article>
     </section>
   </main>
 </body>

@@ -72,6 +72,8 @@ img { max-width: 100%; height: auto; border-radius: 10px; }
 }
 .lesson-video h2 { color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.4rem; text-align: center; margin-bottom: 1.2rem; }
 .video-caption { color: rgba(255,255,255,0.45); font-size: 0.78rem; text-align: center; margin-top: 0.7rem; }
+.video-box { position: relative; width: 90%; max-width: 820px; margin: 0 auto; padding-top: 56.25%; border-radius: 14px; overflow: hidden; background: #020617; border: 2px solid rgba(139,92,246,0.35); }
+.video-box video { position: absolute; inset: 0; width: 100%; height: 100%; display: block; background: #020617; }
 .video-coming {
   width: 100%; max-width: 760px; background: #2d2b69; border-radius: 14px; padding: 3.5rem 1rem;
   display: flex; flex-direction: column; align-items: center; gap: 0.7rem; margin: 0 auto;
@@ -288,9 +290,12 @@ footer .footer-brand { font-family: 'Baloo 2', cursive; font-size: 0.9rem; color
   <div style="width:90%;max-width:760px;margin:0 auto;">
     <div class="sec-label">Watch first · 2–3 minutes</div>
     <h2>Class 7 Lesson 3 — Build Your Revision Kit</h2>
-    <div class="video-coming">
-      <div class="vc-icon">🎬</div>
-      <p>Written lesson is live below and ready to use now.</p>
+    <div class="video-box">
+      <video controls preload="none"
+             poster="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-07/lesson-03-hero.jpg">
+        <source src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/students/class-07/lesson-03-overview-charon.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
     </div>
     <p class="video-caption">No sign-in needed · English narration · Safe for all school ages</p>
   </div>

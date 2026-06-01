@@ -188,7 +188,7 @@ def generate_audio(_client, _voice: str) -> list[Path]:
         # Rare nasals
         "ङ": "लंगूर। ङ। ङ। ङ। ङ। ङ। ङ। ङ।",   # nga (in-gya) — velar nasal
         "ञ": "अंजीर। ञ। ञ। ञ। ञ। ञ। ञ। ञ।",   # nya (in-nya) — palatal nasal
-        "ण": "गणित। ण। ण। ण। ण। ण। ण। ण।",    # nna (un-a) — retroflex nasal
+        "ण": "बाण। गणित। ण। ण। ण। ण। ण। ण।",    # nna (un-a) — retroflex nasal; बाण anchors correct retroflex
         # Sibilant
         "श": "शेर। श। श। श। श। श। श। श।",      # sha — palatal 'sh'
     }

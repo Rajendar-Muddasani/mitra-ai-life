@@ -42,7 +42,8 @@ def _client():
 
 
 def tts_to_bytes(text: str, speed: float = 0.70,
-                 voice: str = DEFAULT_VOICE) -> bytes:
+                 voice: str = DEFAULT_VOICE,
+                 timeout: float = 30.0) -> bytes:
     """Synthesise `text` in Hindi and return raw MP3 bytes."""
     from google.cloud import texttospeech
     client = _client()
@@ -55,6 +56,7 @@ def tts_to_bytes(text: str, speed: float = 0.70,
             audio_encoding=texttospeech.AudioEncoding.MP3,
             speaking_rate=_grate(speed),
         ),
+        timeout=timeout,
     )
     return resp.audio_content
 

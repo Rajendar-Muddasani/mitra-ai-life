@@ -19,12 +19,15 @@ import pathlib
 import subprocess
 import sys
 import tempfile
+import time
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 VID_DIR = ROOT / "content/assets/videos/hindi-h1"
 SWAR_CARD_DIR = ROOT / "content/assets/images/word-cards/swar"
 BARA_AUDIO_DIR = ROOT / "content/assets/audio/barakhadi-custom"
+# Persistent cache so interrupted runs can resume without re-calling TTS/ffmpeg.
+BARA_CACHE_DIR = ROOT / "content/assets/audio/barakhadi-sync-cache"
 FONT_DEV = "/System/Library/Fonts/Supplemental/Devanagari Sangam MN.ttc"
 FONT_LAT = "/System/Library/Fonts/Supplemental/Arial Unicode.ttf"
 
@@ -464,41 +467,58 @@ def generate_swar_video(voice: str, reps: int = 1) -> None:
         concat_mp4s(atoms, out)
 
 
+def _tts_with_retry(text: str, speed: float, voice: str, retries: int = 3,
+                    timeout: float = 30.0) -> bytes:
+    """Call Google TTS with per-request timeout and exponential backoff."""
+    sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+    from _google_tts import tts_to_bytes
+    for attempt in range(1, retries + 1):
+        try:
+            return tts_to_bytes(text, speed=speed, voice=voice, timeout=timeout)
+        except Exception as exc:
+            if attempt == retries:
+                raise
+            wait = 2 ** attempt
+            print(f"    [TTS] attempt {attempt} failed ({exc}); retrying in {wait}s…")
+            time.sleep(wait)
+    raise RuntimeError("unreachable")
+
+
 def generate_barakhadi_video(voice: str) -> None:
     _load_env()
     VID_DIR.mkdir(parents=True, exist_ok=True)
+    BARA_CACHE_DIR.mkdir(parents=True, exist_ok=True)
     sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
     from _video_kit import make_atomic_mp4, concat_mp4s
-    from _google_tts import tts_to_bytes
     BARA_VOICE = "hi-IN-Standard-D"  # Standard voice: clean syllables, no silence issues
     out = VID_DIR / "barakhadi-sync.mp4"
-    with tempfile.TemporaryDirectory() as td:
-        tmp = pathlib.Path(td)
-        atoms: list[pathlib.Path] = []
-        for entry in VYANJAN:
-            print(f"  [ROW] {entry['letter']} की बाराखड़ी")
-            for idx, matra in enumerate(MATRAS):
-                form  = entry["letter"] + matra["matra"]
-                label = matra["label"]
-                frame = tmp / f"{entry['roman']}-{idx:02d}.png"
-                render_barakhadi_highlight(entry, idx).save(str(frame))
-                mp3 = tmp / f"{entry['roman']}-{idx:02d}.mp3"
+    atoms: list[pathlib.Path] = []
+    for entry in VYANJAN:
+        print(f"  [ROW] {entry['letter']} की बाराखड़ी")
+        for idx, matra in enumerate(MATRAS):
+            form  = entry["letter"] + matra["matra"]
+            label = matra["label"]
+            # PNG frame — regenerated each run (fast, no network)
+            frame = BARA_CACHE_DIR / f"{entry['roman']}-{idx:02d}.png"
+            render_barakhadi_highlight(entry, idx).save(str(frame))
+            # MP3 — cached: skip if already present
+            mp3 = BARA_CACHE_DIR / f"{entry['roman']}-{idx:02d}.mp3"
+            if not mp3.exists():
                 override = BARA_AUDIO_OVERRIDES.get((entry["letter"], label))
                 if override and override.exists():
                     mp3.write_bytes(override.read_bytes())
                 else:
-                # Standard-D voice produces all syllables cleanly at speed 0.65.
-                # Visarga (ah) needs a danda so TTS produces the breath sound.
-                    if label == "ah":
-                        tts_input, spd = form + "।", 0.65
-                    else:
-                        tts_input, spd = form + "।", 0.65
-                    mp3.write_bytes(tts_to_bytes(tts_input, speed=spd, voice=BARA_VOICE))
-                atom = tmp / f"{entry['roman']}-{idx:02d}.mp4"
+                    tts_input = form + "।"
+                    mp3.write_bytes(_tts_with_retry(tts_input, speed=0.65,
+                                                    voice=BARA_VOICE))
+            # Atomic MP4 clip — cached: skip if already present
+            atom = BARA_CACHE_DIR / f"{entry['roman']}-{idx:02d}.mp4"
+            if not atom.exists():
                 make_atomic_mp4(frame, mp3, atom, head_sil=0.3, tail_sil=0.7)
-                atoms.append(atom)
-        print(f"  Concatenating {len(atoms)} clips → {out}")
-        concat_mp4s(atoms, out)
+            atoms.append(atom)
+    print(f"  Concatenating {len(atoms)} clips → {out}")
+    concat_mp4s(atoms, out)
+    print("  Cache preserved at", BARA_CACHE_DIR, "(delete manually to force full rebuild)")
 
 
 def main() -> None:

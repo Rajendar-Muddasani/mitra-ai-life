@@ -151,6 +151,19 @@ img { max-width: 100%; height: auto; border-radius: 10px; }
 .ws-table th { background: #0ea5e9; color: #fff; padding: 0.5rem 0.75rem; text-align: left; font-weight: 700; }
 .ws-table td { padding: 0.6rem 0.75rem; border: 1px solid #e0f2fe; vertical-align: top; min-height: 40px; }
 .ws-download-note { color: #94a3b8; font-size: 0.78rem; font-style: italic; }
+.ws-print-btn { display:inline-flex; align-items:center; gap:0.4rem; background:#0ea5e9; color:#fff; border:none; padding:0.5rem 1rem; border-radius:8px; font-weight:700; font-family:inherit; font-size:0.85rem; cursor:pointer; margin-bottom:0.9rem; }
+.ws-print-btn:hover { background:#0284c7; }
+.ws-print-hint { color:#64748b; font-size:0.78rem; margin-left:0.6rem; }
+@media print {
+  body.printing-worksheet * { visibility: hidden !important; }
+  body.printing-worksheet .worksheet-section.printing,
+  body.printing-worksheet .worksheet-section.printing * { visibility: visible !important; }
+  body.printing-worksheet .worksheet-section.printing { position: absolute !important; left: 0; top: 0; width: 100%; padding: 1rem !important; border: none !important; }
+  body.printing-worksheet .worksheet-section.printing .ws-print-btn,
+  body.printing-worksheet .worksheet-section.printing .ws-print-hint,
+  body.printing-worksheet .worksheet-section.printing .ws-download-note { display: none !important; }
+  body.printing-worksheet .ws-table td { min-height: 44px; height: 44px; }
+}
 
 /* ── Parent note ── */
 .parent-note { background: #fafaf9; border-radius: 16px; padding: 1.6rem; margin-bottom: 1.5rem; border: 1px solid #e7e5e4; }
@@ -619,6 +632,8 @@ footer .fl a:hover { color: rgba(255,255,255,0.70); }
   <!-- Worksheet -->
   <div class="worksheet-section">
     <h2>📝 Activity — Anu's AI Spy Day Challenge</h2>
+    <button class="ws-print-btn" onclick="printWorksheet(this)">🖨️ Print or save this worksheet</button>
+    <span class="ws-print-hint">Tip: in the print dialog, choose “Save as PDF” to download instead.</span>
     <p>Just like Anu did in the story, spend one full day noticing AI around you. Use this table to record what you find. Write in your notebook or print this page.</p>
     <table class="ws-table">
       <tr>
@@ -755,6 +770,23 @@ document.getElementById('quizSubmit').addEventListener('click', function() {
   "inLanguage": "en",
   "isAccessibleForFree": true,
   "provider": {"@type":"Organization","name":"Mitra AI Life","url":"https://mitraailife.com"}
+}
+</script>
+
+<script>
+// Print just the worksheet section: clean printout without nav/header/footer.
+function printWorksheet(btn){
+  var ws = btn.closest('.worksheet-section');
+  if(!ws) return;
+  ws.classList.add('printing');
+  document.body.classList.add('printing-worksheet');
+  var cleanup = function(){
+    ws.classList.remove('printing');
+    document.body.classList.remove('printing-worksheet');
+    window.removeEventListener('afterprint', cleanup);
+  };
+  window.addEventListener('afterprint', cleanup);
+  setTimeout(function(){ window.print(); }, 50);
 }
 </script>
 

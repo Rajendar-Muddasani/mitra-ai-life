@@ -237,6 +237,24 @@ footer .footer-brand { font-family: 'Baloo 2', cursive; font-size: 0.9rem; color
   .content-wrap { padding: 1.25rem 1rem 2rem; }
   .lesson-section { padding: 1.25rem; }
 }
+
+/* ── Worksheet print button (injected) ── */
+.ws-print-btn { display:inline-flex; align-items:center; gap:0.4rem; background:#0ea5e9; color:#fff; border:none; padding:0.5rem 1rem; border-radius:8px; font-weight:700; font-family:inherit; font-size:0.85rem; cursor:pointer; margin:0.2rem 0 0.9rem; }
+.ws-print-btn:hover { background:#0284c7; }
+.ws-print-hint { display:inline-block; color:#64748b; font-size:0.78rem; margin:0 0 0.6rem 0.6rem; }
+@media print {
+  body.printing-worksheet * { visibility: hidden !important; }
+  body.printing-worksheet .worksheet-section.printing,
+  body.printing-worksheet .worksheet-section.printing *,
+  body.printing-worksheet .worksheet-box.printing,
+  body.printing-worksheet .worksheet-box.printing * { visibility: visible !important; }
+  body.printing-worksheet .worksheet-section.printing,
+  body.printing-worksheet .worksheet-box.printing { position: absolute !important; left: 0; top: 0; width: 100%; padding: 1rem !important; border: none !important; background:#fff !important; }
+  body.printing-worksheet .ws-print-btn,
+  body.printing-worksheet .ws-print-hint,
+  body.printing-worksheet .ws-download-note { display: none !important; }
+  body.printing-worksheet .ws-table td { min-height: 44px; height: 44px; }
+}
 </style>
 </head>
 <body>
@@ -644,6 +662,7 @@ After each question, add a model answer in the typical exam answer style. I will
   <!-- Worksheet -->
   <div class="worksheet-box">
     <h3>📝 Worksheet — Build One Chapter's Revision Kit</h3>
+    <button class="ws-print-btn" type="button" onclick="printWorksheet(this)">🖨️ Print or save this worksheet</button><span class="ws-print-hint">Tip: in the print dialog, choose "Save as PDF" to download.</span>
     <p style="font-size:0.88rem;margin-bottom:1rem;color:#5b21b6;">Pick one chapter you are currently studying. Use AI to build each of the 5 revision tools. Record your prompts and results below. Copy this table into your notebook.</p>
     <table class="ws-table">
       <thead>
@@ -773,6 +792,24 @@ document.getElementById('quiz-submit').addEventListener('click', () => {
     "name": "Mitra AI Life Education",
     "url": "https://mitraailife.com"
   }
+}
+</script>
+
+
+<script>
+// Injected: print just the worksheet section/box without nav, video, quiz, or footer.
+function printWorksheet(btn){
+  var ws = btn.closest('.worksheet-section, .worksheet-box');
+  if(!ws) return;
+  ws.classList.add('printing');
+  document.body.classList.add('printing-worksheet');
+  var cleanup = function(){
+    ws.classList.remove('printing');
+    document.body.classList.remove('printing-worksheet');
+    window.removeEventListener('afterprint', cleanup);
+  };
+  window.addEventListener('afterprint', cleanup);
+  setTimeout(function(){ window.print(); }, 50);
 }
 </script>
 

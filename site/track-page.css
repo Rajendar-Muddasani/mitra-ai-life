@@ -275,6 +275,25 @@ h1 {
   font-size: 1.2rem;
   margin-bottom: 1rem;
 }
+.panel-kicker {
+  color: var(--cyan);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.panel-note {
+  color: rgba(248,251,255,0.7);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin-top: 0.8rem;
+}
+.panel-divider {
+  height: 1px;
+  border: 0;
+  background: rgba(255,255,255,0.12);
+  margin: 1.35rem 0;
+}
 .panel ul { list-style: none; display: grid; gap: 0.85rem; }
 .panel li { color: var(--muted); line-height: 1.55; }
 .panel li strong { color: var(--text); }

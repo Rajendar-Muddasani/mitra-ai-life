@@ -398,6 +398,7 @@
     <a href="teachers.html">AI for Teachers</a>
     <a href="contact.html">Contact</a>
   </div>
+<div class="nav-actions" style="display:flex;align-items:center;"><div id="auth-nav-area" style="display:flex;align-items:center;"></div></div>
 </nav>
 
 <!-- ── Hero ── -->
@@ -850,5 +851,8 @@
 }
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="auth.js"></script>
+<script>document.addEventListener("DOMContentLoaded",()=>{renderAuthUI(document.getElementById("auth-nav-area"));});</script>
 </body>
 </html>

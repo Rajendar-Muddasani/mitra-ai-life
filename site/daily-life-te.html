@@ -36,13 +36,15 @@
     <a href="teachers-te.html">Teachers కోసం AI</a>
     <a href="contact-te.html">సంప్రదించండి</a>
   </div>
-  <div class="lang-switcher">
+  <div class="nav-actions" style="display:flex;align-items:center;gap:0.5rem;"><div class="lang-switcher">
     <button class="lang-switcher-btn">&#127468;&#127463; English &#9662;</button>
     <div class="lang-switcher-menu">
       <a href="daily-life.html" class="lang-option">&#127468;&#127463; English</a>
       <a href="daily-life-te.html" class="lang-option active">&#127470;&#127475; తెలుగు <small>ప్రస్తుతం</small></a>
     </div>
   </div>
+<div id="auth-nav-area" style="display:flex;align-items:center;"></div>
+</div>
 </nav>
 
 <main class="hero">
@@ -131,5 +133,8 @@
     <a href="payment-policy.html">Payments</a>
   </div>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="auth.js"></script>
+<script>document.addEventListener("DOMContentLoaded",()=>{renderAuthUI(document.getElementById("auth-nav-area"));});</script>
 </body>
 </html>

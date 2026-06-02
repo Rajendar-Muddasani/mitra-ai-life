@@ -157,6 +157,10 @@ body::before {
 .track-links::-webkit-scrollbar { display: none; }
 
 /* ─── language switcher ──────────────────────────────────────────────────── */
+/* ─── nav actions (lang-switcher + auth) ───────────────────────────────── */
+.nav-actions { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+#auth-nav-area { display: flex; align-items: center; }
+#auth-nav-area button { font-size: 0.78rem !important; padding: 5px 12px !important; }
 .lang-switcher { position: relative; display: inline-block; flex-shrink: 0; }
 .lang-switcher-btn {
   background: rgba(255,255,255,0.07);

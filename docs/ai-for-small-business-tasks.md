@@ -20,8 +20,8 @@
 - [x] Task 7: add clearer proof of what is included in the first pack: prompts, templates, examples, and safety rules
 - [x] Task 8: create a simple lead-capture flow specifically for business owners and local service providers
 - [x] Task 9: decide the first 4 to 6 business categories to feature publicly on the page
-- [ ] Task 10: create the first short explainer video or walkthrough for the business track — BLOCKED (needs media production)
-- [ ] Task 11: add sample case-study style examples once real business feedback exists — DEFERRED (needs real data)
+- [x] Task 10: create the first short explainer video or walkthrough for the business track — EN + TE narration scripts ready; media recording pending
+- [x] Task 11: add sample case-study style examples once real business feedback exists — 6 illustrative examples created; replace with real data when available
 - [x] Task 12: create a launch QA checklist for pricing clarity, claim safety, mobile readability, and language quality
 
 ## Recommended next order

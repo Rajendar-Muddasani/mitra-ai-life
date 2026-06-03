@@ -380,6 +380,237 @@ Copy the same values from mitraailife.com `.env`
 
 ---
 
+## 9. Expanded Vision — Crisp Courses + Cheatsheets + Notebook UX
+
+> Added: 03 Jun 2026. This section supersedes the "project kits only" framing. mitraaiprojects.com will have two distinct lanes: **Crisp Courses** (concept + code + quiz + cert) and **Project Kits** (full guided builds). Both are premium but bite-sized.
+
+---
+
+### 9.1 Site Navigation (mitraaiprojects.com)
+
+```
+Home  |  Courses  |  Projects  |  Cheatsheets  |  Contact
+```
+
+- **Home** — hero + what you get + two lanes (Courses vs Projects) + sign-in
+- **Courses** — landing grid listing all course tracks: Programming, ML, DL, RL, GenAI, Agentic AI, MLOps/Tools
+- **Projects** — existing project kit catalog (unchanged from Section 5)
+- **Cheatsheets** — downloadable PDF reference cards (see Section 9.4)
+- **Contact** — simple form
+
+When **Courses** is pressed → course index page showing track cards.
+When a track card (e.g. "Machine Learning") is pressed → OneNote-style page with left-side topic tabs.
+
+---
+
+### 9.2 Course Tracks
+
+| Track | Audience | Content source | Status |
+|---|---|---|---|
+| **Programming** | Complete beginners → intermediate developers | New content (see Section 9.3) | Plan first |
+| **Machine Learning** | Engineering students, analysts | AIML-Engineering-Lab notebooks 001–010 | Content ready |
+| **Deep Learning** | ML practitioners | AIML-Engineering-Lab notebooks 011–020 | Content ready |
+| **Reinforcement Learning** | Advanced DL learners | New — build fresh | Planned |
+| **Generative AI** | Anyone building with LLMs | AIML-Engineering-Lab notebooks 034, 075 | Partial |
+| **Agentic AI** | Developers building agents | New — LangGraph, CrewAI, MCP | Planned |
+| **MLOps & Tools** | Practitioners going production | AIML-Engineering-Lab notebooks 050s, Kaggle, HuggingFace | Partial |
+
+---
+
+### 9.3 Programming Track (new — lives in mitraaiprojects.com/courses/programming)
+
+This is a separate track from mitraailife.com students page. It serves all skill levels through a single tabbed page.
+
+**Tab structure inside Programming course page:**
+
+| Tab | Audience | Content |
+|---|---|---|
+| Python Basics | Complete beginners | Variables, loops, functions, files. AI-assisted learning prompts. |
+| Python for Data | Students & analysts | Pandas, NumPy, Matplotlib. Exercises with AI explanations. |
+| Shell / Bash | Developers | 20 essential commands, scripting basics, cron, pipes |
+| SQL | Everyone | SELECT, JOINs, GROUP BY, window functions. AI query explainer. |
+| Excel Formulas | Office workers | VLOOKUP, XLOOKUP, pivot tables, IF/COUNTIF. AI formula generator prompts. |
+| C / C++ | Engineering students | Pointers, memory, structs. Side-by-side with Python comparisons. |
+| Perl | Legacy engineers | Regex, file processing, CPAN basics |
+| JavaScript | Web developers | DOM, fetch, async/await, basic Node.js |
+
+**For each language tab:**
+1. One-page reference card (what is it, when to use it)
+2. 10 essential prompts to learn it with AI
+3. Interactive notebook embed (Pyodide for Python; static code blocks for others)
+4. Downloadable cheatsheet PDF
+5. 5-question quiz
+6. Completion certificate
+
+---
+
+### 9.4 Cheatsheets Plan
+
+**Format:** A4 PDF, 1–2 pages per cheatsheet, dark theme matching site.
+**Hosting:** S3 at `mitra-ai-life-assets/cheatsheets/<slug>.pdf`
+**Download link:** Direct for free cheatsheets; Supabase auth + S3 signed URL (24h expiry) for paid.
+
+| Cheatsheet | Free / Paid | Content |
+|---|---|---|
+| Python Basics | Free | Data types, loops, functions, common patterns — 1 page |
+| Python for Data | Free | Pandas/NumPy/Matplotlib top 30 operations — 2 pages |
+| SQL Quick Reference | Free | SELECT, JOIN, GROUP BY, window functions — 2 pages |
+| Shell / Bash | Free | 40 commands, pipes, variables, scripts — 2 pages |
+| Excel Formula Bible | Free | 25 formulas with syntax + example — 2 pages |
+| C/C++ Memory Cheatsheet | Free | Pointers, structs, malloc/free, RAII — 1 page |
+| ML Models at a Glance | Free | 12 models: when to use, metric, watch-out — 2 pages |
+| Deep Learning Layers | Free | Dense, Conv2D, LSTM, Attention — visual 2 pages |
+| GenAI Prompt Patterns | Free | 15 patterns: zero-shot, CoT, RAG, tool use — 2 pages |
+| AI for Developers: 25 Prompts | Paid ₹99 | Refactor, test, document, explain, generate — 4 pages |
+| AIML Interview Prep | Paid ₹199 | Top 50 ML/DL/GenAI interview Q+A — 6 pages |
+
+**Generation plan:**
+- Phase 1: Design in Canva → export PDF → upload to S3 → add download card to page
+- Phase 2: Python script using `reportlab` generates PDFs from Markdown source → automated updates
+- Source files live in `docs/cheatsheets/` as Markdown (in GitHub); generated PDFs go to S3 only
+
+---
+
+### 9.5 Machine Learning Course — OneNote-Style Page UX
+
+URL: `mitraaiprojects.com/courses/ml`
+
+**Layout:**
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  nav bar                                                         │
+├──────────────┬──────────────────────────────────────────────────┤
+│ LEFT TABS    │  CONTENT AREA (scrollable)                       │
+│              │                                                   │
+│ ▶ Linear Reg │  ## Linear Regression                            │
+│   Classif.   │  What it is · When to use · Key assumptions      │
+│   Trees      │  ┌────────────────────────────────────────────┐  │
+│   Boosting   │  │  EXECUTABLE NOTEBOOK (Pyodide)             │  │
+│   SVM        │  │  [ Run ▶ ]  code cell + output inline      │  │
+│   Clustering │  └────────────────────────────────────────────┘  │
+│   Anomaly    │  Metrics: MSE · RMSE · R² · MAE                 │
+│   NB / LDA   │  Gotchas: multicollinearity, outliers, scale    │
+│   Time Series│  Project idea: House price predictor            │
+│   Hyper Opt  │  [Quiz] [Cheatsheet ↓] [← Prev] [Next →]       │
+└──────────────┴──────────────────────────────────────────────────┘
+```
+
+**Each topic tab contains:**
+1. **What is it** — 3-sentence plain English explanation
+2. **When to use it** — decision table (use this when..., don't use when...)
+3. **Key algorithms / variants** — with source notebook link (AIML-Engineering-Lab)
+4. **Metrics** — table: metric name, formula, what it means, good value range
+5. **Executable notebook** — Pyodide (Python in browser, no server needed) OR embedded Colab link
+6. **Watch-outs** — common mistakes, data prep requirements
+7. **Project idea** — 1 concrete project that connects to the Projects lane
+8. **5-question quiz**
+9. **Cheatsheet download button**
+
+**Content source mapping (AIML-Engineering-Lab → ML course tabs):**
+
+| Tab | Source repo(s) |
+|---|---|
+| Linear Regression | 001_linear_regression_engine |
+| Classification | 002_classification_engine |
+| Tree-Based Learning | 003_tree_based_learning |
+| Boosting (XGBoost/LGB/Cat) | 004_boosting_revolution |
+| SVM | 005_support_vector_machines |
+| Clustering / Unsupervised | 006_unsupervised_discovery |
+| Anomaly Detection | 007_anomaly_detection_dimensionality |
+| Naive Bayes / LDA | 008_naive_bayes_lda |
+| Time Series | 009_time_series_forecasting |
+| Hyperparameter Optimization | 010_hyperparameter_optimization |
+
+---
+
+### 9.6 Deep Learning Course Topics
+
+URL: `mitraaiprojects.com/courses/dl`
+
+| Tab | Source / Notes |
+|---|---|
+| Neural Network Basics | New — perceptron, activation, backprop |
+| CNNs | 054_wafer_defect_yolo_detection_mlops (YOLOv8 level) |
+| RNNs / LSTMs | 015_time_series_deep_learning |
+| Autoencoders & GANs | 014_autoencoders_and_gans |
+| Transformers | 073_dtfs_transformer_system |
+| Multimodal (Vision+Language) | 034_multimodal_vision_language |
+| Transfer Learning | New |
+| Model Compression | New |
+
+---
+
+### 9.7 Generative AI Course Topics
+
+URL: `mitraaiprojects.com/courses/genai`
+
+| Tab | Content |
+|---|---|
+| What is GenAI | LLMs, diffusion, multimodal — plain English |
+| Prompt Engineering | Zero-shot, few-shot, CoT, system prompts |
+| RAG (Retrieval Augmented Gen) | 074_postsilicon_validation_rag |
+| Fine-Tuning | 075_domain_llm_finetuning |
+| Embeddings & Vector DBs | Chroma, Pinecone, Supabase pgvector |
+| LLM Evaluation | BLEU, ROUGE, LLM-as-judge |
+| HuggingFace Ecosystem | Transformers, Datasets, Spaces — hands-on |
+| Kaggle with LLMs | Competition strategy + submission workflow |
+
+---
+
+### 9.8 Agentic AI & MCP Course Topics
+
+URL: `mitraaiprojects.com/courses/agentic`
+
+| Tab | Content |
+|---|---|
+| What is an Agent | ReAct, tool use, memory, planning |
+| LangGraph | State machines, nodes, edges, checkpointing |
+| CrewAI | Roles, tasks, crew orchestration |
+| MCP (Model Context Protocol) | What it is, building MCP servers, tool registration |
+| OpenAI Assistants API | Function calling, code interpreter, file search |
+| Multi-Agent Systems | Supervisor pattern, handoffs, state sharing |
+| Evaluation & Safety | Agent evals, guardrails, looping prevention |
+
+---
+
+### 9.9 Certification — Non-Registered Organization Rules
+
+**Question:** Can you provide certifications as a non-registered organization?
+
+**Answer: Yes, with caveats.**
+
+| What you CAN do | What you CANNOT do |
+|---|---|
+| Issue "completion certificates" for your own courses — this is just a PDF/image with your branding | Call it a "degree", "diploma", or "accredited certification" |
+| State: "Completed [Course Name] on mitraaiprojects.com" | Claim recognition by AICTE, UGC, or any government body |
+| Add a unique certificate ID verified on your site | Imply it is equivalent to university credit |
+| Use Supabase to record completion and display a shareable URL | Use words like "certified professional" in a misleading way |
+
+**Recommended wording on every certificate:**
+> "This certificate confirms that [Name] completed the [Course Name] on mitraaiprojects.com on [Date]. This is a course completion record issued by Mitra AI Life, an independent education platform."
+
+**Safe to do right now** — no company registration needed to issue course completion certificates. Many platforms (Coursera, Udemy) started this way.
+
+**When registration matters:** If you want the certificate to say "Mitra AI Education Pvt Ltd" or if employers start asking about the issuing body, register then. Until then, "Mitra AI Life" as a brand name is sufficient.
+
+---
+
+### 9.10 Build Sequence for Next Development Session
+
+| Priority | Item | Why first |
+|---|---|---|
+| 1 | `site/courses.html` — course index page with track cards | Entry point — everything links from here |
+| 2 | `site/courses/programming.html` — Python + SQL + Shell tabs | Widest audience, clearest demand |
+| 3 | `site/cheatsheets.html` — free download cards | Quick win, shareable, drives sign-ups |
+| 4 | `site/courses/ml.html` — ML OneNote-style page | Core technical course, content already exists |
+| 5 | Generate first 3 free cheatsheets (Python, SQL, Shell) as PDFs | Launch asset |
+| 6 | `site/courses/genai.html` — GenAI course | Highest commercial interest |
+| 7 | `site/courses/dl.html`, `site/courses/agentic.html` | Complete the lineup |
+
+**Do NOT build:** mitraailife.com students page changes for coding — that stays beginner-only (AI prompts to learn code). The actual code + notebook experience belongs on mitraaiprojects.com.
+
+---
+
 ## 9. Pricing Strategy
 
 | Product | Price | Notes |

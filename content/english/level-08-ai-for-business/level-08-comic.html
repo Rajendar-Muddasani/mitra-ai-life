@@ -42,12 +42,34 @@
       width:0%; z-index:999; transition:width 0.3s ease; }
 
     .topnav {
-      position:fixed; top:5px; left:0; right:0; height:52px;
-      background:rgba(255,251,235,0.95); backdrop-filter:blur(8px);
-      display:flex; align-items:center; justify-content:space-between;
+      position:fixed; top:0; left:0; right:0; height:52px;
+      background:rgba(28,43,10,0.95); backdrop-filter:blur(12px);
+      display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:0.75rem;
       padding:0 1.5rem; z-index:100;
       border-bottom:2px solid rgba(245,158,11,0.2);
     }
+    .track-links {
+      display:flex; align-items:center; justify-content:center; gap:0.3rem;
+      overflow-x:auto; scrollbar-width:none;
+    }
+    .track-links::-webkit-scrollbar { display:none; }
+    .track-links a {
+      --pill-bg:rgba(255,255,255,0.045); --pill-border:rgba(255,255,255,0.1);
+      --pill-text:rgba(200,200,180,0.75); --pill-shadow:transparent;
+      color:var(--pill-text); text-decoration:none;
+      border:1px solid var(--pill-border); background:var(--pill-bg);
+      border-radius:999px; padding:0.28rem 0.55rem;
+      font-size:0.7rem; font-weight:800; white-space:nowrap;
+      transition:transform 0.15s, filter 0.15s;
+    }
+    .track-links a:nth-child(1){--pill-bg:linear-gradient(180deg,rgba(14,165,233,.9),rgba(2,132,199,.85));--pill-border:rgba(125,211,252,.62);--pill-text:#f0faff;--pill-shadow:rgba(14,165,233,.28);}
+    .track-links a:nth-child(2){--pill-bg:linear-gradient(180deg,rgba(139,92,246,.95),rgba(109,40,217,.92));--pill-border:rgba(196,181,253,.65);--pill-text:#f7f3ff;--pill-shadow:rgba(139,92,246,.32);}
+    .track-links a:nth-child(3){--pill-bg:linear-gradient(180deg,rgba(99,102,241,.95),rgba(67,56,202,.92));--pill-border:rgba(165,180,252,.62);--pill-text:#eef2ff;--pill-shadow:rgba(99,102,241,.28);}
+    .track-links a:nth-child(4){--pill-bg:linear-gradient(180deg,rgba(59,130,246,.95),rgba(29,78,216,.92));--pill-border:rgba(147,197,253,.62);--pill-text:#eff6ff;--pill-shadow:rgba(59,130,246,.28);}
+    .track-links a:nth-child(5){--pill-bg:linear-gradient(180deg,rgba(34,197,94,.95),rgba(22,163,74,.92));--pill-border:rgba(134,239,172,.62);--pill-text:#f0fdf4;--pill-shadow:rgba(34,197,94,.28);}
+    .track-links a:nth-child(6){--pill-bg:linear-gradient(180deg,rgba(250,204,21,.98),rgba(234,179,8,.95));--pill-border:rgba(254,240,138,.72);--pill-text:#2f2100;--pill-shadow:rgba(250,204,21,.28);}
+    .track-links a:nth-child(7){--pill-bg:linear-gradient(180deg,rgba(251,146,60,.98),rgba(234,88,12,.94));--pill-border:rgba(253,186,116,.72);--pill-text:#2c1300;--pill-shadow:rgba(249,115,22,.28);}
+    .track-links a:hover,.track-links a.active{filter:brightness(1.05);transform:translateY(-1px);}
     .topnav .brand { font-family:'Baloo 2',cursive; font-weight:800; font-size:1.1rem; color:var(--navy); text-decoration:none; }
     .topnav .level-tag { background:var(--orange); color:white; font-size:0.75rem; font-weight:700; padding:3px 12px; border-radius:20px; }
     .topnav .back-link { font-size:0.82rem; color:var(--muted); font-weight:700; text-decoration:none; }
@@ -197,12 +219,19 @@
 
 <!-- NAV -->
 <nav class="topnav">
-  <a href="../../../site/index.html" class="brand">🌟 Mitra AI Life</a>
-  <span class="level-tag">Level 8 · ₹600</span>
+  <a href="../../../site/index.html" class="brand">🌟 Mitra <span style="color:#f59e0b;">AI</span> Life</a>
+  <div class="track-links" aria-label="Mitra AI Life tracks">
+    <a href="../../../site/index.html">Home</a>
+    <a href="../../../site/daily-life.html">AI for Daily Life</a>
+    <a href="../../../site/students.html">AI for Students</a>
+    <a href="../../../site/tuition.html">AI Tuition</a>
+    <a href="../../../site/small-business.html" class="active">AI for Small Business</a>
+    <a href="../../../site/teachers.html">AI for Teachers</a>
+    <a href="../../../site/contact.html">Contact</a>
+  </div>
   <div style="display:flex;align-items:center;gap:.75rem;">
     <div id="auth-nav-area"></div>
     <a href="level-08-comic-te.html" class="lang-btn">తెలుగు</a>
-    <a href="../../../site/index.html" class="back-link">← Home</a>
   </div>
 </nav>
 

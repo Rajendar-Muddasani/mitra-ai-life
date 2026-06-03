@@ -611,11 +611,15 @@
       .nav-actions { justify-content: center; flex-wrap: wrap; }
       #auth-nav-area { max-width: 100%; }
       #auth-nav-area button { max-width: 100%; font-size: 0.74rem !important; padding: 6px 10px !important; }
-      .hero { padding-top: 72px; }
-      .hero-eyebrow { font-size: 0.68rem; letter-spacing: 0.16em; }
+      .hero { grid-template-columns: 1fr !important; padding-top: 72px !important; text-align: center !important; }
+      .hero > div:last-child { order: -1; }
+      .hero-eyebrow { font-size: 0.68rem; letter-spacing: 0.16em; justify-content: center !important; }
       .hero-eyebrow::before, .hero-eyebrow::after { width: 1.2rem; }
       .hero-title { font-size: clamp(2rem, 11vw, 2.35rem); max-width: calc(100vw - 2rem); }
-      .hero-actions { flex-direction: column; align-items: center; }
+      .hero-actions { flex-direction: column; align-items: center; justify-content: center !important; }
+      .hero-trust { justify-content: center !important; }
+      .mitra-img { margin: 0 auto 1.25rem !important; }
+      .mitra-label { text-align: center !important; }
       .btn-primary, .btn-secondary { width: 100%; text-align: center; }
       .ladder-row { flex-wrap: wrap; gap: 0.8rem; padding: 1.1rem; }
       .ladder-body { flex: 1 1 calc(100% - 48px); min-width: 0; }
@@ -662,62 +666,55 @@
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <!-- HERO                                                                     -->
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
-<section class="hero">
-  <div class="hero-eyebrow anim-up">One trusted platform · Many learning tracks</div>
+<section class="hero" style="display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:3rem;min-height:auto;padding:80px 5vw 3.5rem;text-align:left;">
+  <div>
+    <div class="hero-eyebrow anim-up" style="justify-content:flex-start;">One trusted platform · Many learning tracks</div>
 
-  <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/characters/mitra-reference.png"
-       alt="Mitra — your friendly AI guide"
-       class="mitra-img" />
-  <p class="mitra-label">Hi, I'm Mitra. Your family learning guide.</p>
+    <img src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/characters/mitra-reference.png"
+         alt="Mitra — your friendly AI guide"
+         class="mitra-img" style="margin:0 0 1.25rem;" />
+    <p class="mitra-label" style="text-align:left;">Hi, I'm Mitra. Your family learning guide.</p>
 
-  <h1 class="hero-title anim-up" style="animation-delay:0.1s">
-    Practical AI and learning skills<br>
-    for <span class="grad">every Indian family</span>
-  </h1>
+    <h1 class="hero-title anim-up" style="animation-delay:0.1s;max-width:100%;">
+      Practical AI and learning skills<br>
+      for <span class="grad">every Indian family</span>
+    </h1>
 
-  <p class="hero-sub anim-up" style="animation-delay:0.2s">
-    Daily AI skills, school support, AI tuition, small business help,
-    and teacher tools — all under one simple Mitra home.
-  </p>
+    <p class="hero-sub anim-up" style="animation-delay:0.2s;margin:0 0 2rem;max-width:100%;">
+      Daily AI skills, school support, AI tuition, small business help,
+      and teacher tools — all under one simple Mitra home.
+    </p>
 
-  <div class="hero-actions anim-up" style="animation-delay:0.3s">
-    <a href="daily-life.html" class="btn-primary">
-      Start AI for Daily Life
-    </a>
-    <a href="#tracks" class="btn-secondary">See all tracks ↓</a>
-  </div>
-
-  <div class="hero-trust anim-up" style="animation-delay:0.4s">
-    <span class="trust-pill">One URL to share</span>
-    <span class="trust-pill">Separate tracks</span>
-    <span class="trust-pill">Real Indian needs</span>
-    <span class="trust-pill">Free-first learning</span>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- MITRA INTRO VIDEO                                                        -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<section style="background:linear-gradient(180deg,#0f172a 0%,#1e3a5f 100%); padding:3.5rem 1rem 4rem;">
-  <div style="max-width:1100px; margin:0 auto; text-align:center;">
-    <div style="color:rgba(255,255,255,0.55); font-size:0.75rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:0.75rem;">
-      WATCH FIRST · 1 MINUTE
+    <div class="hero-actions anim-up" style="animation-delay:0.3s;justify-content:flex-start;">
+      <a href="daily-life.html" class="btn-primary">
+        Start AI for Daily Life
+      </a>
+      <a href="#tracks" class="btn-secondary">See all tracks ↓</a>
     </div>
-    <h2 style="color:#fff; font-size:clamp(1.2rem,3vw,1.8rem); font-weight:800; margin:0 0 1.5rem;">
-      Everything Mitra AI Life offers — in one quick overview
-    </h2>
+
+    <div class="hero-trust anim-up" style="animation-delay:0.4s;justify-content:flex-start;">
+      <span class="trust-pill">One URL to share</span>
+      <span class="trust-pill">Separate tracks</span>
+      <span class="trust-pill">Real Indian needs</span>
+      <span class="trust-pill">Free-first learning</span>
+    </div>
+  </div>
+  <div>
+    <p style="color:rgba(255,255,255,0.5);font-size:0.72rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.75rem;">WATCH FIRST · 1 MINUTE</p>
     <video controls preload="none" playsinline
            poster="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/videos/home/home-hero-en-charon-poster.jpg"
            style="width:100%;border-radius:16px;display:block;box-shadow:0 12px 48px rgba(0,0,0,0.6);background:#000;">
       <source src="https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/videos/home/home-hero-en-charon.mp4" type="video/mp4" />
       Your browser does not support HTML5 video.
     </video>
-    <p style="color:rgba(255,255,255,0.4); font-size:0.8rem; margin-top:0.9rem;">
-      No sign-in needed · English narration
+    <p style="color:rgba(255,255,255,0.4);font-size:0.8rem;margin-top:0.9rem;">
+      No sign-in needed · English narration · <a href="index-te.html" style="color:#68e1ff;text-decoration:none;">తెలుగు లో చూడండి →</a>
     </p>
   </div>
 </section>
+
+
+
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <!-- PROOF BAR                                                                -->

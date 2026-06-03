@@ -53,4 +53,26 @@ git add docs/task-log.md && git commit -m "docs: task-log entry 119 commit hash"
 
 ---
 
-*Last updated: 11 May 2026*
+---
+
+## Uncommitted Site Changes — Session 03 Jun 2026
+
+The following files have been modified but not yet committed:
+
+- `site/index.html` — hero restructured to two-column grid (left: text/Mitra, right: video). Separate "MITRA INTRO VIDEO" section removed.
+- `site/daily-life.html` — hero aside changed from "Status" info panel to video panel. Separate video section below hero removed.
+- `site/students.html` — `<section class="st-hero">` replaced with standard `<main class="hero"><section>text</section><aside class="panel">video</aside></main>`.
+- `site/tuition.html` — hero restructured from `hero-single` to two-column `hero` with aside video panel.
+- `site/small-business.html` — business examples section added: 3 cards (Meena tiffin, salon review reply, kirana Diwali offer).
+- `site/small-business-te.html` — same 3 business example cards in Telugu.
+- `docs/task-log.md` — entries 206–209 added.
+
+**To commit:**
+```bash
+cd /Users/rajendarmuddasani/Mitra_AI_Life
+git add -A && git commit -m "Hero video layout: right-side panel on all track pages + business examples inline on small-business" && git push origin main
+```
+
+---
+
+*Last updated: 03 Jun 2026*

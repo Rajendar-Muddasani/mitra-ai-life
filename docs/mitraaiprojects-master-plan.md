@@ -1,25 +1,22 @@
 # mitraaiprojects.com — Complete Master Plan
 
-> **Purpose of this document:** Drop this file into a new VS Code workspace for mitraaiprojects.com. GitHub Copilot (or Claude Code / Cursor) will read it and know everything — product vision, infrastructure, design system, course structure, and exact build steps. No re-engineering. No asking for details already solved in mitraailife.com.
+> Purpose: this is the single source of truth for the new mitraaiprojects.com workspace. Carry this one file into the new repo. It replaces the older separate PRD. No second planning file is needed.
 
 ---
 
-## 1. What Is This Platform
+## 1. Product Decision
 
-**mitraaiprojects.com** is the engineering education track under the Mitra AI family.
+Build mitraaiprojects.com as a separate public website under the Mitra family.
 
-| Property | Value |
-|---|---|
-| Target audience | Engineering students (B.E., B.Tech, BCA, MCA, diploma), final year projects, freshers |
-| Core promise | Build real AI projects with code, explanation, deployment guidance, and a clear path from idea to demo |
-| Language | English first; Telugu subtitles on videos eventually |
-| Status | Not yet built. Domain registered. Planning phase. |
+This site should not live as a visible top-level learning track inside mitraailife.com.
 
-**Relationship to mitraailife.com:**
-- Same founder, same company, same AWS / GA4 / Supabase accounts
-- Shared infrastructure — do NOT create separate cloud accounts
-- Different GitHub repo, different domain, different color theme
-- Content is technical (code, APIs, deployment) vs. mitraailife.com which is non-technical (daily life usage)
+Reason:
+- mitraailife.com is beginner-first, family-safe, and broad
+- mitraaiprojects.com is technical, code-first, notebook-first, and project-first
+- the page structure, copy tone, and learner expectations are different
+- separating the site reduces confusion for school learners, parents, and casual AI users
+
+At launch, the site should be openly accessible. Do not build commerce, checkout, or gated delivery flows in v1.
 
 ---
 
@@ -27,64 +24,90 @@
 
 Primary users:
 - B.Tech, BCA, MCA, diploma, and engineering students in India
-- Final-year students who need a serious build, explanation path, and viva confidence
-- Freshers who need portfolio projects for placements
-- Third-year students who want guided mini-projects before final year
+- final-year students who need a serious build, explanation path, and viva confidence
+- freshers who need portfolio projects for placements
+- third-year students who want guided mini-projects before final year
 
 Secondary users:
-- College teams building group projects
-- Faculty or project mentors reviewing project outcomes
-- Learners outside India who can use the same English-first technical content
+- college teams building group projects
+- faculty or mentors reviewing technical outcomes
+- learners outside India using the same English-first technical content
 
 Not for:
-- School students (they belong on mitraailife.com)
-- Casual AI learners (also mitraailife.com)
-- Users asking for unethical academic cheating or fake submissions
+- school students
+- casual AI learners
+- users looking for generic AI theory only
+- users asking for unethical academic cheating or fake submission help
 
 ---
 
-## 3. Core Promise and Business Position
+## 3. Core Promise
 
 Plain-language promise:
 
 **Build real AI projects with code, explanation, deployment guidance, viva prep, and a clear path from idea to demo.**
 
 What problem it solves:
-- Many students can copy code but cannot explain it
-- Many project sellers offer weak quality or unethical shortcuts
-- Students need a structured path: build, understand, present, and prove
+- many students can copy code but cannot explain it
+- many project sellers and random tutorials are shallow, fragmented, or unclear
+- students need a structured path: build, understand, present, and prove
 
-This is not just a course. This is not just a code dump. Each project kit is a guided build system with teaching, code, reports, demo assets, and explanation support.
-
-| Item | Decision |
-|---|---|
-| Business lane | Engineering project education and technical skill building |
-| Launch language | English only at launch |
-| Telugu plan | Later for subtitles, support docs, and select landing assets |
-| Brand relationship | Part of the Mitra family, but operationally separate public site |
-| Risk posture | No fake guarantees, no done-for-you cheating claims |
+Simple explanation:
+- this is not just a code dump
+- this is not just a theory course
+- each project kit is a guided build system with teaching, code, notes, demo assets, and explanation support
+- each course page is meant to make technical topics easier to learn through plain English, tabs, notebooks, quizzes, and linked projects
 
 ---
 
-## 4. Product Goals
+## 4. Product Shape
+
+mitraaiprojects.com has two parallel lanes:
+
+1. **Courses**
+Concept-first learning with tabs, notebooks, quizzes, certificates, and cheatsheets.
+
+2. **Projects**
+Outcome-first guided builds with architecture, milestone breakdowns, code paths, deployment guidance, demo prep, viva prep, and supporting assets.
+
+Do not organize the whole platform only by academic year labels.
+
+Better organizing principle:
+- concept learning lives under Courses
+- outcome-driven builds live under Projects
+- both should cross-link to each other
+
+---
+
+## 5. Platform Goals
 
 Launch goals:
-- Make the site credible enough that a student understands the offer in under 90 seconds
-- Show clear lanes: courses, mini projects, major projects, portfolio builds, viva packs
-- Make each project page conversion-ready with strong clarity, not hype
-- Create a reusable production system for project pages, videos, posters, and support docs
-- Keep the codebase easy for a single founder plus Copilot / Claude Code workflow
+- make the site credible enough that a student understands the offer in under 90 seconds
+- show clear lanes: courses, project kits, cheatsheets, and contact
+- make each course page easy to scan and each project page easy to trust
+- create a reusable production system for course pages, project pages, posters, videos, cheatsheets, and support docs
+- keep the codebase manageable for one founder plus AI coding agents
 
-Success metrics for first release:
-- At least 1 polished home page
-- At least 1 polished course track page (Programming or ML)
-- At least 3 strong public project pages
-- 1 working contact / enquiry flow
-- 1 repeatable project-page generation system
+Release goals:
+- one polished home page
+- one polished courses index page
+- one polished Programming page
+- one polished ML page with OneNote-style tab UX
+- one polished cheatsheets page
+- three strong public project pages
+- one working contact form
+- one repeatable generation system for projects and related assets
+
+Non-goals for v1:
+- full LMS complexity
+- multi-instructor dashboards
+- heavy custom backend before demand is proven
+- Telugu full-site duplication at launch
+- large social/community systems
 
 ---
 
-## 5. Shared Infrastructure — USE EXACTLY THESE, DO NOT REINVENT
+## 6. Shared Infrastructure — Use Exactly These
 
 ### AWS S3
 ```
@@ -92,282 +115,314 @@ Bucket:     mitra-ai-life-assets
 Region:     us-west-2
 CDN base:   https://mitra-ai-life-assets.s3.us-west-2.amazonaws.com/
 ```
-- Create a subfolder: `projects/` for mitraaiprojects.com assets
-- Access keys are in `.env` of mitraailife.com workspace:
-  - `AWS_ACCESS_KEY_ID=AKIA2OLSTCW7NXHUAOPQ`
-  - `AWS_SECRET_ACCESS_KEY=<in .env>`
-  - `AWS_DEFAULT_REGION=us-west-2`
-- Upload with: `source .env && aws s3 cp <file> s3://mitra-ai-life-assets/projects/...`
+
+Use these prefixes:
+- `projects/` for project assets
+- `cheatsheets/` for PDFs
+- `shared/` for logos, OG images, and reusable visuals
+
+Access keys already exist in the current mitraailife.com `.env`.
 
 ### Google Analytics
 ```
 GA4 Measurement ID: G-QGY0LH6W93
 ```
-- Add the same GA4 snippet to every mitraaiprojects.com page
-- Same property — track both sites in one dashboard
+
+Use the same GA4 property on every page of mitraaiprojects.com.
 
 ### Disqus
 ```
 Shortname: mitra-ai-life
 ```
-- Use the same Disqus shortname on project pages
-- Set `page.identifier` = `project-<slug>` (e.g., `project-chatbot-python`)
 
-### Supabase (auth + progress)
+Reuse this for project pages if comments are enabled.
+
+### Supabase
 ```
 URL:       https://kuriwaysdlqnzqqzabts.supabase.co
-Anon key:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1cml3YXlzZGxxbnpxcXphYnRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNTE5NzYsImV4cCI6MjA5MzYyNzk3Nn0.UA2AgEmnA6r_evrAyXz0MTVhohziKdspkjuB6wHD6fw
+Anon key:  already available in current workspace
 ```
-- Same `user_progress` table — add a `project_id` column or use a new table `project_completions`
-- Row Level Security is already configured — just add the anon key
 
-### Cloudflare Worker (chatbot proxy)
+Recommended usage:
+- reuse auth pattern from mitraailife.com
+- store course completion and project completion separately
+- add `course_id` and `project_id` fields instead of reusing only `level_id`
+
+### Cloudflare Worker
 ```
-Worker URL:  https://mitra-chat-worker.rajendar-mi46.workers.dev
+Existing worker: https://mitra-chat-worker.rajendar-mi46.workers.dev
 ```
-- Reuse the same worker OR create a second worker: `mitra-projects-worker`
-- If creating a new worker, copy `scripts/cloudflare-worker/mitra-chat-worker.js` from the mitraailife.com repo and update the SYSTEM_PROMPT for projects context
-- OPENAI_API_KEY is already set as a Secret in Cloudflare dashboard
+
+Reuse the same pattern, but create a separate worker for project context if needed:
+- `mitra-projects-worker`
 
 ### OpenAI
-```
-API key:  in .env as OPENAI_API_KEY (also set as Secret in Cloudflare)
-Models used:
-  - gpt-4o-mini  →  chatbot
-  - tts-1        →  narration videos (voice: nova)
-  - dall-e-3     →  scene images (quality="standard", style="vivid")
-```
+Use the same key and workflow patterns already used in mitraailife.com.
+
+Current planned model usage:
+- `gpt-4o-mini` for chatbot and lightweight content transforms
+- `tts-1` for narration drafts
+- `dall-e-3` for generated visuals when needed
 
 ### Python Environment
 ```
 Python 3.14
-Virtualenv at: .venv/  (create new .venv in mitraaiprojects.com workspace)
-Key packages: openai, boto3, moviepy, imageio-ffmpeg, pillow, python-dotenv
-Install:  python -m venv .venv && .venv/bin/pip install openai boto3 moviepy imageio-ffmpeg pillow
 ```
 
-### .env File Template (create in mitraaiprojects.com workspace root, never commit)
-```
-GITHUB_TOKEN=<same token>
-OPENAI_API_KEY=<same key>
-AWS_ACCESS_KEY_ID=AKIA2OLSTCW7NXHUAOPQ
-AWS_SECRET_ACCESS_KEY=<same secret>
-AWS_DEFAULT_REGION=us-west-2
-```
+Base packages:
+- openai
+- boto3
+- moviepy
+- imageio-ffmpeg
+- pillow
+- python-dotenv
+- pyyaml
+- reportlab
 
 ---
 
-## 6. Domain & Hosting
+## 7. Domain and Hosting
 
 | Item | Value |
 |---|---|
 | Domain | mitraaiprojects.com |
-| Hosting | GitHub Pages (same as mitraailife.com) |
+| Launch hosting | GitHub Pages |
 | GitHub org | Rajendar-Muddasani |
-| Repo to create | `mitra-ai-projects` (new separate repo under Rajendar-Muddasani org) |
+| Repo | `mitra-ai-projects` |
 | Branch | `main` |
-| Pages settings | Source: Deploy from branch `main`, folder `/` or `/site/` |
-| Custom domain | Set `mitraaiprojects.com` in repo Settings → Pages → Custom domain |
-| HTTPS | Enforce HTTPS in Pages settings |
 
-### How to set up the new GitHub repo
-```bash
-# In a NEW folder (not mitraailife.com):
-mkdir ~/mitra-ai-projects && cd ~/mitra-ai-projects
-git init
-# create repo first on github.com: Rajendar-Muddasani/mitra-ai-projects
-git remote add origin git@github.com:Rajendar-Muddasani/mitra-ai-projects.git
-```
+Important launch rule:
+- do not block development on buying or wiring the custom domain
+- build first in GitHub Pages
+- add the domain later
+
+Initial deploy target:
+- `https://rajendar-muddasani.github.io/mitra-ai-projects/`
+
+Later:
+- attach `mitraaiprojects.com`
+- add `CNAME`
+- enforce HTTPS in Pages settings
 
 ---
 
-## 7. Design System
+## 8. Design Direction
 
-### Color Theme — Professional Dark (2 main colors + 1 accent)
+Visual direction:
+- technical
+- sharp
+- credible
+- clean
+- notebook-friendly
+- code-first without looking intimidating
 
-Inspired by GitHub Dark + terminal aesthetic. Clean, focused, no distraction.
+It should not look like:
+- generic startup SaaS
+- school-learning pastel site
+- fake-corporate template
+
+### Core color system
 
 ```css
-/* 2 main colors + 1 accent — never add more */
---primary:    #00d4aa;   /* teal/cyan — THE engineering color, CTAs, highlights */
---bg-dark:    #0d1117;   /* GitHub-style near-black — page background */
---surface:    #161b22;   /* slightly lighter — card/section backgrounds */
-
-/* 1 accent only */
---accent:     #f0b429;   /* warm amber — badges and callouts only */
-
-/* Supporting (neutral, not brand colors) */
+--primary:    #00d4aa;
+--bg-dark:    #0d1117;
+--surface:    #161b22;
+--accent:     #f0b429;
 --text:       #e6edf3;
 --muted:      #7d8590;
 --border:     rgba(0,212,170,0.12);
 --border-dim: rgba(255,255,255,0.06);
-
-/* Shared Mitra purple — used sparingly, e.g. completion certificates only */
 --purple:     #7c3aed;
 ```
 
-**Color discipline rules:**
-- `--primary` (teal): buttons, links, active states, code highlights, progress bars
-- `--accent` (amber): warning callouts, "new" badges only — not for pricing
-- `--purple`: certificates and brand footer only
-- All other UI is black/white/gray — no reds, no greens, no blues
-- Code blocks: dark background `#0d1117`, teal syntax highlights
+Color discipline:
+- teal is the main action color
+- amber is only for badges and callouts
+- purple is reserved for certificate or rare brand accents
+- avoid rainbow UI and extra brand colors
 
-**Hero gradient:**
+### Hero gradient
+
 ```css
 background: linear-gradient(160deg, #0d1117 0%, #0d2818 50%, #0a2520 100%);
 ```
 
-**Visual motifs:** Terminal window chrome `>_`, circuit lines, clean monospace code snippets, minimal iconography (▶ Play, ✓ Done, ⚡ Fast).
+### Typography
 
-### Fonts
 ```html
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Baloo+2:wght@700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
 ```
-- `JetBrains Mono` → code blocks, technical labels
-- `Baloo 2` → headings (shared brand font)
-- `Nunito` → body text (shared brand font)
 
-### Component patterns (copy from mitraailife.com and restyle):
-- Progress bar (top, scrolling)
-- Top nav with brand + page label + auth area
-- Hero section (dark background, teal accent)
-- Card grid for project modules / course tracks
-- Code block sections (with syntax highlighting via Prism.js)
-- Quiz (same format, different styling)
-- Certificate / completion (same Supabase saveProgress pattern)
-- Disqus (same embed pattern)
+Usage:
+- `Baloo 2` for headings
+- `Nunito` for body text
+- `JetBrains Mono` for code, labels, notebook UI, and technical tags
 
-### Auth
-- Copy `site/auth.js` from mitraailife.com, update `LEVEL_IDS` → `PROJECT_IDS`
-- Google OAuth via Supabase (same config)
-- Progress tracking pattern is identical
+### Reusable UI patterns
+
+- home hero with dual lane emphasis
+- course track cards
+- left-tab plus right-content notebook layout
+- project detail hero with trust strip and milestone cards
+- code example panels
+- quiz module pattern
+- certificate/completion banner
+- cheatsheet download cards
+- compact top nav with auth area
 
 ---
 
-## 8. Site Map
+## 9. Site Map
+
+Primary navigation:
 
 ```
-Home  |  Courses  |  Projects  |  Cheatsheets  |  Contact
+Home | Courses | Projects | Cheatsheets | Contact
 ```
 
-Full URL structure:
-```
-/                            Home
-/courses/                    Course track index
-/courses/programming.html    Programming track (tabbed)
-/courses/ml.html             Machine Learning (OneNote UX)
-/courses/dl.html             Deep Learning
-/courses/genai.html          Generative AI
-/courses/agentic.html        Agentic AI & MCP
-/courses/mlops.html          MLOps & Tools
-/courses/rl.html             Reinforcement Learning
-/projects/                   Project kit catalog
-/projects/<slug>.html        Individual project detail pages
-/cheatsheets.html            Downloadable PDF cheatsheets
-/how-it-works.html           Simple step flow explainer
-/faq.html                    FAQ
-/contact.html                Contact / enquiry form
-/about.html                  About Mitra AI
-/privacy.html                Privacy Policy
-/terms.html                  Terms of Service
-```
+Planned public routes:
+
+1. `/` Home
+2. `/courses/` Course track index
+3. `/courses/programming.html`
+4. `/courses/ml.html`
+5. `/courses/dl.html`
+6. `/courses/genai.html`
+7. `/courses/agentic.html`
+8. `/courses/mlops.html`
+9. `/courses/rl.html`
+10. `/projects/` Projects catalog
+11. `/projects/<slug>.html` Individual project pages
+12. `/cheatsheets.html`
+13. `/how-it-works.html`
+14. `/faq.html`
+15. `/contact.html`
+16. `/about.html`
+17. `/privacy.html`
+18. `/terms.html`
 
 Optional later:
-- `/compare/` project comparisons
-- `/stories/` learner case studies
-- `/blog/` technical explainers and SEO articles
+- `/compare/`
+- `/stories/`
+- `/blog/`
+
+Do not include pricing or payment pages in v1.
 
 ---
 
-## 9. Course Tracks
+## 10. Courses Overview
 
-### 9.1 Track Overview
+### 10.1 Track Table
 
 | Track | Audience | Content source | Status |
 |---|---|---|---|
-| **Programming** | Complete beginners → intermediate developers | New content | Build first |
-| **Machine Learning** | Engineering students, analysts | AIML-Engineering-Lab notebooks 001–010 | Content ready |
-| **Deep Learning** | ML practitioners | AIML-Engineering-Lab notebooks 011–020 | Content ready |
-| **Reinforcement Learning** | Advanced DL learners | New — build fresh | Planned |
-| **Generative AI** | Anyone building with LLMs | AIML-Engineering-Lab notebooks 034, 074, 075 | Partial |
-| **Agentic AI & MCP** | Developers building agents | New — LangGraph, CrewAI, MCP repos | Partial |
-| **MLOps & Tools** | Practitioners going production | AIML-Engineering-Lab notebooks 050s | Partial |
+| Programming | Complete beginners to intermediate developers | New content | Build first |
+| Machine Learning | Engineering students, analysts | AIML-Engineering-Lab notebooks 001–010 | Content ready |
+| Deep Learning | ML practitioners | AIML-Engineering-Lab notebooks 014, 015, 034, 054, 073 | Content ready |
+| Reinforcement Learning | Advanced learners | New content | Planned |
+| Generative AI | Developers and builders | AIML-Engineering-Lab + private repos | Partial |
+| Agentic AI and MCP | Developers building tools and agents | Private repos + new content | Partial |
+| MLOps and Tools | Production-minded learners | AIML-Engineering-Lab + private repos | Partial |
+
+### 10.2 Courses Page Requirement
+
+The Courses index page must:
+- show all tracks as clear cards
+- explain in plain language what each track teaches
+- indicate which tracks are ready first
+- route into detailed topic pages
+
+Each course page must include:
+- overview section
+- left-side topic tabs
+- topic content panel
+- quiz
+- cheatsheet link
+- completion certificate flow
+- links to relevant projects
 
 ---
 
-### 9.2 Programming Track
+## 11. Programming Track
 
-URL: `mitraaiprojects.com/courses/programming`
+URL: `/courses/programming.html`
 
-Serves all skill levels through a single tabbed page. Separate from mitraailife.com students page (which stays beginner-only / AI prompts to learn code). The actual code + notebook experience belongs here.
+Purpose:
+- this is the practical programming foundation lane
+- it is separate from the beginner-only mitraailife.com student content
+- it should support both fresh learners and working learners
 
-**Tab structure:**
+Tab structure:
 
 | Tab | Audience | Content |
 |---|---|---|
-| Python Basics | Complete beginners | Variables, loops, functions, files. AI-assisted learning prompts. |
-| Python for Data | Students & analysts | Pandas, NumPy, Matplotlib. Exercises with AI explanations. |
-| Shell / Bash | Developers | 20 essential commands, scripting basics, cron, pipes |
-| SQL | Everyone | SELECT, JOINs, GROUP BY, window functions. AI query explainer. |
-| Excel Formulas | Office workers | VLOOKUP, XLOOKUP, pivot tables, IF/COUNTIF. AI formula generator prompts. |
-| C / C++ | Engineering students | Pointers, memory, structs. Side-by-side with Python comparisons. |
+| Python Basics | Complete beginners | Variables, loops, functions, files |
+| Python for Data | Students and analysts | Pandas, NumPy, Matplotlib |
+| Shell / Bash | Developers | Essential commands, scripting, pipes, cron |
+| SQL | Everyone | SELECT, JOINs, GROUP BY, windows |
+| Excel Formulas | Office users | VLOOKUP, XLOOKUP, pivots, IF/COUNTIF |
+| C / C++ | Engineering students | Pointers, memory, structs |
 | Perl | Legacy engineers | Regex, file processing, CPAN basics |
-| JavaScript | Web developers | DOM, fetch, async/await, basic Node.js |
+| JavaScript | Web developers | DOM, fetch, async/await, Node basics |
 
-**For each language tab:**
-1. One-page reference card (what is it, when to use it)
-2. 10 essential prompts to learn it with AI
-3. Interactive notebook embed (Pyodide for Python; static code blocks for others)
-4. Downloadable cheatsheet PDF
-5. 5-question quiz
-6. Completion certificate
+For each tab include:
+1. what it is
+2. when to use it
+3. essential commands or patterns
+4. 10 AI learning prompts
+5. code examples or notebook block
+6. cheatsheet download
+7. 5-question quiz
+8. completion record
 
 ---
 
-### 9.3 Machine Learning Course — OneNote-Style Page UX
+## 12. Machine Learning Course — OneNote-Style UX
 
-URL: `mitraaiprojects.com/courses/ml`
+URL: `/courses/ml.html`
 
-**Layout:**
-```
+This page is critical. It must use a OneNote-style two-panel layout.
+
+Layout:
+
+```text
 ┌─────────────────────────────────────────────────────────────────┐
-│  nav bar                                                         │
+│ nav bar                                                        │
 ├──────────────┬──────────────────────────────────────────────────┤
-│ LEFT TABS    │  CONTENT AREA (scrollable)                       │
-│              │                                                   │
-│ ▶ Linear Reg │  ## Linear Regression                            │
-│   Classif.   │  What it is · When to use · Key assumptions      │
-│   Trees      │  ┌────────────────────────────────────────────┐  │
-│   Boosting   │  │  EXECUTABLE NOTEBOOK (Pyodide / Colab)     │  │
-│   SVM        │  │  [ Run ▶ ]  code cell + output inline      │  │
-│   Clustering │  └────────────────────────────────────────────┘  │
-│   Anomaly    │  Metrics: MSE · RMSE · R² · MAE                 │
-│   NB / LDA   │  Gotchas: multicollinearity, outliers, scale    │
-│   Time Series│  Project idea: House price predictor            │
-│   Hyper Opt  │  [Quiz] [Cheatsheet ↓] [← Prev] [Next →]       │
+│ LEFT TABS    │ CONTENT AREA                                    │
+│              │                                                  │
+│ Linear Reg   │ What it is                                      │
+│ Classification│ When to use                                    │
+│ Trees        │ Metrics                                          │
+│ Boosting     │ Notebook / runnable demo                         │
+│ SVM          │ Watch-outs                                       │
+│ Clustering   │ Project idea                                     │
+│ Anomaly      │ Quiz + cheatsheet                                │
+│ NB / LDA     │                                                  │
+│ Time Series  │                                                  │
+│ Hyper Opt    │                                                  │
 └──────────────┴──────────────────────────────────────────────────┘
 ```
 
-**Each topic tab contains:**
-1. **What is it** — 3-sentence plain English explanation
-2. **When to use it** — decision table (use this when..., don't use when...)
-3. **Key algorithms / variants** — with source notebook link (AIML-Engineering-Lab)
-4. **Metrics** — table: metric name, formula, what it means, good value range
-5. **Executable notebook** — Pyodide (Python in browser) OR embedded Colab link
-6. **Watch-outs** — common mistakes, data prep requirements
-7. **Project idea** — 1 concrete project that connects to the Projects lane
-8. **5-question quiz**
-9. **Cheatsheet download button**
+Each tab contains:
+1. plain-English explanation
+2. when to use it / when not to use it
+3. algorithm variants
+4. metric table
+5. executable notebook area using Pyodide or embedded Colab
+6. common mistakes
+7. one concrete project idea
+8. 5-question quiz
+9. cheatsheet download button
 
-**Content source mapping — AIML-Engineering-Lab → ML course tabs:**
+ML source mapping from AIML-Engineering-Lab:
 
-| Tab | Source repo(s) |
+| Topic tab | Source repo |
 |---|---|
 | Linear Regression | 001_linear_regression_engine |
 | Classification | 002_classification_engine |
 | Tree-Based Learning | 003_tree_based_learning |
-| Boosting (XGBoost/LGB/Cat) | 004_boosting_revolution |
+| Boosting | 004_boosting_revolution |
 | SVM | 005_support_vector_machines |
 | Clustering / Unsupervised | 006_unsupervised_discovery |
 | Anomaly Detection | 007_anomaly_detection_dimensionality |
@@ -377,185 +432,252 @@ URL: `mitraaiprojects.com/courses/ml`
 
 ---
 
-### 9.4 Deep Learning Course
+## 13. Deep Learning Course
 
-URL: `mitraaiprojects.com/courses/dl`
+URL: `/courses/dl.html`
 
-| Tab | Source / Notes |
+Topic tabs:
+
+| Tab | Source / notes |
 |---|---|
-| Neural Network Basics | New — perceptron, activation, backprop |
-| CNNs | 054_wafer_defect_yolo_detection_mlops (YOLOv8 level) |
+| Neural Network Basics | new content |
+| CNNs | 054_wafer_defect_yolo_detection_mlops |
 | RNNs / LSTMs | 015_time_series_deep_learning |
 | Autoencoders & GANs | 014_autoencoders_and_gans |
 | Transformers | 073_dtfs_transformer_system |
-| Multimodal (Vision+Language) | 034_multimodal_vision_language |
-| Transfer Learning | New |
-| Model Compression | New |
+| Multimodal (Vision + Language) | 034_multimodal_vision_language |
+| Transfer Learning | new content |
+| Model Compression | new content |
 
-Same OneNote-style tab UX as ML course.
+Use the same tabbed notebook UX as the ML page.
 
 ---
 
-### 9.5 Generative AI Course
+## 14. Generative AI Course
 
-URL: `mitraaiprojects.com/courses/genai`
+URL: `/courses/genai.html`
 
-| Tab | Content / Source |
+Topic tabs:
+
+| Tab | Source / notes |
 |---|---|
-| What is GenAI | LLMs, diffusion, multimodal — plain English |
-| Prompt Engineering | Zero-shot, few-shot, CoT, system prompts |
+| What is GenAI | plain-English overview |
+| Prompt Engineering | prompt patterns and prompting systems |
 | RAG | 074_postsilicon_validation_rag + chromadb-rag-tutorials |
 | Fine-Tuning | 075_domain_llm_finetuning |
-| Embeddings & Vector DBs | Chroma, Pinecone, Supabase pgvector |
+| Embeddings and Vector DBs | Chroma, Pinecone, Supabase pgvector |
 | LLM Evaluation | BLEU, ROUGE, LLM-as-judge |
-| HuggingFace Ecosystem | Transformers, Datasets, Spaces — hands-on |
-| Kaggle with LLMs | Competition strategy + submission workflow |
+| HuggingFace Ecosystem | Transformers, Datasets, Spaces |
+| Kaggle with LLMs | workflow and competition guidance |
 
 ---
 
-### 9.6 Agentic AI & MCP Course
+## 15. Agentic AI and MCP Course
 
-URL: `mitraaiprojects.com/courses/agentic`
+URL: `/courses/agentic.html`
 
-| Tab | Content / Source |
+Topic tabs:
+
+| Tab | Source / notes |
 |---|---|
-| What is an Agent | ReAct, tool use, memory, planning |
-| LangGraph | State machines, nodes, edges, checkpointing |
-| CrewAI | Roles, tasks, crew orchestration — crewai-course-materials repo |
-| MCP (Model Context Protocol) | What it is, building MCP servers, tool registration — mcp-learning-guide repo |
-| OpenAI Assistants API | Function calling, code interpreter, file search |
-| Multi-Agent Systems | Supervisor pattern, handoffs, state sharing |
-| Evaluation & Safety | Agent evals, guardrails, looping prevention |
+| What is an Agent | planning, memory, tools |
+| LangGraph | state machines, nodes, checkpointing |
+| CrewAI | crewai-course-materials repo |
+| MCP | mcp-learning-guide repo |
+| OpenAI Assistants API | tool use and file workflows |
+| Multi-Agent Systems | handoffs, supervisor patterns |
+| Evaluation and Safety | guardrails and loop prevention |
 
 ---
 
-### 9.7 MLOps & Tools Course
+## 16. MLOps and Tools Course
 
-URL: `mitraaiprojects.com/courses/mlops`
+URL: `/courses/mlops.html`
 
-| Tab | Content / Source |
+Topic tabs:
+
+| Tab | Source / notes |
 |---|---|
-| Airflow Orchestration | AIML-Engineering-Lab 053 (Airflow/Kafka/Spark/MLflow) |
-| Spark & Big Data | spark-learning-guide repo |
-| MLflow & Experiment Tracking | From 053 MLOps notebooks |
-| Kubernetes Basics for ML | From 053/054 production examples |
-| AWS SageMaker | aws-sagemaker-ml-deployment repo content |
-| Docker for ML | New |
-| CI/CD for Models | New |
+| Airflow Orchestration | AIML-Engineering-Lab 053 patterns |
+| Spark and Big Data | spark-learning-guide |
+| Experiment Tracking | MLflow concepts from advanced notebooks |
+| Kubernetes for ML | production deployment overview |
+| AWS SageMaker | future content, not PRD-only repo |
+| Docker for ML | new content |
+| CI/CD for Models | new content |
 
 ---
 
-### 9.8 Reinforcement Learning Course
+## 17. Reinforcement Learning Course
 
-URL: `mitraaiprojects.com/courses/rl`
+URL: `/courses/rl.html`
+
+Topic tabs:
 
 | Tab | Content |
 |---|---|
-| What is RL | Agents, environments, rewards — plain English |
-| Q-Learning | Tabular RL, Bellman equation |
-| Deep Q-Networks | DQN, experience replay |
-| Policy Gradients | REINFORCE, Actor-Critic |
-| PPO | Proximal Policy Optimization |
-| Real-world RL | Recommendation systems, resource scheduling |
+| What is RL | agent, environment, reward |
+| Q-Learning | tabular RL basics |
+| Deep Q Networks | replay and approximation |
+| Policy Gradients | REINFORCE and actor-critic |
+| PPO | modern practical RL overview |
+| Real-world RL | recommendation and optimization examples |
 
-Content to build fresh. Low priority — build after ML, DL, GenAI.
+This track is planned later. There is currently no real repo content in Rajendar-Muddasani for RL.
 
 ---
 
-## 10. Cheatsheets Plan
+## 18. Cheatsheets Plan
 
-All cheatsheets are free at launch.
+All launch cheatsheets are openly accessible.
 
-**Format:** A4 PDF, 1–2 pages per cheatsheet, dark theme matching site.
-**Hosting:** S3 at `mitra-ai-life-assets/cheatsheets/<slug>.pdf`
-**Download link:** Direct download, no gate. Sign-in optional to track completions.
+Format:
+- A4 PDF
+- 1 to 2 pages for most sheets
+- dark theme matching the site
+
+Hosting:
+- S3 path `cheatsheets/<slug>.pdf`
+
+Cheatsheets list:
 
 | Cheatsheet | Content |
 |---|---|
-| Python Basics | Data types, loops, functions, common patterns — 1 page |
-| Python for Data | Pandas/NumPy/Matplotlib top 30 operations — 2 pages |
-| SQL Quick Reference | SELECT, JOIN, GROUP BY, window functions — 2 pages |
-| Shell / Bash | 40 commands, pipes, variables, scripts — 2 pages |
-| Excel Formula Bible | 25 formulas with syntax + example — 2 pages |
-| C/C++ Memory Cheatsheet | Pointers, structs, malloc/free, RAII — 1 page |
-| ML Models at a Glance | 12 models: when to use, metric, watch-out — 2 pages |
-| Deep Learning Layers | Dense, Conv2D, LSTM, Attention — visual 2 pages |
-| GenAI Prompt Patterns | 15 patterns: zero-shot, CoT, RAG, tool use — 2 pages |
-| AI for Developers: 25 Prompts | Refactor, test, document, explain, generate — 4 pages |
-| AIML Interview Prep | Top 50 ML/DL/GenAI interview Q+A — 6 pages |
+| Python Basics | data types, loops, functions, common patterns |
+| Python for Data | Pandas, NumPy, Matplotlib top operations |
+| SQL Quick Reference | SELECT, JOIN, GROUP BY, windows |
+| Shell / Bash | commands, pipes, variables, scripts |
+| Excel Formula Bible | high-value formulas and examples |
+| C/C++ Memory Cheatsheet | pointers, structs, allocation |
+| ML Models at a Glance | model choice, metrics, watch-outs |
+| Deep Learning Layers | dense, conv, recurrent, attention |
+| GenAI Prompt Patterns | zero-shot, CoT, RAG, tool use |
+| AI for Developers Prompts | refactor, test, document, explain |
+| AIML Interview Prep | ML, DL, GenAI interview Q and A |
 
-**Generation plan:**
-- Phase 1: Design in Canva → export PDF → upload to S3 → add download card to page
-- Phase 2: Python script using `reportlab` generates PDFs from Markdown source → automated updates
-- Source files live in `docs/cheatsheets/` as Markdown (in GitHub); generated PDFs go to S3 only
+Generation plan:
+- Phase 1: design in Canva and export PDF
+- Phase 2: generate PDFs from Markdown using `reportlab`
+- keep Markdown source in GitHub
+- keep generated PDFs in S3 only
 
 ---
 
-## 11. Project Kit Catalog
+## 19. Projects Catalog
 
-Organize by outcome, not by subject label.
-
-### Catalog Lanes
+### 19.1 Catalog lanes
 
 | Lane | Target learner | Goal | Typical duration |
 |---|---|---|---|
-| Guided Mini Projects | 2nd/3rd year students | Build one working scoped project fast | 2 to 4 weeks |
-| Major Project Kits | 3rd/4th year students | Thesis-ready final-year submission | 8 to 16 weeks |
-| Portfolio Builds | Final-year students and freshers | Company-ready deployed demo + GitHub proof | 4 to 8 weeks |
-| Viva and Submission Packs | Final-year students | Report, PPT, demo script, viva defense | Add-on |
+| Guided Mini Projects | second and third year students | build a scoped working project quickly | 2 to 4 weeks |
+| Major Project Kits | third and fourth year students | thesis-ready final-year submission | 8 to 16 weeks |
+| Portfolio Builds | final-year students and freshers | company-ready demo plus GitHub proof | 4 to 8 weeks |
+| Viva and Submission Packs | final-year students | report, PPT, demo script, viva defense | support layer |
 
-### What every project kit includes
+### 19.2 What every serious project kit includes
 
-- Problem statement and scope boundaries
-- Dataset or data-collection plan
-- Architecture diagram
-- Milestone-wise implementation plan
-- Starter code plus final code path
+- problem statement and scope boundaries
+- architecture diagram
+- milestone-wise implementation plan
+- starter code plus final code path
 - README and setup guide
-- Deployment guide
-- Project report template
+- deployment guide
+- report template
 - PPT / seminar deck template
-- Viva questions and answers
-- Testing checklist and known limitations
-- Extension ideas for internship or startup version
+- viva questions and answers
+- testing checklist and known limitations
+- extension ideas
 
-### First six project kits to build
+### 19.3 First six projects to build
 
-| ID | Project Name | Delivery goal |
+| ID | Project name | Outcome |
 |---|---|---|
-| project-01 | Document Q&A Assistant | Thesis-ready RAG system + admin upload flow |
-| project-02 | AI Resume Screener and Interview Copilot | Portfolio build + placement relevance |
-| project-03 | Inventory Forecasting Dashboard | Thesis-ready forecasting + dashboard + report |
-| project-04 | Multilingual Customer Support Assistant | Deployable chatbot + escalation workflow |
-| project-05 | AI Attendance and Analytics Dashboard | College-friendly dashboard + reporting pack |
-| project-06 | Vision-Based Quality Inspection Demo | Company-style CV project + deployment story |
+| project-01 | Document Q&A Assistant | RAG system with admin upload flow |
+| project-02 | AI Resume Screener and Interview Copilot | placement-focused portfolio build |
+| project-03 | Inventory Forecasting Dashboard | forecasting plus dashboard plus report |
+| project-04 | Multilingual Customer Support Assistant | deployable chatbot with escalation path |
+| project-05 | AI Attendance and Analytics Dashboard | reporting-oriented dashboard |
+| project-06 | Vision-Based Quality Inspection Demo | company-style computer vision project |
 
-### Project 01 content outline (build first)
-- Story: Final year student Arjun needs a project. Builds a chatbot in a weekend.
-- Prerequisites: Python basics, an OpenAI API key
-- What you build: A Streamlit web app that answers questions about any uploaded document
-- Code: ~100 lines of Python
-- Deploy: Streamlit Cloud (free tier, no server needed)
-- Image theme: Dark teal, code on screens, college campus India setting
-- Characters: Arjun (final year, Hyderabad), Professor Rao (mentor)
+### 19.4 Product rule
 
-### Product rule
-
-This track should make a student stronger for:
-- Final-year project submission
-- Viva explanation
-- Internship interviews
-- Fresher AI or software roles
-
-If a kit cannot support at least one of those four outcomes, it should not be the lead offer.
+If a project cannot strengthen at least one of these outcomes, it should not be the lead offer:
+- final-year project submission
+- viva explanation
+- internship interviews
+- fresher AI or software roles
 
 ---
 
-## 12. Content Model
+## 20. Project 01 — Build First
 
-Each project kit is manifest-driven.
+Project: **Document Q&A Assistant**
 
-**Recommended fields:**
+Story frame:
+- final-year student Arjun needs a real project and a strong explanation path
+
+What the learner builds:
+- a web app that answers questions from uploaded documents
+
+Tech shape:
+- Python
+- FastAPI or Streamlit depending launch choice
+- vector store
+- OpenAI API
+
+Page requirements:
+- project hero
+- what you build
+- prerequisites
+- architecture diagram
+- milestone breakdown
+- code snippets
+- deployment notes
+- common viva questions
+- quiz
+- completion record
+
+---
+
+## 21. Repo-to-Course Mapping
+
+### 21.1 AIML-Engineering-Lab public repos
+
+These are the main source repos for ML, DL, GenAI, and MLOps topics.
+
+| Course area | Repos |
+|---|---|
+| Machine Learning | 001 to 010 |
+| Deep Learning | 014, 015, 034, 054, 073 |
+| Generative AI | 034, 074, 075 |
+| MLOps / production examples | 053, 054, 070s |
+
+### 21.2 Rajendar-Muddasani private repos with real content
+
+| Repo | File count | Use in site |
+|---|---:|---|
+| langchain-learning-guide | 23 | GenAI course reference material |
+| mcp-learning-guide | 20 | Agentic AI and MCP course |
+| crewai-course-materials | 16 | Agentic AI course |
+| pydantic-learning-guide | 19 | Programming track support material |
+| chromadb-rag-tutorials | 7 | GenAI RAG section |
+| spark-learning-guide | 12 | MLOps course |
+| pytorch-semiconductor-guide | 10 | Deep Learning support material |
+| tensorflow-semiconductor-guide | 8 | Deep Learning support material |
+| stable-diffusion-media-generator | 12 | future GenAI image generation unit |
+| research-papers-analysis | 7 | optional blog/reference material |
+| docs | 16 | internal reference only |
+| aiml-complete-guide | 1 | optional extraction source |
+
+Deleted PRD-only repos should not be referenced anymore.
+
+---
+
+## 22. Content Model
+
+Each project page should be manifest-driven.
+
+Recommended YAML shape:
 
 ```yaml
 project_id: project-01
@@ -592,12 +714,25 @@ assets:
   overview_video: https://...
 seo:
   title: Document Q&A Assistant — Final Year AI Project
-  description: Build a RAG-based document chatbot with Python. Includes code, deployment guide, report template and viva prep.
+  description: Build a document chatbot with code, deployment notes, report support, and viva preparation.
+```
+
+Recommended course metadata shape:
+
+```yaml
+course_id: ml
+title: Machine Learning
+layout: onenote-tabs
+topics:
+  - slug: linear-regression
+    title: Linear Regression
+    source_repo: 001_linear_regression_engine
+    cheatsheet: ml-models-at-a-glance
 ```
 
 ---
 
-## 13. Repo Skeleton
+## 23. Repo Skeleton for the New Workspace
 
 ```text
 mitra-ai-projects/
@@ -640,6 +775,12 @@ mitra-ai-projects/
       project-01.yaml
       project-02.yaml
       project-03.yaml
+    courses/
+      ml.yaml
+      dl.yaml
+      genai.yaml
+      agentic.yaml
+      programming.yaml
     featured-projects.json
     faq.json
   content/
@@ -658,21 +799,23 @@ mitra-ai-projects/
       python-for-data.md
       sql-quick-reference.md
       shell-bash.md
-      excel-formulas.md
   scripts/
     build_project_pages.py
     build_catalog.py
+    build_course_pages.py
     generate_project_hero_images.py
     generate_project_overview_video.py
     generate_cheatsheets.py
     upload_project_assets.py
     validate_project_manifests.py
     deploy_s3.py
+    cloudflare-worker/
+      mitra-projects-worker.js
   prompts/
     project-page.prompt.md
     project-video.prompt.md
     project-image.prompt.md
-    viva-questions.prompt.md
+    cheatsheet.prompt.md
   docs/
     mitraaiprojects-master-plan.md
     content-production-workflow.md
@@ -681,79 +824,89 @@ mitra-ai-projects/
 
 ---
 
-## 14. Tech Stack
+## 24. Scripts to Reuse from mitraailife.com
 
-### v1 — Static, lean, fast to build
-- Plain HTML, CSS, and small JavaScript in `site/`
-- Python build scripts for page generation and asset automation
-- S3 for all media hosting (existing bucket and workflow)
-- Formspree or simple HTML form for contact / enquiry leads
-- Google Analytics for measurement
-- Supabase for auth and progress (same as mitraailife.com)
-- Disqus for comments (same shortname)
+Copy and adapt these:
+- `scripts/deploy_s3.py`
+- `site/auth.js`
+- `site/mitra-chat.js`
+- `scripts/cloudflare-worker/mitra-chat-worker.js`
 
-### v2 — When content volume justifies it
-- Vite or Next.js if protected access becomes meaningful
-- Supabase for gated assets and learner dashboards
-- Proper order and delivery automation
+Adaptations needed:
+- use `project_id` and `course_id`
+- change S3 prefix to `projects/` and `cheatsheets/`
+- change worker system prompt to project/course context
 
 ---
 
-## 15. Content Production Workflow
+## 25. Tech Stack Recommendation
+
+### v1
+- static site in plain HTML, CSS, and small JavaScript
+- Python build scripts for repeatable page generation
+- S3 for assets
+- GitHub Pages for hosting
+- Supabase for auth and completion records
+- GA4 for analytics
+
+### v2 only if needed later
+- Vite or Next.js
+- protected assets and dashboards
+- deeper automation layers
+
+Do not introduce framework complexity in the first build unless a specific need appears.
+
+---
+
+## 26. Content Production Workflow
 
 English is the source of truth.
 
-For each project kit:
-1. Define student outcome
-2. Define project scope boundary
-3. Write English master brief
-4. Create module outline
-5. Create code milestones
-6. Create deliverable list
-7. Create FAQ and objections
-8. Generate public page copy
-9. Generate hero image and poster
-10. Generate overview video
-11. Human review for technical accuracy and promise clarity
-12. Publish
+For each project:
+1. define learner outcome
+2. define scope boundary
+3. write English master brief
+4. create module outline
+5. create code milestones
+6. create deliverables list
+7. create FAQ and objections
+8. generate public page copy
+9. generate hero image and poster
+10. generate overview video
+11. human review for technical accuracy and promise clarity
+12. publish
 
-Source files to maintain in GitHub:
-- Project manifest (YAML)
-- English master script (Markdown)
-- Visual prompt inputs
-- Video narration script
-- FAQ source
-- Review checklist
-
-Generated files go to S3 only — never commit to GitHub:
-- Images
-- Videos
-- PDF cheatsheets
+For each course page:
+1. define topic list
+2. define plain-English explanation per topic
+3. link source repos / notebooks
+4. write cheatsheet notes
+5. build quiz
+6. connect project ideas
+7. publish
 
 ---
 
-## 16. Video Generation Workflow
+## 27. Video Workflow
 
-Use simple, repeatable production.
-
-Recommended video types at launch:
-- 60–90 second site overview video
-- 60–120 second project overview video per kit
-- Optional 3–6 minute module preview videos later
+Recommended launch video types:
+- 60 to 90 second site overview video
+- 60 to 120 second project overview video per project
+- optional module preview videos later
 
 Video recipe:
-1. Read project manifest
-2. Generate narration script
-3. Generate 5 to 8 scene prompts
-4. Create still visuals or code-screen composites
-5. Create TTS draft narration (OpenAI tts-1, voice: nova)
-6. Assemble with MoviePy or ffmpeg
-7. Add captions
-8. Export poster frame
-9. Upload to S3 under `projects/<slug>/videos/`
-10. Write asset URLs back into manifest
+1. read project manifest
+2. generate narration script
+3. generate scene prompts
+4. create visuals or code composites
+5. create TTS draft narration
+6. assemble with MoviePy or ffmpeg
+7. add captions
+8. export poster frame
+9. upload to S3
+10. write asset URLs back into manifests
 
-Recommended file outputs per project:
+Recommended outputs:
 - `overview-en.mp4`
 - `overview-en-poster.jpg`
 - `overview-en.vtt`
@@ -762,18 +915,19 @@ Recommended file outputs per project:
 
 ---
 
-## 17. Image and Asset Workflow
+## 28. Image and Asset Workflow
 
 Images to produce per project:
-- Hero image (16:9)
-- Catalog card image (4:3)
-- Overview video poster
-- Architecture diagram
-- Milestone graphic
-- Social share image
+- hero image
+- catalog card image
+- overview poster
+- architecture diagram
+- milestone graphic
+- social share image
 
 S3 structure:
-```
+
+```text
 projects/
   project-01/
     hero/
@@ -781,9 +935,9 @@ projects/
     videos/
     diagrams/
   project-02/
-  shared/
-    og/
-    logos/
+shared/
+  og/
+  logos/
 cheatsheets/
   python-basics.pdf
   sql-quick-reference.pdf
@@ -791,179 +945,226 @@ cheatsheets/
 
 ---
 
-## 18. Contact and Enquiry Flow
+## 29. Contact Flow
 
-v1 — enquiry first, no payment needed at launch:
-- "Contact about this project" form on every project page
-- "Which lane fits me?" general enquiry
-- "Request syllabus / kit outline"
+Launch with a simple manual-first contact model.
 
-Form fields: name, email, college/company, project interest, message.
-Submit to Formspree (or Supabase table) with GA4 event `enquiry_submitted`.
+Use cases:
+- contact about a project
+- ask which course or project lane fits me
+- request roadmap or syllabus guidance
 
-No payment integration at v1. Handle first enquiries manually to understand real demand.
+Recommended fields:
+- name
+- email
+- college or company
+- interest area
+- message
+
+No checkout flow in v1.
 
 ---
 
-## 19. SEO Plan
+## 30. SEO and Analytics
 
 Priority pages:
-- Home
-- Courses index
-- Top 3 project pages
-- Cheatsheets page
-- How it works
+- home
+- courses index
+- programming page
+- ML page
+- top 3 project pages
+- cheatsheets page
 
-Rules:
-- Every project page targets a real search intent
-- Titles combine outcome + technology + audience
-- Descriptions mention real deliverables
-- Use schema: `Course`, `FAQPage`, `BreadcrumbList`
-- Internal linking between related course tabs and project pages
+Analytics events to track:
+- home CTA click
+- course page view
+- course tab change
+- project page view
+- cheatsheet download click
+- quiz attempt
+- certificate claimed
+- contact form submission
+- video start and 50% completion
 
-Example search intents to target:
-- AI chatbot project for final year students
-- Resume screener Python project with deployment
-- Document Q&A assistant final year project India
-- Machine learning course with executable notebooks
-
----
-
-## 20. Analytics Events to Track
-
-- Home CTA click
-- Course track page view
-- Course tab change (which topic clicked)
-- Project page view
-- Contact form submission
-- Cheatsheet download click
-- Video start and 50% completion
-- Quiz attempt and score
-- Certificate claimed
+SEO rules:
+- every project page must target a real learner search intent
+- descriptions should mention actual outcomes and deliverables
+- use FAQ and breadcrumb schema where helpful
+- link related courses to related projects
 
 ---
 
-## 21. Legal and Ethical Rules
+## 31. Legal and Ethical Rules
 
-- Add Privacy Policy page (copy/adapt from mitraailife.com)
-- Add Terms of Service (code is for learning, not commercial resale)
-- Add disclaimer: "Projects are learning exercises. Production use requires additional security review."
-- Do not claim guaranteed job placement or guaranteed marks
-- Do not position as done-for-you academic submission
-- Guided build support, explanation, documentation, templates — all allowed
-- All AI-generated images: declare AI-generated in page footer
-
----
-
-## 22. Certification Rules
-
-**Can you issue certifications as a non-registered organization? Yes, with caveats.**
-
-| What you CAN do | What you CANNOT do |
-|---|---|
-| Issue "completion certificates" for your own courses | Call it a "degree", "diploma", or "accredited certification" |
-| State: "Completed [Course Name] on mitraaiprojects.com" | Claim recognition by AICTE, UGC, or any government body |
-| Add a unique certificate ID verified on your site | Imply it is equivalent to university credit |
-| Use Supabase to record completion and display a shareable URL | Use words like "certified professional" in a misleading way |
-
-**Recommended wording on every certificate:**
-> "This certificate confirms that [Name] completed the [Course Name] on mitraaiprojects.com on [Date]. This is a course completion record issued by Mitra AI Life, an independent education platform."
-
-Safe to do right now — no company registration needed. Many platforms (Coursera, Udemy) started this way. When registration matters: if employers start asking about the issuing body, register then.
+- add Privacy Policy
+- add Terms of Service
+- state that projects are learning exercises and real production use needs more review
+- do not claim guaranteed job placement
+- do not claim guaranteed marks
+- do not position the site as unethical submission help
+- guided build support, explanation, templates, and mentoring-style guidance are allowed
+- all AI-generated images should be declared in the footer or credits area
 
 ---
 
-## 23. Build Sequence — Recommended Order
+## 32. Certificate Rules
 
-| Priority | Item | Why first |
-|---|---|---|
-| 1 | Repo skeleton, shared CSS, base layout | Foundation — all pages depend on it |
-| 2 | `site/index.html` — home page | Entry point with hero + two lanes + sign-in |
-| 3 | `site/courses/programming.html` — Programming tabs | Widest audience, clearest demand |
-| 4 | `site/cheatsheets.html` — free download cards | Quick win, shareable, drives sign-ups |
-| 5 | `site/courses/ml.html` — ML OneNote-style page | Core technical course, content already exists in AIML-Engineering-Lab |
-| 6 | Generate first 3 cheatsheets (Python Basics, SQL, Shell) as PDFs | Launch asset |
-| 7 | `site/projects/index.html` + first project page | First project kit live |
-| 8 | `site/courses/genai.html` — GenAI course | High interest |
-| 9 | `site/courses/dl.html`, `agentic.html` | Complete the lineup |
-| 10 | GitHub Pages deploy + CNAME + HTTPS | Public launch |
+Allowed:
+- completion certificates for your own courses and projects
+- unique certificate IDs verified on your site
+- clear wording that this is a platform-issued completion record
 
----
+Not allowed:
+- degree or diploma claims
+- accredited certification claims
+- implying government or university recognition without basis
 
-## 24. Copilot Build Prompts for New Workspace
+Recommended wording:
 
-### Prompt 1 — Repo Setup
-"Create a production-ready static website repo for `mitraaiprojects.com` using the PRD in `docs/mitraaiprojects-master-plan.md`. Build the folder structure, shared CSS variables, reusable card patterns, and placeholder pages for Home, Courses index, Cheatsheets, How It Works, Contact, Privacy, and Terms. Keep the implementation manifest-driven and mobile-first."
-
-### Prompt 2 — Home and Course Index
-"Using the master plan, build the Home page and Courses index page for `mitraaiprojects.com`. The site should look technical, professional, and credible. Show clear course tracks, featured project lane cards, and strong enquiry CTAs. Dark teal theme as specified."
-
-### Prompt 3 — ML Course OneNote Page
-"Build `site/courses/ml.html` with a two-column OneNote-style layout: left sidebar with topic tabs (Linear Regression, Classification, Trees, Boosting, SVM, Clustering, Anomaly Detection, Naive Bayes, Time Series, Hyperparameter Optimization) and a scrollable content area. Each tab renders: What is it, When to use, Metrics table, Pyodide executable snippet, Watch-outs, Project idea, Quiz, Cheatsheet download button."
-
-### Prompt 4 — Project Template System
-"Create a reusable project-detail page template driven by project YAML data. Each project page must render: hero, outcomes, tech stack, milestones, deliverables, what support is included and not included, FAQ, and contact CTA sections from structured data."
-
-### Prompt 5 — Asset Automation
-"Create Python scripts to validate project manifests, generate overview narration scripts, assemble short overview videos using MoviePy, upload assets to S3 under `projects/` prefix, and write asset URLs back into the manifest."
+> This certificate confirms that [Name] completed the [Course Name] on mitraaiprojects.com on [Date]. This is a course completion record issued by Mitra AI Life, an independent education platform.
 
 ---
 
-## 25. Scripts to Copy from mitraailife.com
+## 33. Build Sequence for the First Development Session
 
-- `scripts/deploy_s3.py` → change S3 prefix to `projects/` and `cheatsheets/`
-- `scripts/cloudflare-worker/mitra-chat-worker.js` → update SYSTEM_PROMPT for projects
-- `site/auth.js` → change `LEVEL_IDS` to `PROJECT_IDS` and `COURSE_IDS`
-- `site/mitra-chat.js` → works as-is (chatbot widget)
+1. create repo skeleton and shared CSS system
+2. build `site/index.html`
+3. build `site/courses/index.html`
+4. build `site/courses/programming.html`
+5. build `site/cheatsheets.html`
+6. build `site/courses/ml.html` with OneNote-style tab layout
+7. build `site/projects/index.html`
+8. build `site/projects/document-qa-assistant.html`
+9. wire analytics, auth, contact form, and chat widget
+10. push to GitHub Pages
 
----
-
-## 26. Acceptance Criteria — v1 Done When
-
-- The site clearly reads as separate from beginner / family learning
-- At least 3 projects can be published from manifests without manual HTML duplication
-- At least 1 course track page is live with working tab navigation
-- All cheatsheets downloadable directly without gate
-- Videos, posters, and page assets follow a repeatable pipeline
-- The public site is honest about what is included
-- Contact form is working and sends enquiry notifications
-- Technical and legal pages are in place
+If time remains in the first session:
+11. build `genai.html`
+12. build `dl.html`
+13. build `agentic.html`
 
 ---
 
-## 27. Copilot Working Rules for This Project
+## 34. Exact New-Workspace Setup Steps
 
-When Copilot (or Claude Code / Cursor) works in this workspace:
-- Always use the shared infrastructure from Section 5 (never create new AWS / GA / Supabase accounts)
-- Never commit `.env`, `content/assets/`, `*.mp4`, `*.mp3`, `*.pdf` to git
-- Image generation: `quality="standard"`, `style="vivid"` (separate DALL-E 3 parameters)
-- S3 upload prefix: `projects/` or `cheatsheets/` (not `scenes/` which is mitraailife.com)
-- Color theme: dark teal (`#00d4aa`), not purple-first like mitraailife.com
-- Repo: `Rajendar-Muddasani/mitra-ai-projects`
-- Work one page at a time: finish EN → TE → next page
-- Commit message format: `feat: <page or feature> — <what was done>`
+From your Mac terminal:
+
+```bash
+cd /Users/rajendarmuddasani
+mkdir mitra-ai-projects
+cd mitra-ai-projects
+git init
+git remote add origin git@github.com:Rajendar-Muddasani/mitra-ai-projects.git
+mkdir -p docs
+```
+
+Then copy only this file into the new repo:
+
+```bash
+cp /Users/rajendarmuddasani/Mitra_AI_Life/docs/mitraaiprojects-master-plan.md docs/
+```
+
+Then create the environment:
+
+```bash
+python3 -m venv .venv
+. .venv/bin/activate
+pip install openai boto3 moviepy imageio-ffmpeg pillow python-dotenv pyyaml reportlab
+```
+
+Then start Claude Code:
+
+```bash
+claude
+```
+
+Choose login option 1: Claude account with subscription.
 
 ---
 
-## 28. Repo-to-Course Mapping (Rajendar-Muddasani org)
+## 35. First Prompt to Give Claude Code
 
-Content already in private repos under `Rajendar-Muddasani` that maps directly to course tracks:
+Use this prompt in the new workspace:
 
-| Repo | Files | Maps to |
-|---|---|---|
-| langchain-learning-guide | 23 files | GenAI course — LangChain tab |
-| mcp-learning-guide | 20 files | Agentic AI course — MCP tab |
-| crewai-course-materials | 16 files | Agentic AI course — CrewAI tab |
-| pydantic-learning-guide | 19 files | Programming track — Python for Data tab |
-| chromadb-rag-tutorials | 7 files | GenAI course — RAG tab |
-| spark-learning-guide | 12 files | MLOps course — Spark & Big Data tab |
-| pytorch-semiconductor-guide | 10 files | Deep Learning course — CNN / transfer learning tabs |
-| tensorflow-semiconductor-guide | 8 files | Deep Learning course — Neural Network Basics tab |
-| stable-diffusion-media-generator | 12 files | GenAI course — Image Generation (new tab) |
-| research-papers-analysis | 7 files | Reference material — blog/stories section |
-| docs | 16 files | Internal docs (PDFs/PPTs) — keep private |
-| aiml-complete-guide | 1 notebook | Can be extracted into Programming track |
+```text
+Read docs/mitraaiprojects-master-plan.md fully. This file is the single source of truth and replaces any older PRD. Build the full production-ready static website for mitraaiprojects.com in this repo using plain HTML, CSS, small JavaScript, and Python helper scripts where needed.
+
+Requirements:
+- create all planned pages from the master plan
+- implement the dark teal design system
+- build the Courses index page
+- build Programming and ML pages first
+- implement the ML OneNote-style two-panel tab layout
+- build the Cheatsheets page
+- build the Projects catalog and the first project page: Document Q&A Assistant
+- add reusable CSS, JS, manifests, and simple build scripts
+- keep everything mobile-friendly
+- do not add commerce, pricing, or payment flows
+- wire in GA4 placeholders, auth.js integration points, and contact form structure
+- make the site ready to deploy on GitHub Pages
+
+Before writing code, summarize the plan briefly. Then build the site completely.
+```
 
 ---
 
-*Last updated: 04 Jun 2026 — Consolidated from mitraaiprojects-master-plan.md (original) + mitraaiprojects-separate-site-prd.md. All pricing removed — everything is free at launch.*
+## 36. Copilot / Claude Code Working Rules
+
+When an AI coding agent works in the new repo:
+- always treat this master plan as the single source of truth
+- do not recreate or split planning into multiple conflicting files
+- do not add pricing, fees, checkout, or payment pages
+- do not create new cloud accounts
+- do not commit `.env`, generated assets, videos, audio, or PDFs
+- use S3 for generated assets
+- keep GitHub for source files only
+- finish English pages first
+- preserve the dark teal visual system
+- keep the first version static and simple
+
+---
+
+## 37. Acceptance Criteria
+
+The first build is complete when:
+- the site clearly reads as separate from beginner-family learning
+- the home page, courses index, programming page, ML page, cheatsheets page, projects catalog, and one project page all exist
+- the ML page has a true left-tab plus right-content notebook-style layout
+- at least one project page is fully structured from manifest-style content
+- the site is mobile-friendly
+- analytics hooks exist
+- contact form structure exists
+- the repo can be pushed directly to GitHub Pages and render correctly
+
+---
+
+## 38. Final Rule
+
+For the new workspace, carry only this file:
+
+- `docs/mitraaiprojects-master-plan.md`
+
+Do not carry the older separate PRD.
+
+This file already includes:
+- the full product decision
+- site map
+- design system
+- Programming plan
+- ML OneNote-style tab UX
+- DL plan
+- GenAI plan
+- Agentic AI and MCP plan
+- MLOps plan
+- RL plan
+- cheatsheets plan
+- projects plan
+- repo-to-course mapping
+- workflows
+- hosting and infrastructure
+- new-workspace startup steps
+- the first Claude Code prompt
+
+---
+
+*Last updated: 04 Jun 2026. This file replaces the older separate PRD and is the only planning document needed for the new mitra-ai-projects workspace.*
